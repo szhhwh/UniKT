@@ -145,8 +145,12 @@ sphinx-autobuild = ">=2025"
 ruff = ">=0.15,<0.16"
 
 [feature.docs.tasks]
-docs-build = { cmd = "sphinx-build -b html source _build", cwd = "docs", description = "Build Sphinx HTML docs" }
-docs-dev = { cmd = "sphinx-autobuild source _build --open-browser", cwd = "docs", description = "Live-preview docs" }
+docs-build = { cmd = "sphinx-build -b html -D language=zh_CN source _build/html-zh", cwd = "docs", description = "Build Chinese HTML docs (source language)" }
+docs-en = { cmd = "sphinx-build -b html -D language=en source _build/html-en", cwd = "docs", depends-on = ["docs-mo"], description = "Build English HTML docs (auto-compiles .mo first)" }
+docs-dev = { cmd = "sphinx-autobuild source _build/html-zh --open-browser", cwd = "docs", description = "Live-preview Chinese docs" }
+docs-mo = { cmd = "sphinx-intl build -d source/locale", cwd = "docs", description = "Compile .po into .mo" }
+docs-pot = { cmd = "sphinx-build -b gettext source _build/gettext", cwd = "docs", description = "Extract translatable strings into .pot" }
+docs-update = { cmd = "sphinx-intl update -p _build/gettext -d source/locale -l en", cwd = "docs", depends-on = ["docs-pot"], description = "Create/update English .po from .pot" }
 docs-clean = { cmd = "rm -rf _build", cwd = "docs", description = "Remove docs build output" }
 docs-fmt = { cmd = "python scripts/fmt-code-blocks.py source", cwd = "docs", description = "Format python code blocks in .md" }
 docs-fmt-check = { cmd = "python scripts/fmt-code-blocks.py source --check", cwd = "docs", description = "Check python code blocks formatting" }
