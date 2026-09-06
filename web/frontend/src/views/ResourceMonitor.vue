@@ -368,10 +368,15 @@ const coreBars = computed(() => {
 })
 
 const fmtRate = (bps: number): string => {
-  if (bps >= 1024 ** 3) return `${(bps / 1024 ** 3).toFixed(1)} GB/s`
-  if (bps >= 1024 ** 2) return `${(bps / 1024 ** 2).toFixed(1)} MB/s`
-  if (bps >= 1024) return `${(bps / 1024).toFixed(1)} KB/s`
-  return `${bps.toFixed(0)} B/s`
+  // Decimal (SI) units so axis ticks land on round values (1.0/2.0/5.0 MB/s).
+  const units = ['B/s', 'KB/s', 'MB/s', 'GB/s']
+  let v = bps
+  let u = 0
+  while (v >= 1000 && u < units.length - 1) {
+    v /= 1000
+    u++
+  }
+  return `${v >= 100 ? v.toFixed(0) : v.toFixed(1)} ${units[u]}`
 }
 
 interface SeriesCfg {
@@ -381,40 +386,57 @@ interface SeriesCfg {
   fill?: boolean
 }
 
-const buildOption = (
-  series: SeriesCfg[],
-  yMax?: number,
-  fmt: (v: number) => string = (v) => `${v.toFixed(0)}%`,
-) => {
+// Round the axis ceiling up to a 1/2/5×10^n step so a single burst doesn't
+// squash the whole rate chart into non-round ticks like 381.5 MB/s.
+const niceMax = (values: (number | null)[]): number | undefined => {
+  const peak = Math.max(0, ...values.filter((v): v is number => v != null))
+  if (peak <= 0) return undefined
+  const base = 10 ** Math.floor(Math.log10(peak))
+  for (const m of [1, 2, 5, 10]) {
+    if (m * base >= peak) return m * base
+  }
+  return 10 * base
+}
+
+const pctFmt = (v: number): string => `${v.toFixed(0)}%`
+
+interface AxisCfg {
+  yMax?: number
+  yFmt?: (v: number) => string
+}
+
+const buildOption = (series: SeriesCfg[], axis: AxisCfg = {}) => {
   const tk = tokens.value
+  const yFmt = axis.yFmt ?? pctFmt
   return {
     animation: false,
-    grid: { left: 44, right: 8, top: 20, bottom: 20 },
+    grid: { left: 8, right: 12, top: 30, bottom: 4, containLabel: true },
     xAxis: {
       type: 'time',
       boundaryGap: false,
       axisLine: { show: false },
       axisTick: { show: false },
-      axisLabel: { color: tk.textTertiary, fontSize: 10, formatter: '{HH}:{mm}', hideOverlap: true },
+      // Seconds in the label: minute-only labels repeat when ticks land in the same minute.
+      axisLabel: { color: tk.textTertiary, fontSize: 10, formatter: '{HH}:{mm}:{ss}', hideOverlap: true },
     },
     yAxis: {
       type: 'value',
       min: 0,
-      max: yMax,
+      max: axis.yMax,
       axisLabel: {
         color: tk.textTertiary,
         fontSize: 10,
-        formatter: yMax === undefined ? (v: number) => fmtRate(v) : '{value}',
+        formatter: (v: number) => yFmt(v),
       },
       splitLine: { lineStyle: { color: tk.borderDefault, opacity: 0.4 } },
     },
     legend: {
       show: true,
       right: 0,
-      top: -2,
+      top: 0,
       itemWidth: 10,
       itemHeight: 6,
-      itemGap: 10,
+      itemGap: 12,
       icon: 'roundRect',
       textStyle: { color: tk.textTertiary, fontSize: 10 },
     },
@@ -438,7 +460,7 @@ const buildOption = (
         if (!list.length) return ''
         const head = new Date(list[0].value[0]).toLocaleTimeString('en-GB', { hour12: false })
         const rows = list.map(
-          (p) => `${p.marker} ${p.seriesName} ${p.value[1] == null ? '-' : fmt(Number(p.value[1]))}`,
+          (p) => `${p.marker} ${p.seriesName} ${p.value[1] == null ? '-' : yFmt(Number(p.value[1]))}`,
         )
         return [head, ...rows].join('<br/>')
       },
@@ -449,7 +471,22 @@ const buildOption = (
       smooth: 0.3,
       symbol: 'none',
       lineStyle: { width: 1.5, color: s.color },
-      areaStyle: s.fill ? { opacity: 0.14, color: s.color } : undefined,
+      // Gradient fill fades to transparent; hex alpha works because token colors are resolved hex values.
+      areaStyle: s.fill
+        ? {
+            color: {
+              type: 'linear',
+              x: 0,
+              y: 0,
+              x2: 0,
+              y2: 1,
+              colorStops: [
+                { offset: 0, color: `${s.color}40` },
+                { offset: 1, color: `${s.color}05` },
+              ],
+            },
+          }
+        : undefined,
       emphasis: { focus: 'series', blurScope: 'coordinateSystem' },
       blur: { lineStyle: { opacity: 0.25 } },
       data: sys.ts.map((t, i) => [t, s.values[i]]),
@@ -460,28 +497,34 @@ const buildOption = (
 const cpuOption = computed(() =>
   buildOption([
     { name: t('resources.cpu'), color: tokens.value.blue, values: sys.cpu, fill: true },
-  ], 100),
+  ], { yMax: 100 }),
 )
 
 const memOption = computed(() =>
   buildOption([
     { name: t('resources.mem'), color: tokens.value.blue, values: sys.mem, fill: true },
     { name: t('resources.swap'), color: tokens.value.purple, values: sys.swap },
-  ], 100),
+  ], { yMax: 100 }),
 )
 
 const netOption = computed(() =>
-  buildOption([
-    { name: t('resources.netDown'), color: tokens.value.cyan, values: sys.netDown, fill: true },
-    { name: t('resources.netUp'), color: tokens.value.blue, values: sys.netUp },
-  ]),
+  buildOption(
+    [
+      { name: t('resources.netDown'), color: tokens.value.cyan, values: sys.netDown, fill: true },
+      { name: t('resources.netUp'), color: tokens.value.blue, values: sys.netUp },
+    ],
+    { yMax: niceMax([...sys.netDown, ...sys.netUp]), yFmt: fmtRate },
+  ),
 )
 
 const diskOption = computed(() =>
-  buildOption([
-    { name: t('resources.diskRead'), color: tokens.value.green, values: sys.diskRead },
-    { name: t('resources.diskWrite'), color: tokens.value.orange, values: sys.diskWrite },
-  ]),
+  buildOption(
+    [
+      { name: t('resources.diskRead'), color: tokens.value.green, values: sys.diskRead },
+      { name: t('resources.diskWrite'), color: tokens.value.orange, values: sys.diskWrite, fill: true },
+    ],
+    { yMax: niceMax([...sys.diskRead, ...sys.diskWrite]), yFmt: fmtRate },
+  ),
 )
 
 const gpuOption = (gpuIndex: number) => {
@@ -489,7 +532,7 @@ const gpuOption = (gpuIndex: number) => {
   return buildOption([
     { name: t('gpu.utilization'), color: tokens.value.blue, values: h.util, fill: true },
     { name: t('gpu.memory'), color: tokens.value.cyan, values: h.vram },
-  ], 100)
+  ], { yMax: 100 })
 }
 
 const progressColor = (pct: number) => {
@@ -577,8 +620,14 @@ const tempColor = (temp: number) => {
 
 .sys-grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
+}
+
+@media (max-width: 1100px) {
+  .sys-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .res-card {
@@ -640,7 +689,7 @@ const tempColor = (temp: number) => {
 .core-bar {
   flex: 1;
   min-width: 3px;
-  background: var(--bg-elevated);
+  background: var(--bg-overlay);
   border-radius: 1px;
   display: flex;
   align-items: flex-end;
