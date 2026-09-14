@@ -513,6 +513,34 @@ class TestProgressGating:
         # evaluation renders its own progress bar.
         assert progress_idx < test_idx
 
+    def test_progress_callback_is_first_callback(
+        self, make_tiny_trainer, make_run_config
+    ):
+        from utils.training.callbacks import ProgressCallback
+
+        trainer = make_tiny_trainer(rc=make_run_config(progress="rich"))
+        # First in the list: every later callback's on_train_end runs
+        # after ProgressCallback.on_train_end stopped the live display.
+        assert isinstance(trainer.callback_manager.callbacks[0], ProgressCallback)
+
+    def test_custom_on_train_end_runs_after_display_teardown(
+        self, make_tiny_trainer, make_run_config
+    ):
+        from utils.training.callbacks import ProgressCallback
+
+        live_states = []
+
+        class Probe(Callback):
+            def on_train_end(self, **kwargs):
+                cb = kwargs["trainer"].callback_manager.get_callback(ProgressCallback)
+                live_states.append(cb._live)
+
+        trainer = make_tiny_trainer(
+            rc=make_run_config(progress="rich"), extra_callbacks=[Probe()]
+        )
+        trainer.run()
+        assert live_states == [None]  # display already stopped
+
     def test_rich_loop_end_to_end_tears_down(self, make_tiny_trainer, make_run_config):
         from utils.training.callbacks import ProgressCallback
 

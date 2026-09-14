@@ -242,7 +242,12 @@ class BaseTrainer(InferenceOpsMixin, ABC):
         )
 
         # 8. Callbacks
-        callbacks: list[Callback] = list(self._custom_callbacks)
+        # ProgressCallback first: its on_train_end stops the live display
+        # before any later callback's on_train_end renders — a second rich
+        # Live would raise, and plain logger output would be captured by
+        # the live region.
+        callbacks: list[Callback] = self._maybe_progress_callback()
+        callbacks.extend(self._custom_callbacks)
         callbacks.append(MemoryCleanupCallback(cleanup_interval=5))
         callbacks.append(
             EarlyStoppingCallback(early_stopping=self.early_stopping, stage=None)
@@ -256,9 +261,6 @@ class BaseTrainer(InferenceOpsMixin, ABC):
                 save_last_checkpoint=self.run_config.general.save_last_checkpoint,
             )
         )
-        # Before TestEvaluationCallback: its on_train_end renders outside the
-        # live display, which ProgressCallback.on_train_end stops first.
-        callbacks.extend(self._maybe_progress_callback())
         if not self.run_config.general.skip_test:
             callbacks.append(TestEvaluationCallback(use_best_model=True))
             if self.test_data is None:
