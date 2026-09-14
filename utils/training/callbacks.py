@@ -265,11 +265,16 @@ class CallbackManager:
     def close(self):
         """Call ``close`` on all callbacks in list order.
 
-        Runs on the trainer's finally path (including failed runs), so
-        implementations must be idempotent and must not raise.
+        Runs on the trainer's finally path (including failed runs), so a
+        raising ``close`` must not mask the original training error or
+        skip the callbacks after it; each call is isolated here.
+        Implementations must still be idempotent and must not raise.
         """
         for callback in self.callbacks:
-            callback.close()
+            try:
+                callback.close()
+            except Exception as e:
+                logger.warning(f"{type(callback).__name__}.close() failed: {e}")
 
     # Convenience methods
     def on_train_begin(self, epochs: int, **kwargs):
