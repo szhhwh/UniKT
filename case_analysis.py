@@ -4,8 +4,10 @@ r"""Case Analysis Framework for KT Models.
 Plugin-driven CLI for analyzing trained KT models at the per-student
 level:
 
-1. ``inference``: restore a run, run its registered analyzer, hand the
-   output to a sink (default: canonical parquet via DataFrameSink)
+1. ``inference``: restore a run (its ``run_config.yaml`` seeds the
+   RunConfig; any reflective flag overrides it), run its registered
+   analyzer, hand the output to a sink (default: canonical parquet via
+   DataFrameSink)
 2. ``select``: pick representative users with a selector plugin
    (default: diverse/extreme/random over per-user metrics)
 3. ``plot``: render selected users with a visualizer plugin
@@ -14,26 +16,27 @@ level:
 Usage:
     # Step 1: Run inference
     python case_analysis.py inference \
-        --run_dir runs/normal/HDHKT_assistments09_xxx_fold0
+        --case.run_dir runs/normal/HDHKT_assistments09_xxx_fold0
 
     # Step 2: Select users
     python case_analysis.py select \
-        --run_dir runs/normal/HDHKT_assistments09_xxx_fold0 \
-        --selector diverse --num_users 10
+        --case.run_dir runs/normal/HDHKT_assistments09_xxx_fold0 \
+        --case.selector diverse --case.num_users 10
 
     # Step 3: Generate visualizations
     python case_analysis.py plot \
-        --run_dir runs/normal/HDHKT_assistments09_xxx_fold0 \
-        --selected_users diverse
+        --case.run_dir runs/normal/HDHKT_assistments09_xxx_fold0 \
+        --case.selected_users diverse
 """
 
-import argparse
 import inspect
 import json
 import sys
+from dataclasses import dataclass
 from pathlib import Path
 
 import pandas as pd
+from jsonargparse import ArgumentParser
 
 import model  # noqa: F401  (triggers analyzer registry discovery)
 from utils.case_analysis import (
@@ -42,6 +45,7 @@ from utils.case_analysis import (
     get_user_sequence,
     load_case_results,
 )
+from utils.config import build_node, parse_run_archive
 from utils.core import (
     ANALYZERS,
     CASE_SELECTORS,
@@ -55,26 +59,109 @@ from utils.data_process import get_data_source
 logger = get_logger(__name__)
 
 
+@dataclass
+class CaseInferenceConfig:
+    """``inference`` subcommand knobs (``--case.*`` flags).
+
+    Args:
+        run_dir: Run directory containing ``run_config.yaml`` and the checkpoint.
+        checkpoint: Checkpoint filename inside ``run_dir``.
+        sink: Case data sink plugin name (CASE_SINKS registry).
+    """
+
+    run_dir: str
+    checkpoint: str = "best_model.pth"
+    sink: str = "dataframe"
+
+
+@dataclass
+class CaseSelectConfig:
+    """``select`` subcommand knobs; ``None`` fields defer to the selector.
+
+    The plugin's own signature defaults apply (no hand-copied values to drift).
+
+    Args:
+        run_dir: Run directory whose ``case_analysis/predictions.parquet`` to read.
+        selector: User selector plugin name (CASE_SELECTORS registry).
+        num_users: Maximum number of users to select; None = selector default.
+        min_seq_len: Minimum attempt count; None = selector default.
+        min_error: Error-rate window lower bound (pair with max_error).
+        max_error: Error-rate window upper bound (pair with min_error).
+        min_confidence: Mean-confidence window lower bound.
+        max_confidence: Mean-confidence window upper bound.
+    """
+
+    run_dir: str
+    selector: str = "diverse"
+    num_users: int | None = None
+    min_seq_len: int | None = None
+    min_error: float | None = None
+    max_error: float | None = None
+    min_confidence: float | None = None
+    max_confidence: float | None = None
+
+
+@dataclass
+class CasePlotConfig:
+    """``plot`` subcommand knobs.
+
+    Args:
+        run_dir: Run directory whose ``case_analysis/`` tree to read.
+        selected_users: Selector name (e.g. ``diverse``) or path to a
+            selected_users.json file.
+        visualizer: Visualizer plugin name (CASE_VISUALIZERS registry).
+        max_seq_len: Rendering truncation only; unrelated to
+            ``--data.max_seq_len`` (the model was trained on).
+    """
+
+    run_dir: str
+    selected_users: str
+    visualizer: str = "heatmap"
+    max_seq_len: int | None = None
+
+
 def _filter_supported_options(cls: type, options: dict) -> dict:
     """Drop options the target class's ``select`` method does not accept."""
     params = inspect.signature(cls.select).parameters
     return {k: v for k, v in options.items() if k in params}
 
 
-def cmd_inference(args):
-    """Step 1: Run inference and save predictions."""
-    from utils.config import load_run_config_archive
+def _select_options(case, SelectorClass: type) -> dict:
+    """Build selector kwargs from ``--case.*`` fields.
 
-    run_dir = Path(args.run_dir).resolve()
-    checkpoint_path = run_dir / "best_model.pth"
-    run_config_path = run_dir / "run_config.yaml"
+    ``None`` fields are dropped so the plugin's signature defaults apply;
+    half-filled tuple ranges merge with the plugin's default tuple.
+    """
+    params = inspect.signature(SelectorClass.select).parameters
+
+    def _range(name, lo, hi):
+        if lo is None and hi is None:
+            return None
+        default = params[name].default if name in params else (lo, hi)
+        return (
+            lo if lo is not None else default[0],
+            hi if hi is not None else default[1],
+        )
+
+    raw = {
+        "min_seq_len": case.min_seq_len,
+        "error_rate_range": _range("error_rate_range", case.min_error, case.max_error),
+        "confidence_range": _range(
+            "confidence_range", case.min_confidence, case.max_confidence
+        ),
+        "max_users": case.num_users,
+    }
+    return {k: v for k, v in raw.items() if v is not None}
+
+
+def cmd_inference(rc, case):
+    """Step 1: Run inference and save predictions."""
+    run_dir = Path(case.run_dir).resolve()
+    checkpoint_path = run_dir / case.checkpoint
 
     if not checkpoint_path.exists():
         raise FileNotFoundError(f"Checkpoint not found: {checkpoint_path}")
-    if not run_config_path.exists():
-        raise FileNotFoundError(f"RunConfig archive not found: {run_config_path}")
 
-    rc = load_run_config_archive(run_config_path)
     model_name = rc.experiment.model_name
     dataset_name = rc.data.dataset
 
@@ -90,22 +177,22 @@ def cmd_inference(args):
     logger.info(f"Starting inference for {model_name} on {dataset_name}...")
 
     data_src = get_data_source(rc)
-    if args.sink not in CASE_SINKS:
-        sys.exit(f"Unknown sink '{args.sink}'. Available: {sorted(CASE_SINKS.keys())}")
-    sink = CASE_SINKS.get(args.sink)()
+    if case.sink not in CASE_SINKS:
+        sys.exit(f"Unknown sink '{case.sink}'. Available: {sorted(CASE_SINKS.keys())}")
+    sink = CASE_SINKS.get(case.sink)()
+    # device/batch_size overrides ride on rc (--general.device /
+    # --model.batch_size); the analyzer falls back to rc when left None.
     analyzer = AnalyzerClass(
         rc=rc,
         data_src=data_src,
         checkpoint_path=str(checkpoint_path),
         sink=sink,
-        device=args.device,
-        batch_size=args.batch_size,
     )
     result = analyzer.run_inference()
 
     if not isinstance(result, pd.DataFrame):
         logger.info(
-            f"Sink '{args.sink}' produced a non-DataFrame result; "
+            f"Sink '{case.sink}' produced a non-DataFrame result; "
             "persistence is the sink's own responsibility."
         )
         return
@@ -147,15 +234,7 @@ def cmd_select(args):
         )
     SelectorClass = CASE_SELECTORS.get(args.selector)
 
-    options = _filter_supported_options(
-        SelectorClass,
-        {
-            "min_seq_len": args.min_seq_len,
-            "error_rate_range": (args.min_error, args.max_error),
-            "max_users": args.num_users,
-        },
-    )
-    selected_users = SelectorClass().select(df, **options)
+    selected_users = SelectorClass().select(df, **_select_options(args, SelectorClass))
 
     if not selected_users:
         logger.warning("No users selected. Try adjusting the filtering criteria.")
@@ -243,112 +322,53 @@ def cmd_plot(args):
     logger.info(f"Figures saved to: {output_dir}")
 
 
+def _run_inference(rest: list[str]) -> None:
+    """Parse ``inference`` args (archived RunConfig + reflective overrides)."""
+    rc, case, _ = parse_run_archive(
+        rest,
+        prog="case_analysis.py inference",
+        description="Run model inference and save per-user predictions",
+        entry_node="case",
+        entry_cls=CaseInferenceConfig,
+    )
+    cmd_inference(rc, case)
+
+
+def _run_select(rest: list[str]) -> None:
+    """Parse ``select`` args via a reflective parser over CaseSelectConfig."""
+    parser = ArgumentParser(
+        prog="case_analysis.py select",
+        description="Select users from predictions via a selector plugin",
+    )
+    parser.add_class_arguments(CaseSelectConfig, "case")
+    ns = parser.parse_args(rest)
+    cmd_select(build_node(CaseSelectConfig, ns["case"]))
+
+
+def _run_plot(rest: list[str]) -> None:
+    """Parse ``plot`` args via a reflective parser over CasePlotConfig."""
+    parser = ArgumentParser(
+        prog="case_analysis.py plot",
+        description="Generate visualizations for selected users",
+    )
+    parser.add_class_arguments(CasePlotConfig, "case")
+    ns = parser.parse_args(rest)
+    cmd_plot(build_node(CasePlotConfig, ns["case"]))
+
+
 def main():
     """Run the case analysis workflow (inference, selection, plotting)."""
-    parser = argparse.ArgumentParser(
-        description="KT Case Analysis Framework",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
-Examples:
-  # Step 1: Run inference
-  python case_analysis.py inference --run_dir runs/normal/HDHKT_assistments09_xxx_fold0
-
-  # Step 2: Select diverse users
-  python case_analysis.py select \\
-      --run_dir runs/normal/HDHKT_assistments09_xxx_fold0 \\
-      --selector diverse --num_users 10
-
-  # Step 3: Generate visualizations
-  python case_analysis.py plot \\
-      --run_dir runs/normal/HDHKT_assistments09_xxx_fold0 \\
-      --selected_users diverse
-        """,
-    )
-
-    subparsers = parser.add_subparsers(dest="command", help="Available commands")
-
-    parser_inference = subparsers.add_parser(
-        "inference", help="Run model inference and save predictions"
-    )
-    parser_inference.add_argument(
-        "--run_dir",
-        required=True,
-        help="Path to run directory containing best_model.pth",
-    )
-    parser_inference.add_argument(
-        "--sink",
-        default="dataframe",
-        help="Case data sink plugin name (default: dataframe)",
-    )
-    parser_inference.add_argument(
-        "--device", default=None, help="Device override (default: from run config)"
-    )
-    parser_inference.add_argument(
-        "--batch_size",
-        type=int,
-        default=None,
-        help="Inference batch size override (default: from run config)",
-    )
-
-    parser_select = subparsers.add_parser(
-        "select", help="Select users from predictions via a selector plugin"
-    )
-    parser_select.add_argument("--run_dir", required=True, help="Path to run directory")
-    parser_select.add_argument(
-        "--selector",
-        default="diverse",
-        help="User selector plugin name (default: diverse)",
-    )
-    parser_select.add_argument(
-        "--num_users",
-        type=int,
-        default=10,
-        help="Maximum number of users to select (default: 10)",
-    )
-    parser_select.add_argument(
-        "--min_seq_len",
-        type=int,
-        default=20,
-        help="Minimum sequence length (default: 20)",
-    )
-    parser_select.add_argument(
-        "--min_error", type=float, default=0.1, help="Minimum error rate (default: 0.1)"
-    )
-    parser_select.add_argument(
-        "--max_error", type=float, default=0.9, help="Maximum error rate (default: 0.9)"
-    )
-
-    parser_plot = subparsers.add_parser(
-        "plot", help="Generate visualizations for selected users"
-    )
-    parser_plot.add_argument("--run_dir", required=True, help="Path to run directory")
-    parser_plot.add_argument(
-        "--selected_users",
-        required=True,
-        help="Selector name (e.g. diverse) or path to selected_users.json",
-    )
-    parser_plot.add_argument(
-        "--visualizer",
-        default="heatmap",
-        help="Visualizer plugin name (default: heatmap)",
-    )
-    parser_plot.add_argument(
-        "--max_seq_len",
-        type=int,
-        default=None,
-        help="Maximum sequence length for plotting (default: None, no truncation)",
-    )
-
-    args = parser.parse_args()
-
-    if args.command == "inference":
-        cmd_inference(args)
-    elif args.command == "select":
-        cmd_select(args)
-    elif args.command == "plot":
-        cmd_plot(args)
-    else:
-        parser.print_help()
+    argv = sys.argv[1:]
+    command = argv[0] if argv and not argv[0].startswith("-") else None
+    handlers = {
+        "inference": _run_inference,
+        "select": _run_select,
+        "plot": _run_plot,
+    }
+    if command not in handlers:
+        print(__doc__.strip())
+        return
+    handlers[command](argv[1:])
 
 
 if __name__ == "__main__":
