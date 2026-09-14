@@ -121,6 +121,26 @@ class TestMultiStageReentry:
         cb.close()
 
 
+class TestSingleDisplay:
+    """rich allows one live display: duplicates must degrade, not crash."""
+
+    def test_duplicate_registration_degrades_to_single_display(self, tmp_path):
+        first, second = ProgressCallback(), ProgressCallback()
+        first.on_train_begin(2, trainer=_stub(tmp_path))
+        second.on_train_begin(2, trainer=_stub(tmp_path))
+
+        assert first._live is None  # taken over, not left running
+        assert second._live is not None and second._live.is_started
+        second.close()
+
+    def test_teardown_releases_the_active_slot(self, tmp_path):
+        cb = ProgressCallback()
+        cb.on_train_begin(2, trainer=_stub(tmp_path))
+        assert ProgressCallback._active is cb
+        cb.close()
+        assert ProgressCallback._active is None
+
+
 @pytest.mark.parametrize(
     ("hook", "args"),
     [

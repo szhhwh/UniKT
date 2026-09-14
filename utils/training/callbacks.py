@@ -6,7 +6,7 @@ early stopping, checkpointing, memory management, and test evaluation.
 
 from abc import ABC
 from collections.abc import Callable
-from typing import Any, TypeVar
+from typing import Any, ClassVar, TypeVar
 
 from rich.console import Group
 from rich.live import Live
@@ -738,10 +738,16 @@ class ProgressCallback(Callback):
 
     Owns all live rendering (epoch bar, per-phase batch bar, best-metric
     header) so ``BaseTrainer._run_training_loop`` stays pure orchestration.
-    Reads every value from the ``trainer`` kwarg at hook time; multi-stage
-    trainers reuse one instance across stages, so ``on_train_begin`` tears
-    down any previous display before building a fresh one.
+    Reads every value from the ``trainer`` kwarg at hook time. Trainers
+    build a fresh instance per run/stage (see ``_maybe_progress_callback``);
+    ``on_train_begin`` still tears down any previous display, so an
+    explicitly shared instance also survives re-entry across stages.
     """
+
+    # rich allows one live display per console: the latest instance takes
+    # over from an older one so duplicate registrations degrade to a single
+    # display instead of raising LiveError at the second start.
+    _active: ClassVar["ProgressCallback | None"] = None
 
     def __init__(self):
         """Initialize with no display; everything is built in ``on_train_begin``."""
@@ -766,6 +772,10 @@ class ProgressCallback(Callback):
         if trainer is None:
             return
         self._teardown()
+        other = ProgressCallback._active
+        if other is not None and other is not self:
+            other._teardown()
+        ProgressCallback._active = self
 
         self._trainer = trainer
         self._checkpoint_cb = trainer.callback_manager.get_callback(CheckpointCallback)
@@ -908,6 +918,8 @@ class ProgressCallback(Callback):
         self._work_task = None
         self._checkpoint_cb = None
         self._trainer = None
+        if ProgressCallback._active is self:
+            ProgressCallback._active = None
 
 
 __all__ = [
