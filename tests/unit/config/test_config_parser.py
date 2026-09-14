@@ -1,5 +1,7 @@
 """Tests for ConfigParser: short flags, model resolution precedence, typed output."""
 
+from dataclasses import dataclass
+
 import pytest
 
 from utils.config.config_parser import (
@@ -7,6 +9,8 @@ from utils.config.config_parser import (
     _expand_short_flags,
     _read_model_name,
     build_node,
+    parse_run_archive,
+    peek_flag_value,
 )
 from utils.config.run_config import RunConfig
 from utils.core import MODEL_CONFIGS
@@ -205,6 +209,93 @@ class TestReadModelName:
         plain = tmp_path / "plain.yaml"
         plain.write_text("general:\n  seed: 1\n", encoding="utf-8")
         assert _read_model_name(str(plain)) is None
+
+
+# --- peek_flag_value ---
+
+
+class TestPeekFlagValue:
+    def test_space_form(self):
+        assert peek_flag_value(["--x.run_dir", "/a"], "--x.run_dir") == "/a"
+
+    def test_equals_form(self):
+        assert peek_flag_value(["--x.run_dir=/a"], "--x.run_dir") == "/a"
+
+    def test_last_occurrence_wins(self):
+        argv = ["--x.run_dir", "/first", "--x.run_dir=/second"]
+        assert peek_flag_value(argv, "--x.run_dir") == "/second"
+
+    def test_missing_flag_returns_none(self):
+        assert peek_flag_value(["--other", "v"], "--x.run_dir") is None
+
+    def test_trailing_bare_flag_has_no_value(self):
+        assert peek_flag_value(["--x.run_dir"], "--x.run_dir") is None
+
+
+# --- parse_run_archive ---
+
+
+@dataclass
+class _EntryConfig:
+    run_dir: str
+    checkpoint: str = "best_model.pth"
+
+
+class TestParseRunArchive:
+    @staticmethod
+    def _parse(argv):
+        return parse_run_archive(
+            argv,
+            prog="evaluate.py",
+            description="test entry point",
+            entry_node="evaluate",
+            entry_cls=_EntryConfig,
+        )
+
+    def test_restores_archive_and_applies_overrides(self, make_run_archive):
+        run_dir = make_run_archive(overrides={"model.batch_size": 64})
+        rc, entry, resolved = self._parse(
+            ["--evaluate.run_dir", str(run_dir), "--model.batch_size", "32"]
+        )
+        assert rc.experiment.model_name == "TinyTestModel"  # from the archive
+        assert rc.data.dataset == "tinyds"
+        assert rc.model.batch_size == 32  # CLI flag beats the archived value
+        assert entry.checkpoint == "best_model.pth"  # entry-node default
+        assert entry.run_dir == str(run_dir)
+        assert resolved == run_dir.resolve()
+
+    def test_checkpoint_entry_flag(self, make_run_archive):
+        run_dir = make_run_archive()
+        _, entry, _ = self._parse(
+            ["--evaluate.run_dir", str(run_dir), "--evaluate.checkpoint", "last.pth"]
+        )
+        assert entry.checkpoint == "last.pth"
+
+    def test_missing_run_dir_exits_with_message(self, tiny_model_config_name):
+        with pytest.raises(SystemExit) as exc:
+            self._parse(["--general.seed", "1"])
+        assert "--evaluate.run_dir is required" in str(exc.value.code)
+
+    def test_help_without_run_dir_prints_framework_help(self, capsys):
+        with pytest.raises(SystemExit) as exc:
+            self._parse(["-h"])
+        assert exc.value.code == 0
+        out = capsys.readouterr().out
+        assert "--evaluate.run_dir" in out  # entry node joins the reference
+        assert "--general.seed" in out
+
+    def test_model_flag_rejected(self, make_run_archive):
+        run_dir = make_run_archive()
+        with pytest.raises(SystemExit) as exc:
+            self._parse(["-m", "OtherModel", "--evaluate.run_dir", str(run_dir)])
+        assert "cannot be combined" in str(exc.value.code)
+
+    def test_missing_archive_exits(self, tmp_path):
+        empty = tmp_path / "empty_run"
+        empty.mkdir()
+        with pytest.raises(SystemExit) as exc:
+            self._parse(["--evaluate.run_dir", str(empty)])
+        assert "run_config.yaml not found" in str(exc.value.code)
 
 
 # --- extras & build_node ---

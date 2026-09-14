@@ -10,7 +10,10 @@ first and selects the concrete :class:`ModelConfig` subclass before the schema
 is built.
 
 ``parse_args`` returns a typed :class:`RunConfig` instance. Entry points needing
-their own nodes (e.g. ``efficiency.py``) use ``parse_with_extras``.
+their own nodes (e.g. ``efficiency.py``) use ``parse_with_extras``. Entry points
+that restore an archived run (``evaluate.py``, ``case_analysis.py`` inference)
+use :func:`parse_run_archive`, which seeds the schema from the run's
+``run_config.yaml`` before reflective CLI overrides apply.
 """
 
 from __future__ import annotations
@@ -188,6 +191,91 @@ def _peek_explicit_model_name(argv: list[str]) -> str | None:
     return None
 
 
+def peek_flag_value(argv: list[str], flag: str) -> str | None:
+    """Read the last value of ``flag`` (space or ``=`` form) from argv without parsing.
+
+    Entry points need ``--<node>.run_dir`` before :class:`ConfigParser` runs
+    (the archive path feeds ``default_config``). Last occurrence wins, matching
+    argparse's semantics for repeated flags.
+    """
+    value = None
+    for i, token in enumerate(argv):
+        if token == flag and i + 1 < len(argv):
+            value = argv[i + 1]
+        elif token.startswith(flag + "="):
+            value = token.split("=", 1)[1]
+    return value
+
+
+def parse_run_archive(
+    argv: list[str] | None,
+    *,
+    prog: str,
+    description: str,
+    entry_node: str,
+    entry_cls: type,
+) -> tuple[RunConfig, Any, Path]:
+    """Parse an entry point that restores a RunConfig from a run archive.
+
+    Shared skeleton for ``evaluate.py`` and ``case_analysis.py`` inference: the
+    archived ``run_config.yaml`` seeds the RunConfig, any reflective CLI flag
+    overrides it, and entry-point knobs come from the typed ``entry_cls`` node.
+
+    Args:
+        argv: CLI tokens (default ``sys.argv[1:]``).
+        prog: argparse ``prog`` used in error messages.
+        description: argparse ``description`` shown by ``--help``.
+        entry_node: Extra-node name; the run directory is read from
+            ``--<entry_node>.run_dir``.
+        entry_cls: Dataclass exposed as ``--<entry_node>.*`` flags; must
+            declare a ``run_dir`` field.
+
+    Returns:
+        ``(rc, entry_cfg, resolved_run_dir)``.
+
+    Raises:
+        SystemExit: ``run_dir`` missing (``-h``/``--help`` still prints the
+            framework reference and exits 0), an explicit model flag present,
+            or the archive file absent.
+    """
+    argv = sys.argv[1:] if argv is None else list(argv)
+    run_dir_flag = f"--{entry_node}.run_dir"
+    run_dir = peek_flag_value(argv, run_dir_flag)
+    if run_dir is None:
+        if "-h" in argv or "--help" in argv:
+            # Framework reference without a bound model; exits 0 from inside.
+            ConfigParser(
+                prog=prog,
+                description=description,
+                extra_nodes={entry_node: entry_cls},
+            ).parse_with_extras(argv)
+        raise SystemExit(
+            f"{prog}: {run_dir_flag} is required (point it at a trained run directory)"
+        )
+    _reject_model_flags(argv, prog=prog, run_dir_flag=run_dir_flag)
+    archive = Path(run_dir) / "run_config.yaml"
+    if not archive.exists():
+        raise SystemExit(f"{prog}: run_config.yaml not found in {run_dir}")
+    rc, ns = ConfigParser(
+        prog=prog,
+        description=description,
+        extra_nodes={entry_node: entry_cls},
+        default_config=archive,
+    ).parse_with_extras(argv)
+    entry_cfg = build_node(entry_cls, ns[entry_node])
+    return rc, entry_cfg, Path(run_dir).resolve()
+
+
+def _reject_model_flags(argv: list[str], prog: str, run_dir_flag: str) -> None:
+    """Archive mode rebuilds the model from the run_config.yaml it locates."""
+    for token in argv:
+        if token.startswith("-m") or token.startswith("--experiment.model"):
+            raise SystemExit(
+                f"{prog}: {run_dir_flag} cannot be combined with "
+                "-m/--experiment.model_name (the model is restored from the archive)"
+            )
+
+
 def _require_dataset(rc: RunConfig) -> None:
     """Fail fast with a clear message when no dataset is selected.
 
@@ -254,4 +342,9 @@ def build_node(cls: type, node_ns: Namespace) -> Any:
     return cls(**kwargs)
 
 
-__all__ = ["ConfigParser"]
+__all__ = [
+    "ConfigParser",
+    "build_node",
+    "parse_run_archive",
+    "peek_flag_value",
+]

@@ -82,6 +82,32 @@ def tiny_model_config_name():
 
 
 @pytest.fixture
+def make_run_archive(tmp_path, tiny_model_config_name):
+    """Factory: fake run directory carrying a minimal run_config.yaml archive.
+
+    Only the model name and dataset are written — every other node falls back
+    to its dataclass default, exactly like a sparse real archive would.
+    """
+
+    def _make(overrides=None):
+        import yaml
+
+        run_dir = tmp_path / "run"
+        run_dir.mkdir(parents=True, exist_ok=True)
+        data = {
+            "experiment": {"model_name": tiny_model_config_name},
+            "data": {"dataset": "tinyds"},
+        }
+        for dotted, value in (overrides or {}).items():
+            node, _, field = dotted.partition(".")
+            data.setdefault(node, {})[field] = value
+        (run_dir / "run_config.yaml").write_text(yaml.safe_dump(data), encoding="utf-8")
+        return run_dir
+
+    return _make
+
+
+@pytest.fixture
 def make_run_config(tiny_model_config_name):
     """Factory for a real RunConfig wired for fast offline tests:
     cloud tracking off, test-skip on, last-checkpoint off, CPU device."""
