@@ -13,19 +13,17 @@ from dataclasses import dataclass
 from typing import Any
 
 import torch
-from rich.console import Group
-from rich.live import Live
-from rich.text import Text
 
 from ..config import create_optimized_dataloader
 from ..core import get_logger
-from ..progress import create_progress
+from ..progress import create_progress, resolve_progress
 from .callbacks import (
     Callback,
     CallbackManager,
     CheckpointCallback,
     EarlyStoppingCallback,
     MemoryCleanupCallback,
+    ProgressCallback,
     TestEvaluationCallback,
 )
 from .checkpoint import CheckpointManager
@@ -111,6 +109,11 @@ class BaseTrainer(InferenceOpsMixin, ABC):
         self.run_config = rc
         self._data_src = data_src
         self._exp_manager = exp_manager
+        # rc=None must keep failing in build() ("run_config is required"),
+        # not here.
+        self._progress_enabled = (
+            resolve_progress(rc.general.progress) if rc is not None else False
+        )
         self._components = RuntimeComponents()
         self._custom_callbacks: list[Callback] = []
 
@@ -174,6 +177,14 @@ class BaseTrainer(InferenceOpsMixin, ABC):
             self._custom_callbacks.append(callback)
 
     # ==================== Build ====================
+
+    def _maybe_progress_callback(self) -> list[Callback]:
+        """Return the progress callback when rendering is enabled.
+
+        Shared by single-stage :meth:`build` and the per-stage callback
+        assembly in :class:`MultiTrainer`.
+        """
+        return [ProgressCallback()] if self._progress_enabled else []
 
     def build(self) -> "BaseTrainer":
         """Finalize the trainer: device, loaders, early stopping, logging.
@@ -245,6 +256,9 @@ class BaseTrainer(InferenceOpsMixin, ABC):
                 save_last_checkpoint=self.run_config.general.save_last_checkpoint,
             )
         )
+        # Before TestEvaluationCallback: its on_train_end renders outside the
+        # live display, which ProgressCallback.on_train_end stops first.
+        callbacks.extend(self._maybe_progress_callback())
         if not self.run_config.general.skip_test:
             callbacks.append(TestEvaluationCallback(use_best_model=True))
             if self.test_data is None:
@@ -497,10 +511,10 @@ class BaseTrainer(InferenceOpsMixin, ABC):
     def _run_training_loop(self, start_epoch: int | None = None) -> StageResult:
         """Run the epoch training loop for a single stage.
 
-        Includes progress bar, epoch loop, callbacks, learning rate
-        scheduling, and early stopping. Multi-stage trainers call this
-        after switching ``self.model`` / ``self.opt`` / ``self.train_data``
-        via ``_apply_stage``.
+        Includes the epoch loop, callbacks, learning rate scheduling, and
+        early stopping; live rendering is owned by ``ProgressCallback``.
+        Multi-stage trainers call this after switching ``self.model`` /
+        ``self.opt`` / ``self.train_data`` via ``_apply_stage``.
 
         Args:
             start_epoch: Starting epoch (``None`` uses ``self.start_epoch``,
@@ -518,14 +532,10 @@ class BaseTrainer(InferenceOpsMixin, ABC):
         # Trigger training start callback
         self.callback_manager.on_train_begin(self.epochs, trainer=self)
 
-        # Create progress display
-        progress = create_progress()
-
         # Stage prefix for multi-stage logging
         stage_prefix = (
             f"[{self._current_stage.upper()}] " if self._current_stage else ""
         )
-        total_label = f"{stage_prefix}Epochs" if self._current_stage else "Total Epochs"
 
         # Get monitor name from checkpoint callback
         checkpoint_cb = self.callback_manager.get_callback(CheckpointCallback)
@@ -533,114 +543,58 @@ class BaseTrainer(InferenceOpsMixin, ABC):
             checkpoint_cb._monitor_name() if checkpoint_cb else self._monitor_name()
         )
 
-        # Create best metric display
-        best_metric_text = None
-        renderables = [progress]
-        if self.early_stopping is not None:
-            best_metric_text = Text(
-                f"{stage_prefix}Best {monitor_name.upper()}: N/A",
-                style="bold yellow",
-            )
-            renderables.insert(0, best_metric_text)
+        epoch = start_epoch
+        for epoch in range(start_epoch, self.epochs):
+            logger.info(f"{stage_prefix}Epoch {epoch + 1}/{self.epochs}")
+            epoch_start = time.perf_counter()
 
-        with Live(Group(*renderables)):
-            total_task = progress.add_task(
-                f"[bold red]{total_label}", total=self.epochs, completed=start_epoch
-            )
-            work_task = progress.add_task(
-                "[bold green]Training", total=len(self.train_data)
-            )
+            self.callback_manager.on_epoch_begin(epoch, trainer=self)
 
-            epoch = start_epoch
-            for epoch in range(start_epoch, self.epochs):
-                logger.info(f"{stage_prefix}Epoch {epoch + 1}/{self.epochs}")
-                epoch_start = time.perf_counter()
+            # Training phase
+            phase_start = time.perf_counter()
+            train_loss = self._process_epoch(epoch, is_train=True)
+            train_time = time.perf_counter() - phase_start
 
-                self.callback_manager.on_epoch_begin(epoch, trainer=self)
-
-                # Training phase
-                progress.reset(
-                    work_task,
-                    total=len(self.train_data),
-                    description="[bold green]Training",
-                )
+            # Validation phase
+            val_loss = None
+            val_time = 0.0
+            if self.val_data is not None:
                 phase_start = time.perf_counter()
-                train_loss = self._process_epoch(
-                    epoch, is_train=True, progress=progress, task_id=work_task
-                )
-                train_time = time.perf_counter() - phase_start
+                val_loss = self._process_epoch(epoch, is_train=False)
+                val_time = time.perf_counter() - phase_start
 
-                # Validation phase
-                val_loss = None
-                val_time = 0.0
-                if self.val_data is not None:
-                    progress.reset(
-                        work_task,
-                        total=len(self.val_data),
-                        description="[bold cyan]Validation",
-                    )
-                    phase_start = time.perf_counter()
-                    val_loss = self._process_epoch(
-                        epoch, is_train=False, progress=progress, task_id=work_task
-                    )
-                    val_time = time.perf_counter() - phase_start
+            self.callback_manager.on_epoch_end(
+                epoch, train_loss, val_loss, trainer=self
+            )
 
-                self.callback_manager.on_epoch_end(
-                    epoch, train_loss, val_loss, trainer=self
-                )
+            # Record epoch time (train/val/total)
+            epoch_time = time.perf_counter() - epoch_start
+            self._epoch_times.append(epoch_time)
+            self.metric_logger.log_timing(
+                step=epoch + self._metric_step_offset,
+                epoch=epoch,
+                timings={
+                    "train_time": train_time,
+                    "val_time": val_time,
+                    "epoch_time": epoch_time,
+                },
+                stage=self._current_stage,
+            )
+            logger.info(
+                f"{stage_prefix}Epoch {epoch + 1}/{self.epochs} took "
+                f"{epoch_time:.2f}s (train {train_time:.2f}s, val {val_time:.2f}s)"
+            )
 
-                # Record epoch time (train/val/total)
-                epoch_time = time.perf_counter() - epoch_start
-                self._epoch_times.append(epoch_time)
-                self.metric_logger.log_timing(
-                    step=epoch + self._metric_step_offset,
-                    epoch=epoch,
-                    timings={
-                        "train_time": train_time,
-                        "val_time": val_time,
-                        "epoch_time": epoch_time,
-                    },
-                    stage=self._current_stage,
-                )
+            # Learning rate scheduler step
+            if self.lr_scheduler is not None:
+                self.lr_scheduler.step()
+
+            # Check early stopping
+            if self.callback_manager.should_stop(trainer=self):
                 logger.info(
-                    f"{stage_prefix}Epoch {epoch + 1}/{self.epochs} took "
-                    f"{epoch_time:.2f}s (train {train_time:.2f}s, val {val_time:.2f}s)"
+                    f"{stage_prefix}Early stopping triggered at epoch {epoch + 1}"
                 )
-
-                # Update best metric display
-                if (
-                    self.early_stopping is not None
-                    and best_metric_text is not None
-                    and self.val_data is not None
-                ):
-                    best_metric = checkpoint_cb.best_metric if checkpoint_cb else None
-                    best_epoch = checkpoint_cb.best_epoch if checkpoint_cb else None
-                    patience = self.early_stopping.cfg.patience
-                    remaining = max(0, patience - self.early_stopping.num_bad_epochs)
-                    best_str = (
-                        f"{best_metric:.4f}" if best_metric is not None else "N/A"
-                    )
-                    best_metric_text.plain = (
-                        f"{stage_prefix}Best {monitor_name.upper()}: {best_str} "
-                        f"(Epoch {best_epoch + 1 if best_epoch is not None else 'N/A'}, "
-                        f"Patience: {remaining}/{patience})"
-                    )
-                    best_metric_text.stylize("bold yellow")
-
-                # Learning rate scheduler step
-                if self.lr_scheduler is not None:
-                    self.lr_scheduler.step()
-
-                # Update total progress
-                progress.advance(total_task)
-
-                # Check early stopping
-                if self.callback_manager.should_stop(trainer=self):
-                    progress.console.log(
-                        f"[bold red]{stage_prefix}Early stopping triggered at "
-                        f"epoch {epoch + 1}"
-                    )
-                    break
+                break
 
         logger.info("Training complete")
         self._train_end_time = time.perf_counter()
@@ -654,16 +608,12 @@ class BaseTrainer(InferenceOpsMixin, ABC):
             monitor=monitor_name,
         )
 
-    def _process_epoch(
-        self, epoch: int, is_train: bool, progress=None, task_id=None
-    ) -> float:
+    def _process_epoch(self, epoch: int, is_train: bool) -> float:
         """Process a single epoch of training or validation.
 
         Args:
             epoch: Current epoch number.
             is_train: Whether this is a training (vs validation) epoch.
-            progress: Rich Progress object (optional).
-            task_id: Progress task ID (optional).
 
         Returns:
             Sample-weighted mean loss for this epoch.
@@ -704,9 +654,6 @@ class BaseTrainer(InferenceOpsMixin, ABC):
                 )
             if is_train:
                 self._global_step += 1
-
-            if progress is not None and task_id is not None:
-                progress.advance(task_id)
 
             self.callback_manager.on_batch_end(
                 epoch, batch_idx, phase, loss, trainer=self
@@ -799,7 +746,7 @@ class BaseTrainer(InferenceOpsMixin, ABC):
         support test-specific logic.
 
         Args:
-            batch_data: A batch of test data.
+            batch_data: A batch of test data from the DataLoader.
 
         Returns:
             Loss value for this batch (Python scalar).
@@ -810,6 +757,26 @@ class BaseTrainer(InferenceOpsMixin, ABC):
         self.metrics_accumulator.update("test", output)
 
         return loss.item()
+
+    def _iter_eval_batches(self, loader: Any, description: str):
+        """Iterate ``loader`` under a progress bar when rendering is enabled.
+
+        Args:
+            loader: Test/eval data loader (any sized iterable).
+            description: Progress bar label.
+
+        Yields:
+            Each batch from ``loader``.
+        """
+        if not self._progress_enabled:
+            yield from loader
+            return
+        progress = create_progress()
+        with progress:
+            task = progress.add_task(description, total=len(loader))
+            for batch_data in loader:
+                yield batch_data
+                progress.advance(task)
 
     @torch.inference_mode()
     def _evaluate_on_test_set(self, use_best_model: bool = True) -> dict[str, float]:
@@ -859,17 +826,10 @@ class BaseTrainer(InferenceOpsMixin, ABC):
         self.metrics_accumulator.reset("test")
         self.model.eval()
 
-        test_progress = create_progress()
-
-        total_loss = 0.0
-        with test_progress:
-            test_task = test_progress.add_task(
-                "[bold magenta]Testing", total=len(self.test_data)
-            )
-            for batch_data in self.test_data:
-                loss = self._run_test_batch(batch_data)
-                total_loss += loss
-                test_progress.advance(test_task)
+        for batch_data in self._iter_eval_batches(
+            self.test_data, "[bold magenta]Testing"
+        ):
+            self._run_test_batch(batch_data)
 
         metrics = self.metrics_accumulator.compute("test")
         self.metric_logger.log_metrics(
@@ -924,17 +884,10 @@ class BaseTrainer(InferenceOpsMixin, ABC):
         self.model.eval()
         self.metrics_accumulator.reset("test")
 
-        eval_progress = create_progress()
-
-        total_loss = 0.0
-        with eval_progress:
-            eval_task = eval_progress.add_task(
-                "[bold magenta]Evaluating", total=len(self.test_data)
-            )
-            for batch_data in self.test_data:
-                loss = self._run_test_batch(batch_data)
-                total_loss += loss
-                eval_progress.advance(eval_task)
+        for batch_data in self._iter_eval_batches(
+            self.test_data, "[bold magenta]Evaluating"
+        ):
+            self._run_test_batch(batch_data)
 
         metrics = self.metrics_accumulator.compute("test")
         self.metric_logger.log_metrics(
@@ -1017,6 +970,10 @@ class BaseTrainer(InferenceOpsMixin, ABC):
     def _finish(self):
         """Clean up resources and finalize experiment tracking."""
         self._print_timing_summary()
+        # Runs on failed runs too (run()'s finally): stops live rendering
+        # that on_train_end would have stopped on the normal path.
+        if self.callback_manager is not None:
+            self.callback_manager.close()
         self._finish_metric_logger()
         if self.checkpoint_manager is not None:
             self.checkpoint_manager.close()

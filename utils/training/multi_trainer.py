@@ -51,6 +51,7 @@ from .callbacks import (
     CheckpointCallback,
     EarlyStoppingCallback,
     MemoryCleanupCallback,
+    ProgressCallback,
 )
 from .checkpoint import CheckpointManager
 from .early_stopping import EarlyStopping
@@ -366,6 +367,10 @@ class MultiTrainer(BaseTrainer):
                 mode=setup.checkpoint_mode,
             )
         )
+        # Fresh instance per stage: each stage's manager owns its display,
+        # and on_train_begin re-reads the stage-switched trainer attributes.
+        if self._progress_enabled:
+            callbacks.append(ProgressCallback())
         return CallbackManager(callbacks)
 
     # ==================== Metric logging / Cleanup ====================

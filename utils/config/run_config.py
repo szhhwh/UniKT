@@ -55,6 +55,9 @@ class GeneralConfig:
             at the end of every epoch.
         pin_memory: DataLoader host-memory pinning (null = auto: pin only
             on CUDA devices).
+        progress: Progress rendering for the training loop. ``auto`` renders
+            when stdout is a TTY; ``rich`` always renders; ``none`` disables
+            (headless runs, in-process sweeps).
     """
 
     log_dir: str | None = None
@@ -68,6 +71,7 @@ class GeneralConfig:
     cache: bool = False
     save_last_checkpoint: bool = True
     pin_memory: bool | None = None
+    progress: Literal["auto", "rich", "none"] = "auto"
 
 
 @dataclass

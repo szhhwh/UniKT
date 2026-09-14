@@ -160,6 +160,22 @@ class TestParsing:
         )
         assert rc.data.sample_strategy == "time"
 
+    def test_progress_defaults_to_auto(self, tiny_model_config_name):
+        rc = _parse(["-m", "TinyTestModel", "-d", "tinyds"])
+        assert rc.general.progress == "auto"
+
+    def test_progress_flag_accepts_valid_value(self, tiny_model_config_name):
+        rc = _parse(
+            ["-m", "TinyTestModel", "-d", "tinyds", "--general.progress", "none"]
+        )
+        assert rc.general.progress == "none"
+
+    def test_progress_flag_rejects_invalid_value(self, tiny_model_config_name):
+        with pytest.raises(SystemExit):
+            _parse(
+                ["-m", "TinyTestModel", "-d", "tinyds", "--general.progress", "bogus"]
+            )
+
     def test_missing_dataset_exits(self, tiny_model_config_name):
         with pytest.raises(SystemExit) as exc:
             _parse(["-m", "TinyTestModel"])

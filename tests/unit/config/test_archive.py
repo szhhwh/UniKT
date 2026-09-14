@@ -38,6 +38,13 @@ class TestSaveLoadRoundTrip:
         assert loaded.model.learning_rate == pytest.approx(1e-3)
         assert loaded.data.sample_attempts_bins == [20, 100]
 
+    def test_progress_round_trips(self, make_run_config, tmp_path):
+        config_path, _ = save_run_config_archive(
+            make_run_config(progress="none"), tmp_path
+        )
+        loaded = load_run_config_archive(config_path)
+        assert loaded.general.progress == "none"
+
     def test_save_creates_log_dir(self, make_run_config, tmp_path):
         nested = tmp_path / "runs" / "exp"
         config_path, _ = save_run_config_archive(make_run_config(), nested)
@@ -78,6 +85,16 @@ class TestValidation:
         rc = load_run_config_archive(path)
         assert rc.general.seed == 42
         assert rc.model.epochs == 2  # TinyTestModelConfig default
+
+    def test_missing_progress_field_falls_back_to_auto(self, make_run_config, tmp_path):
+        import yaml
+
+        config_path, _ = save_run_config_archive(make_run_config(), tmp_path)
+        data = yaml.safe_load(config_path.read_text(encoding="utf-8"))
+        del data["general"]["progress"]  # archive written by an older version
+        config_path.write_text(yaml.safe_dump(data), encoding="utf-8")
+        rc = load_run_config_archive(config_path)
+        assert rc.general.progress == "auto"
 
 
 class TestMetadata:
