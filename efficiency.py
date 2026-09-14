@@ -19,7 +19,8 @@ import sys
 from pathlib import Path
 
 import model  # noqa: F401  — triggers trainer/model-config discovery
-from utils.config import ConfigParser, build_node
+from utils.config import ConfigParser, build_node, peek_flag_value
+from utils.config.config_parser import _reject_model_flags
 from utils.core import add_file_handler, get_logger
 from utils.data_process import get_data_source
 from utils.efficiency import EfficiencySession, EfficiencySweep
@@ -81,8 +82,10 @@ def _parse() -> tuple:
     run_dir = _peek_run_dir()
     default_config = None
     if run_dir:
-        _reject_model_flag(
-            sys.argv[1:]
+        _reject_model_flags(
+            sys.argv[1:],
+            prog="efficiency.py",
+            run_dir_flag="--efficiency.general.run_dir",
         )  # run_dir mode reconstructs the model from the archive
         archive = Path(run_dir) / "run_config.yaml"
         if not archive.exists():
@@ -101,23 +104,7 @@ def _parse() -> tuple:
 
 def _peek_run_dir() -> str | None:
     """Read --efficiency.general.run_dir before ConfigParser (default_config path needs it)."""
-    flag = "--efficiency.general.run_dir"
-    for i, a in enumerate(sys.argv):
-        if a == flag and i + 1 < len(sys.argv):
-            return sys.argv[i + 1]
-        if a.startswith(flag + "="):
-            return a.split("=", 1)[1]
-    return None
-
-
-def _reject_model_flag(argv: list[str]) -> None:
-    """run_dir mode is incompatible with an explicit model flag."""
-    for a in argv:
-        if a.startswith("-m") or a.startswith("--experiment.model"):
-            raise SystemExit(
-                "[Benchmark] --efficiency.general.run_dir cannot be combined with "
-                "-m/--experiment.model_name"
-            )
+    return peek_flag_value(sys.argv[1:], "--efficiency.general.run_dir")
 
 
 def _resolve_weights(eff_cfg) -> str | None:
