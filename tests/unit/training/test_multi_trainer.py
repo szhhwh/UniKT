@@ -203,6 +203,9 @@ class TestStageLifecycle:
 
         # Every stage's rebuilt manager owns its own display, each torn down.
         for snapshot in trainer.stage_snapshots.values():
+            callbacks = snapshot["callback_manager"].callbacks
+            # First in the list: teardown precedes later on_train_end hooks.
+            assert isinstance(callbacks[0], ProgressCallback)
             cb = snapshot["callback_manager"].get_callback(ProgressCallback)
             assert cb is not None
             assert cb._live is None
