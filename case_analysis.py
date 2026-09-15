@@ -29,7 +29,7 @@ Usage:
         --case.selected_users diverse
 """
 
-import inspect
+import argparse
 import json
 import sys
 from dataclasses import dataclass
@@ -76,29 +76,31 @@ class CaseInferenceConfig:
 
 @dataclass
 class CaseSelectConfig:
-    """``select`` subcommand knobs; ``None`` fields defer to the selector.
+    """``select`` subcommand knobs (``--case.*`` flags).
 
-    The plugin's own signature defaults apply (no hand-copied values to drift).
+    Defaults mirror the built-in selectors' ``select`` signature but are
+    declared here on purpose: the public CLI surface stays stable even if a
+    plugin's Python default changes.
 
     Args:
         run_dir: Run directory whose ``case_analysis/predictions.parquet`` to read.
         selector: User selector plugin name (CASE_SELECTORS registry).
-        num_users: Maximum number of users to select; None = selector default.
-        min_seq_len: Minimum attempt count; None = selector default.
-        min_error: Error-rate window lower bound (pair with max_error).
-        max_error: Error-rate window upper bound (pair with min_error).
+        num_users: Maximum number of users to select.
+        min_seq_len: Minimum attempt count required.
+        min_error: Error-rate window lower bound (pairs with max_error).
+        max_error: Error-rate window upper bound (pairs with min_error).
         min_confidence: Mean-confidence window lower bound.
         max_confidence: Mean-confidence window upper bound.
     """
 
     run_dir: str
     selector: str = "diverse"
-    num_users: int | None = None
-    min_seq_len: int | None = None
-    min_error: float | None = None
-    max_error: float | None = None
-    min_confidence: float | None = None
-    max_confidence: float | None = None
+    num_users: int = 20
+    min_seq_len: int = 20
+    min_error: float = 0.1
+    max_error: float = 0.9
+    min_confidence: float = 0.3
+    max_confidence: float = 0.95
 
 
 @dataclass
@@ -118,40 +120,6 @@ class CasePlotConfig:
     selected_users: str
     visualizer: str = "heatmap"
     max_seq_len: int | None = None
-
-
-def _filter_supported_options(cls: type, options: dict) -> dict:
-    """Drop options the target class's ``select`` method does not accept."""
-    params = inspect.signature(cls.select).parameters
-    return {k: v for k, v in options.items() if k in params}
-
-
-def _select_options(case, SelectorClass: type) -> dict:
-    """Build selector kwargs from ``--case.*`` fields.
-
-    ``None`` fields are dropped so the plugin's signature defaults apply;
-    half-filled tuple ranges merge with the plugin's default tuple.
-    """
-    params = inspect.signature(SelectorClass.select).parameters
-
-    def _range(name, lo, hi):
-        if lo is None and hi is None:
-            return None
-        default = params[name].default if name in params else (lo, hi)
-        return (
-            lo if lo is not None else default[0],
-            hi if hi is not None else default[1],
-        )
-
-    raw = {
-        "min_seq_len": case.min_seq_len,
-        "error_rate_range": _range("error_rate_range", case.min_error, case.max_error),
-        "confidence_range": _range(
-            "confidence_range", case.min_confidence, case.max_confidence
-        ),
-        "max_users": case.num_users,
-    }
-    return {k: v for k, v in raw.items() if v is not None}
 
 
 def cmd_inference(rc, case):
@@ -234,7 +202,15 @@ def cmd_select(args):
         )
     SelectorClass = CASE_SELECTORS.get(args.selector)
 
-    selected_users = SelectorClass().select(df, **_select_options(args, SelectorClass))
+    # Selector kwargs follow the UserSelector interface; the two window
+    # options are tuple-valued in the interface, scalar min/max on the CLI.
+    selected_users = SelectorClass().select(
+        df,
+        min_seq_len=args.min_seq_len,
+        error_rate_range=(args.min_error, args.max_error),
+        confidence_range=(args.min_confidence, args.max_confidence),
+        max_users=args.num_users,
+    )
 
     if not selected_users:
         logger.warning("No users selected. Try adjusting the filtering criteria.")
@@ -358,17 +334,38 @@ def _run_plot(rest: list[str]) -> None:
 
 def main():
     """Run the case analysis workflow (inference, selection, plotting)."""
-    argv = sys.argv[1:]
-    command = argv[0] if argv and not argv[0].startswith("-") else None
-    handlers = {
-        "inference": _run_inference,
-        "select": _run_select,
-        "plot": _run_plot,
-    }
-    if command not in handlers:
-        print(__doc__.strip())
-        return
-    handlers[command](argv[1:])
+    parser = _build_cli()
+    ns, rest = parser.parse_known_args()
+    ns.handler(rest)
+
+
+def _build_cli() -> argparse.ArgumentParser:
+    """Top-level subcommand router.
+
+    Each subcommand registers a shell parser: argument parsing stays with the
+    handler's reflective parser, so its flags (and its own ``-h``) pass through
+    untouched, while argparse owns top-level ``--help``, unknown-command
+    errors, and usage formatting.
+    """
+    parser = argparse.ArgumentParser(
+        prog="case_analysis.py",
+        description="Per-student case analysis for trained KT models.",
+    )
+    subparsers = parser.add_subparsers(
+        dest="command", metavar="{inference,select,plot}", required=True
+    )
+    for name, handler, help_text in (
+        (
+            "inference",
+            _run_inference,
+            "Run model inference and save per-user predictions",
+        ),
+        ("select", _run_select, "Select representative users from saved predictions"),
+        ("plot", _run_plot, "Render heatmaps for selected users"),
+    ):
+        sub = subparsers.add_parser(name, add_help=False, help=help_text)
+        sub.set_defaults(handler=handler)
+    return parser
 
 
 if __name__ == "__main__":

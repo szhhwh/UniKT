@@ -79,12 +79,12 @@ case_analysis/
 | --- | --- | --- |
 | ``--case.run_dir`` | 必填 | run 目录路径 |
 | ``--case.selector`` | ``diverse`` | 筛选策略：``diverse`` / ``extreme`` / ``random``（``CASE_SELECTORS`` 注册表） |
-| ``--case.num_users`` | selector 默认（``20``） | 最多筛选多少学生 |
-| ``--case.min_seq_len`` | selector 默认（``20``） | 学生最少答题数 |
-| ``--case.min_error`` / ``--case.max_error`` | selector 默认（``0.1`` / ``0.9``） | 错误率窗口边界 |
-| ``--case.min_confidence`` / ``--case.max_confidence`` | selector 默认（``0.3`` / ``0.95``） | 平均置信度窗口边界 |
+| ``--case.num_users`` | ``20`` | 最多筛选多少学生 |
+| ``--case.min_seq_len`` | ``20`` | 学生最少答题数 |
+| ``--case.min_error`` / ``--case.max_error`` | ``0.1`` / ``0.9`` | 错误率窗口边界 |
+| ``--case.min_confidence`` / ``--case.max_confidence`` | ``0.3`` / ``0.95`` | 平均置信度窗口边界 |
 
-未传的参数（默认值列 ``None``）回落到 selector 插件自身签名的默认值，CLI 不再手抄一份；只填窗口一端时，另一端自动用插件默认补齐。
+默认值在 CLI 层显式声明（与内置 selector 的 ``select`` 签名默认值保持一致）；修改插件默认值不会隐式改变 CLI 行为。自定义 selector 需遵循 ``UserSelector`` 接口，接受上述同名的关键字参数。
 
 
 ### 三种策略

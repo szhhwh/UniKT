@@ -106,8 +106,8 @@ def _select_args(run_dir, selector, **overrides):
         "min_seq_len": 5,
         "min_error": 0.0,
         "max_error": 1.0,
-        "min_confidence": None,
-        "max_confidence": None,
+        "min_confidence": 0.0,
+        "max_confidence": 1.0,
     }
     fields.update(overrides)
     return type("_Args", (), fields)()
@@ -146,83 +146,64 @@ def test_cmd_plot_renders_figures(run_dir):
     assert len(pngs) == 2
 
 
-def test_filter_supported_options_drops_unsupported():
-    class _Sel:
-        def select(self, results, *, min_seq_len=20, max_users=20):
-            return []
+# --- select kwargs mapping (explicit CLI defaults, no signature introspection) ---
 
-    opts = cli._filter_supported_options(
-        _Sel, {"min_seq_len": 5, "error_rate_range": (0.1, 0.9), "max_users": 3}
+
+def test_select_kwargs_follow_cli_config(run_dir, monkeypatch):
+    captured = {}
+
+    class _CapturingSelector:
+        def select(self, results, **options):
+            captured.update(options)
+            return [0, 1, 2]
+
+    monkeypatch.setattr(
+        cli, "CASE_SELECTORS", _FakeRegistry({"cap": _CapturingSelector})
     )
-    assert opts == {"min_seq_len": 5, "max_users": 3}
+
+    cli.cmd_select(_select_args(run_dir, "cap"))
+    assert captured == {
+        "min_seq_len": 5,
+        "error_rate_range": (0.0, 1.0),
+        "confidence_range": (0.0, 1.0),
+        "max_users": 3,
+    }
 
 
-# --- _select_options: sentinel-None deferral to the plugin signature ---
-
-
-class _SignatureSel:
-    """Selector stand-in mirroring the built-in plugins' select signature."""
-
-    def select(
-        self,
-        results,
-        *,
-        min_seq_len: int = 20,
-        error_rate_range: tuple = (0.1, 0.9),
-        confidence_range: tuple = (0.3, 0.95),
-        max_users: int = 20,
-    ):
-        return []
-
-
-def test_select_all_none_defers_to_plugin_defaults(run_dir):
-    case = _select_args(
-        run_dir,
-        "diverse",
-        num_users=None,
-        min_seq_len=None,
-        min_error=None,
-        max_error=None,
-    )
-    assert cli._select_options(case, _SignatureSel) == {}
-
-
-def test_select_partial_range_merges_plugin_default(run_dir):
-    case = _select_args(run_dir, "diverse", min_error=0.2, max_error=None)
-    opts = cli._select_options(case, _SignatureSel)
-    assert opts["error_rate_range"] == (0.2, 0.9)  # 0.9 from the signature
-
-
-def test_select_confidence_window_passed(run_dir):
-    case = _select_args(run_dir, "diverse", min_confidence=0.4, max_confidence=0.9)
-    opts = cli._select_options(case, _SignatureSel)
-    assert opts["confidence_range"] == (0.4, 0.9)
-
-
-def test_cmd_select_defaults_defer_to_plugin(run_dir):
-    cli.cmd_select(
-        _select_args(
-            run_dir,
-            "diverse",
-            num_users=None,
-            min_seq_len=None,
-            min_error=None,
-            max_error=None,
-        )
-    )
+def test_cmd_select_cli_defaults_match_builtin_selectors(run_dir):
+    cli.cmd_select(cli.CaseSelectConfig(run_dir=str(run_dir)))
     path = run_dir / "case_analysis" / "diverse" / "selected_users.json"
     records = json.loads(path.read_text())
-    # Plugin default max_users=20, not the old hand-written CLI default of 10.
+    # Explicit CLI default num_users=20 (aligned with the built-in selectors'
+    # signature), not the old hand-written CLI default of 10.
     assert 10 < len(records) <= 20
 
 
-# --- dispatch ---
+# --- dispatch (argparse owns top-level routing, help, and errors) ---
 
 
-def test_main_without_subcommand_prints_help(capsys, monkeypatch):
-    monkeypatch.setattr(sys, "argv", ["case_analysis.py"])
-    cli.main()
+def test_main_help_lists_subcommands(capsys, monkeypatch):
+    monkeypatch.setattr(sys, "argv", ["case_analysis.py", "--help"])
+    with pytest.raises(SystemExit) as exc:
+        cli.main()
+    assert exc.value.code == 0
     out = capsys.readouterr().out
-    assert "inference" in out
-    assert "select" in out
-    assert "plot" in out
+    assert "usage: case_analysis.py" in out
+    for cmd in ("inference", "select", "plot"):
+        assert cmd in out
+
+
+def test_main_without_subcommand_errors(capsys, monkeypatch):
+    monkeypatch.setattr(sys, "argv", ["case_analysis.py"])
+    with pytest.raises(SystemExit) as exc:
+        cli.main()
+    assert exc.value.code == 2
+    assert "required" in capsys.readouterr().err
+
+
+def test_main_unknown_subcommand_errors(capsys, monkeypatch):
+    monkeypatch.setattr(sys, "argv", ["case_analysis.py", "nope"])
+    with pytest.raises(SystemExit) as exc:
+        cli.main()
+    assert exc.value.code == 2
+    assert "invalid choice: 'nope'" in capsys.readouterr().err
