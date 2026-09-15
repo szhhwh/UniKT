@@ -6,9 +6,9 @@ import pytest
 
 from utils.config.config_parser import (
     ConfigParser,
-    _expand_short_flags,
     _read_model_name,
     build_node,
+    expand_short_flags,
     parse_run_archive,
     peek_flag_value,
 )
@@ -26,25 +26,23 @@ def _parse(argv, **parser_kwargs):
 
 class TestExpandShortFlags:
     def test_dash_m_with_value(self):
-        assert _expand_short_flags(["-m", "DKT"]) == [
+        assert expand_short_flags(["-m", "DKT"]) == [
             "--experiment.model_name",
             "DKT",
         ]
 
     def test_dash_m_inline_equals(self):
-        assert _expand_short_flags(["-m=DKT"]) == ["--experiment.model_name=DKT"]
+        assert expand_short_flags(["-m=DKT"]) == ["--experiment.model_name=DKT"]
 
     def test_dash_d_forms(self):
-        assert _expand_short_flags(["-d", "assist09"]) == [
+        assert expand_short_flags(["-d", "assist09"]) == [
             "--data.dataset",
             "assist09",
         ]
-        assert _expand_short_flags(["-d=assist09"]) == ["--data.dataset=assist09"]
+        assert expand_short_flags(["-d=assist09"]) == ["--data.dataset=assist09"]
 
     def test_combined_flags(self):
-        out = _expand_short_flags(
-            ["-m", "DKT", "-d", "assist09", "--general.seed", "1"]
-        )
+        out = expand_short_flags(["-m", "DKT", "-d", "assist09", "--general.seed", "1"])
         assert out == [
             "--experiment.model_name",
             "DKT",
@@ -56,7 +54,7 @@ class TestExpandShortFlags:
 
     def test_trailing_bare_dash_m_kept(self):
         # No value follows: left as-is so argparse surfaces the usage error.
-        assert _expand_short_flags(["-d", "x", "-m"]) == [
+        assert expand_short_flags(["-d", "x", "-m"]) == [
             "--data.dataset",
             "x",
             "-m",
@@ -64,7 +62,7 @@ class TestExpandShortFlags:
 
     def test_unknown_tokens_untouched(self):
         argv = ["--config", "c.yaml", "positional"]
-        assert _expand_short_flags(argv) == argv
+        assert expand_short_flags(argv) == argv
 
 
 # --- model resolution ---

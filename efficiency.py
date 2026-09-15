@@ -19,8 +19,12 @@ import sys
 from pathlib import Path
 
 import model  # noqa: F401  — triggers trainer/model-config discovery
-from utils.config import ConfigParser, build_node, peek_flag_value
-from utils.config.config_parser import _reject_model_flags
+from utils.config import (
+    ConfigParser,
+    build_node,
+    peek_flag_value,
+    reject_model_flags,
+)
 from utils.core import add_file_handler, get_logger
 from utils.data_process import get_data_source
 from utils.efficiency import EfficiencySession, EfficiencySweep
@@ -82,14 +86,15 @@ def _parse() -> tuple:
     run_dir = _peek_run_dir()
     default_config = None
     if run_dir:
-        _reject_model_flags(
+        reject_model_flags(
             sys.argv[1:],
             prog="efficiency.py",
             run_dir_flag="--efficiency.general.run_dir",
         )  # run_dir mode reconstructs the model from the archive
         archive = Path(run_dir) / "run_config.yaml"
         if not archive.exists():
-            raise SystemExit(f"[Benchmark] run_config.yaml not found in {run_dir}")
+            # prog-style prefix matches reject_model_flags / parse_run_archive.
+            raise SystemExit(f"efficiency.py: run_config.yaml not found in {run_dir}")
         default_config = archive
 
     rc, ns = ConfigParser(
@@ -117,7 +122,7 @@ def _resolve_weights(eff_cfg) -> str | None:
         return None
     # Fail fast before the expensive model+data build.
     if not path.exists():
-        raise SystemExit(f"[Benchmark] checkpoint not found: {path}")
+        raise SystemExit(f"efficiency.py: checkpoint not found: {path}")
     return str(path)
 
 

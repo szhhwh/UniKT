@@ -66,7 +66,7 @@ class ConfigParser:
     ) -> tuple[RunConfig, Namespace]:
         """Parse and return ``(RunConfig, full Namespace)`` — Namespace exposes extra nodes."""
         argv = sys.argv[1:] if argv is None else list(argv)
-        argv = _expand_short_flags(argv)
+        argv = expand_short_flags(argv)
 
         model_name = self._resolve_model_name(argv)
         schema_nodes = {**build_run_config_schema(model_name), **self.extra_nodes}
@@ -146,7 +146,7 @@ class ConfigParser:
         parser.parse_args(["-h"])  # prints help and exits 0
 
 
-def _expand_short_flags(argv: list[str]) -> list[str]:
+def expand_short_flags(argv: list[str]) -> list[str]:
     """Rewrite the two essential short flags to their full jsonargparse forms.
 
     ``-m X`` -> ``--experiment.model_name X`` and ``-d X`` -> ``--data.dataset X``.
@@ -252,7 +252,7 @@ def parse_run_archive(
         raise SystemExit(
             f"{prog}: {run_dir_flag} is required (point it at a trained run directory)"
         )
-    _reject_model_flags(argv, prog=prog, run_dir_flag=run_dir_flag)
+    reject_model_flags(argv, prog=prog, run_dir_flag=run_dir_flag)
     archive = Path(run_dir) / "run_config.yaml"
     if not archive.exists():
         raise SystemExit(f"{prog}: run_config.yaml not found in {run_dir}")
@@ -266,8 +266,13 @@ def parse_run_archive(
     return rc, entry_cfg, Path(run_dir).resolve()
 
 
-def _reject_model_flags(argv: list[str], prog: str, run_dir_flag: str) -> None:
-    """Archive mode rebuilds the model from the run_config.yaml it locates."""
+def reject_model_flags(argv: list[str], prog: str, run_dir_flag: str) -> None:
+    """Exit when argv mixes archive mode with an explicit model flag.
+
+    Archive-restoring entry points (``parse_run_archive`` users and
+    ``efficiency.py``'s run_dir mode) rebuild the model from the
+    ``run_config.yaml`` the run directory locates.
+    """
     for token in argv:
         if token.startswith("-m") or token.startswith("--experiment.model"):
             raise SystemExit(
@@ -345,6 +350,8 @@ def build_node(cls: type, node_ns: Namespace) -> Any:
 __all__ = [
     "ConfigParser",
     "build_node",
+    "expand_short_flags",
     "parse_run_archive",
     "peek_flag_value",
+    "reject_model_flags",
 ]
