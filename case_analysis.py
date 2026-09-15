@@ -202,8 +202,6 @@ def cmd_select(args):
         )
     SelectorClass = CASE_SELECTORS.get(args.selector)
 
-    # Selector kwargs follow the UserSelector interface; the two window
-    # options are tuple-valued in the interface, scalar min/max on the CLI.
     selected_users = SelectorClass().select(
         df,
         min_seq_len=args.min_seq_len,

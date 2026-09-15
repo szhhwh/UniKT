@@ -120,7 +120,7 @@ if __name__ == "__main__":
     parser = build_parser()
     ns = parser.parse_args(expand_short_flags(sys.argv[1:]))
     rc = _PartialRC(ns[ns.subcommand])
-    require_dataset(rc)  # fail fast; this entry point skips ConfigParser's check
+    require_dataset(rc)
 
     if ns.subcommand == "download":
         cmd_download(rc, ns)

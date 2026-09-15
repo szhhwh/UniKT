@@ -146,7 +146,7 @@ def test_cmd_plot_renders_figures(run_dir):
     assert len(pngs) == 2
 
 
-# --- select kwargs mapping (explicit CLI defaults, no signature introspection) ---
+# --- select kwargs mapping ---
 
 
 def test_select_kwargs_follow_cli_config(run_dir, monkeypatch):
@@ -174,12 +174,11 @@ def test_cmd_select_cli_defaults_match_builtin_selectors(run_dir):
     cli.cmd_select(cli.CaseSelectConfig(run_dir=str(run_dir)))
     path = run_dir / "case_analysis" / "diverse" / "selected_users.json"
     records = json.loads(path.read_text())
-    # Explicit CLI default num_users=20 (aligned with the built-in selectors'
-    # signature), not the old hand-written CLI default of 10.
+    # CLI default num_users=20
     assert 10 < len(records) <= 20
 
 
-# --- dispatch (argparse owns top-level routing, help, and errors) ---
+# --- dispatch ---
 
 
 def test_main_help_lists_subcommands(capsys, monkeypatch):

@@ -286,7 +286,6 @@ def require_dataset(rc: RunConfig) -> None:
 
     Without this, an empty ``rc.data.dataset`` reaches ``get_data_source`` late
     (after the run directory is created) as an opaque "Unsupported dataset:" error.
-    ``data_process.py`` checks this itself because it builds its own parser.
     """
     if rc.data.dataset:
         return

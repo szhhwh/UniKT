@@ -93,7 +93,6 @@ def _parse() -> tuple:
         )  # run_dir mode reconstructs the model from the archive
         archive = Path(run_dir) / "run_config.yaml"
         if not archive.exists():
-            # prog-style prefix matches reject_model_flags / parse_run_archive.
             raise SystemExit(f"efficiency.py: run_config.yaml not found in {run_dir}")
         default_config = archive
 
