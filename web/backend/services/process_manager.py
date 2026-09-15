@@ -440,10 +440,11 @@ class ProcessManager:
 
         Dispatches on ``params["task_kind"]``: ``"optuna"`` launches a
         hyperparameter search via ``optuna_search.py`` (emitting
-        ``--optuna_config``/``--metric``/``--output_dir``), anything else runs
-        ``train.py``. Both scripts share the same RunConfig flag contract, so
-        model/data/general params are routed identically via the cached schema
-        routes; default-equal params are omitted.
+        ``--optuna_search.optuna_config``/``--optuna_search.metric``/
+        ``--optuna_search.output_dir``), anything else runs ``train.py``. Both
+        scripts share the same RunConfig flag contract, so model/data/general
+        params are routed identically via the cached schema routes;
+        default-equal params are omitted.
         """
         routes = self._schema_extractor.get_field_routes(model_name)
         defaults = self._schema_extractor.get_field_defaults(model_name)
@@ -455,13 +456,13 @@ class ProcessManager:
         if is_search:
             config_path = params.get("optuna_config_path")
             if config_path:
-                args.extend(["--optuna_config", str(config_path)])
+                args.extend(["--optuna_search.optuna_config", str(config_path)])
             metric = params.get("metric")
             if metric:
-                args.extend(["--metric", str(metric)])
+                args.extend(["--optuna_search.metric", str(metric)])
             output_dir = params.get("output_dir")
             if output_dir:
-                args.extend(["--output_dir", str(output_dir)])
+                args.extend(["--optuna_search.output_dir", str(output_dir)])
 
         dataset = params.get("dataset")
         if dataset:

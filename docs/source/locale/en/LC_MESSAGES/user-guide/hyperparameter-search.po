@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: UniKT \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-12 15:25+0800\n"
+"POT-Creation-Date: 2026-09-15 12:17+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -20,327 +20,394 @@ msgstr ""
 "Generated-By: Babel 2.18.0\n"
 
 #: ../../source/user-guide/hyperparameter-search.md:1
-#: 1c1a4b11a0ee45139353d7b3e3924ddb
+#: 1541677f43354f4ab17247d5045468a3
 msgid "超参数搜索"
 msgstr "Hyperparameter search"
 
 #: ../../source/user-guide/hyperparameter-search.md:3
-#: 8840bf1c158b4d4d9d1e4846efb316d3
+#: 4d84b27c17b04407a258f6bf1bf6c966
 msgid "使用 Optuna 进行自动化超参数优化。"
 msgstr "Automated hyperparameter optimization with Optuna."
 
 #: ../../source/user-guide/hyperparameter-search.md:5
-#: fdc2a5b03339491dadc65460718c2446
+#: 46d5d583efc6416b9763d0587942e1f6
 msgid "概述"
 msgstr "Overview"
 
 #: ../../source/user-guide/hyperparameter-search.md:16
-#: 90ba6c3385f64175bd965978f94f3a3e
+#: 6b12f0247a8145158f28e1b0d5fc474b
 msgid "快速上手"
 msgstr "Quick start"
 
 #: ../../source/user-guide/hyperparameter-search.md:23
-#: 00745a7eaa764a9ab4be518c2fa6a133
+#: d673eadb4b9c44deb628a60b998b6dbd
 msgid "参数说明"
 msgstr "Parameter reference"
 
 #: ../../source/user-guide/hyperparameter-search.md:7
-#: 5909d50434004d13b6e1275e980eccc1
+#: 8611626b8eff4dfa9139e2fe5b38e37d
 msgid "参数"
 msgstr "Parameter"
 
 #: ../../source/user-guide/hyperparameter-search.md:7
-#: 75ed44a96fd14b08843107cb1173fb67
+#: f61ece02cf154bbaa2a12e1def24f002
 msgid "默认值"
 msgstr "Default"
 
 #: ../../source/user-guide/hyperparameter-search.md:7
-#: 4e0b50f772024a48a155776ab2d88c92 4ee253da1b3847fbb6772648208d95a9
-#: cc98aa6d5a4f4cb0bcbbe8ed21953b34
+#: 2ea153f4ff0345e19ef0dfcb999823a4 98a9557a505e4b65b0f89dc18fdaa7d6
 msgid "描述"
 msgstr "Description"
 
 #: ../../source/user-guide/hyperparameter-search.md:7
-#: b06a041500624e4a95a8c325958d960f
-msgid "``-m, --model``"
-msgstr "``-m, --model``"
+#: cfd75cd148f04501aefa2f860123490d
+msgid "``-m, --experiment.model_name``"
+msgstr "``-m, --experiment.model_name``"
 
 #: ../../source/user-guide/hyperparameter-search.md:7
-#: 4a2ff1d7a4b84572a9fc158d3a8868dd 7785bbf937904d2a92f5d9f62fa2c98f
+#: 736b2c622f614469a6a8b96d5a6962dd 7cb18ee8553940869708ec1a54de4dc9
 msgid "必填"
 msgstr "Required"
 
 #: ../../source/user-guide/hyperparameter-search.md:7
-#: 4cf050b13f324b2697a243e92ccf8662
+#: f094ad3388e94242be236fa6964dfdfb
 msgid "模型名称"
 msgstr "Model name"
 
 #: ../../source/user-guide/hyperparameter-search.md:7
-#: 0733eeb9388e477686db20669efe3c0e
-msgid "``-d, --dataset``"
-msgstr "``-d, --dataset``"
+#: 3be7e14104f642fb8f2ed5e7e5088d87
+msgid "``-d, --data.dataset``"
+msgstr "``-d, --data.dataset``"
 
 #: ../../source/user-guide/hyperparameter-search.md:7
-#: 718c9dfc559f4689b55e6060bfb1dc4c
+#: 2d00f1e634694ac0a0a88fd418c6d840
 msgid "数据集名称"
 msgstr "Dataset name"
 
 #: ../../source/user-guide/hyperparameter-search.md:7
-#: 89fc97c2e39a482bac4dcf7426292d6c
-msgid "``--optuna_config``"
-msgstr "``--optuna_config``"
+#: 8e96afaed2e547d5bd3265fd0d41efaa
+msgid "``--optuna_search.optuna_config``"
+msgstr "``--optuna_search.optuna_config``"
 
 #: ../../source/user-guide/hyperparameter-search.md:7
-#: 3c1375277092480587a662c9a8ea9fec
-msgid "``./configs/optuna/optuna_config.json``"
-msgstr "``./configs/optuna/optuna_config.json``"
+#: 8e96afaed2e547d5bd3265fd0d41efaa
+msgid "``./configs/optuna/optuna_config.yaml``"
+msgstr "``./configs/optuna/optuna_config.yaml``"
 
 #: ../../source/user-guide/hyperparameter-search.md:7
-#: a692a40703fe4430a8d308e3171f7df6
+#: 43804318f8594757b1039adea423e7cd
 msgid "Optuna 配置路径"
 msgstr "Optuna configuration path"
 
 #: ../../source/user-guide/hyperparameter-search.md:7
-#: 35872f8c9239408f83d9b4dd865d1859
-msgid "``--param_space``"
-msgstr "``--param_space``"
+#: d2888460ff824be3a2bac1dc258d21ca
+msgid "``--optuna_search.metric``"
+msgstr "``--optuna_search.metric``"
 
 #: ../../source/user-guide/hyperparameter-search.md:7
-#: 7d24ecda1590447eae2d230beb8d45bc
-msgid "``./configs/optuna/param_space_<model>.json``"
-msgstr "``./configs/optuna/param_space_<model>.json``"
+#: 4d3fdd9175334c03a6d38cc05de61972
+msgid "``auc``"
+msgstr "``auc``"
 
 #: ../../source/user-guide/hyperparameter-search.md:7
-#: fe4b6064a7df4b198ba3c6308205028e
-msgid "参数空间路径"
-msgstr "Parameter space path"
+#: cdaca79983a444039fbc6912ebdc4485
+msgid "目标指标，逗号分隔（auc/acc/auprc/rmse/loss；多个启用多目标搜索）"
+msgstr ""
+"Target metric(s), comma-separated (auc/acc/auprc/rmse/loss; multiple values "
+"enable multi-objective search)"
 
 #: ../../source/user-guide/hyperparameter-search.md:7
-#: 71a22481eaad4f8c8f87c5a69c44568d
-msgid "``--metric``"
-msgstr "``--metric``"
+#: d2888460ff824be3a2bac1dc258d21ca
+msgid "``--optuna_search.resume``"
+msgstr "``--optuna_search.resume``"
 
 #: ../../source/user-guide/hyperparameter-search.md:7
-#: a08864082788435b8fdb89a01ce6517b
-msgid "auc"
-msgstr "auc"
+#: 07ef488a747946f59911532dc01ac929
+msgid "无"
+msgstr "None"
 
 #: ../../source/user-guide/hyperparameter-search.md:7
-#: e580de73ce3b48b48c6dbe64dcd8cfb0
-msgid "目标指标（auc/acc/rmse/loss）"
-msgstr "Target metric (auc/acc/rmse/loss)"
+#: 7000ab1dd81b4305a3ea60e0296bfcd4
+msgid "从 run 目录恢复搜索（复用 study.db）"
+msgstr "Resume the search from its run directory (reuses study.db)"
 
-#: ../../source/user-guide/hyperparameter-search.md:34
-#: 5565eee7712d429e8aeed1baab04b698
+#: ../../source/user-guide/hyperparameter-search.md:7
+#: 9315f4dfa99f49728972102c3ca39d2a
+msgid "``--optuna_search.keep_trial_artifacts``"
+msgstr "``--optuna_search.keep_trial_artifacts``"
+
+#: ../../source/user-guide/hyperparameter-search.md:7
+#: 337d0a855bb64f739f1823ac040830ec
+msgid "``false``"
+msgstr "``false``"
+
+#: ../../source/user-guide/hyperparameter-search.md:7
+#: 0819700599f2473d99cb5d95879e8e67
+msgid "保留每 trial 的 SwanLab 追踪、checkpoint 与测试评估"
+msgstr "Keep per-trial SwanLab tracking, checkpoints, and test evaluation"
+
+#: ../../source/user-guide/hyperparameter-search.md:7
+#: 51ccd4552b594c7aa6188c7bfa49c778
+msgid "``--optuna_search.output_dir``"
+msgstr "``--optuna_search.output_dir``"
+
+#: ../../source/user-guide/hyperparameter-search.md:7
+#: 51f8685795b04639a6dcf17efdd4d520
+msgid "时间戳目录"
+msgstr "Timestamped directory"
+
+#: ../../source/user-guide/hyperparameter-search.md:7
+#: 9c36305731e4401aadc82ed22ec78ead
+msgid "固定输出目录（study.db/trial 子目录/CSV），供外部调用方定位"
+msgstr "Fixed output directory (study.db/trial subdirs/CSV) for external callers"
+
+#: ../../source/user-guide/hyperparameter-search.md:35
+#: fdf2e3e3bbbe49dfb44b1717a90aeca3
+#, python-brace-format
+msgid ""
+"其余 RunConfig 反射 flag（``--model.*`` / ``--data.*`` / ``--general.*``）与 "
+"``train.py`` 相同；``optuna_search.py --help`` 查看完整参考。搜索空间由模型 "
+"``ModelConfig`` 字段上的 ``metadata={'optuna': ...}`` 注解派生，无需单独的参数空间文件。"
+msgstr ""
+"The remaining reflective RunConfig flags (``--model.*`` / ``--data.*`` / "
+"``--general.*``) match ``train.py``; run ``optuna_search.py --help`` for the "
+"full reference. The search space is derived from the ``metadata={'optuna': "
+"...}`` annotations on the model's ``ModelConfig`` fields — no separate "
+"parameter-space file is needed."
+
+#: ../../source/user-guide/hyperparameter-search.md:38
+#: cadde00ceaf24f5db079d4ef2ca0be9e
 msgid "Optuna 配置"
 msgstr "Optuna configuration"
 
-#: ../../source/user-guide/hyperparameter-search.md:36
-#: c121221568ed4b98971081f90b03dfc6
+#: ../../source/user-guide/hyperparameter-search.md:40
+#: ec940cc0ef81495fb5028cc224e5119a
 msgid "在 ``configs/optuna/optuna_config.json`` 中配置搜索设置："
 msgstr "Configure search settings in ``configs/optuna/optuna_config.json``:"
 
-#: ../../source/user-guide/hyperparameter-search.md:61
-#: 539611d8698e41bb8862a67f2ede6c58
+#: ../../source/user-guide/hyperparameter-search.md:65
+#: be63218bf422416fa609e74fafc39a81
 msgid "**配置选项说明：**"
 msgstr "**Configuration option reference:**"
 
 #: ../../source/user-guide/hyperparameter-search.md:7
-#: e40403a7ad0d4b4ca6b82d2cdbf08a0f
+#: b76b74ec3472499aa42ee0bde915e194
 msgid "选项"
 msgstr "Option"
 
 #: ../../source/user-guide/hyperparameter-search.md:7
-#: e53c95e4d715480899bc9591aa816115
+#: 83bc7f0f12454202bf700d420d79234c
 msgid "``n_trials``"
 msgstr "``n_trials``"
 
 #: ../../source/user-guide/hyperparameter-search.md:7
-#: f93d8151a5474aa9bee10ab6e16fd45e
+#: 704392e66a3b4c0cbf886ba8ef6b6f14
 msgid "运行的 trial 数量"
 msgstr "Number of trials to run"
 
 #: ../../source/user-guide/hyperparameter-search.md:7
-#: 79f3a7c383f147159b388d38cf3f42d2
+#: 24539af2bc2f494bacd34137d02f7ab8
 msgid "``n_jobs``"
 msgstr "``n_jobs``"
 
 #: ../../source/user-guide/hyperparameter-search.md:7
-#: 120c84cc87d94408801aa3f373222076
+#: 0f68cfec760e4696a4ada94fd9330639
 msgid "并行任务数（1 = 串行）"
 msgstr "Number of parallel jobs (1 = sequential)"
 
 #: ../../source/user-guide/hyperparameter-search.md:7
-#: d794f5ca1fc747e28d8462c42aca3a0e
+#: c15a06ce53ef4f138526316320ead5ed
 msgid "``timeout``"
 msgstr "``timeout``"
 
 #: ../../source/user-guide/hyperparameter-search.md:7
-#: ead38e526c624ae6ba832c468ab130fe
+#: d0fcafb49a014794b261edbdc817d9aa
 msgid "超时秒数（null = 无限制）"
 msgstr "Timeout in seconds (null = unlimited)"
 
 #: ../../source/user-guide/hyperparameter-search.md:7
-#: d2e809a46bbb40edb1558ee71bf2da60
+#: 7fdb0f88786343c48ce5870e14664b80
 msgid "``directions``"
 msgstr "``directions``"
 
 #: ../../source/user-guide/hyperparameter-search.md:7
-#: ca3f0a7c069c4bb5ad2f62b9958492e8
+#: 5216ba7f898a4ba59984c8debaa366d7
 msgid "优化方向（``maximize`` 或 ``minimize``）"
 msgstr "Optimization direction (``maximize`` or ``minimize``)"
 
 #: ../../source/user-guide/hyperparameter-search.md:7
-#: 291a3a8e3ec044b58904e70873a8bc07
+#: abf2807f62e84e12acd836885bc399fe
 msgid "``db_url``"
 msgstr "``db_url``"
 
 #: ../../source/user-guide/hyperparameter-search.md:7
-#: 35b15fa7be5145aaa5e1c90c752928de
+#: 3a3a8794211943c09e9bf9f670bef265
 msgid "持久化数据库 URL（null = 内存模式）"
 msgstr "Persistent database URL (null = in-memory mode)"
 
-#: ../../source/user-guide/hyperparameter-search.md:72
-#: ee3a1c9b1f054352bec61f994964162c
+#: ../../source/user-guide/hyperparameter-search.md:76
+#: 28ddf4db9b28437387e4aabc9ef99309
 msgid "搜索空间配置"
 msgstr "Search space configuration"
 
-#: ../../source/user-guide/hyperparameter-search.md:74
-#: d84e232ae656462fa810dd35a32d22b4
+#: ../../source/user-guide/hyperparameter-search.md:78
+#: f544f7bfe9a94d9187824ddd84ad359f
 msgid "搜索空间在 ``configs/optuna/param_space_<model>.json`` 中定义为**数组**："
-msgstr "The search space is defined as an **array** in ``configs/optuna/param_space_<model>.json``:"
+msgstr ""
+"The search space is defined as an **array** in "
+"``configs/optuna/param_space_<model>.json``:"
 
-#: ../../source/user-guide/hyperparameter-search.md:103
-#: 6e6fe1315b2840199aae6fc1fa4ad79c
+#: ../../source/user-guide/hyperparameter-search.md:107
+#: 95a3acb91c56436a86c082f6f482ad64
 msgid "**分布类型：**"
 msgstr "**Distribution types:**"
 
 #: ../../source/user-guide/hyperparameter-search.md:7
-#: de0bdb6cd2cc4343a02b68a492ffb6c3
+#: 164411e1d0bd45f58b755587f6018321
 msgid "类型"
 msgstr "Type"
 
 #: ../../source/user-guide/hyperparameter-search.md:7
-#: a323cb0e42ee4780b558205e27d23109
+#: bd2f0810e2114eb9adbca1d13379c949
 msgid "必填字段"
 msgstr "Required fields"
 
 #: ../../source/user-guide/hyperparameter-search.md:7
-#: d2320356e96a4169b7b623e186bc4a48
+#: 47e5ba5c58f94500ad858c439078bd7b
 msgid "可选字段"
 msgstr "Optional fields"
 
 #: ../../source/user-guide/hyperparameter-search.md:7
-#: ba0e8a437a294c67b160058d16f623e8
+#: 337d0a855bb64f739f1823ac040830ec
 msgid "``float``"
 msgstr "``float``"
 
 #: ../../source/user-guide/hyperparameter-search.md:7
-#: 28523ddc8c0243cea20ecbb5a6c89357 f0586b74532248cfaa1681a053c166d7
+#: d2a352019c9b41bf9366fd06bfc3713b
 msgid "``low``, ``high``"
 msgstr "``low``, ``high``"
 
 #: ../../source/user-guide/hyperparameter-search.md:7
-#: 8b14f5b885354df59b4bce899eea0e34 b64090f3a3c44121a6c4a85174d2bb94
+#: 4d3fdd9175334c03a6d38cc05de61972
 msgid "``log``"
 msgstr "``log``"
 
 #: ../../source/user-guide/hyperparameter-search.md:7
-#: 852f04b38195428e8206dd8b1582362d
+#: 113afe74496c4027a8027bf14e04e80c
 msgid "浮点参数"
 msgstr "Float parameter"
 
 #: ../../source/user-guide/hyperparameter-search.md:7
-#: 3ef0e962fcac49cda177476034456e27
+#: 45682e1d7d7d4d0595f6a821a3379c76
 msgid "``int``"
 msgstr "``int``"
 
 #: ../../source/user-guide/hyperparameter-search.md:7
-#: 738e01eb1e2745b6b2ef607f9676edb1
+#: 66aea30a28804024a7914519a51e3b75
 msgid "整数参数"
 msgstr "Integer parameter"
 
 #: ../../source/user-guide/hyperparameter-search.md:7
-#: 51f507787fc84361b0d36ee5999caab2
+#: 77c786d97aa84bc89ecde09e9e9a3540
 msgid "``categorical``"
 msgstr "``categorical``"
 
 #: ../../source/user-guide/hyperparameter-search.md:7
-#: 430adb8c77c34faead297c02f6fa5922
+#: 44c4e57d53b24614b3238cd9141f3e64
 msgid "``choices``"
 msgstr "``choices``"
 
 #: ../../source/user-guide/hyperparameter-search.md:7
-#: d5bb8670fd304d1d84bebb6332b6f1ce
+#: e6476f5ae8974c8baa64812a00b79634
 msgid "-"
 msgstr "-"
 
 #: ../../source/user-guide/hyperparameter-search.md:7
-#: 44a7c72210f74b809278d97590fe0d37
+#: 37f2a901569740c99ee248467e3363c3
 msgid "类别选择"
 msgstr "Categorical choice"
 
-#: ../../source/user-guide/hyperparameter-search.md:112
-#: 6f8b0662487047eba3af6792924c1390
+#: ../../source/user-guide/hyperparameter-search.md:116
+#: b303e10b68344ff8ab4455e29a7d5484
 msgid "**注意：** 每个参数必须包含 ``name`` 和 ``default`` 字段。"
 msgstr "**Note:** Each parameter must include the ``name`` and ``default`` fields."
 
-#: ../../source/user-guide/hyperparameter-search.md:114
-#: 2f907dd155f642d08ebb7079ccff4541
+#: ../../source/user-guide/hyperparameter-search.md:118
+#: d757afc6d8484aa5acd05dfd856316f7
 msgid "输出"
 msgstr "Output"
 
-#: ../../source/user-guide/hyperparameter-search.md:116
-#: 37235f13488948558fbffcae7aeccf7f
+#: ../../source/user-guide/hyperparameter-search.md:120
+#: 5123138b256e4990b20d830a2bf2bff2
 msgid "结果保存在 ``runs/hyperparam_search/<study_name>_<timestamp>/``："
-msgstr "Results are saved under ``runs/hyperparam_search/<study_name>_<timestamp>/``:"
+msgstr ""
+"Results are saved under "
+"``runs/hyperparam_search/<study_name>_<timestamp>/``:"
 
-#: ../../source/user-guide/hyperparameter-search.md:125
-#: 61b0369c6b5e4c63aa8b3bf34a428c9a
+#: ../../source/user-guide/hyperparameter-search.md:129
+#: 2b754af4d06f48788ba89b40f2fff226
 msgid "并行搜索"
 msgstr "Parallel search"
 
-#: ../../source/user-guide/hyperparameter-search.md:127
-#: 75280f15a8274becb44a2cb6b4b35762
+#: ../../source/user-guide/hyperparameter-search.md:131
+#: c338cab4a88040ed86c792542809c9c4
 msgid "多个 worker 共享同一数据库运行："
 msgstr "Multiple workers share the same database to run together:"
 
-#: ../../source/user-guide/hyperparameter-search.md:139
-#: f945d098f6554b9e896a34de13d1d083
+#: ../../source/user-guide/hyperparameter-search.md:143
+#: 01748072e5d34b37991fd2d5ef07a8f8
 msgid "**注意：** 并行搜索需要在配置中设置 ``db_url``："
-msgstr "**Note:** Parallel search requires ``db_url`` to be set in the configuration:"
+msgstr ""
+"**Note:** Parallel search requires ``db_url`` to be set in the "
+"configuration:"
 
-#: ../../source/user-guide/hyperparameter-search.md:147
-#: 2ae2c34a42334f11aa2a7c8df26a093f
+#: ../../source/user-guide/hyperparameter-search.md:151
+#: 5d15632e52084a6ba5713ebd9f7b7bcb
 msgid "可视化"
 msgstr "Visualization"
 
-#: ../../source/user-guide/hyperparameter-search.md:166
-#: c866fe9c95a54409a0320a5192b29b82
+#: ../../source/user-guide/hyperparameter-search.md:170
+#: 9aeb156f87d1440cb530a2698d293931
 msgid "最佳实践"
 msgstr "Best practices"
 
-#: ../../source/user-guide/hyperparameter-search.md:168
-#: 4befec863a0f4f4eaa0f455855e09a2c
+#: ../../source/user-guide/hyperparameter-search.md:172
+#: e89b2b434b914d59a7b3527aae3c80f5
 msgid "**从宽范围开始**：初始使用较大的搜索范围"
 msgstr "**Start with a broad range**: use a wide search range initially"
 
-#: ../../source/user-guide/hyperparameter-search.md:169
-#: 484b9a81a22649dbae36a00ee7206057
+#: ../../source/user-guide/hyperparameter-search.md:173
+#: caff9a2180594f669b12ce249ed400d0
 msgid "**迭代优化**：根据重要性分析缩小范围"
 msgstr "**Iterative refinement**: narrow the range based on importance analysis"
 
-#: ../../source/user-guide/hyperparameter-search.md:170
-#: 1bb1cb7e3f3d499baeca07e0b07d1d00
+#: ../../source/user-guide/hyperparameter-search.md:174
+#: f10306e1353e4b16bedd40200170be12
 msgid "**并行化**：使用 SQLite 存储进行多 worker 搜索"
 msgstr "**Parallelize**: use SQLite storage for multi-worker search"
 
-#: ../../source/user-guide/hyperparameter-search.md:171
-#: 162a581070614bca8695c3d124bbfcc4
+#: ../../source/user-guide/hyperparameter-search.md:175
+#: 55311fcc639040cd8b2a0778ffdd5273
 msgid "**监控**：通过 SwanLab 查看中间结果"
 msgstr "**Monitor**: view intermediate results via SwanLab"
 
-#: ../../source/user-guide/hyperparameter-search.md:172
-#: e75f4d16c4e94b3c89bb1c969b7dd117
+#: ../../source/user-guide/hyperparameter-search.md:176
+#: c6a4c2ff4ad04d2f84b48ced118cf84f
 msgid "**早停**：启用 pruner 提前终止无希望的 trial"
 msgstr "**Early stopping**: enable a pruner to terminate unpromising trials early"
+
+#~ msgid "``--param_space``"
+#~ msgstr "``--param_space``"
+
+#~ msgid "``./configs/optuna/param_space_<model>.json``"
+#~ msgstr "``./configs/optuna/param_space_<model>.json``"
+
+#~ msgid "参数空间路径"
+#~ msgstr "Parameter space path"
+
+#~ msgid "``--metric``"
+#~ msgstr "``--metric``"
+
+#~ msgid "auc"
+#~ msgstr "auc"
+

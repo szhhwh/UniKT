@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: UniKT \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-13 16:04+0800\n"
+"POT-Creation-Date: 2026-09-15 12:17+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -253,7 +253,6 @@ msgstr "``--es_restore_best``"
 
 #: ../../source/user-guide/training-evaluation.md:14
 #: 10c5b2e969f24e0fb73d54b458b58cef 459341d218f14fc0941b4c309b59a123
-#: dc5612be756b4b748c186931ee165880
 msgid "False"
 msgstr "False"
 
@@ -281,6 +280,11 @@ msgstr "Skip test evaluation after training"
 #: 0bd5ff28ffde4000a572cb4a6ea22667
 msgid "``--general.deterministic``"
 msgstr "``--general.deterministic``"
+
+#: ../../source/user-guide/training-evaluation.md:14
+#: 2504733ad60547c3893bafd5a85e80eb
+msgid "True"
+msgstr ""
 
 #: ../../source/user-guide/training-evaluation.md:14
 #: e6956c15628343ae855a3810018eb8e2
@@ -381,7 +385,6 @@ msgstr "Gradient clipping"
 #: f22de78e5942484e94e64287ee624fe0
 msgid "跳过测试评估"
 msgstr "Skipping test evaluation"
-
 
 #~ msgid "True"
 #~ msgstr "True"
