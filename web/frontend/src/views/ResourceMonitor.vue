@@ -5,10 +5,6 @@
         <h2 class="page-title">{{ t('route.title.resources') }}</h2>
         <span class="page-sub">{{ t('resources.pageSub') }}</span>
       </div>
-      <div class="live-badge" :class="{ offline: !live }">
-        <span class="live-dot"></span>
-        <span class="live-text">{{ live ? t('resources.liveBadge') : t('resources.offline') }}</span>
-      </div>
     </div>
 
     <el-skeleton :loading="loading" animated>
@@ -213,15 +209,11 @@
         </div>
       </template>
     </el-skeleton>
-
-    <div class="updated-at" v-if="status">
-      {{ t('resources.updatedAt', { time: formatDateTime(status.updated_at) }) }}
-    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, reactive, ref, shallowRef, watch } from 'vue'
+import { computed, reactive, ref, shallowRef, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useDark } from '@vueuse/core'
 import { useQuery } from '@tanstack/vue-query'
@@ -229,7 +221,6 @@ import { Monitor } from '@element-plus/icons-vue'
 import { VChart } from '@/plugins/echarts'
 import { getGpuStatus } from '@/api/gpu'
 import { getResourceHistory, type ResourceSnapshot } from '@/api/resource'
-import { formatDateTime } from '@/utils/date'
 
 const { t } = useI18n()
 
@@ -249,29 +240,11 @@ const sys = reactive({
 const gpuHist = reactive<Record<number, { util: (number | null)[]; vram: (number | null)[] }>>({})
 const snapshot = shallowRef<ResourceSnapshot | null>(null)
 
-const { data: history, isPending: historyPending, isError, dataUpdatedAt } = useQuery({
+const { data: history, isPending: historyPending } = useQuery({
   queryKey: ['resource-history'],
   queryFn: () => getResourceHistory(lastTs.value),
   refetchInterval: 2000,
 })
-
-// A poll failing OR no fresh data for ~4 intervals means the feed is down.
-const STALE_MS = 8000
-const now = ref(Date.now())
-let nowTimer: ReturnType<typeof setInterval> | null = null
-onMounted(() => {
-  nowTimer = setInterval(() => {
-    now.value = Date.now()
-  }, 1000)
-})
-onUnmounted(() => {
-  if (nowTimer) clearInterval(nowTimer)
-})
-const live = computed(
-  () =>
-    !isError.value &&
-    (dataUpdatedAt.value === 0 || now.value - dataUpdatedAt.value < STALE_MS),
-)
 
 watch(history, (d) => {
   if (!d) return
@@ -580,44 +553,6 @@ const tempColor = (temp: number) => {
   color: var(--text-tertiary);
 }
 
-.live-badge {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-shrink: 0;
-}
-
-.live-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--accent-green);
-  animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
-}
-
-.live-text {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--accent-green);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  font-family: var(--font-mono);
-}
-
-.live-badge.offline .live-dot {
-  background: var(--accent-red);
-  animation: none;
-}
-
-.live-badge.offline .live-text {
-  color: var(--accent-red);
-}
-
 .sys-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -863,13 +798,6 @@ const tempColor = (temp: number) => {
   color: var(--text-tertiary);
 }
 
-.updated-at {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--text-tertiary);
-  text-align: right;
-}
-
 .occupancy {
   display: flex;
   flex-direction: column;
@@ -934,7 +862,6 @@ const tempColor = (temp: number) => {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .live-dot { animation: none; }
   .progress-fill { transition: none; }
   .core-bar { transition: none; }
 }

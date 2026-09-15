@@ -366,8 +366,6 @@ export default {
   },
   resources: {
     pageSub: 'Live CPU · memory · network · disk · GPU monitoring',
-    liveBadge: 'Live',
-    offline: 'Offline',
     collecting: 'Collecting data…',
     cpu: 'CPU',
     load: 'Load avg',
@@ -380,7 +378,6 @@ export default {
     diskRead: 'Read',
     diskWrite: 'Write',
     gpuSection: 'GPU',
-    updatedAt: 'Updated {time}',
   },
   gpu: {
     utilization: 'Utilization',
