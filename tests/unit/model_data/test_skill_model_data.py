@@ -8,6 +8,8 @@ train/val/test share one id space.
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING, Any, cast
+
 import numpy as np
 import polars as pl
 import pyarrow as pa
@@ -15,10 +17,17 @@ import pyarrow.parquet as pq
 import pytest
 import torch
 
+from utils.data_process import DataSource
 from utils.model_data.skill_model_data import (
     SkillModelData,
     WindowlateIterableDataset,
 )
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
+    from pathlib import Path
+
+    from utils.config.run_config import RunConfig
 
 # --- WindowlateIterableDataset ------------------------------------------------
 
@@ -27,7 +36,9 @@ class TestWindowlateIterableDatasetUserId:
     """7-tuple output contract: user_id last, real id on window positions."""
 
     @pytest.fixture
-    def dataset(self, write_windowlate_parquet) -> WindowlateIterableDataset:
+    def dataset(
+        self, write_windowlate_parquet: Callable[..., str]
+    ) -> WindowlateIterableDataset:
         # One sample, window length 3: positions 0..2, target at 2.
         # user_id 42 differs from any buffer/pad default to catch misalignment.
         path = write_windowlate_parquet(
@@ -46,7 +57,7 @@ class TestWindowlateIterableDatasetUserId:
         )
         return WindowlateIterableDataset(path, max_seq_len=4)
 
-    def test_tuple_shape_and_dtypes(self, dataset):
+    def test_tuple_shape_and_dtypes(self, dataset: WindowlateIterableDataset) -> None:
         sample = next(iter(dataset))
         assert len(sample) == 7
         seq, resp, mask, gid, label, q, uid = sample
@@ -58,12 +69,16 @@ class TestWindowlateIterableDatasetUserId:
         assert q.dtype == torch.int64
         assert uid.dtype == torch.int64 and uid.shape == (4,)
 
-    def test_user_id_scattered_on_window_positions(self, dataset):
+    def test_user_id_scattered_on_window_positions(
+        self, dataset: WindowlateIterableDataset
+    ) -> None:
         *_, user_id = next(iter(dataset))
         # Window positions 0..2 carry the real id; tail pad position 3 keeps 0.
         assert user_id.tolist() == [42, 42, 42, 0]
 
-    def test_user_id_not_present_in_first_six(self, dataset):
+    def test_user_id_not_present_in_first_six(
+        self, dataset: WindowlateIterableDataset
+    ) -> None:
         # Guards against reordering: first six slots keep their original
         # semantics (skill / response / target-mask / group / label / question).
         seq, resp, mask, gid, label, q, _ = next(iter(dataset))
@@ -75,8 +90,8 @@ class TestWindowlateIterableDatasetUserId:
         assert q.tolist() == [5, 6, 7, 0]
 
     def test_multiple_samples_user_id_constant_within_window(
-        self, write_windowlate_parquet
-    ):
+        self, write_windowlate_parquet: Callable[..., str]
+    ) -> None:
         path = write_windowlate_parquet(
             "wl2.parquet",
             {
@@ -97,7 +112,9 @@ class TestWindowlateIterableDatasetUserId:
         assert samples[0][-1].tolist() == [7, 7, 7, 0, 0, 0, 0, 0]
         assert samples[1][-1].tolist() == [9, 9, 0, 0, 0, 0, 0, 0]
 
-    def test_len_counts_samples(self, write_windowlate_parquet):
+    def test_len_counts_samples(
+        self, write_windowlate_parquet: Callable[..., str]
+    ) -> None:
         path = write_windowlate_parquet(
             "wl3.parquet",
             {
@@ -138,16 +155,20 @@ class TestBuildSequenceDataOriginalUser:
             }
         )
 
-    def _make(self, frame):
+    def _make(self, frame: pl.DataFrame) -> SkillModelData:
         # Reuse the conftest factory pattern: concrete subclass + stub source.
         from tests.unit.model_data.conftest import StubDataSource
 
         class _Concrete(SkillModelData):
-            def prepare_data(self, rc): ...
+            def prepare_data(self, rc: RunConfig) -> None: ...
 
-        return _Concrete(StubDataSource(frame, {"max_seq_len": 3, "num_users": 10}))
+        return _Concrete(
+            cast(DataSource, StubDataSource(frame, {"max_seq_len": 3, "num_users": 10}))
+        )
 
-    def test_user_id_sequence_carries_original_ids(self, split_frame):
+    def test_user_id_sequence_carries_original_ids(
+        self, split_frame: pl.DataFrame
+    ) -> None:
         model_data = self._make(split_frame)
         _, _, _, user_id_sequence, _ = model_data.build_sequence_data()
         assert user_id_sequence.shape == (3, 3)
@@ -156,7 +177,7 @@ class TestBuildSequenceDataOriginalUser:
         assert user_id_sequence[1].tolist() == [9, 9, 0]
         assert user_id_sequence[2].tolist() == [5, 5, 0]
 
-    def test_missing_user_column_raises(self):
+    def test_missing_user_column_raises(self) -> None:
         # No backward compatibility: legacy split frames without the column
         # fail fast on data access.
         frame = pl.DataFrame(
@@ -179,7 +200,7 @@ class TestBuildSequenceDataOriginalUser:
 class TestLoadWindowlateDataOrder:
     """user_id moved to the tuple tail, matching the iterable dataset order."""
 
-    def _write_parquet(self, tmp_path) -> str:
+    def _write_parquet(self, tmp_path: Path) -> str:
         path = tmp_path / "stub_windowlate.parquet"
         pq.write_table(
             pa.table(
@@ -199,7 +220,9 @@ class TestLoadWindowlateDataOrder:
         )
         return str(path)
 
-    def test_tuple_order(self, tmp_path, make_skill_model_data):
+    def test_tuple_order(
+        self, tmp_path: Path, make_skill_model_data: Callable[..., SkillModelData]
+    ) -> None:
         import polars as pl
 
         path = self._write_parquet(tmp_path)
@@ -219,7 +242,9 @@ class TestLoadWindowlateDataOrder:
         assert mask[0].tolist() == [0, 0, 1, 0]
         assert gid[1].tolist() == [2, 2, -1, -1]
 
-    def test_missing_windowlate_data_raises(self, make_skill_model_data):
+    def test_missing_windowlate_data_raises(
+        self, make_skill_model_data: Callable[..., SkillModelData]
+    ) -> None:
         model_data = make_skill_model_data(windowlate_data=None)
         with pytest.raises(ValueError):
             model_data.load_windowlate_data(max_seq_len=4)
@@ -236,19 +261,21 @@ class TestSplitPipelineOriginalUserColumn:
         from utils.data_process.data_source import DataSource
 
         class _MinimalDS(DataSource):
-            def load_src_data(self): ...
-            def transform_data(self): ...
-            def clean_raw_data(self): ...
+            def load_src_data(self) -> None: ...
+            def transform_data(self) -> None: ...
+            def clean_raw_data(self) -> None: ...
 
         ds = _MinimalDS.__new__(_MinimalDS)
         ds.args = type(
             "Args", (), {"max_seq_len": max_seq_len, "min_seq_len": min_seq_len}
         )()
         ds.sequence_data = frame
-        ds.relation_data = None
+        # expand_skills=False path never reads relation_data; None keeps
+        # the fixture honest about the unprepared state.
+        ds.relation_data = cast(Any, None)
         return ds._build_split_sequences(expand_skills=False)
 
-    def test_user_column_present_and_matches_source(self):
+    def test_user_column_present_and_matches_source(self) -> None:
         frame = pl.DataFrame(
             {
                 "user": [0, 0, 0, 1, 1],
@@ -266,7 +293,7 @@ class TestSplitPipelineOriginalUserColumn:
         assert out["user"].to_list() == [0, 0, 0, 1, 1]
         assert out["seq_pos"].to_list() == [0, 1, 0, 0, 1]
 
-    def test_empty_input_keeps_schema(self):
+    def test_empty_input_keeps_schema(self) -> None:
         frame = pl.DataFrame(
             {
                 "user": pl.Series([], dtype=pl.Int32),
@@ -281,7 +308,7 @@ class TestSplitPipelineOriginalUserColumn:
         assert "original_user" not in out.columns
         assert out.height == 0
 
-    def test_min_seq_len_drop_keeps_global_id_order(self):
+    def test_min_seq_len_drop_keeps_global_id_order(self) -> None:
         # user 0: 4 interactions -> two full splits (ids 0,1); user 1: 1
         # interaction -> dropped by min_seq_len=2 -> user 2's single split
         # takes dense id 2 (ids stay dense, ordered by (user, split_idx)).

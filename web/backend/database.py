@@ -10,6 +10,7 @@ import sqlite3
 from config import DATABASE_PATH, PREPROCESS_LOGS_DIR, TASK_LOGS_DIR
 from sqlalchemy import create_engine, event
 from sqlalchemy.orm import DeclarativeBase, sessionmaker
+from sqlalchemy.pool import ConnectionPoolEntry
 
 
 class Base(DeclarativeBase):
@@ -31,7 +32,9 @@ engine = create_engine(
 SessionLocal = sessionmaker(bind=engine)
 
 
-def _on_connect(dbapi_connection, _connection_record):
+def _on_connect(
+    dbapi_connection: sqlite3.Connection, _connection_record: ConnectionPoolEntry
+) -> None:
     """Configure WAL, NORMAL synchronous, and a busy timeout on connection."""
     dbapi_connection.execute("PRAGMA journal_mode=WAL")
     dbapi_connection.execute("PRAGMA synchronous=NORMAL")
@@ -41,7 +44,7 @@ def _on_connect(dbapi_connection, _connection_record):
 event.listen(engine, "connect", _on_connect)
 
 
-def init_db():
+def init_db() -> None:
     """Create the database directory, log directories, and tables if absent."""
     DATABASE_PATH.parent.mkdir(parents=True, exist_ok=True)
     TASK_LOGS_DIR.mkdir(parents=True, exist_ok=True)

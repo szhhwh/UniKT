@@ -1,6 +1,7 @@
 """KDD Cup 2010 datasets (Algebra 2005/2006, Bridge to Algebra 2006)."""
 
 import os
+from typing import Any
 
 import polars as pl
 from typing_extensions import override
@@ -23,7 +24,7 @@ class KDDCup2010Base(DataSource):
 
     skill_column: str  # Subclass must set: e.g. "KC(Default)" or "KC(SubSkills)"
 
-    def __init__(self, args, dataset: str, raw_filename: str):
+    def __init__(self, args: Any, dataset: str, raw_filename: str) -> None:
         """Initialize the KDD Cup 2010 base dataset handler."""
         super().__init__(
             dataset=dataset,
@@ -35,7 +36,7 @@ class KDDCup2010Base(DataSource):
         self.raw_data_path = os.path.join(self.data_folder, "raw", raw_filename)
 
     @override
-    def load_src_data(self):
+    def load_src_data(self) -> None:
         if not os.path.exists(self.raw_data_path):
             raise FileNotFoundError(f"Cannot find: {self.raw_data_path}")
         logger.info(f"Loading raw data from: {self.raw_data_path}")
@@ -48,7 +49,7 @@ class KDDCup2010Base(DataSource):
         )
 
     @override
-    def clean_raw_data(self):
+    def clean_raw_data(self) -> None:
         if self.raw_data is None:
             self.load_src_data()
 
@@ -172,7 +173,7 @@ class KDDCup2010Base(DataSource):
         self.cleaned_raw_data = data
 
     @override
-    def transform_data(self):
+    def transform_data(self) -> None:
         logger.info(f"Processing {self.dataset} data...")
 
         if self.cleaned_raw_data is None:
@@ -249,7 +250,7 @@ class Algebra2005Data(KDDCup2010Base):
 
     skill_column = "KC(Default)"
 
-    def __init__(self, args):
+    def __init__(self, args: Any) -> None:
         """Initialize the Algebra 2005-2006 dataset handler."""
         super().__init__(
             args=args,
@@ -267,7 +268,7 @@ class Algebra2006Data(KDDCup2010Base):
 
     skill_column = "KC(Default)"
 
-    def __init__(self, args):
+    def __init__(self, args: Any) -> None:
         """Initialize the Algebra 2006-2007 dataset handler."""
         super().__init__(
             args=args,
@@ -285,7 +286,7 @@ class Bridge2006Data(KDDCup2010Base):
 
     skill_column = "KC(SubSkills)"
 
-    def __init__(self, args):
+    def __init__(self, args: Any) -> None:
         """Initialize the Bridge to Algebra 2006-2007 dataset handler."""
         super().__init__(
             args=args,

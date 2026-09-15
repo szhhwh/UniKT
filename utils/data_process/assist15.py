@@ -1,6 +1,7 @@
 """ASSISTments 2015 skill builders dataset handler."""
 
 import os
+from typing import Any
 
 import polars as pl
 from typing_extensions import override
@@ -27,7 +28,7 @@ class Assistments2015Data(DataSource):
     as both question and skill (standard approach in KT literature).
     """
 
-    def __init__(self, args):
+    def __init__(self, args: Any) -> None:
         """Initialize the ASSISTments 2015 dataset handler."""
         super().__init__(
             dataset="assistments15",
@@ -41,7 +42,7 @@ class Assistments2015Data(DataSource):
         )
 
     @override
-    def load_src_data(self):
+    def load_src_data(self) -> None:
         if not os.path.exists(self.raw_data_path):
             raise FileNotFoundError(f"Cannot find: {self.raw_data_path}")
         logger.info(f"Loading raw data from: {self.raw_data_path}")
@@ -53,7 +54,7 @@ class Assistments2015Data(DataSource):
         ).lazy()
 
     @override
-    def transform_data(self):
+    def transform_data(self) -> None:
         """Clean data and build question_data and sequence_data."""
         logger.info("Processing ASSISTments 2015 data...")
 
@@ -112,7 +113,7 @@ class Assistments2015Data(DataSource):
         }
         self.sequence_data = sequence_data
 
-    def clean_raw_data(self):
+    def clean_raw_data(self) -> None:
         """Clean raw sequence data."""
         if self.raw_data is None:
             self.load_src_data()

@@ -6,9 +6,11 @@ which stages exist. ``environment`` is collected once as shared context, and the
 background ``ResourceSampler`` spans all stages.
 """
 
+from __future__ import annotations
+
 from datetime import datetime
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from utils.config import config_to_dict
 from utils.core import (
@@ -19,6 +21,11 @@ from utils.core import (
     seed_everything,
 )
 
+if TYPE_CHECKING:
+    from utils.config import RunConfig
+    from utils.data_process import DataSource
+    from utils.experiment_manager import ExperimentManager
+
 from .device import reclaim_memory
 from .environment import ResourceSampler, collect_environment
 from .measures.batch import (
@@ -27,13 +34,18 @@ from .measures.batch import (
     to_device,
 )
 from .report import EfficiencyReport
-from .stages.base import EfficiencyStage, StageContext
+from .stages.base import BenchmarkTarget, EfficiencyStage, StageContext
 from .target import TrainerBenchmarkAdapter
 
 logger = get_logger(__name__)
 
 
-def build_target(rc, data_src, exp_manager, weights_path: str | None = None):
+def build_target(
+    rc: RunConfig,
+    data_src: DataSource,
+    exp_manager: ExperimentManager,
+    weights_path: str | None = None,
+) -> TrainerBenchmarkAdapter:
     """Build a trainer from ``rc`` and wrap it as a :class:`BenchmarkTarget`.
 
     Shared by the single-run entry and the per-point sweep so the two never
@@ -54,7 +66,11 @@ class EfficiencySession:
     """Coordinate one efficiency benchmark run over the enabled stages."""
 
     def __init__(
-        self, target, rc, eff_cfg, output_dir: str | Path | None = None
+        self,
+        target: BenchmarkTarget,
+        rc: RunConfig,
+        eff_cfg: Any,
+        output_dir: str | Path | None = None,
     ) -> None:
         """Bind the benchmark target, run config, and enabled stages."""
         self.target = target

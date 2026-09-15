@@ -5,6 +5,9 @@ tree is never scanned, keeping the tests hermetic and torch-free.
 """
 
 import sys
+from collections.abc import Iterator
+from pathlib import Path
+from typing import Any
 
 import pytest
 
@@ -16,7 +19,7 @@ from utils.core.discovery import (
 from utils.core.registry import UniversalRegistry
 
 
-def _write_module(root, rel_path, content):
+def _write_module(root: Path, rel_path: str, content: str) -> Path:
     path = root / rel_path
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(content, encoding="utf-8")
@@ -24,12 +27,12 @@ def _write_module(root, rel_path, content):
 
 
 @pytest.fixture
-def pkg_root(tmp_path):
+def pkg_root(tmp_path: Path) -> Path:
     return tmp_path / "utest_scan_pkg"
 
 
 @pytest.fixture(autouse=True)
-def _restore_trainers_index():
+def _restore_trainers_index() -> Iterator[None]:
     """discover_registrations writes into the global TRAINERS index."""
     from utils.core import TRAINERS
 
@@ -43,7 +46,9 @@ def _restore_trainers_index():
 
 
 class TestDiscoverRegistrations:
-    def test_bare_decorator_populates_index(self, pkg_root, registry_snapshot):
+    def test_bare_decorator_populates_index(
+        self, pkg_root: Path, registry_snapshot: None
+    ) -> None:
         from utils.core import TRAINERS
 
         _write_module(
@@ -57,7 +62,9 @@ class TestDiscoverRegistrations:
         discover_registrations(pkg_root, "utest_scan_pkg")
         assert TRAINERS._index["Alpha"] == "utest_scan_pkg.trainer_a"
 
-    def test_nested_directory_dotted_path(self, pkg_root, registry_snapshot):
+    def test_nested_directory_dotted_path(
+        self, pkg_root: Path, registry_snapshot: None
+    ) -> None:
         from utils.core import TRAINERS
 
         _write_module(
@@ -71,7 +78,7 @@ class TestDiscoverRegistrations:
         discover_registrations(pkg_root, "utest_scan_pkg")
         assert TRAINERS._index["Beta"] == "utest_scan_pkg.sub.dir.mod_b"
 
-    def test_init_py_skipped(self, pkg_root, registry_snapshot):
+    def test_init_py_skipped(self, pkg_root: Path, registry_snapshot: None) -> None:
         from utils.core import TRAINERS
 
         _write_module(
@@ -85,8 +92,12 @@ class TestDiscoverRegistrations:
         assert "Gamma" not in TRAINERS._index
 
     def test_syntax_error_skipped_with_warning(
-        self, pkg_root, registry_snapshot, caplog, monkeypatch
-    ):
+        self,
+        pkg_root: Path,
+        registry_snapshot: None,
+        caplog: pytest.LogCaptureFixture,
+        monkeypatch: pytest.MonkeyPatch,
+    ) -> None:
         import logging
 
         from utils.core import TRAINERS
@@ -110,7 +121,9 @@ class TestDiscoverRegistrations:
         assert any("broken.py" in r.getMessage() for r in caplog.records)
         assert "Delta" in TRAINERS._index  # scan continues past the bad file
 
-    def test_nonliteral_argument_ignored(self, pkg_root, registry_snapshot):
+    def test_nonliteral_argument_ignored(
+        self, pkg_root: Path, registry_snapshot: None
+    ) -> None:
         from utils.core import TRAINERS
 
         _write_module(
@@ -124,7 +137,9 @@ class TestDiscoverRegistrations:
         discover_registrations(pkg_root, "utest_scan_pkg")
         assert "Epsilon" not in TRAINERS._index
 
-    def test_attribute_call_decorator_ignored(self, pkg_root, registry_snapshot):
+    def test_attribute_call_decorator_ignored(
+        self, pkg_root: Path, registry_snapshot: None
+    ) -> None:
         from utils.core import TRAINERS
 
         _write_module(
@@ -135,7 +150,9 @@ class TestDiscoverRegistrations:
         discover_registrations(pkg_root, "utest_scan_pkg")
         assert "Zeta" not in TRAINERS._index
 
-    def test_function_decorator_ignored(self, pkg_root, registry_snapshot):
+    def test_function_decorator_ignored(
+        self, pkg_root: Path, registry_snapshot: None
+    ) -> None:
         from utils.core import TRAINERS
 
         _write_module(
@@ -148,7 +165,9 @@ class TestDiscoverRegistrations:
         discover_registrations(pkg_root, "utest_scan_pkg")
         assert "Eta" not in TRAINERS._index
 
-    def test_undiscovered_registry_not_populated(self, pkg_root, registry_snapshot):
+    def test_undiscovered_registry_not_populated(
+        self, pkg_root: Path, registry_snapshot: None
+    ) -> None:
         from utils.core import METRIC_LOGGERS
 
         _write_module(
@@ -162,7 +181,9 @@ class TestDiscoverRegistrations:
         # METRIC_LOGGERS has no decorator_name -> invisible to discovery
         assert "Theta" not in METRIC_LOGGERS._index
 
-    def test_duplicate_name_from_two_modules_raises(self, pkg_root, registry_snapshot):
+    def test_duplicate_name_from_two_modules_raises(
+        self, pkg_root: Path, registry_snapshot: None
+    ) -> None:
         _write_module(
             pkg_root,
             "first.py",
@@ -181,8 +202,12 @@ class TestDiscoverRegistrations:
             discover_registrations(pkg_root, "utest_scan_pkg")
 
     def test_round_trip_get_imports_class(
-        self, pkg_root, tmp_path, monkeypatch, registry_snapshot
-    ):
+        self,
+        pkg_root: Path,
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+        registry_snapshot: None,
+    ) -> None:
         from utils.core import TRAINERS
 
         _write_module(
@@ -203,21 +228,25 @@ class TestDiscoverRegistrations:
         monkeypatch.delitem(sys.modules, "utest_scan_pkg.round_trip", raising=False)
 
         discover_registrations(pkg_root, "utest_scan_pkg")
-        assert TRAINERS.get("Kappa").marker == "k"
+        # get() returns a dynamically imported class of unknown shape.
+        kappa_cls: Any = TRAINERS.get("Kappa")
+        assert kappa_cls.marker == "k"
 
 
 # --- helpers ---
 
 
 class TestHelpers:
-    def test_decorator_map_covers_declared_registries(self, registry_snapshot):
+    def test_decorator_map_covers_declared_registries(
+        self, registry_snapshot: None
+    ) -> None:
         UniversalRegistry("utest_map_reg", decorator_name="register_utest_map")
         mapping = _decorator_map()
         assert mapping["register_trainer"]._name == "trainers"
         assert mapping["register_utest_map"]._name == "utest_map_reg"
         assert all(name for name in mapping)
 
-    def test_to_module_path_depths(self, tmp_path):
+    def test_to_module_path_depths(self, tmp_path: Path) -> None:
         from pathlib import Path
 
         root = tmp_path / "pkg"

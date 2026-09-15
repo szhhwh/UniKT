@@ -1,5 +1,6 @@
 """Cohen's Kappa metric."""
 
+import numpy as np
 from sklearn.metrics import cohen_kappa_score
 
 from utils.core import register_metric
@@ -21,6 +22,6 @@ class KappaMetric(Metric):
     requires_two_classes = True
     threshold = 0.5
 
-    def score(self, y_true, y_value):
+    def score(self, y_true: np.ndarray, y_value: np.ndarray) -> float:
         """Return Cohen's Kappa."""
         return float(cohen_kappa_score(y_true, y_value))

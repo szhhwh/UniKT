@@ -9,15 +9,20 @@ table appear automatically.
 import json
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 from rich.console import Console
 from rich.table import Table
 
 from utils.core import EFFICIENCY_STAGES, get_logger
 
-from .environment import RESOURCE_METRICS, EnvironmentInfo, ResourceStats
-from .stages.base import TITLE_STYLE
+from .environment import (
+    RESOURCE_METRICS,
+    EnvironmentInfo,
+    ResourceStats,
+    ResourceSummary,
+)
+from .stages.base import TITLE_STYLE, EfficiencyStage
 
 logger = get_logger(__name__)
 
@@ -77,7 +82,8 @@ class EfficiencyReport:
             result = self.results.get(name)
             if result is None:
                 continue
-            table = EFFICIENCY_STAGES.get(name).format_table(result)
+            stage_cls = cast(type[EfficiencyStage], EFFICIENCY_STAGES.get(name))
+            table = stage_cls.format_table(result)
             if table is not None:
                 console.print(table)
                 console.print()
@@ -128,7 +134,7 @@ def _resource_table(stats: ResourceStats, title: str = "Resource Usage") -> Tabl
     return table
 
 
-def _rs(summary, unit: str = "") -> tuple[str, str]:
+def _rs(summary: ResourceSummary, unit: str = "") -> tuple[str, str]:
     if summary.n == 0:
         return ("—", "—")
     mean = f"{summary.mean:.1f} {unit}".strip()

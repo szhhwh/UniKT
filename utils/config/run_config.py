@@ -14,7 +14,7 @@ Field help lives in each class ``Args:`` docstring; enumerated fields use
 """
 
 from dataclasses import dataclass, field
-from typing import Literal
+from typing import Any, Literal
 
 
 @dataclass
@@ -249,17 +249,20 @@ def build_run_config_schema(model_name: str) -> dict[str, type]:
     return {**_FRAMEWORK_NODES, "model": model_cls}
 
 
-def config_to_dict(config) -> dict:
+def config_to_dict(config: Any) -> dict[str, Any]:
     """Recursively convert a config dataclass (instance or node) to a plain dict.
 
     Used for yaml serialization, metric logging, cache keys, and anywhere a
     config must cross into plain-Python land.
     """
     from dataclasses import asdict, is_dataclass
+    from typing import cast
 
     if config is None:
         return {}
-    return asdict(config) if is_dataclass(config) else dict(config)
+    if is_dataclass(config) and not isinstance(config, type):
+        return cast(dict, asdict(config))
+    return dict(config)
 
 
 __all__ = [

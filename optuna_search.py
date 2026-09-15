@@ -10,13 +10,14 @@ import copy
 import os
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 
 import yaml
 
 import model  # noqa: F401
-from utils.config import ConfigParser, build_node, config_to_dict
+from utils.config import ConfigParser, RunConfig, build_node, config_to_dict
 from utils.core import TRAINERS, add_file_handler, get_logger
-from utils.data_process import get_data_source
+from utils.data_process import DataSource, get_data_source
 from utils.experiment_manager import ExperimentManager, ExperimentType
 from utils.optuna_utils import (
     OptunaTuner,
@@ -58,7 +59,9 @@ class OptunaSearchConfig:
     output_dir: str | None = None
 
 
-def _parse(argv: list[str] | None = None):
+def _parse(
+    argv: list[str] | None = None,
+) -> tuple[RunConfig, OptunaSearchConfig, list[str]]:
     """Parse the reflective RunConfig flags plus the OptunaSearchConfig node.
 
     Returns ``(rc, opt_cfg, metrics)`` with ``metrics`` split from the
@@ -80,7 +83,7 @@ def _parse(argv: list[str] | None = None):
     return rc, opt_cfg, metrics
 
 
-def main():
+def main() -> dict[str, Any]:
     """Main entry point."""
     rc, optuna_args, metrics = _parse()
     model_name = rc.experiment.model_name
@@ -170,7 +173,7 @@ def main():
         f"Searchable params from {model_name}Config: {[s.name for s in param_spaces]}"
     )
 
-    def data_src_factory():
+    def data_src_factory() -> DataSource:
         return get_data_source(search_rc)
 
     trainer_class = TRAINERS.get(model_name)

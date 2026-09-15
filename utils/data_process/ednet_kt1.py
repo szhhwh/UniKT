@@ -1,6 +1,7 @@
 """EdNet-KT1 dataset handler."""
 
 import os
+from typing import Any
 
 import polars as pl
 from typing_extensions import override
@@ -43,7 +44,7 @@ class EdNetKT1Data(DataSource):
     Dataset source: https://github.com/riiid/ednet
     """
 
-    def __init__(self, args):
+    def __init__(self, args: Any) -> None:
         """Initialize the EdNet-KT1 dataset handler."""
         super().__init__(
             dataset="ednet_kt1",
@@ -55,7 +56,7 @@ class EdNetKT1Data(DataSource):
         self.raw_data_folder = os.path.join(self.data_folder, "raw")
 
     @override
-    def load_src_data(self):
+    def load_src_data(self) -> None:
         """Load raw data using Polars lazy evaluation with streaming."""
         self._validate_data_paths()
 
@@ -91,7 +92,7 @@ class EdNetKT1Data(DataSource):
         self.sequence_data_raw = lazy_df.collect(engine="streaming")
         logger.debug(f"Loaded {len(self.sequence_data_raw)} raw interactions.")
 
-    def _validate_data_paths(self):
+    def _validate_data_paths(self) -> None:
         """Validate that required data paths exist."""
         if not os.path.exists(self.raw_data_folder):
             raise FileNotFoundError(f"Cannot find: {self.raw_data_folder}")
@@ -120,7 +121,7 @@ class EdNetKT1Data(DataSource):
         )
         lazy_questions = pl.scan_csv(question_path, try_parse_dates=False)
 
-        question_answer_map = (
+        qa_rows = (
             lazy_questions.select(["question_id", "correct_answer"])
             .filter(
                 pl.col("question_id").is_not_null()
@@ -140,8 +141,8 @@ class EdNetKT1Data(DataSource):
 
         question_answer_map = dict(
             zip(
-                question_answer_map["question_id"],
-                question_answer_map["correct_answer"],
+                qa_rows["question_id"],
+                qa_rows["correct_answer"],
             )
         )
 
@@ -184,7 +185,7 @@ class EdNetKT1Data(DataSource):
         )
 
     @override
-    def transform_data(self):
+    def transform_data(self) -> None:
         """Process and clean data."""
         logger.info("Processing EdNet KT1 data...")
 
@@ -329,7 +330,7 @@ class EdNetKT1Data(DataSource):
         }
         self.sequence_data = sequence_data
 
-    def clean_raw_data(self):
+    def clean_raw_data(self) -> None:
         """Clean raw sequence data."""
         self.load_src_data()
 

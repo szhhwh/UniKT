@@ -10,7 +10,13 @@ numerical behaviour exactly.
 import numpy as np
 
 
-def _group_scores(y_score, inverse, num_groups, fusion_type, threshold):
+def _group_scores(
+    y_score: np.ndarray,
+    inverse: np.ndarray,
+    num_groups: int,
+    fusion_type: str,
+    threshold: float,
+) -> np.ndarray:
     """Compute aggregated scores per group according to fusion_type.
 
     Args:
@@ -66,7 +72,7 @@ def _group_scores(y_score, inverse, num_groups, fusion_type, threshold):
     return numerator / np.maximum(denominator, 1.0)
 
 
-def _pearson_r2(y_true, y_pred):
+def _pearson_r2(y_true: np.typing.ArrayLike, y_pred: np.typing.ArrayLike) -> float:
     """Squared Pearson correlation between truth and prediction.
 
     R² here is the squared Pearson coefficient (per the paper's definition),

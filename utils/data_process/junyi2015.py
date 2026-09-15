@@ -1,6 +1,7 @@
 """Junyi Academy 2015 dataset handler."""
 
 import os
+from typing import Any
 
 import polars as pl
 from typing_extensions import override
@@ -22,7 +23,7 @@ class Junyi2015Data(DataSource):
     Dataset source: https://pslcdatashop.web.cmu.edu/DatasetInfo?datasetId=1198
     """
 
-    def __init__(self, args):
+    def __init__(self, args: Any) -> None:
         """Initialize the Junyi 2015 dataset handler."""
         super().__init__(
             dataset="junyi2015",
@@ -34,7 +35,7 @@ class Junyi2015Data(DataSource):
         self.raw_data_folder = os.path.join(self.data_folder, "raw")
 
     @override
-    def load_src_data(self):
+    def load_src_data(self) -> None:
         """Load raw data using Polars lazy evaluation with streaming."""
         self._validate_data_paths()
 
@@ -71,7 +72,7 @@ class Junyi2015Data(DataSource):
             ]
         )
 
-    def _validate_data_paths(self):
+    def _validate_data_paths(self) -> None:
         """Validate that required data paths exist."""
         if not os.path.exists(self.raw_data_folder):
             raise FileNotFoundError(f"Cannot find: {self.raw_data_folder}")
@@ -86,7 +87,7 @@ class Junyi2015Data(DataSource):
             raise FileNotFoundError(f"Cannot find: {log_path}")
 
     @override
-    def transform_data(self):
+    def transform_data(self) -> None:
         """Process and clean data."""
         logger.info("Processing Junyi 2015 data...")
 
@@ -181,7 +182,7 @@ class Junyi2015Data(DataSource):
         self.sequence_data = sequence_data
 
     @override
-    def clean_raw_data(self):
+    def clean_raw_data(self) -> None:
         """Clean raw sequence data."""
         self.load_src_data()
 

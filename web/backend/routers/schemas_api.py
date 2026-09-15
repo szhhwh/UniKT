@@ -4,6 +4,8 @@ Provides endpoints to list available model names and retrieve the
 parameter schema (groups, fields, defaults) for a specific model.
 """
 
+from typing import Any
+
 from dependencies import get_schema_extractor
 from errors import AppError
 from fastapi import APIRouter
@@ -23,7 +25,7 @@ def _get_extractor() -> SchemaExtractor:
 
 
 @router.get("/models", response_model=list[str])
-def list_models():
+def list_models() -> Any:
     """List all available model names.
 
     Returns:
@@ -33,7 +35,7 @@ def list_models():
 
 
 @router.get("/models/{model_name}/params", response_model=ModelSchemaResponse)
-def get_model_params(model_name: str):
+def get_model_params(model_name: str) -> Any:
     """Return the parameter schema for a specific model.
 
     Args:
@@ -52,7 +54,7 @@ def get_model_params(model_name: str):
 
 
 @router.get("/preprocess/{action}", response_model=list[ParamGroup])
-def get_preprocess_params(action: str):
+def get_preprocess_params(action: str) -> Any:
     """Return the parameter schema for a preprocess action (download/process).
 
     Args:

@@ -1,6 +1,7 @@
 """Slepemapy (Geography) dataset handler."""
 
 import os
+from typing import Any
 
 import polars as pl
 from typing_extensions import override
@@ -45,7 +46,7 @@ class SlepemapyData(DataSource):
         - type → assignment
     """
 
-    def __init__(self, args):
+    def __init__(self, args: Any) -> None:
         """Initialize the Slepemapy dataset handler."""
         super().__init__(
             dataset="slepemapy",
@@ -57,7 +58,7 @@ class SlepemapyData(DataSource):
         self.raw_data_path = os.path.join(self.data_folder, "raw", "answer.csv")
 
     @override
-    def load_src_data(self):
+    def load_src_data(self) -> None:
         if not os.path.exists(self.raw_data_path):
             raise FileNotFoundError(f"Cannot find: {self.raw_data_path}")
         logger.info(f"Loading raw data from: {self.raw_data_path}")
@@ -68,7 +69,7 @@ class SlepemapyData(DataSource):
         )
 
     @override
-    def clean_raw_data(self):
+    def clean_raw_data(self) -> None:
         """Clean raw sequence data."""
         if self.raw_data is None:
             self.load_src_data()
@@ -161,7 +162,7 @@ class SlepemapyData(DataSource):
         self.cleaned_raw_data = data
 
     @override
-    def transform_data(self):
+    def transform_data(self) -> None:
         """Transform cleaned data into standard question_data and sequence_data."""
         logger.info("Processing Slepemapy data...")
 

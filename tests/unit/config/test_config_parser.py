@@ -1,6 +1,9 @@
 """Tests for ConfigParser: short flags, model resolution precedence, typed output."""
 
+from collections.abc import Callable
 from dataclasses import dataclass
+from pathlib import Path
+from typing import Any, cast
 
 import pytest
 
@@ -17,7 +20,7 @@ from utils.core import MODEL_CONFIGS
 from utils.core.registry import register_model_config
 
 
-def _parse(argv, **parser_kwargs):
+def _parse(argv: list[str], **parser_kwargs: Any) -> RunConfig:
     return ConfigParser(**parser_kwargs).parse_args(argv)
 
 
@@ -25,23 +28,23 @@ def _parse(argv, **parser_kwargs):
 
 
 class TestExpandShortFlags:
-    def test_dash_m_with_value(self):
+    def test_dash_m_with_value(self) -> None:
         assert expand_short_flags(["-m", "DKT"]) == [
             "--experiment.model_name",
             "DKT",
         ]
 
-    def test_dash_m_inline_equals(self):
+    def test_dash_m_inline_equals(self) -> None:
         assert expand_short_flags(["-m=DKT"]) == ["--experiment.model_name=DKT"]
 
-    def test_dash_d_forms(self):
+    def test_dash_d_forms(self) -> None:
         assert expand_short_flags(["-d", "assist09"]) == [
             "--data.dataset",
             "assist09",
         ]
         assert expand_short_flags(["-d=assist09"]) == ["--data.dataset=assist09"]
 
-    def test_combined_flags(self):
+    def test_combined_flags(self) -> None:
         out = expand_short_flags(["-m", "DKT", "-d", "assist09", "--general.seed", "1"])
         assert out == [
             "--experiment.model_name",
@@ -52,7 +55,7 @@ class TestExpandShortFlags:
             "1",
         ]
 
-    def test_trailing_bare_dash_m_kept(self):
+    def test_trailing_bare_dash_m_kept(self) -> None:
         # No value follows: left as-is so argparse surfaces the usage error.
         assert expand_short_flags(["-d", "x", "-m"]) == [
             "--data.dataset",
@@ -60,7 +63,7 @@ class TestExpandShortFlags:
             "-m",
         ]
 
-    def test_unknown_tokens_untouched(self):
+    def test_unknown_tokens_untouched(self) -> None:
         argv = ["--config", "c.yaml", "positional"]
         assert expand_short_flags(argv) == argv
 
@@ -70,17 +73,25 @@ class TestExpandShortFlags:
 
 class TestModelResolution:
     def test_explicit_m_beats_config_yaml(
-        self, tiny_model_config_name, write_model_yaml, registry_snapshot
-    ):
+        self,
+        tiny_model_config_name: str,
+        write_model_yaml: Callable[..., Path],
+        registry_snapshot: None,
+    ) -> None:
+        # The base resolves at runtime; mypy cannot treat a `type` value as a base.
+        tiny_cfg_cls: Any = MODEL_CONFIGS._registry[tiny_model_config_name]
+
         @register_model_config("AltTestModel")
-        class AltTestModel(MODEL_CONFIGS._registry[tiny_model_config_name]): ...
+        class AltTestModel(tiny_cfg_cls): ...
 
         yaml_path = write_model_yaml(model_name="AltTestModel")
         rc = _parse(["-m", "TinyTestModel", "-d", "tinyds", "--config", str(yaml_path)])
         assert rc.experiment.model_name == "TinyTestModel"
-        assert rc.model.hidden_dim == 8  # TinyTestModel's field, not Alt's
+        assert cast(Any, rc.model).hidden_dim == 8  # TinyTestModel's field, not Alt's
 
-    def test_config_yaml_beats_default_config(self, write_model_yaml):
+    def test_config_yaml_beats_default_config(
+        self, write_model_yaml: Callable[..., Path]
+    ) -> None:
         default = write_model_yaml(model_name="TinyTestModel", filename="default.yaml")
         override = write_model_yaml(
             model_name="TinyTestModel",
@@ -91,26 +102,28 @@ class TestModelResolution:
             ["-d", "tinyds", "--config", str(override)],
             default_config=str(default),
         )
-        assert rc.model.hidden_dim == 64
+        assert cast(Any, rc.model).hidden_dim == 64
 
     def test_default_config_used_when_nothing_else(
-        self, tiny_model_config_name, write_model_yaml
-    ):
+        self, tiny_model_config_name: str, write_model_yaml: Callable[..., Path]
+    ) -> None:
         default = write_model_yaml(
             overrides={"model.dropout": 0.5}, filename="default.yaml"
         )
         rc = _parse(["-d", "tinyds"], default_config=str(default))
         assert rc.experiment.model_name == "TinyTestModel"
-        assert rc.model.dropout == pytest.approx(0.5)
+        assert cast(Any, rc.model).dropout == pytest.approx(0.5)
 
-    def test_missing_model_exits_with_message(self):
+    def test_missing_model_exits_with_message(self) -> None:
         with pytest.raises(SystemExit) as exc:
             _parse(["-d", "tinyds"])
         # SystemExit carries the full message, including the available-models list.
         assert "model name is required" in str(exc.value.code)
         assert "available:" in str(exc.value.code)
 
-    def test_help_without_model_prints_framework_help(self, capsys):
+    def test_help_without_model_prints_framework_help(
+        self, capsys: pytest.CaptureFixture[str]
+    ) -> None:
         with pytest.raises(SystemExit) as exc:
             _parse(["-h"])
         assert exc.value.code == 0
@@ -123,7 +136,7 @@ class TestModelResolution:
 
 
 class TestParsing:
-    def test_flags_land_on_typed_nodes(self, tiny_model_config_name):
+    def test_flags_land_on_typed_nodes(self, tiny_model_config_name: str) -> None:
         rc = _parse(
             [
                 "-m",
@@ -141,9 +154,11 @@ class TestParsing:
         assert isinstance(rc, RunConfig)
         assert rc.general.skip_test is True
         assert rc.general.seed == 7
-        assert rc.model.hidden_dim == 16
+        assert cast(Any, rc.model).hidden_dim == 16
 
-    def test_literal_choice_rejects_invalid_value(self, tiny_model_config_name):
+    def test_literal_choice_rejects_invalid_value(
+        self, tiny_model_config_name: str
+    ) -> None:
         with pytest.raises(SystemExit):
             _parse(
                 [
@@ -156,34 +171,40 @@ class TestParsing:
                 ]
             )
 
-    def test_literal_choice_accepts_valid_value(self, tiny_model_config_name):
+    def test_literal_choice_accepts_valid_value(
+        self, tiny_model_config_name: str
+    ) -> None:
         rc = _parse(
             ["-m", "TinyTestModel", "-d", "tinyds", "--data.sample_strategy", "time"]
         )
         assert rc.data.sample_strategy == "time"
 
-    def test_progress_defaults_to_auto(self, tiny_model_config_name):
+    def test_progress_defaults_to_auto(self, tiny_model_config_name: str) -> None:
         rc = _parse(["-m", "TinyTestModel", "-d", "tinyds"])
         assert rc.general.progress == "auto"
 
-    def test_progress_flag_accepts_valid_value(self, tiny_model_config_name):
+    def test_progress_flag_accepts_valid_value(
+        self, tiny_model_config_name: str
+    ) -> None:
         rc = _parse(
             ["-m", "TinyTestModel", "-d", "tinyds", "--general.progress", "none"]
         )
         assert rc.general.progress == "none"
 
-    def test_progress_flag_rejects_invalid_value(self, tiny_model_config_name):
+    def test_progress_flag_rejects_invalid_value(
+        self, tiny_model_config_name: str
+    ) -> None:
         with pytest.raises(SystemExit):
             _parse(
                 ["-m", "TinyTestModel", "-d", "tinyds", "--general.progress", "bogus"]
             )
 
-    def test_missing_dataset_exits(self, tiny_model_config_name):
+    def test_missing_dataset_exits(self, tiny_model_config_name: str) -> None:
         with pytest.raises(SystemExit) as exc:
             _parse(["-m", "TinyTestModel"])
         assert "dataset is required" in str(exc.value.code)
 
-    def test_unknown_model_raises_key_error(self):
+    def test_unknown_model_raises_key_error(self) -> None:
         with pytest.raises(KeyError):
             _parse(["-m", "NoSuchModel", "-d", "tinyds"])
 
@@ -192,7 +213,7 @@ class TestParsing:
 
 
 class TestRequireDataset:
-    def test_empty_dataset_exits_with_choices(self):
+    def test_empty_dataset_exits_with_choices(self) -> None:
         from dataclasses import dataclass
 
         from utils.config import require_dataset
@@ -209,7 +230,9 @@ class TestRequireDataset:
         assert "dataset is required" in str(exc.value.code)
         assert "-d/--data.dataset" in str(exc.value.code)
 
-    def test_nonempty_dataset_passes(self, make_run_config):
+    def test_nonempty_dataset_passes(
+        self, make_run_config: Callable[..., RunConfig]
+    ) -> None:
         from utils.config import require_dataset
 
         require_dataset(make_run_config())
@@ -219,18 +242,18 @@ class TestRequireDataset:
 
 
 class TestReadModelName:
-    def test_valid_yaml(self, write_model_yaml):
+    def test_valid_yaml(self, write_model_yaml: Callable[..., Path]) -> None:
         assert _read_model_name(str(write_model_yaml())) == "TinyTestModel"
 
-    def test_missing_file_returns_none(self, tmp_path):
+    def test_missing_file_returns_none(self, tmp_path: Path) -> None:
         assert _read_model_name(str(tmp_path / "nope.yaml")) is None
 
-    def test_malformed_yaml_returns_none(self, tmp_path):
+    def test_malformed_yaml_returns_none(self, tmp_path: Path) -> None:
         bad = tmp_path / "bad.yaml"
         bad.write_text("experiment: [unclosed", encoding="utf-8")
         assert _read_model_name(str(bad)) is None
 
-    def test_yaml_without_model_name_returns_none(self, tmp_path):
+    def test_yaml_without_model_name_returns_none(self, tmp_path: Path) -> None:
         plain = tmp_path / "plain.yaml"
         plain.write_text("general:\n  seed: 1\n", encoding="utf-8")
         assert _read_model_name(str(plain)) is None
@@ -240,20 +263,20 @@ class TestReadModelName:
 
 
 class TestPeekFlagValue:
-    def test_space_form(self):
+    def test_space_form(self) -> None:
         assert peek_flag_value(["--x.run_dir", "/a"], "--x.run_dir") == "/a"
 
-    def test_equals_form(self):
+    def test_equals_form(self) -> None:
         assert peek_flag_value(["--x.run_dir=/a"], "--x.run_dir") == "/a"
 
-    def test_last_occurrence_wins(self):
+    def test_last_occurrence_wins(self) -> None:
         argv = ["--x.run_dir", "/first", "--x.run_dir=/second"]
         assert peek_flag_value(argv, "--x.run_dir") == "/second"
 
-    def test_missing_flag_returns_none(self):
+    def test_missing_flag_returns_none(self) -> None:
         assert peek_flag_value(["--other", "v"], "--x.run_dir") is None
 
-    def test_trailing_bare_flag_has_no_value(self):
+    def test_trailing_bare_flag_has_no_value(self) -> None:
         assert peek_flag_value(["--x.run_dir"], "--x.run_dir") is None
 
 
@@ -268,7 +291,7 @@ class _EntryConfig:
 
 class TestParseRunArchive:
     @staticmethod
-    def _parse(argv):
+    def _parse(argv: list[str]) -> tuple[RunConfig, Any, Path]:
         return parse_run_archive(
             argv,
             prog="evaluate.py",
@@ -277,7 +300,9 @@ class TestParseRunArchive:
             entry_cls=_EntryConfig,
         )
 
-    def test_restores_archive_and_applies_overrides(self, make_run_archive):
+    def test_restores_archive_and_applies_overrides(
+        self, make_run_archive: Callable[..., Path]
+    ) -> None:
         run_dir = make_run_archive(overrides={"model.batch_size": 64})
         rc, entry, resolved = self._parse(
             ["--evaluate.run_dir", str(run_dir), "--model.batch_size", "32"]
@@ -289,19 +314,23 @@ class TestParseRunArchive:
         assert entry.run_dir == str(run_dir)
         assert resolved == run_dir.resolve()
 
-    def test_checkpoint_entry_flag(self, make_run_archive):
+    def test_checkpoint_entry_flag(self, make_run_archive: Callable[..., Path]) -> None:
         run_dir = make_run_archive()
         _, entry, _ = self._parse(
             ["--evaluate.run_dir", str(run_dir), "--evaluate.checkpoint", "last.pth"]
         )
         assert entry.checkpoint == "last.pth"
 
-    def test_missing_run_dir_exits_with_message(self, tiny_model_config_name):
+    def test_missing_run_dir_exits_with_message(
+        self, tiny_model_config_name: str
+    ) -> None:
         with pytest.raises(SystemExit) as exc:
             self._parse(["--general.seed", "1"])
         assert "--evaluate.run_dir is required" in str(exc.value.code)
 
-    def test_help_without_run_dir_prints_framework_help(self, capsys):
+    def test_help_without_run_dir_prints_framework_help(
+        self, capsys: pytest.CaptureFixture[str]
+    ) -> None:
         with pytest.raises(SystemExit) as exc:
             self._parse(["-h"])
         assert exc.value.code == 0
@@ -309,13 +338,13 @@ class TestParseRunArchive:
         assert "--evaluate.run_dir" in out  # entry node joins the reference
         assert "--general.seed" in out
 
-    def test_model_flag_rejected(self, make_run_archive):
+    def test_model_flag_rejected(self, make_run_archive: Callable[..., Path]) -> None:
         run_dir = make_run_archive()
         with pytest.raises(SystemExit) as exc:
             self._parse(["-m", "OtherModel", "--evaluate.run_dir", str(run_dir)])
         assert "cannot be combined" in str(exc.value.code)
 
-    def test_missing_archive_exits(self, tmp_path):
+    def test_missing_archive_exits(self, tmp_path: Path) -> None:
         empty = tmp_path / "empty_run"
         empty.mkdir()
         with pytest.raises(SystemExit) as exc:
@@ -327,7 +356,7 @@ class TestParseRunArchive:
 
 
 class TestExtras:
-    def test_extra_node_stays_in_namespace(self, tiny_model_config_name):
+    def test_extra_node_stays_in_namespace(self, tiny_model_config_name: str) -> None:
         from dataclasses import dataclass
 
         @dataclass
@@ -341,8 +370,8 @@ class TestExtras:
         assert ns["extra"]["flag"] is True
         assert not hasattr(rc, "extra")  # not part of RunConfig
 
-    def test_build_node_recurses_into_dataclass_fields(self):
-        from dataclasses import dataclass
+    def test_build_node_recurses_into_dataclass_fields(self) -> None:
+        from dataclasses import dataclass, field
 
         from jsonargparse import Namespace
 
@@ -350,9 +379,11 @@ class TestExtras:
         class Inner:
             x: int = 0
 
+        # 与真实 RunConfig 节点同构: dataclass 字段一律用 default_factory,
+        # 不用 Optional -- build_node 只对「注解恰好是 dataclass 类型」的字段递归。
         @dataclass
         class Outer:
-            general: Inner = None
+            general: Inner = field(default_factory=Inner)
             scalar: str = "s"
 
         node = build_node(Outer, Namespace(general=Namespace(x=5), scalar="v"))
@@ -360,7 +391,7 @@ class TestExtras:
         assert node.general.x == 5
         assert node.scalar == "v"
 
-    def test_build_node_scalar_path(self):
+    def test_build_node_scalar_path(self) -> None:
         from dataclasses import dataclass
 
         from jsonargparse import Namespace

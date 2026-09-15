@@ -7,11 +7,11 @@ import pandas as pd
 from utils.case_analysis.user_metrics import compute_user_metrics
 
 
-def _df(rows):
+def _df(rows: list[tuple[int, float, float]]) -> pd.DataFrame:
     return pd.DataFrame(rows, columns=["user_id", "label", "prediction"], dtype=float)
 
 
-def test_all_correct_single_class_user():
+def test_all_correct_single_class_user() -> None:
     df = _df([(1, 1.0, 1.0), (1, 1.0, 1.0), (1, 1.0, 1.0)])
     m = compute_user_metrics(df).iloc[0]
     assert m["num_attempts"] == 3
@@ -21,7 +21,7 @@ def test_all_correct_single_class_user():
     assert math.isnan(m["auc"])  # single-class label: AUC undefined
 
 
-def test_mixed_user_formulas():
+def test_mixed_user_formulas() -> None:
     df = _df(
         [
             (2, 1.0, 0.9),  # correct, confident
@@ -42,7 +42,7 @@ def test_mixed_user_formulas():
     assert 0.0 < m["auc"] < 1.0
 
 
-def test_per_user_rows():
+def test_per_user_rows() -> None:
     df = _df([(1, 1.0, 1.0), (2, 0.0, 0.0), (2, 1.0, 1.0)])
     m = compute_user_metrics(df)
     assert list(m["user_id"]) == [1, 2]

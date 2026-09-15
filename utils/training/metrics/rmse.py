@@ -1,5 +1,6 @@
 """RMSE metric."""
 
+import numpy as np
 from sklearn.metrics import root_mean_squared_error
 
 from utils.core import register_metric
@@ -18,6 +19,6 @@ class RMSEMetric(Metric):
     name = "rmse"
     source = "y_prob"
 
-    def score(self, y_true, y_value):
+    def score(self, y_true: np.ndarray, y_value: np.ndarray) -> float:
         """Return root mean squared error."""
         return float(root_mean_squared_error(y_true, y_value))

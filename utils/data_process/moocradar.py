@@ -2,6 +2,7 @@
 
 import json
 import os
+from argparse import Namespace
 
 import polars as pl
 from typing_extensions import override
@@ -53,7 +54,7 @@ class MoocRadarData(DataSource):
           so every question in the sequences has a skill mapping.
     """
 
-    def __init__(self, args):
+    def __init__(self, args: Namespace) -> None:
         """Initialize the MOOC-Radar dataset handler."""
         super().__init__(
             dataset="moocradar",
@@ -70,7 +71,7 @@ class MoocRadarData(DataSource):
         self.problem_concepts: dict[str, list[str]] = {}
 
     @override
-    def load_src_data(self):
+    def load_src_data(self) -> None:
         for path in (self.fine_path, self.problem_path):
             if not os.path.exists(path):
                 raise FileNotFoundError(f"Cannot find: {path}")
@@ -124,7 +125,7 @@ class MoocRadarData(DataSource):
         )
 
     @override
-    def clean_raw_data(self):
+    def clean_raw_data(self) -> None:
         """Clean raw sequence data."""
         if self.raw_data is None:
             self.load_src_data()
@@ -169,7 +170,7 @@ class MoocRadarData(DataSource):
         self.raw_data = None
 
     @override
-    def transform_data(self):
+    def transform_data(self) -> None:
         """Transform cleaned data into standard sequence_data and relations."""
         logger.info("Processing MOOC-Radar data...")
 

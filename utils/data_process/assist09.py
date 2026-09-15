@@ -1,6 +1,7 @@
 """ASSISTments 2009-2010 dataset handler."""
 
 import os
+from typing import Any
 
 import polars as pl
 from typing_extensions import override
@@ -22,7 +23,7 @@ class Assistments2009Data(DataSource):
     Dataset source: https://sites.google.com/site/assistmentsdata/home/2009-2010-assistment-data
     """
 
-    def __init__(self, args):
+    def __init__(self, args: Any) -> None:
         """Initialize the ASSISTments 2009-2010 dataset handler."""
         super().__init__(
             dataset="assistments09",
@@ -36,7 +37,7 @@ class Assistments2009Data(DataSource):
         )
 
     @override
-    def load_src_data(self):
+    def load_src_data(self) -> None:
         if not os.path.exists(self.raw_data_path):
             raise FileNotFoundError(f"Cannot find: {self.raw_data_path}")
         logger.info(f"Loading raw data from: {self.raw_data_path}")
@@ -49,7 +50,7 @@ class Assistments2009Data(DataSource):
         ).lazy()
 
     @override
-    def transform_data(self):
+    def transform_data(self) -> None:
         """Clean data and build question_data and sequence_data."""
         logger.info("Processing ASSISTments 2009 data...")
 
@@ -152,7 +153,7 @@ class Assistments2009Data(DataSource):
         }
         self.sequence_data = sequence_data
 
-    def clean_raw_data(self):
+    def clean_raw_data(self) -> None:
         """Clean raw sequence data."""
         if self.raw_data is None:
             self.load_src_data()

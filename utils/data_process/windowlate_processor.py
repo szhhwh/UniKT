@@ -4,7 +4,8 @@ import os
 import tempfile
 from collections.abc import Iterator
 from concurrent.futures import ProcessPoolExecutor
-from typing import ClassVar
+from functools import partial
+from typing import TYPE_CHECKING, Any, ClassVar
 
 import numpy as np
 import polars as pl
@@ -12,6 +13,14 @@ import pyarrow.parquet as pq
 import tqdm
 
 from utils.core import get_logger
+
+if TYPE_CHECKING:
+    # polars 1.x 把 DataTypeClass 别名标记为废弃且从存根中移除, 此处按本文件
+    # 实际用到的 dtype 定义等价的窄化别名, 保持 schema 传参可类型检查.
+    from polars import DataType, Int8, Int32, Int64
+
+    CoreDType = type[Int64] | type[Int32] | type[Int8]
+    DataTypeSpec = CoreDType | DataType
 
 logger = get_logger(__name__)
 
@@ -30,7 +39,7 @@ class WindowlateProcessor:
 
     # ===== Data structure definitions =====
     # Core output columns: mapped from source data, not preserved as extra columns.
-    CORE_DTYPE_MAP: ClassVar[dict[str, pl.DataType]] = {
+    CORE_DTYPE_MAP: ClassVar[dict[str, "CoreDType"]] = {
         "sample_id": pl.Int64,
         "position": pl.Int32,
         "skill": pl.Int32,
@@ -57,11 +66,11 @@ class WindowlateProcessor:
 
     # Configured per build: extra source columns to preserve as-is and their dtypes.
     EXTRA_COLUMNS: ClassVar[list[str]] = []
-    EXTRA_DTYPES: ClassVar[dict[str, pl.DataType]] = {}
+    EXTRA_DTYPES: ClassVar[dict[str, "DataTypeSpec"]] = {}
 
     @classmethod
     def _init_worker(
-        cls, extra_columns: list[str], extra_dtypes: dict[str, pl.DataType]
+        cls, extra_columns: list[str], extra_dtypes: dict[str, "DataTypeSpec"]
     ) -> None:
         """Initialize worker processes with the extra column configuration."""
         cls.EXTRA_COLUMNS = extra_columns
@@ -230,7 +239,7 @@ class WindowlateProcessor:
 
         sample_columns = cls.CORE_SAMPLE_COLUMNS + cls.EXTRA_COLUMNS
         # Initialize buffers (fold is filled with a constant, not buffered)
-        buffers = {col: [] for col in sample_columns}
+        buffers: dict[str, list[Any]] = {col: [] for col in sample_columns}
 
         try:
             for (
@@ -318,7 +327,7 @@ class WindowlateProcessor:
         output_path: str,
         num_workers: int = 0,
         users_per_batch: int = 64,
-    ) -> pl.LazyFrame:
+    ) -> None:
         """Build windowlate data and write directly to file.
 
         Args:
@@ -398,7 +407,7 @@ class WindowlateProcessor:
         global_sample_id = 0
         global_group_id = 0
 
-        def _normalize_group_key(group_key):
+        def _normalize_group_key(group_key: Any) -> Any:
             # Polars group_by iterator returns tuple keys even for single grouping col.
             if isinstance(group_key, tuple):
                 return group_key[0]
@@ -439,7 +448,7 @@ class WindowlateProcessor:
         tmp_dir: str,
     ) -> list:
         """Build batch input parameters."""
-        batch_inputs = []
+        batch_inputs: list[tuple[int, list, int, int, str]] = []
         for idx in range(0, len(user_records), users_per_batch):
             batch_idx = len(batch_inputs)
             batch_users = user_records[idx : idx + users_per_batch]
@@ -469,8 +478,9 @@ class WindowlateProcessor:
         else:
             with ProcessPoolExecutor(
                 max_workers=num_workers,
-                initializer=cls._init_worker,
-                initargs=(cls.EXTRA_COLUMNS, cls.EXTRA_DTYPES),
+                initializer=partial(
+                    cls._init_worker, cls.EXTRA_COLUMNS, cls.EXTRA_DTYPES
+                ),
             ) as executor:
                 # Submit all tasks
                 futures = {

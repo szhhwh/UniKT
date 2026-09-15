@@ -1,6 +1,7 @@
 """Logs router — task log retrieval and WebSocket streaming (line-oriented)."""
 
 import logging
+from typing import Any
 
 from config import TASK_LOGS_DIR
 from database import SessionLocal
@@ -28,7 +29,7 @@ def get_logs(
     cache: LineRenderCache = Depends(get_line_cache),
     offset: int = Query(0, ge=0),
     limit: int = Query(500, ge=1, le=5000),
-):
+) -> Any:
     """Fetch rendered log lines for a task.
 
     Args:
@@ -56,7 +57,7 @@ async def stream_logs(
     task_id: int,
     cache: LineRenderCache = Depends(get_line_cache),
     from_line: int = Query(0, ge=0),
-):
+) -> None:
     """Stream rendered task log lines live as incremental patches.
 
     Args:
@@ -74,7 +75,7 @@ async def stream_logs(
             await websocket.close()
             return
 
-    def check_alive():
+    def check_alive() -> bool:
         with SessionLocal() as session:
             t = session.get(Task, task_id)
             if not t:

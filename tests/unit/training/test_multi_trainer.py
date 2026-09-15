@@ -9,36 +9,48 @@ via the trainer's recorded event/snapshot logs.
 from __future__ import annotations
 
 import pathlib
+from collections.abc import Callable
+from typing import TYPE_CHECKING, Any, cast
 
 import pytest
+import torch
 
-from tests.unit.training.conftest import TinyMultiTrainer
+from tests.unit.training.conftest import StubExpManager, TinyMultiTrainer
 from utils.config.run_config import EarlyStoppingConfig
 from utils.training.base_trainer import StageResult
 from utils.training.callbacks import Callback
+from utils.training.checkpoint import CheckpointManager
+from utils.training.early_stopping import EarlyStopping
+from utils.training.multi_trainer import StageConfig
+
+if TYPE_CHECKING:
+    from utils.config.run_config import RunConfig
 
 
 class _OffsetRecordingCallback(Callback):
     """Records trainer._metric_step_offset at every epoch begin."""
 
-    def __init__(self):
-        self.offsets = []
+    def __init__(self) -> None:
+        self.offsets: list[int] = []
 
-    def on_epoch_begin(self, epoch, **kwargs):
+    def on_epoch_begin(self, epoch: int, **kwargs: Any) -> None:
         self.offsets.append(kwargs["trainer"]._metric_step_offset)
 
 
 class _EmptyStagesTrainer(TinyMultiTrainer):
     """build_stages() returning no stages must fail the run."""
 
-    def build_stages(self):
+    def build_stages(self) -> list[StageConfig]:
         return []
 
 
 class TestStageLifecycle:
     def test_empty_build_stages_raises_value_error(
-        self, make_run_config, make_exp_manager, make_batches
-    ):
+        self,
+        make_run_config: Callable[..., RunConfig],
+        make_exp_manager: Callable[..., StubExpManager],
+        make_batches: Callable[..., list[tuple[torch.Tensor, torch.Tensor]]],
+    ) -> None:
         trainer = _EmptyStagesTrainer(
             make_run_config(), make_exp_manager(), make_batches()
         )
@@ -46,8 +58,11 @@ class TestStageLifecycle:
             trainer.run()
 
     def test_stages_built_lazily_in_order(
-        self, make_run_config, make_exp_manager, make_batches
-    ):
+        self,
+        make_run_config: Callable[..., RunConfig],
+        make_exp_manager: Callable[..., StubExpManager],
+        make_batches: Callable[..., list[tuple[torch.Tensor, torch.Tensor]]],
+    ) -> None:
         trainer = TinyMultiTrainer(
             make_run_config(), make_exp_manager(), make_batches()
         )
@@ -70,8 +85,11 @@ class TestStageLifecycle:
         assert build_am_idx > complete_km_idx
 
     def test_callback_manager_rebuilt_per_stage(
-        self, make_run_config, make_exp_manager, make_batches
-    ):
+        self,
+        make_run_config: Callable[..., RunConfig],
+        make_exp_manager: Callable[..., StubExpManager],
+        make_batches: Callable[..., list[tuple[torch.Tensor, torch.Tensor]]],
+    ) -> None:
         trainer = TinyMultiTrainer(
             make_run_config(), make_exp_manager(), make_batches()
         )
@@ -82,10 +100,13 @@ class TestStageLifecycle:
         assert managers[0] is not managers[1]
 
     def test_metric_step_offset_equals_previous_elapsed_epochs(
-        self, make_run_config, make_exp_manager, make_batches
-    ):
+        self,
+        make_run_config: Callable[..., RunConfig],
+        make_exp_manager: Callable[..., StubExpManager],
+        make_batches: Callable[..., list[tuple[torch.Tensor, torch.Tensor]]],
+    ) -> None:
         rec = _OffsetRecordingCallback()
-        specs = {
+        specs: dict[str, dict[str, Any]] = {
             "km": {"epochs": 2, "early_stopping": EarlyStoppingConfig(patience=2)},
             "am": {"epochs": 1, "early_stopping": EarlyStoppingConfig(patience=2)},
         }
@@ -101,9 +122,12 @@ class TestStageLifecycle:
         assert rec.offsets == [0, 0, 2]  # km epochs 0-1, then am offset by 2
 
     def test_early_stopping_created_only_when_stage_config_present(
-        self, make_run_config, make_exp_manager, make_batches
-    ):
-        specs = {
+        self,
+        make_run_config: Callable[..., RunConfig],
+        make_exp_manager: Callable[..., StubExpManager],
+        make_batches: Callable[..., list[tuple[torch.Tensor, torch.Tensor]]],
+    ) -> None:
+        specs: dict[str, dict[str, Any]] = {
             "km": {"epochs": 1, "early_stopping": EarlyStoppingConfig(patience=2)},
             "am": {"epochs": 1},
         }
@@ -123,9 +147,12 @@ class TestStageLifecycle:
         assert am["best_filename"] is None
 
     def test_checkpoint_monitor_mode_decoupled_from_early_stopping(
-        self, make_run_config, make_exp_manager, make_batches
-    ):
-        specs = {
+        self,
+        make_run_config: Callable[..., RunConfig],
+        make_exp_manager: Callable[..., StubExpManager],
+        make_batches: Callable[..., list[tuple[torch.Tensor, torch.Tensor]]],
+    ) -> None:
+        specs: dict[str, dict[str, Any]] = {
             "km": {
                 "epochs": 1,
                 "early_stopping": EarlyStoppingConfig(monitor="auc", mode="max"),
@@ -145,11 +172,14 @@ class TestStageLifecycle:
         assert snap["monitor_override"] == "rmse"
         assert snap["mode_override"] == "min"
         assert snap["es_monitor"] == "auc"  # early stopping keeps its own monitor
-        assert trainer.early_stopping.cfg.mode == "max"
+        assert cast(EarlyStopping, trainer.early_stopping).cfg.mode == "max"
 
     def test_current_stage_cleared_after_loop(
-        self, make_run_config, make_exp_manager, make_batches
-    ):
+        self,
+        make_run_config: Callable[..., RunConfig],
+        make_exp_manager: Callable[..., StubExpManager],
+        make_batches: Callable[..., list[tuple[torch.Tensor, torch.Tensor]]],
+    ) -> None:
         trainer = TinyMultiTrainer(
             make_run_config(), make_exp_manager(), make_batches()
         )
@@ -158,8 +188,11 @@ class TestStageLifecycle:
         assert set(trainer._stage_results) == {"km", "am"}
 
     def test_stage_hooks_receive_name_and_stage_result(
-        self, make_run_config, make_exp_manager, make_batches
-    ):
+        self,
+        make_run_config: Callable[..., RunConfig],
+        make_exp_manager: Callable[..., StubExpManager],
+        make_batches: Callable[..., list[tuple[torch.Tensor, torch.Tensor]]],
+    ) -> None:
         trainer = TinyMultiTrainer(
             make_run_config(), make_exp_manager(), make_batches()
         )
@@ -173,8 +206,11 @@ class TestStageLifecycle:
             assert result.final_epoch == 0
 
     def test_two_stage_end_to_end_run(
-        self, make_run_config, make_exp_manager, make_batches
-    ):
+        self,
+        make_run_config: Callable[..., RunConfig],
+        make_exp_manager: Callable[..., StubExpManager],
+        make_batches: Callable[..., list[tuple[torch.Tensor, torch.Tensor]]],
+    ) -> None:
         exp = make_exp_manager("multi")
         trainer = TinyMultiTrainer(
             make_run_config(), exp, make_batches(), val=make_batches()
@@ -186,11 +222,14 @@ class TestStageLifecycle:
             assert (log_dir / f"metrics_{stage}_train.csv").exists()
             assert (log_dir / f"metrics_{stage}_val.csv").exists()
             assert (log_dir / f"best_{stage}_model.pth").exists()
-        assert trainer.checkpoint_manager._closed is True
+        assert cast(CheckpointManager, trainer.checkpoint_manager)._closed is True
 
     def test_progress_callback_added_per_stage_when_rich(
-        self, make_run_config, make_exp_manager, make_batches
-    ):
+        self,
+        make_run_config: Callable[..., RunConfig],
+        make_exp_manager: Callable[..., StubExpManager],
+        make_batches: Callable[..., list[tuple[torch.Tensor, torch.Tensor]]],
+    ) -> None:
         from utils.training.callbacks import ProgressCallback
 
         trainer = TinyMultiTrainer(
@@ -212,8 +251,11 @@ class TestStageLifecycle:
         assert trainer.stage_snapshots.keys() == {"km", "am"}
 
     def test_progress_callback_omitted_when_none(
-        self, make_run_config, make_exp_manager, make_batches
-    ):
+        self,
+        make_run_config: Callable[..., RunConfig],
+        make_exp_manager: Callable[..., StubExpManager],
+        make_batches: Callable[..., list[tuple[torch.Tensor, torch.Tensor]]],
+    ) -> None:
         from utils.training.callbacks import ProgressCallback
 
         trainer = TinyMultiTrainer(

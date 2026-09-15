@@ -1,6 +1,9 @@
 """Tests for EfficiencyReport serialization and the resource-summary formatter."""
 
 import json
+from pathlib import Path
+
+import pytest
 
 from utils.efficiency.environment import EnvironmentInfo, ResourceSummary
 from utils.efficiency.report import EfficiencyReport, _rs
@@ -24,13 +27,13 @@ def _make_report() -> EfficiencyReport:
 
 
 class TestEfficiencyReport:
-    def test_to_dict_includes_nested_stage_results(self):
+    def test_to_dict_includes_nested_stage_results(self) -> None:
         payload = _make_report().to_dict()
         assert payload["model_name"] == "GIKT"
         assert payload["results"]["train"]["iters"] == 2
         assert payload["environment"]["device_type"] == "cpu"
 
-    def test_write_json_round_trip(self, tmp_path):
+    def test_write_json_round_trip(self, tmp_path: Path) -> None:
         report = _make_report()
         out = tmp_path / "sub" / "efficiency_report.json"
         report.write_json(out)
@@ -41,17 +44,19 @@ class TestEfficiencyReport:
 
 
 class TestStageErrors:
-    def test_errors_serialize_to_json(self, tmp_path):
+    def test_errors_serialize_to_json(self, tmp_path: Path) -> None:
         report = _make_report()
         report.errors = {"train": "RuntimeError: boom"}
         out = tmp_path / "efficiency_report.json"
         report.write_json(out)
         assert json.loads(out.read_text())["errors"] == {"train": "RuntimeError: boom"}
 
-    def test_to_dict_defaults_to_empty_errors(self):
+    def test_to_dict_defaults_to_empty_errors(self) -> None:
         assert _make_report().to_dict()["errors"] == {}
 
-    def test_print_console_renders_failed_stage(self, capsys):
+    def test_print_console_renders_failed_stage(
+        self, capsys: pytest.CaptureFixture[str]
+    ) -> None:
         report = _make_report()
         report.errors = {"train": "RuntimeError: boom"}
         report.print_console()
@@ -59,7 +64,7 @@ class TestStageErrors:
         assert "Stage failed — train" in output
         assert "RuntimeError: boom" in output
 
-    def test_error_table_collapses_and_truncates(self):
+    def test_error_table_collapses_and_truncates(self) -> None:
         from rich.console import Console
 
         from utils.efficiency.report import (
@@ -82,13 +87,13 @@ class TestStageErrors:
 
 
 class TestRsHelper:
-    def test_zero_samples_renders_dashes(self):
+    def test_zero_samples_renders_dashes(self) -> None:
         assert _rs(ResourceSummary(n=0), "MiB") == ("—", "—")
 
-    def test_values_render_with_unit(self):
+    def test_values_render_with_unit(self) -> None:
         summary = ResourceSummary(mean=10.44, peak=20.46, n=3)
         assert _rs(summary, "MiB") == ("10.4 MiB", "20.5 MiB")
 
-    def test_empty_unit_stripped(self):
+    def test_empty_unit_stripped(self) -> None:
         summary = ResourceSummary(mean=10.44, peak=20.46, n=3)
         assert _rs(summary, "") == ("10.4", "20.5")

@@ -10,6 +10,7 @@ retries, used only as a fallback label source when no independent attempt exists
 """
 
 import os
+from typing import Any
 
 import polars as pl
 from typing_extensions import override
@@ -30,7 +31,7 @@ _RAW_CSV = "anonymized_full_release_competition_dataset.csv"
 class Assistments2017PerQueData(DataSource):
     """ASSISTments 2017 per-encounter dataset handler."""
 
-    def __init__(self, args):
+    def __init__(self, args: Any) -> None:
         """Initialize the ASSISTments 2017 per-encounter dataset handler."""
         super().__init__(
             dataset="assistments17_per_que",
@@ -42,7 +43,7 @@ class Assistments2017PerQueData(DataSource):
         self.raw_data_path = os.path.join(self.data_folder, "raw", _RAW_CSV)
 
     @override
-    def load_src_data(self):
+    def load_src_data(self) -> None:
         if not os.path.exists(self.raw_data_path):
             raise FileNotFoundError(f"Cannot find: {self.raw_data_path}")
         logger.info(f"Loading raw data from: {self.raw_data_path}")
@@ -55,7 +56,7 @@ class Assistments2017PerQueData(DataSource):
         ).lazy()
 
     @override
-    def transform_data(self):
+    def transform_data(self) -> None:
         logger.info(f"Processing {self.dataset} data...")
 
         if self.cleaned_raw_data is None:
@@ -125,7 +126,7 @@ class Assistments2017PerQueData(DataSource):
         }
         self.sequence_data = sequence_data
 
-    def clean_raw_data(self):
+    def clean_raw_data(self) -> None:
         """Aggregate action-level rows into per-encounter rows.
 
         Cross-session splitting: a gap > 1 hour between consecutive actions

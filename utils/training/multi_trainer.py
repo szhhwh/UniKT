@@ -194,14 +194,15 @@ class MultiTrainer(BaseTrainer):
 
         # 2. Log directory
         exp_manager = self._exp_manager
-        self.log_dir = exp_manager.get_log_dir()
-        os.makedirs(self.log_dir, exist_ok=True)
+        log_dir = exp_manager.get_log_dir()
+        self.log_dir = log_dir
+        os.makedirs(log_dir, exist_ok=True)
 
         # 3. Shared components
         self.metrics_accumulator = MetricsAccumulator()
-        self.checkpoint_manager = CheckpointManager(self.log_dir)
+        self.checkpoint_manager = CheckpointManager(log_dir)
         self.metric_logger = build_default_metric_loggers(
-            log_dir=self.log_dir,
+            log_dir=log_dir,
             log_batch_metrics=self.run_config.general.log_batch_metrics,
             cloud_tracking=self.run_config.general.cloud_tracking,
         )
@@ -285,12 +286,14 @@ class MultiTrainer(BaseTrainer):
             result = self._run_training_loop()
 
             # Load the best model back into self.model for subsequent stages
+            assert self.callback_manager is not None, "build() must run first"
             checkpoint_cb = self.callback_manager.get_callback(CheckpointCallback)
             if checkpoint_cb is not None and checkpoint_cb.best_model_state is not None:
                 self.model.load_state_dict(checkpoint_cb.best_model_state)
 
             result.name = stage.name
             self._stage_results[stage.name] = result
+            assert self.epochs is not None, "stage build must set epochs"
             self._elapsed_epochs += self.epochs
 
             self.on_stage_complete(stage.name, result)
@@ -344,6 +347,8 @@ class MultiTrainer(BaseTrainer):
         Returns:
             A CallbackManager configured for this stage.
         """
+        # Set in __init__; the assert only narrows the Optional declared by BaseTrainer.
+        assert self.checkpoint_manager is not None
         # ProgressCallback first and fresh per stage (ordering rationale in
         # BaseTrainer.build): on_train_begin re-reads the stage-switched
         # trainer attributes and tears down any previous stage's display.
@@ -382,6 +387,8 @@ class MultiTrainer(BaseTrainer):
         """
         from utils.config import config_to_dict
 
+        assert self.metric_logger is not None, "build() must run first"
+        assert self.log_dir is not None, "build() must run first"
         experiment_name = os.path.basename(self.log_dir) if self.log_dir else "run"
         config = config_to_dict(self.run_config) if self.run_config is not None else {}
         group = type(self).__name__.replace("Trainer", "")
@@ -418,6 +425,7 @@ class MultiTrainer(BaseTrainer):
             if result.best_metric is not None
         }
         if final_metrics:
+            assert self.metric_logger is not None, "build() must run first"
             self.metric_logger.log_final(metrics=final_metrics, step=self._global_step)
 
         # Total time summary and metric backend shutdown are handled by BaseTrainer._finish

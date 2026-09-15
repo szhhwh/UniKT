@@ -5,6 +5,8 @@ count, error-rate and confidence windows) and differ only in how they
 sample from the filtered pool.
 """
 
+from typing import Any
+
 import pandas as pd
 
 from ...core import get_logger, register_case_selector
@@ -63,6 +65,7 @@ class DiverseSelector(_MetricSelectorBase):
         error_rate_range: tuple[float, float] = (0.1, 0.9),
         confidence_range: tuple[float, float] = (0.3, 0.95),
         max_users: int = 20,
+        **options: Any,
     ) -> list:
         """Select users spread across five error-rate bins.
 
@@ -72,6 +75,7 @@ class DiverseSelector(_MetricSelectorBase):
             error_rate_range: Valid error-rate window.
             confidence_range: Valid average-confidence window.
             max_users: Maximum number of users to select.
+            **options: Extra selector options; accepted and ignored.
 
         Returns:
             List of selected user IDs.
@@ -140,6 +144,7 @@ class ExtremeSelector(_MetricSelectorBase):
         error_rate_range: tuple[float, float] = (0.1, 0.9),
         confidence_range: tuple[float, float] = (0.3, 0.95),
         max_users: int = 20,
+        **options: Any,
     ) -> list:
         """Select the ``max_users`` users with the highest error rates.
 
@@ -149,6 +154,7 @@ class ExtremeSelector(_MetricSelectorBase):
             error_rate_range: Valid error-rate window.
             confidence_range: Valid average-confidence window.
             max_users: Maximum number of users to select.
+            **options: Extra selector options; accepted and ignored.
 
         Returns:
             List of selected user IDs.
@@ -184,6 +190,7 @@ class RandomSelector(_MetricSelectorBase):
         error_rate_range: tuple[float, float] = (0.1, 0.9),
         confidence_range: tuple[float, float] = (0.3, 0.95),
         max_users: int = 20,
+        **options: Any,
     ) -> list:
         """Randomly sample ``max_users`` users from the filtered pool.
 
@@ -193,6 +200,7 @@ class RandomSelector(_MetricSelectorBase):
             error_rate_range: Valid error-rate window.
             confidence_range: Valid average-confidence window.
             max_users: Maximum number of users to select.
+            **options: Extra selector options; accepted and ignored.
 
         Returns:
             List of selected user IDs.

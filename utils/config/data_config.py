@@ -1,10 +1,16 @@
 """DataLoader configuration and the optimized DataLoader factory."""
 
+from __future__ import annotations
+
 import os
 from dataclasses import dataclass
-from typing import Literal
+from typing import TYPE_CHECKING, Any, Literal
 
 from ..core import get_logger
+
+if TYPE_CHECKING:
+    import torch
+    from torch.utils.data import DataLoader, Dataset
 
 logger = get_logger(__name__)
 
@@ -46,14 +52,14 @@ class DataLoaderConfig:
 
 
 def create_optimized_dataloader(
-    dataset,
+    dataset: Dataset[Any],
     batch_size: int = 128,
     shuffle: bool = True,
     config: DataLoaderConfig | None = None,
-    device=None,
+    device: torch.device | None = None,
     pin_memory: bool | None = None,
-    **kwargs,
-):
+    **kwargs: Any,
+) -> DataLoader[Any]:
     """Create an optimized DataLoader.
 
     Args:
@@ -102,7 +108,7 @@ def create_optimized_dataloader(
     num_workers = config.get_num_workers()
 
     # Prepare DataLoader arguments; kwargs take priority over config
-    loader_kwargs = {
+    loader_kwargs: dict[str, Any] = {
         "batch_size": batch_size,
         "shuffle": shuffle,
         "num_workers": num_workers,

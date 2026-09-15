@@ -13,7 +13,7 @@ from utils.efficiency.environment.sampling import (
 
 
 class TestEnvironmentInfo:
-    def test_determinism_dict_keys_and_defaults(self):
+    def test_determinism_dict_keys_and_defaults(self) -> None:
         info = EnvironmentInfo()
         assert info.determinism_dict() == {
             "cudnn_benchmark": False,
@@ -21,7 +21,7 @@ class TestEnvironmentInfo:
             "deterministic_algorithms": False,
         }
 
-    def test_collect_environment_on_cpu(self):
+    def test_collect_environment_on_cpu(self) -> None:
         info = collect_environment(torch.device("cpu"), torch.nn.Linear(2, 1))
         assert info.device_type == "cpu"
         assert info.torch_version
@@ -33,11 +33,11 @@ class TestEnvironmentInfo:
             "deterministic_algorithms",
         }
 
-    def test_collect_environment_reads_model_dtype(self):
+    def test_collect_environment_reads_model_dtype(self) -> None:
         info = collect_environment(torch.device("cpu"), torch.nn.Linear(2, 1))
         assert info.model_dtype == "torch.float32"
 
-    def test_resource_metrics_cover_all_stats_fields(self):
+    def test_resource_metrics_cover_all_stats_fields(self) -> None:
         import dataclasses
 
         from utils.efficiency.environment.sampling import ResourceStats
@@ -47,10 +47,10 @@ class TestEnvironmentInfo:
 
 
 class TestSummarize:
-    def test_empty_returns_defaults(self):
+    def test_empty_returns_defaults(self) -> None:
         assert _summarize([]) == ResourceSummary()
 
-    def test_known_values(self):
+    def test_known_values(self) -> None:
         summary = _summarize([1.0, 2.0, 3.0])
         assert summary.mean == pytest.approx(2.0)
         assert summary.peak == 3.0
@@ -58,12 +58,12 @@ class TestSummarize:
         assert summary.p50 == 2.0
         assert summary.n == 3
 
-    def test_even_sample_median_is_mean(self):
+    def test_even_sample_median_is_mean(self) -> None:
         assert _summarize([1.0, 2.0]).p50 == 1.5
 
 
 class TestStageScopedSampler:
-    def test_routing_and_stop_aggregation_without_thread(self):
+    def test_routing_and_stop_aggregation_without_thread(self) -> None:
         sampler = StageScopedSampler(torch.device("cpu"), interval_s=1.0)
         sampler.begin_stage("a")
         sampler._route({"cpu": 5.0, "rss": 100.0})
@@ -84,7 +84,7 @@ class TestStageScopedSampler:
         assert stats["a"].gpu_util_pct.n == 0
         assert stats["a"].gpu_util_pct.mean is None
 
-    def test_begin_stage_creates_bucket_only_once(self):
+    def test_begin_stage_creates_bucket_only_once(self) -> None:
         sampler = StageScopedSampler(torch.device("cpu"), interval_s=1.0)
         sampler.begin_stage("x")
         sampler.begin_stage("x")

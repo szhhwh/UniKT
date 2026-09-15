@@ -1,6 +1,7 @@
 """Inference stage: latency distribution, throughput, peak memory."""
 
 from dataclasses import dataclass
+from typing import Any
 
 import torch
 from rich.table import Table
@@ -11,6 +12,7 @@ from ..measures.timing import (
     LatencyMetricsBase,
     benchmark_forward_loop,
 )
+from ..target import BenchmarkTarget
 from .base import EfficiencyStage, StageContext, format_valid_tokens
 
 logger = get_logger(__name__)
@@ -39,8 +41,8 @@ class InferenceStageConfig:
 
 
 def benchmark_inference(
-    target,
-    sample_batch,
+    target: BenchmarkTarget,
+    sample_batch: Any,
     batch_size: int,
     valid_tokens: float,
     valid_tokens_total: int,

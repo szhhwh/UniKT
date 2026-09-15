@@ -6,6 +6,7 @@ nvidia-smi and returns the count and model names, with caching.
 
 import subprocess
 import threading
+from typing import Any
 
 from fastapi import APIRouter
 from pydantic import BaseModel
@@ -79,7 +80,7 @@ def reset_cache() -> None:
 
 
 @router.get("/capabilities", response_model=CapabilitiesResponse)
-def get_capabilities():
+def get_capabilities() -> Any:
     """Return the system's GPU capabilities.
 
     Returns:

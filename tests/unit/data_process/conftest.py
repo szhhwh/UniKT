@@ -9,7 +9,10 @@ explicitly assigned attributes, so tests exercise only the logic under test.
 """
 
 import os
+from collections.abc import Callable, Sequence
+from pathlib import Path
 from types import SimpleNamespace
+from typing import Any, cast
 
 import polars as pl
 import pytest
@@ -20,18 +23,23 @@ from utils.data_process.data_source import DataSource
 class _MinimalDataSource(DataSource):
     """Concrete DataSource stub: the three abstract ETL steps are inert."""
 
-    def load_src_data(self): ...
+    def load_src_data(self) -> None: ...
 
-    def transform_data(self): ...
+    def transform_data(self) -> None: ...
 
-    def clean_raw_data(self): ...
+    def clean_raw_data(self) -> None: ...
 
 
 @pytest.fixture
-def make_sequence_frame():
+def make_sequence_frame() -> Callable[..., pl.DataFrame]:
     """Factory: minimal sequence frame with the exact schema ETL emits."""
 
-    def _make(users, questions, labels=None, timestamps=None):
+    def _make(
+        users: Sequence[int],
+        questions: Sequence[int],
+        labels: Sequence[int] | None = None,
+        timestamps: Sequence[int] | None = None,
+    ) -> pl.DataFrame:
         n = len(users)
         return pl.DataFrame(
             {
@@ -51,10 +59,10 @@ def make_sequence_frame():
 
 
 @pytest.fixture
-def make_question_skill_frame():
+def make_question_skill_frame() -> Callable[..., pl.DataFrame]:
     """Factory: 2-column question->skill relation table."""
 
-    def _make(pairs):
+    def _make(pairs: Sequence[tuple[int, int]]) -> pl.DataFrame:
         return pl.DataFrame(
             {
                 "question": pl.Series([q for q, _ in pairs], dtype=pl.Int32),
@@ -66,20 +74,20 @@ def make_question_skill_frame():
 
 
 @pytest.fixture
-def make_data_source(tmp_path):
+def make_data_source(tmp_path: Path) -> Callable[..., _MinimalDataSource]:
     """Factory: DataSource via __new__ bypass with every attribute set
     explicitly -- no downloads, no metadata plumbing, no directory creation."""
 
     def _make(
-        sequence_data=None,
-        relation_data=None,
-        max_seq_len=100,
-        min_seq_len=1,
-        dataset="stub",
-        metadata=None,
-        data_folder=None,
-        seed=42,
-    ):
+        sequence_data: pl.DataFrame | None = None,
+        relation_data: dict[str, pl.DataFrame] | None = None,
+        max_seq_len: int = 100,
+        min_seq_len: int = 1,
+        dataset: str = "stub",
+        metadata: dict[str, Any] | None = None,
+        data_folder: Path | str | None = None,
+        seed: int = 42,
+    ) -> _MinimalDataSource:
         ds = _MinimalDataSource.__new__(_MinimalDataSource)
         ds.dataset = dataset
         ds.data_base_path = str(tmp_path)
@@ -90,7 +98,9 @@ def make_data_source(tmp_path):
             min_seq_len=min_seq_len,
             windowlate_users_per_batch=1,
         )
-        ds.sequence_data = sequence_data
+        # DataSource declares a non-optional field; callers that don't need
+        # sequence data pass None and never read the attribute.
+        ds.sequence_data = cast(pl.DataFrame, sequence_data)
         ds.relation_data = {} if relation_data is None else relation_data
         ds.metadata = {} if metadata is None else metadata
         ds.seed = seed

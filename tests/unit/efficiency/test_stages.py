@@ -1,15 +1,17 @@
 """Tests for stage helpers: kv tables, training benchmark, profile, operator stats."""
 
 from types import SimpleNamespace
+from typing import Any, cast
 
 import pytest
 import torch
 from rich.table import Table
 
-from utils.efficiency.stages.base import EfficiencyStage
+from utils.efficiency.stages.base import EfficiencyStage, StageContext
 from utils.efficiency.stages.profile import profile_model
 from utils.efficiency.stages.trace import _aggregate, _extract_operators
 from utils.efficiency.stages.training import benchmark_training
+from utils.efficiency.target import BenchmarkTarget
 
 # --- base: table helpers ---
 
@@ -17,15 +19,15 @@ from utils.efficiency.stages.training import benchmark_training
 class _TableOwner(EfficiencyStage):
     """Minimal concrete subclass exposing the shared table helpers."""
 
-    def run(self, ctx):
+    def run(self, ctx: StageContext) -> None:
         return None
 
     @classmethod
-    def format_table(cls, result):
+    def format_table(cls, result: Any) -> None:
         return None
 
 
-def _latency_result(**overrides):
+def _latency_result(**overrides: Any) -> SimpleNamespace:
     base = {
         "latency_mean_ms": 1.0,
         "latency_p50_ms": 1.0,
@@ -41,24 +43,24 @@ def _latency_result(**overrides):
 
 
 class TestMakeKvTable:
-    def test_shape_and_style(self):
+    def test_shape_and_style(self) -> None:
         table = _TableOwner.make_kv_table("Unit Test Title")
         assert isinstance(table, Table)
         assert table.title == "Unit Test Title"
         assert table.show_header is False
         assert len(table.columns) == 2
 
-    def test_starts_empty(self):
+    def test_starts_empty(self) -> None:
         assert len(_TableOwner.make_kv_table("t").rows) == 0
 
 
 class TestAddLatencyRows:
-    def test_base_rows_without_gpu_peaks(self):
+    def test_base_rows_without_gpu_peaks(self) -> None:
         table = _TableOwner.make_kv_table("t")
         EfficiencyStage.add_latency_rows(table, _latency_result())
         assert len(table.rows) == 4  # mean, p50/p95/p99, cv, repeat cv
 
-    def test_gpu_peak_rows_added_when_present(self):
+    def test_gpu_peak_rows_added_when_present(self) -> None:
         table = _TableOwner.make_kv_table("t")
         EfficiencyStage.add_latency_rows(
             table,
@@ -66,7 +68,7 @@ class TestAddLatencyRows:
         )
         assert len(table.rows) == 6
 
-    def test_only_one_gpu_peak_present_adds_one_row(self):
+    def test_only_one_gpu_peak_present_adds_one_row(self) -> None:
         table = _TableOwner.make_kv_table("t")
         EfficiencyStage.add_latency_rows(
             table, _latency_result(gpu_peak_reserved_mib=16.0)
@@ -85,7 +87,9 @@ class _TrainTarget:
         self.opt = torch.optim.SGD(self.model.parameters(), lr=0.1)
         self.steps = 0
 
-    def compute_train_step(self, batch):
+    def compute_train_step(
+        self, batch: tuple[torch.Tensor, torch.Tensor]
+    ) -> tuple[dict[str, Any], torch.Tensor]:
         x, y = batch
         self.opt.zero_grad()
         loss = torch.nn.functional.mse_loss(self.model(x), y)
@@ -94,7 +98,9 @@ class _TrainTarget:
         self.steps += 1
         return {}, loss.detach()
 
-    def forward(self, batch):
+    def forward(
+        self, batch: tuple[torch.Tensor, torch.Tensor]
+    ) -> dict[str, torch.Tensor]:
         return {"y_hat": self.model(batch[0])}
 
 
@@ -102,11 +108,11 @@ _BATCH = (torch.randn(4, 3), torch.randn(4, 2))
 
 
 class TestBenchmarkTraining:
-    def test_runs_real_steps_and_forces_train_mode(self):
+    def test_runs_real_steps_and_forces_train_mode(self) -> None:
         target = _TrainTarget()
         target.model.eval()
         metrics = benchmark_training(
-            target,
+            cast(BenchmarkTarget, target),
             _BATCH,
             batch_size=4,
             valid_tokens=8,
@@ -127,10 +133,10 @@ class TestBenchmarkTraining:
         assert metrics.wall_time_s > 0
         assert metrics.gpu_peak_allocated_mib is None
 
-    def test_throughput_formula_sanity(self):
+    def test_throughput_formula_sanity(self) -> None:
         target = _TrainTarget()
         metrics = benchmark_training(
-            target,
+            cast(BenchmarkTarget, target),
             _BATCH,
             batch_size=4,
             valid_tokens=8,
@@ -151,11 +157,11 @@ class TestBenchmarkTraining:
             == pytest.approx(1e9, rel=1e-6)
         )
 
-    def test_weights_actually_update(self):
+    def test_weights_actually_update(self) -> None:
         target = _TrainTarget()
         before = target.model.weight.detach().clone()
         benchmark_training(
-            target,
+            cast(BenchmarkTarget, target),
             _BATCH,
             batch_size=4,
             valid_tokens=8,
@@ -172,7 +178,7 @@ class TestBenchmarkTraining:
 
 
 class TestProfileModel:
-    def test_small_linear_profile(self):
+    def test_small_linear_profile(self) -> None:
         model = torch.nn.Linear(3, 2)
         forward = lambda: model(torch.randn(4, 3))  # noqa: E731
         profile = profile_model(model, forward, torch.device("cpu"))
@@ -185,14 +191,14 @@ class TestProfileModel:
         values = list(profile.op_breakdown.values())
         assert values == sorted(values, reverse=True)
 
-    def test_frozen_params_counted_separately(self):
+    def test_frozen_params_counted_separately(self) -> None:
         model = torch.nn.Linear(3, 2)
         model.weight.requires_grad_(False)
         profile = profile_model(model, lambda: None, torch.device("cpu"))
         assert profile.params == 8
         assert profile.trainable_params == 2
 
-    def test_count_flops_disabled(self):
+    def test_count_flops_disabled(self) -> None:
         model = torch.nn.Linear(3, 2)
         profile = profile_model(
             model,
@@ -208,17 +214,17 @@ class TestProfileModel:
 
 
 def _event(
-    key,
+    key: str,
     *,
-    count=1,
-    cpu_total=0.0,
-    self_cpu=0.0,
-    device_total=0.0,
-    self_device=0.0,
-    flops=0,
-    self_cpu_mem=0,
-    self_device_mem=0,
-):
+    count: int = 1,
+    cpu_total: float = 0.0,
+    self_cpu: float = 0.0,
+    device_total: float = 0.0,
+    self_device: float = 0.0,
+    flops: int = 0,
+    self_cpu_mem: int = 0,
+    self_device_mem: int = 0,
+) -> SimpleNamespace:
     return SimpleNamespace(
         key=key,
         count=count,
@@ -233,7 +239,7 @@ def _event(
 
 
 class TestExtractOperators:
-    def test_cpu_sort_by_self_cpu_and_topn(self):
+    def test_cpu_sort_by_self_cpu_and_topn(self) -> None:
         events = [
             _event("aten::add", self_cpu=5.0),
             _event("aten::mm", self_cpu=20.0),
@@ -247,7 +253,7 @@ class TestExtractOperators:
         assert ops[0].self_cuda_us == 0.0
         assert ops[0].self_cuda_mem_bytes == 0
 
-    def test_calls_and_flops_copied(self):
+    def test_calls_and_flops_copied(self) -> None:
         events = [_event("aten::mm", count=3, self_cpu=1.0, flops=48)]
         ops = _extract_operators(events, top_ops=5, device=torch.device("cpu"))
         assert ops[0].calls == 3
@@ -256,7 +262,7 @@ class TestExtractOperators:
 
 
 class TestAggregate:
-    def test_cpu_sums_all_events(self):
+    def test_cpu_sums_all_events(self) -> None:
         events = [
             _event("a", self_cpu=1.5, flops=10),
             _event("b", self_cpu=2.5, flops=30),
@@ -269,7 +275,7 @@ class TestAggregate:
         assert op_count == 2
         assert total_flops == 40
 
-    def test_cuda_sums_only_pure_kernel_events(self):
+    def test_cuda_sums_only_pure_kernel_events(self) -> None:
         # Host op mirrors its child kernel's device time; only events with
         # cpu_time_total == 0 are pure kernels and must be the sole contributors.
         host_op = _event("aten::mm", cpu_total=10.0, self_device=7.0)
@@ -277,7 +283,7 @@ class TestAggregate:
         _, total_cuda, _, _ = _aggregate([host_op, kernel], torch.device("cuda"))
         assert total_cuda == 7.0
 
-    def test_missing_attributes_tolerated(self):
+    def test_missing_attributes_tolerated(self) -> None:
         blank = SimpleNamespace(key="blank")
         total_cpu, total_cuda, op_count, total_flops = _aggregate(
             [blank], torch.device("cpu")

@@ -5,6 +5,7 @@ for a specific dataset by name.
 """
 
 import json
+from typing import Any
 
 from config import PROJECT_ROOT
 from errors import AppError
@@ -20,7 +21,7 @@ DATA_DIR = PROJECT_ROOT / "data"
 
 
 @router.get("")
-def list_datasets():
+def list_datasets() -> Any:
     """List all available datasets with optional metadata summaries.
 
     Returns:
@@ -56,7 +57,7 @@ def list_datasets():
 
 
 @router.get("/{dataset_name}/metadata")
-def get_dataset_metadata(dataset_name: str):
+def get_dataset_metadata(dataset_name: str) -> Any:
     """Return the metadata JSON for a specific dataset.
 
     Args:

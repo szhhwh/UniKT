@@ -7,6 +7,7 @@ as well as managing the task execution queue (list and reorder).
 import json
 import logging
 from datetime import datetime
+from typing import Any
 
 from config import SEARCH_TASK_MARKER, TASK_LOGS_DIR
 from database import SessionLocal
@@ -42,7 +43,9 @@ _RESERVED_SEARCH_KEYS = frozenset(
 
 
 @router.post("", response_model=TaskResponse, status_code=201)
-def create_task(body: TaskCreate, pm: ProcessManager = Depends(get_process_manager)):
+def create_task(
+    body: TaskCreate, pm: ProcessManager = Depends(get_process_manager)
+) -> Any:
     """Create a new experiment task and enqueue it for execution.
 
     Args:
@@ -118,7 +121,7 @@ def create_task(body: TaskCreate, pm: ProcessManager = Depends(get_process_manag
 def list_tasks(
     status: str | None = None,
     params: Params = Depends(),
-):
+) -> Any:
     """List tasks with optional status filter and pagination.
 
     Active tasks (null finished_at) appear first, then most recently
@@ -147,7 +150,7 @@ def list_tasks(
 
 
 @router.get("/{task_id}", response_model=TaskResponse)
-def get_task(task_id: int):
+def get_task(task_id: int) -> Any:
     """Return a single task by its ID.
 
     Args:
@@ -167,7 +170,7 @@ def get_task(task_id: int):
 
 
 @router.post("/{task_id}/stop")
-def stop_task(task_id: int, pm: ProcessManager = Depends(get_process_manager)):
+def stop_task(task_id: int, pm: ProcessManager = Depends(get_process_manager)) -> Any:
     """Request a graceful stop of a running task.
 
     Raises:
@@ -178,7 +181,7 @@ def stop_task(task_id: int, pm: ProcessManager = Depends(get_process_manager)):
 
 
 @router.post("/{task_id}/kill")
-def kill_task(task_id: int, pm: ProcessManager = Depends(get_process_manager)):
+def kill_task(task_id: int, pm: ProcessManager = Depends(get_process_manager)) -> Any:
     """Force-kill a running task.
 
     Raises:
@@ -193,7 +196,7 @@ def delete_task(
     task_id: int,
     pm: ProcessManager = Depends(get_process_manager),
     cache: LineRenderCache = Depends(get_line_cache),
-):
+) -> Any:
     """Delete a task and its associated logs.
 
     Raises:
@@ -204,7 +207,7 @@ def delete_task(
 
 
 @router.get("/queue/list")
-def get_queue(pm: ProcessManager = Depends(get_process_manager)):
+def get_queue(pm: ProcessManager = Depends(get_process_manager)) -> Any:
     """Return the ordered task execution queue with task details.
 
     Args:
@@ -248,7 +251,7 @@ class ReorderRequest(BaseModel):
 @router.put("/queue/reorder")
 def reorder_queue(
     body: ReorderRequest, pm: ProcessManager = Depends(get_process_manager)
-):
+) -> Any:
     """Reorder the task execution queue.
 
     Args:
@@ -288,7 +291,7 @@ class CommandPreviewResponse(BaseModel):
 def preview_command(
     body: CommandPreviewRequest,
     pm: ProcessManager = Depends(get_process_manager),
-):
+) -> Any:
     """Return the CLI command that would be executed for the given params."""
     command = pm.preview_command(body.model_name, body.params)
     return CommandPreviewResponse(command=command)

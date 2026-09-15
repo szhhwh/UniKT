@@ -9,6 +9,7 @@ import datetime
 import os
 import time
 from abc import ABC, abstractmethod
+from collections.abc import Callable, Iterator
 from dataclasses import dataclass
 from typing import Any
 
@@ -29,7 +30,7 @@ from .callbacks import (
 from .checkpoint import CheckpointManager
 from .early_stopping import EarlyStopping
 from .inference_ops import InferenceOpsMixin
-from .metric_logger import build_default_metric_loggers
+from .metric_logger import MetricLogger, build_default_metric_loggers
 from .metrics import MetricsAccumulator
 from .runtime_components import RuntimeComponents
 
@@ -97,7 +98,7 @@ class BaseTrainer(InferenceOpsMixin, ABC):
         """
         self._init_trainer_state(rc, data_src, exp_manager)
         self._components = self.build_components(rc, data_src)
-        self._custom_callbacks: list[Callback] = self.build_callbacks()
+        self._custom_callbacks = self.build_callbacks()
         self.build()
 
     def _init_trainer_state(self, rc: Any, data_src: Any, exp_manager: Any) -> None:
@@ -115,26 +116,30 @@ class BaseTrainer(InferenceOpsMixin, ABC):
             resolve_progress(rc.general.progress) if rc is not None else False
         )
         self._components = RuntimeComponents()
-        self._custom_callbacks: list[Callback] = []
+        self._custom_callbacks = []
 
         self._built = False
-        self.model = None
+        # Two-phase init placeholders. Heterogeneous runtime objects (model,
+        # loss, optimizer, ...) mirror RuntimeComponents and stay ``Any``;
+        # framework managers keep concrete Optional types and are guaranteed
+        # non-None once :meth:`build` has run (call sites assert this).
+        self.model: Any = None
         self.device_: torch.device | None = None
         self.epochs: int | None = None
-        self.train_data = None
-        self.val_data = None
-        self.test_data = None
-        self.opt = None
+        self.train_data: Any = None
+        self.val_data: Any = None
+        self.test_data: Any = None
+        self.opt: Any = None
         self.max_clip_grad_norm: float | None = None
-        self.loss = None
-        self.lr_scheduler = None
+        self.loss: Any = None
+        self.lr_scheduler: Any = None
         self.early_stopping: EarlyStopping | None = None
         self.start_epoch = 0
-        self.log_dir = None
-        self.metrics_accumulator = None
-        self.checkpoint_manager = None
-        self.callback_manager = None
-        self.metric_logger = None
+        self.log_dir: str | None = None
+        self.metrics_accumulator: MetricsAccumulator | None = None
+        self.checkpoint_manager: CheckpointManager | None = None
+        self.callback_manager: CallbackManager | None = None
+        self.metric_logger: MetricLogger | None = None
         self._global_step = 0
         self._resumed = False
 
@@ -229,14 +234,16 @@ class BaseTrainer(InferenceOpsMixin, ABC):
 
         # 6. Log directory
         exp_manager = self._exp_manager
-        self.log_dir = exp_manager.get_log_dir()
-        os.makedirs(self.log_dir, exist_ok=True)
+        log_dir = exp_manager.get_log_dir()
+        self.log_dir = log_dir
+        os.makedirs(log_dir, exist_ok=True)
 
         # 7. Shared components
         self.metrics_accumulator = MetricsAccumulator()
-        self.checkpoint_manager = CheckpointManager(self.log_dir)
+        checkpoint_manager = CheckpointManager(log_dir)
+        self.checkpoint_manager = checkpoint_manager
         self.metric_logger = build_default_metric_loggers(
-            log_dir=self.log_dir,
+            log_dir=log_dir,
             log_batch_metrics=self.run_config.general.log_batch_metrics,
             cloud_tracking=self.run_config.general.cloud_tracking,
         )
@@ -254,7 +261,7 @@ class BaseTrainer(InferenceOpsMixin, ABC):
         )
         callbacks.append(
             CheckpointCallback(
-                checkpoint_manager=self.checkpoint_manager,
+                checkpoint_manager=checkpoint_manager,
                 early_stopping=self.early_stopping,
                 last_filename="last_checkpoint.pth",
                 best_filename="best_model.pth",
@@ -298,7 +305,7 @@ class BaseTrainer(InferenceOpsMixin, ABC):
         logger.info("Trainer built successfully")
         return self
 
-    def _setup_data_loaders(self):
+    def _setup_data_loaders(self) -> None:
         """Wrap Dataset instances into optimized DataLoaders.
 
         DataLoaders pass through unchanged. ``collate_fn`` applies to train; the
@@ -313,7 +320,9 @@ class BaseTrainer(InferenceOpsMixin, ABC):
             c.test_collate_fn if c.test_collate_fn is not None else c.collate_fn
         )
 
-        def _build_loader(data, shuffle, loader_collate_fn):
+        def _build_loader(
+            data: Any, shuffle: bool, loader_collate_fn: Callable[..., Any] | None
+        ) -> Any:
             if isinstance(data, torch.utils.data.Dataset):
                 return create_optimized_dataloader(
                     data,
@@ -329,12 +338,12 @@ class BaseTrainer(InferenceOpsMixin, ABC):
         self.val_data = _build_loader(c.val_data, False, val_collate_fn)
         self.test_data = _build_loader(c.test_data, False, test_collate_fn)
 
-    def _setup_run_config_archive(self):
+    def _setup_run_config_archive(self) -> None:
         """Save the RunConfig yaml archive plus a runtime-metadata sidecar."""
         from utils.config import save_run_config_archive
 
         rc = self.run_config
-        metadata: dict = {
+        metadata: dict[str, Any] = {
             "model_name": rc.experiment.model_name,
             "dataset_name": rc.data.dataset,
             "seed": rc.general.seed,
@@ -354,10 +363,14 @@ class BaseTrainer(InferenceOpsMixin, ABC):
         if self.device_ is not None:
             for key, value in self._get_device_info().items():
                 metadata[key] = value
+        if self.log_dir is None:
+            raise ValueError(
+                "log_dir is required; archive setup must run after logging setup."
+            )
         save_run_config_archive(rc, self.log_dir, metadata=metadata)
         logger.info("RunConfig archive saved to %s/run_config.yaml", self.log_dir)
 
-    def _apply_compile(self):
+    def _apply_compile(self) -> None:
         """Apply ``torch.compile`` to the model when ``rc.compile`` enables it."""
         cc = self.run_config.compile
         if not cc.compile:
@@ -404,14 +417,15 @@ class BaseTrainer(InferenceOpsMixin, ABC):
         """
         return self.forward_pass(batch_data)
 
-    def _get_device_info(self):
+    def _get_device_info(self) -> dict[str, Any]:
         """Get device information including CUDA device details.
 
         Returns:
             Dict with keys like ``cuda_available``, ``cuda_device_count``,
             ``cuda_device_name``, etc.
         """
-        device_info = {}
+        assert self.device_ is not None, "build() must run first"
+        device_info: dict[str, Any] = {}
 
         if self.device_.type == "cuda":
             device_info["cuda_available"] = True
@@ -427,13 +441,16 @@ class BaseTrainer(InferenceOpsMixin, ABC):
 
         return device_info
 
-    def _load_checkpoint(self, checkpoint_path: str):
+    def _load_checkpoint(self, checkpoint_path: str) -> None:
         """Load a checkpoint to resume training.
 
         Args:
             checkpoint_path: Path to the checkpoint file.
         """
         logger.info(f"Loading checkpoint from {checkpoint_path}...")
+        assert self.checkpoint_manager is not None, "build() must run first"
+        assert self.callback_manager is not None, "build() must run first"
+        assert self.log_dir is not None, "build() must run first"
         checkpoint = self.checkpoint_manager.load_checkpoint(
             checkpoint_path,
             self.model,
@@ -460,7 +477,7 @@ class BaseTrainer(InferenceOpsMixin, ABC):
         self._resumed = True
         logger.info(f"Resumed training from epoch {self.start_epoch}")
 
-    def _init_metric_logger(self):
+    def _init_metric_logger(self) -> None:
         """Initialize the metric logging backend.
 
         Local CSV logging is always enabled; cloud tracking (SwanLab or
@@ -468,6 +485,8 @@ class BaseTrainer(InferenceOpsMixin, ABC):
         """
         from utils.config import config_to_dict
 
+        assert self.metric_logger is not None, "build() must run first"
+        assert self.log_dir is not None, "build() must run first"
         experiment_name = os.path.basename(self.log_dir) if self.log_dir else "run"
         config = config_to_dict(self.run_config) if self.run_config is not None else {}
         self.metric_logger.init_run(
@@ -478,12 +497,13 @@ class BaseTrainer(InferenceOpsMixin, ABC):
             config=config,
         )
 
-    def _finish_metric_logger(self):
+    def _finish_metric_logger(self) -> None:
         """Finalize and shut down the metric logging backend."""
+        assert self.metric_logger is not None, "build() must run first"
         self.metric_logger.finish()
         logger.debug("Metric logging finished")
 
-    def run(self):
+    def run(self) -> None:
         """Run the full training loop.
 
         Initializes metric logging, runs the training loop, and
@@ -527,6 +547,10 @@ class BaseTrainer(InferenceOpsMixin, ABC):
         """
         if start_epoch is None:
             start_epoch = self.start_epoch
+
+        assert self.callback_manager is not None, "build() must run first"
+        assert self.metric_logger is not None, "build() must run first"
+        assert self.epochs is not None, "build() must run first"
 
         self.model.to(self.device_)
         self.loss = self.loss.to(self.device_)
@@ -620,6 +644,10 @@ class BaseTrainer(InferenceOpsMixin, ABC):
         Returns:
             Sample-weighted mean loss for this epoch.
         """
+        assert self.metrics_accumulator is not None, "build() must run first"
+        assert self.callback_manager is not None, "build() must run first"
+        assert self.metric_logger is not None, "build() must run first"
+
         phase = "train" if is_train else "val"
         data_loader = self.train_data if is_train else self.val_data
 
@@ -719,6 +747,7 @@ class BaseTrainer(InferenceOpsMixin, ABC):
             loop can weight by sample count.
         """
         output, loss = self.compute_train_step(batch_data)
+        assert self.metrics_accumulator is not None, "build() must run first"
         self.metrics_accumulator.update("train", output)
         return loss.item(), output["y_label"].numel()
 
@@ -736,6 +765,7 @@ class BaseTrainer(InferenceOpsMixin, ABC):
         output = self.forward_pass(batch_data)
         loss = self._compute_eval_loss(output)
 
+        assert self.metrics_accumulator is not None, "build() must run first"
         self.metrics_accumulator.update("val", output)
 
         return loss.item(), output["y_label"].numel()
@@ -756,11 +786,12 @@ class BaseTrainer(InferenceOpsMixin, ABC):
         output = self.test_forward_pass(batch_data)
         loss = self._compute_eval_loss(output)
 
+        assert self.metrics_accumulator is not None, "build() must run first"
         self.metrics_accumulator.update("test", output)
 
         return loss.item()
 
-    def _iter_eval_batches(self, loader: Any, description: str):
+    def _iter_eval_batches(self, loader: Any, description: str) -> Iterator[Any]:
         """Iterate ``loader`` under a progress bar when rendering is enabled.
 
         Args:
@@ -793,6 +824,9 @@ class BaseTrainer(InferenceOpsMixin, ABC):
             Dictionary of test metrics (e.g. auc, acc, rmse).
             Empty dict if test data is not available.
         """
+        assert self.callback_manager is not None, "build() must run first"
+        assert self.metrics_accumulator is not None, "build() must run first"
+        assert self.metric_logger is not None, "build() must run first"
         if self.test_data is None:
             logger.info("Test data not provided. Skipping test evaluation.")
             return {}
@@ -862,6 +896,7 @@ class BaseTrainer(InferenceOpsMixin, ABC):
         Raises:
             FileNotFoundError: If the checkpoint file does not exist.
         """
+        assert self.checkpoint_manager is not None, "build() must run first"
         self.checkpoint_manager.load_weights(checkpoint_path, self.model, self.device_)
         self.model.to(self.device_)
 
@@ -884,6 +919,8 @@ class BaseTrainer(InferenceOpsMixin, ABC):
             return {}
 
         self.model.eval()
+        assert self.metrics_accumulator is not None, "build() must run first"
+        assert self.metric_logger is not None, "build() must run first"
         self.metrics_accumulator.reset("test")
 
         for batch_data in self._iter_eval_batches(
@@ -969,7 +1006,7 @@ class BaseTrainer(InferenceOpsMixin, ABC):
             f"avg {avg:.2f}s/epoch"
         )
 
-    def _finish(self):
+    def _finish(self) -> None:
         """Clean up resources and finalize experiment tracking."""
         self._print_timing_summary()
         # Runs on failed runs too (run()'s finally): stops live rendering

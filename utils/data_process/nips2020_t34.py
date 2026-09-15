@@ -1,6 +1,7 @@
 """NeurIPS 2020 Education Challenge Task 3 & 4 dataset handler."""
 
 import os
+from typing import Any
 
 import polars as pl
 from typing_extensions import override
@@ -20,7 +21,7 @@ class NIPS2020T34Data(DataSource):
     Uses Level 3 subjects from subject_metadata as skills.
     """
 
-    def __init__(self, args):
+    def __init__(self, args: Any) -> None:
         """Initialize the NIPS 2020 Task 3 & 4 dataset handler."""
         super().__init__(
             dataset="nips2020_t34",
@@ -32,7 +33,7 @@ class NIPS2020T34Data(DataSource):
         self.raw_dir = os.path.join(self.data_folder, "raw")
 
     @override
-    def load_src_data(self):
+    def load_src_data(self) -> None:
         paths = {
             "primary": os.path.join(self.raw_dir, "train_task_3_4.csv"),
             "answer_meta": os.path.join(self.raw_dir, "answer_metadata_task_3_4.csv"),
@@ -54,7 +55,7 @@ class NIPS2020T34Data(DataSource):
         }
 
     @override
-    def clean_raw_data(self):
+    def clean_raw_data(self) -> None:
         if self.raw_data is None:
             self.load_src_data()
 
@@ -122,7 +123,7 @@ class NIPS2020T34Data(DataSource):
         self._question_meta = question_meta
 
     @override
-    def transform_data(self):
+    def transform_data(self) -> None:
         logger.info("Processing nips2020_t34 data...")
 
         if self.cleaned_raw_data is None:

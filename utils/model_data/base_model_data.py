@@ -8,7 +8,9 @@ import functools
 import hashlib
 import pickle
 from abc import ABC, abstractmethod
+from collections.abc import Callable
 from pathlib import Path
+from typing import Any, overload
 
 import numpy as np
 import polars as pl
@@ -37,18 +39,32 @@ class BaseModelData(ABC):
         self.data_src = data_src
         self._cache = cache
 
+    @overload
     @staticmethod
-    def disk_cache(cache_name: str | None = None):
+    def disk_cache(
+        cache_name: Callable[..., Any],
+    ) -> Callable[..., Any]: ...  # bare @disk_cache form: returns wrapped method
+
+    @overload
+    @staticmethod
+    def disk_cache(
+        cache_name: Any = None,
+    ) -> Callable[[Callable[..., Any]], Callable[..., Any]]: ...  # factory form
+
+    @staticmethod
+    def disk_cache(
+        cache_name: Any = None,
+    ) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
         """Decorator factory providing disk caching for instance methods.
 
         Usage::
 
             @BaseModelData.disk_cache()
-            def prepare_data(self, args):
+            def prepare_data(self, args: Any) -> Any:
                 ...
 
             @BaseModelData.disk_cache("my_data")
-            def prepare_data(self, args):
+            def prepare_data(self, args: Any) -> Any:
                 ...
 
         Args:
@@ -60,7 +76,7 @@ class BaseModelData(ABC):
             - Cache directory: ``.cache/<ClassName>/``.
         """
 
-        def _normalize_for_key(obj):
+        def _normalize_for_key(obj: Any) -> Any:
             """Convert an object to a stable, serialisable structure for cache keying."""
             if isinstance(obj, (str, int, float, bool, type(None))):
                 return obj
@@ -94,14 +110,14 @@ class BaseModelData(ABC):
                 return ("__object__", module, name, shape)
             return ("__object__", module, name)
 
-        def _stable_key(obj):
+        def _stable_key(obj: Any) -> bytes:
             """Encode a normalised object as a stable byte string."""
             normalized = _normalize_for_key(obj)
             return repr(normalized).encode("utf-8")
 
-        def decorator(func):
+        def decorator(func: Callable[..., Any]) -> Callable[..., Any]:
             @functools.wraps(func)
-            def wrapper(self, *args, **kwargs):
+            def wrapper(self: Any, *args: Any, **kwargs: Any) -> Any:
                 if not getattr(self, "_cache", False):
                     return func(self, *args, **kwargs)
 
@@ -165,7 +181,7 @@ class BaseModelData(ABC):
 
         return decorator
 
-    def _get_kfold_data(self):
+    def _get_kfold_data(self) -> pl.DataFrame:
         """Retrieve the K-fold label data source for this model data.
 
         Subclasses should override this method to return the actual sequence
@@ -235,7 +251,7 @@ class BaseModelData(ABC):
         return user_folds
 
     @abstractmethod
-    def prepare_data(self, args):
+    def prepare_data(self, args: Any) -> Any:
         """Prepare data required by the model.
 
         Args:
@@ -243,7 +259,9 @@ class BaseModelData(ABC):
         """
         raise NotImplementedError("Subclasses should implement prepare_data method")
 
-    def split_kfold_data(self, *arrays, fold_idx: int):
+    def split_kfold_data(
+        self, *arrays: Any, fold_idx: int
+    ) -> tuple[tuple[Any, ...], tuple[Any, ...], tuple[Any, ...]]:
         """Split data into train, validation, and test sets by K-fold index.
 
         Args:
@@ -327,7 +345,9 @@ class BaseModelData(ABC):
 
         return tuple(train_slices), tuple(val_slices), tuple(test_slices)
 
-    def calculate_question_difficulty(self, exclude_fold: int | None = None):
+    def calculate_question_difficulty(
+        self, exclude_fold: int | None = None
+    ) -> dict[int, float]:
         """Calculate difficulty metrics for each question.
 
         Difficulty is computed from:
@@ -369,7 +389,7 @@ class BaseModelData(ABC):
 
     def build_relationship_matrix(
         self, edge_type: tuple[str, str, str], value_type: str = "binary"
-    ):
+    ) -> np.ndarray:
         """Build a relationship matrix between entity types.
 
         Args:

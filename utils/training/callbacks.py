@@ -8,8 +8,9 @@ from abc import ABC
 from collections.abc import Callable
 from typing import Any, ClassVar, TypeVar
 
-from rich.console import Group
+from rich.console import Group, RenderableType
 from rich.live import Live
+from rich.progress import Progress, TaskID
 from rich.text import Text
 
 from ..core import get_logger
@@ -30,7 +31,7 @@ class Callback(ABC):
     during training.
     """
 
-    def on_train_begin(self, epochs: int, **kwargs):
+    def on_train_begin(self, epochs: int, **kwargs: Any) -> None:
         """Called when training begins.
 
         Args:
@@ -39,7 +40,7 @@ class Callback(ABC):
         """
         pass
 
-    def on_train_end(self, **kwargs):
+    def on_train_end(self, **kwargs: Any) -> None:
         """Called when training ends.
 
         Args:
@@ -47,7 +48,7 @@ class Callback(ABC):
         """
         pass
 
-    def on_epoch_begin(self, epoch: int, **kwargs):
+    def on_epoch_begin(self, epoch: int, **kwargs: Any) -> None:
         """Called when an epoch begins.
 
         Args:
@@ -56,7 +57,9 @@ class Callback(ABC):
         """
         pass
 
-    def on_epoch_end(self, epoch: int, train_loss: float, val_loss: float, **kwargs):
+    def on_epoch_end(
+        self, epoch: int, train_loss: float, val_loss: float | None, **kwargs: Any
+    ) -> None:
         """Called when an epoch ends.
 
         Args:
@@ -67,7 +70,7 @@ class Callback(ABC):
         """
         pass
 
-    def on_phase_begin(self, epoch: int, phase: str, **kwargs):
+    def on_phase_begin(self, epoch: int, phase: str, **kwargs: Any) -> None:
         """Called when a training/validation phase begins.
 
         Args:
@@ -78,8 +81,13 @@ class Callback(ABC):
         pass
 
     def on_phase_end(
-        self, epoch: int, phase: str, loss: float, metrics: dict, **kwargs
-    ):
+        self,
+        epoch: int,
+        phase: str,
+        loss: float,
+        metrics: dict[str, float],
+        **kwargs: Any,
+    ) -> None:
         """Called when a training/validation phase ends.
 
         Args:
@@ -91,7 +99,9 @@ class Callback(ABC):
         """
         pass
 
-    def on_batch_begin(self, epoch: int, batch_idx: int, phase: str, **kwargs):
+    def on_batch_begin(
+        self, epoch: int, batch_idx: int, phase: str, **kwargs: Any
+    ) -> None:
         """Called when a batch begins.
 
         Args:
@@ -103,8 +113,13 @@ class Callback(ABC):
         pass
 
     def on_batch_end(
-        self, epoch: int, batch_idx: int, phase: str, loss: float, **kwargs
-    ):
+        self,
+        epoch: int,
+        batch_idx: int,
+        phase: str,
+        loss: float,
+        **kwargs: Any,
+    ) -> None:
         """Called when a batch ends.
 
         Args:
@@ -116,7 +131,7 @@ class Callback(ABC):
         """
         pass
 
-    def should_stop(self, **kwargs) -> bool:
+    def should_stop(self, **kwargs: Any) -> bool:
         """Check whether training should stop.
 
         Args:
@@ -127,7 +142,7 @@ class Callback(ABC):
         """
         return False
 
-    def close(self):
+    def close(self) -> None:
         """Release resources held by this callback.
 
         Called from the trainer's finally path — including failed runs —
@@ -160,48 +175,62 @@ class FunctionCallback(Callback):
             else:
                 self._handlers[name] = [funcs]
 
-    def _call(self, name: str, *args, **kwargs) -> None:
+    def _call(self, name: str, *args: Any, **kwargs: Any) -> None:
         """Invoke all handlers registered for a given event name."""
         for func in self._handlers.get(name, []):
             func(*args, **kwargs)
 
-    def on_train_begin(self, epochs: int, **kwargs):
+    def on_train_begin(self, epochs: int, **kwargs: Any) -> None:
         """Delegate to registered ``on_train_begin`` handlers."""
         self._call("on_train_begin", epochs)
 
-    def on_train_end(self, **kwargs):
+    def on_train_end(self, **kwargs: Any) -> None:
         """Delegate to registered ``on_train_end`` handlers."""
         self._call("on_train_end")
 
-    def on_epoch_begin(self, epoch: int, **kwargs):
+    def on_epoch_begin(self, epoch: int, **kwargs: Any) -> None:
         """Delegate to registered ``on_epoch_begin`` handlers."""
         self._call("on_epoch_begin", epoch)
 
-    def on_epoch_end(self, epoch: int, train_loss: float, val_loss: float, **kwargs):
+    def on_epoch_end(
+        self, epoch: int, train_loss: float, val_loss: float | None, **kwargs: Any
+    ) -> None:
         """Delegate to registered ``on_epoch_end`` handlers."""
         self._call("on_epoch_end", epoch, train_loss, val_loss)
 
-    def on_phase_begin(self, epoch: int, phase: str, **kwargs):
+    def on_phase_begin(self, epoch: int, phase: str, **kwargs: Any) -> None:
         """Delegate to registered ``on_phase_begin`` handlers."""
         self._call("on_phase_begin", epoch, phase)
 
     def on_phase_end(
-        self, epoch: int, phase: str, loss: float, metrics: dict, **kwargs
-    ):
+        self,
+        epoch: int,
+        phase: str,
+        loss: float,
+        metrics: dict[str, float],
+        **kwargs: Any,
+    ) -> None:
         """Delegate to registered ``on_phase_end`` handlers."""
         self._call("on_phase_end", epoch, phase, loss, metrics)
 
-    def on_batch_begin(self, epoch: int, batch_idx: int, phase: str, **kwargs):
+    def on_batch_begin(
+        self, epoch: int, batch_idx: int, phase: str, **kwargs: Any
+    ) -> None:
         """Delegate to registered ``on_batch_begin`` handlers."""
         self._call("on_batch_begin", epoch, batch_idx, phase)
 
     def on_batch_end(
-        self, epoch: int, batch_idx: int, phase: str, loss: float, **kwargs
-    ):
+        self,
+        epoch: int,
+        batch_idx: int,
+        phase: str,
+        loss: float,
+        **kwargs: Any,
+    ) -> None:
         """Delegate to registered ``on_batch_end`` handlers."""
         self._call("on_batch_end", epoch, batch_idx, phase, loss)
 
-    def should_stop(self, **kwargs) -> bool:
+    def should_stop(self, **kwargs: Any) -> bool:
         """Check all registered ``should_stop`` handlers.
 
         Returns:
@@ -226,7 +255,7 @@ class CallbackManager:
         """
         self.callbacks = [cb for cb in callbacks if cb is not None]
 
-    def trigger(self, method_name: str, *args, **kwargs):
+    def trigger(self, method_name: str, *args: Any, **kwargs: Any) -> None:
         """Invoke a method on all registered callbacks.
 
         Args:
@@ -251,7 +280,7 @@ class CallbackManager:
                 return cb
         return None
 
-    def should_stop(self, **kwargs) -> bool:
+    def should_stop(self, **kwargs: Any) -> bool:
         """Check whether any callback requests training to stop.
 
         Args:
@@ -262,7 +291,7 @@ class CallbackManager:
         """
         return any(cb.should_stop(**kwargs) for cb in self.callbacks)
 
-    def close(self):
+    def close(self) -> None:
         """Call ``close`` on all callbacks in list order.
 
         Runs on the trainer's finally path (including failed runs), so a
@@ -277,7 +306,7 @@ class CallbackManager:
                 logger.warning(f"{type(callback).__name__}.close() failed: {e}")
 
     # Convenience methods
-    def on_train_begin(self, epochs: int, **kwargs):
+    def on_train_begin(self, epochs: int, **kwargs: Any) -> None:
         """Trigger ``on_train_begin`` on all callbacks.
 
         Args:
@@ -286,7 +315,7 @@ class CallbackManager:
         """
         self.trigger("on_train_begin", epochs, **kwargs)
 
-    def on_train_end(self, **kwargs):
+    def on_train_end(self, **kwargs: Any) -> None:
         """Trigger ``on_train_end`` on all callbacks.
 
         Args:
@@ -294,7 +323,7 @@ class CallbackManager:
         """
         self.trigger("on_train_end", **kwargs)
 
-    def on_epoch_begin(self, epoch: int, **kwargs):
+    def on_epoch_begin(self, epoch: int, **kwargs: Any) -> None:
         """Trigger ``on_epoch_begin`` on all callbacks.
 
         Args:
@@ -303,7 +332,9 @@ class CallbackManager:
         """
         self.trigger("on_epoch_begin", epoch, **kwargs)
 
-    def on_epoch_end(self, epoch: int, train_loss: float, val_loss: float, **kwargs):
+    def on_epoch_end(
+        self, epoch: int, train_loss: float, val_loss: float | None, **kwargs: Any
+    ) -> None:
         """Trigger ``on_epoch_end`` on all callbacks.
 
         Args:
@@ -315,8 +346,13 @@ class CallbackManager:
         self.trigger("on_epoch_end", epoch, train_loss, val_loss, **kwargs)
 
     def on_phase_end(
-        self, epoch: int, phase: str, loss: float, metrics: dict, **kwargs
-    ):
+        self,
+        epoch: int,
+        phase: str,
+        loss: float,
+        metrics: dict[str, float],
+        **kwargs: Any,
+    ) -> None:
         """Trigger ``on_phase_end`` on all callbacks.
 
         Args:
@@ -328,7 +364,7 @@ class CallbackManager:
         """
         self.trigger("on_phase_end", epoch, phase, loss, metrics, **kwargs)
 
-    def on_phase_begin(self, epoch: int, phase: str, **kwargs):
+    def on_phase_begin(self, epoch: int, phase: str, **kwargs: Any) -> None:
         """Trigger ``on_phase_begin`` on all callbacks.
 
         Args:
@@ -338,7 +374,9 @@ class CallbackManager:
         """
         self.trigger("on_phase_begin", epoch, phase, **kwargs)
 
-    def on_batch_begin(self, epoch: int, batch_idx: int, phase: str, **kwargs):
+    def on_batch_begin(
+        self, epoch: int, batch_idx: int, phase: str, **kwargs: Any
+    ) -> None:
         """Trigger ``on_batch_begin`` on all callbacks.
 
         Args:
@@ -350,8 +388,13 @@ class CallbackManager:
         self.trigger("on_batch_begin", epoch, batch_idx, phase, **kwargs)
 
     def on_batch_end(
-        self, epoch: int, batch_idx: int, phase: str, loss: float, **kwargs
-    ):
+        self,
+        epoch: int,
+        batch_idx: int,
+        phase: str,
+        loss: float,
+        **kwargs: Any,
+    ) -> None:
         """Trigger ``on_batch_end`` on all callbacks.
 
         Args:
@@ -390,8 +433,13 @@ class EarlyStoppingCallback(Callback):
         self._stop = False
 
     def on_phase_end(
-        self, epoch: int, phase: str, loss: float, metrics: dict, **kwargs
-    ):
+        self,
+        epoch: int,
+        phase: str,
+        loss: float,
+        metrics: dict[str, float],
+        **kwargs: Any,
+    ) -> None:
         """Run early stopping check at the end of the validation phase.
 
         Args:
@@ -432,7 +480,9 @@ class EarlyStoppingCallback(Callback):
         self._stop = self.early_stopping.step(current, epoch, metrics)
         return self._stop
 
-    def _select_monitor_value(self, metrics: dict, val_loss: float | None) -> float:
+    def _select_monitor_value(
+        self, metrics: dict[str, float], val_loss: float | None
+    ) -> float:
         """Select the monitored value from metrics or loss, with fallbacks."""
         name = (self.cfg.monitor or "auc").lower()
         value = None
@@ -457,7 +507,7 @@ class EarlyStoppingCallback(Callback):
             return float("-inf")
         return float(value)
 
-    def should_stop(self, **kwargs) -> bool:
+    def should_stop(self, **kwargs: Any) -> bool:
         """Check whether early stopping has been triggered.
 
         Args:
@@ -520,7 +570,7 @@ class CheckpointCallback(Callback):
         self.best_epoch: int | None = None
         self.best_model_state: dict | None = None
 
-    def on_train_begin(self, epochs: int, **kwargs):
+    def on_train_begin(self, epochs: int, **kwargs: Any) -> None:
         """Reset tracking state at the start of training.
 
         Args:
@@ -535,8 +585,13 @@ class CheckpointCallback(Callback):
         self.best_model_state = None
 
     def on_phase_end(
-        self, epoch: int, phase: str, loss: float, metrics: dict, **kwargs
-    ):
+        self,
+        epoch: int,
+        phase: str,
+        loss: float,
+        metrics: dict[str, float],
+        **kwargs: Any,
+    ) -> None:
         """Save the best model at the end of the validation phase.
 
         Args:
@@ -561,7 +616,9 @@ class CheckpointCallback(Callback):
         )
         self.best_model_state = snapshot if self.keep_best_state else None
 
-    def on_epoch_end(self, epoch: int, train_loss: float, val_loss: float, **kwargs):
+    def on_epoch_end(
+        self, epoch: int, train_loss: float, val_loss: float | None, **kwargs: Any
+    ) -> None:
         """Save the last checkpoint at the end of each epoch.
 
         Args:
@@ -592,7 +649,9 @@ class CheckpointCallback(Callback):
             return "auc"
         return (self.early_stopping.cfg.monitor or "auc").lower()
 
-    def _select_monitor_value(self, metrics: dict, val_loss: float | None) -> float:
+    def _select_monitor_value(
+        self, metrics: dict[str, float], val_loss: float | None
+    ) -> float:
         """Select the current monitored value from metrics or loss.
 
         Falls back to auc → auprc → acc → rmse if the named metric is unavailable.
@@ -644,7 +703,7 @@ class CheckpointCallback(Callback):
         """Serialize the early stopping state for checkpoint persistence."""
         if self.early_stopping is None:
             return None
-        state = {
+        state: dict[str, Any] = {
             "best_score": self.early_stopping.best_score,
             "best_epoch": self.early_stopping.best_epoch,
             "num_bad_epochs": self.early_stopping.num_bad_epochs,
@@ -670,8 +729,13 @@ class MemoryCleanupCallback(Callback):
         self.cleanup_interval = cleanup_interval
 
     def on_phase_end(
-        self, epoch: int, phase: str, loss: float, metrics: dict, **kwargs
-    ):
+        self,
+        epoch: int,
+        phase: str,
+        loss: float,
+        metrics: dict[str, float],
+        **kwargs: Any,
+    ) -> None:
         """Run cleanup at the end of a phase if the interval is met.
 
         Args:
@@ -684,7 +748,7 @@ class MemoryCleanupCallback(Callback):
         if epoch % self.cleanup_interval == 0:
             self._cleanup_memory(phase)
 
-    def _cleanup_memory(self, phase: str):
+    def _cleanup_memory(self, phase: str) -> None:
         """Clean up GPU cache and run Python garbage collection.
 
         Logs a debug message if more than 100 MB of GPU memory was
@@ -721,7 +785,7 @@ class TestEvaluationCallback(Callback):
         """
         self.use_best_model = use_best_model
 
-    def on_train_end(self, **kwargs):
+    def on_train_end(self, **kwargs: Any) -> None:
         """Run test set evaluation when training ends.
 
         Args:
@@ -749,19 +813,19 @@ class ProgressCallback(Callback):
     # display instead of raising LiveError at the second start.
     _active: ClassVar["ProgressCallback | None"] = None
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize with no display; everything is built in ``on_train_begin``."""
         self._trainer: Any = None
-        self._progress = None
+        self._progress: Progress | None = None
         self._live: Live | None = None
         self._best_text: Text | None = None
-        self._total_task = None
-        self._work_task = None
+        self._total_task: TaskID | None = None
+        self._work_task: TaskID | None = None
         self._checkpoint_cb: CheckpointCallback | None = None
         self._monitor_name = "auc"
         self._stage_prefix = ""
 
-    def on_train_begin(self, epochs: int, **kwargs):
+    def on_train_begin(self, epochs: int, **kwargs: Any) -> None:
         """Build the live display for the upcoming (stage) run.
 
         Args:
@@ -792,7 +856,7 @@ class ProgressCallback(Callback):
         )
 
         progress = create_progress()
-        renderables = [progress]
+        renderables: list[RenderableType] = [progress]
         if trainer.early_stopping is not None:
             self._best_text = Text(
                 f"{self._stage_prefix}Best {self._monitor_name.upper()}: N/A",
@@ -814,7 +878,7 @@ class ProgressCallback(Callback):
             "[bold green]Training", total=len(trainer.train_data)
         )
 
-    def on_phase_begin(self, epoch: int, phase: str, **kwargs):
+    def on_phase_begin(self, epoch: int, phase: str, **kwargs: Any) -> None:
         """Reset the batch bar for the starting phase.
 
         Args:
@@ -822,7 +886,7 @@ class ProgressCallback(Callback):
             phase: Phase name, ``"train"`` or ``"val"``.
             **kwargs: Additional keyword arguments (e.g. trainer).
         """
-        if self._progress is None or self._trainer is None:
+        if self._progress is None or self._work_task is None or self._trainer is None:
             return
         loader = (
             self._trainer.train_data if phase == "train" else self._trainer.val_data
@@ -835,8 +899,13 @@ class ProgressCallback(Callback):
         )
 
     def on_batch_end(
-        self, epoch: int, batch_idx: int, phase: str, loss: float, **kwargs
-    ):
+        self,
+        epoch: int,
+        batch_idx: int,
+        phase: str,
+        loss: float,
+        **kwargs: Any,
+    ) -> None:
         """Advance the batch bar by one batch.
 
         Args:
@@ -846,10 +915,13 @@ class ProgressCallback(Callback):
             loss: Loss value for this batch.
             **kwargs: Additional keyword arguments.
         """
-        if self._progress is not None:
-            self._progress.advance(self._work_task)
+        if self._progress is None or self._work_task is None:
+            return
+        self._progress.advance(self._work_task)
 
-    def on_epoch_end(self, epoch: int, train_loss: float, val_loss: float, **kwargs):
+    def on_epoch_end(
+        self, epoch: int, train_loss: float, val_loss: float | None, **kwargs: Any
+    ) -> None:
         """Advance the epoch bar and refresh the best-metric header.
 
         Best metric values are already updated by ``CheckpointCallback`` at
@@ -862,7 +934,7 @@ class ProgressCallback(Callback):
             val_loss: Validation loss for this epoch.
             **kwargs: Additional keyword arguments (e.g. trainer).
         """
-        if self._progress is None or self._trainer is None:
+        if self._progress is None or self._total_task is None or self._trainer is None:
             return
         self._progress.advance(self._total_task)
 
@@ -892,7 +964,7 @@ class ProgressCallback(Callback):
             )
             self._best_text.stylize("bold yellow")
 
-    def on_train_end(self, **kwargs):
+    def on_train_end(self, **kwargs: Any) -> None:
         """Stop the live display; later callbacks (test evaluation) render freely.
 
         Args:
@@ -900,11 +972,11 @@ class ProgressCallback(Callback):
         """
         self._teardown()
 
-    def close(self):
+    def close(self) -> None:
         """Stop the live display; idempotent and safe on failed runs."""
         self._teardown()
 
-    def _teardown(self):
+    def _teardown(self) -> None:
         """Stop and drop the display; must never mask a training error."""
         if self._live is not None:
             try:

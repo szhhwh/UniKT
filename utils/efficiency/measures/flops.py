@@ -1,9 +1,14 @@
 """Forward FLOPs and disk-size estimation via ``torch.utils.flop_counter``."""
 
+from __future__ import annotations
+
 from collections.abc import Callable
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import torch
+
+if TYPE_CHECKING:
+    from torch.utils.flop_counter import FlopCounterMode
 
 from utils.core import get_logger
 
@@ -51,7 +56,7 @@ def count_flops(
         return None, {}
 
 
-def format_breakdown(flop_counter) -> dict[str, int]:
+def format_breakdown(flop_counter: FlopCounterMode) -> dict[str, int]:
     """Top-level aten op to FLOPs mapping from FlopCounterMode, sorted desc."""
     try:
         counts = flop_counter.get_flop_counts()

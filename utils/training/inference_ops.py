@@ -15,7 +15,7 @@ class InferenceOpsMixin:
     methods; :meth:`_try_gpu` is static and usable anytime.
     """
 
-    device_: torch.device
+    device_: torch.device | None
 
     @staticmethod
     def _try_gpu() -> torch.device:
@@ -27,7 +27,7 @@ class InferenceOpsMixin:
         return torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     def _move_tensor_to_device(
-        self, tensor: torch.Tensor, dtype: torch.dtype = None
+        self, tensor: torch.Tensor, dtype: torch.dtype | None = None
     ) -> torch.Tensor:
         """Move a tensor to the trainer's device, optionally casting dtype.
 
@@ -38,6 +38,7 @@ class InferenceOpsMixin:
         Returns:
             Tensor moved to device and optionally cast.
         """
+        assert self.device_ is not None, "host class must set device_ first"
         result = tensor.to(self.device_)
         if dtype is not None:
             result = result.to(dtype)
@@ -150,6 +151,7 @@ class InferenceOpsMixin:
         Returns:
             Binary prediction tensor (0 or 1).
         """
+        assert self.device_ is not None, "host class must set device_ first"
         return torch.ge(y_hat, torch.tensor(threshold).to(self.device_)).to(torch.int)
 
 

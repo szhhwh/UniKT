@@ -13,6 +13,7 @@ import json
 import logging
 from datetime import datetime
 from pathlib import Path
+from typing import Any
 
 from config import (
     SEARCH_CONFIGS_DIR,
@@ -160,7 +161,7 @@ def _require_search_task(task_id: int) -> None:
 @router.post("", response_model=TaskResponse, status_code=201)
 def create_search(
     body: SearchCreate, pm: ProcessManager = Depends(get_process_manager)
-):
+) -> Any:
     """Create a hyperparameter search task and enqueue it for execution."""
     name = body.name or f"{body.model_name}_{body.dataset}_search"
     with SessionLocal() as session:
@@ -235,7 +236,7 @@ def create_search(
 @router.post("/preview-command", response_model=SearchPreviewResponse)
 def preview_command(
     body: SearchPreviewRequest, pm: ProcessManager = Depends(get_process_manager)
-):
+) -> Any:
     """Return the CLI command that would be executed for the given search config."""
     params = _build_search_params(
         body.runconfig_params, body.dataset, body.optuna_config, task_id=None
@@ -244,7 +245,7 @@ def preview_command(
 
 
 @router.get("", response_model=Page[TaskResponse])
-def list_searches(status: str | None = None, params: Params = Depends()):
+def list_searches(status: str | None = None, params: Params = Depends()) -> Any:
     """List search tasks with optional status filter and pagination.
 
     Active tasks (null finished_at) appear first, then most recently finished.
@@ -266,7 +267,7 @@ def list_searches(status: str | None = None, params: Params = Depends()):
 
 
 @router.get("/{task_id}", response_model=TaskResponse)
-def get_search(task_id: int):
+def get_search(task_id: int) -> Any:
     """Return a single search task by its ID.
 
     Raises:
@@ -281,7 +282,7 @@ def get_search(task_id: int):
 
 
 @router.post("/{task_id}/stop")
-def stop_search(task_id: int, pm: ProcessManager = Depends(get_process_manager)):
+def stop_search(task_id: int, pm: ProcessManager = Depends(get_process_manager)) -> Any:
     """Request a graceful stop of a running search."""
     _require_search_task(task_id)
     stop_task_handler(pm, task_id)
@@ -289,7 +290,7 @@ def stop_search(task_id: int, pm: ProcessManager = Depends(get_process_manager))
 
 
 @router.post("/{task_id}/kill")
-def kill_search(task_id: int, pm: ProcessManager = Depends(get_process_manager)):
+def kill_search(task_id: int, pm: ProcessManager = Depends(get_process_manager)) -> Any:
     """Force-kill a running search."""
     _require_search_task(task_id)
     kill_task_handler(pm, task_id)
@@ -301,7 +302,7 @@ def delete_search(
     task_id: int,
     pm: ProcessManager = Depends(get_process_manager),
     cache: LineRenderCache = Depends(get_line_cache),
-):
+) -> Any:
     """Delete a search task, its log, and its persisted optuna YAML.
 
     The search output directory (study.db, trial subdirs) is preserved.
@@ -313,7 +314,7 @@ def delete_search(
 
 
 @router.get("/{task_id}/trials", response_model=SearchStudyResponse)
-def get_search_trials(task_id: int):
+def get_search_trials(task_id: int) -> Any:
     """Return live trial progress read from the search's ``study.db``.
 
     Renders an empty summary when the DB is not ready yet (search not started or
@@ -336,7 +337,7 @@ def get_search_trials(task_id: int):
 
 
 @router.get("/{task_id}/study-db", response_model=SearchStudyPathResponse)
-def get_study_db_path(task_id: int):
+def get_study_db_path(task_id: int) -> Any:
     """Return the ``study.db`` path and a copy-paste optuna-dashboard command.
 
     Raises AppError 404 if the task does not exist or is not a search task.

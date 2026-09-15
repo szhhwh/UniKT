@@ -7,6 +7,8 @@ requiring cuDNN to be disabled during FLOP measurement. Convention follows
 FlopCounterMode built-ins: 1 FMA = 2 FLOPs (m x n x 2 x k).
 """
 
+from typing import Any
+
 import torch
 from torch.utils.flop_counter import flop_registry, register_flop_formula
 
@@ -16,23 +18,23 @@ if _CUDNN_RNN not in flop_registry:
 
     @register_flop_formula(_CUDNN_RNN)
     def _cudnn_rnn_flop(
-        input_size,
-        weight_sizes,
-        weight_stride0,
-        weight_buf_size,
-        hx_size,
-        cx_size,
-        mode,
-        hidden_size,
-        proj_size,
-        num_layers,
-        batch_first,
-        dropout,
-        train,
-        bidirectional,
-        batch_sizes,
-        dropout_state_size,
-        **kwargs,
+        input_size: torch.Size,
+        weight_sizes: list[torch.Size],
+        weight_stride0: int,
+        weight_buf_size: int,
+        hx_size: torch.Size,
+        cx_size: torch.Size,
+        mode: int,
+        hidden_size: int,
+        proj_size: int,
+        num_layers: int,
+        batch_first: bool,
+        dropout: float,
+        train: bool,
+        bidirectional: bool,
+        batch_sizes: torch.Size | None,
+        dropout_state_size: list[torch.Size],
+        **kwargs: Any,
     ) -> int:
         """Compute forward FLOPs of a cuDNN-fused RNN (mode: 0/1=RNN, 2=LSTM, 3=GRU).
 

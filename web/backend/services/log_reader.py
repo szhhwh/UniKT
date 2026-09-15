@@ -8,7 +8,10 @@ expects but operating on lines instead of raw bytes.
 """
 
 import asyncio
+from collections.abc import Callable
 from pathlib import Path
+
+from fastapi import WebSocket
 
 from services.line_render import LineRenderCache
 
@@ -27,9 +30,9 @@ def read_log_lines(
 
 async def stream_log_lines(
     path: Path,
-    websocket,
+    websocket: WebSocket,
     cache: LineRenderCache,
-    check_alive=None,
+    check_alive: Callable[[], bool] | None = None,
     from_line: int = 0,
 ) -> None:
     """Stream rendered log lines over a WebSocket as incremental patches.
@@ -78,5 +81,5 @@ async def stream_log_lines(
     await websocket.close()
 
 
-async def _send(websocket, message: dict) -> None:
+async def _send(websocket: WebSocket, message: dict) -> None:
     await websocket.send_json(message)

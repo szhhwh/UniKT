@@ -129,7 +129,7 @@ def load_case_results(path: str) -> pd.DataFrame:
     return df
 
 
-def get_user_sequence(df: pd.DataFrame, user_id) -> pd.DataFrame:
+def get_user_sequence(df: pd.DataFrame, user_id: Any) -> pd.DataFrame:
     """Get one user's full sequence sorted by position.
 
     Args:

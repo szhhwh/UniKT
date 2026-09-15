@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import logging
 from collections.abc import Collection
+from typing import Any
 
 from sqlalchemy.orm import Session
 
@@ -66,11 +67,11 @@ def _allowed(model: type, frm: str, to: str) -> bool:
 
 def transition(
     session: Session,
-    model: type,
+    model: type[Any],
     task_id: int,
     frm: str | Collection[str],
     to: str,
-    **fields,
+    **fields: Any,
 ) -> bool:
     """Atomically move a row from an accepted prior status to ``to`` via CAS.
 
@@ -96,7 +97,7 @@ def transition(
             )
             return False
 
-    values = {"status": to, **fields}
+    values: dict[Any, Any] = {"status": to, **fields}
     stmt = session.query(model).filter(model.id == task_id)
     if len(frms) == 1:
         stmt = stmt.filter(model.status == frms[0])

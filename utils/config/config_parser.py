@@ -21,8 +21,9 @@ from __future__ import annotations
 import argparse
 import sys
 from dataclasses import fields
+from os import PathLike
 from pathlib import Path
-from typing import Any
+from typing import Any, Protocol
 
 import yaml
 from jsonargparse import ActionConfigFile, ArgumentParser, Namespace
@@ -114,7 +115,9 @@ class ConfigParser:
         )
 
     def _build_parser(self, schema_nodes: dict[str, type]) -> ArgumentParser:
-        default_files = [self.default_config] if self.default_config else None
+        default_files: list[str | PathLike] | None = (
+            [self.default_config] if self.default_config else None
+        )
         parser = ArgumentParser(
             prog=self.prog,
             description=self.description,
@@ -281,7 +284,13 @@ def reject_model_flags(argv: list[str], prog: str, run_dir_flag: str) -> None:
             )
 
 
-def require_dataset(rc: RunConfig) -> None:
+class _HasDataNode(Protocol):
+    """Structural minimum for :func:`require_dataset` (RunConfig or a partial view)."""
+
+    data: Any
+
+
+def require_dataset(rc: _HasDataNode) -> None:
     """Fail fast with a clear message when no dataset is selected.
 
     Without this, an empty ``rc.data.dataset`` reaches ``get_data_source`` late
@@ -340,7 +349,11 @@ def build_node(cls: type, node_ns: Namespace) -> Any:
     for f in fields(cls):
         val = node_ns[f.name]
         ftype = hints.get(f.name, f.type)
-        if is_dataclass(ftype) and isinstance(val, Namespace):
+        if (
+            isinstance(ftype, type)
+            and is_dataclass(ftype)
+            and isinstance(val, Namespace)
+        ):
             kwargs[f.name] = build_node(ftype, val)
         else:
             kwargs[f.name] = val

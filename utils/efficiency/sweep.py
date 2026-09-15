@@ -11,6 +11,8 @@ error); per-point metrics stay in each point's own report (no cross-point
 aggregation).
 """
 
+from __future__ import annotations
+
 import copy
 import gc
 import json
@@ -18,18 +20,29 @@ from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
+from typing import TYPE_CHECKING, Any, Literal, cast
 
 import torch
 from rich.console import Console
 
-from utils.config import config_to_dict
+from utils.config import CompileConfig, RunConfig, config_to_dict
 from utils.core import add_file_handler, get_logger
 from utils.experiment_manager import ExperimentManager, ExperimentType
+
+if TYPE_CHECKING:
+    from utils.data_process import DataSource
 
 from .report import EfficiencyReport
 from .session import EfficiencySession, build_target
 
 logger = get_logger(__name__)
+
+CompileMode = Literal[
+    "default",
+    "reduce-overhead",
+    "max-autotune",
+    "max-autotune-no-cudagraphs",
+]
 
 
 @dataclass
@@ -136,13 +149,14 @@ def compile_sweep(modes: list[str]) -> list[SweepPoint]:
     ]
 
 
-def _apply_compile_state(cc, mode: str) -> None:
+def _apply_compile_state(cc: CompileConfig, mode: str) -> None:
     """Set ``cc`` to the swept compile state: off, or on with ``mode``."""
     if mode == "off":
         cc.compile = False
     else:
         cc.compile = True
-        cc.compile_mode = mode
+        # mode validity is enforced upstream (_parse_compile_modes allow-list).
+        cc.compile_mode = cast(CompileMode, mode)
 
 
 def cartesian_sweep(
@@ -158,7 +172,12 @@ def cartesian_sweep(
     for a in axis_a:
         for b in axis_b:
 
-            def mutate(rc, eff_cfg, ma=a.mutate, mb=b.mutate):
+            def mutate(
+                rc: RunConfig,
+                eff_cfg: Any,
+                ma: Callable[..., None] = a.mutate,
+                mb: Callable[..., None] = b.mutate,
+            ) -> None:
                 ma(rc, eff_cfg)
                 mb(rc, eff_cfg)
 
@@ -175,9 +194,9 @@ class EfficiencySweep:
 
     def __init__(
         self,
-        rc,
-        eff_cfg,
-        data_src,
+        rc: RunConfig,
+        eff_cfg: Any,
+        data_src: DataSource,
         weights_path: str | None = None,
         points: list[SweepPoint] | None = None,
     ) -> None:
@@ -199,7 +218,9 @@ class EfficiencySweep:
         self.sweep_dir = self.parent_exp.get_log_dir()
 
     @staticmethod
-    def _resolve_points(points: list[SweepPoint] | None, eff_cfg) -> list[SweepPoint]:
+    def _resolve_points(
+        points: list[SweepPoint] | None, eff_cfg: Any
+    ) -> list[SweepPoint]:
         """Resolve sweep points from the configured axes.
 
         Explicit points win; otherwise ``batch_sizes`` and/or ``compile_modes``

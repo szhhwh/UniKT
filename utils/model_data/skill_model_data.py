@@ -5,14 +5,20 @@ preparation, including sequence building, windowlate evaluation data loading,
 and iterable dataset streaming from parquet files.
 """
 
+from __future__ import annotations
+
 import os
 from collections.abc import Iterator
+from typing import TYPE_CHECKING
 
 import numpy as np
 import pyarrow as pa
 import pyarrow.parquet as pq
 import torch
 from torch.utils.data import IterableDataset, get_worker_info
+
+if TYPE_CHECKING:
+    import polars as pl
 
 from utils.core import get_logger
 from utils.data_process import DataSource
@@ -41,7 +47,7 @@ class WindowlateIterableDataset(IterableDataset):
         self.parquet_path = parquet_path
         self.max_seq_len = max_seq_len
         self.batch_read_rows = batch_read_rows
-        self._num_samples = None
+        self._num_samples: int | None = None
         self._num_row_groups = None
 
     def _init_metadata(self) -> None:
@@ -61,19 +67,12 @@ class WindowlateIterableDataset(IterableDataset):
     def __len__(self) -> int:
         """Return the total number of samples."""
         self._init_metadata()
+        assert self._num_samples is not None, "metadata init must set _num_samples"
         return self._num_samples
 
     def _build_single_tensor(
         self, sample: dict[str, np.ndarray]
-    ) -> tuple[
-        torch.Tensor,
-        torch.Tensor,
-        torch.Tensor,
-        torch.Tensor,
-        torch.Tensor,
-        torch.Tensor,
-        torch.Tensor,
-    ]:
+    ) -> tuple[torch.Tensor, ...]:
         """Build a single sample tensor.
 
         Returns:
@@ -82,7 +81,8 @@ class WindowlateIterableDataset(IterableDataset):
             the ORIGINAL student id (the same id space as the split data's
             ``user`` column); trailing pad positions keep the buffer
             value 0 -- consumers must select valid positions via the mask or
-            the window bounds, never via the raw user_id value.
+            the window bounds, never via the raw user_id value. Subclasses
+            may append extra feature tensors, so the arity is not fixed.
         """
         positions = sample["position"]
 
@@ -142,17 +142,7 @@ class WindowlateIterableDataset(IterableDataset):
 
     def _process_batch(
         self, batch: dict[str, np.ndarray]
-    ) -> Iterator[
-        tuple[
-            torch.Tensor,
-            torch.Tensor,
-            torch.Tensor,
-            torch.Tensor,
-            torch.Tensor,
-            torch.Tensor,
-            torch.Tensor,
-        ]
-    ]:
+    ) -> Iterator[tuple[torch.Tensor, ...]]:
         """Process a batch of data, yielding individual samples.
 
         Args:
@@ -175,9 +165,12 @@ class WindowlateIterableDataset(IterableDataset):
             sample = {k: batch[k][start:end] for k in keys}
             yield self._build_single_tensor(sample)
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[tuple[torch.Tensor, ...]]:
         """Iterate over samples, with multi-worker data loading support."""
         self._init_metadata()
+        assert self._num_row_groups is not None, (
+            "metadata init must set _num_row_groups"
+        )
         worker_info = get_worker_info()
 
         if worker_info is not None and worker_info.num_workers > 0:
@@ -207,11 +200,13 @@ class SkillModelData(BaseModelData):
         """
         super().__init__(data_src, cache=cache)
 
-    def _get_kfold_data(self):
+    def _get_kfold_data(self) -> pl.DataFrame:
         """Override: retrieve K-fold labels from skill sequence data."""
         return self.data_src.get_split_skill_sequence_data()
 
-    def build_sequence_data(self):
+    def build_sequence_data(
+        self,
+    ) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
         """Load user skill sequences from split skill sequence data.
 
         Returns:
@@ -254,7 +249,17 @@ class SkillModelData(BaseModelData):
 
         return user_sequence, user_response, user_mask, user_id_sequence, user_question
 
-    def load_windowlate_data(self, max_seq_len: int):
+    def load_windowlate_data(
+        self, max_seq_len: int
+    ) -> tuple[
+        np.ndarray,
+        np.ndarray,
+        np.ndarray,
+        np.ndarray,
+        np.ndarray,
+        np.ndarray,
+        np.ndarray,
+    ]:
         """Load windowlate evaluation samples.
 
         Loads sliding window data from a preprocessed parquet file and

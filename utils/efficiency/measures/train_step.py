@@ -1,7 +1,11 @@
 """Shared pseudo train-step used by the training and trace stages."""
 
+from typing import Any
 
-def run_train_step(target, batch) -> None:
+from ..target import BenchmarkTarget
+
+
+def run_train_step(target: BenchmarkTarget, batch: Any) -> None:
     """Run one training step via the :class:`BenchmarkTarget`.
 
     Delegates to ``target.compute_train_step`` — the same computation the real

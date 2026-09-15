@@ -6,8 +6,10 @@ stages never sprinkle ``if device.type == "cuda"`` ladders.
 
 import gc
 import time
+from collections.abc import Callable, Iterator
 from contextlib import contextmanager
 from dataclasses import dataclass
+from typing import Any
 
 import torch
 
@@ -51,7 +53,7 @@ class DeviceBackend:
             torch.cuda.synchronize(self.device)
 
     @contextmanager
-    def peak_memory(self):
+    def peak_memory(self) -> Iterator[MemoryPeak]:
         """Reset peak-memory stats on enter, read them on exit (MiB).
 
         Wraps the section whose peak allocation is measured. No-op (yields an
@@ -68,7 +70,7 @@ class DeviceBackend:
             peak.allocated_mib = torch.cuda.max_memory_allocated(self.device) / 1024**2
             peak.reserved_mib = torch.cuda.max_memory_reserved(self.device) / 1024**2
 
-    def time_step_events(self, step) -> float:
+    def time_step_events(self, step: Callable[[], Any]) -> float:
         """Time one ``step`` call: CUDA events on GPU (ms), ``perf_counter`` on CPU."""
         if self.is_cuda:
             start = torch.cuda.Event(enable_timing=True)

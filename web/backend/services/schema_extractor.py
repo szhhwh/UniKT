@@ -15,7 +15,7 @@ from config import PROJECT_ROOT
 from schemas import ModelSchemaResponse, ParamField, ParamGroup
 
 from services._schema_helper import DEGRADED_MARKER
-from services.python_env import EnvironmentNotConfigured
+from services.python_env import EnvironmentNotConfigured, PythonEnvManager
 
 logger = logging.getLogger(__name__)
 
@@ -90,7 +90,7 @@ class SchemaExtractor:
             the Python command for the helper script.
     """
 
-    def __init__(self, env_manager):
+    def __init__(self, env_manager: PythonEnvManager | None) -> None:
         """Initialize the SchemaExtractor.
 
         Args:

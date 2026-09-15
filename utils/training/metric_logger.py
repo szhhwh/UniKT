@@ -180,7 +180,7 @@ class LocalMetricLogger(MetricLogger):
         """Build a series identifier from phase and optional stage."""
         return f"{stage}_{phase}" if stage else phase
 
-    def init_run(self, **kwargs) -> None:
+    def init_run(self, **kwargs: Any) -> None:
         """No-op: log_dir was already set at construction time."""
         pass
 
@@ -238,7 +238,15 @@ class LocalMetricLogger(MetricLogger):
         self._csv_headers[path] = [c for c, _ in leading] + extended
         return extended
 
-    def log_metrics(self, *, phase, metrics, step, epoch, stage=None) -> None:
+    def log_metrics(
+        self,
+        *,
+        phase: str,
+        metrics: dict[str, float],
+        step: int,
+        epoch: int,
+        stage: str | None = None,
+    ) -> None:
         """Log epoch-level metrics to a CSV file.
 
         Args:
@@ -255,13 +263,13 @@ class LocalMetricLogger(MetricLogger):
     def log_early_stopping(
         self,
         *,
-        phase,
-        best_score,
-        num_bad_epochs,
-        best_metrics,
-        step,
-        epoch,
-        stage=None,
+        phase: str,
+        best_score: float | None,
+        num_bad_epochs: int,
+        best_metrics: dict[str, float] | None,
+        step: int,
+        epoch: int,
+        stage: str | None = None,
     ) -> None:
         """Log early stopping trajectory to a CSV file.
 
@@ -285,7 +293,14 @@ class LocalMetricLogger(MetricLogger):
         self._write_row(path, [("epoch", epoch)], values)
 
     def log_batch(
-        self, *, phase, global_step, epoch, batch_idx, loss, stage=None
+        self,
+        *,
+        phase: str,
+        global_step: int,
+        epoch: int,
+        batch_idx: int,
+        loss: float,
+        stage: str | None = None,
     ) -> None:
         """Log per-batch loss to a CSV file.
 
@@ -315,7 +330,7 @@ class LocalMetricLogger(MetricLogger):
             {},
         )
 
-    def log_final(self, *, metrics, step) -> None:
+    def log_final(self, *, metrics: dict[str, float], step: int) -> None:
         """Log final summary metrics to a CSV file.
 
         Args:
@@ -327,7 +342,14 @@ class LocalMetricLogger(MetricLogger):
         path = os.path.join(self._log_dir, "metrics_final.csv")
         self._write_row(path, [("step", step)], dict(metrics))
 
-    def log_timing(self, *, step, epoch, timings, stage=None) -> None:
+    def log_timing(
+        self,
+        *,
+        step: int,
+        epoch: int,
+        timings: dict[str, float],
+        stage: str | None = None,
+    ) -> None:
         """Log per-epoch timing breakdown (train/val/total) for a stage."""
         filename = f"timing_{stage}.csv" if stage else "timing.csv"
         path = os.path.join(self._log_dir, filename)
@@ -350,11 +372,19 @@ class SwanLabMetricLogger(MetricLogger):
     optional dependency.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize the SwanLab logger with uninitialized state."""
         self._initialized = False
 
-    def init_run(self, *, log_dir, experiment_name, group, tags, config) -> None:
+    def init_run(
+        self,
+        *,
+        log_dir: str,
+        experiment_name: str,
+        group: str,
+        tags: list[str],
+        config: dict[str, Any],
+    ) -> None:
         """Initialize the SwanLab run.
 
         Args:
@@ -412,7 +442,15 @@ class SwanLabMetricLogger(MetricLogger):
             else f"{phase.capitalize()}/"
         )
 
-    def log_metrics(self, *, phase, metrics, step, epoch, stage=None) -> None:
+    def log_metrics(
+        self,
+        *,
+        phase: str,
+        metrics: dict[str, float],
+        step: int,
+        epoch: int,
+        stage: str | None = None,
+    ) -> None:
         """Log epoch-level metrics to SwanLab.
 
         Args:
@@ -438,13 +476,13 @@ class SwanLabMetricLogger(MetricLogger):
     def log_early_stopping(
         self,
         *,
-        phase,
-        best_score,
-        num_bad_epochs,
-        best_metrics,
-        step,
-        epoch,
-        stage=None,
+        phase: str,
+        best_score: float | None,
+        num_bad_epochs: int,
+        best_metrics: dict[str, float] | None,
+        step: int,
+        epoch: int,
+        stage: str | None = None,
     ) -> None:
         """Log early stopping trajectory to SwanLab.
 
@@ -472,10 +510,10 @@ class SwanLabMetricLogger(MetricLogger):
             )
         swanlab.log(data, step=step)
 
-    def log_batch(self, **kwargs) -> None:
+    def log_batch(self, **kwargs: Any) -> None:
         """No-op: SwanLab does not log per-batch metrics to avoid noise."""
 
-    def log_final(self, *, metrics, step) -> None:
+    def log_final(self, *, metrics: dict[str, float], step: int) -> None:
         """Log final summary metrics to SwanLab.
 
         Args:
@@ -488,7 +526,14 @@ class SwanLabMetricLogger(MetricLogger):
 
         swanlab.log(metrics, step=step)
 
-    def log_timing(self, *, step, epoch, timings, stage=None) -> None:
+    def log_timing(
+        self,
+        *,
+        step: int,
+        epoch: int,
+        timings: dict[str, float],
+        stage: str | None = None,
+    ) -> None:
         """Log per-epoch timing breakdown to SwanLab for a stage."""
         if not self._initialized:
             return
@@ -531,12 +576,20 @@ class WandbMetricLogger(MetricLogger):
     forwards the raw value unchanged.)
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize the W&B logger with uninitialized state."""
         self._initialized = False
         self._step = 0
 
-    def init_run(self, *, log_dir, experiment_name, group, tags, config) -> None:
+    def init_run(
+        self,
+        *,
+        log_dir: str,
+        experiment_name: str,
+        group: str,
+        tags: list[str],
+        config: dict[str, Any],
+    ) -> None:
         """Initialize the W&B run.
 
         Authentication is handled by the wandb SDK itself (``WANDB_API_KEY``
@@ -576,7 +629,15 @@ class WandbMetricLogger(MetricLogger):
         """Build a W&B metric prefix from phase and optional stage."""
         return f"{stage}/{phase}/" if stage else f"{phase}/"
 
-    def log_metrics(self, *, phase, metrics, step, epoch, stage=None) -> None:
+    def log_metrics(
+        self,
+        *,
+        phase: str,
+        metrics: dict[str, float],
+        step: int,
+        epoch: int,
+        stage: str | None = None,
+    ) -> None:
         """Log epoch-level metrics to W&B.
 
         Metric names are grouped as ``{stage/}{phase}/{name}`` (e.g.
@@ -600,13 +661,13 @@ class WandbMetricLogger(MetricLogger):
     def log_early_stopping(
         self,
         *,
-        phase,
-        best_score,
-        num_bad_epochs,
-        best_metrics,
-        step,
-        epoch,
-        stage=None,
+        phase: str,
+        best_score: float | None,
+        num_bad_epochs: int,
+        best_metrics: dict[str, float] | None,
+        step: int,
+        epoch: int,
+        stage: str | None = None,
     ) -> None:
         """Log early stopping trajectory to W&B.
 
@@ -632,10 +693,10 @@ class WandbMetricLogger(MetricLogger):
             )
         self._commit(data)
 
-    def log_batch(self, **kwargs) -> None:
+    def log_batch(self, **kwargs: Any) -> None:
         """No-op: W&B does not log per-batch metrics to avoid noise."""
 
-    def log_final(self, *, metrics, step) -> None:
+    def log_final(self, *, metrics: dict[str, float], step: int) -> None:
         """Log final summary metrics to W&B.
 
         Args:
@@ -647,7 +708,14 @@ class WandbMetricLogger(MetricLogger):
             return
         self._commit(metrics)
 
-    def log_timing(self, *, step, epoch, timings, stage=None) -> None:
+    def log_timing(
+        self,
+        *,
+        step: int,
+        epoch: int,
+        timings: dict[str, float],
+        stage: str | None = None,
+    ) -> None:
         """Log per-epoch timing breakdown to W&B for a stage."""
         if not self._initialized:
             return
@@ -685,7 +753,7 @@ class MetricLoggerComposite(MetricLogger):
         """
         self._loggers = loggers
 
-    def _fanout(self, method: str, **kwargs) -> None:
+    def _fanout(self, method: str, **kwargs: Any) -> None:
         """Call a method on all wrapped loggers, isolating exceptions.
 
         ``ImportError`` propagates instead: a missing dependency fails every
@@ -700,27 +768,27 @@ class MetricLoggerComposite(MetricLogger):
             except Exception as e:
                 logger.warning(f"{type(lg).__name__}.{method} failed: {e}")
 
-    def init_run(self, **kwargs) -> None:
+    def init_run(self, **kwargs: Any) -> None:
         """Initialize all backends."""
         self._fanout("init_run", **kwargs)
 
-    def log_metrics(self, **kwargs) -> None:
+    def log_metrics(self, **kwargs: Any) -> None:
         """Log metrics to all backends."""
         self._fanout("log_metrics", **kwargs)
 
-    def log_early_stopping(self, **kwargs) -> None:
+    def log_early_stopping(self, **kwargs: Any) -> None:
         """Log early stopping to all backends."""
         self._fanout("log_early_stopping", **kwargs)
 
-    def log_batch(self, **kwargs) -> None:
+    def log_batch(self, **kwargs: Any) -> None:
         """Log batch metrics to all backends."""
         self._fanout("log_batch", **kwargs)
 
-    def log_final(self, **kwargs) -> None:
+    def log_final(self, **kwargs: Any) -> None:
         """Log final metrics to all backends."""
         self._fanout("log_final", **kwargs)
 
-    def log_timing(self, **kwargs) -> None:
+    def log_timing(self, **kwargs: Any) -> None:
         """Log per-epoch timing breakdown to all backends."""
         self._fanout("log_timing", **kwargs)
 
@@ -759,7 +827,7 @@ class AsyncMetricLoggerProxy(MetricLogger):
         self._creator_pid = os.getpid()
         atexit.register(self.close)
 
-    def init_run(self, **kwargs) -> None:
+    def init_run(self, **kwargs: Any) -> None:
         """Initialize the wrapped backend synchronously.
 
         ``swanlab.init`` is network I/O; a failure must surface immediately
@@ -789,7 +857,7 @@ class AsyncMetricLoggerProxy(MetricLogger):
                 pending.append(fut)
         self._futures = pending
 
-    def _submit(self, method: str, **kwargs) -> None:
+    def _submit(self, method: str, **kwargs: Any) -> None:
         """Forward a backend method to the worker, or run it sync after close."""
         self._check_completed()
         if self._closed:
@@ -799,23 +867,23 @@ class AsyncMetricLoggerProxy(MetricLogger):
             self._executor.submit(getattr(self._inner, method), **kwargs)
         )
 
-    def log_metrics(self, **kwargs) -> None:
+    def log_metrics(self, **kwargs: Any) -> None:
         """Log epoch metrics asynchronously."""
         self._submit("log_metrics", **kwargs)
 
-    def log_early_stopping(self, **kwargs) -> None:
+    def log_early_stopping(self, **kwargs: Any) -> None:
         """Log early stopping trajectory asynchronously."""
         self._submit("log_early_stopping", **kwargs)
 
-    def log_batch(self, **kwargs) -> None:
+    def log_batch(self, **kwargs: Any) -> None:
         """Log per-batch metrics asynchronously."""
         self._submit("log_batch", **kwargs)
 
-    def log_final(self, **kwargs) -> None:
+    def log_final(self, **kwargs: Any) -> None:
         """Log final metrics asynchronously."""
         self._submit("log_final", **kwargs)
 
-    def log_timing(self, **kwargs) -> None:
+    def log_timing(self, **kwargs: Any) -> None:
         """Log per-epoch timing asynchronously."""
         self._submit("log_timing", **kwargs)
 
@@ -855,7 +923,7 @@ class AsyncMetricLoggerProxy(MetricLogger):
                 self._executor.shutdown(wait=True)
 
 
-def get_metric_logger(name: str, **kwargs) -> MetricLogger:
+def get_metric_logger(name: str, **kwargs: Any) -> MetricLogger:
     """Instantiate a registered metric logger backend by name.
 
     Args:

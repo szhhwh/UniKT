@@ -8,17 +8,18 @@ import os
 import random
 from concurrent.futures import Future, ThreadPoolExecutor
 from contextlib import suppress
-from typing import cast
+from typing import Any, cast
 
 import numpy as np
 import torch
 
 from ..core import get_logger
+from .early_stopping import EarlyStopping
 
 logger = get_logger(__name__)
 
 
-def _detach_to_cpu(obj):
+def _detach_to_cpu(obj: Any) -> Any:
     """Recursively clone tensors in a state dict to CPU.
 
     Works for model, optimizer, and scheduler state dicts.
@@ -41,7 +42,9 @@ def _detach_to_cpu(obj):
     return obj
 
 
-def _strip_compile_prefix_if_needed(state_dict, model):
+def _strip_compile_prefix_if_needed(
+    state_dict: dict[str, Any], model: torch.nn.Module
+) -> dict[str, Any]:
     # Strip the `_orig_mod.` prefix torch.compile adds when a checkpoint
     # saved from a compiled model is loaded into a raw model.
     model_prefixed = any(k.startswith("_orig_mod.") for k in model.state_dict())
@@ -51,11 +54,12 @@ def _strip_compile_prefix_if_needed(state_dict, model):
     return state_dict
 
 
-def _capture_rng_states():
+def _capture_rng_states() -> dict[str, Any]:
     # numpy's get_state() holds a uint32 ndarray, which is not allowed under
     # torch.load's default weights_only=True. Convert it to a list so the
     # whole checkpoint stays weights-only-safe.
-    np_state = np.random.get_state()
+    # numpy stubs model the state as a TypedDict; runtime is a tuple.
+    np_state: Any = np.random.get_state()
     np_state_safe = (
         np_state[0],
         np_state[1].tolist(),
@@ -71,7 +75,7 @@ def _capture_rng_states():
     }
 
 
-def _restore_rng_states(states):
+def _restore_rng_states(states: dict[str, Any]) -> None:
     if states.get("torch") is not None:
         torch.set_rng_state(states["torch"])
     if torch.cuda.is_available() and states.get("cuda") is not None:
@@ -128,11 +132,11 @@ class CheckpointManager:
         epoch: int,
         model: torch.nn.Module,
         optimizer: torch.optim.Optimizer,
-        scheduler: object | None = None,
+        scheduler: torch.optim.lr_scheduler.LRScheduler | None = None,
         additional_state: dict | None = None,
         early_stopping_state: dict | None = None,
         filename: str = "checkpoint.pth",
-    ):
+    ) -> None:
         """Save a full checkpoint including model, optimizer, and scheduler states.
 
         Args:
@@ -179,7 +183,7 @@ class CheckpointManager:
         self._submit_save(snapshot, filepath)
         return snapshot
 
-    def _submit_save(self, obj, filepath: str) -> None:
+    def _submit_save(self, obj: Any, filepath: str) -> None:
         """Submit an atomic save to the background thread.
 
         Coalesces with the previous save to ``filepath``: if it has not
@@ -214,7 +218,7 @@ class CheckpointManager:
             logger.error("Async checkpoint save failed", exc_info=exc)
 
     @staticmethod
-    def _write_atomic(obj, filepath: str) -> None:
+    def _write_atomic(obj: Any, filepath: str) -> None:
         """Atomically write data to a file via temp + replace."""
         tmp = filepath + ".tmp"
         torch.save(obj, tmp)
@@ -273,7 +277,7 @@ class CheckpointManager:
         if not os.path.isfile(path):
             raise FileNotFoundError(f"Checkpoint not found: {path}")
 
-        map_kw = {"map_location": device} if device is not None else {}
+        map_kw: dict[str, Any] = {"map_location": device} if device is not None else {}
         logger.info(f"Loading model weights from {path}...")
         raw = torch.load(path, **map_kw)
 
@@ -297,7 +301,7 @@ class CheckpointManager:
         Does not load into a model. Handles both plain state_dict files and
         full checkpoint dicts with a ``"model_state_dict"`` key.
         """
-        map_kw = {"map_location": device} if device is not None else {}
+        map_kw: dict[str, Any] = {"map_location": device} if device is not None else {}
         raw = torch.load(path, **map_kw)
         if isinstance(raw, dict) and "model_state_dict" in raw:
             return raw["model_state_dict"]
@@ -308,9 +312,9 @@ class CheckpointManager:
         checkpoint_path: str,
         model: torch.nn.Module,
         optimizer: torch.optim.Optimizer | None = None,
-        scheduler: object | None = None,
-        early_stopping: object | None = None,
-        device: torch.device = None,
+        scheduler: torch.optim.lr_scheduler.LRScheduler | None = None,
+        early_stopping: EarlyStopping | None = None,
+        device: torch.device | None = None,
     ) -> dict:
         """Load a full checkpoint and restore model, optimizer, and scheduler states.
 
