@@ -12,6 +12,7 @@ from .callbacks import (
     EarlyStoppingCallback,
     FunctionCallback,
     MemoryCleanupCallback,
+    ProgressCallback,
     TestEvaluationCallback,
 )
 from .early_stopping import EarlyStopping
@@ -42,6 +43,7 @@ __all__ = [
     "MetricLogger",
     "MetricsAccumulator",
     "MultiTrainer",
+    "ProgressCallback",
     "RuntimeComponents",
     "StageComponents",
     "StageConfig",

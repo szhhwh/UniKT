@@ -469,3 +469,115 @@ class TestEvaluateOnTestSet:
         phases = [e[2] for e in rec.events if e[0] == "phase_begin"]
         assert phases == ["train"]
         assert not (pathlib.Path(trainer.log_dir) / "metrics_val.csv").exists()
+
+
+# ---------------------------------------------------------------------------
+# progress rendering gating
+# ---------------------------------------------------------------------------
+
+
+class TestProgressGating:
+    def test_progress_none_omits_callback(self, make_tiny_trainer):
+        from utils.training.callbacks import ProgressCallback
+
+        trainer = make_tiny_trainer()  # conftest default: progress="none"
+        assert trainer.callback_manager.get_callback(ProgressCallback) is None
+        assert trainer._progress_enabled is False
+
+    def test_progress_rich_adds_callback(self, make_tiny_trainer, make_run_config):
+        from utils.training.callbacks import ProgressCallback
+
+        trainer = make_tiny_trainer(rc=make_run_config(progress="rich"))
+        assert trainer.callback_manager.get_callback(ProgressCallback) is not None
+
+    def test_progress_callback_precedes_test_evaluation(
+        self, make_run_config, make_exp_manager, make_batches
+    ):
+        from utils.training.callbacks import ProgressCallback
+
+        trainer = TinyTrainer(
+            make_run_config(progress="rich", skip_test=False),
+            make_exp_manager(),
+            make_batches(),
+        )
+        callbacks = trainer.callback_manager.callbacks
+        progress_idx = next(
+            i for i, cb in enumerate(callbacks) if isinstance(cb, ProgressCallback)
+        )
+        test_idx = next(
+            i
+            for i, cb in enumerate(callbacks)
+            if isinstance(cb, TestEvaluationCallback)
+        )
+        # on_train_end order: the live display must stop before test
+        # evaluation renders its own progress bar.
+        assert progress_idx < test_idx
+
+    def test_progress_callback_is_first_callback(
+        self, make_tiny_trainer, make_run_config
+    ):
+        from utils.training.callbacks import ProgressCallback
+
+        trainer = make_tiny_trainer(rc=make_run_config(progress="rich"))
+        # First in the list: every later callback's on_train_end runs
+        # after ProgressCallback.on_train_end stopped the live display.
+        assert isinstance(trainer.callback_manager.callbacks[0], ProgressCallback)
+
+    def test_custom_on_train_end_runs_after_display_teardown(
+        self, make_tiny_trainer, make_run_config
+    ):
+        from utils.training.callbacks import ProgressCallback
+
+        live_states = []
+
+        class Probe(Callback):
+            def on_train_end(self, **kwargs):
+                cb = kwargs["trainer"].callback_manager.get_callback(ProgressCallback)
+                live_states.append(cb._live)
+
+        trainer = make_tiny_trainer(
+            rc=make_run_config(progress="rich"), extra_callbacks=[Probe()]
+        )
+        trainer.run()
+        assert live_states == [None]  # display already stopped
+
+    def test_rich_loop_end_to_end_tears_down(self, make_tiny_trainer, make_run_config):
+        from utils.training.callbacks import ProgressCallback
+
+        trainer = make_tiny_trainer(rc=make_run_config(progress="rich"))
+        result = trainer._run_training_loop()
+
+        assert isinstance(result, StageResult)
+        assert result.best_metric is not None
+        cb = trainer.callback_manager.get_callback(ProgressCallback)
+        assert cb._live is None  # on_train_end stopped the display
+
+    def test_failed_run_closes_progress_display(
+        self, make_tiny_trainer, make_run_config, monkeypatch
+    ):
+        from utils.training.callbacks import ProgressCallback
+
+        trainer = make_tiny_trainer(rc=make_run_config(progress="rich"))
+        cb = trainer.callback_manager.get_callback(ProgressCallback)
+
+        original = trainer.forward_pass
+        state = {"n": 0}
+
+        def flaky(batch):
+            state["n"] += 1
+            if state["n"] == 3:  # first validation batch -> mid-run blow-up
+                raise RuntimeError("boom mid-run")
+            return original(batch)
+
+        monkeypatch.setattr(trainer, "forward_pass", flaky)
+
+        with pytest.raises(RuntimeError, match="boom mid-run"):
+            trainer.run()
+
+        # run()'s finally -> _finish -> CallbackManager.close() tore it down.
+        assert cb._live is None
+
+    def test_eval_batches_iterate_plain_when_disabled(self, make_tiny_trainer):
+        trainer = make_tiny_trainer()
+        batches = list(trainer._iter_eval_batches([1, 2, 3], "Testing"))
+        assert batches == [1, 2, 3]

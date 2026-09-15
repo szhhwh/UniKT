@@ -6,9 +6,14 @@ early stopping, checkpointing, memory management, and test evaluation.
 
 from abc import ABC
 from collections.abc import Callable
-from typing import TypeVar
+from typing import Any, ClassVar, TypeVar
+
+from rich.console import Group
+from rich.live import Live
+from rich.text import Text
 
 from ..core import get_logger
+from ..progress import create_progress
 from .checkpoint import CheckpointManager
 from .early_stopping import EarlyStopping
 
@@ -121,6 +126,15 @@ class Callback(ABC):
             True if training should stop, False otherwise.
         """
         return False
+
+    def close(self):
+        """Release resources held by this callback.
+
+        Called from the trainer's finally path — including failed runs —
+        unlike ``on_train_end`` which only fires on normal completion.
+        Implementations must be idempotent and must not raise.
+        """
+        pass
 
 
 class FunctionCallback(Callback):
@@ -247,6 +261,20 @@ class CallbackManager:
             True if any callback's ``should_stop`` returns True.
         """
         return any(cb.should_stop(**kwargs) for cb in self.callbacks)
+
+    def close(self):
+        """Call ``close`` on all callbacks in list order.
+
+        Runs on the trainer's finally path (including failed runs), so a
+        raising ``close`` must not mask the original training error or
+        skip the callbacks after it; each call is isolated here.
+        Implementations must still be idempotent and must not raise.
+        """
+        for callback in self.callbacks:
+            try:
+                callback.close()
+            except Exception as e:
+                logger.warning(f"{type(callback).__name__}.close() failed: {e}")
 
     # Convenience methods
     def on_train_begin(self, epochs: int, **kwargs):
@@ -705,6 +733,195 @@ class TestEvaluationCallback(Callback):
         trainer._evaluate_on_test_set(use_best_model=self.use_best_model)
 
 
+class ProgressCallback(Callback):
+    """Rich progress rendering for the training loop.
+
+    Owns all live rendering (epoch bar, per-phase batch bar, best-metric
+    header) so ``BaseTrainer._run_training_loop`` stays pure orchestration.
+    Reads every value from the ``trainer`` kwarg at hook time. Trainers
+    build a fresh instance per run/stage (see ``_maybe_progress_callback``);
+    ``on_train_begin`` still tears down any previous display, so an
+    explicitly shared instance also survives re-entry across stages.
+    """
+
+    # rich allows one live display per console: the latest instance takes
+    # over from an older one so duplicate registrations degrade to a single
+    # display instead of raising LiveError at the second start.
+    _active: ClassVar["ProgressCallback | None"] = None
+
+    def __init__(self):
+        """Initialize with no display; everything is built in ``on_train_begin``."""
+        self._trainer: Any = None
+        self._progress = None
+        self._live: Live | None = None
+        self._best_text: Text | None = None
+        self._total_task = None
+        self._work_task = None
+        self._checkpoint_cb: CheckpointCallback | None = None
+        self._monitor_name = "auc"
+        self._stage_prefix = ""
+
+    def on_train_begin(self, epochs: int, **kwargs):
+        """Build the live display for the upcoming (stage) run.
+
+        Args:
+            epochs: Total number of epochs.
+            **kwargs: Additional keyword arguments (e.g. trainer).
+        """
+        trainer = kwargs.get("trainer")
+        if trainer is None:
+            return
+        self._teardown()
+        other = ProgressCallback._active
+        if other is not None and other is not self:
+            other._teardown()
+        ProgressCallback._active = self
+
+        self._trainer = trainer
+        self._checkpoint_cb = trainer.callback_manager.get_callback(CheckpointCallback)
+        self._monitor_name = (
+            self._checkpoint_cb._monitor_name()
+            if self._checkpoint_cb is not None
+            else trainer._monitor_name()
+        )
+        self._stage_prefix = (
+            f"[{trainer._current_stage.upper()}] " if trainer._current_stage else ""
+        )
+        total_label = (
+            f"{self._stage_prefix}Epochs" if trainer._current_stage else "Total Epochs"
+        )
+
+        progress = create_progress()
+        renderables = [progress]
+        if trainer.early_stopping is not None:
+            self._best_text = Text(
+                f"{self._stage_prefix}Best {self._monitor_name.upper()}: N/A",
+                style="bold yellow",
+            )
+            renderables.insert(0, self._best_text)
+
+        # Manual start/stop: the display spans hook calls, so a with-block
+        # owned by this method cannot scope it.
+        self._progress = progress
+        self._live = Live(Group(*renderables))
+        self._live.start()
+        self._total_task = progress.add_task(
+            f"[bold red]{total_label}",
+            total=trainer.epochs,
+            completed=trainer.start_epoch,
+        )
+        self._work_task = progress.add_task(
+            "[bold green]Training", total=len(trainer.train_data)
+        )
+
+    def on_phase_begin(self, epoch: int, phase: str, **kwargs):
+        """Reset the batch bar for the starting phase.
+
+        Args:
+            epoch: Current epoch number.
+            phase: Phase name, ``"train"`` or ``"val"``.
+            **kwargs: Additional keyword arguments (e.g. trainer).
+        """
+        if self._progress is None or self._trainer is None:
+            return
+        loader = (
+            self._trainer.train_data if phase == "train" else self._trainer.val_data
+        )
+        description = (
+            "[bold green]Training" if phase == "train" else "[bold cyan]Validation"
+        )
+        self._progress.reset(
+            self._work_task, total=len(loader), description=description
+        )
+
+    def on_batch_end(
+        self, epoch: int, batch_idx: int, phase: str, loss: float, **kwargs
+    ):
+        """Advance the batch bar by one batch.
+
+        Args:
+            epoch: Current epoch number.
+            batch_idx: Batch index within the epoch.
+            phase: Phase name, ``"train"`` or ``"val"``.
+            loss: Loss value for this batch.
+            **kwargs: Additional keyword arguments.
+        """
+        if self._progress is not None:
+            self._progress.advance(self._work_task)
+
+    def on_epoch_end(self, epoch: int, train_loss: float, val_loss: float, **kwargs):
+        """Advance the epoch bar and refresh the best-metric header.
+
+        Best metric values are already updated by ``CheckpointCallback`` at
+        ``on_phase_end`` (all callbacks fire there before any
+        ``on_epoch_end``), so they are fresh regardless of list order.
+
+        Args:
+            epoch: Current epoch number.
+            train_loss: Training loss for this epoch.
+            val_loss: Validation loss for this epoch.
+            **kwargs: Additional keyword arguments (e.g. trainer).
+        """
+        if self._progress is None or self._trainer is None:
+            return
+        self._progress.advance(self._total_task)
+
+        trainer = self._trainer
+        if (
+            self._best_text is not None
+            and trainer.val_data is not None
+            and trainer.early_stopping is not None
+        ):
+            best_metric = (
+                self._checkpoint_cb.best_metric
+                if self._checkpoint_cb is not None
+                else None
+            )
+            best_epoch = (
+                self._checkpoint_cb.best_epoch
+                if self._checkpoint_cb is not None
+                else None
+            )
+            patience = trainer.early_stopping.cfg.patience
+            remaining = max(0, patience - trainer.early_stopping.num_bad_epochs)
+            best_str = f"{best_metric:.4f}" if best_metric is not None else "N/A"
+            self._best_text.plain = (
+                f"{self._stage_prefix}Best {self._monitor_name.upper()}: {best_str} "
+                f"(Epoch {best_epoch + 1 if best_epoch is not None else 'N/A'}, "
+                f"Patience: {remaining}/{patience})"
+            )
+            self._best_text.stylize("bold yellow")
+
+    def on_train_end(self, **kwargs):
+        """Stop the live display; later callbacks (test evaluation) render freely.
+
+        Args:
+            **kwargs: Additional keyword arguments (e.g. trainer).
+        """
+        self._teardown()
+
+    def close(self):
+        """Stop the live display; idempotent and safe on failed runs."""
+        self._teardown()
+
+    def _teardown(self):
+        """Stop and drop the display; must never mask a training error."""
+        if self._live is not None:
+            try:
+                self._live.stop()
+            except Exception as e:
+                logger.debug(f"Progress display teardown failed: {e}")
+        self._live = None
+        self._progress = None
+        self._best_text = None
+        self._total_task = None
+        self._work_task = None
+        self._checkpoint_cb = None
+        self._trainer = None
+        if ProgressCallback._active is self:
+            ProgressCallback._active = None
+
+
 __all__ = [
     "Callback",
     "CallbackManager",
@@ -712,5 +929,6 @@ __all__ = [
     "EarlyStoppingCallback",
     "FunctionCallback",
     "MemoryCleanupCallback",
+    "ProgressCallback",
     "TestEvaluationCallback",
 ]

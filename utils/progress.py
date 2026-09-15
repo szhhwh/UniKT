@@ -1,5 +1,7 @@
 """Shared Rich progress bar factory."""
 
+import sys
+
 from rich.progress import (
     BarColumn,
     MofNCompleteColumn,
@@ -27,3 +29,24 @@ def create_progress() -> Progress:
         TimeRemainingColumn(),
         expand=True,
     )
+
+
+def resolve_progress(mode: str) -> bool:
+    """Return whether Rich progress rendering is enabled for ``mode``.
+
+    Args:
+        mode: Progress mode — ``"auto"``, ``"rich"``, or ``"none"``.
+
+    Returns:
+        True if progress should be rendered.
+
+    Raises:
+        ValueError: The mode is not one of the supported values.
+    """
+    if mode == "rich":
+        return True
+    if mode == "none":
+        return False
+    if mode == "auto":
+        return sys.stdout.isatty()
+    raise ValueError(f"Unknown progress mode: {mode!r}")

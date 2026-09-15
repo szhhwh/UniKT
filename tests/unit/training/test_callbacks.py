@@ -154,6 +154,24 @@ class TestCallbackManager:
         assert CallbackManager([Stopper(False), Stopper(True)]).should_stop() is True
         assert CallbackManager([Stopper(False)]).should_stop() is False
 
+    def test_close_isolates_callback_failures(self):
+        class Exploding(Callback):
+            def close(self):
+                raise RuntimeError("boom")
+
+        class Recording(Callback):
+            def __init__(self):
+                self.closed = False
+
+            def close(self):
+                self.closed = True
+
+        recording = Recording()
+        # close() runs on the finally path: a raising callback must not
+        # propagate (masking the original training error) nor skip the rest.
+        CallbackManager([Exploding(), recording]).close()
+        assert recording.closed is True
+
 
 # --- EarlyStoppingCallback ---
 

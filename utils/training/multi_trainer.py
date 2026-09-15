@@ -344,7 +344,11 @@ class MultiTrainer(BaseTrainer):
         Returns:
             A CallbackManager configured for this stage.
         """
-        callbacks: list[Callback] = list(self._custom_callbacks)
+        # ProgressCallback first and fresh per stage (ordering rationale in
+        # BaseTrainer.build): on_train_begin re-reads the stage-switched
+        # trainer attributes and tears down any previous stage's display.
+        callbacks: list[Callback] = self._maybe_progress_callback()
+        callbacks.extend(self._custom_callbacks)
         callbacks.append(MemoryCleanupCallback(cleanup_interval=5))
         if self.early_stopping is not None:
             callbacks.append(

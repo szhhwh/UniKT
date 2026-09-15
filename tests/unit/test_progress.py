@@ -1,8 +1,11 @@
 """Tests for the shared Rich progress bar factory."""
 
+import sys
+
+import pytest
 from rich.progress import Progress
 
-from utils.progress import create_progress
+from utils.progress import create_progress, resolve_progress
 
 
 class TestCreateProgress:
@@ -20,3 +23,21 @@ class TestCreateProgress:
         task = prog.tasks[task_id]
         assert task.completed == 4 // 2
         prog.stop()
+
+
+class TestResolveProgress:
+    def test_rich_always_enables(self):
+        assert resolve_progress("rich") is True
+
+    def test_none_always_disables(self):
+        assert resolve_progress("none") is False
+
+    def test_auto_follows_tty(self, monkeypatch):
+        monkeypatch.setattr(sys.stdout, "isatty", lambda: True)
+        assert resolve_progress("auto") is True
+        monkeypatch.setattr(sys.stdout, "isatty", lambda: False)
+        assert resolve_progress("auto") is False
+
+    def test_unknown_mode_raises(self):
+        with pytest.raises(ValueError, match="Unknown progress mode"):
+            resolve_progress("bogus")

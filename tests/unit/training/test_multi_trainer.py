@@ -187,3 +187,42 @@ class TestStageLifecycle:
             assert (log_dir / f"metrics_{stage}_val.csv").exists()
             assert (log_dir / f"best_{stage}_model.pth").exists()
         assert trainer.checkpoint_manager._closed is True
+
+    def test_progress_callback_added_per_stage_when_rich(
+        self, make_run_config, make_exp_manager, make_batches
+    ):
+        from utils.training.callbacks import ProgressCallback
+
+        trainer = TinyMultiTrainer(
+            make_run_config(progress="rich"),
+            make_exp_manager("multi-rich"),
+            make_batches(),
+            val=make_batches(),
+        )
+        trainer.run()
+
+        # Every stage's rebuilt manager owns its own display, each torn down.
+        for snapshot in trainer.stage_snapshots.values():
+            callbacks = snapshot["callback_manager"].callbacks
+            # First in the list: teardown precedes later on_train_end hooks.
+            assert isinstance(callbacks[0], ProgressCallback)
+            cb = snapshot["callback_manager"].get_callback(ProgressCallback)
+            assert cb is not None
+            assert cb._live is None
+        assert trainer.stage_snapshots.keys() == {"km", "am"}
+
+    def test_progress_callback_omitted_when_none(
+        self, make_run_config, make_exp_manager, make_batches
+    ):
+        from utils.training.callbacks import ProgressCallback
+
+        trainer = TinyMultiTrainer(
+            make_run_config(),  # conftest default: progress="none"
+            make_exp_manager("multi-none"),
+            make_batches(),
+            val=make_batches(),
+        )
+        trainer.run()
+
+        for snapshot in trainer.stage_snapshots.values():
+            assert snapshot["callback_manager"].get_callback(ProgressCallback) is None

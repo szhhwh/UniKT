@@ -51,6 +51,13 @@ def parse_args():
         default=None,
         help="Data base path override (default: from saved config)",
     )
+    parser.add_argument(
+        "--progress",
+        choices=["auto", "rich", "none"],
+        default="auto",
+        help="Progress bar mode for evaluation (default: auto — resolve for "
+        "this terminal instead of the archived training-run value)",
+    )
     return parser.parse_args()
 
 
@@ -76,6 +83,9 @@ def main():
     rc.general.cloud_tracking = False
     rc.general.checkpoint_path = None  # weights loaded manually after build
     rc.general.skip_test = True  # prevent TestEvaluationCallback during build
+    # The archived progress mode describes the training terminal, not this
+    # one; re-resolve for evaluation.
+    rc.general.progress = args.progress
     if args.device is not None:
         rc.general.device = args.device
     if args.batch_size is not None:
