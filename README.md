@@ -90,12 +90,12 @@ Each experiment is saved under `runs/` with its resolved configuration, checkpoi
 | :-- | :-- |
 | **Train a model** | `pixi run python train.py -m <model> -d <dataset>` |
 | **Search hyperparameters** | `pixi run python optuna_search.py -m <model> -d <dataset>` |
-| **Evaluate a saved run** | `pixi run python evaluate.py --run_dir runs/normal/<run_id>` |
+| **Evaluate a saved run** | `pixi run python evaluate.py --evaluate.run_dir runs/normal/<run_id>` |
 | **Benchmark efficiency** | `pixi run python efficiency.py -m <model> -d <dataset>` |
-| **Inspect model predictions** | `pixi run python case_analysis.py inference --run_dir runs/normal/<run_id>` |
+| **Inspect model predictions** | `pixi run python case_analysis.py inference --case.run_dir runs/normal/<run_id>` |
 
 > [!TIP]
-> Every command exposes its current, code-generated reference through `--help`. For model-specific options, run `pixi run python train.py -m <model> --help`.
+> Every command exposes its current, code-generated reference through `--help`. For model-specific options, run `pixi run python train.py -m <model> --help`. Commands that restore an archived run (`evaluate.py`, `case_analysis.py inference`) locate the model from `--evaluate.run_dir`/`--case.run_dir`, so pass the run directory for the model-bound reference, e.g. `pixi run python evaluate.py --evaluate.run_dir <run_id> --help`.
 
 ### Tracking experiments
 

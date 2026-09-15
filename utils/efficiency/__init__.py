@@ -11,7 +11,11 @@ via ``@register_efficiency_stage("name")``, and is auto-discovered. Entry:
 """
 
 from . import stages  # noqa: F401  — triggers static stage discovery
-from .config import GeneralEfficiencyConfig, get_efficiency_config_cls
+from .config import (
+    EfficiencyEntryConfig,
+    GeneralEfficiencyConfig,
+    get_efficiency_config_cls,
+)
 from .environment import (
     EnvironmentInfo,
     ResourceSampler,
@@ -29,6 +33,7 @@ from .stages.training import TrainingMetrics, benchmark_training
 from .sweep import EfficiencySweep, SweepPoint, SweepReport, batch_size_sweep
 
 __all__ = [
+    "EfficiencyEntryConfig",
     "EfficiencyReport",
     "EfficiencySession",
     "EfficiencyStage",

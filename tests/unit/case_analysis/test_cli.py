@@ -1,6 +1,7 @@
 """Function-level tests for the case_analysis.py CLI commands."""
 
 import json
+import sys
 
 import numpy as np
 import pandas as pd
@@ -67,9 +68,7 @@ def test_cmd_inference_end_to_end(
         dummy_analyzer_cls(rc, None, checkpoint_path).model.state_dict(),
         run / "best_model.pth",
     )
-    (run / "run_config.yaml").write_text("# stub; loader is patched")
 
-    monkeypatch.setattr("utils.config.load_run_config_archive", lambda *_: rc)
     monkeypatch.setattr(cli, "get_data_source", lambda *_: None)
     monkeypatch.setattr(
         cli, "ANALYZERS", _FakeRegistry({"DummyModel": dummy_analyzer_cls})
@@ -78,9 +77,9 @@ def test_cmd_inference_end_to_end(
     args = type(
         "_Args",
         (),
-        {"run_dir": str(run), "sink": "dataframe", "device": "cpu", "batch_size": 2},
+        {"run_dir": str(run), "checkpoint": "best_model.pth", "sink": "dataframe"},
     )()
-    cli.cmd_inference(args)
+    cli.cmd_inference(rc, args)
 
     assert (run / "case_analysis" / "predictions.parquet").exists()
     assert (run / "case_analysis" / "user_summaries.parquet").exists()
@@ -88,37 +87,30 @@ def test_cmd_inference_end_to_end(
 
 def test_cmd_inference_unregistered_model_exits(tmp_path, monkeypatch, rc):
     (tmp_path / "best_model.pth").write_bytes(b"x")
-    (tmp_path / "run_config.yaml").write_text("")
-    monkeypatch.setattr("utils.config.load_run_config_archive", lambda *_: rc)
     monkeypatch.setattr(cli, "ANALYZERS", _FakeRegistry({}))
 
     args = type(
         "_Args",
         (),
-        {
-            "run_dir": str(tmp_path),
-            "sink": "dataframe",
-            "device": None,
-            "batch_size": None,
-        },
+        {"run_dir": str(tmp_path), "checkpoint": "best_model.pth", "sink": "dataframe"},
     )()
     with pytest.raises(SystemExit, match="no registered case analyzer"):
-        cli.cmd_inference(args)
+        cli.cmd_inference(rc, args)
 
 
-def _select_args(run_dir, selector):
-    return type(
-        "_Args",
-        (),
-        {
-            "run_dir": str(run_dir),
-            "selector": selector,
-            "num_users": 3,
-            "min_seq_len": 5,
-            "min_error": 0.0,
-            "max_error": 1.0,
-        },
-    )()
+def _select_args(run_dir, selector, **overrides):
+    fields = {
+        "run_dir": str(run_dir),
+        "selector": selector,
+        "num_users": 3,
+        "min_seq_len": 5,
+        "min_error": 0.0,
+        "max_error": 1.0,
+        "min_confidence": 0.0,
+        "max_confidence": 1.0,
+    }
+    fields.update(overrides)
+    return type("_Args", (), fields)()
 
 
 def test_cmd_select_writes_selected_users(run_dir):
@@ -136,20 +128,7 @@ def test_cmd_select_unknown_selector_exits(run_dir):
 
 
 def test_cmd_plot_renders_figures(run_dir):
-    cli.cmd_select(
-        type(
-            "_Args",
-            (),
-            {
-                "run_dir": str(run_dir),
-                "selector": "extreme",
-                "num_users": 2,
-                "min_seq_len": 5,
-                "min_error": 0.0,
-                "max_error": 1.0,
-            },
-        )()
-    )
+    cli.cmd_select(_select_args(run_dir, "extreme", num_users=2))
     cli.cmd_plot(
         type(
             "_Args",
@@ -167,12 +146,63 @@ def test_cmd_plot_renders_figures(run_dir):
     assert len(pngs) == 2
 
 
-def test_filter_supported_options_drops_unsupported():
-    class _Sel:
-        def select(self, results, *, min_seq_len=20, max_users=20):
-            return []
+# --- select kwargs mapping ---
 
-    opts = cli._filter_supported_options(
-        _Sel, {"min_seq_len": 5, "error_rate_range": (0.1, 0.9), "max_users": 3}
+
+def test_select_kwargs_follow_cli_config(run_dir, monkeypatch):
+    captured = {}
+
+    class _CapturingSelector:
+        def select(self, results, **options):
+            captured.update(options)
+            return [0, 1, 2]
+
+    monkeypatch.setattr(
+        cli, "CASE_SELECTORS", _FakeRegistry({"cap": _CapturingSelector})
     )
-    assert opts == {"min_seq_len": 5, "max_users": 3}
+
+    cli.cmd_select(_select_args(run_dir, "cap"))
+    assert captured == {
+        "min_seq_len": 5,
+        "error_rate_range": (0.0, 1.0),
+        "confidence_range": (0.0, 1.0),
+        "max_users": 3,
+    }
+
+
+def test_cmd_select_cli_defaults_match_builtin_selectors(run_dir):
+    cli.cmd_select(cli.CaseSelectConfig(run_dir=str(run_dir)))
+    path = run_dir / "case_analysis" / "diverse" / "selected_users.json"
+    records = json.loads(path.read_text())
+    # CLI default num_users=20
+    assert 10 < len(records) <= 20
+
+
+# --- dispatch ---
+
+
+def test_main_help_lists_subcommands(capsys, monkeypatch):
+    monkeypatch.setattr(sys, "argv", ["case_analysis.py", "--help"])
+    with pytest.raises(SystemExit) as exc:
+        cli.main()
+    assert exc.value.code == 0
+    out = capsys.readouterr().out
+    assert "usage: case_analysis.py" in out
+    for cmd in ("inference", "select", "plot"):
+        assert cmd in out
+
+
+def test_main_without_subcommand_errors(capsys, monkeypatch):
+    monkeypatch.setattr(sys, "argv", ["case_analysis.py"])
+    with pytest.raises(SystemExit) as exc:
+        cli.main()
+    assert exc.value.code == 2
+    assert "required" in capsys.readouterr().err
+
+
+def test_main_unknown_subcommand_errors(capsys, monkeypatch):
+    monkeypatch.setattr(sys, "argv", ["case_analysis.py", "nope"])
+    with pytest.raises(SystemExit) as exc:
+        cli.main()
+    assert exc.value.code == 2
+    assert "invalid choice: 'nope'" in capsys.readouterr().err

@@ -1,7 +1,8 @@
-"""Efficiency benchmark config: general node + one sub-node per registered stage.
+"""Efficiency benchmark config: entry knobs + general node + one sub-node per stage.
 
 The ``EfficiencyConfig`` dataclass is composed at schema-build time from
-:class:`GeneralEfficiencyConfig` plus each registered stage's own ``config_cls``
+:class:`EfficiencyEntryConfig` (flat ``--efficiency.*`` entry knobs),
+:class:`GeneralEfficiencyConfig`, plus each registered stage's own ``config_cls``
 (mirroring ``build_run_config_schema``'s model-name → subclass binding). This is
 the repo's first nested config node, so reconstruction recurses
 (see :func:`utils.config.config_parser.build_node`).
@@ -15,8 +16,29 @@ from dataclasses import dataclass, field, make_dataclass
 
 
 @dataclass
+class EfficiencyEntryConfig:
+    """Entry-point knobs exposed as flat ``--efficiency.*`` flags.
+
+    Mirrors ``EvaluateConfig``'s run_dir/checkpoint contract so archive-restoring
+    entry points name their run directory the same way (``--evaluate.run_dir``,
+    ``--case.run_dir``, ``--efficiency.run_dir``).
+
+    Args:
+        run_dir: Trained run dir; seed rc from its run_config.yaml and benchmark
+            its checkpoint.
+        checkpoint: Checkpoint filename inside ``run_dir``.
+        weights: Standalone checkpoint to load after building the model
+            (fresh-mode alternative to ``run_dir``).
+    """
+
+    run_dir: str | None = None
+    checkpoint: str = "best_model.pth"
+    weights: str | None = None
+
+
+@dataclass
 class GeneralEfficiencyConfig:
-    """Cross-stage knobs and entry-point routing (owned by no single stage).
+    """Cross-stage knobs (owned by no single stage).
 
     Args:
         modes: Comma-separated stages to run (empty = all discovered stages).
@@ -30,10 +52,6 @@ class GeneralEfficiencyConfig:
         warmup_iters: Discarded iters before timing (cuDNN autotune / clock ramp);
             shared by the inference/train/trace stages.
         resource_sample_interval: Background resource sampling interval (s).
-        run_dir: Trained run dir; seed rc from its run_config.yaml and benchmark
-            its checkpoint.
-        checkpoint: Checkpoint filename inside ``run_dir``.
-        weights: Standalone checkpoint to load after building the model.
         output_dir: Where to write efficiency_report.json; default = exp dir.
         benchmark_batch_size: Override rc.model.batch_size so every model is
             measured under one batch size; None keeps the model's default.
@@ -48,9 +66,6 @@ class GeneralEfficiencyConfig:
     compile_modes: str = ""
     warmup_iters: int = 50
     resource_sample_interval: float = 0.05
-    run_dir: str | None = None
-    checkpoint: str = "best_model.pth"
-    weights: str | None = None
     output_dir: str | None = None
     benchmark_batch_size: int | None = None
     benchmark_seq_len: int | None = None
@@ -89,7 +104,9 @@ def build_efficiency_config_schema() -> type:
         stage_cls = EFFICIENCY_STAGES.get(name)
         cfg_cls = getattr(stage_cls, "config_cls", DefaultStageConfig)
         stage_fields.append((name, cfg_cls, field(default_factory=cfg_cls)))
-    _EFFICIENCY_CONFIG_CLS = make_dataclass("EfficiencyConfig", stage_fields)
+    _EFFICIENCY_CONFIG_CLS = make_dataclass(
+        "EfficiencyConfig", stage_fields, bases=(EfficiencyEntryConfig,)
+    )
     return _EFFICIENCY_CONFIG_CLS
 
 

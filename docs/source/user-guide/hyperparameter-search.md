@@ -24,11 +24,15 @@ python optuna_search.py -m GIKT -d assistments09
 
 | 参数 | 默认值 | 描述 |
 | --- | --- | --- |
-| ``-m, --model`` | 必填 | 模型名称 |
-| ``-d, --dataset`` | 必填 | 数据集名称 |
-| ``--optuna_config`` | ``./configs/optuna/optuna_config.json`` | Optuna 配置路径 |
-| ``--param_space`` | ``./configs/optuna/param_space_<model>.json`` | 参数空间路径 |
-| ``--metric`` | auc | 目标指标（auc/acc/rmse/loss） |
+| ``-m, --experiment.model_name`` | 必填 | 模型名称 |
+| ``-d, --data.dataset`` | 必填 | 数据集名称 |
+| ``--optuna_search.optuna_config`` | ``./configs/optuna/optuna_config.yaml`` | Optuna 配置路径 |
+| ``--optuna_search.metric`` | ``auc`` | 目标指标，逗号分隔（auc/acc/auprc/rmse/loss；多个启用多目标搜索） |
+| ``--optuna_search.resume`` | 无 | 从 run 目录恢复搜索（复用 study.db） |
+| ``--optuna_search.keep_trial_artifacts`` | ``false`` | 保留每 trial 的 SwanLab 追踪、checkpoint 与测试评估 |
+| ``--optuna_search.output_dir`` | 时间戳目录 | 固定输出目录（study.db/trial 子目录/CSV），供外部调用方定位 |
+
+其余 RunConfig 反射 flag（``--model.*`` / ``--data.*`` / ``--general.*``）与 ``train.py`` 相同；``optuna_search.py --help`` 查看完整参考。搜索空间由模型 ``ModelConfig`` 字段上的 ``metadata={'optuna': ...}`` 注解派生，无需单独的参数空间文件。
 
 
 ## Optuna 配置
@@ -129,11 +133,11 @@ runs/hyperparam_search/gikt_hyperparameter_search_20240403-120000/
 ```bash
 # 终端 1 - 使用 SQLite 存储
 python optuna_search.py -m GIKT -d assistments09 \
- --optuna_config configs/optuna/optuna_config_db.json
+ --optuna_search.optuna_config configs/optuna/optuna_config_db.json
 
 # 终端 2 - 相同命令
 python optuna_search.py -m GIKT -d assistments09 \
- --optuna_config configs/optuna/optuna_config_db.json
+ --optuna_search.optuna_config configs/optuna/optuna_config_db.json
 ```
 
 **注意：** 并行搜索需要在配置中设置 ``db_url``：

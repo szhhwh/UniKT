@@ -2,18 +2,19 @@
 
 Provides a command-line interface for running Optuna-based hyperparameter
 searches on KT models. Supports configurable parameter spaces, multiple
-optimization metrics, and trial history export.
+optimization metrics, and trial history export. Entry-point knobs live under
+``--optuna_search.*`` alongside the reflective RunConfig flags.
 """
 
-import argparse
 import copy
 import os
+from dataclasses import dataclass
 from pathlib import Path
 
 import yaml
 
 import model  # noqa: F401
-from utils.config import ConfigParser, config_to_dict
+from utils.config import ConfigParser, build_node, config_to_dict
 from utils.core import TRAINERS, add_file_handler, get_logger
 from utils.data_process import get_data_source
 from utils.experiment_manager import ExperimentManager, ExperimentType
@@ -27,56 +28,61 @@ from utils.optuna_utils import (
 
 logger = get_logger(__name__)
 
+_METRICS = ("auc", "acc", "auprc", "rmse", "loss")
+
+
+@dataclass
+class OptunaSearchConfig:
+    """Entry-point knobs for optuna_search.py, exposed as ``--optuna_search.*``.
+
+    Args:
+        optuna_config: Path to the Optuna yaml (n_trials/sampler/pruner/...).
+        metric: Comma-separated metric(s) to optimize (e.g. ``auc`` or
+            ``auc,rmse``); more than one enables multi-objective search.
+        resume: Resume an existing search from its run directory (reuses
+            study.db).
+        keep_trial_artifacts: Keep per-trial SwanLab tracking, checkpoints,
+            and test evaluation (disabled by default during search to save
+            compute).
+        output_dir: Fixed output directory for all search artifacts (study.db,
+            trial subdirs, CSV). When set, the timestamped ExperimentManager
+            dir is skipped so callers (e.g. the web backend) can locate
+            study.db deterministically. Omit to keep the default timestamped
+            behaviour.
+    """
+
+    optuna_config: str = "./configs/optuna/optuna_config.yaml"
+    metric: str = "auc"
+    resume: str | None = None
+    keep_trial_artifacts: bool = False
+    output_dir: str | None = None
+
+
+def _parse(argv: list[str] | None = None):
+    """Parse the reflective RunConfig flags plus the OptunaSearchConfig node.
+
+    Returns ``(rc, opt_cfg, metrics)`` with ``metrics`` split from the
+    comma-separated ``--optuna_search.metric`` and validated.
+    """
+    rc, ns = ConfigParser(
+        prog="optuna_search.py",
+        description="Unified Optuna Hyperparameter Search",
+        extra_nodes={"optuna_search": OptunaSearchConfig},
+    ).parse_with_extras(argv)
+    opt_cfg = build_node(OptunaSearchConfig, ns["optuna_search"])
+    metrics = [m.strip() for m in opt_cfg.metric.split(",") if m.strip()]
+    invalid = [m for m in metrics if m not in _METRICS]
+    if invalid:
+        raise SystemExit(
+            f"optuna_search.py: invalid metric(s): {', '.join(invalid)} "
+            f"(choose from {', '.join(_METRICS)})"
+        )
+    return rc, opt_cfg, metrics
+
 
 def main():
     """Main entry point."""
-    # Stage 1: optuna-specific args; parse_known_args leaves RunConfig flags in `remaining`.
-    opt_parser = argparse.ArgumentParser(add_help=False)
-    opt_parser.add_argument(
-        "--optuna_config",
-        type=str,
-        default="./configs/optuna/optuna_config.yaml",
-        help="Path to Optuna config yaml file",
-    )
-    opt_parser.add_argument(
-        "--metric",
-        type=str,
-        nargs="+",
-        choices=["auc", "acc", "auprc", "rmse", "loss"],
-        default=["auc"],
-        help="Metric(s) to optimize; pass multiple for multi-objective search",
-    )
-    opt_parser.add_argument(
-        "--resume",
-        type=str,
-        default=None,
-        metavar="RUN_DIR",
-        help="Resume an existing search from its run directory (reuses study.db)",
-    )
-    opt_parser.add_argument(
-        "--keep-trial-artifacts",
-        action="store_true",
-        default=False,
-        help="Keep per-trial SwanLab tracking, checkpoints, and test evaluation "
-        "(disabled by default during search to save compute)",
-    )
-    opt_parser.add_argument(
-        "--output_dir",
-        type=str,
-        default=None,
-        help=(
-            "Fixed output directory for all search artifacts (study.db, trial "
-            "subdirs, CSV). When set, the timestamped ExperimentManager dir is "
-            "skipped so callers (e.g. the web backend) can locate study.db "
-            "deterministically. Omit to keep the default timestamped behaviour."
-        ),
-    )
-    optuna_args, remaining = opt_parser.parse_known_args()
-
-    # Stage 2: RunConfig via reflective ConfigParser on the remaining argv.
-    rc = ConfigParser(
-        prog="optuna_search.py", description="Unified Optuna Hyperparameter Search"
-    ).parse_args(remaining)
+    rc, optuna_args, metrics = _parse()
     model_name = rc.experiment.model_name
 
     # Load config first to annotate experiment directory with n_trials
@@ -120,7 +126,6 @@ def main():
         )
     # Directions are derived from the metric(s); multiple metrics enable
     # multi-objective search (override any directions in the config file).
-    metrics = optuna_args.metric
     optuna_config.directions = [direction_for_metric(m) for m in metrics]
     if len(metrics) > 1:
         logger.info(
@@ -140,7 +145,8 @@ def main():
         search_rc.general.skip_test = True
         logger.info(
             "Per-trial SwanLab tracking, checkpoint saving, and test evaluation "
-            "disabled to save compute (pass --keep-trial-artifacts to keep them)"
+            "disabled to save compute (pass --optuna_search.keep_trial_artifacts "
+            "true to keep them)"
         )
 
     # Search space is derived solely from the model's ModelConfig field metadata.
@@ -173,7 +179,7 @@ def main():
         trainer_class=trainer_class,
         data_src_fn=data_src_factory,
         base_rc=search_rc,
-        metric_name=optuna_args.metric,
+        metric_name=metrics,
         exp_manager=exp_manager,
     )
 
