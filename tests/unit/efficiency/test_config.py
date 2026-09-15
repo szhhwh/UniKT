@@ -6,6 +6,7 @@ from utils.core import register_efficiency_stage
 from utils.efficiency import config as eff_config_module
 from utils.efficiency.config import (
     DefaultStageConfig,
+    EfficiencyEntryConfig,
     GeneralEfficiencyConfig,
     build_efficiency_config_schema,
     get_efficiency_config_cls,
@@ -22,13 +23,20 @@ class TestBuildEfficiencyConfigSchema:
         assert build_efficiency_config_schema() is first
         assert get_efficiency_config_cls() is first
 
-    def test_fields_are_general_plus_registered_stages(self):
+    def test_fields_are_entry_general_plus_registered_stages(self):
         from utils.core import get_supported_stages
 
         cls = get_efficiency_config_cls()
         field_names = [f.name for f in dataclasses.fields(cls)]
-        assert field_names[0] == "general"
-        assert set(field_names[1:]) == set(get_supported_stages())
+        assert field_names[:4] == ["run_dir", "checkpoint", "weights", "general"]
+        assert set(field_names[4:]) == set(get_supported_stages())
+
+    def test_entry_defaults_bound(self):
+        cfg = get_efficiency_config_cls()()
+        assert isinstance(cfg, EfficiencyEntryConfig)
+        assert cfg.run_dir is None
+        assert cfg.checkpoint == "best_model.pth"
+        assert cfg.weights is None
 
     def test_general_defaults_bound(self):
         cfg = get_efficiency_config_cls()()
@@ -69,7 +77,13 @@ class TestDefaultStageConfigFallback:
         )
         cls = build_efficiency_config_schema()
         field_names = [f.name for f in dataclasses.fields(cls)]
-        assert field_names == ["general", "utest_nocfg_stage"]
+        assert field_names == [
+            "run_dir",
+            "checkpoint",
+            "weights",
+            "general",
+            "utest_nocfg_stage",
+        ]
         assert isinstance(cls().utest_nocfg_stage, DefaultStageConfig)
         # teardown: monkeypatch restores both the cache and get_supported_stages
 

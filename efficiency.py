@@ -1,15 +1,15 @@
 """UniKT model efficiency benchmark.
 
 Two mutually exclusive entry modes:
-    - ``-m/-d``                       build the model fresh (random weights, or
-                                      ``--efficiency.general.weights`` to load a file) + data
-    - ``--efficiency.general.run_dir`` seed the RunConfig from a trained run's
-                                      ``run_config.yaml`` and benchmark its checkpoint
+    - ``-m/-d``                build the model fresh (random weights, or
+                               ``--efficiency.weights`` to load a file) + data
+    - ``--efficiency.run_dir`` seed the RunConfig from a trained run's
+                               ``run_config.yaml`` and benchmark its checkpoint
 
 Usage:
     python efficiency.py -m GIKT -d assistments09
-    python efficiency.py -m SAKT -d assistments09 --efficiency.general.weights runs/.../best_model.pth
-    python efficiency.py --efficiency.general.run_dir runs/normal/GIKT_assist09_..._fold0_bs128
+    python efficiency.py -m SAKT -d assistments09 --efficiency.weights runs/.../best_model.pth
+    python efficiency.py --efficiency.run_dir runs/normal/GIKT_assist09_..._fold0_bs128
     python efficiency.py -m AKT -d assistments09 --efficiency.general.modes inference --efficiency.inference.iters 500
     python efficiency.py -m SAKT -d assistments09 --efficiency.general.compile_modes off,default,reduce-overhead
     python efficiency.py -m SAKT -d assistments09 --efficiency.general.batch_sizes 32,64 --efficiency.general.compile_modes off,default
@@ -89,7 +89,7 @@ def _parse() -> tuple:
         reject_model_flags(
             sys.argv[1:],
             prog="efficiency.py",
-            run_dir_flag="--efficiency.general.run_dir",
+            run_dir_flag="--efficiency.run_dir",
         )  # run_dir mode reconstructs the model from the archive
         archive = Path(run_dir) / "run_config.yaml"
         if not archive.exists():
@@ -108,16 +108,15 @@ def _parse() -> tuple:
 
 
 def _peek_run_dir() -> str | None:
-    """Read --efficiency.general.run_dir before ConfigParser (default_config path needs it)."""
-    return peek_flag_value(sys.argv[1:], "--efficiency.general.run_dir")
+    """Read --efficiency.run_dir before ConfigParser (default_config path needs it)."""
+    return peek_flag_value(sys.argv[1:], "--efficiency.run_dir")
 
 
 def _resolve_weights(eff_cfg) -> str | None:
-    general = eff_cfg.general
-    if general.weights:
-        path = Path(general.weights)
-    elif general.run_dir:
-        path = Path(general.run_dir) / general.checkpoint
+    if eff_cfg.weights:
+        path = Path(eff_cfg.weights)
+    elif eff_cfg.run_dir:
+        path = Path(eff_cfg.run_dir) / eff_cfg.checkpoint
     else:
         return None
     # Fail fast before the expensive model+data build.
