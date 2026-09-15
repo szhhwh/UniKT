@@ -80,7 +80,7 @@ class ConfigParser:
         if explicit:
             ns["experiment"]["model_name"] = explicit
         rc = _namespace_to_run_config(ns, schema_nodes)
-        _require_dataset(rc)
+        require_dataset(rc)
         return rc, ns
 
     def _resolve_model_name(self, argv: list[str]) -> str:
@@ -281,11 +281,12 @@ def reject_model_flags(argv: list[str], prog: str, run_dir_flag: str) -> None:
             )
 
 
-def _require_dataset(rc: RunConfig) -> None:
+def require_dataset(rc: RunConfig) -> None:
     """Fail fast with a clear message when no dataset is selected.
 
     Without this, an empty ``rc.data.dataset`` reaches ``get_data_source`` late
     (after the run directory is created) as an opaque "Unsupported dataset:" error.
+    ``data_process.py`` checks this itself because it builds its own parser.
     """
     if rc.data.dataset:
         return
@@ -354,4 +355,5 @@ __all__ = [
     "parse_run_archive",
     "peek_flag_value",
     "reject_model_flags",
+    "require_dataset",
 ]

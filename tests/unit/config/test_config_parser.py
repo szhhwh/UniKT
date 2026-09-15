@@ -188,6 +188,33 @@ class TestParsing:
             _parse(["-m", "NoSuchModel", "-d", "tinyds"])
 
 
+# --- require_dataset (direct; data_process.py calls it on its own parser) ---
+
+
+class TestRequireDataset:
+    def test_empty_dataset_exits_with_choices(self):
+        from dataclasses import dataclass
+
+        from utils.config import require_dataset
+
+        @dataclass
+        class _Data:
+            dataset: str = ""
+
+        class _RC:
+            data = _Data()
+
+        with pytest.raises(SystemExit) as exc:
+            require_dataset(_RC())
+        assert "dataset is required" in str(exc.value.code)
+        assert "-d/--data.dataset" in str(exc.value.code)
+
+    def test_nonempty_dataset_passes(self, make_run_config):
+        from utils.config import require_dataset
+
+        require_dataset(make_run_config())  # dataset="tinyds" — no raise
+
+
 # --- _read_model_name ---
 
 

@@ -18,6 +18,7 @@ from .config_parser import (
     parse_run_archive,
     peek_flag_value,
     reject_model_flags,
+    require_dataset,
 )
 from .data_config import (
     DataLoaderConfig,
@@ -57,5 +58,6 @@ __all__ = [
     "parse_run_archive",
     "peek_flag_value",
     "reject_model_flags",
+    "require_dataset",
     "save_run_config_archive",
 ]

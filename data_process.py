@@ -115,11 +115,12 @@ def cmd_process(rc, ns):
 if __name__ == "__main__":
     import sys
 
-    from utils.config import expand_short_flags
+    from utils.config import expand_short_flags, require_dataset
 
     parser = build_parser()
     ns = parser.parse_args(expand_short_flags(sys.argv[1:]))
     rc = _PartialRC(ns[ns.subcommand])
+    require_dataset(rc)  # fail fast; this entry point skips ConfigParser's check
 
     if ns.subcommand == "download":
         cmd_download(rc, ns)
