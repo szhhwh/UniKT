@@ -56,11 +56,11 @@ class MetricsAccumulator:
         >>> metrics = accum.compute("train")
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize the accumulator with an empty internal store."""
-        self._accumulators: dict[str, dict[str, list]] = {}
+        self._accumulators: dict[str, dict[str, list[torch.Tensor]]] = {}
 
-    def reset(self, phase: str):
+    def reset(self, phase: str) -> None:
         """Reset accumulators for a given phase.
 
         Args:
@@ -74,7 +74,7 @@ class MetricsAccumulator:
             "group_id": [],
         }
 
-    def update(self, phase: str, outputs: dict[str, torch.Tensor]):
+    def update(self, phase: str, outputs: dict[str, torch.Tensor]) -> None:
         """Update accumulators with a batch of model outputs.
 
         Args:

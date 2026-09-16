@@ -1,6 +1,7 @@
 """XES3G5M (question level) dataset handler."""
 
 import os
+from typing import Any
 
 import polars as pl
 from typing_extensions import override
@@ -45,7 +46,7 @@ class Xes3g5mData(DataSource):
     source events (they also occur in the un-windowed test file).
     """
 
-    def __init__(self, args):
+    def __init__(self, args: Any) -> None:
         """Initialize the XES3G5M dataset handler."""
         super().__init__(
             dataset="xes3g5m",
@@ -59,7 +60,7 @@ class Xes3g5mData(DataSource):
         self.test_path = os.path.join(ql, _TEST_FILE)
 
     @override
-    def load_src_data(self):
+    def load_src_data(self) -> None:
         for path in (self.train_path, self.test_path):
             if not os.path.exists(path):
                 raise FileNotFoundError(f"Cannot find: {path}")
@@ -109,7 +110,7 @@ class Xes3g5mData(DataSource):
         return lf.collect(engine="streaming")
 
     @override
-    def clean_raw_data(self):
+    def clean_raw_data(self) -> None:
         """Flatten both source files into a cleaned long-format interaction table."""
         if self.raw_data is None:
             self.load_src_data()
@@ -154,7 +155,7 @@ class Xes3g5mData(DataSource):
         self.cleaned_raw_data = data
 
     @override
-    def transform_data(self):
+    def transform_data(self) -> None:
         """Build the question_skill relation and sequence_data from cleaned data."""
         logger.info("Processing XES3G5M data...")
         if self.cleaned_raw_data is None:

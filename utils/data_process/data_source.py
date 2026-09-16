@@ -12,8 +12,10 @@ import shutil
 import time
 import zipfile
 from abc import ABC, abstractmethod
+from collections.abc import Iterator, Sequence
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
+from typing import Any, overload
 
 import numpy as np
 import polars as pl
@@ -36,6 +38,18 @@ class DataSource(ABC):
     and saving dataset files with metadata tracking and integrity checks.
     """
 
+    # Injected by dataset-specific subclasses (Assistments2009Data, ...) —
+    # a processed Namespace carrying min_seq_len/max_seq_len etc.
+    args: Any
+    # The processed user sequence table, assigned during the subclass
+    # process flow; always an eager DataFrame (lazy policy is windowlate-only).
+    sequence_data: pl.DataFrame
+    # Raw per-interaction tables populated by subclass load_src_data /
+    # clean_raw_data; None until those steps run. Structure is subclass-
+    # defined (LazyFrame / eager DataFrame / per-source dict), hence Any.
+    raw_data: Any
+    cleaned_raw_data: Any
+
     def __init__(
         self,
         dataset: str,
@@ -52,7 +66,7 @@ class DataSource(ABC):
         self.raw_data = None
         self.cleaned_raw_data = None  # cleaned raw data
         self.data_url = data_url
-        self.metadata = {}
+        self.metadata: dict[str, Any] = {}
         self.seed = seed
 
         # ID mapping storage
@@ -92,7 +106,7 @@ class DataSource(ABC):
         """
         return is_processed(self.data_base_path, self.dataset)
 
-    def _build_id_mapping(self, data: pl.DataFrame, columns: list[str]):
+    def _build_id_mapping(self, data: pl.DataFrame, columns: list[str]) -> None:
         """Build ID mappings from data.
 
         Args:
@@ -153,7 +167,7 @@ class DataSource(ABC):
             primary = ["user", "timestamp"]
         return primary + [c for c in self.sequence_data.columns if c not in primary]
 
-    def save_data(self):
+    def save_data(self) -> None:
         """Save processed relation tables, sequence data, and metadata."""
         # Validate
         self._validate_data(self.relation_data, self.sequence_data)
@@ -237,7 +251,7 @@ class DataSource(ABC):
     @staticmethod
     def _validate_data(
         relation_data: dict[str, pl.DataFrame], sequence_data: pl.DataFrame
-    ):
+    ) -> None:
         """Validate consistency between relation tables and sequence_data."""
         assert "question_skill" in relation_data, "question_skill relation is required"
         question_skill = relation_data["question_skill"]
@@ -278,9 +292,10 @@ class DataSource(ABC):
             f"sequence_data has {len(s_questions)} unique"
         )
 
-        # Validate ID range consistency
-        q_max = question_skill["question"].max()
-        s_max = sequence_data["question"].max()
+        # Validate ID range consistency (Any: polars .max() unions trigger
+        # str-bytes-safe false positives on the f-string below)
+        q_max: Any = question_skill["question"].max()
+        s_max: Any = sequence_data["question"].max()
         assert q_max == s_max, (
             f"question_id range mismatch: question_skill max={q_max}, "
             f"sequence_data max={s_max}"
@@ -288,7 +303,15 @@ class DataSource(ABC):
 
         logger.info("Data validation passed!")
 
-    def _download_chunk(self, url, start, end, chunk_path, pbar, chunk_size=8192):
+    def _download_chunk(
+        self,
+        url: str | None,
+        start: int,
+        end: int,
+        chunk_path: str,
+        pbar: tqdm.tqdm | None,
+        chunk_size: int = 8192,
+    ) -> None:
         """Download a single chunk of a file for multi-threaded downloads."""
         headers = {"Range": f"bytes={start}-{end}"}
         response = requests.get(url, headers=headers, stream=True, timeout=60)
@@ -301,7 +324,9 @@ class DataSource(ABC):
                     if pbar:
                         pbar.update(len(chunk) / (1024 * 1024))
 
-    def _download_with_requests(self, archive_path, num_threads, attempt, max_retries):
+    def _download_with_requests(
+        self, archive_path: str, num_threads: int, attempt: int, max_retries: int
+    ) -> None:
         """Download file with multi-threading support."""
         head_response = requests.head(self.data_url, timeout=30)
         head_response.raise_for_status()
@@ -365,7 +390,7 @@ class DataSource(ABC):
             if os.path.exists(temp_dir):
                 shutil.rmtree(temp_dir)
 
-    def _download_single_thread(self, archive_path):
+    def _download_single_thread(self, archive_path: str) -> None:
         """Download file with single thread."""
         with requests.get(self.data_url, stream=True, timeout=60) as r:
             r.raise_for_status()
@@ -386,7 +411,9 @@ class DataSource(ABC):
                             f.write(chunk)
                             pbar.update(len(chunk) / (1024 * 1024))
 
-    def fetch_data(self, force_download=False, max_retries=3, num_threads=4):
+    def fetch_data(
+        self, force_download: bool = False, max_retries: int = 3, num_threads: int = 4
+    ) -> None:
         """Download and extract data archive with retry support.
 
         Args:
@@ -471,7 +498,9 @@ class DataSource(ABC):
             return True
         return not any(Path(extract_target).iterdir())
 
-    def _extract_archive(self, archive_path: str, file_name: str, extract_target: str):
+    def _extract_archive(
+        self, archive_path: str, file_name: str, extract_target: str
+    ) -> None:
         """Extract archive file based on its extension."""
         import gzip
         import tarfile
@@ -513,7 +542,7 @@ class DataSource(ABC):
                 shutil.copy2(archive_path, dest_path)
 
     @abstractmethod
-    def load_src_data(self):
+    def load_src_data(self) -> None:
         """Load source data. Must be implemented by subclasses."""
         raise NotImplementedError("Subclasses should implement load_data method")
 
@@ -530,7 +559,7 @@ class DataSource(ABC):
 
         return data_path
 
-    def _validate_data_files_exist(self, file_paths: list[str]):
+    def _validate_data_files_exist(self, file_paths: list[str]) -> None:
         """Validate that all required data files exist."""
         missing_files = [
             f"  - {path}" for path in file_paths if not os.path.exists(path)
@@ -546,7 +575,7 @@ class DataSource(ABC):
                 f"Data base path: {self.data_folder}"
             )
 
-    def _validate_data_integrity(self, file_path: str, md5_key: str):
+    def _validate_data_integrity(self, file_path: str, md5_key: str) -> None:
         """Validate MD5 checksum of a data file."""
         if md5_key not in self.metadata:
             return
@@ -571,7 +600,7 @@ class DataSource(ABC):
             )
 
     @abstractmethod
-    def transform_data(self):
+    def transform_data(self) -> None:
         """Transform cleaned data into standard format. Must be implemented by subclasses."""
         raise NotImplementedError("Subclasses should implement transform_data method")
 
@@ -629,7 +658,9 @@ class DataSource(ABC):
 
     def get_sequence_data(self) -> pl.DataFrame:
         """Get user sequence data."""
-        return self._load_data("sequence")
+        data = self._load_data("sequence")
+        assert isinstance(data, pl.DataFrame)  # sequence is always eager
+        return data
 
     def get_relation(self, name: str) -> pl.DataFrame:
         """Get a normalized relation table by name (e.g., "question_skill").
@@ -637,7 +668,9 @@ class DataSource(ABC):
         Each relation is a 2-column DataFrame unique on (src, dst).
         """
         if name in self._data_cache:
-            return self._data_cache[name]
+            cached = self._data_cache[name]
+            assert isinstance(cached, pl.DataFrame)  # relations are eager
+            return cached
         if self.relation_data and name in self.relation_data:
             return self.relation_data[name]
         # Try loading from disk
@@ -669,11 +702,15 @@ class DataSource(ABC):
 
     def get_split_question_sequence_data(self) -> pl.DataFrame:
         """Get split user sequence data."""
-        return self._load_data("split_question_sequence")
+        data = self._load_data("split_question_sequence")
+        assert isinstance(data, pl.DataFrame)  # split data is always eager
+        return data
 
     def get_split_skill_sequence_data(self) -> pl.DataFrame:
         """Get split skill sequence data."""
-        return self._load_data("split_skill_sequence")
+        data = self._load_data("split_skill_sequence")
+        assert isinstance(data, pl.DataFrame)  # split data is always eager
+        return data
 
     def get_windowlate_data(self) -> pl.LazyFrame:
         """Get windowlate evaluation data.
@@ -682,19 +719,21 @@ class DataSource(ABC):
             Windowlate evaluation samples (long format).
             Columns: sample_id, position, skill, response, mask, user_id, group_id, true_label, fold
         """
-        return self._load_data("windowlate")
+        data = self._load_data("windowlate")
+        assert isinstance(data, pl.LazyFrame)  # windowlate is always lazy
+        return data
 
-    def update_metadata(self, key: str, value):
+    def update_metadata(self, key: str, value: Any) -> None:
         """Update a single metadata entry."""
         self.metadata[key] = value
         logger.debug(f"Updated {key} = {value} in DataSource metadata")
 
-    def update_metadatas(self, meta_dict: dict):
+    def update_metadatas(self, meta_dict: dict[str, Any]) -> None:
         """Update multiple metadata entries."""
         for key, value in meta_dict.items():
             self.update_metadata(key, value)
 
-    def save_metadata(self):
+    def save_metadata(self) -> None:
         """Save metadata to JSON file."""
         self.update_metadata("dataset", self.dataset)
         self.update_metadata("data_base_path", self.data_base_path)
@@ -702,7 +741,7 @@ class DataSource(ABC):
         with open(self.metadata_path, "w") as f:
             json.dump(self.metadata, f, indent=4)
 
-    def load_metadata(self):
+    def load_metadata(self) -> None:
         """Load metadata from JSON file."""
         if not os.path.exists(self.metadata_path):
             raise FileNotFoundError(f"Metadata file not found: {self.metadata_path}")
@@ -710,7 +749,7 @@ class DataSource(ABC):
         with open(self.metadata_path) as f:
             self.metadata = json.load(f)
 
-    def get_metadata(self, key: str | None = None):
+    def get_metadata(self, key: str | None = None) -> Any:
         """Get metadata entry or entire metadata dict."""
         if not self.metadata:
             self.load_metadata()
@@ -727,7 +766,9 @@ class DataSource(ABC):
     # that is identical to whole-frame processing.
     _SPLIT_BATCH_ROWS: int = 2_000_000
 
-    def _iter_user_aligned_slices(self, df: pl.DataFrame, target_rows: int):
+    def _iter_user_aligned_slices(
+        self, df: pl.DataFrame, target_rows: int
+    ) -> Iterator[tuple[int, int]]:
         """Yield (start, end) row offsets of contiguous, user-aligned batches.
 
         ``df`` must be sorted by the ``user`` column. Each yielded batch
@@ -818,6 +859,7 @@ class DataSource(ABC):
             batch = self.sequence_data.slice(start, end - start)
 
             if expand_skills:
+                assert question_skills is not None  # set when expand_skills
                 # The hash join does not guarantee row order, so we must
                 # preserve the deterministic chronological (interaction-major)
                 # order ourselves. Stamp each interaction with its position in
@@ -906,7 +948,7 @@ class DataSource(ABC):
 
         return pl.concat(parts, how="vertical")
 
-    def build_split_question_sequence_data(self):
+    def build_split_question_sequence_data(self) -> None:
         """Build split sequence data by question.
 
         Splits user sequences longer than ``max_seq_len`` into multiple
@@ -927,7 +969,7 @@ class DataSource(ABC):
         final_num_users = self.split_question_sequence_data["sequence_id"].n_unique()
         logger.debug(f"Split into {final_num_users} question sub-sequences")
 
-    def build_split_skill_sequence_data(self):
+    def build_split_skill_sequence_data(self) -> None:
         """Build split skill sequence data.
 
         Expands question sequences into skill sequences (one question may map
@@ -953,7 +995,7 @@ class DataSource(ABC):
             f"skill sub-sequences"
         )
 
-    def build_windowlate_data(self):
+    def build_windowlate_data(self) -> None:
         """Build windowlate evaluation samples for windowlate_auc_mean scoring.
 
         Data is streamed directly to file in this method.
@@ -995,7 +1037,7 @@ class DataSource(ABC):
             users_per_batch=users_per_batch,
         )
 
-    def add_kfold_labels(self, n_splits: int = 5, test_ratio: float = 0.2):
+    def add_kfold_labels(self, n_splits: int = 5, test_ratio: float = 0.2) -> None:
         """Add K-fold cross-validation labels with test set separation.
 
         Ensures all data from the same user stays in the same fold
@@ -1061,7 +1103,7 @@ class DataSource(ABC):
             f"Added K-fold labels with n_splits={n_splits}, test_ratio={test_ratio}"
         )
 
-    def get_user_stats(self):
+    def get_user_stats(self) -> pl.DataFrame:
         """Compute user statistics: attempts, correct count, skill count, correct rate.
 
         Returns:
@@ -1103,9 +1145,9 @@ class DataSource(ABC):
         sample_size: int | None = None,
         sample_ratio: float | None = None,
         sample_strategy: str = "random",
-        attempts_bins: list = [20, 100],
-        correct_bins: list = [0.4, 0.8],
-    ):
+        attempts_bins: Sequence[float] = [20, 100],
+        correct_bins: list[float] = [0.4, 0.8],
+    ) -> None:
         """Sample dataset by users or interactions.
 
         Args:
@@ -1195,9 +1237,9 @@ class DataSource(ABC):
         self,
         user_stats: pl.DataFrame,
         n_samples: int,
-        attempts_bins: list,
-        correct_bins: list,
-    ) -> list:
+        attempts_bins: Sequence[float],
+        correct_bins: list[float],
+    ) -> list[int]:
         """Perform stratified sampling on users."""
         user_stats = user_stats.with_columns(
             [
@@ -1246,7 +1288,7 @@ class DataSource(ABC):
 
         return sampled_users.to_series().to_list()
 
-    def _make_bin_expr(self, col: str, bins: list) -> pl.Expr:
+    def _make_bin_expr(self, col: str, bins: Sequence[float]) -> pl.Expr:
         """Create binning expression for a column."""
         return (
             pl.when(pl.col(col) <= bins[0])
@@ -1258,12 +1300,12 @@ class DataSource(ABC):
 
     def _apply_sampling_to_data(
         self,
-        sampled_users: list,
+        sampled_users: list[int],
         n_samples: int,
         total_users: int,
         original_records: int,
         stratify: bool = True,
-    ):
+    ) -> None:
         """Apply sampled users to sequence and question data with ID remapping."""
         user_stats = self.get_user_stats()
         strata_distribution = self._compute_strata_distribution(
@@ -1318,7 +1360,7 @@ class DataSource(ABC):
         n_samples: int,
         total_users: int,
         original_records: int,
-    ):
+    ) -> None:
         """Sample by taking the earliest N interactions sorted by timestamp."""
         if n_samples > original_records:
             raise ValueError(
@@ -1365,7 +1407,7 @@ class DataSource(ABC):
         )
         logger.info(f"Sampling ratio: {sampling_config['sampling_ratio']:.2%}")
 
-    def _remap_user_ids(self):
+    def _remap_user_ids(self) -> None:
         """Remap user IDs to consecutive integers starting from 0."""
         user_id_map = (
             self.sequence_data.select(pl.col("user").unique())
@@ -1379,7 +1421,7 @@ class DataSource(ABC):
             .rename({"new_user_id": "user"})
         )
 
-    def _remap_question_ids(self):
+    def _remap_question_ids(self) -> None:
         """Filter and remap question IDs and entity IDs to consecutive integers."""
         active_questions = self.sequence_data.select(pl.col("question").unique())
 
@@ -1433,11 +1475,11 @@ class DataSource(ABC):
             )
 
     def _compute_strata_distribution(
-        self, sampled_users: list, user_stats: pl.DataFrame
-    ) -> dict:
+        self, sampled_users: list[int], user_stats: pl.DataFrame
+    ) -> dict[str, dict[str, int]]:
         """Compute distribution of users across strata."""
 
-        def _strata_to_str(s):
+        def _strata_to_str(s: int) -> str:
             return f"{s // 3}_{s % 3}"
 
         strata_to_str = _strata_to_str
@@ -1466,7 +1508,17 @@ class DataSource(ABC):
         return strata_distribution
 
 
-def exclude_short_sequences(data, min_seq_len: int):
+@overload
+def exclude_short_sequences(data: pl.LazyFrame, min_seq_len: int) -> pl.LazyFrame: ...
+
+
+@overload
+def exclude_short_sequences(data: pl.DataFrame, min_seq_len: int) -> pl.DataFrame: ...
+
+
+def exclude_short_sequences(
+    data: pl.DataFrame | pl.LazyFrame, min_seq_len: int
+) -> pl.DataFrame | pl.LazyFrame:
     """Filter out users with sequence length less than min_seq_len.
 
     Args:
@@ -1476,17 +1528,17 @@ def exclude_short_sequences(data, min_seq_len: int):
     Returns:
         DataFrame or LazyFrame of same type as input.
     """
-    is_lazy = isinstance(data, pl.LazyFrame)
-
     if min_seq_len > 1:
-        valid_users = (
+        user_frame = (
             data.group_by("user")
             .agg(pl.len().alias("count"))
             .filter(pl.col("count") >= min_seq_len)
             .select("user")
         )
         valid_users = (
-            valid_users.collect().to_series() if is_lazy else valid_users.to_series()
+            user_frame.collect().to_series()
+            if isinstance(user_frame, pl.LazyFrame)
+            else user_frame.to_series()
         )
         data = data.filter(pl.col("user").is_in(valid_users))
 

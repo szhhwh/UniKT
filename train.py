@@ -11,7 +11,7 @@ from utils.experiment_manager import ExperimentManager, ExperimentType
 logger = get_logger(__name__)
 
 
-def main():
+def main() -> None:
     """Train a knowledge tracing model."""
     rc = ConfigParser(
         prog="train.py", description="Knowledge Tracing Training Script"

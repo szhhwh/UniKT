@@ -70,7 +70,7 @@ class HyperparameterSpace:
     choices: list[Any] | None = None  # Choices for categorical params
     default: Any | None = None
 
-    def validate(self):
+    def validate(self) -> None:
         """Validate the parameter space configuration completeness."""
         if self.type == "int":
             if self.low is None or self.high is None:
@@ -113,7 +113,11 @@ class HyperparameterSpace:
                         f"Parameter '{self.name}': default {self.default} "
                         f"out of range [{self.low}, {self.high}]"
                     )
-            elif self.type == "categorical" and self.default not in self.choices:
+            elif (
+                self.type == "categorical"
+                and self.choices is not None
+                and self.default not in self.choices
+            ):
                 raise ValueError(
                     f"Parameter '{self.name}': default {self.default} "
                     f"not in choices {self.choices}"
@@ -131,6 +135,7 @@ class HyperparameterSpace:
         self.validate()
 
         if self.type == "int":
+            assert self.low is not None and self.high is not None  # validated above
             return trial.suggest_int(
                 self.name,
                 low=int(self.low),
@@ -139,6 +144,7 @@ class HyperparameterSpace:
                 log=self.log or False,
             )
         elif self.type == "float":
+            assert self.low is not None and self.high is not None  # validated above
             return trial.suggest_float(
                 self.name,
                 low=float(self.low),
@@ -147,6 +153,7 @@ class HyperparameterSpace:
                 log=self.log or False,
             )
         elif self.type == "categorical":
+            assert self.choices is not None  # validated above
             return trial.suggest_categorical(self.name, self.choices)
 
 

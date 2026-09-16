@@ -1,5 +1,7 @@
 """Tests for DataFrameSink: key contract, passthrough, parquet roundtrip."""
 
+from pathlib import Path
+
 import pytest
 
 from utils.case_analysis.sinks.dataframe_sink import (
@@ -21,7 +23,7 @@ _FULL_BATCH = {
 }
 
 
-def test_result_columns_position_and_passthrough():
+def test_result_columns_position_and_passthrough() -> None:
     sink = DataFrameSink()
     sink.add_batch(_FULL_BATCH)
     sink.add_batch(
@@ -55,13 +57,13 @@ def test_result_columns_position_and_passthrough():
     }
 
 
-def test_missing_required_key_named_in_error():
+def test_missing_required_key_named_in_error() -> None:
     sink = DataFrameSink()
     with pytest.raises(ValueError, match="question_ids"):
         sink.add_batch({"user_ids": [1], "labels": [0], "predictions": [0]})
 
 
-def test_inconsistent_batch_lengths_rejected():
+def test_inconsistent_batch_lengths_rejected() -> None:
     sink = DataFrameSink()
     with pytest.raises(ValueError, match="lengths"):
         sink.add_batch(
@@ -74,7 +76,7 @@ def test_inconsistent_batch_lengths_rejected():
         )
 
 
-def test_inconsistent_keys_across_batches_rejected():
+def test_inconsistent_keys_across_batches_rejected() -> None:
     sink = DataFrameSink()
     sink.add_batch(
         {"user_ids": [1], "question_ids": [10], "labels": [0], "predictions": [0]}
@@ -91,7 +93,7 @@ def test_inconsistent_keys_across_batches_rejected():
         )
 
 
-def test_optional_keys_absent_leaves_no_column():
+def test_optional_keys_absent_leaves_no_column() -> None:
     sink = DataFrameSink()
     sink.add_batch(
         {"user_ids": [5], "question_ids": [3], "labels": [1], "predictions": [1]}
@@ -102,7 +104,7 @@ def test_optional_keys_absent_leaves_no_column():
     assert "mask" not in df.columns
 
 
-def test_parquet_roundtrip_nested_lists(tmp_path):
+def test_parquet_roundtrip_nested_lists(tmp_path: Path) -> None:
     sink = DataFrameSink()
     sink.add_batch(_FULL_BATCH)
     p = tmp_path / "predictions.parquet"
@@ -118,7 +120,7 @@ def test_parquet_roundtrip_nested_lists(tmp_path):
     assert list(get_user_sequence(df, 1)["question_id"]) == [10, 11]
 
 
-def test_parquet_roundtrip_without_knowledge_state(tmp_path):
+def test_parquet_roundtrip_without_knowledge_state(tmp_path: Path) -> None:
     sink = DataFrameSink()
     sink.add_batch(
         {
@@ -134,7 +136,7 @@ def test_parquet_roundtrip_without_knowledge_state(tmp_path):
     assert list(df["position"]) == [0, 1]
 
 
-def test_load_rejects_missing_canonical_columns(tmp_path):
+def test_load_rejects_missing_canonical_columns(tmp_path: Path) -> None:
     import pandas as pd
 
     p = tmp_path / "bad.parquet"

@@ -1,5 +1,7 @@
 """Optuna tuner wrapper and utility tools."""
 
+from __future__ import annotations
+
 import os
 import shutil
 from collections import Counter
@@ -7,13 +9,16 @@ from collections.abc import Callable
 from dataclasses import asdict, is_dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import optuna
 import yaml
 from optuna.samplers import GridSampler
 
 from utils.core import get_logger
+
+if TYPE_CHECKING:
+    import pandas as pd
 
 from .config import HyperparameterSpace, OptunaConfig
 
@@ -27,7 +32,7 @@ class OptunaTuner:
         self,
         config: OptunaConfig,
         param_space: list[HyperparameterSpace],
-        objective_fn: Callable[[optuna.trial.Trial, dict[str, Any]], float],
+        objective_fn: Callable[..., float | list[float]],
         objective_kwargs: dict[str, Any] | None = None,
     ):
         """Initialise the Optuna tuner.
@@ -53,7 +58,7 @@ class OptunaTuner:
         self._pareto_front: list[optuna.trial.FrozenTrial] | None = None
         self._setup_logging()
 
-    def _setup_logging(self):
+    def _setup_logging(self) -> None:
         """Configure Optuna logging verbosity."""
         if self.config.verbose == 0:
             optuna.logging.set_verbosity(optuna.logging.WARNING)
@@ -62,7 +67,7 @@ class OptunaTuner:
         else:
             optuna.logging.set_verbosity(optuna.logging.DEBUG)
 
-    def _objective(self, trial: optuna.trial.Trial) -> float:
+    def _objective(self, trial: optuna.trial.Trial) -> float | list[float]:
         """Optuna objective function wrapper.
 
         Samples hyperparameters from the search space and invokes the
@@ -109,7 +114,7 @@ class OptunaTuner:
         # creates an empty study and the prior trials are lost.
         self.config.study_name = study_name
 
-        study_kwargs = {
+        study_kwargs: dict[str, Any] = {
             "sampler": sampler,
             "pruner": pruner,
             "study_name": study_name,
@@ -172,13 +177,14 @@ class OptunaTuner:
 
         return self._best_params()
 
-    def _enqueue_defaults(self):
+    def _enqueue_defaults(self) -> None:
         """Enqueue declared defaults as a startup trial.
 
         Speeds up sampler convergence. Parameters without declared defaults
         are sampled normally during the trial. Skipped on resume so the
         enqueued trial does not eat into ``n_trials`` a second time.
         """
+        assert self.study is not None, "search() must create the study first"
         if self.study.trials:
             return
         defaults = {
@@ -211,6 +217,7 @@ class OptunaTuner:
         deterministic tie-break) so the choice is stable across resumes. The
         result is always a COMPLETE trial.
         """
+        assert self.study is not None, "search() must run first"
         if len(self.study.directions) > 1:
             pareto = self._pareto_front
             if pareto is None:
@@ -234,6 +241,7 @@ class OptunaTuner:
         lowest trial number. This makes the representative stable and
         reproducible across resumes and optuna versions.
         """
+        assert self.study is not None, "search() must run first"
         first_dir = self.study.directions[0]
         if first_dir == optuna.study.StudyDirection.MAXIMIZE:
             return min(pareto, key=lambda t: (-t.values[0], t.number))
@@ -246,6 +254,7 @@ class OptunaTuner:
         by ``TrainerObjectiveWrapper``) so the root cause surfaces instead of a
         silent empty ``best_params``. An all-pruned run is not a failure.
         """
+        assert self.study is not None, "search() must run first"
         counts = Counter(t.state for t in self.study.trials)
         n_complete = counts.get(optuna.trial.TrialState.COMPLETE, 0)
         n_fail = counts.get(optuna.trial.TrialState.FAIL, 0)
@@ -289,6 +298,8 @@ class OptunaTuner:
         the best trial's archive to ``best_run_config.yaml`` lets the result be
         reproduced with ``python train.py --config best_run_config.yaml``.
         """
+        assert self.study is not None, "search() must run first"
+        assert self.config.save_dir is not None, "save_dir must be configured"
         best = self._best_trial()
         if best is None:
             logger.warning("No best trial; skipping best_run_config.yaml")
@@ -325,6 +336,7 @@ class OptunaTuner:
         """
         from optuna.importance import FanovaImportanceEvaluator, get_param_importances
 
+        assert self.study is not None, "search() must run first"
         completed = [
             t for t in self.study.trials if t.state == optuna.trial.TrialState.COMPLETE
         ]
@@ -337,7 +349,7 @@ class OptunaTuner:
 
         evaluator = FanovaImportanceEvaluator(seed=self.config.seed)
 
-        def target(trial):
+        def target(trial: optuna.trial.FrozenTrial) -> float:
             return trial.values[0]
 
         try:
@@ -353,7 +365,7 @@ class OptunaTuner:
         # cannot serialize; coerce to plain floats.
         return {name: float(value) for name, value in importances.items()}
 
-    def _save_results(self):
+    def _save_results(self) -> None:
         """Save search results to disk as yaml."""
         if not self.study or not self.config.save_dir:
             return
@@ -420,7 +432,7 @@ class OptunaTuner:
 
         logger.info(f"Results saved to {self.config.save_dir}")
 
-    def print_summary(self):
+    def print_summary(self) -> None:
         """Print a summary of the search results."""
         if not self.study:
             logger.warning("No study found. Run search() first.")
@@ -460,7 +472,7 @@ class OptunaTuner:
 
         logger.info("\n".join(log))
 
-    def get_dataframe(self):
+    def get_dataframe(self) -> pd.DataFrame | None:
         """Get the trials dataframe (requires pandas).
 
         Returns:

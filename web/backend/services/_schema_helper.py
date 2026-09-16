@@ -16,7 +16,7 @@ import json
 import re
 import sys
 import typing
-from dataclasses import MISSING, fields
+from dataclasses import MISSING, Field, fields
 from pathlib import Path
 
 # Every pixi environment declares docstring-parser at workspace level; the
@@ -27,7 +27,9 @@ from pathlib import Path
 # imports this module for DEGRADED_MARKER, a narrow catch would let a broken
 # package take the whole backend down at boot.
 try:
-    from docstring_parser import parse as _parse_docstring
+    from docstring_parser import parse as _parse_docstring_impl
+
+    _parse_docstring: typing.Callable[..., typing.Any] | None = _parse_docstring_impl
 except Exception:
     _parse_docstring = None
 
@@ -44,7 +46,9 @@ _ENTRY_STOP_RE = re.compile(
 _PARAM_RE = re.compile(r"^(\w+)(?:\s*\([^:]*\))?\s*:\s*(.*)$")
 
 
-def _base_type(tp):
+def _base_type(tp: typing.Any) -> typing.Any:
+    # ``tp`` is a typing form: a plain type, a generic alias, or a string
+    # under PEP 563 — no narrower public type covers all three.
     args = typing.get_args(tp)
     if not args:
         return tp
@@ -56,7 +60,9 @@ def _base_type(tp):
     return tp
 
 
-def _field_spec(f, help_map=None):
+def _field_spec(
+    f: Field[typing.Any], help_map: dict[str, str] | None = None
+) -> dict[str, typing.Any]:
     ftype = f.type
     meta = f.metadata
 
@@ -112,7 +118,7 @@ def _fallback_docstring_helps(doc: str) -> dict[str, str]:
     helps: dict[str, str] = {}
     lines = doc.splitlines()
 
-    def indent(idx):
+    def indent(idx: int) -> int:
         # expandtabs so tab-indented continuation lines count their full width
         line = lines[idx].expandtabs()
         return len(line) - len(line.lstrip())
@@ -198,7 +204,13 @@ def _parse_docstring_helps(cls: type) -> dict[str, str]:
     return _fallback_docstring_helps(doc)
 
 
-def reflect_group(group_name, node, cls, only=None, skip=None):
+def reflect_group(
+    group_name: str,
+    node: str,
+    cls: type,
+    only: set[str] | None = None,
+    skip: set[str] | None = None,
+) -> dict[str, typing.Any]:
     """Reflect a dataclass into a ``{group_name, node, params}`` schema group.
 
     ``only``/``skip`` restrict which fields are exposed — a UI-level selection
@@ -222,13 +234,13 @@ def reflect_group(group_name, node, cls, only=None, skip=None):
 DEGRADED_MARKER = "schema-helper-degraded: docstring_parser unavailable"
 
 
-def _emit_degraded_marker():
+def _emit_degraded_marker() -> None:
     """Signal degraded mode on stderr when running on the fallback parser."""
     if _parse_docstring is None:
         print(DEGRADED_MARKER, file=sys.stderr)
 
 
-def _emit_models():
+def _emit_models() -> None:
     import model  # noqa: F401  triggers @register_model_config discovery
     from utils.config import (
         CompileConfig,
@@ -269,7 +281,7 @@ def _emit_models():
             print(json.dumps({"type": "error", "model": model_name, "error": str(e)}))
 
 
-def _emit_preprocess(action: str):
+def _emit_preprocess(action: str) -> None:
     from dataclasses import fields as dc_fields
 
     from utils.config import (
@@ -282,7 +294,7 @@ def _emit_preprocess(action: str):
     # Visible preprocess fields are marked on the dataclass itself via
     # field(metadata={"preprocess_ui": True}), so adding a param only needs
     # that marker — no parallel whitelist here.
-    def visible(cls):
+    def visible(cls: type) -> set[str]:
         return {f.name for f in dc_fields(cls) if f.metadata.get("preprocess_ui")}
 
     if action == "download":

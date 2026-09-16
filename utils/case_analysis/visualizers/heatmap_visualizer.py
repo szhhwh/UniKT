@@ -10,6 +10,7 @@ import matplotlib.gridspec as gridspec
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from matplotlib.colors import Colormap
 
 from ...core import get_logger, register_case_visualizer
 from ..interfaces import CaseVisualizer
@@ -186,7 +187,7 @@ class HeatmapVisualizer(CaseVisualizer):
 
         return fig
 
-    def _draw_question_row(self, ax, user_data: pd.DataFrame, T: int) -> None:
+    def _draw_question_row(self, ax: plt.Axes, user_data: pd.DataFrame, T: int) -> None:
         ax.set_xlim(-0.5, T - 0.5)
         ax.set_ylim(0, 1)
         ax.set_xticks([])
@@ -210,7 +211,7 @@ class HeatmapVisualizer(CaseVisualizer):
             )
 
     def _draw_skill_row(
-        self, ax, user_data: pd.DataFrame, unique_skills: list[int], T: int
+        self, ax: plt.Axes, user_data: pd.DataFrame, unique_skills: list[int], T: int
     ) -> None:
         """Draw the 'Skill' header row with multiple skills displayed vertically."""
         cmap20 = plt.get_cmap("tab20")
@@ -265,7 +266,7 @@ class HeatmapVisualizer(CaseVisualizer):
                     fontstyle="italic",
                 )
 
-    def _draw_resp_row(self, ax, user_data: pd.DataFrame, T: int) -> None:
+    def _draw_resp_row(self, ax: plt.Axes, user_data: pd.DataFrame, T: int) -> None:
         ax.set_xlim(-0.5, T - 0.5)
         ax.set_ylim(0, 1)
         ax.set_xticks([])
@@ -289,18 +290,18 @@ class HeatmapVisualizer(CaseVisualizer):
             )
 
     @staticmethod
-    def _get_text_color_for_value(normalized_value: float, cmap) -> str:
+    def _get_text_color_for_value(normalized_value: float, cmap: Colormap) -> str:
         rgb = cmap(normalized_value)[:3]
         y = 0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2]
         return "black" if y > 0.5 else "white"
 
     def _add_value_labels(
         self,
-        ax,
+        ax: plt.Axes,
         ks_matrix: np.ndarray,
         ks_min: float,
         ks_max: float,
-        cmap,
+        cmap: Colormap,
         fig_w: float,
         fig_h: float,
         T: int,

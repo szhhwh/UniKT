@@ -5,6 +5,8 @@ slots, default environment, setup status), as well as managing the default
 Python environment selection.
 """
 
+from typing import Any
+
 from dependencies import get_process_manager, get_settings_manager
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel
@@ -35,7 +37,7 @@ class SettingsUpdate(BaseModel):
 
 
 @router.get("")
-def get_settings(sm: SettingsManager = Depends(get_settings_manager)):
+def get_settings(sm: SettingsManager = Depends(get_settings_manager)) -> Any:
     """Return current application settings.
 
     Args:
@@ -52,7 +54,7 @@ def update_settings(
     body: SettingsUpdate,
     pm: ProcessManager = Depends(get_process_manager),
     sm: SettingsManager = Depends(get_settings_manager),
-):
+) -> Any:
     """Update application settings.
 
     Args:
@@ -83,7 +85,7 @@ class DefaultEnvUpdate(BaseModel):
 
 
 @router.get("/default-env")
-def get_default_env(sm: SettingsManager = Depends(get_settings_manager)):
+def get_default_env(sm: SettingsManager = Depends(get_settings_manager)) -> Any:
     """Return the current default environment configuration.
 
     Args:
@@ -103,7 +105,7 @@ def get_default_env(sm: SettingsManager = Depends(get_settings_manager)):
 @router.post("/default-env")
 def set_default_env(
     body: DefaultEnvUpdate, sm: SettingsManager = Depends(get_settings_manager)
-):
+) -> Any:
     """Set the default Python environment.
 
     Args:
@@ -120,7 +122,7 @@ def set_default_env(
 
 
 @router.get("/initialized")
-def check_initialized(sm: SettingsManager = Depends(get_settings_manager)):
+def check_initialized(sm: SettingsManager = Depends(get_settings_manager)) -> Any:
     """Check whether the initial setup has been completed.
 
     Args:

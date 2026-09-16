@@ -7,6 +7,8 @@ streams incremental status events published via the event bus.
 import asyncio
 import json
 import logging
+from collections.abc import AsyncIterator
+from typing import Any
 
 from database import SessionLocal
 from fastapi import APIRouter
@@ -34,10 +36,10 @@ def _status_snapshot() -> list[dict]:
 
 
 @router.get("/api/events")
-async def events():
+async def events() -> Any:
     """Server-sent events stream of status changes."""
 
-    async def gen():
+    async def gen() -> AsyncIterator[str]:
         # Subscribe before snapshotting: events published in between are queued
         # rather than lost. Duplicate snapshots are harmless — clients overwrite
         # by id; a missed terminal status is not.

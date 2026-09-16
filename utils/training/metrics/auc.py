@@ -1,5 +1,6 @@
 """ROC AUC metric."""
 
+import numpy as np
 from sklearn.metrics import roc_auc_score
 
 from utils.core import register_metric
@@ -19,6 +20,6 @@ class AUCMetric(Metric):
     source = "y_score"
     requires_two_classes = True
 
-    def score(self, y_true, y_value):
+    def score(self, y_true: np.ndarray, y_value: np.ndarray) -> float:
         """Return ROC AUC."""
         return float(roc_auc_score(y_true, y_value))

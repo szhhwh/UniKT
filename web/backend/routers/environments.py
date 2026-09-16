@@ -4,6 +4,8 @@ Lists available Python environments and runs health checks (Python + PyTorch
 availability) on a given environment.
 """
 
+from typing import Any
+
 from dependencies import get_python_env_manager
 from fastapi import APIRouter, Depends
 from schemas import EnvHealthCheckRequest
@@ -13,7 +15,7 @@ router = APIRouter(prefix="/api/environments", tags=["environments"])
 
 
 @router.get("")
-def list_environments(mgr: PythonEnvManager = Depends(get_python_env_manager)):
+def list_environments(mgr: PythonEnvManager = Depends(get_python_env_manager)) -> Any:
     """List all discovered Python environments (pixi, conda, custom).
 
     Args:
@@ -29,7 +31,7 @@ def list_environments(mgr: PythonEnvManager = Depends(get_python_env_manager)):
 async def health_check(
     body: EnvHealthCheckRequest,
     mgr: PythonEnvManager = Depends(get_python_env_manager),
-):
+) -> Any:
     """Run a health check against a specific Python environment.
 
     Args:

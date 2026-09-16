@@ -12,11 +12,23 @@ gets one implementation. Anti-pollution rules:
   ``./data`` defaults.
 """
 
+from __future__ import annotations
+
+from collections.abc import Callable, Iterator
+from types import ModuleType
+from typing import TYPE_CHECKING, Any
+
 import pytest
+
+if TYPE_CHECKING:
+    from pathlib import Path
+    from typing import Literal
+
+    from utils.config.run_config import EarlyStoppingConfig, RunConfig
 
 
 @pytest.fixture
-def registry_snapshot():
+def registry_snapshot() -> Iterator[None]:
     """Snapshot every global registry (and the class-level roll-call) and
     restore both tables exactly on teardown."""
     from utils.core.registry import UniversalRegistry
@@ -33,7 +45,7 @@ def registry_snapshot():
 
 
 @pytest.fixture
-def isolated_loggers():
+def isolated_loggers() -> Iterator[ModuleType]:
     """Empty the logger cache for the test; strip handlers from every logger
     created during it, then restore the original cache."""
     from utils.core import logger as logger_module
@@ -51,12 +63,12 @@ def isolated_loggers():
 
 
 @pytest.fixture
-def clean_log_level_env(monkeypatch):
+def clean_log_level_env(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.delenv("LOG_LEVEL", raising=False)
 
 
 @pytest.fixture(scope="session")
-def tiny_model_config_name():
+def tiny_model_config_name() -> Iterator[str]:
     """Register a throwaway concrete ModelConfig for the whole session.
 
     Inserted directly into ``MODEL_CONFIGS._registry`` so repeated sessions
@@ -82,14 +94,16 @@ def tiny_model_config_name():
 
 
 @pytest.fixture
-def make_run_archive(tmp_path, tiny_model_config_name):
+def make_run_archive(
+    tmp_path: Path, tiny_model_config_name: str
+) -> Callable[..., Path]:
     """Factory: fake run directory carrying a minimal run_config.yaml archive.
 
     Only the model name and dataset are written — every other node falls back
     to its dataclass default, exactly like a sparse real archive would.
     """
 
-    def _make(overrides=None):
+    def _make(overrides: dict[str, Any] | None = None) -> Path:
         import yaml
 
         run_dir = tmp_path / "run"
@@ -108,7 +122,7 @@ def make_run_archive(tmp_path, tiny_model_config_name):
 
 
 @pytest.fixture
-def make_run_config(tiny_model_config_name):
+def make_run_config(tiny_model_config_name: str) -> Callable[..., RunConfig]:
     """Factory for a real RunConfig wired for fast offline tests:
     cloud tracking off, test-skip on, last-checkpoint off, CPU device."""
     from utils.config.run_config import (
@@ -122,22 +136,22 @@ def make_run_config(tiny_model_config_name):
 
     def _make(
         *,
-        log_dir=None,
-        epochs=1,
-        batch_size=2,
-        skip_test=True,
-        cloud_tracking=False,
-        save_last_checkpoint=False,
-        checkpoint_path=None,
-        early_stopping=None,
-        device="cpu",
-        seed=42,
-        dataset="tinyds",
-        log_batch_metrics=False,
-        pin_memory=None,
-        progress="none",
-        model_kwargs=None,
-    ):
+        log_dir: str | None = None,
+        epochs: int = 1,
+        batch_size: int = 2,
+        skip_test: bool = True,
+        cloud_tracking: bool = False,
+        save_last_checkpoint: bool = False,
+        checkpoint_path: str | None = None,
+        early_stopping: EarlyStoppingConfig | None = None,
+        device: str = "cpu",
+        seed: int = 42,
+        dataset: str = "tinyds",
+        log_batch_metrics: bool = False,
+        pin_memory: bool | None = None,
+        progress: Literal["auto", "rich", "none"] = "none",
+        model_kwargs: dict[str, Any] | None = None,
+    ) -> RunConfig:
         model_cls = MODEL_CONFIGS._registry[tiny_model_config_name]
         return RunConfig(
             general=GeneralConfig(

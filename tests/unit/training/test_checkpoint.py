@@ -11,6 +11,9 @@ from __future__ import annotations
 
 import os
 import threading
+from collections.abc import Iterator
+from pathlib import Path
+from typing import Any, cast
 
 import pytest
 import torch
@@ -26,19 +29,19 @@ class _SlowGate:
     can assert against a running future without a scheduling race.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._release = threading.Event()
         self._running = threading.Event()
 
-    def set(self):
+    def set(self) -> None:
         self._release.set()
 
-    def wait_running(self, timeout=2.0):
+    def wait_running(self, timeout: float = 2.0) -> bool:
         return self._running.wait(timeout)
 
 
 @pytest.fixture
-def slow_write(monkeypatch):
+def slow_write(monkeypatch: pytest.MonkeyPatch) -> Iterator[_SlowGate]:
     """Block the saver worker so submits pile up in the queue.
 
     Yields a gate: the test releases the worker (``gate.set()``) before
@@ -48,7 +51,7 @@ def slow_write(monkeypatch):
     real = CheckpointManager._write_atomic
     gate = _SlowGate()
 
-    def _slow(obj, filepath):
+    def _slow(obj: object, filepath: str) -> None:
         gate._running.set()
         gate._release.wait()
         real(obj, filepath)
@@ -64,7 +67,9 @@ def slow_write(monkeypatch):
 
 
 class TestCoalesce:
-    def test_same_path_pending_cancelled(self, tmp_path, slow_write):
+    def test_same_path_pending_cancelled(
+        self, tmp_path: Path, slow_write: _SlowGate
+    ) -> None:
         mgr = CheckpointManager(str(tmp_path))
         path = str(tmp_path / "last_checkpoint.pth")
         for i in range(5):
@@ -76,7 +81,9 @@ class TestCoalesce:
         slow_write.set()
         mgr.close()
 
-    def test_running_save_not_cancelled(self, tmp_path, slow_write):
+    def test_running_save_not_cancelled(
+        self, tmp_path: Path, slow_write: _SlowGate
+    ) -> None:
         mgr = CheckpointManager(str(tmp_path))
         path = str(tmp_path / "last_checkpoint.pth")
         mgr._submit_save({"v": 0}, path)  # picked up by the worker, now blocked
@@ -91,7 +98,7 @@ class TestCoalesce:
         slow_write.set()
         mgr.close()
 
-    def test_different_paths_kept(self, tmp_path, slow_write):
+    def test_different_paths_kept(self, tmp_path: Path, slow_write: _SlowGate) -> None:
         mgr = CheckpointManager(str(tmp_path))
         best = str(tmp_path / "best_model.pth")
         last = str(tmp_path / "last_checkpoint.pth")
@@ -103,7 +110,9 @@ class TestCoalesce:
         slow_write.set()
         mgr.close()
 
-    def test_newest_value_persisted(self, tmp_path, slow_write):
+    def test_newest_value_persisted(
+        self, tmp_path: Path, slow_write: _SlowGate
+    ) -> None:
         # invariant under any scheduling: the last submit wins on disk,
         # because every older pending save to the same path is cancelled
         mgr = CheckpointManager(str(tmp_path))
@@ -124,12 +133,12 @@ class TestCoalesce:
 
 
 class TestLifecycle:
-    def test_close_idempotent(self, tmp_path):
+    def test_close_idempotent(self, tmp_path: Path) -> None:
         mgr = CheckpointManager(str(tmp_path))
         mgr.close()
         mgr.close()  # second close must be a no-op
 
-    def test_submit_after_close_writes_synchronously(self, tmp_path):
+    def test_submit_after_close_writes_synchronously(self, tmp_path: Path) -> None:
         mgr = CheckpointManager(str(tmp_path))
         mgr.close()
 
@@ -140,7 +149,7 @@ class TestLifecycle:
         assert os.path.exists(path)
         assert mgr._latest == {}
 
-    def test_flush_drains_queue(self, tmp_path):
+    def test_flush_drains_queue(self, tmp_path: Path) -> None:
         mgr = CheckpointManager(str(tmp_path))
         path = str(tmp_path / "x.pth")
         mgr._submit_save({"v": 1}, path)
@@ -150,11 +159,11 @@ class TestLifecycle:
         assert mgr._latest == {}
         assert os.path.exists(path)
 
-    def test_flush_empty_is_noop(self, tmp_path):
+    def test_flush_empty_is_noop(self, tmp_path: Path) -> None:
         mgr = CheckpointManager(str(tmp_path))
         mgr.flush()  # draining an empty queue must not raise
 
-    def test_no_tmp_residue(self, tmp_path):
+    def test_no_tmp_residue(self, tmp_path: Path) -> None:
         mgr = CheckpointManager(str(tmp_path))
         path = str(tmp_path / "x.pth")
         mgr._submit_save({"v": 1}, path)
@@ -170,7 +179,7 @@ class TestLifecycle:
 
 
 class TestSaveWeights:
-    def test_returns_cpu_snapshot_and_writes(self, tmp_path):
+    def test_returns_cpu_snapshot_and_writes(self, tmp_path: Path) -> None:
         mgr = CheckpointManager(str(tmp_path))
         model = torch.nn.Linear(3, 2)
 
@@ -181,7 +190,9 @@ class TestSaveWeights:
         assert all(t.device.type == "cpu" for t in snapshot.values())
         assert os.path.exists(tmp_path / "best.pth")
 
-    def test_snapshot_returned_every_call_when_coalesced(self, tmp_path, slow_write):
+    def test_snapshot_returned_every_call_when_coalesced(
+        self, tmp_path: Path, slow_write: _SlowGate
+    ) -> None:
         # disk writes coalesce, but each call still returns the snapshot taken
         # at that moment — it backs the in-memory best-state cache
         mgr = CheckpointManager(str(tmp_path))
@@ -200,8 +211,10 @@ class TestSaveWeights:
 
 
 class TestErrorHandling:
-    def test_failed_save_does_not_raise_on_close(self, tmp_path, monkeypatch):
-        def boom(obj, filepath):
+    def test_failed_save_does_not_raise_on_close(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        def boom(obj: object, filepath: str) -> None:
             raise RuntimeError("disk full")
 
         monkeypatch.setattr(CheckpointManager, "_write_atomic", staticmethod(boom))
@@ -219,7 +232,7 @@ class TestErrorHandling:
 
 
 class TestSavePayload:
-    def test_minimal_payload_keys(self, tmp_path):
+    def test_minimal_payload_keys(self, tmp_path: Path) -> None:
         mgr = CheckpointManager(str(tmp_path))
         model = torch.nn.Linear(2, 1)
         opt = torch.optim.SGD(model.parameters(), lr=0.1)
@@ -233,7 +246,7 @@ class TestSavePayload:
         assert "scheduler_state_dict" not in saved
         assert "early_stopping_state" not in saved
 
-    def test_scheduler_and_es_state_included(self, tmp_path):
+    def test_scheduler_and_es_state_included(self, tmp_path: Path) -> None:
         mgr = CheckpointManager(str(tmp_path))
         model = torch.nn.Linear(2, 1)
         opt = torch.optim.SGD(model.parameters(), lr=0.1)
@@ -252,7 +265,7 @@ class TestSavePayload:
         assert "scheduler_state_dict" in saved
         assert saved["early_stopping_state"] == {"best_score": 0.9}
 
-    def test_additional_state_overrides_reserved_keys(self, tmp_path):
+    def test_additional_state_overrides_reserved_keys(self, tmp_path: Path) -> None:
         mgr = CheckpointManager(str(tmp_path))
         model = torch.nn.Linear(2, 1)
         opt = torch.optim.SGD(model.parameters(), lr=0.1)
@@ -276,7 +289,7 @@ class TestSavePayload:
 
 
 class TestDetachToCpu:
-    def test_nested_structures_recursed(self):
+    def test_nested_structures_recursed(self) -> None:
         from utils.training.checkpoint import _detach_to_cpu
 
         leaf = torch.tensor([1.0, 2.0], requires_grad=True)
@@ -290,7 +303,7 @@ class TestDetachToCpu:
         assert flat.device.type == "cpu"
         assert torch.equal(flat.detach(), leaf)
 
-    def test_tensor_clone_is_independent(self):
+    def test_tensor_clone_is_independent(self) -> None:
         from utils.training.checkpoint import _detach_to_cpu
 
         original = torch.tensor([1.0])
@@ -298,7 +311,7 @@ class TestDetachToCpu:
         cloned.mul_(10)
         assert original.item() == 1.0
 
-    def test_non_tensor_leaf_untouched(self):
+    def test_non_tensor_leaf_untouched(self) -> None:
         from utils.training.checkpoint import _detach_to_cpu
 
         assert _detach_to_cpu("str") == "str"
@@ -311,7 +324,7 @@ class TestDetachToCpu:
 
 
 class TestRngStates:
-    def test_capture_restore_round_trip_torch_numpy_python(self):
+    def test_capture_restore_round_trip_torch_numpy_python(self) -> None:
         import random as random_module
 
         import numpy as np
@@ -338,14 +351,14 @@ class TestRngStates:
         assert np.array_equal(np.random.rand(3), n1)
         assert random_module.random() == p1
 
-    def test_captured_numpy_state_is_weights_only_safe(self):
+    def test_captured_numpy_state_is_weights_only_safe(self) -> None:
         from utils.training.checkpoint import _capture_rng_states
 
         states = _capture_rng_states()
         np_key = states["numpy"]
         assert isinstance(np_key[1], list)  # not an ndarray
 
-    def test_cuda_state_none_on_cpu(self):
+    def test_cuda_state_none_on_cpu(self) -> None:
         from utils.training.checkpoint import _capture_rng_states
 
         if torch.cuda.is_available():
@@ -359,7 +372,7 @@ class TestRngStates:
 
 
 class TestCompilePrefix:
-    def test_strips_prefix_into_raw_model(self):
+    def test_strips_prefix_into_raw_model(self) -> None:
         from utils.training.checkpoint import _strip_compile_prefix_if_needed
 
         model = torch.nn.Linear(2, 1)
@@ -367,7 +380,7 @@ class TestCompilePrefix:
         stripped = _strip_compile_prefix_if_needed(prefixed, model)
         assert set(stripped) == set(model.state_dict())
 
-    def test_keeps_prefix_when_model_is_compiled(self):
+    def test_keeps_prefix_when_model_is_compiled(self) -> None:
         from utils.training.checkpoint import _strip_compile_prefix_if_needed
 
         model = torch.nn.Linear(2, 1)
@@ -376,7 +389,7 @@ class TestCompilePrefix:
         fake_compiled = type("M", (), {"state_dict": lambda self: prefixed})()
         assert _strip_compile_prefix_if_needed(prefixed, fake_compiled) is prefixed
 
-    def test_plain_state_untouched(self):
+    def test_plain_state_untouched(self) -> None:
         from utils.training.checkpoint import _strip_compile_prefix_if_needed
 
         model = torch.nn.Linear(2, 1)
@@ -390,7 +403,7 @@ class TestCompilePrefix:
 
 
 class TestLoadWeights:
-    def test_plain_state_dict_returns_none_and_loads(self, tmp_path):
+    def test_plain_state_dict_returns_none_and_loads(self, tmp_path: Path) -> None:
         mgr = CheckpointManager(str(tmp_path))
         src = torch.nn.Linear(2, 1)
         with torch.no_grad():
@@ -403,7 +416,7 @@ class TestLoadWeights:
         assert result is None
         assert torch.equal(dst.weight, src.weight)
 
-    def test_full_checkpoint_returns_dict(self, tmp_path):
+    def test_full_checkpoint_returns_dict(self, tmp_path: Path) -> None:
         mgr = CheckpointManager(str(tmp_path))
         src = torch.nn.Linear(2, 1)
         opt = torch.optim.SGD(src.parameters(), lr=0.1)
@@ -411,17 +424,21 @@ class TestLoadWeights:
         mgr.close()
 
         dst = torch.nn.Linear(2, 1)
-        raw = CheckpointManager.load_weights(str(tmp_path / "full.pth"), dst)
+        # A full checkpoint payload (vs plain weights) is guaranteed here.
+        raw = cast(
+            "dict[str, Any]",
+            CheckpointManager.load_weights(str(tmp_path / "full.pth"), dst),
+        )
         assert raw["epoch"] == 9
         assert torch.equal(dst.weight, src.weight)
 
-    def test_missing_file_raises(self, tmp_path):
+    def test_missing_file_raises(self, tmp_path: Path) -> None:
         with pytest.raises(FileNotFoundError, match="Checkpoint not found"):
             CheckpointManager.load_weights(
                 str(tmp_path / "nope.pth"), torch.nn.Linear(2, 1)
             )
 
-    def test_read_model_state_dict_both_formats(self, tmp_path):
+    def test_read_model_state_dict_both_formats(self, tmp_path: Path) -> None:
         mgr = CheckpointManager(str(tmp_path))
         model = torch.nn.Linear(2, 1)
         opt = torch.optim.SGD(model.parameters(), lr=0.1)
@@ -435,7 +452,7 @@ class TestLoadWeights:
 
 
 class TestLoadCheckpointE2E:
-    def test_full_restore_model_optimizer_es(self, tmp_path):
+    def test_full_restore_model_optimizer_es(self, tmp_path: Path) -> None:
         from utils.config.run_config import EarlyStoppingConfig
         from utils.training.early_stopping import EarlyStopping
 
@@ -480,7 +497,7 @@ class TestLoadCheckpointE2E:
         # optimizer state actually restored (has per-param state)
         assert len(dst_opt.state) == len(opt.state) and len(dst_opt.state) > 0
 
-    def test_missing_file_raises(self, tmp_path):
+    def test_missing_file_raises(self, tmp_path: Path) -> None:
         mgr = CheckpointManager(str(tmp_path))
         with pytest.raises(FileNotFoundError, match="Checkpoint not found"):
             mgr.load_checkpoint(str(tmp_path / "nope.pth"), torch.nn.Linear(2, 1))

@@ -6,16 +6,35 @@ without importing them), writing all ``@register_data_source`` entries into the
 ``get_data_source(...)`` is called.
 """
 
-from pathlib import Path
+from __future__ import annotations
 
+from pathlib import Path
+from typing import TYPE_CHECKING, Protocol
+
+from utils.config import GeneralConfig, RunDataConfig
 from utils.core import DATA_SOURCES, discover_registrations, get_supported_datasets
 
 from .data_source import DataSource
 
+if TYPE_CHECKING:
+    import argparse
+
+
+class _HasRCNodes(Protocol):
+    """Structural rc contract: only the ``data`` and ``general`` nodes are consumed.
+
+    Satisfied by a full ``RunConfig`` (train.py) and by data_process.py's
+    ``_PartialRC`` (the download/process CLI collects no model node).
+    """
+
+    data: RunDataConfig
+    general: GeneralConfig
+
+
 discover_registrations(Path(__file__).parent, "utils.data_process")
 
 
-def _rc_to_args_namespace(rc):
+def _rc_to_args_namespace(rc: _HasRCNodes) -> argparse.Namespace:
     """Flatten a RunConfig's data + general nodes into the flat namespace DataSource consumes.
 
     Yields ``args.dataset`` / ``args.seed`` / ``args.min_seq_len`` / ... for
@@ -31,7 +50,7 @@ def _rc_to_args_namespace(rc):
     return argparse.Namespace(**flat)
 
 
-def get_data_source(rc) -> DataSource:
+def get_data_source(rc: _HasRCNodes) -> DataSource:
     """Get a data source instance from a RunConfig, with on-demand lazy import.
 
     Args:

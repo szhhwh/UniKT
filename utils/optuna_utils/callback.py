@@ -1,6 +1,7 @@
 """Callbacks integrating Optuna with the training loop."""
 
 import math
+from typing import Any
 
 from optuna.trial import Trial
 
@@ -67,7 +68,7 @@ class OptunaTrialCallback(Callback):
             return True
         return current > self.best_value if self.maximize else current < self.best_value
 
-    def on_train_begin(self, epochs: int, **kwargs):
+    def on_train_begin(self, epochs: int, **kwargs: Any) -> None:
         """Reset per-stage pruning state.
 
         ``on_train_begin`` fires once per stage in multi-stage trainers, so this
@@ -83,8 +84,13 @@ class OptunaTrialCallback(Callback):
         self._stage_pruned = False
 
     def on_phase_end(
-        self, epoch: int, phase: str, loss: float, metrics: dict, **kwargs
-    ):
+        self,
+        epoch: int,
+        phase: str,
+        loss: float,
+        metrics: dict[str, float],
+        **kwargs: Any,
+    ) -> None:
         """Handle end-of-phase events: report validation metrics to Optuna.
 
         Reports the metric value to the trial and checks for pruning.
@@ -112,7 +118,7 @@ class OptunaTrialCallback(Callback):
             self._stage_pruned = True
             self.pruned = True
 
-    def should_stop(self, **kwargs) -> bool:
+    def should_stop(self, **kwargs: Any) -> bool:
         """Check whether the current stage should stop due to pruning.
 
         Returns:
@@ -145,7 +151,7 @@ class MultiMetricTracker(Callback):
         self._maximize = {n: d == "maximize" for n, d in zip(self._names, directions)}
         self.best_values: dict[str, float | None] = dict.fromkeys(self._names, None)
 
-    def on_train_begin(self, epochs: int, **kwargs):
+    def on_train_begin(self, epochs: int, **kwargs: Any) -> None:
         """Reset per-stage best values.
 
         Args:
@@ -156,8 +162,13 @@ class MultiMetricTracker(Callback):
             self.best_values[name] = None
 
     def on_phase_end(
-        self, epoch: int, phase: str, loss: float, metrics: dict, **kwargs
-    ):
+        self,
+        epoch: int,
+        phase: str,
+        loss: float,
+        metrics: dict[str, float],
+        **kwargs: Any,
+    ) -> None:
         """Update each metric's best at the end of the validation phase.
 
         Args:

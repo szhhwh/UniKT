@@ -9,6 +9,7 @@ import json
 import os
 import tempfile
 import threading
+from pathlib import Path
 
 from config import DATABASE_PATH
 
@@ -30,7 +31,7 @@ class SettingsManager:
     merges stored values with defaults on every read.
     """
 
-    def __init__(self, path=None):
+    def __init__(self, path: Path | None = None) -> None:
         """Initialize the SettingsManager.
 
         Args:

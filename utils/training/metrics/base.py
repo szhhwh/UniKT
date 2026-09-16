@@ -101,7 +101,7 @@ class Metric(ABC):
         value = self._eval(ctx.y_label, getattr(ctx, self.source))
         return {self.name: value} if value is not None else {}
 
-    def _eval(self, y_true, y_value) -> float | None:
+    def _eval(self, y_true: np.ndarray, y_value: np.ndarray) -> float | None:
         """Gate on data sufficiency, then delegate to :meth:`score`.
 
         Returns None (-> key omitted) when the metric is undefined: empty

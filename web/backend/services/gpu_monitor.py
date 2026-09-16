@@ -339,7 +339,7 @@ class GpuMonitor:
             interval_seconds=self._sample_seconds,
         )
 
-    def shutdown(self):
+    def shutdown(self) -> None:
         """Stop the sampler thread and release NVML resources.
 
         Safe to call multiple times; suppresses errors.

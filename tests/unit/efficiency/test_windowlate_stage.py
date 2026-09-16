@@ -9,6 +9,7 @@ rig behind both stages with ``InferenceMetrics``' JSON keys unchanged.
 
 from __future__ import annotations
 
+from collections.abc import Iterator
 from dataclasses import asdict
 from types import SimpleNamespace
 from typing import Any
@@ -27,6 +28,18 @@ from utils.efficiency.stages.windowlate import (
     WindowlateStageConfig,
 )
 from utils.model_data.skill_model_data import WindowlateIterableDataset
+
+# Matches the exact 7-tuple sample shape declared by
+# WindowlateIterableDataset.__iter__ so the stubs below stay override-safe.
+_Sample = tuple[
+    torch.Tensor,
+    torch.Tensor,
+    torch.Tensor,
+    torch.Tensor,
+    torch.Tensor,
+    torch.Tensor,
+    torch.Tensor,
+]
 
 _LATENCY_KEYS = {
     "latency_mean_ms",
@@ -62,7 +75,7 @@ class _StubWindowlateDataset(WindowlateIterableDataset):
         super().__init__("unused.parquet", max_seq_len=4)
         self.n_samples = n_samples
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[_Sample]:
         for _ in range(self.n_samples):
             yield _SAMPLE_TUPLE
 
@@ -71,7 +84,7 @@ class _EmptyWindowlateDataset(WindowlateIterableDataset):
     def __init__(self) -> None:
         super().__init__("unused.parquet", max_seq_len=4)
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[_Sample]:
         yield from ()
 
 
@@ -79,7 +92,7 @@ class _FailingWindowlateDataset(WindowlateIterableDataset):
     def __init__(self) -> None:
         super().__init__("unused.parquet", max_seq_len=4)
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[_Sample]:
         raise FileNotFoundError("windowlate parquet missing")
 
 
@@ -89,7 +102,7 @@ class _TupleDataset(Dataset):
     def __len__(self) -> int:
         return 8
 
-    def __getitem__(self, idx: int):
+    def __getitem__(self, idx: int) -> _Sample:
         return _SAMPLE_TUPLE
 
 
@@ -113,7 +126,7 @@ class _StubTarget:
         self._fail_after = fail_after
         self.calls = 0
 
-    def test_forward(self, batch):
+    def test_forward(self, batch: Any) -> dict[str, torch.Tensor]:
         self.calls += 1
         if self._error is not None:
             raise self._error
@@ -124,10 +137,10 @@ class _StubTarget:
 
     forward = test_forward
 
-    def compute_train_step(self, batch):
+    def compute_train_step(self, batch: Any) -> tuple[dict[str, Any], torch.Tensor]:
         return {}, torch.zeros(())
 
-    def prepare(self, device) -> None:
+    def prepare(self, device: torch.device) -> None:
         return None
 
 
@@ -159,13 +172,13 @@ def _run_stage(
 # ---------------------------------------------------------------------------
 
 
-def test_skip_no_test_loader():
+def test_skip_no_test_loader() -> None:
     result = _run_stage(_StubTarget(test_data=None))
     assert result.supported is False
     assert result.skip_reason == "target has no test loader"
 
 
-def test_skip_non_windowlate_dataset_lbt_style_regression():
+def test_skip_non_windowlate_dataset_lbt_style_regression() -> None:
     loader = DataLoader(_TupleDataset(), batch_size=4)
     result = _run_stage(_StubTarget(loader))
     assert result.supported is False
@@ -173,7 +186,7 @@ def test_skip_non_windowlate_dataset_lbt_style_regression():
     assert "not windowlate" in result.skip_reason
 
 
-def test_skip_loader_failure_does_not_raise():
+def test_skip_loader_failure_does_not_raise() -> None:
     loader = DataLoader(_FailingWindowlateDataset(), batch_size=4)
     result = _run_stage(_StubTarget(loader))
     assert result.supported is False
@@ -181,14 +194,14 @@ def test_skip_loader_failure_does_not_raise():
     assert "windowlate parquet missing" in result.skip_reason
 
 
-def test_skip_empty_loader():
+def test_skip_empty_loader() -> None:
     loader = DataLoader(_EmptyWindowlateDataset(), batch_size=4)
     result = _run_stage(_StubTarget(loader))
     assert result.supported is False
     assert result.skip_reason == "test loader is empty"
 
 
-def test_skip_test_forward_failure_reports_cause():
+def test_skip_test_forward_failure_reports_cause() -> None:
     loader = DataLoader(_StubWindowlateDataset(), batch_size=4)
     target = _StubTarget(loader, error=KeyError("y_label"))
     result = _run_stage(target)
@@ -196,7 +209,7 @@ def test_skip_test_forward_failure_reports_cause():
     assert result.skip_reason.startswith("test forward failed:")
 
 
-def test_skip_zero_predictions():
+def test_skip_zero_predictions() -> None:
     loader = DataLoader(_StubWindowlateDataset(), batch_size=4)
     target = _StubTarget(loader, y_label_size=0)
     result = _run_stage(target)
@@ -204,7 +217,7 @@ def test_skip_zero_predictions():
     assert result.skip_reason == "test forward produced no scored predictions"
 
 
-def test_benchmark_failure_does_not_raise():
+def test_benchmark_failure_does_not_raise() -> None:
     loader = DataLoader(_StubWindowlateDataset(), batch_size=4)
     # Survive count + warmup calls, then die inside the timed loop.
     target = _StubTarget(loader, fail_after=3)
@@ -213,7 +226,7 @@ def test_benchmark_failure_does_not_raise():
     assert result.skip_reason.startswith("benchmark failed:")
 
 
-def test_missing_stage_config_skips_not_crashes():
+def test_missing_stage_config_skips_not_crashes() -> None:
     loader = DataLoader(_StubWindowlateDataset(), batch_size=4)
     # Hand-built cfg whose schema predates the windowlate node.
     cfg = SimpleNamespace(general=SimpleNamespace(warmup_iters=2))
@@ -227,14 +240,14 @@ class _ExplodingLoader:
 
     batch_size = 4
 
-    def __init__(self, dataset) -> None:
+    def __init__(self, dataset: Any) -> None:
         self.dataset = dataset
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[Any]:
         raise AssertionError("original test loader iterated")
 
 
-def test_fetches_via_probe_loader_not_the_real_one():
+def test_fetches_via_probe_loader_not_the_real_one() -> None:
     target = _StubTarget(_ExplodingLoader(_StubWindowlateDataset()))
     result = _run_stage(target)
     assert result.supported is True
@@ -247,7 +260,7 @@ def test_fetches_via_probe_loader_not_the_real_one():
 # ---------------------------------------------------------------------------
 
 
-def test_windowlate_metrics_and_per_sample_amortization():
+def test_windowlate_metrics_and_per_sample_amortization() -> None:
     loader = DataLoader(_StubWindowlateDataset(), batch_size=8)
     # RobustKT-style asymmetry: train batch 64 (640 valid tokens = 10/sample),
     # test batch 8 scoring 1 prediction/sample. The un-normalized ratio would
@@ -292,10 +305,10 @@ def test_windowlate_metrics_and_per_sample_amortization():
 # ---------------------------------------------------------------------------
 
 
-def test_benchmark_forward_loop_call_accounting():
+def test_benchmark_forward_loop_call_accounting() -> None:
     calls: list[int] = []
 
-    def fwd():
+    def fwd() -> None:
         calls.append(1)
 
     stats = benchmark_forward_loop(fwd, 2, 3, 2, torch.device("cpu"))
@@ -306,7 +319,7 @@ def test_benchmark_forward_loop_call_accounting():
     assert len(stats.per_repeat_mean_ms) == 2
 
 
-def test_inference_metrics_json_keys_unchanged():
+def test_inference_metrics_json_keys_unchanged() -> None:
     expected = _LATENCY_KEYS | {
         "iters",
         "repeats",
@@ -320,7 +333,7 @@ def test_inference_metrics_json_keys_unchanged():
     assert set(asdict(InferenceMetrics())) == expected
 
 
-def test_benchmark_inference_throughput_ns_reciprocal():
+def test_benchmark_inference_throughput_ns_reciprocal() -> None:
     target = _StubTarget(test_data=None)
     result = benchmark_inference(
         target,
@@ -342,7 +355,7 @@ def test_benchmark_inference_throughput_ns_reciprocal():
     )
 
 
-def test_benchmark_inference_enforces_eval_mode():
+def test_benchmark_inference_enforces_eval_mode() -> None:
     target = _StubTarget(test_data=None)
     target.model.train()
     benchmark_inference(

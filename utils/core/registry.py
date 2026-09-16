@@ -8,8 +8,13 @@ Each registry maintains two tables:
   via static source scanning **without importing** the module.
 """
 
-from collections.abc import Callable
+from collections.abc import Callable, Iterator
 from dataclasses import dataclass
+from typing import TypeVar
+
+# Unbound: solved per-decoration from the decorated class (bound=type breaks
+# the Callable[[type[T]], type[T]] decorator-factory idiom under mypy).
+T = TypeVar("T")
 
 
 class UniversalRegistry:
@@ -46,7 +51,7 @@ class UniversalRegistry:
         self._index: dict[str, str] = {}
         UniversalRegistry._all_registries.append(self)
 
-    def register(self, name: str | None = None) -> Callable[[type], type]:
+    def register(self, name: str | None = None) -> Callable[[type[T]], type[T]]:
         """Return a decorator that binds a class to ``name`` at import time.
 
         Args:
@@ -59,7 +64,7 @@ class UniversalRegistry:
             A decorator that registers the class.
         """
 
-        def decorator(cls: type) -> type:
+        def decorator(cls: type[T]) -> type[T]:
             n = name if name is not None else cls.__name__
             prev = self._registry.get(n)
             if prev is not None and prev is not cls:
@@ -162,7 +167,7 @@ class UniversalRegistry:
         """
         return name in self._registry or name in self._index
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[str]:
         """Iterate over registered names (loaded and lazy-indexed, deduplicated).
 
         Returns:
@@ -208,7 +213,7 @@ CASE_VISUALIZERS = UniversalRegistry(
 # ============================================================================
 
 
-def register_trainer(name: str | None = None):
+def register_trainer(name: str | None = None) -> Callable[[type[T]], type[T]]:
     """Register a trainer into ``TRAINERS``.
 
     Args:
@@ -220,7 +225,7 @@ def register_trainer(name: str | None = None):
     return TRAINERS.register(name)
 
 
-def register_model_config(name: str | None = None):
+def register_model_config(name: str | None = None) -> Callable[[type[T]], type[T]]:
     """Register a per-model ``ModelConfig`` dataclass into ``MODEL_CONFIGS``.
 
     Combines ``@dataclass`` transformation and registry binding into one
@@ -235,13 +240,13 @@ def register_model_config(name: str | None = None):
     """
     register = MODEL_CONFIGS.register(name)
 
-    def decorator(cls: type) -> type:
+    def decorator(cls: type[T]) -> type[T]:
         return register(dataclass(cls))
 
     return decorator
 
 
-def register_data_source(name: str | None = None):
+def register_data_source(name: str | None = None) -> Callable[[type[T]], type[T]]:
     """Register a data source into ``DATA_SOURCES``.
 
     Args:
@@ -253,7 +258,7 @@ def register_data_source(name: str | None = None):
     return DATA_SOURCES.register(name)
 
 
-def register_analyzer(name: str | None = None):
+def register_analyzer(name: str | None = None) -> Callable[[type[T]], type[T]]:
     """Register an analysis case into ``ANALYZERS``.
 
     Args:
@@ -265,7 +270,7 @@ def register_analyzer(name: str | None = None):
     return ANALYZERS.register(name)
 
 
-def register_metric_logger(name: str | None = None):
+def register_metric_logger(name: str | None = None) -> Callable[[type[T]], type[T]]:
     """Register a metric logging backend into ``METRIC_LOGGERS``.
 
     Args:
@@ -277,7 +282,7 @@ def register_metric_logger(name: str | None = None):
     return METRIC_LOGGERS.register(name)
 
 
-def register_efficiency_stage(name: str | None = None):
+def register_efficiency_stage(name: str | None = None) -> Callable[[type[T]], type[T]]:
     """Register an efficiency benchmark stage into ``EFFICIENCY_STAGES``.
 
     Stages are auto-discovered from ``utils/efficiency/stages/``; drop a file
@@ -292,7 +297,7 @@ def register_efficiency_stage(name: str | None = None):
     return EFFICIENCY_STAGES.register(name)
 
 
-def register_metric(name: str | None = None):
+def register_metric(name: str | None = None) -> Callable[[type[T]], type[T]]:
     """Register a metric into ``METRICS``.
 
     Drop a ``@register_metric("name")`` class under
@@ -308,7 +313,7 @@ def register_metric(name: str | None = None):
     return METRICS.register(name)
 
 
-def register_case_sink(name: str | None = None):
+def register_case_sink(name: str | None = None) -> Callable[[type[T]], type[T]]:
     """Register a case analysis result sink into ``CASE_SINKS``.
 
     Args:
@@ -320,7 +325,7 @@ def register_case_sink(name: str | None = None):
     return CASE_SINKS.register(name)
 
 
-def register_case_selector(name: str | None = None):
+def register_case_selector(name: str | None = None) -> Callable[[type[T]], type[T]]:
     """Register a case analysis user selector into ``CASE_SELECTORS``.
 
     Args:
@@ -332,7 +337,7 @@ def register_case_selector(name: str | None = None):
     return CASE_SELECTORS.register(name)
 
 
-def register_case_visualizer(name: str | None = None):
+def register_case_visualizer(name: str | None = None) -> Callable[[type[T]], type[T]]:
     """Register a case analysis visualizer into ``CASE_VISUALIZERS``.
 
     Args:

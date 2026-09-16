@@ -5,6 +5,8 @@ the DATA_SOURCES index) so components added or removed on disk after startup
 become visible without restarting the backend.
 """
 
+from typing import Any
+
 from dependencies import get_schema_extractor
 from fastapi import APIRouter
 from services.registry_sync import registry_lock
@@ -16,7 +18,7 @@ router = APIRouter(prefix="/api/registry", tags=["registry"])
 
 
 @router.post("/refresh")
-def refresh_registry():
+def refresh_registry() -> Any:
     """Reset cached discovery and warm the freshly extracted caches."""
     extractor = get_schema_extractor()
     extractor.reset_cache()

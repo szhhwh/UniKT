@@ -3,6 +3,7 @@
 import time
 from dataclasses import dataclass, field
 from statistics import median
+from typing import Any
 
 import torch
 from rich.table import Table
@@ -11,6 +12,7 @@ from utils.core import get_logger, register_efficiency_stage
 
 from ..device import DeviceBackend
 from ..measures.train_step import run_train_step
+from ..target import BenchmarkTarget
 from .base import EfficiencyStage, StageContext, format_duration, format_valid_tokens
 
 logger = get_logger(__name__)
@@ -45,8 +47,8 @@ class TrainStageConfig:
 
 
 def benchmark_training(
-    target,
-    sample_batch,
+    target: BenchmarkTarget,
+    sample_batch: Any,
     batch_size: int,
     valid_tokens: float,
     valid_tokens_total: int,

@@ -17,10 +17,12 @@ Usage:
 
 import sys
 from pathlib import Path
+from typing import Any
 
 import model  # noqa: F401  — triggers trainer/model-config discovery
 from utils.config import (
     ConfigParser,
+    RunConfig,
     build_node,
     peek_flag_value,
     reject_model_flags,
@@ -55,7 +57,11 @@ def main() -> None:
         _run_single_efficiency(rc, eff_cfg, weights_path)
 
 
-def _run_single_efficiency(rc, eff_cfg, weights_path: str | None) -> None:
+# ``eff_cfg`` is the make_dataclass-composed EfficiencyConfig; it has no
+# statically importable type, so it is typed as Any throughout this module.
+def _run_single_efficiency(
+    rc: RunConfig, eff_cfg: Any, weights_path: str | None
+) -> None:
     """Build one trainer and run a single efficiency session."""
     exp_manager = ExperimentManager.from_run_config(rc, ExperimentType.EFFICIENCY)
     add_file_handler(Path(exp_manager.get_log_dir()) / "run.log")
@@ -71,7 +77,7 @@ def _run_single_efficiency(rc, eff_cfg, weights_path: str | None) -> None:
     ).run().print_console()
 
 
-def _run_sweep(rc, eff_cfg, weights_path: str | None) -> None:
+def _run_sweep(rc: RunConfig, eff_cfg: Any, weights_path: str | None) -> None:
     """Sweep a set of batch sizes, rebuilding the trainer per size."""
     data_src = get_data_source(rc)
     EfficiencySweep(
@@ -79,7 +85,7 @@ def _run_sweep(rc, eff_cfg, weights_path: str | None) -> None:
     ).run()
 
 
-def _parse() -> tuple:
+def _parse() -> tuple[RunConfig, Any]:
     """Parse RunConfig + EfficiencyConfig; in run_dir mode seed from the archive."""
     EfficiencyConfig = get_efficiency_config_cls()
 
@@ -111,7 +117,7 @@ def _peek_run_dir() -> str | None:
     return peek_flag_value(sys.argv[1:], "--efficiency.run_dir")
 
 
-def _resolve_weights(eff_cfg) -> str | None:
+def _resolve_weights(eff_cfg: Any) -> str | None:
     if eff_cfg.weights:
         path = Path(eff_cfg.weights)
     elif eff_cfg.run_dir:
@@ -124,7 +130,7 @@ def _resolve_weights(eff_cfg) -> str | None:
     return str(path)
 
 
-def _apply_benchmark_overrides(rc, eff_cfg) -> None:
+def _apply_benchmark_overrides(rc: RunConfig, eff_cfg: Any) -> None:
     """Force a uniform batch_size / max_seq_len so throughput compares across models.
 
     Throughput normalizes per interaction, but its wall-time denominator still

@@ -53,9 +53,10 @@ def discover_registrations(root: str | Path, package: str) -> None:
         for node in ast.walk(tree):
             if isinstance(node, ast.ClassDef):
                 for dec in node.decorator_list:
-                    registry = _target_registry(dec, decorators)
-                    if registry is not None:
-                        registry.index(dec.args[0].value, module_path)
+                    matched = _target_registry(dec, decorators)
+                    if matched is not None:
+                        registry, registered_name = matched
+                        registry.index(registered_name, module_path)
                         found += 1
     _logger.debug("discovery: in %s, found %d registrations", root, found)
 
@@ -67,12 +68,18 @@ def _to_module_path(py: Path, root: Path, package: str) -> str:
 
 def _target_registry(
     dec: ast.expr, decorators: dict[str, UniversalRegistry]
-) -> UniversalRegistry | None:
-    """Identify ``@register_<role>("literal")`` and return the target registry, or ``None``."""
+) -> tuple[UniversalRegistry, str] | None:
+    """Identify ``@register_<role>("literal")``; return registry + registered name.
+
+    Returns ``None`` when the decorator does not match the expected shape.
+    """
     if not isinstance(dec, ast.Call) or not dec.args:
         return None
     if not (
         isinstance(dec.args[0], ast.Constant) and isinstance(dec.args[0].value, str)
     ):
         return None
-    return decorators.get(dec.func.id) if isinstance(dec.func, ast.Name) else None
+    registry = decorators.get(dec.func.id) if isinstance(dec.func, ast.Name) else None
+    if registry is None:
+        return None
+    return registry, dec.args[0].value

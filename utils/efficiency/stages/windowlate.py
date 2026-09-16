@@ -17,6 +17,7 @@ question-level models score dense sequences and are already covered by
 """
 
 from dataclasses import dataclass
+from typing import Any
 
 import torch
 from rich.table import Table
@@ -30,6 +31,7 @@ from ..measures.timing import (
     LatencyMetricsBase,
     benchmark_forward_loop,
 )
+from ..target import BenchmarkTarget
 from .base import EfficiencyStage, StageContext
 
 logger = get_logger(__name__)
@@ -64,8 +66,8 @@ class WindowlateStageConfig:
 
 
 def benchmark_windowlate(
-    target,
-    test_batch,
+    target: BenchmarkTarget,
+    test_batch: Any,
     train_batch_size: int,
     test_batch_size: int,
     predictions: int,

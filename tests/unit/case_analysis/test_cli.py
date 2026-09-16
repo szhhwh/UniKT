@@ -2,6 +2,9 @@
 
 import json
 import sys
+from collections.abc import KeysView
+from pathlib import Path
+from typing import Any
 
 import numpy as np
 import pandas as pd
@@ -12,21 +15,21 @@ from utils.case_analysis import DataFrameSink
 
 
 class _FakeRegistry:
-    def __init__(self, mapping):
+    def __init__(self, mapping: dict[str, Any]) -> None:
         self._mapping = mapping
 
-    def __contains__(self, name):
+    def __contains__(self, name: object) -> bool:
         return name in self._mapping
 
-    def get(self, name):
+    def get(self, name: str) -> Any:
         return self._mapping.get(name)
 
-    def keys(self):
+    def keys(self) -> KeysView[str]:
         return self._mapping.keys()
 
 
 @pytest.fixture
-def run_dir(tmp_path):
+def run_dir(tmp_path: Path) -> Path:
     rng = np.random.default_rng(7)
     rows = []
     for uid in range(40):
@@ -58,8 +61,12 @@ def run_dir(tmp_path):
 
 
 def test_cmd_inference_end_to_end(
-    tmp_path, monkeypatch, rc, dummy_analyzer_cls, checkpoint_path
-):
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    rc: Any,
+    dummy_analyzer_cls: Any,
+    checkpoint_path: str,
+) -> None:
     import torch
 
     run = tmp_path / "fakemodel_run"
@@ -85,7 +92,9 @@ def test_cmd_inference_end_to_end(
     assert (run / "case_analysis" / "user_summaries.parquet").exists()
 
 
-def test_cmd_inference_unregistered_model_exits(tmp_path, monkeypatch, rc):
+def test_cmd_inference_unregistered_model_exits(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, rc: Any
+) -> None:
     (tmp_path / "best_model.pth").write_bytes(b"x")
     monkeypatch.setattr(cli, "ANALYZERS", _FakeRegistry({}))
 
@@ -98,7 +107,7 @@ def test_cmd_inference_unregistered_model_exits(tmp_path, monkeypatch, rc):
         cli.cmd_inference(rc, args)
 
 
-def _select_args(run_dir, selector, **overrides):
+def _select_args(run_dir: Path, selector: str, **overrides: Any) -> Any:
     fields = {
         "run_dir": str(run_dir),
         "selector": selector,
@@ -113,7 +122,7 @@ def _select_args(run_dir, selector, **overrides):
     return type("_Args", (), fields)()
 
 
-def test_cmd_select_writes_selected_users(run_dir):
+def test_cmd_select_writes_selected_users(run_dir: Path) -> None:
     cli.cmd_select(_select_args(run_dir, "extreme"))
     path = run_dir / "case_analysis" / "extreme" / "selected_users.json"
     assert path.exists()
@@ -122,12 +131,12 @@ def test_cmd_select_writes_selected_users(run_dir):
     assert "user_id" in records[0]
 
 
-def test_cmd_select_unknown_selector_exits(run_dir):
+def test_cmd_select_unknown_selector_exits(run_dir: Path) -> None:
     with pytest.raises(SystemExit, match="nope"):
         cli.cmd_select(_select_args(run_dir, "nope"))
 
 
-def test_cmd_plot_renders_figures(run_dir):
+def test_cmd_plot_renders_figures(run_dir: Path) -> None:
     cli.cmd_select(_select_args(run_dir, "extreme", num_users=2))
     cli.cmd_plot(
         type(
@@ -149,11 +158,13 @@ def test_cmd_plot_renders_figures(run_dir):
 # --- select kwargs mapping ---
 
 
-def test_select_kwargs_follow_cli_config(run_dir, monkeypatch):
-    captured = {}
+def test_select_kwargs_follow_cli_config(
+    run_dir: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    captured: dict[str, Any] = {}
 
     class _CapturingSelector:
-        def select(self, results, **options):
+        def select(self, results: Any, **options: Any) -> list[int]:
             captured.update(options)
             return [0, 1, 2]
 
@@ -170,7 +181,7 @@ def test_select_kwargs_follow_cli_config(run_dir, monkeypatch):
     }
 
 
-def test_cmd_select_cli_defaults_match_builtin_selectors(run_dir):
+def test_cmd_select_cli_defaults_match_builtin_selectors(run_dir: Path) -> None:
     cli.cmd_select(cli.CaseSelectConfig(run_dir=str(run_dir)))
     path = run_dir / "case_analysis" / "diverse" / "selected_users.json"
     records = json.loads(path.read_text())
@@ -181,7 +192,9 @@ def test_cmd_select_cli_defaults_match_builtin_selectors(run_dir):
 # --- dispatch ---
 
 
-def test_main_help_lists_subcommands(capsys, monkeypatch):
+def test_main_help_lists_subcommands(
+    capsys: pytest.CaptureFixture[str], monkeypatch: pytest.MonkeyPatch
+) -> None:
     monkeypatch.setattr(sys, "argv", ["case_analysis.py", "--help"])
     with pytest.raises(SystemExit) as exc:
         cli.main()
@@ -192,7 +205,9 @@ def test_main_help_lists_subcommands(capsys, monkeypatch):
         assert cmd in out
 
 
-def test_main_without_subcommand_errors(capsys, monkeypatch):
+def test_main_without_subcommand_errors(
+    capsys: pytest.CaptureFixture[str], monkeypatch: pytest.MonkeyPatch
+) -> None:
     monkeypatch.setattr(sys, "argv", ["case_analysis.py"])
     with pytest.raises(SystemExit) as exc:
         cli.main()
@@ -200,7 +215,9 @@ def test_main_without_subcommand_errors(capsys, monkeypatch):
     assert "required" in capsys.readouterr().err
 
 
-def test_main_unknown_subcommand_errors(capsys, monkeypatch):
+def test_main_unknown_subcommand_errors(
+    capsys: pytest.CaptureFixture[str], monkeypatch: pytest.MonkeyPatch
+) -> None:
     monkeypatch.setattr(sys, "argv", ["case_analysis.py", "nope"])
     with pytest.raises(SystemExit) as exc:
         cli.main()

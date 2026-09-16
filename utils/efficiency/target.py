@@ -36,15 +36,15 @@ class BenchmarkTarget(Protocol):
         """The test DataLoader, or ``None`` when the target has no test split."""
         ...
 
-    def forward(self, batch) -> Any:
+    def forward(self, batch: Any) -> Any:
         """One forward pass in eval mode; the caller chooses the grad context."""
         ...
 
-    def test_forward(self, batch) -> Any:
+    def test_forward(self, batch: Any) -> Any:
         """One forward pass over a test batch (test-specific alignment)."""
         ...
 
-    def compute_train_step(self, batch) -> tuple[dict, torch.Tensor]:
+    def compute_train_step(self, batch: Any) -> tuple[dict, torch.Tensor]:
         """One training step's pure computation, returning ``(output, loss)``."""
         ...
 
@@ -56,8 +56,12 @@ class BenchmarkTarget(Protocol):
 class TrainerBenchmarkAdapter:
     """Wrap a built single-stage trainer as a :class:`BenchmarkTarget`."""
 
-    def __init__(self, trainer) -> None:
-        """Store the trainer; all access goes through its public surface."""
+    def __init__(self, trainer: Any) -> None:
+        """Store the trainer; all access goes through its public surface.
+
+        Duck-typed: the :class:`BenchmarkTarget` protocol is the contract, so
+        the concrete trainer type is not imported here.
+        """
         self._t = trainer
 
     @property
@@ -80,7 +84,7 @@ class TrainerBenchmarkAdapter:
         """The trainer's test DataLoader (``None`` when not built)."""
         return getattr(self._t, "test_data", None)
 
-    def forward(self, batch) -> Any:
+    def forward(self, batch: Any) -> Any:
         """Run one forward pass in eval mode (caller wraps inference_mode if needed).
 
         Left grad-agnostic so the FLOPs profile can run it grad-enabled
@@ -90,12 +94,12 @@ class TrainerBenchmarkAdapter:
         self._t.model.eval()
         return self._t.forward_pass(batch)
 
-    def test_forward(self, batch) -> Any:
+    def test_forward(self, batch: Any) -> Any:
         """Run one test forward pass via the trainer's ``test_forward_pass``."""
         self._t.model.eval()
         return self._t.test_forward_pass(batch)
 
-    def compute_train_step(self, batch) -> tuple[dict, torch.Tensor]:
+    def compute_train_step(self, batch: Any) -> tuple[dict, torch.Tensor]:
         """Run one training step via the shared ``compute_train_step`` path."""
         return self._t.compute_train_step(batch)
 

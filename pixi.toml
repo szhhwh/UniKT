@@ -26,6 +26,7 @@ scikit-learn = "==1.8.0"
 pandas = "==3.0.2"
 pyarrow = ">=24.0.0,<25"
 ruff = ">=0.15,<0.16"
+mypy = ">=2.3,<2.4"
 pytest = ">=9.0.2,<10"
 seaborn = ">=0.13.2,<0.14"
 matplotlib = ">=3.10.8,<4"
@@ -126,7 +127,8 @@ default = { features = ["common", "base", "gpu"] }
 [tasks]
 lint = "ruff check ."
 fmt = "ruff format ."
-ckf = [{ task = "lint" }, { task = "fmt" }]
+ckf = [{ task = "lint" }, { task = "fmt" }, { task = "typecheck" }]
+typecheck = "mypy utils web tests train.py evaluate.py optuna_search.py data_process.py case_analysis.py efficiency.py"
 test = "python -m pytest tests -q"
 clean-cache = "find . -name '__pycache__' -type d -print0 | xargs -0 rm -rf && find . -name '*.py[co]' -delete && rm -rf runs/* swanlog/*"
 

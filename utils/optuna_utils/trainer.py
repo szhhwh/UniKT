@@ -1,15 +1,20 @@
 """Trainer integration with Optuna objective functions."""
 
+from __future__ import annotations
+
 import gc
 import time
 import traceback
 from collections.abc import Callable
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import optuna
 
 from utils.core import add_file_handler, get_logger, seed_everything
+
+if TYPE_CHECKING:
+    from utils.experiment_manager import ExperimentManager
 
 from .callback import MultiMetricTracker, OptunaTrialCallback
 from .config import direction_for_metric
@@ -26,7 +31,7 @@ class TrainerObjectiveWrapper:
         data_src_fn: Callable[[], Any],
         base_rc: Any,
         metric_name: str | list[str] = "auc",
-        exp_manager=None,
+        exp_manager: ExperimentManager | None = None,
     ):
         """Initialise the Trainer wrapper.
 
@@ -52,7 +57,10 @@ class TrainerObjectiveWrapper:
         self.exp_manager = exp_manager
 
     def __call__(
-        self, trial, params: dict[str, Any] | None = None, **kwargs
+        self,
+        trial: optuna.trial.Trial,
+        params: dict[str, Any] | None = None,
+        **kwargs: Any,
     ) -> float | list[float]:
         """Execute a single trial with a given hyperparameter combination.
 
@@ -191,7 +199,12 @@ class TrainerObjectiveWrapper:
             setattr(trial_rc.model, name, value)
         return trial_rc
 
-    def _extract_metric(self, trainer, pruning_cb, tracker=None) -> float | list[float]:
+    def _extract_metric(
+        self,
+        trainer: Any,
+        pruning_cb: OptunaTrialCallback | None,
+        tracker: MultiMetricTracker | None = None,
+    ) -> float | list[float]:
         """Extract the optimised metric value(s) from the trainer.
 
         Single-objective: prefers the pruning callback's tracked best value,
@@ -237,7 +250,7 @@ class TrainerObjectiveWrapper:
             f"Ensure validation data is provided and the metric name is correct."
         )
 
-    def _extract_multi(self, tracker) -> list[float]:
+    def _extract_multi(self, tracker: MultiMetricTracker | None) -> list[float]:
         """Extract each objective's own best from the per-metric tracker.
 
         Each objective reflects its independent best across validation epochs

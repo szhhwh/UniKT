@@ -1,5 +1,7 @@
 """Tests for DataSource._validate_data, _iter_user_aligned_slices, id remapping."""
 
+from collections.abc import Callable, Sequence
+
 import polars as pl
 import pytest
 from polars.testing import assert_frame_equal
@@ -13,7 +15,10 @@ class TestValidateData:
     """All guards raise AssertionError with the exact source messages."""
 
     @staticmethod
-    def _relation_and_sequence(make_sequence_frame, make_question_skill_frame):
+    def _relation_and_sequence(
+        make_sequence_frame: Callable[..., pl.DataFrame],
+        make_question_skill_frame: Callable[..., pl.DataFrame],
+    ) -> tuple[dict[str, pl.DataFrame], pl.DataFrame]:
         # User 0 sees questions 1/2, user 1 sees 2/3; relation covers 1/2/3.
         seq = make_sequence_frame(
             users=[0, 0, 1, 1], questions=[1, 2, 2, 3], labels=[1, 0, 1, 0]
@@ -21,14 +26,18 @@ class TestValidateData:
         rel = {"question_skill": make_question_skill_frame([(1, 10), (2, 11), (3, 12)])}
         return rel, seq
 
-    def test_missing_question_skill_relation_raises(self, make_sequence_frame):
+    def test_missing_question_skill_relation_raises(
+        self, make_sequence_frame: Callable[..., pl.DataFrame]
+    ) -> None:
         seq = make_sequence_frame(users=[0], questions=[1])
         with pytest.raises(AssertionError, match="question_skill relation is required"):
             DataSource._validate_data({}, seq)
 
     def test_question_skill_wrong_columns_raises(
-        self, make_sequence_frame, make_question_skill_frame
-    ):
+        self,
+        make_sequence_frame: Callable[..., pl.DataFrame],
+        make_question_skill_frame: Callable[..., pl.DataFrame],
+    ) -> None:
         seq = make_sequence_frame(users=[0], questions=[1])
         bad = make_question_skill_frame([(1, 10)]).with_columns(
             pl.lit(0, dtype=pl.Int32).alias("extra")
@@ -37,8 +46,10 @@ class TestValidateData:
             DataSource._validate_data({"question_skill": bad}, seq)
 
     def test_relation_not_exactly_two_columns_raises(
-        self, make_sequence_frame, make_question_skill_frame
-    ):
+        self,
+        make_sequence_frame: Callable[..., pl.DataFrame],
+        make_question_skill_frame: Callable[..., pl.DataFrame],
+    ) -> None:
         seq = make_sequence_frame(users=[0], questions=[1])
         rel = {
             "question_skill": make_question_skill_frame([(1, 10)]),
@@ -50,8 +61,10 @@ class TestValidateData:
             DataSource._validate_data(rel, seq)
 
     def test_duplicate_relation_rows_raises(
-        self, make_sequence_frame, make_question_skill_frame
-    ):
+        self,
+        make_sequence_frame: Callable[..., pl.DataFrame],
+        make_question_skill_frame: Callable[..., pl.DataFrame],
+    ) -> None:
         seq = make_sequence_frame(users=[0], questions=[1])
         dup = pl.concat(
             [make_question_skill_frame([(1, 10)]), make_question_skill_frame([(1, 10)])]
@@ -60,8 +73,10 @@ class TestValidateData:
             DataSource._validate_data({"question_skill": dup}, seq)
 
     def test_skill_column_in_sequence_raises(
-        self, make_sequence_frame, make_question_skill_frame
-    ):
+        self,
+        make_sequence_frame: Callable[..., pl.DataFrame],
+        make_question_skill_frame: Callable[..., pl.DataFrame],
+    ) -> None:
         seq = make_sequence_frame(users=[0], questions=[1]).with_columns(
             pl.lit(10, dtype=pl.Int32).alias("skill")
         )
@@ -72,8 +87,10 @@ class TestValidateData:
             DataSource._validate_data(rel, seq)
 
     def test_sequence_question_missing_from_relation_raises(
-        self, make_sequence_frame, make_question_skill_frame
-    ):
+        self,
+        make_sequence_frame: Callable[..., pl.DataFrame],
+        make_question_skill_frame: Callable[..., pl.DataFrame],
+    ) -> None:
         # question 3 answered in sequence but absent from the relation.
         seq = make_sequence_frame(users=[0, 0], questions=[1, 3])
         rel = {"question_skill": make_question_skill_frame([(1, 10)])}
@@ -83,8 +100,10 @@ class TestValidateData:
             DataSource._validate_data(rel, seq)
 
     def test_relation_question_missing_from_sequence_raises(
-        self, make_sequence_frame, make_question_skill_frame
-    ):
+        self,
+        make_sequence_frame: Callable[..., pl.DataFrame],
+        make_question_skill_frame: Callable[..., pl.DataFrame],
+    ) -> None:
         # question 3 in the relation but never answered in sequence.
         seq = make_sequence_frame(users=[0], questions=[1])
         rel = {"question_skill": make_question_skill_frame([(1, 10), (3, 12)])}
@@ -93,7 +112,11 @@ class TestValidateData:
         ):
             DataSource._validate_data(rel, seq)
 
-    def test_valid_data_passes(self, make_sequence_frame, make_question_skill_frame):
+    def test_valid_data_passes(
+        self,
+        make_sequence_frame: Callable[..., pl.DataFrame],
+        make_question_skill_frame: Callable[..., pl.DataFrame],
+    ) -> None:
         rel, seq = self._relation_and_sequence(
             make_sequence_frame, make_question_skill_frame
         )
@@ -105,11 +128,13 @@ class TestValidateData:
 
 class TestIterUserAlignedSlices:
     @staticmethod
-    def _frame(user_counts):
+    def _frame(user_counts: Sequence[int]) -> pl.DataFrame:
         users = [u for u, n in enumerate(user_counts) for _ in range(n)]
         return pl.DataFrame({"user": pl.Series(users, dtype=pl.Int32)})
 
-    def test_users_never_split_across_batches(self, make_data_source):
+    def test_users_never_split_across_batches(
+        self, make_data_source: Callable[..., DataSource]
+    ) -> None:
         # Row counts [2, 3, 4]: user0+user1 (5 rows) reach the target, user2
         # forms the trailing batch.
         df = self._frame([2, 3, 4])
@@ -123,20 +148,24 @@ class TestIterUserAlignedSlices:
         assert slices[0][0] == 0 and slices[-1][1] == len(df)
         assert all(slices[i][1] == slices[i + 1][0] for i in range(len(slices) - 1))
 
-    def test_many_small_users_pack_into_one_batch(self, make_data_source):
+    def test_many_small_users_pack_into_one_batch(
+        self, make_data_source: Callable[..., DataSource]
+    ) -> None:
         # Five 1-row users accumulate to exactly the target -> single batch.
         df = self._frame([1, 1, 1, 1, 1])
         ds = make_data_source()
         assert list(ds._iter_user_aligned_slices(df, 5)) == [(0, 5)]
 
     def test_single_user_larger_than_limit_forms_one_oversized_batch(
-        self, make_data_source
-    ):
+        self, make_data_source: Callable[..., DataSource]
+    ) -> None:
         df = self._frame([7, 1])
         ds = make_data_source()
         assert list(ds._iter_user_aligned_slices(df, 3)) == [(0, 7), (7, 8)]
 
-    def test_empty_input_yields_no_batches(self, make_data_source):
+    def test_empty_input_yields_no_batches(
+        self, make_data_source: Callable[..., DataSource]
+    ) -> None:
         df = pl.DataFrame({"user": pl.Series([], dtype=pl.Int32)})
         ds = make_data_source()
         assert list(ds._iter_user_aligned_slices(df, 5)) == []
@@ -146,7 +175,9 @@ class TestIterUserAlignedSlices:
 
 
 class TestRemapIds:
-    def test_user_ids_remapped_dense_preserving_row_order(self, make_data_source):
+    def test_user_ids_remapped_dense_preserving_row_order(
+        self, make_data_source: Callable[..., DataSource]
+    ) -> None:
         seq = pl.DataFrame(
             {
                 "user": pl.Series([20, 20, 10, 10, 10], dtype=pl.Int32),
@@ -163,7 +194,9 @@ class TestRemapIds:
         assert out.schema["user"] == pl.Int32
         assert out["question"].to_list() == [200, 100, 300, 100, 200]
 
-    def test_question_remap_three_step_consistency(self, make_data_source):
+    def test_question_remap_three_step_consistency(
+        self, make_data_source: Callable[..., DataSource]
+    ) -> None:
         seq = pl.DataFrame(
             {
                 "user": pl.Series([20, 20, 10, 10, 10], dtype=pl.Int32),
@@ -206,7 +239,9 @@ class TestRemapIds:
         )
         assert rel_pairs == {(100, 0), (200, 1)}
 
-    def test_remap_deterministic_across_calls(self, make_data_source):
+    def test_remap_deterministic_across_calls(
+        self, make_data_source: Callable[..., DataSource]
+    ) -> None:
         seq = pl.DataFrame(
             {
                 "user": pl.Series([7, 7, 3], dtype=pl.Int32),

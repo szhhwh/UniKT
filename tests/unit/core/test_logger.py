@@ -5,6 +5,9 @@ import os
 import sys
 import warnings
 from io import StringIO
+from pathlib import Path
+from types import ModuleType
+from typing import IO, Any, cast
 
 import pytest
 from rich.logging import RichHandler
@@ -18,13 +21,20 @@ from utils.core.logger import (
 )
 
 
-def _fresh_name(isolated_loggers, key):
+def _fresh_name(isolated_loggers: ModuleType, key: str) -> str:
     """A unique logger name never used by another test (the global logging
     registry returns the same object per name, so reuse would carry residue)."""
     return f"utest.logger.{key}"
 
 
-def _write_warning_to_stream(message, category, filename, lineno, file=None, line=None):
+def _write_warning_to_stream(
+    message: str | Warning,
+    category: type[Warning],
+    filename: str,
+    lineno: int,
+    file: IO[str] | None = None,
+    line: str | None = None,
+) -> None:
     """Provide a native-style warning hook for stderr assertions."""
     stream = file or sys.stderr
     stream.write(warnings.formatwarning(message, category, filename, lineno, line))
@@ -34,23 +44,31 @@ def _write_warning_to_stream(message, category, filename, lineno, file=None, lin
 
 
 class TestGetLogger:
-    def test_same_name_returns_cached_instance(self, isolated_loggers):
+    def test_same_name_returns_cached_instance(
+        self, isolated_loggers: ModuleType
+    ) -> None:
         name = _fresh_name(isolated_loggers, "cache")
         assert get_logger(name) is get_logger(name)
 
-    def test_propagate_false_and_single_rich_handler(self, isolated_loggers):
+    def test_propagate_false_and_single_rich_handler(
+        self, isolated_loggers: ModuleType
+    ) -> None:
         lg = get_logger(_fresh_name(isolated_loggers, "handlers"))
         assert lg.propagate is False
         rich_handlers = [h for h in lg.handlers if isinstance(h, RichHandler)]
         assert len(rich_handlers) == 1
 
-    def test_second_call_adds_no_extra_handlers(self, isolated_loggers):
+    def test_second_call_adds_no_extra_handlers(
+        self, isolated_loggers: ModuleType
+    ) -> None:
         name = _fresh_name(isolated_loggers, "twice")
         first = get_logger(name)
         n = len(first.handlers)
         assert len(get_logger(name).handlers) == n
 
-    def test_file_sink_attached_to_new_logger(self, isolated_loggers, tmp_path):
+    def test_file_sink_attached_to_new_logger(
+        self, isolated_loggers: ModuleType, tmp_path: Path
+    ) -> None:
         add_file_handler(tmp_path / "run.log")
         try:
             lg = get_logger(_fresh_name(isolated_loggers, "after_sink"))
@@ -63,7 +81,9 @@ class TestGetLogger:
 
 
 class TestFileHandler:
-    def test_creates_parent_dirs_and_returns_path(self, isolated_loggers, tmp_path):
+    def test_creates_parent_dirs_and_returns_path(
+        self, isolated_loggers: ModuleType, tmp_path: Path
+    ) -> None:
         target = tmp_path / "nested" / "dirs" / "run.log"
         returned = add_file_handler(target)
         try:
@@ -73,8 +93,8 @@ class TestFileHandler:
             remove_file_handler()
 
     def test_session_header_contains_timestamp_and_pid(
-        self, isolated_loggers, tmp_path
-    ):
+        self, isolated_loggers: ModuleType, tmp_path: Path
+    ) -> None:
         target = tmp_path / "run.log"
         add_file_handler(target)
         try:
@@ -85,7 +105,9 @@ class TestFileHandler:
         finally:
             remove_file_handler()
 
-    def test_retroactive_attach_to_existing_logger(self, isolated_loggers, tmp_path):
+    def test_retroactive_attach_to_existing_logger(
+        self, isolated_loggers: ModuleType, tmp_path: Path
+    ) -> None:
         lg = get_logger(_fresh_name(isolated_loggers, "retro"))
         target = tmp_path / "run.log"
         add_file_handler(target)
@@ -97,11 +119,13 @@ class TestFileHandler:
         finally:
             remove_file_handler()
 
-    def test_remove_without_handler_is_noop(self, isolated_loggers):
+    def test_remove_without_handler_is_noop(self, isolated_loggers: ModuleType) -> None:
         remove_file_handler()  # must not raise
         remove_file_handler()
 
-    def test_re_attach_swaps_and_closes_old_sink(self, isolated_loggers, tmp_path):
+    def test_re_attach_swaps_and_closes_old_sink(
+        self, isolated_loggers: ModuleType, tmp_path: Path
+    ) -> None:
         first = tmp_path / "first.log"
         second = tmp_path / "second.log"
         lg = get_logger(_fresh_name(isolated_loggers, "swap"))
@@ -118,7 +142,9 @@ class TestFileHandler:
         finally:
             remove_file_handler()
 
-    def test_failed_attach_leaves_previous_sink(self, isolated_loggers, tmp_path):
+    def test_failed_attach_leaves_previous_sink(
+        self, isolated_loggers: ModuleType, tmp_path: Path
+    ) -> None:
         good = tmp_path / "good.log"
         add_file_handler(good)
         # A directory in place of the log file makes FileHandler construction fail.
@@ -129,7 +155,9 @@ class TestFileHandler:
         try:
             from utils.core import logger as logger_module
 
-            assert logger_module._file_handler.baseFilename == str(good)
+            assert cast(
+                logging.FileHandler, logger_module._file_handler
+            ).baseFilename == str(good)
         finally:
             remove_file_handler()
 
@@ -138,21 +166,29 @@ class TestFileHandler:
 
 
 class TestLevelHandling:
-    def test_env_debug_level(self, isolated_loggers, monkeypatch):
+    def test_env_debug_level(
+        self, isolated_loggers: ModuleType, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
         monkeypatch.setenv("LOG_LEVEL", "DEBUG")
         lg = get_logger(_fresh_name(isolated_loggers, "debug"))
         assert lg.level == logging.DEBUG
 
     def test_env_unknown_falls_back_to_info(
-        self, isolated_loggers, clean_log_level_env, monkeypatch
-    ):
+        self,
+        isolated_loggers: ModuleType,
+        clean_log_level_env: None,
+        monkeypatch: pytest.MonkeyPatch,
+    ) -> None:
         monkeypatch.setenv("LOG_LEVEL", "notalevel")
         lg = get_logger(_fresh_name(isolated_loggers, "fallback"))
         assert lg.level == logging.INFO
 
     def test_set_log_level_updates_cached_and_future(
-        self, isolated_loggers, clean_log_level_env, monkeypatch
-    ):
+        self,
+        isolated_loggers: ModuleType,
+        clean_log_level_env: None,
+        monkeypatch: pytest.MonkeyPatch,
+    ) -> None:
         name = _fresh_name(isolated_loggers, "setlevel")
         existing = get_logger(name)
         set_log_level(logging.ERROR)
@@ -165,14 +201,21 @@ class TestLevelHandling:
             set_log_level(logging.INFO)
 
     def test_set_log_level_updates_file_sink(
-        self, isolated_loggers, clean_log_level_env, tmp_path, monkeypatch
-    ):
+        self,
+        isolated_loggers: ModuleType,
+        clean_log_level_env: None,
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+    ) -> None:
         from utils.core import logger as logger_module
 
         add_file_handler(tmp_path / "run.log")
         try:
             set_log_level(logging.DEBUG)
-            assert logger_module._file_handler.level == logging.DEBUG
+            assert (
+                cast(logging.FileHandler, logger_module._file_handler).level
+                == logging.DEBUG
+            )
         finally:
             remove_file_handler()
             set_log_level(logging.INFO)
@@ -183,8 +226,13 @@ class TestLevelHandling:
 
 class TestWarningsCapture:
     def test_warning_written_to_file_sink(
-        self, isolated_loggers, clean_log_level_env, tmp_path, monkeypatch, capsys
-    ):
+        self,
+        isolated_loggers: ModuleType,
+        clean_log_level_env: None,
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+        capsys: pytest.CaptureFixture[str],
+    ) -> None:
         # Bypass pytest's warning recorder so this asserts the real stderr path.
         monkeypatch.setattr(warnings, "showwarning", _write_warning_to_stream)
         target = tmp_path / "run.log"
@@ -203,8 +251,13 @@ class TestWarningsCapture:
             remove_file_handler()
 
     def test_warning_at_error_level_still_reaches_stderr(
-        self, isolated_loggers, clean_log_level_env, tmp_path, monkeypatch, capsys
-    ):
+        self,
+        isolated_loggers: ModuleType,
+        clean_log_level_env: None,
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+        capsys: pytest.CaptureFixture[str],
+    ) -> None:
         monkeypatch.setenv("LOG_LEVEL", "ERROR")
         monkeypatch.setattr(warnings, "showwarning", _write_warning_to_stream)
         target = tmp_path / "run.log"
@@ -221,8 +274,8 @@ class TestWarningsCapture:
             remove_file_handler()
 
     def test_remove_restores_native_warnings_path(
-        self, isolated_loggers, clean_log_level_env, tmp_path
-    ):
+        self, isolated_loggers: ModuleType, clean_log_level_env: None, tmp_path: Path
+    ) -> None:
         native_showwarning = warnings.showwarning
         add_file_handler(tmp_path / "run.log")
         assert warnings.showwarning is not native_showwarning
@@ -230,8 +283,8 @@ class TestWarningsCapture:
         assert warnings.showwarning is native_showwarning
 
     def test_remove_preserves_preexisting_warning_capture(
-        self, isolated_loggers, clean_log_level_env, tmp_path
-    ):
+        self, isolated_loggers: ModuleType, clean_log_level_env: None, tmp_path: Path
+    ) -> None:
         original_showwarning = warnings.showwarning
         original_saved_hook = getattr(logging, "_warnings_showwarning", None)
         logging.captureWarnings(True)
@@ -243,14 +296,18 @@ class TestWarningsCapture:
         finally:
             remove_file_handler()
             warnings.showwarning = original_showwarning
-            logging._warnings_showwarning = original_saved_hook
+            setattr(logging, "_warnings_showwarning", original_saved_hook)
 
     def test_remove_leaves_external_warning_replacement(
-        self, isolated_loggers, clean_log_level_env, tmp_path, monkeypatch
-    ):
+        self,
+        isolated_loggers: ModuleType,
+        clean_log_level_env: None,
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+    ) -> None:
         add_file_handler(tmp_path / "run.log")
 
-        def replacement(*args, **kwargs):
+        def replacement(*args: Any, **kwargs: Any) -> None:
             return None
 
         monkeypatch.setattr(warnings, "showwarning", replacement)
@@ -258,8 +315,8 @@ class TestWarningsCapture:
         assert warnings.showwarning is replacement
 
     def test_warning_sink_does_not_mutate_stdlib_warning_logger(
-        self, isolated_loggers, clean_log_level_env, tmp_path
-    ):
+        self, isolated_loggers: ModuleType, clean_log_level_env: None, tmp_path: Path
+    ) -> None:
         py_warnings = logging.getLogger("py.warnings")
         original_level = py_warnings.level
         original_propagate = py_warnings.propagate
@@ -279,8 +336,12 @@ class TestWarningsCapture:
             set_log_level(logging.INFO)
 
     def test_warning_sink_does_not_propagate_to_root(
-        self, isolated_loggers, clean_log_level_env, tmp_path, monkeypatch
-    ):
+        self,
+        isolated_loggers: ModuleType,
+        clean_log_level_env: None,
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+    ) -> None:
         monkeypatch.setattr(warnings, "showwarning", _write_warning_to_stream)
         root_logger = logging.getLogger()
         root_stream = StringIO()
@@ -299,8 +360,12 @@ class TestWarningsCapture:
 
     @pytest.mark.skipif(not hasattr(os, "fork"), reason="requires fork")
     def test_forked_worker_does_not_write_to_parent_sink(
-        self, isolated_loggers, clean_log_level_env, tmp_path, monkeypatch
-    ):
+        self,
+        isolated_loggers: ModuleType,
+        clean_log_level_env: None,
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+    ) -> None:
         monkeypatch.setattr(warnings, "showwarning", _write_warning_to_stream)
         target = tmp_path / "run.log"
         add_file_handler(target)
@@ -322,9 +387,15 @@ class TestWarningsCapture:
             remove_file_handler()
 
     def test_re_attach_moves_warnings_sink(
-        self, isolated_loggers, clean_log_level_env, tmp_path, monkeypatch
-    ):
-        monkeypatch.setattr(warnings, "showwarning", warnings._showwarning_orig)
+        self,
+        isolated_loggers: ModuleType,
+        clean_log_level_env: None,
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+    ) -> None:
+        monkeypatch.setattr(
+            warnings, "showwarning", getattr(warnings, "_showwarning_orig")
+        )
         first = tmp_path / "first.log"
         second = tmp_path / "second.log"
         add_file_handler(first)
@@ -349,7 +420,9 @@ class TestWarningsCapture:
 
 
 class TestResetLoggers:
-    def test_reset_clears_cache_and_detaches_sink(self, isolated_loggers, tmp_path):
+    def test_reset_clears_cache_and_detaches_sink(
+        self, isolated_loggers: ModuleType, tmp_path: Path
+    ) -> None:
         from utils.core import logger as logger_module
 
         name = _fresh_name(isolated_loggers, "reset")

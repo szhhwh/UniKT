@@ -1,5 +1,7 @@
 """Tests for DataSource split-sequence building, build_* guards, add_kfold_labels."""
 
+from collections.abc import Callable
+
 import polars as pl
 import pytest
 from polars.testing import assert_frame_equal
@@ -15,7 +17,10 @@ _TIMESTAMPS = [1, 2, 3, 1, 2, 3, 1, 2, 3]
 _QS_PAIRS = [(1, 10), (2, 11), (2, 12), (3, 13)]
 
 
-def _split_frames(make_sequence_frame, make_question_skill_frame):
+def _split_frames(
+    make_sequence_frame: Callable[..., pl.DataFrame],
+    make_question_skill_frame: Callable[..., pl.DataFrame],
+) -> tuple[pl.DataFrame, dict[str, pl.DataFrame]]:
     seq = make_sequence_frame(_USERS, _QUESTIONS, _LABELS, _TIMESTAMPS)
     rel = {"question_skill": make_question_skill_frame(_QS_PAIRS)}
     return seq, rel
@@ -26,8 +31,11 @@ def _split_frames(make_sequence_frame, make_question_skill_frame):
 
 class TestBuildSplitSequencesSkills:
     def test_skill_column_aligned_with_questions(
-        self, make_data_source, make_sequence_frame, make_question_skill_frame
-    ):
+        self,
+        make_data_source: Callable[..., DataSource],
+        make_sequence_frame: Callable[..., pl.DataFrame],
+        make_question_skill_frame: Callable[..., pl.DataFrame],
+    ) -> None:
         seq, rel = _split_frames(make_sequence_frame, make_question_skill_frame)
         ds = make_data_source(sequence_data=seq, relation_data=rel, max_seq_len=2)
         out = ds._build_split_sequences(expand_skills=True)
@@ -72,8 +80,11 @@ class TestBuildSplitSequencesSkills:
         assert got.rows() == expected
 
     def test_order_determinism_with_scrambled_timestamps(
-        self, make_data_source, make_sequence_frame, make_question_skill_frame
-    ):
+        self,
+        make_data_source: Callable[..., DataSource],
+        make_sequence_frame: Callable[..., pl.DataFrame],
+        make_question_skill_frame: Callable[..., pl.DataFrame],
+    ) -> None:
         # Input rows arrive out of chronological order; the __order stamp must
         # restore interaction-major order with ascending skills per interaction.
         seq = make_sequence_frame(
@@ -99,13 +110,13 @@ class TestBuildSplitSequencesBatches:
     @pytest.mark.parametrize("limit", [1, 2, 4])
     def test_small_batch_limit_matches_single_batch(
         self,
-        monkeypatch,
-        make_data_source,
-        make_sequence_frame,
-        make_question_skill_frame,
-        expand_skills,
-        limit,
-    ):
+        monkeypatch: pytest.MonkeyPatch,
+        make_data_source: Callable[..., DataSource],
+        make_sequence_frame: Callable[..., pl.DataFrame],
+        make_question_skill_frame: Callable[..., pl.DataFrame],
+        expand_skills: bool,
+        limit: int,
+    ) -> None:
         seq, rel = _split_frames(make_sequence_frame, make_question_skill_frame)
 
         ds_whole = make_data_source(sequence_data=seq, relation_data=rel, max_seq_len=2)
@@ -121,11 +132,11 @@ class TestBuildSplitSequencesBatches:
 
     def test_sequence_ids_dense_across_batches(
         self,
-        monkeypatch,
-        make_data_source,
-        make_sequence_frame,
-        make_question_skill_frame,
-    ):
+        monkeypatch: pytest.MonkeyPatch,
+        make_data_source: Callable[..., DataSource],
+        make_sequence_frame: Callable[..., pl.DataFrame],
+        make_question_skill_frame: Callable[..., pl.DataFrame],
+    ) -> None:
         # limit=1 forces every user into its own (oversized) batch; the global
         # counter still assigns dense ids in (user, split_idx) order.
         seq, rel = _split_frames(make_sequence_frame, make_question_skill_frame)
@@ -137,8 +148,11 @@ class TestBuildSplitSequencesBatches:
         assert sorted(out["sequence_id"].unique().to_list()) == list(range(6))
 
     def test_empty_input_returns_schema_only_frame(
-        self, make_data_source, make_sequence_frame, make_question_skill_frame
-    ):
+        self,
+        make_data_source: Callable[..., DataSource],
+        make_sequence_frame: Callable[..., pl.DataFrame],
+        make_question_skill_frame: Callable[..., pl.DataFrame],
+    ) -> None:
         seq, rel = _split_frames(make_sequence_frame, make_question_skill_frame)
         ds = make_data_source(
             sequence_data=seq.head(0), relation_data=rel, max_seq_len=2
@@ -160,8 +174,10 @@ class TestBuildSplitSequencesBatches:
         assert out.schema["seq_pos"] == pl.Int64
 
     def test_empty_input_question_mode_omits_skill_column(
-        self, make_data_source, make_sequence_frame
-    ):
+        self,
+        make_data_source: Callable[..., DataSource],
+        make_sequence_frame: Callable[..., pl.DataFrame],
+    ) -> None:
         seq = make_sequence_frame(_USERS, _QUESTIONS, _LABELS, _TIMESTAMPS)
         ds = make_data_source(sequence_data=seq.head(0), max_seq_len=2)
         out = ds._build_split_sequences(expand_skills=False)
@@ -177,8 +193,10 @@ class TestBuildSplitSequencesBatches:
         ]
 
     def test_skill_expansion_without_relation_raises(
-        self, make_data_source, make_sequence_frame
-    ):
+        self,
+        make_data_source: Callable[..., DataSource],
+        make_sequence_frame: Callable[..., pl.DataFrame],
+    ) -> None:
         seq = make_sequence_frame(_USERS, _QUESTIONS, _LABELS, _TIMESTAMPS)
         ds = make_data_source(sequence_data=seq, max_seq_len=2)
         with pytest.raises(ValueError, match="question_skill relation not available"):
@@ -189,27 +207,36 @@ class TestBuildSplitSequencesBatches:
 
 
 class TestBuildGuards:
-    def test_build_split_question_no_data_raises(self, make_data_source):
+    def test_build_split_question_no_data_raises(
+        self, make_data_source: Callable[..., DataSource]
+    ) -> None:
         ds = make_data_source(sequence_data=None)
         with pytest.raises(ValueError, match="No processed data available"):
             ds.build_split_question_sequence_data()
 
-    def test_build_split_skill_no_data_raises(self, make_data_source):
+    def test_build_split_skill_no_data_raises(
+        self, make_data_source: Callable[..., DataSource]
+    ) -> None:
         ds = make_data_source(sequence_data=None)
         with pytest.raises(ValueError, match="No processed data available"):
             ds.build_split_skill_sequence_data()
 
     def test_build_split_skill_missing_relation_raises(
-        self, make_data_source, make_sequence_frame
-    ):
+        self,
+        make_data_source: Callable[..., DataSource],
+        make_sequence_frame: Callable[..., pl.DataFrame],
+    ) -> None:
         seq = make_sequence_frame([0], [1])
         ds = make_data_source(sequence_data=seq, relation_data={})
         with pytest.raises(ValueError, match="question_skill relation not available"):
             ds.build_split_skill_sequence_data()
 
     def test_build_windowlate_missing_fold_column_raises(
-        self, make_data_source, make_sequence_frame, make_question_skill_frame
-    ):
+        self,
+        make_data_source: Callable[..., DataSource],
+        make_sequence_frame: Callable[..., pl.DataFrame],
+        make_question_skill_frame: Callable[..., pl.DataFrame],
+    ) -> None:
         seq = make_sequence_frame([0, 0], [1, 2])
         rel = {"question_skill": make_question_skill_frame(_QS_PAIRS)}
         ds = make_data_source(sequence_data=seq, relation_data=rel)
@@ -217,8 +244,11 @@ class TestBuildGuards:
             ds.build_windowlate_data()
 
     def test_build_windowlate_empty_test_fold_raises(
-        self, make_data_source, make_sequence_frame, make_question_skill_frame
-    ):
+        self,
+        make_data_source: Callable[..., DataSource],
+        make_sequence_frame: Callable[..., pl.DataFrame],
+        make_question_skill_frame: Callable[..., pl.DataFrame],
+    ) -> None:
         seq = make_sequence_frame([0, 0], [1, 2]).with_columns(
             pl.lit(0, dtype=pl.Int32).alias("fold")
         )
@@ -234,14 +264,21 @@ class TestBuildGuards:
 class TestAddKfoldLabels:
     @pytest.mark.parametrize("bad_ratio", [1.5, -0.1], ids=["above", "below"])
     def test_test_ratio_out_of_bounds_raises(
-        self, make_data_source, make_sequence_frame, bad_ratio
-    ):
+        self,
+        make_data_source: Callable[..., DataSource],
+        make_sequence_frame: Callable[..., pl.DataFrame],
+        bad_ratio: float,
+    ) -> None:
         seq = make_sequence_frame([0, 0], [1, 2])
         ds = make_data_source(sequence_data=seq)
         with pytest.raises(ValueError, match="Test ratio should within 0~1"):
             ds.add_kfold_labels(test_ratio=bad_ratio)
 
-    def test_user_level_fold_isolation(self, make_data_source, make_sequence_frame):
+    def test_user_level_fold_isolation(
+        self,
+        make_data_source: Callable[..., DataSource],
+        make_sequence_frame: Callable[..., pl.DataFrame],
+    ) -> None:
         # 10 users x 2 rows; test_ratio=0.2 -> int(10*0.2)=2 test users.
         users = [u for u in range(10) for _ in range(2)]
         seq = make_sequence_frame(users, list(range(20)))
@@ -264,7 +301,11 @@ class TestAddKfoldLabels:
         assert ds.metadata["kfold_n_splits"] == 4
         assert ds.metadata["test_ratio"] == 0.2
 
-    def test_same_seed_same_split(self, make_data_source, make_sequence_frame):
+    def test_same_seed_same_split(
+        self,
+        make_data_source: Callable[..., DataSource],
+        make_sequence_frame: Callable[..., pl.DataFrame],
+    ) -> None:
         # add_kfold_labels seeds its shuffle from the data source's seed, so
         # two sources with the same seed and data produce identical labels
         # without touching the global numpy RNG.
@@ -280,8 +321,10 @@ class TestAddKfoldLabels:
         assert_frame_equal(ds_a.sequence_data, ds_b.sequence_data)
 
     def test_different_seed_different_split(
-        self, make_data_source, make_sequence_frame
-    ):
+        self,
+        make_data_source: Callable[..., DataSource],
+        make_sequence_frame: Callable[..., pl.DataFrame],
+    ) -> None:
         users = [u for u in range(8) for _ in range(3)]
         seq = make_sequence_frame(users, list(range(24)))
 
@@ -299,8 +342,10 @@ class TestAddKfoldLabels:
         assert test_users_a != test_users_b
 
     def test_zero_test_ratio_folds_all_users(
-        self, make_data_source, make_sequence_frame
-    ):
+        self,
+        make_data_source: Callable[..., DataSource],
+        make_sequence_frame: Callable[..., pl.DataFrame],
+    ) -> None:
         users = [u for u in range(6) for _ in range(2)]
         seq = make_sequence_frame(users, list(range(12)))
         ds = make_data_source(sequence_data=seq)

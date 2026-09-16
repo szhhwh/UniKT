@@ -1,5 +1,7 @@
 """R² (squared Pearson correlation) metric."""
 
+import numpy as np
+
 from utils.core import register_metric
 
 from .base import Metric
@@ -18,6 +20,6 @@ class R2Metric(Metric):
     name = "r2"
     source = "y_prob"
 
-    def score(self, y_true, y_value):
+    def score(self, y_true: np.ndarray, y_value: np.ndarray) -> float:
         """Return squared Pearson correlation."""
         return float(_pearson_r2(y_true, y_value))

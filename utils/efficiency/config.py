@@ -13,6 +13,7 @@ appears in ``train.py``'s flags.
 """
 
 from dataclasses import dataclass, field, make_dataclass
+from typing import Any
 
 
 @dataclass
@@ -93,7 +94,7 @@ def build_efficiency_config_schema() -> type:
 
     from utils.core import EFFICIENCY_STAGES, get_supported_stages
 
-    stage_fields = [
+    stage_fields: list[tuple[str, Any, Any]] = [
         (
             "general",
             GeneralEfficiencyConfig,

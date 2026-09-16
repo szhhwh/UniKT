@@ -45,7 +45,7 @@ from utils.case_analysis import (
     get_user_sequence,
     load_case_results,
 )
-from utils.config import build_node, parse_run_archive
+from utils.config import RunConfig, build_node, parse_run_archive
 from utils.core import (
     ANALYZERS,
     CASE_SELECTORS,
@@ -122,7 +122,7 @@ class CasePlotConfig:
     max_seq_len: int | None = None
 
 
-def cmd_inference(rc, case):
+def cmd_inference(rc: RunConfig, case: CaseInferenceConfig) -> None:
     """Step 1: Run inference and save predictions."""
     run_dir = Path(case.run_dir).resolve()
     checkpoint_path = run_dir / case.checkpoint
@@ -181,7 +181,7 @@ def cmd_inference(rc, case):
     logger.info(f"Total predictions: {len(result)}")
 
 
-def cmd_select(args):
+def cmd_select(args: CaseSelectConfig) -> None:
     """Step 2: Select users from existing predictions."""
     logger.info("Selecting users from predictions...")
 
@@ -235,7 +235,7 @@ def cmd_select(args):
     logger.info(f" - Accuracy: {selected_metrics['accuracy'].mean():.3f} avg")
 
 
-def cmd_plot(args):
+def cmd_plot(args: CasePlotConfig) -> None:
     """Step 3: Generate visualizations for selected users."""
     logger.info("Generating visualizations...")
 
@@ -249,7 +249,8 @@ def cmd_plot(args):
 
     df = load_case_results(str(predictions_path))
 
-    selected_users_path = args.selected_users
+    # May hold a selector name (str) before being resolved to a concrete path.
+    selected_users_path: str | Path = args.selected_users
     if selected_users_path in CASE_SELECTORS:
         selected_users_path = (
             run_dir / "case_analysis" / selected_users_path / "selected_users.json"
@@ -330,7 +331,7 @@ def _run_plot(rest: list[str]) -> None:
     cmd_plot(build_node(CasePlotConfig, ns["case"]))
 
 
-def main():
+def main() -> None:
     """Run the case analysis workflow (inference, selection, plotting)."""
     parser = _build_cli()
     ns, rest = parser.parse_known_args()

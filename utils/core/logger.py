@@ -37,6 +37,7 @@ import warnings
 from collections.abc import Callable
 from datetime import datetime
 from pathlib import Path
+from typing import TextIO
 
 from rich.logging import RichHandler
 
@@ -111,12 +112,12 @@ def _detach_warning_handler(handler: logging.Handler) -> None:
 
 
 def _warning_showwarning(
-    message,
-    category,
-    filename,
-    lineno,
-    file=None,
-    line=None,
+    message: Warning | str,
+    category: type[Warning],
+    filename: str,
+    lineno: int,
+    file: TextIO | None = None,
+    line: str | None = None,
 ) -> None:
     """Forward a warning to the prior hook and the active file sink."""
     previous = _warning_previous_showwarning
@@ -147,7 +148,9 @@ def _restore_warning_capture() -> None:
     if not _warning_capture_active:
         return
     if warnings.showwarning is _warning_showwarning:
-        warnings.showwarning = _warning_previous_showwarning
+        previous = _warning_previous_showwarning
+        if previous is not None:
+            warnings.showwarning = previous
     _warning_previous_showwarning = None
     _warning_capture_active = False
 
@@ -170,7 +173,9 @@ def _write_session_header(handler: logging.FileHandler) -> None:
     would merge two runs' output; the timestamp + pid keeps them apart.
     """
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    handler.stream.write(
+    stream = handler.stream
+    assert stream is not None, "file handler stream must be open"
+    stream.write(
         f"\n{'=' * 70}\n"
         f"# run.log session start  {timestamp}  pid={os.getpid()}\n"
         f"{'=' * 70}\n"

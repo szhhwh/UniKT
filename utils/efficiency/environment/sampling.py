@@ -13,6 +13,7 @@ import statistics
 import threading
 from collections.abc import Callable
 from dataclasses import dataclass, field
+from typing import Any
 
 import torch
 
@@ -60,7 +61,7 @@ class ResourceMetric:
     make_probe: Callable[[object, object], Callable[[], float | None]]
 
 
-def _make_cpu_probe(proc, _nv_handle) -> Callable[[], float | None]:
+def _make_cpu_probe(proc: Any, _nv_handle: Any) -> Callable[[], float | None]:
     def probe() -> float | None:
         if proc is None:
             return None
@@ -78,7 +79,7 @@ def _make_cpu_probe(proc, _nv_handle) -> Callable[[], float | None]:
     return probe
 
 
-def _make_rss_probe(proc, _nv_handle) -> Callable[[], float | None]:
+def _make_rss_probe(proc: Any, _nv_handle: Any) -> Callable[[], float | None]:
     def probe() -> float | None:
         if proc is None:
             return None
@@ -96,10 +97,12 @@ def _make_rss_probe(proc, _nv_handle) -> Callable[[], float | None]:
     return probe
 
 
-def _make_gpu_probe(nv_call) -> Callable[[object, object], Callable[[], float | None]]:
+def _make_gpu_probe(
+    nv_call: Callable[[Any, Any], float],
+) -> Callable[[object, object], Callable[[], float | None]]:
     """Build a probe factory that calls ``nv_call(pynvml, handle)`` each tick."""
 
-    def make(_proc, nv_handle) -> Callable[[], float | None]:
+    def make(_proc: Any, nv_handle: Any) -> Callable[[], float | None]:
         def probe() -> float | None:
             if nv_handle is None:
                 return None
@@ -115,23 +118,23 @@ def _make_gpu_probe(nv_call) -> Callable[[object, object], Callable[[], float | 
     return make
 
 
-def _util(pynvml, handle):
+def _util(pynvml: Any, handle: Any) -> float:
     return pynvml.nvmlDeviceGetUtilizationRates(handle).gpu
 
 
-def _mem(pynvml, handle):
+def _mem(pynvml: Any, handle: Any) -> float:
     return pynvml.nvmlDeviceGetMemoryInfo(handle).used / 1024**2
 
 
-def _power(pynvml, handle):
+def _power(pynvml: Any, handle: Any) -> float:
     return pynvml.nvmlDeviceGetPowerUsage(handle) / 1000.0
 
 
-def _temp(pynvml, handle):
+def _temp(pynvml: Any, handle: Any) -> int:
     return pynvml.nvmlDeviceGetTemperature(handle, pynvml.NVML_TEMPERATURE_GPU)
 
 
-def _sm_clock(pynvml, handle):
+def _sm_clock(pynvml: Any, handle: Any) -> int:
     return pynvml.nvmlDeviceGetClockInfo(handle, pynvml.NVML_CLOCK_SM)
 
 

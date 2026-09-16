@@ -9,8 +9,10 @@ the macroscopic ``inference``/``train`` stages (latency/throughput).
 
 import contextlib
 import warnings
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass, field
 from pathlib import Path
+from typing import Any
 
 import torch
 from rich.table import Table
@@ -19,6 +21,7 @@ from utils.core import get_logger, register_efficiency_stage
 
 from ..device import DeviceBackend
 from ..measures.train_step import run_train_step
+from ..target import BenchmarkTarget
 from .base import EfficiencyStage, StageContext, format_flops
 
 logger = get_logger(__name__)
@@ -74,8 +77,8 @@ class TraceStageConfig:
 
 
 def benchmark_trace(
-    target,
-    sample_batch,
+    target: BenchmarkTarget,
+    sample_batch: Any,
     warmup_iters: int,
     iters: int,
     top_ops: int,
@@ -116,8 +119,8 @@ def benchmark_trace(
 
 
 def _safe_segment(
-    target,
-    sample_batch,
+    target: BenchmarkTarget,
+    sample_batch: Any,
     warmup_iters: int,
     iters: int,
     top_ops: int,
@@ -145,8 +148,8 @@ def _safe_segment(
 
 
 def _profile_segment(
-    target,
-    sample_batch,
+    target: BenchmarkTarget,
+    sample_batch: Any,
     warmup_iters: int,
     iters: int,
     top_ops: int,
@@ -227,7 +230,10 @@ def _profile_segment(
 
 
 def _maybe_export_trace(
-    prof, export: bool, output_dir: str | Path | None, mode: str
+    prof: torch.profiler.profile,
+    export: bool,
+    output_dir: str | Path | None,
+    mode: str,
 ) -> Path | None:
     """Export a chrome trace for the segment, or None when disabled/no dir."""
     if not export or output_dir is None:
@@ -241,7 +247,9 @@ def _maybe_export_trace(
     return trace_path
 
 
-def _run_under_grad(step_fn, iters: int, use_inference_mode: bool) -> None:
+def _run_under_grad(
+    step_fn: Callable[[], None], iters: int, use_inference_mode: bool
+) -> None:
     """Run ``step_fn`` ``iters`` times under inference_mode (forward) or default grad."""
     ctx = torch.inference_mode() if use_inference_mode else contextlib.nullcontext()
     with ctx:
@@ -250,7 +258,7 @@ def _run_under_grad(step_fn, iters: int, use_inference_mode: bool) -> None:
 
 
 def _extract_operators(
-    key_averages, top_ops: int, device: torch.device
+    key_averages: Iterable[Any], top_ops: int, device: torch.device
 ) -> list[OperatorStat]:
     """Top-N operators sorted by self device time (CUDA on GPU, else CPU).
 
@@ -281,7 +289,9 @@ def _extract_operators(
     ]
 
 
-def _aggregate(key_averages, device: torch.device) -> tuple[float, float, int, int]:
+def _aggregate(
+    key_averages: Iterable[Any], device: torch.device
+) -> tuple[float, float, int, int]:
     """Sum per-operator self CPU/CUDA time and FLOPs across all operators.
 
     CPU self time sums directly. CUDA self time counts only pure device-kernel
@@ -301,7 +311,7 @@ def _aggregate(key_averages, device: torch.device) -> tuple[float, float, int, i
     return total_cpu, total_cuda, len(events), total_flops
 
 
-def _attr(event, name: str) -> float:
+def _attr(event: Any, name: str) -> float:
     """Read a profiler event attribute as float, tolerating absent/renamed fields."""
     value = getattr(event, name, 0)
     return float(value) if value else 0.0

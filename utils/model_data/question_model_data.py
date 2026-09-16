@@ -5,11 +5,19 @@ tracing model data, including sequence building and heterogeneous graph
 construction.
 """
 
+from __future__ import annotations
+
 from abc import abstractmethod
+from typing import TYPE_CHECKING, Any
 
 from utils.core import get_logger
 from utils.data_process import DataSource
 from utils.model_data import BaseModelData
+
+if TYPE_CHECKING:
+    import numpy as np
+    import polars as pl
+    from torch_geometric.data import HeteroData
 
 logger = get_logger(__name__)
 
@@ -26,12 +34,12 @@ class QuestionModelData(BaseModelData):
         """
         super().__init__(data_src, cache=cache)
 
-    def _get_kfold_data(self):
+    def _get_kfold_data(self) -> pl.DataFrame:
         """Override: retrieve K-fold labels from question sequence data."""
         return self.data_src.get_split_question_sequence_data()
 
     @abstractmethod
-    def prepare_data(self, args):
+    def prepare_data(self, args: Any) -> Any:
         """Prepare data required by question-level models.
 
         Args:
@@ -39,7 +47,9 @@ class QuestionModelData(BaseModelData):
         """
         raise NotImplementedError("Subclasses should implement prepare_data method")
 
-    def load_sequence_data(self):
+    def load_sequence_data(
+        self,
+    ) -> tuple[np.ndarray, ...]:
         """Load user response sequences.
 
         Loads split question sequence data from disk and builds sequence arrays.
@@ -78,8 +88,8 @@ class QuestionModelData(BaseModelData):
         edge_types: list[tuple[str, str, str]],
         edge_attrs: dict[tuple[str, str, str], list[str]] | None = None,
         directed: bool = False,
-        node_features: dict[str, any] | None = None,
-    ):
+        node_features: dict[str, Any] | None = None,
+    ) -> HeteroData:
         """Build a heterogeneous graph with flexible node and edge type configuration.
 
         Args:

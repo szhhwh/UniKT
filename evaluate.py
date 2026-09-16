@@ -14,9 +14,10 @@ Usage:
 import sys
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 
 import model  # noqa: F401  — triggers trainer/model-config discovery
-from utils.config import parse_run_archive
+from utils.config import RunConfig, parse_run_archive
 from utils.core import TRAINERS, add_file_handler, get_logger, seed_everything
 from utils.data_process import get_data_source
 from utils.experiment_manager import ExperimentManager
@@ -38,7 +39,7 @@ class EvaluateConfig:
     checkpoint: str = "best_model.pth"
 
 
-def _parse(argv: list[str] | None = None):
+def _parse(argv: list[str] | None = None) -> tuple[RunConfig, Any, Path]:
     """Parse the archived RunConfig (plus CLI overrides) + EvaluateConfig."""
     return parse_run_archive(
         argv,
@@ -49,7 +50,7 @@ def _parse(argv: list[str] | None = None):
     )
 
 
-def main():
+def main() -> None:
     """Evaluate a trained model checkpoint on the test set."""
     rc, ev_cfg, run_dir = _parse()
     checkpoint_path = run_dir / ev_cfg.checkpoint

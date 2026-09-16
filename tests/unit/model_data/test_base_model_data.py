@@ -8,17 +8,25 @@ fixture redirects ``base_model_data.Path`` to keep every write inside
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING, Any, cast
+
 import numpy as np
 import polars as pl
 import pytest
 import torch
 
 from tests.unit.model_data.conftest import StubDataSource
+from utils.data_process import DataSource
 from utils.model_data.base_model_data import BaseModelData
+from utils.model_data.skill_model_data import SkillModelData
+
+if TYPE_CHECKING:
+    from collections.abc import Callable, Sequence
+    from pathlib import Path
 
 
 @pytest.fixture
-def cache_root(tmp_path, monkeypatch):
+def cache_root(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
     """Redirect the disk cache directory under tmp_path and return it."""
     from utils.model_data import base_model_data as bmd
 
@@ -31,14 +39,16 @@ def cache_root(tmp_path, monkeypatch):
 class _CacheProbe(BaseModelData):
     """Counting probe for the disk_cache decorator (parenthesised usage)."""
 
-    def __init__(self, cache=True):
-        super().__init__(StubDataSource(), cache=cache)
-        self.calls = []
+    def __init__(self, cache: bool = True) -> None:
+        # StubDataSource is a duck-typed stand-in (see conftest); cast at the
+        # DataSource boundary like make_skill_model_data does.
+        super().__init__(cast(DataSource, StubDataSource()), cache=cache)
+        self.calls: list[Any] = []
 
-    def prepare_data(self, args): ...
+    def prepare_data(self, args: Any) -> None: ...
 
     @BaseModelData.disk_cache()
-    def make(self, payload):
+    def make(self, payload: Any) -> dict[str, Any]:
         self.calls.append(payload)
         return {"payload": payload, "fresh": True}
 
@@ -46,8 +56,9 @@ class _CacheProbe(BaseModelData):
 class _BareCacheProbe(_CacheProbe):
     """Bare ``@BaseModelData.disk_cache`` (no parentheses) usage."""
 
+    # Intentional misuse probe: the function lands in cache_dir_name.
     @BaseModelData.disk_cache
-    def make(self, payload):
+    def make(self, payload: Any) -> dict[str, Any]:
         self.calls.append(payload)
         return {"payload": payload, "fresh": True}
 
@@ -55,28 +66,33 @@ class _BareCacheProbe(_CacheProbe):
 class _SeqDataSource(StubDataSource):
     """StubDataSource extended with the sequence/relation accessors."""
 
-    def __init__(self, sequence_data=None, relations=None, metadata=None):
+    def __init__(
+        self,
+        sequence_data: pl.DataFrame | None = None,
+        relations: dict[str, pl.DataFrame] | None = None,
+        metadata: dict[str, Any] | None = None,
+    ) -> None:
         super().__init__(metadata=metadata)
         self._sequence = sequence_data
         self._relations = relations or {}
 
-    def get_sequence_data(self):
+    def get_sequence_data(self) -> pl.DataFrame | None:
         return self._sequence
 
-    def get_relation(self, name):
+    def get_relation(self, name: str) -> pl.DataFrame:
         return self._relations[name]
 
 
 class _SeqModelData(BaseModelData):
     """Concrete base-class instance bound to a _SeqDataSource."""
 
-    def __init__(self, data_src):
-        super().__init__(data_src)
+    def __init__(self, data_src: _SeqDataSource) -> None:
+        super().__init__(cast(DataSource, data_src))
 
-    def prepare_data(self, args): ...
+    def prepare_data(self, args: Any) -> None: ...
 
 
-def _fold_frame(pairs):
+def _fold_frame(pairs: Sequence[tuple[int, int]]) -> pl.DataFrame:
     """Build a split-skill frame of (sequence_id, fold) rows."""
     return pl.DataFrame(
         {
@@ -92,7 +108,7 @@ def _fold_frame(pairs):
 
 
 class TestDiskCache:
-    def test_cache_hit_calls_inner_once(self, cache_root):
+    def test_cache_hit_calls_inner_once(self, cache_root: Path) -> None:
         probe = _CacheProbe()
         first = probe.make(b"payload")
         second = probe.make(b"payload")
@@ -101,19 +117,19 @@ class TestDiskCache:
         assert second == first
         assert any(cache_root.glob("_CacheProbe/*.pkl"))
 
-    def test_bare_decorator_without_parentheses(self, cache_root):
+    def test_bare_decorator_without_parentheses(self, cache_root: Path) -> None:
         probe = _BareCacheProbe()
         probe.make("x")
         probe.make("x")
         assert len(probe.calls) == 1
 
-    def test_cache_disabled_bypasses_disk(self, cache_root):
+    def test_cache_disabled_bypasses_disk(self, cache_root: Path) -> None:
         probe = _CacheProbe(cache=False)
         probe.make("x")
         probe.make("x")
         assert len(probe.calls) == 2  # no caching without _cache=True
 
-    def test_key_normalization_same_content_same_entry(self, cache_root):
+    def test_key_normalization_same_content_same_entry(self, cache_root: Path) -> None:
         probe = _CacheProbe()
         probe.make(bytes([1, 2, 3]))  # distinct objects, identical content
         probe.make(bytes([1, 2, 3]))
@@ -121,7 +137,7 @@ class TestDiskCache:
         probe.make({"b", "a"})
         assert len(probe.calls) == 2
 
-    def test_corrupt_cache_file_rebuilt(self, cache_root):
+    def test_corrupt_cache_file_rebuilt(self, cache_root: Path) -> None:
         probe = _CacheProbe()
         probe.make(b"payload")
 
@@ -139,31 +155,41 @@ class TestDiskCache:
 
 
 class TestBuildUserFolds:
-    def test_missing_fold_column_raises(self, make_skill_model_data):
+    def test_missing_fold_column_raises(
+        self, make_skill_model_data: Callable[..., SkillModelData]
+    ) -> None:
         frame = pl.DataFrame({"sequence_id": [0, 1], "skill": [1, 2]})
         model_data = make_skill_model_data(split_frame=frame)
         with pytest.raises(ValueError, match="K-fold labels not found"):
             model_data._build_user_folds(2)
 
-    def test_inconsistent_user_folds_raises(self, make_skill_model_data):
+    def test_inconsistent_user_folds_raises(
+        self, make_skill_model_data: Callable[..., SkillModelData]
+    ) -> None:
         frame = _fold_frame([(0, 0), (0, 1), (1, 2)])  # user 0 in two folds
         model_data = make_skill_model_data(split_frame=frame)
         with pytest.raises(ValueError, match="inconsistent fold labels"):
             model_data._build_user_folds(2)
 
-    def test_user_count_mismatch_raises(self, make_skill_model_data):
+    def test_user_count_mismatch_raises(
+        self, make_skill_model_data: Callable[..., SkillModelData]
+    ) -> None:
         frame = _fold_frame([(0, 0), (1, 1)])
         model_data = make_skill_model_data(split_frame=frame)
         with pytest.raises(ValueError, match="User count mismatch"):
             model_data._build_user_folds(5)
 
-    def test_user_index_out_of_range_raises(self, make_skill_model_data):
+    def test_user_index_out_of_range_raises(
+        self, make_skill_model_data: Callable[..., SkillModelData]
+    ) -> None:
         frame = _fold_frame([(0, 0), (7, 1)])  # 7 >= num_users=2
         model_data = make_skill_model_data(split_frame=frame)
         with pytest.raises(ValueError, match="User index out of range"):
             model_data._build_user_folds(2)
 
-    def test_fold_mapping_array(self, make_skill_model_data):
+    def test_fold_mapping_array(
+        self, make_skill_model_data: Callable[..., SkillModelData]
+    ) -> None:
         frame = _fold_frame([(0, 2), (1, 2), (2, 0), (3, 0), (4, -1)])
         model_data = make_skill_model_data(split_frame=frame)
         folds = model_data._build_user_folds(5)
@@ -178,11 +204,15 @@ class TestBuildUserFolds:
 
 class TestSplitKfoldData:
     @pytest.fixture
-    def split_model_data(self, make_skill_model_data):
+    def split_model_data(
+        self, make_skill_model_data: Callable[..., SkillModelData]
+    ) -> SkillModelData:
         frame = _fold_frame([(0, 0), (0, 0), (1, 1), (2, 0), (3, -1)])
         return make_skill_model_data(split_frame=frame)
 
-    def test_val_test_train_assignment_and_union(self, split_model_data):
+    def test_val_test_train_assignment_and_union(
+        self, split_model_data: SkillModelData
+    ) -> None:
         arr = np.arange(8, dtype=float).reshape(4, 2)
         train, val, test = split_model_data.split_kfold_data(arr, fold_idx=1)
 
@@ -195,7 +225,9 @@ class TestSplitKfoldData:
             map(tuple, arr)
         )  # union covers every user exactly once
 
-    def test_torch_matches_numpy_indexing(self, split_model_data):
+    def test_torch_matches_numpy_indexing(
+        self, split_model_data: SkillModelData
+    ) -> None:
         base = np.arange(8, dtype=np.float64).reshape(4, 2)
         tensor = torch.arange(8, dtype=torch.float32).reshape(4, 2)
 
@@ -206,19 +238,23 @@ class TestSplitKfoldData:
         assert t_val[0].tolist() == np_val[0].tolist()
         assert isinstance(t_train[0], torch.Tensor)
 
-    def test_inconsistent_first_dims_raises(self, split_model_data):
+    def test_inconsistent_first_dims_raises(
+        self, split_model_data: SkillModelData
+    ) -> None:
         with pytest.raises(ValueError, match="Input array 1 shape"):
             split_model_data.split_kfold_data(
                 np.zeros((4, 2)), np.zeros((3, 2)), fold_idx=1
             )
 
-    def test_no_arrays_raises(self, split_model_data):
+    def test_no_arrays_raises(self, split_model_data: SkillModelData) -> None:
         with pytest.raises(
             ValueError, match="split_kfold_data requires at least one input"
         ):
             split_model_data.split_kfold_data(fold_idx=1)
 
-    def test_zero_rows_raises_domain_error(self, make_skill_model_data):
+    def test_zero_rows_raises_domain_error(
+        self, make_skill_model_data: Callable[..., SkillModelData]
+    ) -> None:
         empty = pl.DataFrame(
             {
                 "sequence_id": pl.Series([], dtype=pl.Int64),
@@ -236,7 +272,7 @@ class TestSplitKfoldData:
 
 
 class TestQuestionDifficulty:
-    def test_confidence_weighted_difficulty(self):
+    def test_confidence_weighted_difficulty(self) -> None:
         # q1: 10 answers, 5 correct -> confidence 1.0 -> 0.5*1.0 + 0.5*0.0 = 0.5
         # q2: 2 answers, 0 correct -> confidence 0.2 -> 1.0*0.2 + 0.5*0.8 = 0.6
         seq = pl.DataFrame(
@@ -251,7 +287,7 @@ class TestQuestionDifficulty:
 
         assert difficulty == {1: pytest.approx(0.5), 2: pytest.approx(0.6)}
 
-    def test_exclude_fold_filters_rows(self):
+    def test_exclude_fold_filters_rows(self) -> None:
         seq = pl.DataFrame(
             {
                 "question": [1, 1, 1, 1, 2, 2, 2],
@@ -275,17 +311,19 @@ class TestQuestionDifficulty:
 
 class TestRelationshipMatrix:
     @staticmethod
-    def _model_data(rel, metadata=None):
+    def _model_data(
+        rel: pl.DataFrame, metadata: dict[str, Any] | None = None
+    ) -> _SeqModelData:
         return _SeqModelData(
             _SeqDataSource(relations={"question_skill": rel}, metadata=metadata)
         )
 
     @pytest.fixture
-    def relation(self):
+    def relation(self) -> pl.DataFrame:
         # (q0,s1) twice, (q0,s2) once, plus an out-of-range question 5.
         return pl.DataFrame({"question": [0, 0, 0, 5], "skill": [1, 1, 2, 0]})
 
-    def test_binary_vs_count(self, relation):
+    def test_binary_vs_count(self, relation: pl.DataFrame) -> None:
         metadata = {"num_questions": 2, "num_skills": 3}
         binary = self._model_data(relation, metadata).build_relationship_matrix(
             ("question", "has", "skill")
@@ -297,14 +335,16 @@ class TestRelationshipMatrix:
         assert binary.tolist() == [[0, 1, 1], [0, 0, 0]]
         assert count.tolist() == [[0, 2, 1], [0, 0, 0]]  # duplicate pair counted
 
-    def test_out_of_range_pairs_dropped(self, relation):
+    def test_out_of_range_pairs_dropped(self, relation: pl.DataFrame) -> None:
         metadata = {"num_questions": 2, "num_skills": 3}
         matrix = self._model_data(relation, metadata).build_relationship_matrix(
             ("question", "has", "skill")
         )
         assert matrix.shape == (2, 3)  # question 5 silently dropped, no IndexError
 
-    def test_metadata_num_fallback_computed_from_data(self, relation):
+    def test_metadata_num_fallback_computed_from_data(
+        self, relation: pl.DataFrame
+    ) -> None:
         matrix = self._model_data(relation, metadata={}).build_relationship_matrix(
             ("question", "has", "skill")
         )
@@ -312,7 +352,7 @@ class TestRelationshipMatrix:
         # questions {0, 5} -> 2, skills {0, 1, 2} -> 3.
         assert matrix.shape == (2, 3)
 
-    def test_unsupported_value_type_raises(self, relation):
+    def test_unsupported_value_type_raises(self, relation: pl.DataFrame) -> None:
         metadata = {"num_questions": 2, "num_skills": 3}
         with pytest.raises(ValueError, match="Unsupported value_type"):
             self._model_data(relation, metadata).build_relationship_matrix(

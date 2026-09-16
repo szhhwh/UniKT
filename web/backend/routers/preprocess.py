@@ -5,6 +5,7 @@ or process actions), including WebSocket log streaming.
 """
 
 import logging
+from typing import Any
 
 from config import PREPROCESS_LOGS_DIR
 from dependencies import get_line_cache, get_preprocess_manager
@@ -49,7 +50,7 @@ class PreprocessStartRequest(BaseModel):
 def start_preprocess(
     body: PreprocessStartRequest,
     pm: PreprocessManager = Depends(get_preprocess_manager),
-):
+) -> Any:
     """Start a new preprocess task (download or process).
 
     Args:
@@ -86,7 +87,7 @@ def start_preprocess(
 def preview_preprocess(
     body: PreprocessStartRequest,
     pm: PreprocessManager = Depends(get_preprocess_manager),
-):
+) -> Any:
     """Preview the command for a preprocess config without launching.
 
     Args:
@@ -114,7 +115,7 @@ def preview_preprocess(
 
 
 @router.get("")
-def list_preprocess(pm: PreprocessManager = Depends(get_preprocess_manager)):
+def list_preprocess(pm: PreprocessManager = Depends(get_preprocess_manager)) -> Any:
     """List all preprocess tasks.
 
     Args:
@@ -141,7 +142,7 @@ def list_preprocess(pm: PreprocessManager = Depends(get_preprocess_manager)):
 @router.get("/{task_id}")
 def get_preprocess(
     task_id: int, pm: PreprocessManager = Depends(get_preprocess_manager)
-):
+) -> Any:
     """Return details for a specific preprocess task.
 
     Args:
@@ -170,7 +171,7 @@ def get_preprocess(
 @router.post("/{task_id}/stop")
 def stop_preprocess(
     task_id: int, pm: PreprocessManager = Depends(get_preprocess_manager)
-):
+) -> Any:
     """Stop a running preprocess task.
 
     Args:
@@ -192,7 +193,7 @@ def stop_preprocess(
 def delete_preprocess(
     task_id: int,
     pm: PreprocessManager = Depends(get_preprocess_manager),
-):
+) -> Any:
     """Delete a preprocess task and its log.
 
     Args:
@@ -216,7 +217,7 @@ def get_preprocess_logs(
     cache: LineRenderCache = Depends(get_line_cache),
     offset: int = Query(0, ge=0),
     limit: int = Query(500, ge=1, le=5000),
-):
+) -> Any:
     """Fetch rendered preprocess log lines.
 
     Args:
@@ -238,7 +239,7 @@ async def stream_preprocess_logs(
     cache: LineRenderCache = Depends(get_line_cache),
     from_line: int = Query(0, ge=0),
     pm: PreprocessManager = Depends(get_preprocess_manager),
-):
+) -> None:
     """Stream preprocess task logs live over a WebSocket connection.
 
     Args:
@@ -255,7 +256,7 @@ async def stream_preprocess_logs(
         await websocket.close()
         return
 
-    def check_alive():
+    def check_alive() -> bool:
         t = pm.get(task_id)
         return t is not None and t.status in ("running", "stopping")
 

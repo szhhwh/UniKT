@@ -5,6 +5,7 @@ Configures the FastAPI app with CORS, error handling, pagination, and registers 
 
 import logging
 import os
+from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 from http.client import responses
 
@@ -16,7 +17,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi_pagination import add_pagination
 from fastapi_pagination.api import set_page
 from fastapi_problem.error import Problem
-from fastapi_problem.handler import add_exception_handler, new_exception_handler
+from fastapi_problem.handler import (
+    ExceptionHandler,
+    add_exception_handler,
+    new_exception_handler,
+)
 from middleware import MessageMiddleware
 from pagination import Page
 from routers import (
@@ -34,12 +39,13 @@ from routers import (
     settings_api,
     tasks,
 )
+from starlette.requests import Request
 
 logger = logging.getLogger(__name__)
 
 
 @asynccontextmanager
-async def lifespan(app: FastAPI):
+async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     """Manage application startup and shutdown lifecycle.
 
     Initializes the database, creates manager/dependency singletons, and
@@ -108,7 +114,9 @@ async def lifespan(app: FastAPI):
 app = FastAPI(title="KT Experiment Manager", lifespan=lifespan)
 
 
-def app_error_handler(_eh, _request, exc: AppError) -> Problem:
+def app_error_handler(
+    _eh: ExceptionHandler, _request: Request, exc: AppError
+) -> Problem:
     """Map an AppError to a Problem with its code as the type."""
     title = responses.get(exc.status, "Error")
     return Problem(

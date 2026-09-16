@@ -2,7 +2,7 @@
 
 from dataclasses import fields as dataclass_fields
 
-from jsonargparse import ActionConfigFile, ArgumentParser
+from jsonargparse import ActionConfigFile, ArgumentParser, Namespace
 
 from utils.config import DownloadConfig, GeneralConfig, ProcessConfig, RunDataConfig
 from utils.core import get_logger, seed_everything
@@ -41,7 +41,7 @@ def build_parser() -> ArgumentParser:
 class _PartialRC:
     """Lightweight rc view exposing only the ``data`` and ``general`` nodes."""
 
-    def __init__(self, sub_ns):
+    def __init__(self, sub_ns: Namespace) -> None:
         self.data = RunDataConfig(
             **{f.name: sub_ns.data[f.name] for f in dataclass_fields(RunDataConfig)}
         )
@@ -50,7 +50,7 @@ class _PartialRC:
         )
 
 
-def cmd_download(rc, ns):
+def cmd_download(rc: _PartialRC, ns: Namespace) -> None:
     """Handle `download` subcommand."""
     dp = get_data_source(rc)
     sub_ns = ns[ns.subcommand]
@@ -72,7 +72,7 @@ def cmd_download(rc, ns):
     logger.info("Download complete.")
 
 
-def cmd_process(rc, ns):
+def cmd_process(rc: _PartialRC, ns: Namespace) -> None:
     """Handle `process` subcommand."""
     seed_everything(rc.general.seed, deterministic=False)
     dp = get_data_source(rc)

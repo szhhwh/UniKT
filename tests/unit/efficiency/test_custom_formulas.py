@@ -6,6 +6,8 @@ hand-built shapes to verify the per-mode gate multiplication factors and the
 layer/direction bookkeeping (1 FMA = 2 FLOPs).
 """
 
+from collections.abc import Callable
+
 import pytest
 import torch
 from torch.utils.flop_counter import flop_registry
@@ -15,7 +17,7 @@ from utils.efficiency.measures import custom_formulas
 _CUDNN_RNN = torch.ops.aten._cudnn_rnn
 
 
-def _formula():
+def _formula() -> Callable[..., int]:
     assert _CUDNN_RNN in flop_registry, "cudnn RNN formula not registered"
     return flop_registry[_CUDNN_RNN]
 
@@ -52,7 +54,15 @@ def _run(
     )
 
 
-def _expected(gate_mult, batch, seq, input_dim, hidden, layers, directions):
+def _expected(
+    gate_mult: int,
+    batch: int,
+    seq: int,
+    input_dim: int,
+    hidden: int,
+    layers: int,
+    directions: int,
+) -> int:
     """input->hidden plus hidden->hidden matmuls, per gate, times 2 for FMA."""
     total = 0
     for layer in range(layers):
@@ -64,29 +74,29 @@ def _expected(gate_mult, batch, seq, input_dim, hidden, layers, directions):
 
 
 class TestCudnnRnnFormula:
-    def test_formula_registered_and_is_module_function(self):
+    def test_formula_registered_and_is_module_function(self) -> None:
         assert flop_registry[_CUDNN_RNN] is custom_formulas._cudnn_rnn_flop
 
-    def test_lstm_mode_2_uses_four_gates(self):
+    def test_lstm_mode_2_uses_four_gates(self) -> None:
         got = _run(mode=2)
         assert got == _expected(4, 2, 3, 8, 16, layers=1, directions=1)
 
-    def test_gru_mode_3_uses_three_gates(self):
+    def test_gru_mode_3_uses_three_gates(self) -> None:
         got = _run(mode=3)
         assert got == _expected(3, 2, 3, 8, 16, layers=1, directions=1)
 
     @pytest.mark.parametrize("mode,gates", [(0, 1), (1, 1)])
-    def test_rnn_modes_use_one_gate(self, mode, gates):
+    def test_rnn_modes_use_one_gate(self, mode: int, gates: int) -> None:
         assert _run(mode=mode) == _expected(gates, 2, 3, 8, 16, layers=1, directions=1)
 
-    def test_bidirectional_doubles_and_feeds_layer_input(self):
+    def test_bidirectional_doubles_and_feeds_layer_input(self) -> None:
         got = _run(mode=2, bidirectional=True, num_layers=2)
         assert got == _expected(4, 2, 3, 8, 16, layers=2, directions=2)
 
-    def test_seq_first_layout_agrees_with_batch_first(self):
+    def test_seq_first_layout_agrees_with_batch_first(self) -> None:
         assert _run(mode=2, batch_first=True) == _run(mode=2, batch_first=False)
 
-    def test_unknown_mode_raises(self):
+    def test_unknown_mode_raises(self) -> None:
         # An unknown cuDNN mode code is a new cell variant the table does not
         # know; refuse to guess rather than silently mis-counting FLOPs.
         with pytest.raises(ValueError, match="Unknown cuDNN RNN mode code"):

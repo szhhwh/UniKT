@@ -1,5 +1,6 @@
 """AUPRC (average precision) metric."""
 
+import numpy as np
 from sklearn.metrics import average_precision_score
 
 from utils.core import register_metric
@@ -19,6 +20,6 @@ class AUPRCMetric(Metric):
     source = "y_score"
     requires_two_classes = True
 
-    def score(self, y_true, y_value):
+    def score(self, y_true: np.ndarray, y_value: np.ndarray) -> float:
         """Return average precision (AUPRC)."""
         return float(average_precision_score(y_true, y_value))

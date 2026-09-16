@@ -7,13 +7,17 @@ when the status code is lower than 400.
 
 import json
 
-from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
+from starlette.requests import Request
+from starlette.responses import Response
 
 
 class MessageMiddleware(BaseHTTPMiddleware):
     """Middleware that serializes request-level messages into a response header."""
 
-    async def dispatch(self, request, call_next):
+    async def dispatch(
+        self, request: Request, call_next: RequestResponseEndpoint
+    ) -> Response:
         """Intercept the response and attach a JSON X-Messages header if set.
 
         Args:

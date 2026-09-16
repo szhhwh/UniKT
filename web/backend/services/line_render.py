@@ -16,6 +16,7 @@ from collections import OrderedDict
 from pathlib import Path
 
 import pyte
+from pyte.screens import Char
 
 # Virtual terminal geometry. The PTY winsize is fixed to match (see
 # process_manager / preprocess_manager) so rich wraps exactly as the subprocess
@@ -37,7 +38,7 @@ _DIFF_OVERLAP = 64
 _STATE_CAPACITY = 64
 
 
-def _render_row(row) -> list[dict]:
+def _render_row(row: dict[int, Char]) -> list[dict]:
     """Collapse a pyte ``Char`` row into styled segment dicts.
 
     Adjacent chars sharing the same style merge into one segment; default
