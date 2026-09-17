@@ -10,6 +10,7 @@ import os
 import time
 from abc import ABC, abstractmethod
 from collections.abc import Callable, Iterator
+from contextlib import suppress
 from dataclasses import dataclass
 from typing import Any
 
@@ -923,10 +924,16 @@ class BaseTrainer(InferenceOpsMixin, ABC):
         assert self.metric_logger is not None, "build() must run first"
         self.metrics_accumulator.reset("test")
 
-        for batch_data in self._iter_eval_batches(
-            self.test_data, "[bold magenta]Evaluating"
-        ):
-            self._run_test_batch(batch_data)
+        try:
+            for batch_data in self._iter_eval_batches(
+                self.test_data, "[bold magenta]Evaluating"
+            ):
+                self._run_test_batch(batch_data)
+        except KeyboardInterrupt:
+            # evaluate.py does not go through run()/_finish().
+            with suppress(KeyboardInterrupt):
+                self.release()
+            raise
 
         metrics = self.metrics_accumulator.compute("test")
         self.metric_logger.log_metrics(
@@ -1008,6 +1015,9 @@ class BaseTrainer(InferenceOpsMixin, ABC):
 
     def _finish(self) -> None:
         """Clean up resources and finalize experiment tracking."""
+        # A second Ctrl-C during worker shutdown must not abort the cleanup.
+        with suppress(KeyboardInterrupt):
+            self.release()
         self._print_timing_summary()
         # Runs on failed runs too (run()'s finally): stops live rendering
         # that on_train_end would have stopped on the normal path.
