@@ -76,10 +76,13 @@ def _capture_rng_states() -> dict[str, Any]:
 
 
 def _restore_rng_states(states: dict[str, Any]) -> None:
+    # RNG state tensors must live on CPU: torch.load(map_location=device) in
+    # load_checkpoint moves every tensor to the target device, but the
+    # set_rng_state APIs reject CUDA ByteTensors.
     if states.get("torch") is not None:
-        torch.set_rng_state(states["torch"])
+        torch.set_rng_state(states["torch"].cpu())
     if torch.cuda.is_available() and states.get("cuda") is not None:
-        torch.cuda.set_rng_state_all(states["cuda"])
+        torch.cuda.set_rng_state_all([s.cpu() for s in states["cuda"]])
     if states.get("numpy") is not None:
         np_state = states["numpy"]
         np_state = (
