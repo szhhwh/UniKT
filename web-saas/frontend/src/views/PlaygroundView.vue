@@ -45,7 +45,7 @@ async function submit() {
 <template>
   <section>
     <h1>推理演练场</h1>
-    <p>输入一段作答序列，观察掌握度预测的变化（当前为基线实现）。</p>
+    <p>输入一段作答序列，观察掌握度预测的变化（真实模型推理，需先训练）。</p>
 
     <form class="form" @submit.prevent="submit">
       <label>
