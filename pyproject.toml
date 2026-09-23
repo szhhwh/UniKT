@@ -26,6 +26,8 @@ ignore = [
 # The backend carries user-facing Chinese messages (fullwidth punctuation is
 # correct Chinese typography, not an ambiguous copy of an ASCII symbol).
 "web/backend/**/*.py" = ["RUF001", "RUF002", "RUF003"]
+# The SaaS inference service follows the same convention.
+"web-saas/inference/**/*.py" = ["RUF001", "RUF002", "RUF003"]
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"

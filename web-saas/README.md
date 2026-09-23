@@ -60,19 +60,26 @@ scp web-saas/inference/unikt-inference.service wsl:/etc/systemd/system/
 ssh wsl 'systemctl daemon-reload && systemctl enable --now unikt-inference'
 ```
 
-Mac/其它机器访问 WSL 推理（SpringBoot 仍指向 localhost:8100）：
+Mac/其它机器访问 WSL 推理：**直连 WSL 的 Tailscale IP**（推荐，
+uvicorn 已绑 0.0.0.0；比 SSH 隧道稳定，隧道进程易被会话回收）：
 
 ```bash
-ssh -f -N -L 8100:localhost:8100 wsl   # SSH 隧道
+# 查 WSL 的 tailscale IP 后，以命令行参数绑定（env 变量名宽松绑定不可靠）
+java -jar target/unikt-saas-backend-0.1.0-SNAPSHOT.jar \
+  --unikt.inference-base-url=http://<WSL_IP>:8100
 ```
 
 ### 故障排查（WSL）
 
 - **torch 先导入后 scipy 报 `CXXABI_1.3.15 not found`**：系统 libstdc++
-  过旧被 torch 先载入。`start.sh` 已用 `LD_PRELOAD` 预加载 pixi 环境内的
-  libstdc++ 修复，不要绕过 start.sh 直接 `python -m uvicorn`。
+  过旧被 torch 先载入。**凡 torch+scipy 同进程的入口**（uvicorn、
+  pytest、evaluate.py、case_analysis.py、efficiency.py）都受影响，
+  统一用
+  `LD_PRELOAD=$CONDA_PREFIX/lib/libstdc++.so.6 pixi run -e cpu python ...`
+  方式启动；`start.sh` 已内置该修复。
 - **ssh 一断后台进程就死**：直接 `nohup &` 的进程会随 WSL 会话回收，
-  用 systemd（上面的单元文件）托管。
+  用 systemd（上面的单元文件）托管。长 ssh 会话也易被掐断（Tailscale
+  链路），长任务放后台并轮询日志。
 
 ## 已跑通的链路
 
