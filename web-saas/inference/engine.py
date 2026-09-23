@@ -1,30 +1,46 @@
-"""模型推理引擎：负责 checkpoint 加载与前向计算。
+"""模型推理引擎：checkpoint 加载与真实前向计算。
 
-这是 Python 侧唯一需要碰 ``model/`` 与 ``utils/`` 的地方。SpringBoot 后端
-通过 HTTP 调用本模块暴露的接口，Java 侧不做任何张量计算。
+加载路径与 ``evaluate.py`` 完全一致：run 目录里的 ``run_config.yaml``
+无损重建 RunConfig → 注册表实例化 trainer → ``load_weights`` 载入
+``best_model.pth``。本模块是 Python 侧唯一需要碰 ``model/`` 与
+``utils/`` 的地方，Java 侧通过 HTTP 调用，不做任何张量计算。
 
-当前状态：脚手架。``predict`` 先返回计数基线（答对率），保证链路可跑通；
-接入真实模型时替换 ``_load_model`` 与 ``predict`` 即可，接口不用动。
+run 目录发现顺序（每模型取最新一个含 best_model.pth 的目录）：
+1. 环境变量 ``UNIKT_RUN_DIR_<MODEL>``（精确指定）
+2. ``UNIKT_RUNS_DIR``（默认 ``<repo>/runs/normal``）下 ``<MODEL>_`` 前缀目录
 """
 
 from __future__ import annotations
 
+import os
 import sys
+import threading
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
+
+import torch
 
 # 仓库根目录入 sys.path，使 model/ 与 utils/ 可导入（推理服务独立进程运行）
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
+import model  # noqa: E402,F401 — 触发 trainer/model-config 注册发现
+from utils.config import parse_run_archive  # noqa: E402
+from utils.core import TRAINERS  # noqa: E402
+from utils.data_process import get_data_source  # noqa: E402
+from utils.experiment_manager import ExperimentManager  # noqa: E402
+
+CHECKPOINT_NAME = "best_model.pth"
+
 
 def discover_model_names() -> list[str]:
     """从注册表发现模型名；发现失败时退回静态清单（仅列目录名）。"""
     try:
-        from model import TRAINERS  # noqa: PLC0415 运行时导入，避免启动即扫描
+        from utils.core import TRAINERS as _t  # noqa: PLC0415
 
-        return sorted(TRAINERS.keys())
+        return sorted(_t.keys())
     except Exception:  # pragma: no cover - 注册表结构变动时的兜底
         return sorted(
             p.name
@@ -33,26 +49,105 @@ def discover_model_names() -> list[str]:
         )
 
 
+@dataclass
+class _LoadedModel:
+    """一个已加载模型的运行时句柄。"""
+
+    trainer: Any
+    num_skills: int
+    run_dir: Path
+
+
+@dataclass
+class _InferEntry:
+    """``parse_run_archive`` 的入口节点（仅需 run_dir）。"""
+
+    run_dir: str
+
+
 class InferenceEngine:
-    """单例推理引擎：持有已加载的模型，按需懒加载 checkpoint。"""
+    """推理引擎：按需懒加载 checkpoint，持有已加载模型。"""
 
     def __init__(self) -> None:
-        self._models: dict[str, Any] = {}
+        self._models: dict[str, _LoadedModel] = {}
+        self._lock = threading.Lock()
+        self._device = "cuda" if torch.cuda.is_available() else "cpu"
+
+    # ---------- run 目录发现 ----------
+
+    @staticmethod
+    def _runs_root() -> Path:
+        return Path(os.environ.get("UNIKT_RUNS_DIR", _REPO_ROOT / "runs" / "normal"))
+
+    def _find_run_dir(self, name: str) -> Path | None:
+        exact = os.environ.get(f"UNIKT_RUN_DIR_{name.upper()}")
+        if exact:
+            p = Path(exact)
+            return p if (p / CHECKPOINT_NAME).is_file() else None
+        root = self._runs_root()
+        if not root.is_dir():
+            return None
+        candidates = [
+            d
+            for d in root.iterdir()
+            if d.is_dir()
+            and d.name.startswith(f"{name}_")
+            and (d / CHECKPOINT_NAME).is_file()
+        ]
+        return max(candidates, key=lambda d: d.stat().st_mtime) if candidates else None
 
     @property
     def available_models(self) -> dict[str, bool]:
-        """模型名 -> 是否已加载（当前全部未加载，接入 checkpoint 后生效）。"""
-        return {name: name in self._models for name in discover_model_names()}
+        """模型名 -> 是否存在可加载的已训练 run 目录。"""
+        return {
+            name: self._find_run_dir(name) is not None
+            for name in discover_model_names()
+        }
 
-    def _load_model(self, name: str) -> Any:
-        """加载指定模型的 checkpoint。
+    # ---------- 加载 ----------
 
-        TODO(推理负责人):
-          1. 从 configs/ 读模型超参构造模型 (TRAINERS.get(name))
-          2. utils/training/checkpoint.py 加载 weights
-          3. 存入 self._models 缓存
-        """
-        raise NotImplementedError(f"模型 {name} 的加载逻辑尚未接入（脚手架阶段）")
+    def _load_model(self, name: str) -> _LoadedModel:
+        run_dir = self._find_run_dir(name)
+        if run_dir is None:
+            raise FileNotFoundError(
+                f"模型 {name} 没有已训练的 run 目录（缺少 {CHECKPOINT_NAME}）。"
+                f"先运行 python train.py -m {name} -d <dataset> 完成训练。"
+            )
+
+        # 与 evaluate.py 相同的重建路径：run_config.yaml -> RunConfig
+        rc, _, resolved = parse_run_archive(
+            ["--infer.run_dir", str(run_dir), "--general.device", self._device],
+            prog="unikt-inference",
+            description="UniKT SaaS inference service",
+            entry_node="infer",
+            entry_cls=_InferEntry,
+        )
+        rc.general.cloud_tracking = False
+        rc.general.checkpoint_path = None  # 权重由 load_weights 手动载入
+        rc.general.skip_test = True
+
+        data_src = get_data_source(rc)
+        exp_manager = ExperimentManager.from_run_dir(resolved)
+        sub_manager = exp_manager.create_sub_experiment("inference")
+
+        trainer = TRAINERS.get(name)(rc=rc, data_src=data_src, exp_manager=sub_manager)
+        trainer.load_weights(str(resolved / CHECKPOINT_NAME))
+        trainer.model.eval()
+
+        metadata = data_src.get_metadata()
+        return _LoadedModel(
+            trainer=trainer,
+            num_skills=int(metadata["num_skills"]),
+            run_dir=resolved,
+        )
+
+    def _get(self, name: str) -> _LoadedModel:
+        with self._lock:
+            if name not in self._models:
+                self._models[name] = self._load_model(name)
+            return self._models[name]
+
+    # ---------- 前向 ----------
 
     def predict(
         self,
@@ -61,24 +156,37 @@ class InferenceEngine:
         skills: list[int],
         responses: list[int],
     ) -> list[float]:
-        """对作答序列做逐步掌握度预测，返回长度 len-1 的概率列表。
+        """对作答序列做逐步掌握度预测。
 
-        脚手架实现：滑动计数基线（前 i 步答对率）。链路验证用，非真实预测。
-        checkpoint 接入后，_load_model 抛出的 NotImplementedError 会被替换为
-        真实前向计算，此处 try/except 即可移除。
+        前向采用 DKT 族约定：输入完整序列，位置 t 的输出预测 t+1 概率，
+        取 ``out[t, skills[t+1]]`` 得到「下一题（该知识点）答对概率」，
+        返回长度 = len(skills) - 1。其它前向签名的模型需要在
+        ``_PREDICT_ADAPTERS`` 注册专属适配器。
         """
-        if model not in self._models:
-            try:
-                self._models[model] = self._load_model(model)
-            except NotImplementedError:
-                pass  # 脚手架阶段：未接入 checkpoint，退回基线
+        loaded = self._get(model)
 
-        out: list[float] = []
-        correct = 0
-        for i in range(len(questions) - 1):
-            correct += responses[i]
-            out.append(round(correct / (i + 1), 4))
-        return out
+        if any(s < 0 or s >= loaded.num_skills for s in skills):
+            raise ValueError(
+                f"知识点 id 必须在 [0, {loaded.num_skills}) 内（训练数据共 "
+                f"{loaded.num_skills} 个知识点）"
+            )
+
+        device = loaded.trainer.device_ or torch.device(self._device)
+        seq = torch.tensor([skills], dtype=torch.long, device=device)
+        resp = torch.tensor([responses], dtype=torch.long, device=device)
+        mask = torch.ones_like(seq)
+
+        with torch.inference_mode():
+            out = loaded.trainer.model(seq, resp, mask)  # [1, L, num_skills]
+
+        length = len(skills) - 1
+        if out.ndim == 3:
+            return [round(float(out[0, t, skills[t + 1]]), 4) for t in range(length)]
+        # 某些模型只输出 [B, L]（下一题概率），此时输入约定不同，交给适配器
+        raise NotImplementedError(
+            f"模型 {model} 的输出形状 {tuple(out.shape)} 未适配，"
+            "请在 engine._PREDICT_ADAPTERS 注册适配器"
+        )
 
 
 engine = InferenceEngine()

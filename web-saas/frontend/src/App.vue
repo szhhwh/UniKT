@@ -10,6 +10,7 @@ import { RouterLink, RouterView } from "vue-router";
         <RouterLink to="/">首页</RouterLink>
         <RouterLink to="/models">模型</RouterLink>
         <RouterLink to="/playground">演练场</RouterLink>
+        <a href="https://unikt.readthedocs.io/en/latest/" target="_blank" rel="noopener">文档 ↗</a>
       </nav>
     </header>
     <main class="content">

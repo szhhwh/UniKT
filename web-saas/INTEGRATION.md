@@ -1,0 +1,80 @@
+# UniKT 端到端融合方案（docs × 实验管理 × 推理服务）
+
+目标：把三个现有部分融合成一个真正的端到端系统——从看文档、备数据、
+发训练，到评估、上线推理，全在一个入口里完成。
+
+## 现状盘点
+
+| 部分 | 位置 | 技术 | 现状 |
+|------|------|------|------|
+| 文档站 | https://unikt.readthedocs.io （源码 `docs/`） | Sphinx + MyST + furo，中英双语，RTD 自动构建 | 独立站点，与系统无联动 |
+| 实验管理 | `web/`（KT 实验管理器） | FastAPI 后端 + Vue3 前端，端口 5173 | 任务启动/监控、预处理、GPU 监控、optuna 搜索、日志 |
+| 推理服务 | `web-saas/`（本分支） | SpringBoot 8080 → Python 推理 8100，前端 5174 | 真实 checkpoint 推理已通（DKT），API 骨架就绪 |
+
+## 融合后的形态
+
+```
+                    ┌──────────────────────────────────────┐
+                    │  统一门户（web-saas/frontend, 5174）   │
+                    │  ┌────────┬────────────┬──────────┐  │
+用户 ──────────────▶│  │ 文档中心 │  实验中心    │ 推理中心  │  │
+                    │  └────┬───┴─────┬──────┴────┬─────┘  │
+                    └───────┼─────────┼───────────┼────────┘
+                            │         │           │
+              /docs/** 静态托管│  /api/exp/** 反代 │ /api/** 直连
+                            ▼         ▼           ▼
+                    Sphinx 构建产物   web/ 管理器    SpringBoot 8080
+                    （随版本构建）   （FastAPI）     → Python 推理 8100
+```
+
+- **文档中心**：不再只是外链。`sphinx-build` 产物作为静态资源由
+  SpringBoot（或部署期 Nginx）挂在 `/docs/**`，门户内路由 `/docs`
+  渲染；每个功能页挂对应文档深链（如任务启动页 ↔ user-guide/
+  training-evaluation）。RTD 继续作为对外文档站，二者同源构建。
+- **实验中心**：现有 `web/` 前端并入门户（同一 Vue3 技术栈，页面
+  组件可平移），或短期由门户 `/exp` 反代到 5173。训练产出的
+  run 目录（`runs/normal/<MODEL>_*/best_model.pth`）就是推理的
+  checkpoint 来源。
+- **推理中心**：SpringBoot 做 API 网关与业务层（鉴权/会话/配额），
+  推理引擎自动发现 run 目录（`engine._find_run_dir` 已实现按 mtime
+  取最新），模型训练完成即"上线"。
+
+## 端到端主链路（用户视角）
+
+1. 文档中心查数据准备说明 → 实验中心发起预处理（web/ 管理器 preprocess）
+2. 实验中心发训练任务（TaskLaunch），GPU 监控看进度
+3. 训练完成 → run 目录产出 `best_model.pth` + `run_config.yaml`
+4. 推理中心模型列表自动出现该模型（available=true）
+5. 演练场/开放 API 实时预测；case_analysis 结果回看
+
+## 分阶段落地
+
+**Phase 1（本分支已做 / 顺手可做）**
+- [x] 三层推理链路（SpringBoot → Python → 模型注册表）
+- [x] 真实 checkpoint 推理（DKT 打样，evaluate.py 同款重建路径）
+- [x] 门户导航含"文档"入口（RTD）
+- [ ] SpringBoot 静态托管 Sphinx 产物（`/docs/**`）
+- [ ] 门户 `/exp` 反代到 web/ 管理器
+
+**Phase 2（组内分工）**
+- web/ 前端页面并入 web-saas 门户（木糖、葡萄糖：SpringBoot 侧
+  反代 + 会话打通）
+- 统一 API 前缀：`/api/exp/**`（管理器）、`/api/infer/**`（推理）、
+  `/api/docs/**`（文档元信息）
+- checkpoint 注册表升级：SpringBoot 维护模型↔run 目录↔指标的表，
+  支持手动下线/灰度
+
+**Phase 3（端到端闭环）**
+- 门户一键流水线：预处理 → 训练 → 评估 → 上线（SpringBoot 编排，
+  调用实验中心 API）
+- 每页上下文文档深链；推理结果页挂 case-analysis 报告
+- 多用户 SaaS 化：鉴权、配额、任务隔离
+
+## 决策记录
+
+- 文档以内嵌静态托管优先于 iframe 外链 RTD：避免跨域/版本漂移，
+  私有化部署（实验室服务器）也能看文档。
+- 推理引擎与实验管理器解耦（不同进程/端口）：训练负载不拖垮在线
+  推理；二者只通过 run 目录约定衔接。
+- SpringBoot 定位为网关+业务层，不实现任何张量计算：课程作业的
+  "web framework 核心技术"落在 Java 侧，模型侧全部留在 Python。

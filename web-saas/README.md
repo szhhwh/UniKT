@@ -53,12 +53,28 @@ npm run dev
 ## 已跑通的链路
 
 - `GET /api/health`：聚合 SpringBoot 与推理服务的状态
-- `GET /api/models`：模型注册表清单（来自 `model/` 的 `TRAINERS` 发现机制）
-- `POST /api/predict`：输入作答序列，返回逐步掌握度
+- `GET /api/models`：模型清单 + 是否有已训练 checkpoint（`best_model.pth`）
+- `POST /api/predict`：输入作答序列，返回逐步掌握度**真实模型预测**
 
-推理当前是**计数基线**（前 i 步答对率），用于验证三层链路；接入真实
-checkpoint 时只改 `inference/engine.py` 的 `_load_model` 与 `predict`，
-Java 与前端接口均不变。
+推理引擎与 `evaluate.py` 同款加载路径：run 目录的 `run_config.yaml`
+重建 RunConfig → 注册表实例化 trainer → `load_weights(best_model.pth)`。
+run 目录自动发现（按 mtime 取最新）：
+
+- 环境变量 `UNIKT_RUN_DIR_<MODEL>` 精确指定；
+- 否则扫 `UNIKT_RUNS_DIR`（默认 `runs/normal/`）下 `<MODEL>_*` 目录。
+
+先训练一个模型（WSL/GPU 或任何能跑训练的机器）：
+
+```bash
+pixi install -e cpu --locked
+pixi run -e cpu python data_process.py download -d assistments09
+pixi run -e cpu python train.py -m DKT -d assistments09 --model.epochs 3
+```
+
+然后启动推理服务即可看到 DKT `available=true`。前向适配目前覆盖
+DKT 族（`forward(sequence, response, mask)` → `[B, L, num_skills]`，
+取 `out[t, skill[t+1]]`）；其它输出形状的模型在
+`inference/engine.py` 的适配器处补充。
 
 ## 约定
 
