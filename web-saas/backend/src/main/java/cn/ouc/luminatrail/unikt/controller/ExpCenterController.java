@@ -7,6 +7,7 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientException;
 
@@ -55,7 +56,7 @@ public class ExpCenterController {
             return true;
         } catch (RestClientException e) {
             // 4xx 也算"进程在跑"（如根路径 404）；连接失败才算不可达
-            return e instanceof org.springframework.web.client.HttpClientErrorException;
+            return e instanceof HttpClientErrorException;
         }
     }
 }
