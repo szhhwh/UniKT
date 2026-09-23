@@ -26,6 +26,11 @@ _REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
+# 推理服务进程统一以仓库根为工作目录：run_config.yaml 归档的
+# ``data_base_path`` 等是相对路径（如 ./data/assistments09），只有
+# 从仓库根解析才与训练时一致。start.sh 从本目录启动 uvicorn，故在此切换。
+os.chdir(_REPO_ROOT)
+
 import model  # noqa: E402,F401 — 触发 trainer/model-config 注册发现
 from utils.config import parse_run_archive  # noqa: E402
 from utils.core import TRAINERS  # noqa: E402
@@ -158,9 +163,11 @@ class InferenceEngine:
     ) -> list[float]:
         """对作答序列做逐步掌握度预测。
 
-        前向采用 DKT 族约定：输入完整序列，位置 t 的输出预测 t+1 概率，
-        取 ``out[t, skills[t+1]]`` 得到「下一题（该知识点）答对概率」，
-        返回长度 = len(skills) - 1。其它前向签名的模型需要在
+        输入完整序列（skills 作概念序列，DKT 族训练即用 skill 序列），
+        返回长度 = len(skills) - 1 的列表，第 j 项是「基于前 j+1 步作答
+        历史，第 j+2 题答对的概率」。两种模型输出约定都支持：
+        DKT 族模型内部已 gather（输出 [B, L]）；未 gather 的模型输出
+        [B, L, num_skills]，取 out[t, skills[t+1]]。其它形状需要在
         ``_PREDICT_ADAPTERS`` 注册专属适配器。
         """
         loaded = self._get(model)
@@ -177,12 +184,16 @@ class InferenceEngine:
         mask = torch.ones_like(seq)
 
         with torch.inference_mode():
-            out = loaded.trainer.model(seq, resp, mask)  # [1, L, num_skills]
+            out = loaded.trainer.model(seq, resp, mask)  # [1, L] 或 [1, L, num_skills]
 
         length = len(skills) - 1
+        if out.ndim == 2:
+            # DKT 族：模型内部已完成下一题 gather，out[0, t] 即
+            # 「前 t 步历史 → 第 t 题答对概率」（位置 0 是填充 0）
+            return [round(float(out[0, t]), 4) for t in range(1, len(skills))]
         if out.ndim == 3:
+            # 未 gather 的模型：out[0, t, skills[t+1]] 为下一题概率
             return [round(float(out[0, t, skills[t + 1]]), 4) for t in range(length)]
-        # 某些模型只输出 [B, L]（下一题概率），此时输入约定不同，交给适配器
         raise NotImplementedError(
             f"模型 {model} 的输出形状 {tuple(out.shape)} 未适配，"
             "请在 engine._PREDICT_ADAPTERS 注册适配器"

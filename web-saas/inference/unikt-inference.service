@@ -1,0 +1,20 @@
+[Unit]
+Description=UniKT SaaS inference service (FastAPI, port 8100)
+After=network.target
+
+# 安装（WSL/任意 Linux，路径按实际仓库位置调整）：
+#   cp unikt-inference.service /etc/systemd/system/
+#   systemctl daemon-reload && systemctl enable --now unikt-inference
+#   journalctl -u unikt-inference -f   # 看日志
+
+[Service]
+Type=simple
+WorkingDirectory=/root/unikt
+Environment=HOME=/root
+Environment=PATH=/root/.pixi/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ExecStart=/root/unikt/web-saas/inference/start.sh
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

@@ -32,11 +32,11 @@
 三个终端分别执行：
 
 ```bash
-# 1. 推理服务（端口 8100）
+# 1. 推理服务（端口 8100；有 GPU 的机器或 WSL）
 cd web-saas/inference
-python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-uvicorn main:app --port 8100 --reload
+pixi install -e cpu --locked          # 仓库自带环境（首次）
+pixi run -e cpu python -m pip install fastapi "uvicorn[standard]"  # 首次
+./start.sh                            # Linux/WSL；macOS 直接 uvicorn main:app --port 8100
 
 # 2. SpringBoot 后端（端口 8080，需 JDK 17+ 与 Maven）
 cd web-saas/backend
@@ -49,6 +49,30 @@ npm run dev
 ```
 
 打开 http://localhost:5174 ，首页应显示「推理服务：在线」。
+
+### WSL 常驻部署（推荐）
+
+推理放 WSL/GPU 机器时，用 systemd 托管（`inference/unikt-inference.service`，
+路径按需调整）：
+
+```bash
+scp web-saas/inference/unikt-inference.service wsl:/etc/systemd/system/
+ssh wsl 'systemctl daemon-reload && systemctl enable --now unikt-inference'
+```
+
+Mac/其它机器访问 WSL 推理（SpringBoot 仍指向 localhost:8100）：
+
+```bash
+ssh -f -N -L 8100:localhost:8100 wsl   # SSH 隧道
+```
+
+### 故障排查（WSL）
+
+- **torch 先导入后 scipy 报 `CXXABI_1.3.15 not found`**：系统 libstdc++
+  过旧被 torch 先载入。`start.sh` 已用 `LD_PRELOAD` 预加载 pixi 环境内的
+  libstdc++ 修复，不要绕过 start.sh 直接 `python -m uvicorn`。
+- **ssh 一断后台进程就死**：直接 `nohup &` 的进程会随 WSL 会话回收，
+  用 systemd（上面的单元文件）托管。
 
 ## 已跑通的链路
 
