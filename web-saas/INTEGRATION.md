@@ -49,12 +49,17 @@
 
 ## 分阶段落地
 
-**Phase 1（本分支已做 / 顺手可做）**
+**Phase 1（本分支已做）**
 - [x] 三层推理链路（SpringBoot → Python → 模型注册表）
 - [x] 真实 checkpoint 推理（DKT 打样，evaluate.py 同款重建路径）
-- [x] 门户导航含"文档"入口（RTD）
-- [ ] SpringBoot 静态托管 Sphinx 产物（`/docs/**`）
-- [ ] 门户 `/exp` 反代到 web/ 管理器
+- [x] SpringBoot 静态托管 Sphinx 产物（`/docs-static/**`，SPA `/docs`
+  路由承载门户壳 + iframe 渲染，Sphinx 挂载前缀与 SPA 路由错开）
+- [x] 门户文档中心（内嵌完整 Sphinx 站点：侧栏/搜索/主题切换可用，
+      RTD 继续作为对外站点）
+- [x] 实验中心状态接入（`/api/exp/health` 可达性探测 + 首页状态卡；
+      `unikt.exp-base-url` 配置管理器地址）
+- [ ] 门户 `/exp` 页面级反代（管理器 SPA 资源路径无法安全挂前缀，
+      归入 Phase 2 统一 API 时一并处理）
 
 **Phase 2（组内分工）**
 - web/ 前端页面并入 web-saas 门户（木糖、葡萄糖：SpringBoot 侧

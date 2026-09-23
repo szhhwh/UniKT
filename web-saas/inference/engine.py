@@ -17,9 +17,10 @@ import sys
 import threading
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 import torch
+import yaml
 
 # 仓库根目录入 sys.path，使 model/ 与 utils/ 可导入（推理服务独立进程运行）
 _REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -102,12 +103,41 @@ class InferenceEngine:
         return max(candidates, key=lambda d: d.stat().st_mtime) if candidates else None
 
     @property
-    def available_models(self) -> dict[str, bool]:
-        """模型名 -> 是否存在可加载的已训练 run 目录。"""
-        return {
-            name: self._find_run_dir(name) is not None
-            for name in discover_model_names()
-        }
+    def available_models(self) -> dict[str, dict[str, Any]]:
+        """模型名 -> {"available": 是否有已训练 run 目录, "numSkills": 知识点数}。
+
+        numSkills 从 run 目录引用的数据集 metadata.json 读取，供前端
+        校验技能 id 范围；读取失败时为 None（不影响可用性判断）。
+        """
+        result: dict[str, dict[str, Any]] = {}
+        for name in discover_model_names():
+            run_dir = self._find_run_dir(name)
+            if run_dir is None:
+                result[name] = {"available": False, "numSkills": None}
+            else:
+                result[name] = {
+                    "available": True,
+                    "numSkills": self._dataset_num_skills(run_dir),
+                }
+        return result
+
+    @staticmethod
+    def _dataset_num_skills(run_dir: Path) -> int | None:
+        """读 run_config.yaml 指向数据集的 metadata.json 的 num_skills。
+
+        ``data_base_path`` 是数据根目录（如 ./data），metadata 位于
+        ``<data_base_path>/<dataset>/metadata.json``。
+        """
+        try:
+            cfg = yaml.safe_load((run_dir / "run_config.yaml").read_text())
+            base = Path(cfg["data"]["data_base_path"])
+            if not base.is_absolute():
+                base = _REPO_ROOT / base
+            meta_path = base / cfg["data"]["dataset"] / "metadata.json"
+            meta = yaml.safe_load(meta_path.read_text())
+            return int(meta["num_skills"])
+        except Exception:  # noqa: BLE001 元数据缺失不阻塞模型列表
+            return None
 
     # ---------- 加载 ----------
 
@@ -163,12 +193,9 @@ class InferenceEngine:
     ) -> list[float]:
         """对作答序列做逐步掌握度预测。
 
-        输入完整序列（skills 作概念序列，DKT 族训练即用 skill 序列），
-        返回长度 = len(skills) - 1 的列表，第 j 项是「基于前 j+1 步作答
-        历史，第 j+2 题答对的概率」。两种模型输出约定都支持：
-        DKT 族模型内部已 gather（输出 [B, L]）；未 gather 的模型输出
-        [B, L, num_skills]，取 out[t, skills[t+1]]。其它形状需要在
-        ``_PREDICT_ADAPTERS`` 注册专属适配器。
+        第 j 项返回值是「基于前 j+1 步作答历史，第 j+2 题答对的概率」，
+        长度 = len(skills) - 1。默认适配器支持两种模型输出约定；其它
+        前向签名/输出形状的模型在 ``_PREDICT_ADAPTERS`` 注册专属适配器。
         """
         loaded = self._get(model)
 
@@ -178,26 +205,39 @@ class InferenceEngine:
                 f"{loaded.num_skills} 个知识点）"
             )
 
-        device = loaded.trainer.device_ or torch.device(self._device)
-        seq = torch.tensor([skills], dtype=torch.long, device=device)
-        resp = torch.tensor([responses], dtype=torch.long, device=device)
-        mask = torch.ones_like(seq)
+        adapter = _PREDICT_ADAPTERS.get(model, _default_predict)
+        return adapter(loaded, skills, responses)
 
-        with torch.inference_mode():
-            out = loaded.trainer.model(seq, resp, mask)  # [1, L] 或 [1, L, num_skills]
 
-        length = len(skills) - 1
-        if out.ndim == 2:
-            # DKT 族：模型内部已完成下一题 gather，out[0, t] 即
-            # 「前 t 步历史 → 第 t 题答对概率」（位置 0 是填充 0）
-            return [round(float(out[0, t]), 4) for t in range(1, len(skills))]
-        if out.ndim == 3:
-            # 未 gather 的模型：out[0, t, skills[t+1]] 为下一题概率
-            return [round(float(out[0, t, skills[t + 1]]), 4) for t in range(length)]
-        raise NotImplementedError(
-            f"模型 {model} 的输出形状 {tuple(out.shape)} 未适配，"
-            "请在 engine._PREDICT_ADAPTERS 注册适配器"
-        )
+def _default_predict(
+    loaded: _LoadedModel, skills: list[int], responses: list[int]
+) -> list[float]:
+    """DKT 族默认适配器：支持 [B, L]（内部已 gather）与 [B, L, C] 两种输出。"""
+    device = loaded.trainer.device_ or torch.device("cpu")
+    seq = torch.tensor([skills], dtype=torch.long, device=device)
+    resp = torch.tensor([responses], dtype=torch.long, device=device)
+    mask = torch.ones_like(seq)
+
+    with torch.inference_mode():
+        out = loaded.trainer.model(seq, resp, mask)
+
+    if out.ndim == 2:
+        # 模型内部已完成下一题 gather：out[0, t] 即「前 t 步历史 →
+        # 第 t 题答对概率」，位置 0 是填充 0
+        return [round(float(out[0, t]), 4) for t in range(1, len(skills))]
+    if out.ndim == 3:
+        # 未 gather 的模型：out[0, t, skills[t+1]] 为下一题概率
+        return [round(float(out[0, t, skills[t + 1]]), 4) for t in range(len(skills) - 1)]
+    raise NotImplementedError(
+        f"模型输出形状 {tuple(out.shape)} 未适配，请在 engine._PREDICT_ADAPTERS"
+        f" 为该模型注册专属适配器"
+    )
+
+
+#: 前向适配器注册表：模型名 -> (loaded, skills, responses) -> 概率列表。
+#: 未注册的模型走 ``_default_predict``（DKT 族双分支）。
+PredictAdapter = Callable[[_LoadedModel, list[int], list[int]], list[float]]
+_PREDICT_ADAPTERS: dict[str, PredictAdapter] = {}
 
 
 engine = InferenceEngine()

@@ -2,7 +2,11 @@ package cn.ouc.luminatrail.unikt.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-/** Python 推理服务连接配置（application.yml: unikt.*）。 */
+/** 服务连接与路径配置（application.yml: unikt.*）。 */
 @ConfigurationProperties(prefix = "unikt")
-public record InferenceProperties(String inferenceBaseUrl, int inferenceTimeoutMs) {
+public record InferenceProperties(
+        String inferenceBaseUrl,
+        int inferenceTimeoutMs,
+        String docsDir,
+        String expBaseUrl) {
 }

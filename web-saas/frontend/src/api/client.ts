@@ -3,6 +3,7 @@
 export interface ModelInfo {
   name: string;
   available: boolean;
+  numSkills: number | null;
 }
 
 export interface PredictRequest {
@@ -22,6 +23,13 @@ export interface HealthInfo {
   service: string;
   inferenceUp: boolean;
   modelCount: number;
+  docsAvailable: boolean;
+}
+
+export interface ExpHealth {
+  status: "ok" | "unreachable" | "not-configured";
+  reachable: boolean;
+  url: string;
 }
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
@@ -31,7 +39,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   });
   if (!res.ok) {
     const body = await res.json().catch(() => ({ message: res.statusText }));
-    throw new Error(body.message ?? `请求失败：${res.status}`);
+    throw new Error(body.message ?? body.detail ?? `请求失败：${res.status}`);
   }
   return res.json() as Promise<T>;
 }
@@ -39,6 +47,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 export const api = {
   health: () => request<HealthInfo>("/health"),
   models: () => request<ModelInfo[]>("/models"),
+  expHealth: () => request<ExpHealth>("/exp/health"),
   predict: (payload: PredictRequest) =>
     request<PredictResponse>("/predict", {
       method: "POST",
