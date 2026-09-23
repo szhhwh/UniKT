@@ -1,0 +1,15 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: unikt-saas-backend
+
+unikt:
+  # Python 推理服务地址（web-saas/inference，默认 8100）
+  inference-base-url: http://localhost:8100
+  inference-timeout-ms: 15000
+
+logging:
+  level:
+    cn.ouc.luminatrail.unikt: INFO
