@@ -62,6 +62,10 @@ def predict(req: PredictRequest) -> PredictResponse:
         preds = engine.predict(
             req.model, req.questions, req.skills, req.responses
         )
+    except FileNotFoundError as e:
+        raise HTTPException(status_code=409, detail=str(e)) from e
     except NotImplementedError as e:
         raise HTTPException(status_code=501, detail=str(e)) from e
+    except ValueError as e:
+        raise HTTPException(status_code=422, detail=str(e)) from e
     return PredictResponse(model=req.model, predictions=preds)
