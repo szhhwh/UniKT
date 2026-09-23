@@ -6,9 +6,13 @@ spring:
     name: unikt-saas-backend
 
 unikt:
-  # Python 推理服务地址（web-saas/inference，默认 8100）
+  # Python 推理服务地址（web-saas/inference；WSL 时常配隧道或直连其 IP）
   inference-base-url: http://localhost:8100
   inference-timeout-ms: 15000
+  # Sphinx 构建产物目录（/docs/** 静态托管）；相对路径以进程工作目录为基准
+  docs-dir: ../docs-build
+  # 实验中心（web/ 管理器）地址，空 = 未配置（首页状态卡显示"未配置"）
+  exp-base-url: ""
 
 logging:
   level:

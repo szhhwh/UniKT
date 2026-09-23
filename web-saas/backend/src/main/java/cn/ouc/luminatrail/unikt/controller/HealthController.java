@@ -1,5 +1,6 @@
 package cn.ouc.luminatrail.unikt.controller;
 
+import cn.ouc.luminatrail.unikt.config.WebConfig;
 import cn.ouc.luminatrail.unikt.dto.ModelInfo;
 import cn.ouc.luminatrail.unikt.service.InferenceService;
 import java.util.List;
@@ -13,9 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class HealthController {
 
     private final InferenceService inference;
+    private final WebConfig webConfig;
 
-    public HealthController(InferenceService inference) {
+    public HealthController(InferenceService inference, WebConfig webConfig) {
         this.inference = inference;
+        this.webConfig = webConfig;
     }
 
     @GetMapping("/health")
@@ -26,6 +29,7 @@ public class HealthController {
                 "status", "ok",
                 "service", "unikt-saas-backend",
                 "inferenceUp", inferenceUp,
-                "modelCount", models.size());
+                "modelCount", models.size(),
+                "docsAvailable", webConfig.docsAvailable());
     }
 }

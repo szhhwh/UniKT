@@ -48,8 +48,8 @@ def health() -> dict[str, object]:
 @app.get("/models")
 def models() -> list[dict[str, object]]:
     return [
-        {"name": name, "available": available}
-        for name, available in engine.available_models.items()
+        {"name": name, "available": info["available"], "numSkills": info["numSkills"]}
+        for name, info in engine.available_models.items()
     ]
 
 

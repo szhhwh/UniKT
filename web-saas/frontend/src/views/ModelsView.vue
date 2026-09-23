@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { api, type ModelInfo } from "../api/client";
+import { services } from "../composables/useServices";
 
 const models = ref<ModelInfo[]>([]);
 const error = ref("");
 const loading = ref(true);
+const search = ref("");
+const onlyReady = ref(false);
 
 onMounted(async () => {
   try {
@@ -15,23 +18,71 @@ onMounted(async () => {
     loading.value = false;
   }
 });
+
+const filtered = computed(() => {
+  const q = search.value.trim().toLowerCase();
+  return models.value.filter((m) => {
+    if (onlyReady.value && !m.available) return false;
+    if (q && !m.name.toLowerCase().includes(q)) return false;
+    return true;
+  });
+});
+const readyCount = computed(() => models.value.filter((m) => m.available).length);
 </script>
 
 <template>
   <section>
-    <h1>模型列表</h1>
-    <p v-if="loading">加载中…</p>
-    <p v-else-if="error" class="error">
-      获取失败：{{ error }}（请确认 SpringBoot 8080 与推理服务 8100 已启动）
+    <div class="head">
+      <h1>模型</h1>
+      <span v-if="!loading" class="badge ok">可推理 {{ readyCount }}</span>
+      <span v-if="!loading" class="badge muted">注册 {{ models.length }}</span>
+    </div>
+
+    <div class="toolbar">
+      <input
+        v-model="search"
+        class="search"
+        type="search"
+        placeholder="搜索模型，如 DKT / AKT …"
+        aria-label="搜索模型"
+      />
+      <label class="toggle">
+        <input v-model="onlyReady" type="checkbox" />
+        只看已训练
+      </label>
+    </div>
+
+    <p v-if="services.backend === 'up' && !services.inferenceUp" class="banner-error">
+      推理服务离线，无法获取模型列表。请在 WSL 上启动：
+      <code>systemctl start unikt-inference</code>
     </p>
+    <p v-else-if="error" class="banner-error">获取失败：{{ error }}</p>
+    <p v-else-if="loading">加载中…</p>
+
     <template v-else>
-      <p>共 {{ models.length }} 个已注册模型。</p>
-      <ul class="model-list">
-        <li v-for="m in models" :key="m.name">
-          <span class="name">{{ m.name }}</span>
-          <span :class="m.available ? 'ok' : 'muted'">
-            {{ m.available ? "已加载" : "未加载" }}
-          </span>
+      <p v-if="filtered.length === 0" class="empty">没有匹配的模型。</p>
+      <ul v-else class="model-grid">
+        <li
+          v-for="m in filtered"
+          :key="m.name"
+          class="card model"
+          :class="{ ready: m.available }"
+        >
+          <div class="row">
+            <span class="name">{{ m.name }}</span>
+            <span :class="m.available ? 'badge ok' : 'badge muted'">
+              {{ m.available ? "可推理" : "未训练" }}
+            </span>
+          </div>
+          <div class="meta">
+            <template v-if="m.available">
+              <span v-if="m.numSkills !== null">知识点 {{ m.numSkills }}</span>
+              <span>checkpoint 就绪</span>
+            </template>
+            <template v-else>
+              <span>train.py -m {{ m.name }} 训练后自动上线</span>
+            </template>
+          </div>
         </li>
       </ul>
     </template>
@@ -39,31 +90,81 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-.model-list {
+.head {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem 0 1.2rem;
+}
+
+.search {
+  flex: 1;
+  max-width: 340px;
+  padding: 0.5rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.search:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgb(37 99 235 / 0.12);
+}
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+  user-select: none;
+}
+
+.model-grid {
   list-style: none;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 0.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
+  gap: 0.8rem;
 }
-.model-list li {
+
+.model {
+  padding: 0.85rem 1rem;
+  transition: border-color 0.15s ease;
+}
+
+.model.ready {
+  border-color: #bbf7d0;
+}
+
+.model .row {
   display: flex;
   justify-content: space-between;
-  background: #fff;
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
-  padding: 0.5rem 0.75rem;
+  align-items: center;
+  gap: 0.5rem;
 }
-.name {
-  font-weight: 600;
+
+.model .name {
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
 }
-.ok {
-  color: #16a34a;
+
+.model .meta {
+  margin-top: 0.3rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 0.9rem;
 }
-.muted {
-  color: #94a3b8;
-}
-.error {
-  color: #dc2626;
+
+.empty {
+  color: var(--muted);
 }
 </style>

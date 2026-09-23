@@ -10,6 +10,8 @@ const router = createRouter({
       name: "playground",
       component: () => import("../views/PlaygroundView.vue"),
     },
+    { path: "/docs", name: "docs", component: () => import("../views/DocsView.vue") },
+    { path: "/:pathMatch(.*)*", redirect: "/" },
   ],
 });
 
