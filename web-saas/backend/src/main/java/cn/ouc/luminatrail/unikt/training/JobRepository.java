@@ -18,14 +18,39 @@ public interface JobRepository extends JpaRepository<TrainingJob, Long> {
 
     boolean existsByDatasetIdAndStatus(Long datasetId, String status);
 
-    /** 更新日志尾（仅 RUNNING 时生效）。 */
+    /**
+     * 更新日志尾（仅 RUNNING 时生效）。updatedAt 只在日志内容真正变化
+     * 时刷新——它是"30 分钟无进展"超时判定的依据，卡死任务（日志停止
+     * 增长）不能自己给自己续命。截断到 3600 字符与列宽一致。
+     */
     @Modifying
     @Transactional
     @Query("update TrainingJob j set j.logTail = :lt, j.updatedAt = :now"
-            + " where j.id = :id and j.status = :running")
+            + " where j.id = :id and j.status = :running"
+            + " and (j.logTail is null or j.logTail <> :lt)")
     int appendLogIfRunning(@Param("id") Long id, @Param("lt") String lt,
                            @Param("now") java.time.Instant now,
                            @Param("running") String running);
+
+    /** 失败并带日志（同一条 UPDATE：终态与日志原子落库，缺一不可）。 */
+    @Modifying
+    @Transactional
+    @Query("update TrainingJob j set j.status = 'FAILED', j.lastError = :e,"
+            + " j.logTail = :lt, j.updatedAt = :now"
+            + " where j.id = :id and j.status = :running")
+    int markFailedWithLog(@Param("id") Long id, @Param("e") String e,
+                          @Param("lt") String lt, @Param("now") java.time.Instant now,
+                          @Param("running") String running);
+
+    /** 完成并带日志（同上，最终指标行随终态一起落库）。 */
+    @Modifying
+    @Transactional
+    @Query("update TrainingJob j set j.status = 'DONE', j.runDir = :rd,"
+            + " j.logTail = :lt, j.updatedAt = :now"
+            + " where j.id = :id and j.status = :running")
+    int completeWithLog(@Param("id") Long id, @Param("rd") String rd,
+                        @Param("lt") String lt, @Param("now") java.time.Instant now,
+                        @Param("running") String running);
 
     /** 标记已启动（仅 RUNNING 时生效；被取消返回 0）。 */
     @Modifying

@@ -73,10 +73,11 @@ public class DatasetController {
             return ResponseEntity.badRequest().body(Map.of("message", "请选择 interactions.csv 文件"));
         }
         Long ownerId = currentUserId();
+        String base = ingest.slugBase(name.trim());
         UserDataset d = new UserDataset();
         d.setOwnerId(ownerId);
         d.setName(name.trim());
-        d.setSlug(ingest.slugFor(name.trim(), datasets));
+        d.setSlug(ingest.tempSlug()); // 占位；落库拿到自增 id 后回填正式 slug
 
         // 临时目录用 UUID：并发同名上传不再互相覆盖/误删（slug 落库前无唯一性保证）
         java.nio.file.Path tmp = java.nio.file.Path.of("data", "uploads",
@@ -95,9 +96,12 @@ public class DatasetController {
             d.setQuestions(stats.questions());
             d.setSkills(stats.skills());
             d.setStatus(UserDataset.READY);
-            // 先落库拿 id，再把暂存挪到正式目录；挪盘失败则删除记录
-            // （不留"就绪"但底下没有文件的空壳）
+            // 先落库拿自增 id → 回填正式 slug（generic_<base>-<id>，
+            // 数据库自增保证单调递增、删除不回收，slug 永不重用）→
+            // 再把暂存挪到正式目录；挪盘失败则删除记录（不留空壳）
             UserDataset saved = datasets.save(d);
+            saved.setSlug(ingest.finalizeSlug(base, saved.getId()));
+            saved = datasets.save(saved);
             java.nio.file.Path formal = ingest.stagedDir(saved.getId());
             java.nio.file.Files.createDirectories(formal.getParent());
             try {

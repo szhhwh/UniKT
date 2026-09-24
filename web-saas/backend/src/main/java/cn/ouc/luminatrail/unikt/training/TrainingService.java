@@ -197,12 +197,9 @@ public class TrainingService {
         }
     }
 
-    /** 杀远端进程组（pidfile 优先，DB 记录兜底）。 */
+    /** 杀远端进程组（pidfile 是唯一锚点——remotePgid 已不再赋值）。 */
     private void killRemote(ComputeNode node, TrainingJob job) {
         Long pgid = readPgid(node, job.getId());
-        if (pgid == null) {
-            pgid = job.getRemotePgid();
-        }
         if (pgid != null) {
             ssh.run(node.getSshTarget(),
                     "kill -- -" + pgid + " 2>/dev/null; true", 30);
@@ -212,10 +209,9 @@ public class TrainingService {
     private void pollOne(TrainingJob job) {
         ComputeNode node = nodes.findById(job.getNodeId()).orElse(null);
         if (node == null) {
-            // 节点被删：终结任务，不能让它永远 RUNNING
-            job.setStatus(TrainingJob.FAILED);
-            job.setLastError("计算节点已被删除，任务结局未知；可重新提交");
-            jobs.save(job);
+            // 节点被删：条件写终结（不覆盖用户刚写入的"已取消"）
+            jobs.markFailed(job.getId(), "计算节点已被删除，任务结局未知；可重新提交",
+                    Instant.now(), TrainingJob.RUNNING);
             return;
         }
         // 超时兜底：节点重启会丢 /tmp 日志（永不出现 EXIT 标记）、SSH 长期
@@ -228,9 +224,8 @@ public class TrainingService {
             // 超时也要杀远端进程：否则槽位释放但 python 还在跑，
             // 下一个任务与它在同节点并发写 runs/ 破坏"每节点 1 任务"
             killRemote(node, job);
-            job.setStatus(TrainingJob.FAILED);
-            job.setLastError("任务长时间无进展（节点失联或重启），已终止；可重新提交");
-            jobs.save(job);
+            jobs.markFailed(job.getId(), "任务长时间无进展（节点失联或重启），已终止；可重新提交",
+                    Instant.now(), TrainingJob.RUNNING);
             return;
         }
         String logFile = "/tmp/unikt-job-" + job.getId() + ".log";
@@ -244,17 +239,30 @@ public class TrainingService {
             return; // SSH 暂时不通：下轮再查
         }
         String out = r.stdout();
-        String tail = out.contains("---MARKER---")
-                ? out.substring(0, out.lastIndexOf("---MARKER---")) : out;
+        String tail = truncateLog(out.contains("---MARKER---")
+                ? out.substring(0, out.lastIndexOf("---MARKER---")) : out);
+        // 终态与最终日志同一条 UPDATE（若先改状态再补日志，后者的
+        // WHERE status='RUNNING' 永远 0 行——失败原因/最终指标会丢）
         if (out.contains("UNIKT_EXIT=0")) {
-            jobs.complete(job.getId(), findRunDir(node, job), Instant.now(), TrainingJob.RUNNING);
+            jobs.completeWithLog(job.getId(), findRunDir(node, job), tail.strip(),
+                    Instant.now(), TrainingJob.RUNNING);
         } else if (out.contains("UNIKT_EXIT=")) {
-            jobs.markFailed(job.getId(), "训练失败，看日志尾部定位原因",
-                Instant.now(), TrainingJob.RUNNING);
+            jobs.markFailedWithLog(job.getId(), "训练失败，看下方日志尾部定位原因",
+                    tail.strip(), Instant.now(), TrainingJob.RUNNING);
+        } else {
+            // 仍在跑：仅当日志内容变化才刷 updatedAt（超时判定依据，
+            // 卡死任务不能自己续命）
+            jobs.appendLogIfRunning(job.getId(), tail.strip(),
+                    Instant.now(), TrainingJob.RUNNING);
         }
-        // 日志更新放最后且条件写：任务若刚被取消，这里 0 行、状态不被覆盖
-        jobs.appendLogIfRunning(job.getId(), tail.strip(),
-                Instant.now(), TrainingJob.RUNNING);
+    }
+
+    /** 日志尾截断（与实体列宽一致，绕过 setter 的路径走同一规则）。 */
+    private static String truncateLog(String s) {
+        if (s != null && s.length() > 3600) {
+            return "…（截断）…" + s.substring(s.length() - 3400);
+        }
+        return s;
     }
 
     /** 找该任务产出的 run 目录（&lt;模型&gt;_&lt;数据集&gt; 前缀取最新；两段均已白名单校验）。 */

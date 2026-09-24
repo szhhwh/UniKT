@@ -204,25 +204,34 @@ public class DatasetIngestService {
     }
 
     /**
-     * 展示名 → 数据集 slug（generic_ 前缀 + 仅小写字母数字短横线）。
+     * 展示名 → slug 基名（generic_ 前缀 + 仅小写字母数字短横线）。
      * slug 会成为节点目录名与 shell 参数，必须 ASCII（中文名落到
-     * "data" 兜底）。尾部拼数据库序号保证**永不重用**——删除数据集后
-     * 记录消失，但节点上的训练产物（MODEL@slug 限定名）还在，slug 若
-     * 被下一个用户拿走，归属校验会把他人的模型判给新用户（跨用户泄露）。
+     * "data" 兜底）。最终的唯一性由真实自增 id 保证——见
+     * {@link #finalizeSlug}（"当前最大 id+1" 会因删除最大记录而回退，
+     * 造成 slug 重用与跨用户模型泄露，已弃用）。
      */
-    public String slugFor(String name, DatasetRepository repo) {
+    public String slugBase(String name) {
         String base = name.toLowerCase(Locale.ROOT).replaceAll("[^a-z0-9]+", "-")
                 .replaceAll("(^-+|-+$)", "");
         if (base.isEmpty() || base.length() < 2) {
             base = "data";
         }
-        if (base.length() > 30) {
-            base = base.substring(0, 30);
-        }
-        // 序号 = 当前最大 id + 1：单调递增，删除不回收
-        long seq = repo.findAll().stream().mapToLong(UserDataset::getId).max()
-                .orElse(0L) + 1;
-        return "generic_" + base + "-" + seq;
+        return base.length() > 30 ? base.substring(0, 30) : base;
+    }
+
+    /**
+     * 数据库自增 id 落定后回填最终 slug：``generic_<base>-<id>``。
+     * 自增 id 由数据库保证单调递增、删除不回收——这是 slug 永不重用
+     * 的唯一可靠锚点（节点上 MODEL@slug 训练产物在数据集删除后仍在，
+     * slug 一旦被新用户拿走，归属校验会把他人模型判给他）。
+     */
+    public String finalizeSlug(String base, long id) {
+        return "generic_" + base + "-" + id;
+    }
+
+    /** 上传流程的临时 slug（保存前占位，避免唯一约束碰撞）。 */
+    public String tempSlug() {
+        return "generic_tmp-" + java.util.UUID.randomUUID().toString().substring(0, 8);
     }
 
     public Path stagedDir(long datasetId) {
