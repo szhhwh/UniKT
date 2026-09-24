@@ -5,24 +5,35 @@ import { getAdminToken, setAdminToken } from "../api/adminToken";
 
 const open = ref(false);
 const value = ref(getAdminToken());
-const state = ref<"idle" | "checking" | "ok" | "bad">("idle");
+/** idle / checking / ok / bad / off / unreachable */
+const state = ref("idle");
 
 async function save(): Promise<void> {
   setAdminToken(value.value.trim());
+  state.value = "checking";
+  window.dispatchEvent(new CustomEvent("unikt:admin-token"));
   if (!value.value.trim()) {
     state.value = "idle";
-    window.dispatchEvent(new CustomEvent("unikt:admin-token"));
     return;
   }
-  // 立即向后端验证（GET /api/keys 是受保护接口），并广播给各管理页重载
-  state.value = "checking";
+  // 先看后端是否开启令牌校验，再验证令牌本身（区分三态 + 网络错误）
+  let required = true;
+  try {
+    required = (await api.health()).adminTokenRequired ?? true;
+  } catch {
+    state.value = "unreachable";
+    return;
+  }
+  if (!required) {
+    state.value = "off";
+    return;
+  }
   try {
     await api.keys.list();
     state.value = "ok";
   } catch {
     state.value = "bad";
   }
-  window.dispatchEvent(new CustomEvent("unikt:admin-token"));
 }
 </script>
 
@@ -41,7 +52,11 @@ async function save(): Promise<void> {
       <button class="btn small" type="button" @click="save">保存并验证</button>
       <span v-if="state === 'checking'" class="muted">验证中…</span>
       <span v-else-if="state === 'ok'" class="ok">✓ 令牌有效</span>
-      <span v-else-if="state === 'bad'" class="bad">✗ 令牌无效或后端未开启校验</span>
+      <span v-else-if="state === 'bad'" class="bad">✗ 令牌无效，请核对</span>
+      <span v-else-if="state === 'off'" class="muted">
+        后端未开启令牌校验（内网模式），当前无需令牌
+      </span>
+      <span v-else-if="state === 'unreachable'" class="bad">无法连接后端，稍后再试</span>
     </div>
   </div>
 </template>

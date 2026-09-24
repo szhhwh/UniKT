@@ -22,6 +22,9 @@ public record PredictRequest(
         if (questions != null && questions.size() != skills.size()) {
             throw new IllegalArgumentException("questions/skills 长度必须一致");
         }
+        if (skills.size() != responses.size()) {
+            throw new IllegalArgumentException("skills/responses 长度必须一致");
+        }
         if (questions == null) {
             // Python 侧同名字段为可选；缺省时用 skills 补齐保持契约一致
             questions = skills;

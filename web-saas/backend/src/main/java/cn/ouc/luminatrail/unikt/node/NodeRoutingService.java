@@ -28,6 +28,7 @@ import org.springframework.web.client.RestClient;
 public class NodeRoutingService {
 
     private static final long CACHE_TTL_MS = 10000;
+    private static final long SKILLS_TTL_MS = 300000;
     private static final int NODE_TIMEOUT_MS = 8000;
 
     /** 一个推理执行体（默认服务或某节点）。 */
@@ -38,9 +39,14 @@ public class NodeRoutingService {
     private record ModelsCache(long at, List<ModelInfo> models) {
     }
 
+    /** 模型级技能目录缓存（目录只在重跑预处理后变化，长 TTL 足够）。 */
+    private record SkillsCache(long at, List<cn.ouc.luminatrail.unikt.dto.SkillDto> skills) {
+    }
+
     private final NodeRepository nodes;
     private final InferenceService inference;
     private final Map<String, ModelsCache> cache = new ConcurrentHashMap<>();
+    private final Map<String, SkillsCache> skillsCache = new ConcurrentHashMap<>();
 
     public NodeRoutingService(NodeRepository nodes, InferenceService inference) {
         this.nodes = nodes;
@@ -82,14 +88,20 @@ public class NodeRoutingService {
         return inference.predict(request);
     }
 
-    /** 该模型的技能目录：路由到持有它的执行体拉取；找不到返回 null。 */
+    /** 该模型的技能目录：路由到持有它的执行体拉取（按模型缓存 5 分钟）；找不到返回 null。 */
     public List<cn.ouc.luminatrail.unikt.dto.SkillDto> skillsFor(String model) {
+        SkillsCache c = skillsCache.get(model);
+        long now = System.currentTimeMillis();
+        if (c != null && now - c.at() < SKILLS_TTL_MS) {
+            return c.skills();
+        }
         for (Endpoint ep : endpoints()) {
             List<ModelInfo> models = modelsOf(ep);
             if (models.stream().anyMatch(m -> model.equals(m.name()) && m.available())) {
                 List<cn.ouc.luminatrail.unikt.dto.SkillDto> body =
                         inference.listSkills(ep.baseUrl(), model);
                 if (body != null) {
+                    skillsCache.put(model, new SkillsCache(now, body));
                     return body;
                 }
             }

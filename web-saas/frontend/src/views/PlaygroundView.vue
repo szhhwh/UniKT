@@ -36,31 +36,59 @@ onMounted(async () => {
 });
 
 const availableModels = computed(() => models.value.filter((m) => m.available));
+const selectedModel = computed(
+  () => models.value.find((m) => m.name === modelName.value) ?? null,
+);
+
+/** 目录请求防竞态：快速切换模型时，晚返回的旧请求直接丢弃。 */
+let catalogReqId = 0;
 
 watch(modelName, async (m) => {
   catalog.value = [];
   result.value = null;
   error.value = "";
   if (!m) return;
+  const reqId = ++catalogReqId;
   catalogLoading.value = true;
   try {
-    catalog.value = await api.skills(m);
+    const c = await api.skills(m);
+    if (reqId !== catalogReqId) {
+      return;
+    }
+    catalog.value = c;
+    // 目录就绪后自动填入第一个示例，避免用户面对空表单
+    if (rows.value.length === 0) {
+      const ex = examples.value[0];
+      if (ex) {
+        rows.value = ex.rows.map((r) => ({ ...r }));
+      }
+    }
   } catch {
-    // 目录拉不到（如数据集缺映射）不阻塞预测，仅退化为 id 展示
+    // 目录拉不到（如数据集缺映射）不阻塞预测，退化为 id 录入
   } finally {
-    catalogLoading.value = false;
+    if (reqId === catalogReqId) {
+      catalogLoading.value = false;
+    }
   }
 });
 
 function skillLabel(id: number): string {
   const s = catalog.value.find((c) => c.id === id);
-  return s?.name ? s.name : `知识点 #${id}`;
+  return s?.name ? s.name.trim() : `知识点 #${id}`;
 }
 
 function optionLabel(s: SkillInfo): string {
-  const name = s.name ? s.name : `知识点 #${s.id}`;
+  const name = s.name ? s.name.trim() : `知识点 #${s.id}`;
   return `${name}（${s.questions} 题）`;
 }
+
+/** 有名称的排前面（按名称排序），无名称的按 id 靠后，便于下拉查找。 */
+const catalogOptions = computed(() => [
+  ...catalog.value
+    .filter((s) => s.name)
+    .sort((a, b) => (a.name ?? "").localeCompare(b.name ?? "")),
+  ...catalog.value.filter((s) => !s.name).sort((a, b) => a.id - b.id),
+]);
 
 function addRow(skill?: number): void {
   const fallback =
@@ -146,18 +174,18 @@ const steps = computed(() => {
   }));
 });
 
-/** 各知识点当前掌握度：该技能作为"下一题"的最后一次预测值。 */
+/** 各知识点掌握度：该技能作为"下一题"的最后一次预测（附判断时间点）。 */
 const mastery = computed(() => {
   if (!result.value) return [];
-  const last = new Map<number, number>();
+  const last = new Map<number, { p: number; j: number }>();
   result.value.predictions.forEach((p, j) => {
     const nextSkill = rows.value[j + 1]?.skill;
     if (nextSkill !== undefined) {
-      last.set(nextSkill, p);
+      last.set(nextSkill, { p, j });
     }
   });
   return [...last.entries()]
-    .map(([skill, p]) => ({ skill, label: skillLabel(skill), p }))
+    .map(([skill, { p, j }]) => ({ skill, label: skillLabel(skill), p, step: j + 1 }))
     .sort((x, y) => y.p - x.p);
 });
 </script>
@@ -190,14 +218,32 @@ const mastery = computed(() => {
 
       <div class="field">
         <label>作答记录（第 1 题在最上面）</label>
-        <div class="rows">
+        <p v-if="!catalogLoading && catalog.length === 0" class="banner-error">
+          知识点目录不可用（推理节点可能未更新或元数据缺失）。已切换为
+          手动输入知识点 id（0 ~ {{ selectedModel?.numSkills ?? "?" }}），可照常预测。
+        </p>
+        <div class="rows" :class="{ disabled: catalogLoading }">
           <div v-for="(row, i) in rows" :key="i" class="row">
             <span class="idx">{{ i + 1 }}</span>
-            <select v-model.number="row.skill" class="skill" @change="result = null">
-              <option v-for="s in catalog" :key="s.id" :value="s.id">
+            <select
+              v-if="catalogOptions.length > 0"
+              v-model.number="row.skill"
+              class="skill"
+              :disabled="catalogLoading"
+              @change="result = null"
+            >
+              <option v-for="s in catalogOptions" :key="s.id" :value="s.id">
                 {{ optionLabel(s) }}
               </option>
             </select>
+            <input
+              v-else
+              v-model.number="row.skill"
+              type="number"
+              min="0"
+              class="skill"
+              @change="result = null"
+            />
             <button
               class="result-btn"
               :class="row.correct === 1 ? 'right' : 'wrong'"
@@ -210,8 +256,16 @@ const mastery = computed(() => {
           </div>
         </div>
         <div class="row-actions">
-          <button class="btn ghost small" type="button" @click="addRow()">+ 添加一题</button>
-          <span v-if="examples.length > 0" class="examples">
+          <button
+            class="btn ghost small"
+            type="button"
+            :disabled="catalogLoading || catalogOptions.length === 0"
+            @click="addRow()"
+          >
+            + 添加一题
+          </button>
+          <span v-if="catalogLoading" class="hint">知识点目录加载中（远程节点，需数秒）…</span>
+          <span v-else-if="examples.length > 0" class="examples">
             示例：
             <button
               v-for="ex in examples"
@@ -240,11 +294,16 @@ const mastery = computed(() => {
     <p v-if="error" class="banner-error">{{ error }}</p>
 
     <div v-if="mastery.length > 0" class="card result">
-      <h2 style="margin: 0 0 0.3rem">各知识点当前掌握度</h2>
-      <p class="legend">该技能作为"下一题"的最后一次预测——即模型对该生此技能的最新判断。</p>
+      <h2 style="margin: 0 0 0.3rem">各知识点掌握度（最近判断）</h2>
+      <p class="legend">
+        模型对该生每个技能的最新判断；括号标注判断时学生已完成的题数
+        （此后未再考到的技能沿用当时的判断）。
+      </p>
       <div class="bars">
         <div v-for="m in mastery" :key="m.skill" class="bar-row">
-          <span class="bar-label">{{ m.label }}</span>
+          <span class="bar-label">
+            {{ m.label }}<span class="step-note">（第 {{ m.step }} 题后）</span>
+          </span>
           <div class="bar">
             <div
               class="fill"
@@ -300,6 +359,16 @@ select {
   display: flex;
   flex-direction: column;
   gap: 0.45rem;
+}
+
+.rows.disabled {
+  opacity: 0.55;
+}
+
+.step-note {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 400;
 }
 
 .row {

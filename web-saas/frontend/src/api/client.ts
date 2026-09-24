@@ -16,6 +16,7 @@ export interface HealthInfo {
   docsAvailable: boolean;
   nodesOnline?: number;
   nodesTotal?: number;
+  adminTokenRequired?: boolean;
 }
 
 export interface NodeInfo {

@@ -1,15 +1,19 @@
 <script setup lang="ts">
+import { computed } from "vue";
 import { RouterLink } from "vue-router";
 import { services } from "../composables/useServices";
 
 /** 推理可用 = 默认服务在线 或 任一计算节点在线（与顶栏口径一致）。 */
-const inferenceOk =
-  services.inferenceUp || services.nodesOnline > 0;
-const inferenceText = services.nodesOnline > 0
-  ? `在线 · ${services.nodesOnline} 个计算节点`
-  : services.inferenceUp
-    ? "在线"
-    : "暂不可用";
+const inferenceOk = computed(
+  () => services.inferenceUp || services.nodesOnline > 0,
+);
+const inferenceText = computed(() =>
+  services.nodesOnline > 0
+    ? `在线 · ${services.nodesOnline} 个计算节点`
+    : services.inferenceUp
+      ? "在线"
+      : "暂不可用",
+);
 </script>
 
 <template>

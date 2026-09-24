@@ -19,11 +19,17 @@ public class HealthController {
     private final InferenceService inference;
     private final WebConfig webConfig;
     private final NodeRepository nodes;
+    private final cn.ouc.luminatrail.unikt.config.InferenceProperties props;
 
-    public HealthController(InferenceService inference, WebConfig webConfig, NodeRepository nodes) {
+    public HealthController(
+            InferenceService inference,
+            WebConfig webConfig,
+            NodeRepository nodes,
+            cn.ouc.luminatrail.unikt.config.InferenceProperties props) {
         this.inference = inference;
         this.webConfig = webConfig;
         this.nodes = nodes;
+        this.props = props;
     }
 
     @GetMapping("/health")
@@ -41,6 +47,9 @@ public class HealthController {
         out.put("docsAvailable", webConfig.docsAvailable());
         out.put("nodesOnline", online);
         out.put("nodesTotal", all.size());
+        // 前端据此区分三种令牌状态：无需令牌 / 有效 / 无效
+        out.put("adminTokenRequired",
+                props.adminToken() != null && !props.adminToken().isBlank());
         return out;
     }
 }

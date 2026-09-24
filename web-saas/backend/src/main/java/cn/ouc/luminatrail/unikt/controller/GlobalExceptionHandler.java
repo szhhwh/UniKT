@@ -35,10 +35,41 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(HttpClientErrorException.class)
     public ResponseEntity<ApiError> upstream4xx(HttpClientErrorException e) {
-        String detail = e.getResponseBodyAsString().isBlank()
-                ? e.getMessage()
-                : e.getResponseBodyAsString();
-        return ResponseEntity.status(e.getStatusCode()).body(ApiError.of(e.getStatusCode().value(), detail));
+        String detail = friendlyUpstreamDetail(e.getResponseBodyAsString());
+        if (detail == null || detail.isBlank()) {
+            detail = e.getMessage();
+        }
+        return ResponseEntity.status(e.getStatusCode())
+                .body(ApiError.of(e.getStatusCode().value(), detail));
+    }
+
+    /** 把上游（Python/pydantic）的原始 4xx 体提炼成一句人话，透传原始 JSON 太不友好。 */
+    private static String friendlyUpstreamDetail(String body) {
+        if (body == null || body.isEmpty()) {
+            return null;
+        }
+        try {
+            com.fasterxml.jackson.databind.JsonNode root =
+                    new com.fasterxml.jackson.databind.ObjectMapper().readTree(body);
+            com.fasterxml.jackson.databind.JsonNode d = root.get("detail");
+            if (d != null && d.isArray() && !d.isEmpty()) {
+                com.fasterxml.jackson.databind.JsonNode first = d.get(0);
+                String msg = first.path("msg").asText(null);
+                if (msg == null) {
+                    return body;
+                }
+                String loc = first.path("loc").toString();
+                // loc 形如 ["body","responses"]，取字段名拼进提示
+                String field = loc.replaceAll("[\\[\\]\"\\s]", "").replace("body,", "");
+                return field.isEmpty() ? msg : field + ": " + msg;
+            }
+            if (d != null && d.isTextual()) {
+                return d.asText();
+            }
+            return body;
+        } catch (Exception e) {
+            return body;
+        }
     }
 
     @ExceptionHandler(RestClientException.class)

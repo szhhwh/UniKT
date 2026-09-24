@@ -84,7 +84,9 @@ function fmtTime(iso: string | null): string {
 }
 
 /** 开放 API 地址：按当前访问的主机名生成（开发走 5174 代理外的 8080）。 */
-const apiBase = `http://${window.location.hostname}:8080`;
+const host = window.location.hostname;
+const apiBase = `http://${host}:8080`;
+const isLocalHost = host === "localhost" || host === "127.0.0.1" || host === "[::1]";
 
 /** 令牌变化后重载列表（与 AdminTokenInput 的验证联动）。 */
 function reloadOnToken(): void {
@@ -202,6 +204,10 @@ curl -H "X-API-Key: unikt_你的密钥" {{ apiBase }}/api/v1/skills/DKT</pre>
         questions 字段可省略（兼容旧调用方时与 skills 同义）。密钥仅存
         SHA-256 哈希，泄露后在此页吊销重发即可；无效密钥返回 401。
         {{ apiBase }} 即本门户后端地址。
+        <template v-if="isLocalHost">
+          注意：当前示例地址是 localhost，只有本机能调；给其他同学/服务器
+          调用时请换成这台机器的局域网 IP。
+        </template>
       </p>
     </div>
   </section>

@@ -82,6 +82,8 @@ async function addNode(): Promise<void> {
   creating.value = true;
   try {
     const f = form.value;
+    // 创建成功即关闭表单并刷新：部署失败的信息挂到节点卡片上，
+    // 避免用户重试时重复创建同名节点
     const created = await api.nodes.create({
       name: f.name.trim(),
       sshTarget: f.sshTarget.trim(),
@@ -90,10 +92,16 @@ async function addNode(): Promise<void> {
     });
     formOpen.value = false;
     form.value = { name: "", sshTarget: "", baseUrl: "", repoPath: "/root/unikt" };
-    // 保存即部署：填完表单的意图就是"让它跑起来"
-    await api.nodes.deploy(created.id);
-    expandedId.value = created.id;
     await refresh();
+    try {
+      await api.nodes.deploy(created.id);
+      expandedId.value = created.id;
+    } catch (e) {
+      cardMsg.value = {
+        ...cardMsg.value,
+        [created.id]: e instanceof Error ? e.message : String(e),
+      };
+    }
   } catch (e) {
     formError.value = e instanceof Error ? e.message : String(e);
   } finally {
