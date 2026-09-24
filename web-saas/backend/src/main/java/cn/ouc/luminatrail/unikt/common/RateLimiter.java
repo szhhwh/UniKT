@@ -30,8 +30,15 @@ public class RateLimiter {
             q.addLast(now);
         }
         if (hits.size() > 10000) {
-            // 粗暴防内存膨胀：极端 key 量时整体重置（计数保守即可，不需精确）
-            hits.clear();
+            // 防内存膨胀：只淘汰空/过期队列，绝不全局清空（那会连真实
+            // 用户的限流状态一起重置，等于攻击者可自愈）
+            hits.entrySet().removeIf(e -> {
+                Deque<Long> q2 = e.getValue();
+                synchronized (q2) {
+                    q2.removeIf(ts -> now - ts >= windowMs);
+                    return q2.isEmpty();
+                }
+            });
         }
         return true;
     }

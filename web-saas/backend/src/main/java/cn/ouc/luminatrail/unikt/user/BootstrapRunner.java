@@ -32,6 +32,18 @@ public class BootstrapRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
+        // 无主密钥归并（幂等，每次启动执行——不止首次引导）
+        long adopted = 0;
+        for (ApiKeyUser k : keys.findAll()) {
+            if (k.getOwnerId() == null) {
+                k.setOwnerId(adminId());
+                keys.save(k);
+                adopted++;
+            }
+        }
+        if (adopted > 0) {
+            log.info("已把 {} 枚无主密钥归并给管理员", adopted);
+        }
         if (users.count() > 0) {
             return;
         }
@@ -61,5 +73,9 @@ public class BootstrapRunner implements ApplicationRunner {
         } else {
             log.info("已创建管理员 admin（密码来自 UNIKT_ADMIN_PASSWORD）");
         }
+    }
+
+    private Long adminId() {
+        return users.findByUsername("admin").map(u -> u.getId()).orElse(null);
     }
 }

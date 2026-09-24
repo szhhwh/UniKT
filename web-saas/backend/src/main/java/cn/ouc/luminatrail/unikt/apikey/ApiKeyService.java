@@ -61,26 +61,16 @@ public class ApiKeyService {
     }
 
     /**
-     * 消耗一次当日配额（原子自增用量 + 跨天重置）。
+     * 消耗一次当日配额：单条条件 UPDATE（WHERE 带配额守卫 + 跨天自动
+     * 重置为 1），返回 0 行即已满。不做 read-then-write——并发下会超发。
      *
-     * @return false 表示配额已满（本次未消耗）
+     * @return false 表示当日配额已满（本次未消耗）
      */
     @Transactional
     public boolean tryConsumeQuota(ApiKeyUser keyUser, long dailyLimit) {
-        ApiKeyUser fresh = keys.findById(keyUser.getId()).orElse(null);
-        if (fresh == null) {
-            return false;
-        }
         // "每天"按用户所在时区（Asia/Shanghai）计算，避免 UTC 早 8 点重置的困惑
         String today = LocalDate.now(ZoneId.of("Asia/Shanghai")).toString();
-        if (!today.equals(fresh.getDailyDate())) {
-            fresh.setDailyDate(today);
-            fresh.setDailyCount(0);
-        }
-        if (fresh.getDailyCount() >= dailyLimit) {
-            return false;
-        }
-        int updated = keys.consume(fresh.getId(), today, fresh.getDailyCount() + 1,
+        int updated = keys.consume(keyUser.getId(), today, dailyLimit,
                 java.time.Instant.now());
         return updated > 0;
     }

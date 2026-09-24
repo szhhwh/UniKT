@@ -28,6 +28,14 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(ApiError.of(400, detail));
     }
 
+    @ExceptionHandler(cn.ouc.luminatrail.unikt.apikey.RateLimitedException.class)
+    public ResponseEntity<ApiError> rateLimited(
+            cn.ouc.luminatrail.unikt.apikey.RateLimitedException e) {
+        return ResponseEntity.status(429)
+                .cacheControl(org.springframework.http.CacheControl.noStore())
+                .body(ApiError.of(429, e.getMessage()));
+    }
+
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ApiError> illegalArg(IllegalArgumentException e) {
         return ResponseEntity.badRequest().body(ApiError.of(400, e.getMessage()));

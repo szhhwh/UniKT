@@ -2,10 +2,14 @@ server:
   port: 8080
   servlet:
     session:
+      # 只用 Cookie 跟踪会话，禁 URL 传递（;jsessionid= 会话固定面）
+      tracking-modes: cookie
       cookie:
-        # 会话 Cookie：HttpOnly 由 Spring 默认开启；Strict 防跨站携带
+        # HttpOnly 由 Spring 默认开启；Strict 防跨站携带
         same-site: strict
         max-age: 7d
+        # HTTPS 部署（Caddy/Nginx 反代）设为 true；开发 http 内网保持 false
+        secure: ${UNIKT_COOKIE_SECURE:false}
 
 spring:
   application:

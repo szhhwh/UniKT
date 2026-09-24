@@ -83,7 +83,7 @@ public class KeyController {
         if (user == null) {
             return ResponseEntity.notFound().build();
         }
-        if (!user.getOwnerId().equals(currentUserId()) && !isAdmin()) {
+        if (!java.util.Objects.equals(user.getOwnerId(), currentUserId()) && !isAdmin()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         user.setActive(false);

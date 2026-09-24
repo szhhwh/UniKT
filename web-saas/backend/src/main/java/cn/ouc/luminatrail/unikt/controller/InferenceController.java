@@ -53,7 +53,7 @@ public class InferenceController {
     public ResponseEntity<?> predict(
             @Valid @RequestBody PredictRequest request,
             jakarta.servlet.http.HttpServletRequest http) {
-        String ip = clientIp(http);
+        String ip = cn.ouc.luminatrail.unikt.common.Ips.clientIp(http);
         if (!limiter.tryAcquire("predict:" + ip, 20, 60_000)) {
             return ResponseEntity.status(429)
                     .body(java.util.Map.of("status", 429,
@@ -61,14 +61,5 @@ public class InferenceController {
                                     + "批量调用请用 API 密钥走 /api/v1/predict"));
         }
         return ResponseEntity.ok(routing.route(request));
-    }
-
-    private static String clientIp(jakarta.servlet.http.HttpServletRequest req) {
-        // 反代场景取 X-Forwarded-For 首个（部署在 Caddy/Nginx 后时正确）
-        String fwd = req.getHeader("X-Forwarded-For");
-        if (fwd != null && !fwd.isBlank()) {
-            return fwd.split(",")[0].trim();
-        }
-        return req.getRemoteAddr();
     }
 }

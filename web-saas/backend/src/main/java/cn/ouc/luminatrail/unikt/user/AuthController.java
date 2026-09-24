@@ -61,7 +61,7 @@ public class AuthController {
     }
 
     /** 登录失败锁定：同用户名连续失败 5 次锁 10 分钟（成功登录即清零）。 */
-    private record FailState(int count, long lockUntil) {
+    private record FailState(int count, long lockUntil, long lastFailAt) {
     }
 
     private static final java.util.Map<String, FailState> loginFails =
@@ -74,7 +74,8 @@ public class AuthController {
                                       HttpServletRequest request,
                                       HttpServletResponse response) {
         // 防 script 批量刷注册：同 IP 每小时最多 5 个
-        if (!limiter.tryAcquire("register:" + request.getRemoteAddr(), 5, 3600_000)) {
+        if (!limiter.tryAcquire("register:"
+                + cn.ouc.luminatrail.unikt.common.Ips.clientIp(request), 5, 3600_000)) {
             return ResponseEntity.status(429)
                     .body(Map.of("message", "注册太频繁，一小时后再试"));
         }
@@ -97,6 +98,12 @@ public class AuthController {
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest req,
                                    HttpServletRequest request,
                                    HttpServletResponse response) {
+        // IP 维度限流补位用户名锁定的盲区（换用户名的密码枚举）
+        if (!limiter.tryAcquire("login:"
+                + cn.ouc.luminatrail.unikt.common.Ips.clientIp(request), 20, 60_000)) {
+            return ResponseEntity.status(429)
+                    .body(Map.of("message", "登录尝试太频繁，稍后再试"));
+        }
         long now = System.currentTimeMillis();
         FailState fail = loginFails.get(req.username());
         if (fail != null && now < fail.lockUntil()) {
@@ -122,9 +129,17 @@ public class AuthController {
     }
 
     private static void recordFailure(String username, long now, FailState prev) {
-        int count = prev == null ? 1 : prev.count() + 1;
-        loginFails.put(username,
-                new FailState(count, count >= MAX_FAILS ? now + LOCK_MS : 0));
+        // 原子 merge 防并发绕过；距上次失败超过 LOCK_MS 时计数衰减，
+        // 避免"第 11 分钟错一次就再锁"的永久锁死
+        loginFails.merge(username, new FailState(1, 0, now), (old, v) -> {
+            int count = now - old.lastFailAt() > LOCK_MS ? 1 : old.count() + 1;
+            return new FailState(count, now, count >= MAX_FAILS ? now + LOCK_MS : 0);
+        });
+        if (loginFails.size() > 5000) {
+            // 上限防御：丢弃已过锁定期且久未活动的条目
+            loginFails.entrySet().removeIf(e -> e.getValue().lockUntil() < now - LOCK_MS
+                    && e.getValue().lastFailAt() < now - LOCK_MS);
+        }
     }
 
     @PostMapping("/logout")
@@ -152,11 +167,19 @@ public class AuthController {
                 .findFirst().orElse(User.ROLE_USER);
     }
 
-    /** 校验凭据并把认证写入会话。 */
+    /** 校验凭据并把认证写入会话（先轮换会话 ID，防会话固定攻击）。 */
     private void loginSession(String username, String password,
                               HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(username, password));
+        // Spring Security 的 changeSessionId 只在 filter 阶段认证时触发，
+        // 手动认证流程必须自己轮换，否则攻击者可预置 JSESSIONID 劫持会话
+        request.getSession();
+        try {
+            request.changeSessionId();
+        } catch (IllegalStateException ignored) {
+            // 会话失效的极端时序下放弃轮换（认证仍写入新会话）
+        }
         SecurityContext context = SecurityContextHolder.createEmptyContext();
         context.setAuthentication(auth);
         SecurityContextHolder.setContext(context);

@@ -1,0 +1,9 @@
+frontend/node_modules
+frontend/dist
+backend/target
+backend/data
+inference/.venv
+inference/__pycache__
+docs-build
+deploy/.env
+.git

@@ -24,9 +24,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class OpenApiController {
 
     private final NodeRoutingService routing;
+    private final cn.ouc.luminatrail.unikt.common.RateLimiter limiter;
 
-    public OpenApiController(NodeRoutingService routing) {
+    public OpenApiController(NodeRoutingService routing,
+                             cn.ouc.luminatrail.unikt.common.RateLimiter limiter) {
         this.routing = routing;
+        this.limiter = limiter;
     }
 
     @GetMapping("/models")
@@ -45,7 +48,15 @@ public class OpenApiController {
     }
 
     @PostMapping("/predict")
-    public PredictResponse predict(@Valid @RequestBody PredictRequest request) {
+    public PredictResponse predict(@Valid @RequestBody PredictRequest request,
+                                   jakarta.servlet.http.HttpServletRequest http) {
+        // 日配额只限总量；这里加每密钥分钟级限速防瞬时打满 GPU
+        Object u = http.getAttribute("apiKeyUser");
+        long keyId = u instanceof cn.ouc.luminatrail.unikt.apikey.ApiKeyUser au ? au.getId() : -1;
+        if (!limiter.tryAcquire("v1:" + keyId, 60, 60_000)) {
+            throw new cn.ouc.luminatrail.unikt.apikey.RateLimitedException(
+                    "该密钥每分钟最多 60 次调用");
+        }
         return routing.route(request);
     }
 }

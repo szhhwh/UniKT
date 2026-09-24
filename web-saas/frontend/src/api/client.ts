@@ -97,6 +97,10 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   if (!res.ok) {
     const body = await res.json().catch(() => null);
     const message = body?.message || body?.detail || `请求失败：${res.status}`;
+    if (res.status === 401 && !path.startsWith("/auth/")) {
+      // 会话失效/被踢（禁用、降权、过期）：清身份并跳登录页
+      window.dispatchEvent(new CustomEvent("unikt:unauthorized", { detail: message }));
+    }
     throw new ApiError(res.status, message);
   }
   return res.json() as Promise<T>;

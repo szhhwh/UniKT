@@ -14,3 +14,9 @@ for pid in $(cat "$PID_FILE"); do
   fi
 done
 rm -f "$PID_FILE"
+# 端口兜底：pid 属子壳时 vite 可能成孤儿仍占 5174/8080
+sleep 1
+for port in 8080 5174; do
+  LEFT=$(lsof -ti :$port -sTCP:LISTEN 2>/dev/null || true)
+  [ -n "$LEFT" ] && kill $LEFT 2>/dev/null && echo "已清理 $port 端口残留进程"
+done

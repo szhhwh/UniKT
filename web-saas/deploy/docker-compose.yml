@@ -6,8 +6,9 @@ services:
     build:
       context: ..
       dockerfile: deploy/Dockerfile
+    # 反代（Caddy）后只绑本机；无反代需要直访时改回 "8080:8080"
     ports:
-      - "8080:8080"
+      - "127.0.0.1:8080:8080"
     environment:
       # 对外域名（HTTPS 由反代终结，此处给容器内地址）
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/unikt?useSSL=false&allowPublicKeyRetrieval=true
@@ -15,6 +16,9 @@ services:
       SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD:-change-me}
       UNIKT_ADMIN_PASSWORD: ${UNIKT_ADMIN_PASSWORD:-}
       UNIKT_INFERENCE_TOKEN: ${UNIKT_INFERENCE_TOKEN:-}
+    volumes:
+      # 节点一键部署复用宿主机 SSH 密钥（只读）；不需要该功能可删
+      - ~/.ssh:/root/.ssh:ro
     depends_on:
       db:
         condition: service_healthy
@@ -25,8 +29,8 @@ services:
     environment:
       MYSQL_DATABASE: unikt
       MYSQL_USER: unikt
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-change-me}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-change-me-too}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?请在 .env 设置 MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?请在 .env 设置 MYSQL_ROOT_PASSWORD}
     volumes:
       - db-data:/var/lib/mysql
     healthcheck:

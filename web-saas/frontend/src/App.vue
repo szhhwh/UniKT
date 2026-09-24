@@ -5,7 +5,15 @@ import { services, startServicePolling } from "./composables/useServices";
 import { auth, logout } from "./composables/useAuth";
 
 const router = useRouter();
-onMounted(() => startServicePolling());
+onMounted(() => {
+  startServicePolling();
+  // 任一请求 401（会话过期/被禁用/被降权）→ 清身份回登录页
+  window.addEventListener("unikt:unauthorized", () => {
+    auth.me.value = null;
+    auth.loaded.value = false;
+    void router.push({ name: "login", query: { next: router.currentRoute.value.fullPath } });
+  });
+});
 
 const statusClass = computed(() =>
   services.backend === "up" && (services.inferenceUp || services.nodesOnline > 0)

@@ -17,11 +17,15 @@ RUN mvn -B -q -DskipTests package
 
 FROM eclipse-temurin:17-jre
 WORKDIR /app
+# 节点一键部署需要 ssh/rsync 客户端（复用挂载进来的 ~/.ssh 密钥）
+RUN apt-get update && apt-get install -y --no-install-recommends openssh-client rsync \
+    && rm -rf /var/lib/apt/lists/*
 COPY --from=backend /be/target/unikt-saas-backend-0.1.0-SNAPSHOT.jar app.jar
 COPY --from=frontend /fe/dist ./frontend-dist
 COPY inference ./inference-src
 ENV UNIKT_FRONTEND_DIR=/app/frontend-dist \
     UNIKT_DOCS_DIR=/app/docs-build \
+    UNIKT_INFERENCE_SRC=/app/inference-src \
     TZ=Asia/Shanghai
 EXPOSE 8080
 HEALTHCHECK --interval=30s --timeout=5s \

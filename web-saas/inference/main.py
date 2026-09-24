@@ -10,6 +10,7 @@ SpringBoot 通过 http://localhost:8100/{health,models,skills,predict} 调用本
 
 from __future__ import annotations
 
+import hmac
 import os
 from typing import Annotated
 
@@ -26,7 +27,9 @@ _INFERENCE_TOKEN = os.environ.get("UNIKT_INFERENCE_TOKEN", "")
 @app.middleware("http")
 async def _token_guard(request: Request, call_next):
     """共享密钥校验：设置了 UNIKT_INFERENCE_TOKEN 后所有路径都要求该头."""
-    if _INFERENCE_TOKEN and request.headers.get("X-Inference-Token") != _INFERENCE_TOKEN:
+    if _INFERENCE_TOKEN and not hmac.compare_digest(
+        request.headers.get("X-Inference-Token", "").encode(), _INFERENCE_TOKEN.encode()
+    ):
         return JSONResponse(
             {"detail": "推理服务需要 X-Inference-Token（经门户后端调用）"}, status_code=401
         )

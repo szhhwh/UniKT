@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  * 列表接口只读库（状态探测由 DeployService 的后台定时任务负责）。
  * 输入字段带严格白名单校验（sshTarget/repoPath 会进入远端 shell 命令），
  * 命令拼接侧另有单引号包裹（见 SshExecutor.shellQuote），双层防注入。
- * 改动型接口受管理令牌保护（见 AdminTokenFilter）。
+ * 全部接口要求 ADMIN 角色（SecurityConfig）。
  */
 @RestController
 @RequestMapping("/api/nodes")
