@@ -58,10 +58,6 @@ public class InferenceController {
         return ResponseEntity.ok(catalog);
     }
 
-    /**
-     * 演练场预测：公开接口（评委开箱即玩），但按 IP 限流——
-     * 否则绕过 /api/v1 的 API Key 配额直接打满 GPU。
-     */
     private static boolean isAdmin() {
         var auth = SecurityContextHolder.getContext().getAuthentication();
         return auth != null && auth.getAuthorities().stream()
@@ -76,6 +72,10 @@ public class InferenceController {
                 ? p.getId() : null;
     }
 
+    /**
+     * 演练场预测：公开接口（评委开箱即玩），但按 IP 限流——
+     * 否则绕过 /api/v1 的 API Key 配额直接打满 GPU。
+     */
     @PostMapping("/predict")
     public ResponseEntity<?> predict(
             @Valid @RequestBody PredictRequest request,

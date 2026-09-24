@@ -69,8 +69,14 @@ public class TrainingService {
         if (!anyOnline) {
             throw new IllegalStateException("当前没有在线计算节点，请联系管理员");
         }
-        boolean known = routing.aggregateModels(null, false).stream()
-                .anyMatch(m -> modelName.equals(m.name()));
+        var catalog = routing.aggregateModels(null, false);
+        if (catalog.isEmpty()) {
+            // 节点 ONLINE 但推理服务 /models 拉不到时会返回空清单（且被
+            // 缓存 10s）——报"未知模型"会误导用户以为是自己填错了
+            throw new IllegalStateException(
+                    "暂时无法获取模型清单（节点推理服务可能未启动），稍后再试");
+        }
+        boolean known = catalog.stream().anyMatch(m -> modelName.equals(m.name()));
         if (!known) {
             throw new IllegalArgumentException(
                     "未知模型 '" + modelName + "'——在训练页下拉里选择可用的模型名");

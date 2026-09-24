@@ -53,13 +53,20 @@ async function doRefresh(): Promise<void> {
   ]);
   loading.value = false;
   await Promise.allSettled(tasks);
+  // 任务拉取成功后记录全终态快照（乐观插入的 RUNNING 不会被它覆盖掉
+  // ——快照只反映服务端确认的状态）
+  lastRefreshAllTerminal = jobs.value.every((j) => j.status !== "RUNNING");
 }
 
-/** 启动轮询（幂等）：有进行中任务才轮询，全部终态后自停。 */
+/** 最近一次 refresh 确认的全终态快照（自停依据，不读可能被乐观插入污染的 jobs.value）。 */
+let lastRefreshAllTerminal = false;
+
+/** 启动轮询（幂等）：有进行中任务才轮询；最近一次 refresh 确认全终态后自停。 */
 function startPolling(): void {
   if (timer !== null) clearInterval(timer);
+  lastRefreshAllTerminal = false;
   timer = setInterval(() => {
-    if (jobs.value.every((j) => j.status !== "RUNNING")) {
+    if (lastRefreshAllTerminal) {
       if (timer !== null) clearInterval(timer);
       timer = null;
       return;

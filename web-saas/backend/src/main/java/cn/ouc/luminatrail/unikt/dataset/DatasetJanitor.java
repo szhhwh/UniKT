@@ -10,10 +10,14 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 /**
- * 启动清扫：上传流程两次 save / 挪盘之间崩溃留下的孤儿——
+ * 启动清扫：上传流程两次 save 之间崩溃留下的孤儿——
  * (a) data/uploads/tmp-* 目录（JVM 崩溃时没人清理）；
- * (b) slug 仍是 generic_tmp-* 或暂存目录缺失却 READY 的库行（标 FAILED，
- *     避免用户提交训练后在 rsync 处炸出难懂错误）。
+ * (b) slug 仍是 generic_tmp-* 的库行（save#1 后崩溃，从未回填正式
+ *     slug，留着只会让训练在 rsync 处炸出难懂错误）。
+ *
+ * 刻意**不**处理"READY 但暂存目录缺失"的行：stagedDir 是相对路径，
+ * 从别的工作目录启动一次（IDEA 配错/仓库根目录跑 jar）就会全员误标
+ * FAILED 且不可逆。目录缺失留给训练提交时的 rsync 自然报错。
  */
 @Component
 public class DatasetJanitor implements ApplicationRunner {
@@ -21,11 +25,9 @@ public class DatasetJanitor implements ApplicationRunner {
     private static final Logger log = LoggerFactory.getLogger(DatasetJanitor.class);
 
     private final DatasetRepository datasets;
-    private final DatasetIngestService ingest;
 
-    public DatasetJanitor(DatasetRepository datasets, DatasetIngestService ingest) {
+    public DatasetJanitor(DatasetRepository datasets) {
         this.datasets = datasets;
-        this.ingest = ingest;
     }
 
     @Override
@@ -43,10 +45,7 @@ public class DatasetJanitor implements ApplicationRunner {
         }
         int rows = 0;
         for (UserDataset d : datasets.findAll()) {
-            boolean orphan = d.getSlug().startsWith("generic_tmp-")
-                    || (UserDataset.READY.equals(d.getStatus())
-                        && !Files.isDirectory(ingest.stagedDir(d.getId())));
-            if (orphan) {
+            if (d.getSlug().startsWith("generic_tmp-")) {
                 d.setStatus(UserDataset.FAILED);
                 d.setLastError("上传中断（服务重启），请删除后重新上传");
                 datasets.save(d);
@@ -54,7 +53,7 @@ public class DatasetJanitor implements ApplicationRunner {
             }
         }
         if (dirs > 0 || rows > 0) {
-            log.info("DatasetJanitor：清理 {} 个 tmp 目录，标记 {} 行孤儿数据集", dirs, rows);
+            log.info("DatasetJanitor：清理 {} 个 tmp 目录，标记 {} 行未完成上传", dirs, rows);
         }
     }
 

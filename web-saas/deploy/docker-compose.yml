@@ -19,6 +19,9 @@ services:
     volumes:
       # 节点一键部署复用宿主机 SSH 密钥（只读）；不需要该功能可删
       - ~/.ssh:/root/.ssh:ro
+      # 数据集暂存（data/uploads）+ H2（若用默认库）——不挂载的话
+      # 重建容器丢文件，且 Janitor 会把全部数据集标成 FAILED
+      - portal-data:/app/data
     depends_on:
       db:
         condition: service_healthy
@@ -41,3 +44,4 @@ services:
 
 volumes:
   db-data:
+  portal-data:

@@ -306,9 +306,12 @@ public class DatasetIngestService {
                     row.add(field.toString());
                     field.setLength(0);
                 } else if (ch == '\n' || ch == '\r') {
-                    if (ch == '\r' && reader.ready()) {
+                    if (ch == '\r') {
+                        // CRLF 跨缓冲边界时 ready() 不可靠：无条件预读，
+                        // 非 \n 则 reset 推回（与引号分支同一手法）
                         reader.mark(1);
-                        if (reader.read() != '\n') {
+                        int after = reader.read();
+                        if (after != '\n' && after != -1) {
                             reader.reset();
                         }
                     }
