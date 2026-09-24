@@ -24,18 +24,21 @@ import org.springframework.web.client.RestClientException;
 public class InferenceService {
 
     private final RestClient client;
+    private final Duration timeout;
 
     public InferenceService(InferenceProperties props) {
-        SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
-        factory.setConnectTimeout(Duration.ofMillis(props.inferenceTimeoutMs()));
-        factory.setReadTimeout(Duration.ofMillis(props.inferenceTimeoutMs()));
-        this.client = RestClient.builder()
-                .baseUrl(props.inferenceBaseUrl())
-                .requestFactory(factory)
-                .build();
+        this.timeout = Duration.ofMillis(props.inferenceTimeoutMs());
+        this.client = build(props.inferenceBaseUrl(), timeout);
     }
 
-    /** 拉取可用模型清单；推理服务未启动时返回空列表，由控制器决定如何呈现。 */
+    private static RestClient build(String baseUrl, Duration timeout) {
+        SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
+        factory.setConnectTimeout(timeout);
+        factory.setReadTimeout(timeout);
+        return RestClient.builder().baseUrl(baseUrl).requestFactory(factory).build();
+    }
+
+    /** 拉取可用模型清单（默认推理服务）；不可达时返回空列表。 */
     public List<ModelInfo> listModels() {
         try {
             return client.get()
@@ -48,9 +51,28 @@ public class InferenceService {
         }
     }
 
-    public PredictResponse predict(PredictRequest request) {
+    /** 面向指定节点地址的模型清单（节点路由用）。 */
+    public List<ModelInfo> listModelsFrom(String baseUrl) {
         try {
-            return client.post()
+            return build(baseUrl, timeout).get()
+                    .uri("/models")
+                    .retrieve()
+                    .body(new ParameterizedTypeReference<List<ModelInfo>>() {
+                    });
+        } catch (RestClientException e) {
+            return List.of();
+        }
+    }
+
+    public PredictResponse predict(PredictRequest request) {
+        return predictAt(null, request);
+    }
+
+    /** 在指定节点上推理；baseUrl 为 null 时用默认推理服务。 */
+    public PredictResponse predictAt(String baseUrl, PredictRequest request) {
+        RestClient c = baseUrl == null ? client : build(baseUrl, timeout);
+        try {
+            return c.post()
                     .uri("/predict")
                     .body(request)
                     .retrieve()

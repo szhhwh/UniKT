@@ -6,22 +6,25 @@ import { services, startServicePolling } from "./composables/useServices";
 onMounted(() => startServicePolling());
 
 const statusClass = computed(() =>
-  services.backend === "up" && services.inferenceUp ? "on" : "off",
+  services.backend === "up" && (services.inferenceUp || services.nodesOnline > 0)
+    ? "on"
+    : "off",
 );
-const statusText = computed(() =>
-  services.backend === "down"
-    ? "后端离线"
-    : services.inferenceUp
-      ? "推理在线"
-      : "推理离线",
-);
-const statusTitle = computed(() =>
-  services.backend === "down"
-    ? "SpringBoot 后端不可达"
-    : services.inferenceUp
-      ? `Python 推理服务在线（${services.modelCount} 个模型）`
-      : "推理服务不可达（需在 WSL 启动 unikt-inference）",
-);
+const statusText = computed(() => {
+  if (services.backend === "down") return "后端离线";
+  if (services.inferenceUp || services.nodesOnline > 0) {
+    return services.nodesOnline > 0
+      ? `推理在线 · ${services.nodesOnline} 节点`
+      : "推理在线";
+  }
+  return "推理离线";
+});
+const statusTitle = computed(() => {
+  if (services.backend === "down") return "SpringBoot 后端不可达";
+  if (services.nodesOnline > 0) return `${services.nodesOnline}/${services.nodesTotal} 个计算节点在线`;
+  if (services.inferenceUp) return `默认推理服务在线（${services.modelCount} 个模型）`;
+  return "推理服务不可达（可在「节点」页部署远程推理）";
+});
 </script>
 
 <template>
@@ -35,6 +38,8 @@ const statusTitle = computed(() =>
         <RouterLink to="/">首页</RouterLink>
         <RouterLink to="/models">模型</RouterLink>
         <RouterLink to="/playground">演练场</RouterLink>
+        <RouterLink to="/nodes">节点</RouterLink>
+        <RouterLink to="/keys">API</RouterLink>
         <RouterLink to="/docs">文档</RouterLink>
       </nav>
       <span class="status" :title="statusTitle">
