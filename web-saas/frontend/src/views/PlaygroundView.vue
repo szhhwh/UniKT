@@ -56,21 +56,30 @@ watch(modelName, async (m) => {
       return;
     }
     catalog.value = c;
-    // 目录就绪后自动填入第一个示例，避免用户面对空表单
-    if (rows.value.length === 0) {
-      const ex = examples.value[0];
-      if (ex) {
-        rows.value = ex.rows.map((r) => ({ ...r }));
-      }
-    }
   } catch {
-    // 目录拉不到（如数据集缺映射）不阻塞预测，退化为 id 录入
+    // 目录拉不到（如数据集缺映射）不阻塞预测，走 id 降级模式
   } finally {
     if (reqId === catalogReqId) {
       catalogLoading.value = false;
+      // 目录就绪（或确认拉不到）后自动填示例，避免用户面对空表单
+      if (rows.value.length === 0) {
+        fillDefaultRows();
+      }
     }
   }
 });
+
+/** 默认行：优先用带名称的技能示例；目录不可用时退化为 id 示例。 */
+function fillDefaultRows(): void {
+  const ex = examples.value[0];
+  if (ex) {
+    rows.value = ex.rows.map((r) => ({ ...r }));
+    return;
+  }
+  const n = Math.max(2, Math.min(4, selectedModel.value?.numSkills ?? 2));
+  const ids = [0, 0, Math.min(1, n - 1), Math.min(1, n - 1), 0].slice(0, Math.max(2, n));
+  rows.value = ids.map((skill, i) => ({ skill, correct: (i % 3 === 2 ? 0 : 1) as 0 | 1 }));
+}
 
 function skillLabel(id: number): string {
   const s = catalog.value.find((c) => c.id === id);
@@ -259,7 +268,7 @@ const mastery = computed(() => {
           <button
             class="btn ghost small"
             type="button"
-            :disabled="catalogLoading || catalogOptions.length === 0"
+            :disabled="catalogLoading"
             @click="addRow()"
           >
             + 添加一题

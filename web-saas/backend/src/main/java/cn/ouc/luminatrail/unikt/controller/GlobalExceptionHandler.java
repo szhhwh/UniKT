@@ -43,7 +43,7 @@ public class GlobalExceptionHandler {
                 .body(ApiError.of(e.getStatusCode().value(), detail));
     }
 
-    /** 把上游（Python/pydantic）的原始 4xx 体提炼成一句人话，透传原始 JSON 太不友好。 */
+    /** 把上游（Python/pydantic）的原始 4xx 体提炼成一句中文人话。 */
     private static String friendlyUpstreamDetail(String body) {
         if (body == null || body.isEmpty()) {
             return null;
@@ -54,7 +54,7 @@ public class GlobalExceptionHandler {
             com.fasterxml.jackson.databind.JsonNode d = root.get("detail");
             if (d != null && d.isArray() && !d.isEmpty()) {
                 com.fasterxml.jackson.databind.JsonNode first = d.get(0);
-                String msg = first.path("msg").asText(null);
+                String msg = translate(first.path("msg").asText(null));
                 if (msg == null) {
                     return body;
                 }
@@ -70,6 +70,27 @@ public class GlobalExceptionHandler {
         } catch (Exception e) {
             return body;
         }
+    }
+
+    /** pydantic 常见错误消息的中文对照；未覆盖的原文透出。 */
+    private static String translate(String msg) {
+        if (msg == null) {
+            return null;
+        }
+        String t = msg.replaceFirst("^Value error,\\s*", "");
+        java.util.regex.Matcher m = java.util.regex.Pattern
+                .compile("List should have at least (\\d+) items?")
+                .matcher(t);
+        if (m.find()) {
+            return "列表至少需要 " + m.group(1) + " 个元素";
+        }
+        if (t.contains("Input should be a valid integer")) {
+            return "需要是整数";
+        }
+        if (t.contains("Input should be a valid list")) {
+            return "需要是数组";
+        }
+        return t;
     }
 
     @ExceptionHandler(RestClientException.class)
