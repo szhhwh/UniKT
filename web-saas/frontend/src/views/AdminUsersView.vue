@@ -7,6 +7,7 @@ const error = ref("");
 const loading = ref(true);
 
 async function reload(): Promise<void> {
+  error.value = "";
   try {
     users.value = await api.admin.users();
   } catch (e) {

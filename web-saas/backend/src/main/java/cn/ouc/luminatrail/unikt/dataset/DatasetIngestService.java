@@ -312,11 +312,11 @@ public class DatasetIngestService {
                             reader.reset();
                         }
                     }
+                    checkFieldLen(field, lineNo);
+                    checkRowSize(row, lineNo);
                     row.add(field.toString());
                     field.setLength(0);
                     if (!(row.size() == 1 && row.get(0).isEmpty())) {
-                        checkFieldLen(field, lineNo);
-                        checkRowSize(row, lineNo);
                         lineNo++;
                         if (!handler.accept((int) lineNo, row.toArray(new String[0]))) {
                             return;

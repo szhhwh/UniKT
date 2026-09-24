@@ -12,6 +12,7 @@ const search = ref("");
 const onlyReady = ref(true);
 
 async function reload(): Promise<void> {
+  error.value = "";
   try {
     models.value = await api.models();
   } catch (e) {
