@@ -19,30 +19,7 @@ export interface ModelInfo {
   available: boolean;
   numSkills: number | null;
   node: string | null;
-}
-
-export interface HealthInfo {
-  status: string;
-  service: string;
-  inferenceUp: boolean;
-  modelCount: number;
-  docsAvailable: boolean;
-  nodesOnline?: number;
-  nodesTotal?: number;
-}
-
-export interface NodeInfo {
-  id: number;
-  name: string;
-  sshTarget: string;
-  baseUrl: string;
-  repoPath: string;
-  status: "NEW" | "DEPLOYING" | "ONLINE" | "OFFLINE" | "FAILED";
-  modelsCount: number;
-  lastError: string | null;
-  deployLog: string;
-  createdAt: string;
-  updatedAt: string;
+  dataset?: string | null;
 }
 
 export interface PredictRequest {
@@ -55,6 +32,16 @@ export interface PredictRequest {
 export interface PredictResponse {
   model: string;
   predictions: number[];
+}
+
+export interface HealthInfo {
+  status: string;
+  service: string;
+  inferenceUp: boolean;
+  modelCount: number;
+  docsAvailable: boolean;
+  nodesOnline?: number;
+  nodesTotal?: number;
 }
 
 export interface ExpHealth {
@@ -86,6 +73,57 @@ export interface SkillInfo {
   questions: number;
 }
 
+export interface NodeInfo {
+  id: number;
+  name: string;
+  sshTarget: string;
+  baseUrl: string;
+  repoPath: string;
+  status: "NEW" | "DEPLOYING" | "ONLINE" | "OFFLINE" | "FAILED";
+  modelsCount: number;
+  lastError: string | null;
+  deployLog: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface DatasetInfo {
+  id: number;
+  name: string;
+  slug: string;
+  status: "READY" | "FAILED";
+  interactions: number;
+  users: number;
+  questions: number;
+  skills: number;
+  hasSkillNames: boolean;
+  lastError: string | null;
+  createdAt: string;
+}
+
+export interface TrainingJobInfo {
+  id: number;
+  datasetId: number;
+  datasetName: string;
+  modelName: string;
+  epochs: number;
+  status: "RUNNING" | "DONE" | "FAILED";
+  runDir: string | null;
+  logTail: string;
+  lastError: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface AdminUserInfo {
+  id: number;
+  username: string;
+  role: "USER" | "ADMIN";
+  active: boolean;
+  keyCount: number;
+  createdAt: string;
+}
+
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(`/api${path}`, {
     headers: { "Content-Type": "application/json" },
@@ -109,7 +147,8 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 export const api = {
   health: () => request<HealthInfo>("/health"),
   models: () => request<ModelInfo[]>("/models"),
-  skills: (model: string) => request<SkillInfo[]>(`/skills/${encodeURIComponent(model)}`),
+  skills: (model: string) =>
+    request<SkillInfo[]>(`/skills/${encodeURIComponent(model)}`),
   expHealth: () => request<ExpHealth>("/exp/health"),
   predict: (payload: PredictRequest) =>
     request<PredictResponse>("/predict", {
@@ -120,7 +159,8 @@ export const api = {
     list: () => request<NodeInfo[]>("/nodes"),
     create: (payload: { name: string; sshTarget: string; baseUrl: string; repoPath: string }) =>
       request<NodeInfo>("/nodes", { method: "POST", body: JSON.stringify(payload) }),
-    deploy: (id: number) => request<{ message: string }>(`/nodes/${id}/deploy`, { method: "POST" }),
+    deploy: (id: number) =>
+      request<{ message: string }>(`/nodes/${id}/deploy`, { method: "POST" }),
     remove: (id: number) => request<void>(`/nodes/${id}`, { method: "DELETE" }),
   },
   keys: {
@@ -152,13 +192,35 @@ export const api = {
         body: JSON.stringify(patch),
       }),
   },
+  datasets: {
+    upload: (name: string, interactions: File, skills: File | null) => {
+      const form = new FormData();
+      form.append("name", name);
+      form.append("interactions", interactions);
+      if (skills) {
+        form.append("skills", skills);
+      }
+      return fetch("/api/datasets", { method: "POST", body: form }).then(async (res) => {
+        const body = await res.json().catch(() => null);
+        if (!res.ok) {
+          throw new ApiError(res.status, body?.message || `上传失败：${res.status}`);
+        }
+        return body as DatasetInfo;
+      });
+    },
+    list: (scope?: "all") =>
+      request<DatasetInfo[]>(scope === "all" ? "/datasets?scope=all" : "/datasets"),
+    remove: (id: number) => request<void>(`/datasets/${id}`, { method: "DELETE" }),
+  },
+  training: {
+    list: (scope?: "all") =>
+      request<TrainingJobInfo[]>(
+        scope === "all" ? "/training-jobs?scope=all" : "/training-jobs",
+      ),
+    create: (payload: { datasetId: number; modelName: string; epochs: number }) =>
+      request<TrainingJobInfo>("/training-jobs", {
+        method: "POST",
+        body: JSON.stringify(payload),
+      }),
+  },
 };
-
-export interface AdminUserInfo {
-  id: number;
-  username: string;
-  role: "USER" | "ADMIN";
-  active: boolean;
-  keyCount: number;
-  createdAt: string;
-}

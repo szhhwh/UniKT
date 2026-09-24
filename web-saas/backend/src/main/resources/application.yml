@@ -14,6 +14,10 @@ server:
 spring:
   application:
     name: unikt-saas-backend
+  servlet:
+    multipart:
+      max-file-size: 200MB
+      max-request-size: 400MB
   datasource:
     # 默认零配置本地 H2 文件库；生产切 MySQL 只需覆盖：
     #   SPRING_DATASOURCE_URL=jdbc:mysql://host:3306/unikt?useSSL=false

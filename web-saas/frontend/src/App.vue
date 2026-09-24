@@ -58,6 +58,8 @@ async function doLogout(): Promise<void> {
           <span class="divider" aria-hidden="true"></span>
           <span class="group-label">我的</span>
           <RouterLink to="/keys">API 密钥</RouterLink>
+          <RouterLink to="/data">数据</RouterLink>
+          <RouterLink to="/training">训练</RouterLink>
           <template v-if="auth.isAdmin.value">
             <span class="divider" aria-hidden="true"></span>
             <span class="group-label">管理</span>

@@ -107,23 +107,34 @@ class InferenceEngine:
 
     @property
     def available_models(self) -> dict[str, dict[str, Any]]:
-        """模型名 -> ``{"available", "numSkills"}`` 的清单.
+        """模型名 -> ``{"available", "numSkills", "dataset"}`` 的清单.
 
         available 表示存在可加载的已训练 run 目录；numSkills 从 run 目录
-        引用的数据集 metadata.json 读取，供前端校验技能 id 范围，读取
-        失败时为 None（不影响可用性判断）。
+        引用的数据集 metadata.json 读取，供前端校验技能 id 范围；dataset
+        标明该版本训练用的数据集（generic_* 为用户自有数据——同名模型
+        取最新 run，需要让用户看清换版本）。读取失败为 None。
         """
         result: dict[str, dict[str, Any]] = {}
         for name in discover_model_names():
             run_dir = self._find_run_dir(name)
             if run_dir is None:
-                result[name] = {"available": False, "numSkills": None}
+                result[name] = {"available": False, "numSkills": None, "dataset": None}
             else:
                 result[name] = {
                     "available": True,
                     "numSkills": self._dataset_num_skills(run_dir),
+                    "dataset": self._dataset_of(run_dir),
                 }
         return result
+
+    @staticmethod
+    def _dataset_of(run_dir: Path) -> str | None:
+        """读 run_config.yaml 的 data.dataset（generic_* 表示用户自有数据）."""
+        try:
+            cfg = yaml.safe_load((run_dir / "run_config.yaml").read_text())
+            return cfg["data"]["dataset"]
+        except Exception:
+            return None
 
     @staticmethod
     def _dataset_num_skills(run_dir: Path) -> int | None:

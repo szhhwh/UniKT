@@ -39,7 +39,8 @@ public class SecurityConfig {
                 .requestMatchers("/api/v1/**").permitAll() // 由 ApiKeyFilter 鉴权
                 .requestMatchers("/api/nodes/**").hasRole("ADMIN")
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                .requestMatchers("/api/keys/**").authenticated()
+                .requestMatchers("/api/keys/**", "/api/datasets/**",
+                        "/api/training-jobs/**").authenticated()
                 .anyRequest().permitAll()); // 静态资源/SPA/文档等
         http.exceptionHandling(eh -> eh
                 .authenticationEntryPoint((req, res, ex) ->

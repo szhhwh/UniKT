@@ -35,7 +35,8 @@ public class SessionAccountFilter extends OncePerRequestFilter {
             return true; // 可疑路径交给安全链拒绝
         }
         return !(path.startsWith("/api/keys") || path.startsWith("/api/nodes")
-                || path.startsWith("/api/admin") || path.equals("/api/auth/me"));
+                || path.startsWith("/api/admin") || path.equals("/api/auth/me")
+                || path.startsWith("/api/datasets") || path.startsWith("/api/training-jobs"));
     }
 
     @Override
