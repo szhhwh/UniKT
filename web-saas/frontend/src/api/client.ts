@@ -66,6 +66,12 @@ export interface CreatedKey {
   key: string;
 }
 
+export interface SkillInfo {
+  id: number;
+  name: string | null;
+  questions: number;
+}
+
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const token = getAdminToken();
   const headers: Record<string, string> = { "Content-Type": "application/json" };
@@ -87,6 +93,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 export const api = {
   health: () => request<HealthInfo>("/health"),
   models: () => request<ModelInfo[]>("/models"),
+  skills: (model: string) => request<SkillInfo[]>(`/skills/${encodeURIComponent(model)}`),
   expHealth: () => request<ExpHealth>("/exp/health"),
   predict: (payload: PredictRequest) =>
     request<PredictResponse>("/predict", {

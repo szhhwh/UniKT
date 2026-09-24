@@ -27,8 +27,8 @@ import org.springframework.web.client.RestClient;
 @Service
 public class NodeRoutingService {
 
-    private static final long CACHE_TTL_MS = 5000;
-    private static final int NODE_TIMEOUT_MS = 2500;
+    private static final long CACHE_TTL_MS = 10000;
+    private static final int NODE_TIMEOUT_MS = 8000;
 
     /** 一个推理执行体（默认服务或某节点）。 */
     private record Endpoint(String name, String baseUrl) {
@@ -80,6 +80,21 @@ public class NodeRoutingService {
         }
         // 没有任何执行体声明该模型可用：仍交给默认服务，让它返回标准错误
         return inference.predict(request);
+    }
+
+    /** 该模型的技能目录：路由到持有它的执行体拉取；找不到返回 null。 */
+    public List<cn.ouc.luminatrail.unikt.dto.SkillDto> skillsFor(String model) {
+        for (Endpoint ep : endpoints()) {
+            List<ModelInfo> models = modelsOf(ep);
+            if (models.stream().anyMatch(m -> model.equals(m.name()) && m.available())) {
+                List<cn.ouc.luminatrail.unikt.dto.SkillDto> body =
+                        inference.listSkills(ep.baseUrl(), model);
+                if (body != null) {
+                    return body;
+                }
+            }
+        }
+        return null;
     }
 
     private List<ModelInfo> modelsOf(Endpoint ep) {

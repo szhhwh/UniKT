@@ -6,7 +6,9 @@ import cn.ouc.luminatrail.unikt.dto.PredictResponse;
 import cn.ouc.luminatrail.unikt.node.NodeRoutingService;
 import jakarta.validation.Valid;
 import java.util.List;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +32,16 @@ public class OpenApiController {
     @GetMapping("/models")
     public List<ModelInfo> models() {
         return routing.aggregateModels();
+    }
+
+    @GetMapping("/skills/{model}")
+    public ResponseEntity<List<cn.ouc.luminatrail.unikt.dto.SkillDto>> skills(
+            @PathVariable String model) {
+        List<cn.ouc.luminatrail.unikt.dto.SkillDto> catalog = routing.skillsFor(model);
+        if (catalog == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(catalog);
     }
 
     @PostMapping("/predict")

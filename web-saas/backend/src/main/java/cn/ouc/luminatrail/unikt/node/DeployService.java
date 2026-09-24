@@ -222,7 +222,7 @@ public class DeployService {
 
     private void refreshModels(ComputeNode node) {
         try {
-            List<Map<String, Object>> models = client(normalize(node.getBaseUrl()), 5000)
+            List<Map<String, Object>> models = client(normalize(node.getBaseUrl()), 8000)
                     .get().uri("/models")
                     .retrieve()
                     .body(new ParameterizedTypeReference<List<Map<String, Object>>>() {
@@ -235,7 +235,7 @@ public class DeployService {
 
     private static boolean ping(String baseUrl) {
         try {
-            client(baseUrl, 3000).get().uri("/health").retrieve().toBodilessEntity();
+            client(baseUrl, 8000).get().uri("/health").retrieve().toBodilessEntity();
             return true;
         } catch (Exception e) {
             return false;

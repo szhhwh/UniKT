@@ -1,115 +1,164 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue";
-import { api, type ModelInfo, type PredictResponse } from "../api/client";
+import { computed, onMounted, ref, watch } from "vue";
+import { useRoute } from "vue-router";
+import { api, type ModelInfo, type PredictResponse, type SkillInfo } from "../api/client";
 
+/** 一题一行：知识点 + 做对/做错。 */
+interface Row {
+  skill: number;
+  correct: 0 | 1;
+}
+
+const route = useRoute();
 const models = ref<ModelInfo[]>([]);
-const modelsError = ref("");
-const modelName = ref("DKT");
-const skillsText = ref("5,5,5,12,12,7,7,7");
-const responsesText = ref("1,1,0,0,1,1,1,0");
+const catalog = ref<SkillInfo[]>([]);
+const catalogLoading = ref(false);
+const modelName = ref("");
+const rows = ref<Row[]>([]);
 const result = ref<PredictResponse | null>(null);
 const error = ref("");
 const busy = ref(false);
+/** 首次预测要加载 checkpoint，给用户一个明确的心理预期。 */
+const firstCall = ref(true);
 
 onMounted(async () => {
   try {
     models.value = await api.models();
+    const available = models.value.filter((m) => m.available);
+    const fromQuery = route.query.model;
+    modelName.value =
+      (typeof fromQuery === "string" && available.some((m) => m.name === fromQuery)
+        ? fromQuery
+        : (available[0]?.name ?? ""));
   } catch (e) {
-    modelsError.value = e instanceof Error ? e.message : String(e);
+    error.value = e instanceof Error ? e.message : String(e);
   }
 });
 
 const availableModels = computed(() => models.value.filter((m) => m.available));
-const selectedModel = computed(
-  () => models.value.find((m) => m.name === modelName.value.trim()) ?? null,
-);
 
-function parseList(text: string): number[] | null {
-  const parts = text.split(/[,，\s]+/).filter(Boolean);
-  if (parts.length === 0) return null;
-  const nums = parts.map(Number);
-  if (nums.some((n) => !Number.isInteger(n))) return null;
-  return nums;
+watch(modelName, async (m) => {
+  catalog.value = [];
+  result.value = null;
+  error.value = "";
+  if (!m) return;
+  catalogLoading.value = true;
+  try {
+    catalog.value = await api.skills(m);
+  } catch {
+    // 目录拉不到（如数据集缺映射）不阻塞预测，仅退化为 id 展示
+  } finally {
+    catalogLoading.value = false;
+  }
+});
+
+function skillLabel(id: number): string {
+  const s = catalog.value.find((c) => c.id === id);
+  return s?.name ? s.name : `知识点 #${id}`;
 }
 
-const skills = computed(() => parseList(skillsText.value));
-const responses = computed(() => {
-  const list = parseList(responsesText.value);
-  if (list === null) return null;
-  return list.every((r) => r === 0 || r === 1) ? list : null;
+function optionLabel(s: SkillInfo): string {
+  const name = s.name ? s.name : `知识点 #${s.id}`;
+  return `${name}（${s.questions} 题）`;
+}
+
+function addRow(skill?: number): void {
+  const fallback =
+    rows.value.length > 0
+      ? rows.value[rows.value.length - 1].skill
+      : (catalog.value.find((c) => c.name)?.id ?? 0);
+  rows.value.push({ skill: skill ?? fallback, correct: 1 });
+  result.value = null;
+}
+
+function removeRow(i: number): void {
+  rows.value.splice(i, 1);
+  result.value = null;
+}
+
+function toggle(row: Row): void {
+  row.correct = row.correct === 1 ? 0 : 1;
+  result.value = null;
+}
+
+const namedSkills = computed(() => catalog.value.filter((c) => c.name));
+
+/** 示例序列：从当前模型目录里取有名称的技能，避免无意义的裸 id。 */
+const examples = computed<{ label: string; rows: Row[] }[]>(() => {
+  const picks = namedSkills.value.slice(0, 3);
+  if (picks.length < 2) return [];
+  const [a, b, c] = picks;
+  return [
+    { label: "先对后错", rows: [
+      { skill: a.id, correct: 1 }, { skill: a.id, correct: 1 },
+      { skill: b.id, correct: 0 }, { skill: b.id, correct: 0 },
+      { skill: a.id, correct: 1 },
+    ] },
+    { label: "持续答对", rows: picks.map((p) => ({ skill: p.id, correct: 1 as 0 | 1 })) },
+    { label: "先错后学", rows: [
+      { skill: (c ?? b).id, correct: 0 }, { skill: (c ?? b).id, correct: 0 },
+      { skill: (c ?? b).id, correct: 1 }, { skill: a.id, correct: 1 }, { skill: a.id, correct: 1 },
+    ] },
+  ];
 });
 
-const lengthMismatch = computed(
-  () =>
-    skills.value !== null &&
-    responses.value !== null &&
-    skills.value.length !== responses.value.length,
-);
-
-const skillRangeError = computed(() => {
-  const sel = selectedModel.value;
-  if (!sel || !sel.available || sel.numSkills === null) return null;
-  if (!skills.value) return null;
-  const bad = skills.value.filter((s) => s < 0 || s >= (sel.numSkills ?? 0));
-  return bad.length > 0
-    ? `知识点 id ${[...new Set(bad)].join(", ")} 超出范围 [0, ${sel.numSkills})`
-    : null;
-});
-
-const formError = computed(() => {
-  if (skills.value === null) return "知识点序列格式不对，应为逗号分隔的整数";
-  if (skills.value.length < 2) return "至少 2 个知识点";
-  if (responses.value === null)
-    return "作答序列格式不对，应为逗号分隔的 0/1";
-  if (lengthMismatch.value)
-    return `两个序列长度不一致（知识点 ${skills.value.length} vs 作答 ${responses.value.length}）`;
-  if (selectedModel.value && !selectedModel.value.available)
-    return `模型 ${modelName.value} 尚未训练（先在 WSL 运行 train.py）`;
-  return skillRangeError.value;
-});
+function fillExample(ex: { label: string; rows: Row[] }): void {
+  rows.value = ex.rows.map((r) => ({ ...r }));
+  result.value = null;
+  error.value = "";
+}
 
 const canSubmit = computed(
-  () => !busy.value && formError.value === null && modelName.value.trim() !== "",
+  () => !busy.value && modelName.value !== "" && rows.value.length >= 2,
 );
 
-const examples: { label: string; skills: string; responses: string }[] = [
-  { label: "先对后错", skills: "5,5,5,12,12,7,7,7", responses: "1,1,0,0,1,1,1,0" },
-  { label: "持续答对", skills: "3,3,4,4,9,9,9,9", responses: "1,1,1,1,1,1,1,1" },
-  { label: "先错后学", skills: "8,8,8,8,2,2,2", responses: "0,0,0,1,1,1,1" },
-];
-
-function fillExample(ex: (typeof examples)[number]) {
-  skillsText.value = ex.skills;
-  responsesText.value = ex.responses;
-  result.value = null;
-  error.value = "";
-}
-
-async function submit() {
+async function submit(): Promise<void> {
   error.value = "";
   result.value = null;
-  if (!canSubmit.value || !skills.value || !responses.value) return;
+  if (!canSubmit.value) return;
   busy.value = true;
   try {
+    const skills = rows.value.map((r) => r.skill);
+    const responses = rows.value.map((r) => r.correct);
     result.value = await api.predict({
-      model: modelName.value.trim(),
-      questions: skills.value,
-      skills: skills.value,
-      responses: responses.value,
+      model: modelName.value,
+      questions: skills,
+      skills,
+      responses,
     });
   } catch (e) {
     error.value = e instanceof Error ? e.message : String(e);
   } finally {
     busy.value = false;
+    firstCall.value = false;
   }
 }
 
-const avgPrediction = computed(() => {
-  if (!result.value || result.value.predictions.length === 0) return null;
-  const mean =
-    result.value.predictions.reduce((a, b) => a + b, 0) /
-    result.value.predictions.length;
-  return (mean * 100).toFixed(1);
+/** 每步人话描述：做完第 j 题（技能 X ✓/✗）→ 预测第 j+1 题（技能 Y）答对概率。 */
+const steps = computed(() => {
+  if (!result.value) return [];
+  return result.value.predictions.map((p, j) => ({
+    j,
+    doneSkill: skillLabel(rows.value[j]?.skill ?? 0),
+    doneOk: rows.value[j]?.correct === 1,
+    nextSkill: skillLabel(rows.value[j + 1]?.skill ?? 0),
+    p,
+  }));
+});
+
+/** 各知识点当前掌握度：该技能作为"下一题"的最后一次预测值。 */
+const mastery = computed(() => {
+  if (!result.value) return [];
+  const last = new Map<number, number>();
+  result.value.predictions.forEach((p, j) => {
+    const nextSkill = rows.value[j + 1]?.skill;
+    if (nextSkill !== undefined) {
+      last.set(nextSkill, p);
+    }
+  });
+  return [...last.entries()]
+    .map(([skill, p]) => ({ skill, label: skillLabel(skill), p }))
+    .sort((x, y) => y.p - x.p);
 });
 </script>
 
@@ -117,101 +166,110 @@ const avgPrediction = computed(() => {
   <section>
     <h1>推理演练场</h1>
     <p class="sub">
-      输入一段作答序列，真实模型逐步预测「下一题答对概率」。首次调用会加载
-      checkpoint，稍慢；之后同模型走缓存。
+      按学生实际的作答过程录入：每题选一个知识点、标记对错，模型逐步预测
+      「下一题答对概率」，并汇总各知识点当前掌握度。
     </p>
 
+    <div v-if="availableModels.length === 0" class="banner-error">
+      当前没有已训练的模型，无法演练。请联系管理员在「节点」页确认推理服务。
+    </div>
+
     <div class="card form-card">
-      <div class="form-grid">
-        <div class="field">
-          <label for="model">模型</label>
-          <input
-            id="model"
-            v-model="modelName"
-            list="model-options"
-            placeholder="DKT / AKT / …"
-          />
-          <datalist id="model-options">
-            <option v-for="m in availableModels" :key="m.name" :value="m.name">
-              {{ m.numSkills !== null ? `${m.numSkills} 个知识点` : "" }}
-            </option>
-          </datalist>
-          <span v-if="selectedModel" class="hint">
-            {{
-              selectedModel.available
-                ? selectedModel.numSkills !== null
-                  ? `已训练 · 知识点 id 范围 [0, ${selectedModel.numSkills})`
-                  : "已训练"
-                : "未训练"
-            }}
+      <div class="field">
+        <label for="pg-model">模型</label>
+        <select id="pg-model" v-model="modelName" :disabled="availableModels.length === 0">
+          <option v-for="m in availableModels" :key="m.name" :value="m.name">
+            {{ m.name }}（{{ m.numSkills ?? "?" }} 个知识点）
+          </option>
+        </select>
+        <span v-if="catalogLoading" class="hint">知识点目录加载中…</span>
+        <span v-else-if="catalog.length > 0" class="hint">
+          共 {{ catalog.length }} 个知识点{{ namedSkills.length > 0 ? `，${namedSkills.length} 个有名称` : "" }}
+        </span>
+      </div>
+
+      <div class="field">
+        <label>作答记录（第 1 题在最上面）</label>
+        <div class="rows">
+          <div v-for="(row, i) in rows" :key="i" class="row">
+            <span class="idx">{{ i + 1 }}</span>
+            <select v-model.number="row.skill" class="skill" @change="result = null">
+              <option v-for="s in catalog" :key="s.id" :value="s.id">
+                {{ optionLabel(s) }}
+              </option>
+            </select>
+            <button
+              class="result-btn"
+              :class="row.correct === 1 ? 'right' : 'wrong'"
+              type="button"
+              @click="toggle(row)"
+            >
+              {{ row.correct === 1 ? "✓ 对" : "✗ 错" }}
+            </button>
+            <button class="del" type="button" title="删除这一题" @click="removeRow(i)">×</button>
+          </div>
+        </div>
+        <div class="row-actions">
+          <button class="btn ghost small" type="button" @click="addRow()">+ 添加一题</button>
+          <span v-if="examples.length > 0" class="examples">
+            示例：
+            <button
+              v-for="ex in examples"
+              :key="ex.label"
+              class="btn ghost small"
+              type="button"
+              @click="fillExample(ex)"
+            >
+              {{ ex.label }}
+            </button>
           </span>
-          <span v-else-if="modelsError" class="error-text">{{ modelsError }}</span>
-        </div>
-
-        <div class="field">
-          <label for="skills">知识点序列</label>
-          <input id="skills" v-model="skillsText" placeholder="例如 5,5,5,12,12" />
-          <span class="hint">逗号分隔的概念 id，与作答一一对应</span>
-        </div>
-
-        <div class="field">
-          <label for="responses">作答序列（1 对 0 错）</label>
-          <input id="responses" v-model="responsesText" placeholder="例如 1,1,0,0,1" />
-          <span class="hint">与知识点序列等长</span>
         </div>
       </div>
 
-      <p v-if="formError" class="banner-error">{{ formError }}</p>
-
-      <div class="actions">
+      <div class="submit-line">
         <button class="btn" :disabled="!canSubmit" @click="submit">
           {{ busy ? "预测中…" : "开始预测" }}
         </button>
-        <span class="examples">
-          示例：
-          <button
-            v-for="ex in examples"
-            :key="ex.label"
-            class="btn ghost small"
-            type="button"
-            @click="fillExample(ex)"
-          >
-            {{ ex.label }}
-          </button>
+        <span v-if="busy && firstCall" class="hint">
+          首次调用需要加载模型（约 1 分钟），之后会很快…
         </span>
+        <span v-else-if="rows.length > 0 && rows.length < 2" class="hint">至少录入 2 题</span>
       </div>
     </div>
 
     <p v-if="error" class="banner-error">{{ error }}</p>
 
-    <div v-if="result" class="card result">
-      <div class="result-head">
-        <h2 style="margin: 0">{{ result.model }} 预测结果</h2>
-        <span v-if="avgPrediction !== null" class="badge ok">
-          平均答对概率 {{ avgPrediction }}%
-        </span>
-      </div>
-      <p class="legend">
-        第 j 步柱形 = 看完前 j 步作答后，模型对第 j+1 题的答对概率
-      </p>
+    <div v-if="mastery.length > 0" class="card result">
+      <h2 style="margin: 0 0 0.3rem">各知识点当前掌握度</h2>
+      <p class="legend">该技能作为"下一题"的最后一次预测——即模型对该生此技能的最新判断。</p>
       <div class="bars">
-        <div
-          v-for="(p, i) in result.predictions"
-          :key="i"
-          class="bar-row"
-          :title="`第 ${i + 1} 步后 → 下一题答对概率 ${p}`"
-        >
-          <span class="step">t{{ i + 1 }}</span>
+        <div v-for="m in mastery" :key="m.skill" class="bar-row">
+          <span class="bar-label">{{ m.label }}</span>
           <div class="bar">
             <div
               class="fill"
-              :class="p >= 0.6 ? 'high' : p >= 0.4 ? 'mid' : 'low'"
-              :style="{ width: `${Math.max(p * 100, 2)}%` }"
+              :class="m.p >= 0.6 ? 'high' : m.p >= 0.4 ? 'mid' : 'low'"
+              :style="{ width: `${Math.max(m.p * 100, 2)}%` }"
             ></div>
           </div>
-          <span class="val">{{ p.toFixed(4) }}</span>
+          <span class="val">{{ (m.p * 100).toFixed(1) }}%</span>
         </div>
       </div>
+    </div>
+
+    <div v-if="steps.length > 0" class="card result">
+      <h2 style="margin: 0 0 0.3rem">逐步预测过程</h2>
+      <ol class="steps">
+        <li v-for="s in steps" :key="s.j">
+          做完第 {{ s.j + 1 }} 题（{{ s.doneSkill }}
+          <span :class="s.doneOk ? 'ok-text' : 'bad-text'">{{ s.doneOk ? "✓ 对" : "✗ 错" }}</span
+          >）后
+          → 预测第 {{ s.j + 2 }} 题（{{ s.nextSkill }}）答对概率
+          <strong :class="s.p >= 0.6 ? 'ok-text' : s.p >= 0.4 ? '' : 'bad-text'">
+            {{ (s.p * 100).toFixed(1) }}%
+          </strong>
+        </li>
+      </ol>
     </div>
   </section>
 </template>
@@ -219,24 +277,87 @@ const avgPrediction = computed(() => {
 <style scoped>
 .sub {
   color: var(--muted);
-  max-width: 42rem;
+  max-width: 44rem;
 }
 
 .form-card {
   margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
 }
 
-.form-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1rem;
+select {
+  font: inherit;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: #fff;
+  max-width: 100%;
 }
 
-.actions {
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.idx {
+  width: 1.6rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.skill {
+  flex: 1;
+  min-width: 0;
+}
+
+.result-btn {
+  width: 4.2rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.45rem 0;
+  font-weight: 600;
+}
+
+.result-btn.right {
+  background: var(--success-weak);
+  color: var(--success);
+  border-color: #bbf7d0;
+}
+
+.result-btn.wrong {
+  background: var(--danger-weak);
+  color: var(--danger);
+  border-color: #fecaca;
+}
+
+.del {
+  border: none;
+  background: none;
+  color: #94a3b8;
+  font-size: 1.1rem;
+  padding: 0 0.3rem;
+}
+
+.del:hover {
+  color: var(--danger);
+}
+
+.row-actions {
   display: flex;
   align-items: center;
   gap: 1rem;
-  margin-top: 1.1rem;
+  margin-top: 0.5rem;
   flex-wrap: wrap;
 }
 
@@ -249,16 +370,15 @@ const avgPrediction = computed(() => {
   flex-wrap: wrap;
 }
 
-.result {
-  margin-top: 1.4rem;
-}
-
-.result-head {
+.submit-line {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 1rem;
   flex-wrap: wrap;
+}
+
+.result {
+  margin-top: 1.4rem;
 }
 
 .legend {
@@ -279,11 +399,13 @@ const avgPrediction = computed(() => {
   gap: 0.6rem;
 }
 
-.step {
-  width: 2.6rem;
-  color: var(--muted);
-  font-size: 0.82rem;
-  font-variant-numeric: tabular-nums;
+.bar-label {
+  width: 13rem;
+  min-width: 8rem;
+  font-size: 0.88rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .bar {
@@ -313,9 +435,28 @@ const avgPrediction = computed(() => {
 }
 
 .val {
-  width: 3.6rem;
+  width: 4rem;
   font-variant-numeric: tabular-nums;
   font-size: 0.85rem;
   color: var(--muted);
+}
+
+.steps {
+  margin: 0.4rem 0 0;
+  padding-left: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  line-height: 1.7;
+}
+
+.ok-text {
+  color: var(--success);
+  font-weight: 600;
+}
+
+.bad-text {
+  color: var(--danger);
+  font-weight: 600;
 }
 </style>

@@ -233,6 +233,12 @@ class DataSource(ABC):
                 "template"
             ].n_unique()
 
+        # Dense-id mappings (original id -> training id): needed by downstream
+        # interpretability tools (e.g. the web-saas skill catalog) to translate
+        # model-facing ids back to dataset ids/names. Without persisting them
+        # the mapping is unrecoverable after preprocessing.
+        metadata.update(self._export_id_mappings())
+
         metadata.update(relation_md5s)
 
         logger.debug(f"Saved sequence_data to: {sequence_data_path}")

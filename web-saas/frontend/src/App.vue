@@ -38,9 +38,11 @@ const statusTitle = computed(() => {
         <RouterLink to="/">首页</RouterLink>
         <RouterLink to="/models">模型</RouterLink>
         <RouterLink to="/playground">演练场</RouterLink>
+        <RouterLink to="/docs">文档</RouterLink>
+        <span class="divider" aria-hidden="true"></span>
+        <span class="group-label">管理</span>
         <RouterLink to="/nodes">节点</RouterLink>
         <RouterLink to="/keys">API</RouterLink>
-        <RouterLink to="/docs">文档</RouterLink>
       </nav>
       <span class="status" :title="statusTitle">
         <span class="dot" :class="statusClass"></span>
@@ -124,6 +126,19 @@ const statusTitle = computed(() => {
   max-width: 1020px;
   margin: 0 auto;
   padding: 1.8rem 1.5rem 3rem;
+}
+
+.divider {
+  width: 1px;
+  height: 1.1rem;
+  background: var(--border);
+  margin: 0 0.4rem;
+}
+
+.group-label {
+  color: #94a3b8;
+  font-size: 0.78rem;
+  align-self: center;
 }
 
 @media (max-width: 640px) {

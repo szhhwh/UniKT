@@ -78,6 +78,7 @@ class InferenceEngine:
         self._models: dict[str, _LoadedModel] = {}
         self._lock = threading.Lock()
         self._device = "cuda" if torch.cuda.is_available() else "cpu"
+        self._skill_cache: dict[str, list[dict[str, object]] | None] = {}
 
     # ---------- run 目录发现 ----------
 
@@ -141,6 +142,99 @@ class InferenceEngine:
             return int(meta["num_skills"])
         except Exception:  # 元数据缺失不阻塞模型列表
             return None
+
+    # ---------- 技能目录 ----------
+
+    def skill_catalog(self, model_name: str) -> list[dict[str, object]] | None:
+        """返回模型训练数据的技能目录 [{id, name, questions}]；无 run 目录时 None.
+
+        name 来自数据集 raw 原文件（如 assist09 的 skill_name 列），经
+        metadata.json 新增的 ``id_mapping_skill``（原始串 -> 训练用稠密
+        id）反查；questions 为该技能关联的题目数（关系表统计）。目录按
+        数据集缓存——重跑预处理后需重启服务。
+        """
+        run_dir = self._find_run_dir(model_name)
+        if run_dir is None:
+            return None
+        try:
+            cfg = yaml.safe_load((run_dir / "run_config.yaml").read_text())
+            base = Path(cfg["data"]["data_base_path"])
+            if not base.is_absolute():
+                base = _REPO_ROOT / base
+            dataset = cfg["data"]["dataset"]
+            key = f"{base}/{dataset}"
+            if key not in self._skill_cache:
+                self._skill_cache[key] = self._load_skill_catalog(base, dataset)
+            return self._skill_cache[key]
+        except Exception:
+            return None
+
+    def _load_skill_catalog(
+        self, base: Path, dataset: str
+    ) -> list[dict[str, object]]:
+        import json
+
+        data_dir = base / dataset  # base 是数据根（如 ./data），各数据集在子目录
+        meta = json.loads((data_dir / "metadata.json").read_text())
+        num_skills = int(meta["num_skills"])
+        # 稠密 id -> 原始技能串（id_mapping_* 为 原始 -> 稠密）
+        mapping: dict[str, int] = meta.get("id_mapping_skill") or {}
+        dense_to_raw = {v: k for k, v in mapping.items()}
+
+        raw_names = self._raw_skill_names(data_dir)
+        question_counts = self._skill_question_counts(data_dir, dataset)
+
+        catalog: list[dict[str, object]] = []
+        for dense in range(num_skills):
+            raw = dense_to_raw.get(dense)
+            catalog.append(
+                {
+                    "id": dense,
+                    "name": raw_names.get(raw) if raw else None,
+                    "questions": question_counts.get(dense, 0),
+                }
+            )
+        return catalog
+
+    @staticmethod
+    def _raw_skill_names(base: Path) -> dict[str, str]:
+        """从 raw 目录中找带 skill_id/skill_name 列的 CSV，建 原始串 -> 名称."""
+        import polars as pl
+
+        raw_dir = base / "raw"
+        if not raw_dir.is_dir():
+            return {}
+        for csv in sorted(raw_dir.glob("*.csv")):
+            try:
+                df = pl.read_csv(
+                    csv, infer_schema_length=0, null_values=[""], encoding="latin1"
+                )
+                if not {"skill_id", "skill_name"}.issubset(df.columns):
+                    continue
+                rows = (
+                    df.filter(pl.col("skill_id").is_not_null())
+                    .select(["skill_id", "skill_name"])
+                    .unique(subset=["skill_id"], keep="first")
+                )
+                return dict(zip(rows["skill_id"].to_list(), rows["skill_name"].to_list()))
+            except Exception:
+                continue
+        return {}
+
+    @staticmethod
+    def _skill_question_counts(base: Path, dataset: str) -> dict[int, int]:
+        """关系表里每个稠密技能 id 关联的题目数."""
+        import polars as pl
+
+        path = base / f"{dataset}_relation_question_skill.parquet"
+        if not path.is_file():
+            return {}
+        try:
+            df = pl.read_parquet(path)
+            counts = df.group_by("skill").agg(pl.col("question").n_unique())
+            return {int(r["skill"]): int(r["question"]) for r in counts.to_dicts()}
+        except Exception:
+            return {}
 
     # ---------- 加载 ----------
 

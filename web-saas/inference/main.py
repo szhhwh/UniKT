@@ -16,18 +16,24 @@ app = FastAPI(title="UniKT Inference Service", version="0.1.0")
 
 
 class PredictRequest(BaseModel):
-    """一次预测请求：一条学习者作答序列."""
+    """一次预测请求：一条学习者作答序列.
+
+    questions 为可选的兼容字段（与 skills 同义的旧占位），新调用方
+    只需 skills + responses。
+    """
 
     model: Annotated[str, Field(min_length=1)]
-    questions: Annotated[list[int], Field(min_length=2)]
+    questions: Annotated[list[int] | None, Field(min_length=2)] = None
     skills: Annotated[list[int], Field(min_length=2)]
     responses: Annotated[list[int], Field(min_length=2)]
 
     @model_validator(mode="after")
     def _check_aligned(self) -> PredictRequest:
-        """校验三个序列等长且 responses 只含 0/1."""
-        if not (len(self.questions) == len(self.skills) == len(self.responses)):
-            raise ValueError("questions/skills/responses 长度必须一致")
+        """校验序列等长且 responses 只含 0/1."""
+        if self.questions is not None and len(self.questions) != len(self.skills):
+            raise ValueError("questions/skills 长度必须一致")
+        if not (len(self.skills) == len(self.responses)):
+            raise ValueError("skills/responses 长度必须一致")
         if any(r not in (0, 1) for r in self.responses):
             raise ValueError("responses 取值只能是 0/1")
         return self
@@ -57,6 +63,15 @@ def models() -> list[dict[str, object]]:
         {"name": name, "available": info["available"], "numSkills": info["numSkills"]}
         for name, info in engine.available_models.items()
     ]
+
+
+@app.get("/skills/{model}")
+def skills(model: str) -> list[dict[str, object]]:
+    """该模型训练数据的技能目录（id/名称/关联题量）；未训练返回 404."""
+    catalog = engine.skill_catalog(model)
+    if catalog is None:
+        raise HTTPException(status_code=404, detail=f"模型 {model} 尚未训练，无技能目录")
+    return catalog
 
 
 @app.post("/predict", response_model=PredictResponse)

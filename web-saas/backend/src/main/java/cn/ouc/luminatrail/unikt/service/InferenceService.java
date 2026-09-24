@@ -64,6 +64,22 @@ public class InferenceService {
         }
     }
 
+    /** 面向指定节点的技能目录（baseUrl 为 null 时用默认服务）；失败返回 null。 */
+    public List<cn.ouc.luminatrail.unikt.dto.SkillDto> listSkills(
+            String baseUrl, String model) {
+        RestClient c = baseUrl == null ? client : build(baseUrl, timeout);
+        try {
+            return c.get()
+                    .uri("/skills/{m}", model)
+                    .retrieve()
+                    .body(new ParameterizedTypeReference<
+                            List<cn.ouc.luminatrail.unikt.dto.SkillDto>>() {
+                    });
+        } catch (RestClientException e) {
+            return null;
+        }
+    }
+
     public PredictResponse predict(PredictRequest request) {
         return predictAt(null, request);
     }

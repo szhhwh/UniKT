@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
 import { api, type ModelInfo } from "../api/client";
-import { services } from "../composables/useServices";
 
+const router = useRouter();
 const models = ref<ModelInfo[]>([]);
 const error = ref("");
 const loading = ref(true);
 const search = ref("");
-const onlyReady = ref(false);
+// 默认只看已训练：体验者关心的是"现在能用什么"
+const onlyReady = ref(true);
 
 onMounted(async () => {
   try {
@@ -28,6 +30,13 @@ const filtered = computed(() => {
   });
 });
 const readyCount = computed(() => models.value.filter((m) => m.available).length);
+
+/** 可用模型：点击卡片直接去演练场试它。 */
+function tryModel(m: ModelInfo): void {
+  if (m.available) {
+    void router.push({ path: "/playground", query: { model: m.name } });
+  }
+}
 </script>
 
 <template>
@@ -52,21 +61,24 @@ const readyCount = computed(() => models.value.filter((m) => m.available).length
       </label>
     </div>
 
-    <p v-if="services.backend === 'up' && !services.inferenceUp && services.nodesOnline === 0" class="banner-error">
-      推理服务离线且无在线节点。可在「节点」页部署远程推理，或在 WSL 上启动：
-      <code>systemctl start unikt-inference</code>
-    </p>
-    <p v-else-if="error" class="banner-error">获取失败：{{ error }}</p>
+    <p v-if="error" class="banner-error">获取失败：{{ error }}</p>
     <p v-else-if="loading">加载中…</p>
 
     <template v-else>
-      <p v-if="filtered.length === 0" class="empty">没有匹配的模型。</p>
-      <ul v-else class="model-grid">
+      <p v-if="filtered.length === 0" class="empty">
+        {{ onlyReady ? "当前没有已训练的模型——取消勾选可查看全部注册模型。" : "没有匹配的模型。" }}
+      </p>
+      <p v-if="readyCount > 0 && filtered.some((m) => m.available)" class="hint">
+        点击可用模型卡片即可到演练场试用。
+      </p>
+      <ul v-if="filtered.length > 0" class="model-grid">
         <li
           v-for="m in filtered"
           :key="m.name"
           class="card model"
-          :class="{ ready: m.available }"
+          :class="{ ready: m.available, clickable: m.available }"
+          :title="m.available ? `点击试用 ${m.name}` : undefined"
+          @click="tryModel(m)"
         >
           <div class="row">
             <span class="name">{{ m.name }}</span>
@@ -80,9 +92,10 @@ const readyCount = computed(() => models.value.filter((m) => m.available).length
               <span class="node-tag" :title="'由 ' + (m.node ?? '默认推理服务') + ' 提供'">
                 @{{ m.node ?? "默认" }}
               </span>
+              <span class="go">试用 →</span>
             </template>
             <template v-else>
-              <span>train.py -m {{ m.name }} 训练后自动上线</span>
+              <span>管理员训练后自动上线</span>
             </template>
           </div>
         </li>
@@ -143,6 +156,27 @@ const readyCount = computed(() => models.value.filter((m) => m.available).length
 
 .model.ready {
   border-color: #bbf7d0;
+}
+
+.model.clickable {
+  cursor: pointer;
+}
+
+.model.clickable:hover {
+  border-color: var(--primary);
+  box-shadow: 0 4px 14px rgb(37 99 235 / 0.12);
+}
+
+.go {
+  color: var(--primary);
+  font-size: 0.8rem;
+  margin-left: auto;
+}
+
+.hint {
+  color: var(--muted);
+  font-size: 0.86rem;
+  margin: 0.2rem 0 0.9rem;
 }
 
 .model .row {

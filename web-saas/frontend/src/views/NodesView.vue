@@ -82,7 +82,7 @@ async function addNode(): Promise<void> {
   creating.value = true;
   try {
     const f = form.value;
-    await api.nodes.create({
+    const created = await api.nodes.create({
       name: f.name.trim(),
       sshTarget: f.sshTarget.trim(),
       baseUrl: f.baseUrl.trim().replace(/\/+$/, ""),
@@ -90,6 +90,9 @@ async function addNode(): Promise<void> {
     });
     formOpen.value = false;
     form.value = { name: "", sshTarget: "", baseUrl: "", repoPath: "/root/unikt" };
+    // 保存即部署：填完表单的意图就是"让它跑起来"
+    await api.nodes.deploy(created.id);
+    expandedId.value = created.id;
     await refresh();
   } catch (e) {
     formError.value = e instanceof Error ? e.message : String(e);
@@ -185,7 +188,7 @@ function toggleLog(n: NodeInfo): void {
       </div>
       <p v-if="formError" class="banner-error">{{ formError }}</p>
       <button class="btn" :disabled="creating || !formOk" @click="addNode">
-        {{ creating ? "保存中…" : "保存节点" }}
+        {{ creating ? "保存中…" : "保存并部署" }}
       </button>
       <p class="hint">
         前提：本机可免密 SSH 到目标机（root 登录，ssh 别名已配好），且节点 IP 可直连。

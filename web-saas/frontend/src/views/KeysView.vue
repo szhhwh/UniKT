@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 import { api, type KeyInfo } from "../api/client";
 import AdminTokenInput from "../components/AdminTokenInput.vue";
 
@@ -82,6 +82,23 @@ function fmtTime(iso: string | null): string {
   if (!iso) return "—";
   return new Date(iso).toLocaleString();
 }
+
+/** 开放 API 地址：按当前访问的主机名生成（开发走 5174 代理外的 8080）。 */
+const apiBase = `http://${window.location.hostname}:8080`;
+
+/** 令牌变化后重载列表（与 AdminTokenInput 的验证联动）。 */
+function reloadOnToken(): void {
+  void (async () => {
+    try {
+      keys.value = await api.keys.list();
+      loadError.value = "";
+    } catch (e) {
+      loadError.value = e instanceof Error ? e.message : String(e);
+    }
+  })();
+}
+window.addEventListener("unikt:admin-token", reloadOnToken);
+onUnmounted(() => window.removeEventListener("unikt:admin-token", reloadOnToken));
 </script>
 
 <template>
@@ -169,20 +186,22 @@ function fmtTime(iso: string | null): string {
 
     <h2>调用方式</h2>
     <div class="card">
-      <pre class="example">curl -X POST http://&lt;服务地址&gt;:8080/api/v1/predict \
+      <pre class="example">curl -X POST {{ apiBase }}/api/v1/predict \
   -H "X-API-Key: unikt_你的密钥" \
   -H "Content-Type: application/json" \
   -d '{
     "model": "DKT",
-    "questions": [1, 2, 3],
-    "skills":   [5, 5, 12],
-    "responses":[1, 0, 1]
+    "skills":    [5, 5, 12],
+    "responses": [1, 0, 1]
   }'
 
-# 查看可用模型
-curl -H "X-API-Key: unikt_你的密钥" http://&lt;服务地址&gt;:8080/api/v1/models</pre>
+# 查看可用模型与知识点目录
+curl -H "X-API-Key: unikt_你的密钥" {{ apiBase }}/api/v1/models
+curl -H "X-API-Key: unikt_你的密钥" {{ apiBase }}/api/v1/skills/DKT</pre>
       <p class="hint">
-        密钥仅存 SHA-256 哈希，泄露后在此页吊销重发即可；无效密钥返回 401。
+        questions 字段可省略（兼容旧调用方时与 skills 同义）。密钥仅存
+        SHA-256 哈希，泄露后在此页吊销重发即可；无效密钥返回 401。
+        {{ apiBase }} 即本门户后端地址。
       </p>
     </div>
   </section>
