@@ -206,9 +206,15 @@ class InferenceEngine:
             return {}
         for csv in sorted(raw_dir.glob("*.csv")):
             try:
-                df = pl.read_csv(
-                    csv, infer_schema_length=0, null_values=[""], encoding="latin1"
-                )
+                # 用户上传的 generic 数据是 UTF-8；assist09 等内置源是 latin1
+                try:
+                    df = pl.read_csv(
+                        csv, infer_schema_length=0, null_values=[""], encoding="utf8"
+                    )
+                except Exception:
+                    df = pl.read_csv(
+                        csv, infer_schema_length=0, null_values=[""], encoding="latin1"
+                    )
                 if not {"skill_id", "skill_name"}.issubset(df.columns):
                     continue
                 rows = (
@@ -354,11 +360,30 @@ def _sakt_style_predict(
     return [round(float(out[0, i]), 4) for i in range(len(skills) - 1)]
 
 
+def _atkt_style_predict(
+    loaded: _LoadedModel, skills: list[int], responses: list[int]
+) -> list[float]:
+    """ATKT 族适配器：``forward(sequence, response)`` 返回 (preds, features).
+
+    preds 为 [B, L]（同 DKT 的前导 0 + 同位对齐约定），取元组首位。
+    注意不能把 mask 当第三参传入——它会绑到 ATKT 的 perturbation。
+    """
+    device = loaded.trainer.device_ or torch.device("cpu")
+    seq = torch.tensor([skills], dtype=torch.long, device=device)
+    resp = torch.tensor([responses], dtype=torch.long, device=device)
+
+    with torch.inference_mode():
+        out = loaded.trainer.model(seq, resp)
+    preds = out[0] if isinstance(out, tuple) else out
+    return [round(float(preds[0, t]), 4) for t in range(1, len(skills))]
+
+
 #: 前向适配器注册表：模型名 -> (loaded, skills, responses) -> 概率列表.
 #: 未注册的模型走 ``_default_predict``（DKT 族双分支）。
 PredictAdapter = Callable[[_LoadedModel, list[int], list[int]], list[float]]
 _PREDICT_ADAPTERS: dict[str, PredictAdapter] = {
     "SAKT": _sakt_style_predict,
+    "ATKT": _atkt_style_predict,
 }
 
 engine = InferenceEngine()

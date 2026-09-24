@@ -64,6 +64,11 @@ def get_data_source(rc: _HasRCNodes) -> DataSource:
         ValueError: If the dataset name is not registered.
     """
     dataset_name = rc.data.dataset
+    # generic_<slug>：用户上传的标准五列 CSV 数据集（无内置注册项）
+    if dataset_name.startswith("generic_"):
+        from .generic import GenericCsvData
+
+        return GenericCsvData(args=_rc_to_args_namespace(rc))
     if dataset_name not in DATA_SOURCES:
         available = ", ".join(get_supported_datasets())
         raise ValueError(f"Unsupported dataset: {dataset_name}. Available: {available}")

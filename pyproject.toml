@@ -28,6 +28,8 @@ ignore = [
 "web/backend/**/*.py" = ["RUF001", "RUF002", "RUF003"]
 # The SaaS inference service follows the same convention.
 "web-saas/inference/**/*.py" = ["RUF001", "RUF002", "RUF003"]
+# The generic upload datasource raises user-facing Chinese errors (same convention).
+"utils/data_process/generic.py" = ["RUF001", "RUF002", "RUF003"]
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
