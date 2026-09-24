@@ -21,10 +21,13 @@ public class InferenceController {
 
     private final InferenceService inference;
     private final NodeRoutingService routing;
+    private final cn.ouc.luminatrail.unikt.common.RateLimiter limiter;
 
-    public InferenceController(InferenceService inference, NodeRoutingService routing) {
+    public InferenceController(InferenceService inference, NodeRoutingService routing,
+                               cn.ouc.luminatrail.unikt.common.RateLimiter limiter) {
         this.inference = inference;
         this.routing = routing;
+        this.limiter = limiter;
     }
 
     @GetMapping("/models")
@@ -42,8 +45,30 @@ public class InferenceController {
         return ResponseEntity.ok(catalog);
     }
 
+    /**
+     * 演练场预测：公开接口（评委开箱即玩），但按 IP 限流——
+     * 否则绕过 /api/v1 的 API Key 配额直接打满 GPU。
+     */
     @PostMapping("/predict")
-    public ResponseEntity<PredictResponse> predict(@Valid @RequestBody PredictRequest request) {
+    public ResponseEntity<?> predict(
+            @Valid @RequestBody PredictRequest request,
+            jakarta.servlet.http.HttpServletRequest http) {
+        String ip = clientIp(http);
+        if (!limiter.tryAcquire("predict:" + ip, 20, 60_000)) {
+            return ResponseEntity.status(429)
+                    .body(java.util.Map.of("status", 429,
+                            "message", "预测请求太频繁（每分钟 20 次），稍后再试；"
+                                    + "批量调用请用 API 密钥走 /api/v1/predict"));
+        }
         return ResponseEntity.ok(routing.route(request));
+    }
+
+    private static String clientIp(jakarta.servlet.http.HttpServletRequest req) {
+        // 反代场景取 X-Forwarded-For 首个（部署在 Caddy/Nginx 后时正确）
+        String fwd = req.getHeader("X-Forwarded-For");
+        if (fwd != null && !fwd.isBlank()) {
+            return fwd.split(",")[0].trim();
+        }
+        return req.getRemoteAddr();
     }
 }

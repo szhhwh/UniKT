@@ -10,13 +10,13 @@ import jakarta.servlet.http.HttpServletRequest;
  * ``;`` 路径参数等变体（映射层折叠后命中受保护 handler，过滤器却
  * 跳过）。这里先剥 context path，再显式拒绝可疑形态。
  */
-final class PathGuard {
+public final class PathGuard {
 
     private PathGuard() {
     }
 
     /** 解析出剥掉 context path 的路径；形态可疑时返回 null（调用方应 400）。 */
-    static String normalize(HttpServletRequest request) {
+    public static String normalize(HttpServletRequest request) {
         String uri = request.getRequestURI();
         String ctx = request.getContextPath();
         if (ctx != null && !ctx.isEmpty() && uri.startsWith(ctx)) {

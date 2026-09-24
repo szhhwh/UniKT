@@ -24,18 +24,14 @@ import org.springframework.web.client.RestClientException;
 public class InferenceService {
 
     private final RestClient client;
-    private final Duration timeout;
+    private final int timeoutMs;
+    private final cn.ouc.luminatrail.unikt.common.InferenceClients clients;
 
-    public InferenceService(InferenceProperties props) {
-        this.timeout = Duration.ofMillis(props.inferenceTimeoutMs());
-        this.client = build(props.inferenceBaseUrl(), timeout);
-    }
-
-    private static RestClient build(String baseUrl, Duration timeout) {
-        SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
-        factory.setConnectTimeout(timeout);
-        factory.setReadTimeout(timeout);
-        return RestClient.builder().baseUrl(baseUrl).requestFactory(factory).build();
+    public InferenceService(InferenceProperties props,
+                            cn.ouc.luminatrail.unikt.common.InferenceClients clients) {
+        this.timeoutMs = props.inferenceTimeoutMs();
+        this.clients = clients;
+        this.client = clients.client(props.inferenceBaseUrl(), timeoutMs);
     }
 
     /** 拉取可用模型清单（默认推理服务）；不可达时返回空列表。 */
@@ -54,7 +50,7 @@ public class InferenceService {
     /** 面向指定节点地址的模型清单（节点路由用）。 */
     public List<ModelInfo> listModelsFrom(String baseUrl) {
         try {
-            return build(baseUrl, timeout).get()
+            return clients.client(baseUrl, timeoutMs).get()
                     .uri("/models")
                     .retrieve()
                     .body(new ParameterizedTypeReference<List<ModelInfo>>() {
@@ -67,7 +63,7 @@ public class InferenceService {
     /** 面向指定节点的技能目录（baseUrl 为 null 时用默认服务）；失败返回 null。 */
     public List<cn.ouc.luminatrail.unikt.dto.SkillDto> listSkills(
             String baseUrl, String model) {
-        RestClient c = baseUrl == null ? client : build(baseUrl, timeout);
+        RestClient c = baseUrl == null ? client : clients.client(baseUrl, timeoutMs);
         try {
             return c.get()
                     .uri("/skills/{m}", model)
@@ -86,7 +82,7 @@ public class InferenceService {
 
     /** 在指定节点上推理；baseUrl 为 null 时用默认推理服务。 */
     public PredictResponse predictAt(String baseUrl, PredictRequest request) {
-        RestClient c = baseUrl == null ? client : build(baseUrl, timeout);
+        RestClient c = baseUrl == null ? client : clients.client(baseUrl, timeoutMs);
         try {
             return c.post()
                     .uri("/predict")

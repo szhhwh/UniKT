@@ -47,20 +47,37 @@ public class AuthController {
     private final PasswordEncoder encoder;
     private final AuthenticationManager authManager;
     private final SecurityContextRepository contextRepo;
+    private final cn.ouc.luminatrail.unikt.common.RateLimiter limiter;
 
     public AuthController(UserRepository users, PasswordEncoder encoder,
                           AuthenticationManager authManager,
-                          SecurityContextRepository contextRepo) {
+                          SecurityContextRepository contextRepo,
+                          cn.ouc.luminatrail.unikt.common.RateLimiter limiter) {
         this.users = users;
         this.encoder = encoder;
         this.authManager = authManager;
         this.contextRepo = contextRepo;
+        this.limiter = limiter;
     }
+
+    /** 登录失败锁定：同用户名连续失败 5 次锁 10 分钟（成功登录即清零）。 */
+    private record FailState(int count, long lockUntil) {
+    }
+
+    private static final java.util.Map<String, FailState> loginFails =
+            new java.util.concurrent.ConcurrentHashMap<>();
+    private static final int MAX_FAILS = 5;
+    private static final long LOCK_MS = 10 * 60_000L;
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest req,
                                       HttpServletRequest request,
                                       HttpServletResponse response) {
+        // 防 script 批量刷注册：同 IP 每小时最多 5 个
+        if (!limiter.tryAcquire("register:" + request.getRemoteAddr(), 5, 3600_000)) {
+            return ResponseEntity.status(429)
+                    .body(Map.of("message", "注册太频繁，一小时后再试"));
+        }
         if (users.existsByUsername(req.username())) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
                     .body(Map.of("message", "用户名已被占用"));
@@ -71,25 +88,43 @@ public class AuthController {
         users.save(user);
         // 注册即登录
         loginSession(req.username(), req.password(), request, response);
+        loginFails.remove(req.username());
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(new MeResponse(user.getUsername(), user.getRole()));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<MeResponse> login(@Valid @RequestBody LoginRequest req,
-                                            HttpServletRequest request,
-                                            HttpServletResponse response) {
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest req,
+                                   HttpServletRequest request,
+                                   HttpServletResponse response) {
+        long now = System.currentTimeMillis();
+        FailState fail = loginFails.get(req.username());
+        if (fail != null && now < fail.lockUntil()) {
+            long minutes = (fail.lockUntil() - now) / 60_000 + 1;
+            return ResponseEntity.status(429)
+                    .body(Map.of("message", "失败次数过多，锁定中（约 " + minutes + " 分钟）"));
+        }
         User user = users.findByUsername(req.username()).orElse(null);
         if (user == null || !user.isActive()) {
+            recordFailure(req.username(), now, fail);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(null);
+                    .body(Map.of("message", "用户名或密码不正确"));
         }
         try {
             loginSession(req.username(), req.password(), request, response);
         } catch (AuthenticationException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+            recordFailure(req.username(), now, fail);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("message", "用户名或密码不正确"));
         }
+        loginFails.remove(req.username());
         return ResponseEntity.ok(new MeResponse(user.getUsername(), user.getRole()));
+    }
+
+    private static void recordFailure(String username, long now, FailState prev) {
+        int count = prev == null ? 1 : prev.count() + 1;
+        loginFails.put(username,
+                new FailState(count, count >= MAX_FAILS ? now + LOCK_MS : 0));
     }
 
     @PostMapping("/logout")

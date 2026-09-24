@@ -39,6 +39,7 @@ public class DeployService {
     private final NodeRepository nodes;
     private final SshExecutor ssh;
     private final InferenceProperties props;
+    private final cn.ouc.luminatrail.unikt.common.InferenceClients clients;
 
     private final ExecutorService deployPool = Executors.newFixedThreadPool(
             2, r -> {
@@ -57,10 +58,12 @@ public class DeployService {
         }
     }
 
-    public DeployService(NodeRepository nodes, SshExecutor ssh, InferenceProperties props) {
+    public DeployService(NodeRepository nodes, SshExecutor ssh, InferenceProperties props,
+                         cn.ouc.luminatrail.unikt.common.InferenceClients clients) {
         this.nodes = nodes;
         this.ssh = ssh;
         this.props = props;
+        this.clients = clients;
     }
 
     /** 触发异步部署；已在部署中返回 false。 */
@@ -122,10 +125,11 @@ public class DeployService {
             return require(r.ok(), "pixi 安装失败: " + SshExecutor.tail(r.stderr(), 3));
         });
 
-        // 3. 仓库（已存在则 pull，否则 clone）
+        // 3. 仓库（已存在则尽力更新；网络抖动不阻塞——代码靠 rsync 同步）
         step(node, "准备仓库", () -> {
             String cmd = "if [ -d " + repo + "/.git ]; then cd " + repo
-                    + " && git fetch origin && git checkout -q main && git pull --ff-only -q origin main;"
+                    + " && { git checkout -q main && git pull --ff-only -q origin main"
+                    + " || echo PULL_SKIPPED; };"
                     + " else git clone -q --depth 1 https://github.com/szhhwh/UniKT.git " + repo + "; fi";
             SshExecutor.SshResult r = ssh.run(t, cmd, Math.max(stepTimeout, 300));
             return require(r.ok(), "仓库准备失败: " + SshExecutor.tail(r.stderr() + r.stdout(), 3));
@@ -233,7 +237,7 @@ public class DeployService {
         }
     }
 
-    private static boolean ping(String baseUrl) {
+    private boolean ping(String baseUrl) {
         try {
             client(baseUrl, 8000).get().uri("/health").retrieve().toBodilessEntity();
             return true;
@@ -242,11 +246,8 @@ public class DeployService {
         }
     }
 
-    private static RestClient client(String baseUrl, int timeoutMs) {
-        SimpleClientHttpRequestFactory f = new SimpleClientHttpRequestFactory();
-        f.setConnectTimeout(Duration.ofMillis(timeoutMs));
-        f.setReadTimeout(Duration.ofMillis(timeoutMs));
-        return RestClient.builder().baseUrl(baseUrl).requestFactory(f).build();
+    private RestClient client(String baseUrl, int timeoutMs) {
+        return clients.client(baseUrl, timeoutMs);
     }
 
     /** 去掉 baseUrl 末尾斜杠，避免 RestClient CONCAT 出 //path。 */
@@ -256,6 +257,10 @@ public class DeployService {
 
     private String systemdUnit(ComputeNode node) {
         String repo = node.getRepoPath();
+        String token = props.inferenceToken();
+        String tokenEnv = (token == null || token.isBlank())
+                ? ""
+                : "\nEnvironment=UNIKT_INFERENCE_TOKEN=" + token;
         return """
                 [Unit]
                 Description=UniKT SaaS inference service (FastAPI, port 8100)
@@ -264,7 +269,7 @@ public class DeployService {
                 [Service]
                 Type=simple
                 WorkingDirectory=%s
-                Environment=HOME=/root
+                Environment=HOME=/root%s
                 Environment=PATH=/root/.pixi/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
                 ExecStart=%s/web-saas/inference/start.sh
                 Restart=on-failure
@@ -272,7 +277,7 @@ public class DeployService {
 
                 [Install]
                 WantedBy=multi-user.target
-                """.formatted(repo, repo);
+                """.formatted(repo, tokenEnv, repo);
     }
 
     /** 单步包装：成功/失败都记日志，失败抛异常终止；节点被删除则中止部署。 */

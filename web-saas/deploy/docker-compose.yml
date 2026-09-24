@@ -1,0 +1,39 @@
+# UniKT SaaS 单机部署（门户 + MySQL）。
+# 用法：cd web-saas/deploy && docker compose up -d
+# 推理服务不在此编排——按架构在 GPU 机上经门户「节点」页一键部署。
+services:
+  portal:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      # 对外域名（HTTPS 由反代终结，此处给容器内地址）
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/unikt?useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: unikt
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD:-change-me}
+      UNIKT_ADMIN_PASSWORD: ${UNIKT_ADMIN_PASSWORD:-}
+      UNIKT_INFERENCE_TOKEN: ${UNIKT_INFERENCE_TOKEN:-}
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  db:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: unikt
+      MYSQL_USER: unikt
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-change-me}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-change-me-too}
+    volumes:
+      - db-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  db-data:

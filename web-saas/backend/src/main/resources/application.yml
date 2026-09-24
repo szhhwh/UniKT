@@ -36,6 +36,12 @@ unikt:
   deploy-timeout-ms: 600000
   # 开放 API 每密钥每日调用配额
   quota-daily: 2000
+  # 推理服务共享密钥：设置后所有对推理服务的调用带 X-Inference-Token，
+  # 且部署到节点的 systemd 单元会注入同名环境变量（两侧需一致）
+  inference-token: ${UNIKT_INFERENCE_TOKEN:}
+  # 生产部署：前端构建产物目录（npm run build 后的 dist）。
+  # 配置后由本服务托管前端，只暴露 8080 一个端口；空 = 开发模式走 Vite 5174
+  frontend-dir: ${UNIKT_FRONTEND_DIR:}
 
 logging:
   level:

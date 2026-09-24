@@ -5,7 +5,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.time.LocalDate;
-import java.time.ZoneOffset;
+import java.time.ZoneId;
 import java.util.HexFormat;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,9 +19,12 @@ public class ApiKeyService {
 
     private final SecureRandom random = new SecureRandom();
     private final ApiKeyRepository keys;
+    private final cn.ouc.luminatrail.unikt.user.UserRepository users;
 
-    public ApiKeyService(ApiKeyRepository keys) {
+    public ApiKeyService(ApiKeyRepository keys,
+                         cn.ouc.luminatrail.unikt.user.UserRepository users) {
         this.keys = keys;
+        this.users = users;
     }
 
     /** 生成形如 unikt_&lt;40位hex&gt; 的密钥，归属 owner；明文仅此一次可见。 */
@@ -39,7 +42,7 @@ public class ApiKeyService {
         return new CreatedKey(keys.save(user), raw);
     }
 
-    /** 校验密钥：存在且启用则返回实体（不写库）；否则 null。 */
+    /** 校验密钥：密钥本身启用**且主人账号启用**才通过；否则 null。 */
     public ApiKeyUser verify(String rawKey) {
         if (rawKey == null || rawKey.isBlank()) {
             return null;
@@ -47,6 +50,12 @@ public class ApiKeyService {
         ApiKeyUser user = keys.findByKeyHash(sha256(rawKey)).orElse(null);
         if (user == null || !user.isActive()) {
             return null;
+        }
+        if (user.getOwnerId() != null) {
+            var owner = users.findById(user.getOwnerId()).orElse(null);
+            if (owner == null || !owner.isActive()) {
+                return null;
+            }
         }
         return user;
     }
@@ -62,7 +71,8 @@ public class ApiKeyService {
         if (fresh == null) {
             return false;
         }
-        String today = LocalDate.now(ZoneOffset.UTC).toString();
+        // "每天"按用户所在时区（Asia/Shanghai）计算，避免 UTC 早 8 点重置的困惑
+        String today = LocalDate.now(ZoneId.of("Asia/Shanghai")).toString();
         if (!today.equals(fresh.getDailyDate())) {
             fresh.setDailyDate(today);
             fresh.setDailyCount(0);

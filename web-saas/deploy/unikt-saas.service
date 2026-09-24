@@ -1,0 +1,20 @@
+[Unit]
+Description=UniKT SaaS portal (SpringBoot, port 8080)
+After=network.target
+
+# 安装（路径按实际仓库位置调整）：
+#   cp unikt-saas.service /etc/systemd/system/ && systemctl daemon-reload
+#   systemctl enable --now unikt-saas
+[Service]
+Type=simple
+WorkingDirectory=/opt/unikt/web-saas/backend
+Environment=UNIKT_FRONTEND_DIR=/opt/unikt/web-saas/frontend/dist
+Environment=UNIKT_DOCS_DIR=/opt/unikt/web-saas/docs-build
+# Environment=UNIKT_ADMIN_PASSWORD=设置首个管理员密码
+# Environment=UNIKT_INFERENCE_TOKEN=与推理节点一致的共享密钥
+ExecStart=/usr/bin/java -jar target/unikt-saas-backend-0.1.0-SNAPSHOT.jar
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

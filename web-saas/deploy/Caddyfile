@@ -1,0 +1,7 @@
+# Caddy 反向代理：自动 HTTPS（需要域名指向本机）。
+# 安装：brew install caddy / apt install caddy
+# 使用：caddy run --config Caddyfile（把 saas.example.com 换成你的域名）
+saas.example.com {
+	reverse_proxy 127.0.0.1:8080
+	header /api/* Cache-Control "no-store"
+}

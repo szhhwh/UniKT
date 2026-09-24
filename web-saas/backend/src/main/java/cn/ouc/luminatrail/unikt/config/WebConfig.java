@@ -33,16 +33,26 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         String docsDir = props.docsDir();
-        if (docsDir == null || docsDir.isBlank()) {
-            return;
+        if (docsDir != null && !docsDir.isBlank()) {
+            Path dir = Path.of(docsDir).toAbsolutePath().normalize();
+            if (Files.isDirectory(dir)) {
+                registry.addResourceHandler("/docs-static/**")
+                        .addResourceLocations(dir.toUri() + "/")
+                        .setCachePeriod(600);
+            }
         }
-        Path dir = Path.of(docsDir).toAbsolutePath().normalize();
-        if (!Files.isDirectory(dir)) {
-            return;
+        // 生产模式：托管前端构建产物（单端口部署）；/api 与 /docs-static
+        // 由控制器/上面的 handler 优先处理，资源处理器兜底静态文件
+        String frontendDir = props.frontendDir();
+        if (frontendDir != null && !frontendDir.isBlank()) {
+            Path dir = Path.of(frontendDir).toAbsolutePath().normalize();
+            if (Files.isDirectory(dir)) {
+                registry.addResourceHandler("/**")
+                        .addResourceLocations(dir.toUri() + "/")
+                        .setCachePeriod(600)
+                        .resourceChain(true);
+            }
         }
-        registry.addResourceHandler("/docs-static/**")
-                .addResourceLocations(dir.toUri() + "/")
-                .setCachePeriod(600);
     }
 
     /** 文档目录是否就绪（首页状态卡用）。 */

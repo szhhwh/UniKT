@@ -45,12 +45,15 @@ public class NodeRoutingService {
 
     private final NodeRepository nodes;
     private final InferenceService inference;
+    private final cn.ouc.luminatrail.unikt.common.InferenceClients clients;
     private final Map<String, ModelsCache> cache = new ConcurrentHashMap<>();
     private final Map<String, SkillsCache> skillsCache = new ConcurrentHashMap<>();
 
-    public NodeRoutingService(NodeRepository nodes, InferenceService inference) {
+    public NodeRoutingService(NodeRepository nodes, InferenceService inference,
+                              cn.ouc.luminatrail.unikt.common.InferenceClients clients) {
         this.nodes = nodes;
         this.inference = inference;
+        this.clients = clients;
     }
 
     /** 聚合模型清单：同名模型合并 available（OR）与首个提供者。 */
@@ -123,15 +126,10 @@ public class NodeRoutingService {
         return models;
     }
 
-    private static List<ModelInfo> fetchModels(String baseUrl) {
+    private List<ModelInfo> fetchModels(String baseUrl) {
         try {
-            SimpleClientHttpRequestFactory f = new SimpleClientHttpRequestFactory();
-            f.setConnectTimeout(Duration.ofMillis(NODE_TIMEOUT_MS));
-            f.setReadTimeout(Duration.ofMillis(NODE_TIMEOUT_MS));
-            List<ModelInfo> body = RestClient.builder()
-                    .baseUrl(DeployService.normalize(baseUrl))
-                    .requestFactory(f)
-                    .build()
+            List<ModelInfo> body = clients
+                    .client(DeployService.normalize(baseUrl), NODE_TIMEOUT_MS)
                     .get()
                     .uri("/models")
                     .retrieve()

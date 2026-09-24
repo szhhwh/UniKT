@@ -1,18 +1,36 @@
 """UniKT SaaS 推理服务（FastAPI，端口 8100）.
 
 职责边界：只做模型推理相关端点；用户/会话/编排一律在 SpringBoot 后端。
-SpringBoot 通过 http://localhost:8100/{health,models,predict} 调用本服务。
+SpringBoot 通过 http://localhost:8100/{health,models,skills,predict} 调用本服务。
+
+部署在可达网络（如 Tailscale IP）时，设置环境变量 UNIKT_INFERENCE_TOKEN：
+所有请求必须携带一致的 X-Inference-Token 头，否则 401——防止绕过门户
+的鉴权与配额直连推理。
 """
 
 from __future__ import annotations
 
+import os
 from typing import Annotated
 
 from engine import engine
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field, model_validator
 
 app = FastAPI(title="UniKT Inference Service", version="0.1.0")
+
+_INFERENCE_TOKEN = os.environ.get("UNIKT_INFERENCE_TOKEN", "")
+
+
+@app.middleware("http")
+async def _token_guard(request: Request, call_next):
+    """共享密钥校验：设置了 UNIKT_INFERENCE_TOKEN 后所有路径都要求该头。"""
+    if _INFERENCE_TOKEN and request.headers.get("X-Inference-Token") != _INFERENCE_TOKEN:
+        return JSONResponse(
+            {"detail": "推理服务需要 X-Inference-Token（经门户后端调用）"}, status_code=401
+        )
+    return await call_next(request)
 
 
 class PredictRequest(BaseModel):
