@@ -204,9 +204,11 @@ public class DatasetIngestService {
     }
 
     /**
-     * 展示名 → 数据集 slug（generic_ 前缀 + 仅小写字母数字短横线，全局
-     * 唯一）。slug 会成为节点目录名与 shell 参数，必须 ASCII：中文名
-     * 落到 "data"/"data-2" 这类兜底名（展示名保留中文）。
+     * 展示名 → 数据集 slug（generic_ 前缀 + 仅小写字母数字短横线）。
+     * slug 会成为节点目录名与 shell 参数，必须 ASCII（中文名落到
+     * "data" 兜底）。尾部拼数据库序号保证**永不重用**——删除数据集后
+     * 记录消失，但节点上的训练产物（MODEL@slug 限定名）还在，slug 若
+     * 被下一个用户拿走，归属校验会把他人的模型判给新用户（跨用户泄露）。
      */
     public String slugFor(String name, DatasetRepository repo) {
         String base = name.toLowerCase(Locale.ROOT).replaceAll("[^a-z0-9]+", "-")
@@ -214,12 +216,13 @@ public class DatasetIngestService {
         if (base.isEmpty() || base.length() < 2) {
             base = "data";
         }
-        String slug = "generic_" + base;
-        int i = 2;
-        while (repo.existsBySlug(slug)) {
-            slug = "generic_" + base + "-" + i++;
+        if (base.length() > 30) {
+            base = base.substring(0, 30);
         }
-        return slug;
+        // 序号 = 当前最大 id + 1：单调递增，删除不回收
+        long seq = repo.findAll().stream().mapToLong(UserDataset::getId).max()
+                .orElse(0L) + 1;
+        return "generic_" + base + "-" + seq;
     }
 
     public Path stagedDir(long datasetId) {

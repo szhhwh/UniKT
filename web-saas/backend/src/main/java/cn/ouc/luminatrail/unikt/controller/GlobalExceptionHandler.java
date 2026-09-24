@@ -28,6 +28,15 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(ApiError.of(400, detail));
     }
 
+    @ExceptionHandler(jakarta.validation.ConstraintViolationException.class)
+    public ResponseEntity<ApiError> badParams(jakarta.validation.ConstraintViolationException e) {
+        String detail = e.getConstraintViolations().stream()
+                .map(v -> v.getMessage())
+                .findFirst()
+                .orElse("参数校验失败");
+        return ResponseEntity.badRequest().body(ApiError.of(400, detail));
+    }
+
     @ExceptionHandler(org.springframework.web.multipart.MaxUploadSizeExceededException.class)
     public ResponseEntity<ApiError> tooLarge(
             org.springframework.web.multipart.MaxUploadSizeExceededException e) {

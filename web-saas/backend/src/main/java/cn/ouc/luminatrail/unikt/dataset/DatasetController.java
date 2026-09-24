@@ -41,10 +41,13 @@ public class DatasetController {
 
     private final DatasetRepository datasets;
     private final DatasetIngestService ingest;
+    private final cn.ouc.luminatrail.unikt.training.JobRepository jobs;
 
-    public DatasetController(DatasetRepository datasets, DatasetIngestService ingest) {
+    public DatasetController(DatasetRepository datasets, DatasetIngestService ingest,
+                             cn.ouc.luminatrail.unikt.training.JobRepository jobs) {
         this.datasets = datasets;
         this.ingest = ingest;
+        this.jobs = jobs;
     }
 
     @GetMapping
@@ -92,10 +95,9 @@ public class DatasetController {
             d.setQuestions(stats.questions());
             d.setSkills(stats.skills());
             d.setStatus(UserDataset.READY);
-            // 先把暂存挪到按 id 的正式目录，成功后才落库——反过来会留下
-            // 一条"就绪"但底下没有文件的数据集（挪盘失败时）
-            UserDataset saved = datasets.save(d); // 先拿 id（可能回滚不了？——
-            // H2/JPA 无事务下 save 即提交；改为：先 save 拿 id，挪盘失败再删记录
+            // 先落库拿 id，再把暂存挪到正式目录；挪盘失败则删除记录
+            // （不留"就绪"但底下没有文件的空壳）
+            UserDataset saved = datasets.save(d);
             java.nio.file.Path formal = ingest.stagedDir(saved.getId());
             java.nio.file.Files.createDirectories(formal.getParent());
             try {
@@ -124,13 +126,20 @@ public class DatasetController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         UserDataset d = datasets.findById(id).orElse(null);
         if (d == null) {
             return ResponseEntity.notFound().build();
         }
         if (!Objects.equals(d.getOwnerId(), currentUserId()) && !isAdmin()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        // 训练进行中的数据集不许删：任务的 rsync/训练还在引用它，
+        // 删掉会让任务炸出难懂的远端错误；也顺手堵住 slug 释放入口
+        if (jobs.existsByDatasetIdAndStatus(id,
+                cn.ouc.luminatrail.unikt.training.TrainingJob.RUNNING)) {
+            return ResponseEntity.status(409)
+                    .body(Map.of("message", "该数据集有训练任务进行中，请先取消"));
         }
         datasets.deleteById(id);
         ingest.deleteStaged(id);

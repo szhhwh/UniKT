@@ -54,9 +54,9 @@ async function doRefresh(): Promise<void> {
   await Promise.allSettled(tasks);
 }
 
-onMounted(async () => {
-  await refresh();
-  // 有进行中任务才轮询；全部终态后停止（切后台不再空转）
+/** 启动轮询（幂等）：有进行中任务才轮询，全部终态后自停。 */
+function startPolling(): void {
+  if (timer !== null) clearInterval(timer);
   timer = setInterval(() => {
     if (jobs.value.every((j) => j.status !== "RUNNING")) {
       if (timer !== null) clearInterval(timer);
@@ -65,6 +65,11 @@ onMounted(async () => {
     }
     void refresh();
   }, 5000);
+}
+
+onMounted(async () => {
+  await refresh();
+  startPolling();
 });
 onUnmounted(() => {
   if (timer !== null) clearInterval(timer);
@@ -100,6 +105,7 @@ async function submit(): Promise<void> {
     });
     expandedId.value = job.id;
     await refresh();
+    startPolling(); // 计时器可能已因"全终态"自停，新任务要重新点起来
   } catch (e) {
     opError.value = e instanceof Error ? e.message : String(e);
   } finally {
@@ -113,6 +119,7 @@ async function cancelJob(j: { id: number; status: string }): Promise<void> {
   try {
     await api.training.cancel(j.id);
     await refresh();
+    startPolling(); // 取消后若有其他 RUNNING 任务继续跟踪
   } catch (e) {
     opError.value = e instanceof Error ? e.message : String(e);
   }

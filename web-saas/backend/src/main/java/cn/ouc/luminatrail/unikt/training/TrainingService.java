@@ -107,6 +107,12 @@ public class TrainingService {
 
     /** 在节点上执行数据同步与后台训练启动（orchestrator 线程内）。 */
     private void launch(TrainingJob job, UserDataset ds, ComputeNode node) {
+        // 异步执行期间用户可能已取消（rsync 大数据集要几分钟）：每步前
+        // 查库状态，非 RUNNING 即中止；落库一律走条件 UPDATE（状态守卫），
+        // 从根上消灭"旧对象覆盖取消写入"的复活竞态
+        if (aborted(job)) {
+            return;
+        }
         String rawDir = node.getRepoPath() + "/data/" + ds.getSlug() + "/raw";
         SshExecutor.SshResult mkdir = ssh.run(node.getSshTarget(),
                 "mkdir -p " + SshExecutor.shellQuote(rawDir), 60);
@@ -114,11 +120,17 @@ public class TrainingService {
             fail(job, "创建远端目录失败: " + mkdir.stderr());
             return;
         }
+        if (aborted(job)) {
+            return;
+        }
         SshExecutor.SshResult sync = ssh.rsync(
                 ingest.stagedDir(job.getDatasetId()).toAbsolutePath().toString(),
                 node.getSshTarget(), rawDir, 600);
         if (!sync.ok()) {
             fail(job, "数据同步失败: " + sync.stderr());
+            return;
+        }
+        if (aborted(job)) {
             return;
         }
 
@@ -139,20 +151,26 @@ public class TrainingService {
                 + " --early_stopping.patience 3; "
                 + "echo UNIKT_EXIT=$?";
         String cmd = "setsid sh -c " + SshExecutor.shellQuote(inner)
-                + " > " + SshExecutor.shellQuote(logFile) + " 2>&1 < /dev/null &"
-                + " echo $!";
+                + " > " + SshExecutor.shellQuote(logFile) + " 2>&1 < /dev/null &";
         SshExecutor.SshResult kick = ssh.run(node.getSshTarget(), cmd, 60);
         if (!kick.ok()) {
             fail(job, "启动训练失败: " + kick.stderr());
             return;
         }
-        try {
-            job.setRemotePgid(Long.parseLong(kick.stdout().strip().split("\n")[0]));
-        } catch (NumberFormatException ignored) {
-            // 拿不到 PGID 时取消/超时退化为日志标记（少见）
+        // 条件写（仅 RUNNING 生效）：取消若发生在 ssh 往返期间，这里返回
+        // 0 行——把刚启动的进程组清掉，绝不复活
+        int marked = jobs.markLaunched(job.getId(),
+                "训练已启动（节点 " + node.getName() + "，日志 " + logFile + "）",
+                Instant.now(), TrainingJob.RUNNING);
+        if (marked == 0) {
+            killRemote(node, job);
         }
-        job.setLogTail("训练已启动（节点 " + node.getName() + "，日志 " + logFile + "）");
-        jobs.save(job);
+    }
+
+    /** 任务已被取消/删除则 true（launch 各步骤间的中止检查）。 */
+    private boolean aborted(TrainingJob job) {
+        TrainingJob latest = jobs.findById(job.getId()).orElse(null);
+        return latest == null || !TrainingJob.RUNNING.equals(latest.getStatus());
     }
 
     /** 后台轮询 RUNNING 任务。 */
@@ -228,15 +246,15 @@ public class TrainingService {
         String out = r.stdout();
         String tail = out.contains("---MARKER---")
                 ? out.substring(0, out.lastIndexOf("---MARKER---")) : out;
-        job.setLogTail(tail.strip());
         if (out.contains("UNIKT_EXIT=0")) {
-            job.setRunDir(findRunDir(node, job));
-            job.setStatus(TrainingJob.DONE);
+            jobs.complete(job.getId(), findRunDir(node, job), Instant.now(), TrainingJob.RUNNING);
         } else if (out.contains("UNIKT_EXIT=")) {
-            job.setStatus(TrainingJob.FAILED);
-            job.setLastError("训练失败，看日志尾部定位原因");
+            jobs.markFailed(job.getId(), "训练失败，看日志尾部定位原因",
+                Instant.now(), TrainingJob.RUNNING);
         }
-        jobs.save(job);
+        // 日志更新放最后且条件写：任务若刚被取消，这里 0 行、状态不被覆盖
+        jobs.appendLogIfRunning(job.getId(), tail.strip(),
+                Instant.now(), TrainingJob.RUNNING);
     }
 
     /** 找该任务产出的 run 目录（&lt;模型&gt;_&lt;数据集&gt; 前缀取最新；两段均已白名单校验）。 */
@@ -266,15 +284,14 @@ public class TrainingService {
             // 同模型名的任务；pidfile 记录的 PGID 是唯一可靠锚点）
             nodes.findById(job.getNodeId()).ifPresent(node -> killRemote(node, job));
         }
-        job.setStatus(TrainingJob.FAILED);
-        job.setLastError("已取消");
-        return jobs.save(job);
+        jobs.markFailed(job.getId(), "已取消", Instant.now(), TrainingJob.RUNNING);
+        return jobs.findById(job.getId()).orElse(job);
     }
 
+    /** 标记失败（仅 RUNNING 时生效：不覆盖用户取消写入的"已取消"）。 */
     private TrainingJob fail(TrainingJob job, String message) {
-        job.setStatus(TrainingJob.FAILED);
-        job.setLastError(message);
-        return jobs.save(job);
+        jobs.markFailed(job.getId(), message, Instant.now(), TrainingJob.RUNNING);
+        return jobs.findById(job.getId()).orElse(job);
     }
 
     @jakarta.annotation.PreDestroy
@@ -282,9 +299,4 @@ public class TrainingService {
         orchestrator.shutdown();
     }
 
-    private ComputeNode pickNode() {
-        return nodes.findAll(Sort.by("id")).stream()
-                .filter(n -> ComputeNode.ONLINE.equals(n.getStatus()))
-                .findFirst().orElse(null);
-    }
 }

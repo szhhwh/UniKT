@@ -159,8 +159,10 @@ class InferenceEngine:
                 if ds is None or not ds.startswith("generic_"):
                     continue
                 for base in discover_model_names():
-                    if d.name.startswith(f"{base}_") and (name, ds) not in seen:
-                        seen.add((name, ds))
+                    # 注意用 base 判重/拼名：此前误用外层残留的 name 变量，
+                    # 导致同一数据集只有第一个匹配 run 能注册限定名
+                    if d.name.startswith(f"{base}_") and (base, ds) not in seen:
+                        seen.add((base, ds))
                         qualified = f"{base}@{ds}"
                         if qualified not in result:
                             result[qualified] = {
