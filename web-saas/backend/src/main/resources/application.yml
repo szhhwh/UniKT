@@ -4,15 +4,30 @@ server:
 spring:
   application:
     name: unikt-saas-backend
+  datasource:
+    # 本地文件库；如需外部工具连库，用 UNIKT_DB_PASSWORD 换掉默认口令
+    url: jdbc:h2:file:./data/unikt-saas
+    username: sa
+    password: ${UNIKT_DB_PASSWORD:unikt-local}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
 
 unikt:
   # Python 推理服务地址（web-saas/inference；WSL 时常配隧道或直连其 IP）
   inference-base-url: http://localhost:8100
   inference-timeout-ms: 15000
-  # Sphinx 构建产物目录（/docs/** 静态托管）；相对路径以进程工作目录为基准
+  # Sphinx 构建产物目录（/docs-static/** 静态托管）；相对路径以进程工作目录为基准
   docs-dir: ../docs-build
   # 实验中心（web/ 管理器）地址，空 = 未配置（首页状态卡显示"未配置"）
   exp-base-url: ""
+  # 本地 web-saas/inference 源码目录（节点部署时 rsync 的来源）
+  inference-src: ../inference
+  # 节点部署的并发数与单步 SSH 超时
+  deploy-timeout-ms: 600000
+  # 管理令牌：设置后节点/密钥的改动型接口需 X-Admin-Token；空=无保护（仅内网演示）
+  admin-token: ${UNIKT_ADMINTOKEN:}
 
 logging:
   level:

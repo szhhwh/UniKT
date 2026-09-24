@@ -9,6 +9,8 @@ export const services = reactive({
   inferenceUp: false,
   modelCount: 0,
   docsAvailable: false,
+  nodesOnline: 0,
+  nodesTotal: 0,
   exp: {
     status: "not-configured" as "ok" | "unreachable" | "not-configured",
     url: "",
@@ -24,6 +26,8 @@ export async function refreshServices(): Promise<void> {
     services.inferenceUp = h.inferenceUp;
     services.modelCount = h.modelCount;
     services.docsAvailable = h.docsAvailable;
+    services.nodesOnline = h.nodesOnline ?? 0;
+    services.nodesTotal = h.nodesTotal ?? 0;
   } catch {
     services.backend = "down";
     services.inferenceUp = false;

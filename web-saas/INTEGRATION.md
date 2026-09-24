@@ -49,7 +49,7 @@
 
 ## 分阶段落地
 
-**Phase 1（本分支已做）**
+**Phase 1（已完成）**
 - [x] 三层推理链路（SpringBoot → Python → 模型注册表）
 - [x] 真实 checkpoint 推理（DKT 打样，evaluate.py 同款重建路径）
 - [x] SpringBoot 静态托管 Sphinx 产物（`/docs-static/**`，SPA `/docs`
@@ -58,22 +58,40 @@
       RTD 继续作为对外站点）
 - [x] 实验中心状态接入（`/api/exp/health` 可达性探测 + 首页状态卡；
       `unikt.exp-base-url` 配置管理器地址）
+
+**M1 计算节点（已完成，2026-09-24）**
+- [x] 节点管理页：注册 SSH 可达服务器 → 一键自动部署（pixi/仓库/
+      rsync/systemd/健康探测 8 步编排）→ 状态与部署日志
+- [x] 推理路由：默认服务 + 全部在线节点聚合（模型 OR 合并、节点
+      打标、5s TTL 缓存、掉线顺延）；模型页显示提供节点
+- [x] 「页面在本机、计算在远端」的产品形态落地（实测：WSL 节点
+      自动部署上线，纯节点供数时预测正常路由）
+- 安全：输入白名单 + shellQuote 双层防注入；管理接口 X-Admin-Token
+  （恒定时间比较，路径归一化防绕过）；H2 加口令去 AUTO_SERVER
+
+**M2 开放 API（已完成，2026-09-24）**
+- [x] API Key 体系：SecureRandom 160bit + SHA-256 哈希存储，明文仅
+      创建时一次可见（no-store），前缀展示、用量计数、吊销即失效
+- [x] 开放接口 `/api/v1/{models,predict}`（X-API-Key 鉴权）
+- [x] 门户「API」页：签发/列表/吊销/调用示例
+
+**M3 数据上传与标准化（待做）**
+- 用户上传作答 CSV → 字段映射 → data_process 标准化 → 数据集管理
+- 依赖：仓库侧通用 CSV DataSource 或映射层（需调研 data_source 注册）
+
+**M4 一键训练流水线（待做）**
+- 数据集 × 模型 → 节点上触发 train.py → 任务状态 → run 目录自动上线
+- 复用：M1 的 SSH 编排 + run 目录自动发现
+
+**原 Phase 2/3 条目**
 - [ ] 门户 `/exp` 页面级反代（管理器 SPA 资源路径无法安全挂前缀，
-      归入 Phase 2 统一 API 时一并处理）
-
-**Phase 2（组内分工）**
-- web/ 前端页面并入 web-saas 门户（木糖、葡萄糖：SpringBoot 侧
-  反代 + 会话打通）
-- 统一 API 前缀：`/api/exp/**`（管理器）、`/api/infer/**`（推理）、
+      归入统一 API 时一并处理）
+- [ ] web/ 前端页面并入门户（木糖、葡萄糖：SpringBoot 侧反代 + 会话打通）
+- [ ] 统一 API 前缀：`/api/exp/**`（管理器）、`/api/infer/**`（推理）、
   `/api/docs/**`（文档元信息）
-- checkpoint 注册表升级：SpringBoot 维护模型↔run 目录↔指标的表，
-  支持手动下线/灰度
-
-**Phase 3（端到端闭环）**
-- 门户一键流水线：预处理 → 训练 → 评估 → 上线（SpringBoot 编排，
-  调用实验中心 API）
-- 每页上下文文档深链；推理结果页挂 case-analysis 报告
-- 多用户 SaaS 化：鉴权、配额、任务隔离
+- [ ] checkpoint 注册表升级：SpringBoot 维护模型↔run 目录↔指标的表
+- [ ] 门户一键流水线（= M4）、多用户 SaaS 化（鉴权/配额/任务隔离）
+- [ ] 每页上下文文档深链；推理结果页挂 case-analysis 报告
 
 ## 决策记录
 

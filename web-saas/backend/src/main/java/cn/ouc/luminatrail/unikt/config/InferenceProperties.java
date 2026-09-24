@@ -8,5 +8,8 @@ public record InferenceProperties(
         String inferenceBaseUrl,
         int inferenceTimeoutMs,
         String docsDir,
-        String expBaseUrl) {
+        String expBaseUrl,
+        String inferenceSrc,
+        long deployTimeoutMs,
+        String adminToken) {
 }

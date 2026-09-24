@@ -52,8 +52,8 @@ const readyCount = computed(() => models.value.filter((m) => m.available).length
       </label>
     </div>
 
-    <p v-if="services.backend === 'up' && !services.inferenceUp" class="banner-error">
-      推理服务离线，无法获取模型列表。请在 WSL 上启动：
+    <p v-if="services.backend === 'up' && !services.inferenceUp && services.nodesOnline === 0" class="banner-error">
+      推理服务离线且无在线节点。可在「节点」页部署远程推理，或在 WSL 上启动：
       <code>systemctl start unikt-inference</code>
     </p>
     <p v-else-if="error" class="banner-error">获取失败：{{ error }}</p>
@@ -77,7 +77,9 @@ const readyCount = computed(() => models.value.filter((m) => m.available).length
           <div class="meta">
             <template v-if="m.available">
               <span v-if="m.numSkills !== null">知识点 {{ m.numSkills }}</span>
-              <span>checkpoint 就绪</span>
+              <span class="node-tag" :title="'由 ' + (m.node ?? '默认推理服务') + ' 提供'">
+                @{{ m.node ?? "默认" }}
+              </span>
             </template>
             <template v-else>
               <span>train.py -m {{ m.name }} 训练后自动上线</span>
@@ -162,6 +164,11 @@ const readyCount = computed(() => models.value.filter((m) => m.available).length
   display: flex;
   flex-wrap: wrap;
   gap: 0.3rem 0.9rem;
+}
+
+.node-tag {
+  color: var(--primary);
+  font-weight: 600;
 }
 
 .empty {
