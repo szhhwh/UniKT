@@ -63,12 +63,14 @@ public class NodeRoutingService {
             for (ModelInfo m : modelsOf(ep)) {
                 // 上游不感知节点名，这里按执行体打标（默认服务保持 null）
                 ModelInfo tagged = m.node() == null
-                        ? new ModelInfo(m.name(), m.available(), m.numSkills(), ep.name())
+                        ? new ModelInfo(m.name(), m.available(), m.numSkills(), ep.name(),
+                                m.dataset())
                         : m;
                 merged.merge(tagged.name(), tagged, (a, b) -> new ModelInfo(
                         a.name(), a.available() || b.available(),
                         a.numSkills() != null ? a.numSkills() : b.numSkills(),
-                        a.available() ? a.node() : b.node()));
+                        a.available() ? a.node() : b.node(),
+                        a.dataset() != null ? a.dataset() : b.dataset()));
             }
         }
         return new ArrayList<>(merged.values());

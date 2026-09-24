@@ -39,7 +39,7 @@ function onInteractions(e: Event): void {
   const f = (e.target as HTMLInputElement).files?.[0] ?? null;
   interactionsFile.value = f;
   if (f && !name.value) {
-    name.value = f.name.replace(/\\.csv$/i, "").slice(0, 60);
+    name.value = f.name.replace(/\.csv$/i, "").slice(0, 60);
   }
 }
 

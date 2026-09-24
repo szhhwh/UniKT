@@ -216,7 +216,7 @@ const mastery = computed(() => {
         <label for="pg-model">模型</label>
         <select id="pg-model" v-model="modelName" :disabled="availableModels.length === 0">
           <option v-for="m in availableModels" :key="m.name" :value="m.name">
-            {{ m.name }}（{{ m.numSkills ?? "?" }} 个知识点）
+            {{ m.name }}（{{ m.numSkills ?? "?" }} 个知识点{{ m.dataset ? ` · ${m.dataset}` : "" }}）
           </option>
         </select>
         <span v-if="catalogLoading" class="hint">知识点目录加载中…</span>

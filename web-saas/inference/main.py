@@ -79,9 +79,14 @@ def health() -> dict[str, object]:
 
 @app.get("/models")
 def models() -> list[dict[str, object]]:
-    """模型清单：注册名 + 是否已训练 + 数据集知识点数."""
+    """模型清单：注册名 + 是否已训练 + 知识点数 + 训练用数据集."""
     return [
-        {"name": name, "available": info["available"], "numSkills": info["numSkills"]}
+        {
+            "name": name,
+            "available": info["available"],
+            "numSkills": info["numSkills"],
+            "dataset": info["dataset"],
+        }
         for name, info in engine.available_models.items()
     ]
 

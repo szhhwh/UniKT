@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,8 +42,9 @@ public class TrainingJobController {
                          String lastError, Instant createdAt, Instant updatedAt) {
 
         static JobDto from(TrainingJob j, UserDataset ds) {
-            return new JobDto(j.getId(), j.getDatasetId(),
-                    ds == null ? ("#" + j.getDatasetId()) : ds.getName(),
+            String name = j.getDatasetName() != null ? j.getDatasetName()
+                    : ds != null ? ds.getName() : "#" + j.getDatasetId();
+            return new JobDto(j.getId(), j.getDatasetId(), name,
                     j.getModelName(), j.getEpochs(), j.getStatus(), j.getRunDir(),
                     j.getLogTail(), j.getLastError(), j.getCreatedAt(), j.getUpdatedAt());
         }
@@ -68,6 +70,17 @@ public class TrainingJobController {
         return list.stream()
                 .map(j -> JobDto.from(j, datasets.findById(j.getDatasetId()).orElse(null)))
                 .toList();
+    }
+
+    @org.springframework.web.bind.annotation.DeleteMapping("/{id}")
+    public ResponseEntity<?> cancel(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(JobDto.from(
+                    training.cancel(currentUserId(), isAdmin(), id),
+                    null));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
+        }
     }
 
     @PostMapping

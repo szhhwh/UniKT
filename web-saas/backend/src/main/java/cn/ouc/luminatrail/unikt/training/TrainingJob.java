@@ -35,6 +35,10 @@ public class TrainingJob {
 
     private int epochs;
 
+    /** 数据集展示名快照（数据集删除后任务仍可读）。 */
+    @Column(length = 60)
+    private String datasetName;
+
     private String status = RUNNING;
 
     private String runDir;
@@ -85,6 +89,14 @@ public class TrainingJob {
         this.nodeId = nodeId;
     }
 
+    public String getDatasetName() {
+        return datasetName;
+    }
+
+    public void setDatasetName(String datasetName) {
+        this.datasetName = datasetName;
+    }
+
     public int getEpochs() {
         return epochs;
     }
@@ -118,8 +130,14 @@ public class TrainingJob {
         if (logTail != null && logTail.length() > 3800) {
             logTail = "…（截断）…" + logTail.substring(logTail.length() - 3600);
         }
-        this.logTail = logTail;
-        this.updatedAt = Instant.now();
+        // 只有内容真正变化才 touch updatedAt——它是超时判断的依据，
+        // 日志停更时不能自己给自己续命
+        if (!java.util.Objects.equals(this.logTail, logTail)) {
+            this.logTail = logTail;
+            this.updatedAt = Instant.now();
+        } else {
+            this.logTail = logTail;
+        }
     }
 
     public String getLastError() {

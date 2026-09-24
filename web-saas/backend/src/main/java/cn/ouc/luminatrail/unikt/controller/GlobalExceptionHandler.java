@@ -28,6 +28,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(ApiError.of(400, detail));
     }
 
+    @ExceptionHandler(org.springframework.web.multipart.MaxUploadSizeExceededException.class)
+    public ResponseEntity<ApiError> tooLarge(
+            org.springframework.web.multipart.MaxUploadSizeExceededException e) {
+        return ResponseEntity.status(413)
+                .body(ApiError.of(413, "文件超过大小上限（200MB），请裁剪后重试"));
+    }
+
     @ExceptionHandler(cn.ouc.luminatrail.unikt.apikey.RateLimitedException.class)
     public ResponseEntity<ApiError> rateLimited(
             cn.ouc.luminatrail.unikt.apikey.RateLimitedException e) {

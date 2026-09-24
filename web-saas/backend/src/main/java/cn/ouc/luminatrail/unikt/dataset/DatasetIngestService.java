@@ -7,9 +7,9 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
@@ -34,55 +34,99 @@ public class DatasetIngestService {
     private static final Set<String> REQUIRED =
             Set.of("user_id", "item_id", "skill_id", "correct");
 
-    /** 校验 interactions 流并写入暂存目录；返回统计。人话错误直接抛 IllegalArgumentException。 */
+    /**
+     * 校验 interactions 流并写入暂存目录（单遍流式：边解析边校验边写出，
+     * 内存只保留三个 id 集合）。人话错误直接抛 IllegalArgumentException。
+     */
     public Stats validateAndStoreInteractions(InputStream in, Path target) {
-        List<String[]> rows = parseCsv(in);
-        if (rows.size() < 3) {
-            throw new IllegalArgumentException("数据太少：至少需要表头 + 2 行记录");
-        }
-        String[] header = rows.get(0);
-        Set<String> cols = new LinkedHashSet<>();
-        for (String h : header) {
-            cols.add(h.trim().toLowerCase(Locale.ROOT));
-        }
-        if (!cols.containsAll(REQUIRED)) {
-            throw new IllegalArgumentException(
-                    "缺少必需列: " + REQUIRED + "；实际的列为 " + cols);
-        }
-        int idxUser = indexOf(header, "user_id");
-        int idxItem = indexOf(header, "item_id");
-        int idxSkill = indexOf(header, "skill_id");
-        int idxCorrect = indexOf(header, "correct");
-
         Set<String> users = new HashSet<>();
         Set<String> questions = new HashSet<>();
         Set<String> skills = new HashSet<>();
-        long n = 0;
-        for (int i = 1; i < rows.size(); i++) {
-            String[] r = rows.get(i);
-            if (r.length != header.length) {
-                throw new IllegalArgumentException("第 " + (i + 1) + " 行列数与表头不一致");
+        long[] n = {0};
+        boolean[] headerSeen = {false};
+        try {
+            Files.createDirectories(target.getParent());
+        } catch (IOException e) {
+            throw new IllegalStateException("暂存目录创建失败: " + e.getMessage(), e);
+        }
+        try (InputStream raw = in;
+                java.io.BufferedWriter out = Files.newBufferedWriter(
+                        target, StandardCharsets.UTF_8)) {
+            int[] idx = new int[4];
+            int[] headerLen = {0};
+            int[] tsIdx = {-1};
+            streamCsv(raw, (lineNo, r) -> {
+                try {
+                    if (!headerSeen[0]) {
+                        Set<String> cols = new LinkedHashSet<>();
+                        for (String h : r) {
+                            cols.add(h.trim().toLowerCase(Locale.ROOT));
+                            if (h.trim().toLowerCase(Locale.ROOT).equals("timestamp")) {
+                                tsIdx[0] = java.util.Arrays.asList(r).indexOf(h);
+                            }
+                        }
+                        if (!cols.containsAll(REQUIRED)) {
+                            throw new IllegalArgumentException(
+                                    "缺少必需列: " + REQUIRED + "；实际的列为 " + cols);
+                        }
+                        idx[0] = indexOf(r, "user_id");
+                        idx[1] = indexOf(r, "item_id");
+                        idx[2] = indexOf(r, "skill_id");
+                        idx[3] = indexOf(r, "correct");
+                        headerLen[0] = r.length;
+                        headerSeen[0] = true;
+                        writeRow(out, r);
+                        return true;
+                    }
+                    if (r.length != headerLen[0]) {
+                        throw new IllegalArgumentException("第 " + lineNo + " 行列数与表头不一致");
+                    }
+                    String user = r[idx[0]].trim();
+                    String item = r[idx[1]].trim();
+                    String skill = r[idx[2]].trim();
+                    String correct = r[idx[3]].trim().toLowerCase(Locale.ROOT);
+                    if (user.isEmpty() || item.isEmpty() || skill.isEmpty()) {
+                        throw new IllegalArgumentException(
+                                "第 " + lineNo + " 行 user_id/item_id/skill_id 有空值");
+                    }
+                    if (!correct.equals("0") && !correct.equals("1")
+                            && !correct.equals("true") && !correct.equals("false")) {
+                        throw new IllegalArgumentException(
+                                "第 " + lineNo + " 行 correct 不是 0/1：" + r[idx[3]]);
+                    }
+                    if (tsIdx[0] >= 0
+                            && !r[tsIdx[0]].trim().matches("[0-9]{1,19}")) {
+                        throw new IllegalArgumentException(
+                                "第 " + lineNo + " 行 timestamp 需为整数（Unix 秒），实际："
+                                        + r[tsIdx[0]]);
+                    }
+                    users.add(user);
+                    questions.add(item);
+                    skills.add(skill);
+                    writeRow(out, r);
+                    n[0]++;
+                    if (n[0] > MAX_ROWS) {
+                        throw new IllegalArgumentException("超过最大行数 " + MAX_ROWS);
+                    }
+                    return true;
+                } catch (IOException e) {
+                    throw new RuntimeException("暂存写入失败: " + e.getMessage(), e);
+                }
+            });
+        } catch (IOException e) {
+            throw new IllegalArgumentException("CSV 读取失败: " + e.getMessage());
+        } catch (RuntimeException e) {
+            if (e.getCause() instanceof IOException) {
+                throw new IllegalArgumentException("暂存写入失败: " + e.getCause().getMessage());
             }
-            String user = r[idxUser].trim();
-            String item = r[idxItem].trim();
-            String skill = r[idxSkill].trim();
-            String correct = r[idxCorrect].trim().toLowerCase(Locale.ROOT);
-            if (user.isEmpty() || item.isEmpty() || skill.isEmpty()) {
-                throw new IllegalArgumentException(
-                        "第 " + (i + 1) + " 行 user_id/item_id/skill_id 有空值");
-            }
-            if (!correct.equals("0") && !correct.equals("1")
-                    && !correct.equals("true") && !correct.equals("false")) {
-                throw new IllegalArgumentException(
-                        "第 " + (i + 1) + " 行 correct 不是 0/1：" + r[idxCorrect]);
-            }
-            users.add(user);
-            questions.add(item);
-            skills.add(skill);
-            n++;
-            if (n > MAX_ROWS) {
-                throw new IllegalArgumentException("超过最大行数 " + MAX_ROWS);
-            }
+            throw e;
+        }
+        if (!headerSeen[0]) {
+            throw new IllegalArgumentException("文件为空");
+        }
+        if (n[0] < 100) {
+            throw new IllegalArgumentException(
+                    "交互数太少（" + n[0] + " 行）：知识追踪训练至少需要数百条作答记录");
         }
         if (users.size() < 2) {
             throw new IllegalArgumentException("至少需要 2 个学生（user_id），当前 " + users.size());
@@ -90,29 +134,68 @@ public class DatasetIngestService {
         if (skills.size() < 2) {
             throw new IllegalArgumentException("至少需要 2 个知识点（skill_id），当前 " + skills.size());
         }
-        if (n < 100) {
-            throw new IllegalArgumentException(
-                    "交互数太少（" + n + " 行）：知识追踪训练至少需要数百条作答记录");
-        }
-        store(target, rows);
-        return new Stats(n, users.size(), questions.size(), skills.size());
+        return new Stats(n[0], users.size(), questions.size(), skills.size());
     }
 
-    /** 校验 skills 名称表（skill_id, skill_name 两列）并暂存；返回是否有名称。 */
+    private static void writeRow(java.io.BufferedWriter out, String[] r) throws IOException {
+        for (int i = 0; i < r.length; i++) {
+            if (i > 0) {
+                out.write(',');
+            }
+            out.write(csvEscape(r[i]));
+        }
+        out.write('\n');
+    }
+
+    /** 校验 skills 名称表（skill_id, skill_name 两列）并流式暂存。 */
     public void validateAndStoreSkills(InputStream in, Path target) {
-        List<String[]> rows = parseCsv(in);
-        if (rows.size() < 2) {
+        long[] n = {0};
+        boolean[] headerSeen = {false};
+        try {
+            Files.createDirectories(target.getParent());
+        } catch (IOException e) {
+            throw new IllegalStateException("暂存目录创建失败: " + e.getMessage(), e);
+        }
+        try (InputStream raw = in;
+                java.io.BufferedWriter out = Files.newBufferedWriter(
+                        target, StandardCharsets.UTF_8)) {
+            streamCsv(raw, (lineNo, r) -> {
+                try {
+                    if (!headerSeen[0]) {
+                        Set<String> cols = new HashSet<>();
+                        for (String h : r) {
+                            cols.add(h.trim().toLowerCase(Locale.ROOT));
+                        }
+                        if (!cols.containsAll(Set.of("skill_id", "skill_name"))) {
+                            throw new IllegalArgumentException(
+                                    "skills.csv 需要 skill_id 与 skill_name 两列；实际的列为 "
+                                            + cols);
+                        }
+                        headerSeen[0] = true;
+                        writeRow(out, r);
+                        return true;
+                    }
+                    writeRow(out, r);
+                    n[0]++;
+                    if (n[0] > MAX_ROWS) {
+                        throw new IllegalArgumentException("skills.csv 超过最大行数 " + MAX_ROWS);
+                    }
+                    return true;
+                } catch (IOException e) {
+                    throw new RuntimeException("暂存写入失败: " + e.getMessage(), e);
+                }
+            });
+        } catch (IOException e) {
+            throw new IllegalArgumentException("CSV 读取失败: " + e.getMessage());
+        } catch (RuntimeException e) {
+            if (e.getCause() instanceof IOException) {
+                throw new IllegalArgumentException("暂存写入失败: " + e.getCause().getMessage());
+            }
+            throw e;
+        }
+        if (!headerSeen[0] || n[0] == 0) {
             throw new IllegalArgumentException("skills.csv 至少需要表头 + 1 行");
         }
-        Set<String> cols = new HashSet<>();
-        for (String h : rows.get(0)) {
-            cols.add(h.trim().toLowerCase(Locale.ROOT));
-        }
-        if (!cols.containsAll(Set.of("skill_id", "skill_name"))) {
-            throw new IllegalArgumentException(
-                    "skills.csv 需要 skill_id 与 skill_name 两列；实际的列为 " + cols);
-        }
-        store(target, rows);
     }
 
     /**
@@ -148,36 +231,31 @@ public class DatasetIngestService {
         }
     }
 
-    private static void store(Path target, List<String[]> rows) {
-        try {
-            Files.createDirectories(target.getParent());
-            StringBuilder sb = new StringBuilder();
-            for (String[] r : rows) {
-                for (int i = 0; i < r.length; i++) {
-                    if (i > 0) {
-                        sb.append(',');
-                    }
-                    sb.append(csvEscape(r[i]));
-                }
-                sb.append('\n');
-            }
-            Files.writeString(target, sb.toString(), StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            throw new IllegalStateException("暂存文件写入失败: " + e.getMessage(), e);
-        }
-    }
 
     /** 最小 CSV 解析：支持双引号包裹与 "" 转义。 */
-    private static List<String[]> parseCsv(InputStream in) {
-        List<String[]> rows = new ArrayList<>();
+    /**
+     * 单遍流式处理：逐行解析（支持引号/转义/\r\n/UTF-8 BOM），每行交给
+     * handler 消费，handler 返回 false 立即终止（校验失败止损，不把整个
+     * 文件读进内存——200MB 上传在全量模式下会 OOM）。
+     */
+    private static void streamCsv(InputStream in, CsvRowHandler handler)
+            throws IOException {
         try (BufferedReader reader = new BufferedReader(
                 new InputStreamReader(in, StandardCharsets.UTF_8), 1 << 16)) {
-            StringBuilder field = new StringBuilder();
-            List<String> row = new ArrayList<>();
+            StringBuilder field = new StringBuilder(64);
+            List<String> row = new ArrayList<>(8);
             boolean inQuotes = false;
+            boolean firstChar = true;
             int c;
+            long lineNo = 0;
             while ((c = reader.read()) != -1) {
                 char ch = (char) c;
+                if (firstChar) {
+                    firstChar = false;
+                    if (ch == '\uFEFF') {
+                        continue; // Excel UTF-8 CSV 的 BOM
+                    }
+                }
                 if (inQuotes) {
                     if (ch == '"') {
                         if (reader.ready()) {
@@ -208,21 +286,28 @@ public class DatasetIngestService {
                     row.add(field.toString());
                     field.setLength(0);
                     if (!(row.size() == 1 && row.get(0).isEmpty())) {
-                        rows.add(row.toArray(new String[0]));
+                        lineNo++;
+                        if (!handler.accept((int) lineNo, row.toArray(new String[0]))) {
+                            return;
+                        }
                     }
-                    row = new ArrayList<>();
+                    row = new ArrayList<>(8);
                 } else {
                     field.append(ch);
                 }
             }
             if (field.length() > 0 || !row.isEmpty()) {
                 row.add(field.toString());
-                rows.add(row.toArray(new String[0]));
+                handler.accept((int) lineNo + 1, row.toArray(new String[0]));
             }
-        } catch (IOException e) {
-            throw new IllegalArgumentException("CSV 读取失败: " + e.getMessage());
         }
-        return rows;
+    }
+
+    @FunctionalInterface
+    private interface CsvRowHandler {
+
+        /** 消费一行（lineNo 从 1 计）；返回 false 终止读取。 */
+        boolean accept(int lineNo, String[] cells);
     }
 
     private static String csvEscape(String v) {

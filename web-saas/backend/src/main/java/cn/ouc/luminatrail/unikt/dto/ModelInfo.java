@@ -8,10 +8,11 @@ package cn.ouc.luminatrail.unikt.dto;
  * @param numSkills 训练数据知识点总数（技能 id 上界），元数据缺失时为 null
  * @param node 提供该模型的节点名；null 表示默认推理服务
  */
-public record ModelInfo(String name, boolean available, Integer numSkills, String node) {
+public record ModelInfo(
+        String name, boolean available, Integer numSkills, String node, String dataset) {
 
-    /** 三参构造：无节点信息的场景（直连默认服务反序列化用）。 */
-    public ModelInfo(String name, boolean available, Integer numSkills) {
-        this(name, available, numSkills, null);
+    /** 四参构造：无 dataset 的场景（直连默认服务反序列化用）。 */
+    public ModelInfo(String name, boolean available, Integer numSkills, String node) {
+        this(name, available, numSkills, node, null);
     }
 }

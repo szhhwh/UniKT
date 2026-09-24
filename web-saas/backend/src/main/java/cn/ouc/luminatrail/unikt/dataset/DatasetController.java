@@ -74,10 +74,10 @@ public class DatasetController {
         d.setName(name.trim());
         d.setSlug(ingest.slugFor(name.trim(), datasets));
 
+        // 临时目录用 UUID：并发同名上传不再互相覆盖/误删（slug 落库前无唯一性保证）
+        java.nio.file.Path tmp = java.nio.file.Path.of("data", "uploads",
+                "tmp-" + java.util.UUID.randomUUID());
         try (InputStream in = interactions.getInputStream()) {
-            // 先用临时 id 暂存不行——slug 唯一性已查；文件先落到以 slug 命名的临时目录，
-            // 实体落库拿到 id 后改名，避免半成品
-            java.nio.file.Path tmp = java.nio.file.Path.of("data", "uploads", "tmp-" + d.getSlug());
             DatasetIngestService.Stats stats =
                     ingest.validateAndStoreInteractions(in, tmp.resolve("interactions.csv"));
             if (skills != null && !skills.isEmpty()) {
@@ -98,19 +98,16 @@ public class DatasetController {
             java.nio.file.Files.move(tmp, formal,
                     java.nio.file.StandardCopyOption.REPLACE_EXISTING);
         } catch (IllegalArgumentException e) {
-            // 校验失败：清理临时目录后返回人话错误
-            try {
-                java.nio.file.Path tmp = java.nio.file.Path.of("data", "uploads", "tmp-" + d.getSlug());
-                try (var walk = java.nio.file.Files.walk(tmp)) {
-                    walk.sorted(java.util.Comparator.reverseOrder())
-                            .forEach(pth -> pth.toFile().delete());
-                }
-            } catch (IOException ignored) {
-                // 清理失败不阻塞错误返回
-            }
+            deleteDirQuietly(tmp);
             return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
         } catch (IOException e) {
+            deleteDirQuietly(tmp);
             return ResponseEntity.status(500).body(Map.of("message", "文件处理失败: " + e.getMessage()));
+        } catch (RuntimeException e) {
+            // 兜底（如并发同名撞 slug 唯一约束）：清理临时目录，返回人话
+            deleteDirQuietly(tmp);
+            return ResponseEntity.status(500)
+                    .body(Map.of("message", "保存失败，请稍后重试：" + e.getMessage()));
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(DatasetDto.from(d));
     }
@@ -127,6 +124,15 @@ public class DatasetController {
         datasets.deleteById(id);
         ingest.deleteStaged(id);
         return ResponseEntity.noContent().build();
+    }
+
+    private static void deleteDirQuietly(java.nio.file.Path dir) {
+        try (var walk = java.nio.file.Files.walk(dir)) {
+            walk.sorted(java.util.Comparator.reverseOrder())
+                    .forEach(p -> p.toFile().delete());
+        } catch (IOException ignored) {
+            // 不存在即视为已清理
+        }
     }
 
     private static Long currentUserId() {

@@ -292,8 +292,19 @@ class InferenceEngine:
         )
 
     def _get(self, name: str) -> _LoadedModel:
-        """取模型句柄，未加载则先加载（线程安全）."""
+        """取模型句柄，未加载则先加载；run 目录更新（重训）自动换出重载."""
         with self._lock:
+            current = self._find_run_dir(name)
+            cached = self._models.get(name)
+            if cached is not None and current is not None:
+                try:
+                    if current.stat().st_mtime > cached.run_dir.stat().st_mtime:
+                        # 重训产出了新 run：换出旧权重（否则演练场看到的
+                        # dataset 标签与实际服务的权重不一致）
+                        self._models.pop(name, None)
+                        self._skill_cache.pop(current.as_posix(), None)
+                except OSError:
+                    pass  # run 目录暂不可见（节点同步窗口）：用旧版本兜底
             if name not in self._models:
                 self._models[name] = self._load_model(name)
             return self._models[name]
