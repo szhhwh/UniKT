@@ -29,11 +29,22 @@ public class ApiKeyUser {
     @Column(nullable = false)
     private String keyPrefix;
 
+    /** 归属用户；null = 历史遗留（启动时归并给管理员）。 */
+    private Long ownerId;
+
     private boolean active = true;
 
     private Instant lastUsedAt;
 
     private long requestCount;
+
+    /** 每日配额计数（跨天自动重置）。default 0 兼容旧表迁移。 */
+    @Column(nullable = false, columnDefinition = "bigint default 0")
+    private long dailyCount;
+
+    /** 计数所属日期（yyyy-MM-dd，UTC）。default '' 兼容旧表迁移。 */
+    @Column(length = 10, columnDefinition = "varchar(10) default ''")
+    private String dailyDate;
 
     private Instant createdAt = Instant.now();
 
@@ -65,6 +76,14 @@ public class ApiKeyUser {
         this.keyPrefix = keyPrefix;
     }
 
+    public Long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
+    }
+
     public boolean isActive() {
         return active;
     }
@@ -91,5 +110,21 @@ public class ApiKeyUser {
 
     public Instant getCreatedAt() {
         return createdAt;
+    }
+
+    public long getDailyCount() {
+        return dailyCount;
+    }
+
+    public void setDailyCount(long dailyCount) {
+        this.dailyCount = dailyCount;
+    }
+
+    public String getDailyDate() {
+        return dailyDate;
+    }
+
+    public void setDailyDate(String dailyDate) {
+        this.dailyDate = dailyDate;
     }
 }

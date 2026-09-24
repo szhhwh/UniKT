@@ -1,28 +1,31 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from "vue";
-import { api, type KeyInfo } from "../api/client";
-import AdminTokenInput from "../components/AdminTokenInput.vue";
+import { computed, onMounted, ref } from "vue";
+import { api, ApiError, type KeyInfo } from "../api/client";
+import { auth } from "../composables/useAuth";
 
 const keys = ref<KeyInfo[]>([]);
-/** 列表加载失败（替换表格）。 */
 const loadError = ref("");
-/** 操作失败（表格上方横幅，不清空表格）。 */
 const opError = ref("");
 const loading = ref(true);
 const name = ref("");
 const creating = ref(false);
 /** 新建成功后的明文 key（仅展示一次）。 */
 const freshKey = ref<string | null>(null);
+/** 管理员可切换查看全部用户的密钥。 */
+const scopeAll = ref(false);
 
-onMounted(async () => {
+onMounted(refresh);
+
+async function refresh(): Promise<void> {
   try {
-    keys.value = await api.keys.list();
+    keys.value = await api.keys.list(scopeAll.value ? "all" : undefined);
+    loadError.value = "";
   } catch (e) {
     loadError.value = e instanceof Error ? e.message : String(e);
   } finally {
     loading.value = false;
   }
-});
+}
 
 async function create(): Promise<void> {
   if (freshKey.value && !window.confirm("上一枚密钥还未保存，继续生成将无法再看到它。继续？")) {
@@ -34,7 +37,7 @@ async function create(): Promise<void> {
     const created = await api.keys.create(name.value.trim());
     freshKey.value = created.key;
     name.value = "";
-    keys.value = await api.keys.list();
+    await refresh();
   } catch (e) {
     opError.value = e instanceof Error ? e.message : String(e);
   } finally {
@@ -48,9 +51,9 @@ async function revoke(k: KeyInfo): Promise<void> {
   }
   try {
     await api.keys.revoke(k.id);
-    keys.value = await api.keys.list();
+    await refresh();
   } catch (e) {
-    opError.value = e instanceof Error ? e.message : String(e);
+    opError.value = e instanceof ApiError ? e.message : String(e);
   }
 }
 
@@ -87,30 +90,21 @@ function fmtTime(iso: string | null): string {
 const host = window.location.hostname;
 const apiBase = `http://${host}:8080`;
 const isLocalHost = host === "localhost" || host === "127.0.0.1" || host === "[::1]";
-
-/** 令牌变化后重载列表（与 AdminTokenInput 的验证联动）。 */
-function reloadOnToken(): void {
-  void (async () => {
-    try {
-      keys.value = await api.keys.list();
-      loadError.value = "";
-    } catch (e) {
-      loadError.value = e instanceof Error ? e.message : String(e);
-    }
-  })();
-}
-window.addEventListener("unikt:admin-token", reloadOnToken);
-onUnmounted(() => window.removeEventListener("unikt:admin-token", reloadOnToken));
+const quotaHint = computed(() => "每日配额 2000 次");
 </script>
 
 <template>
   <section>
     <div class="head">
-      <h1>API 密钥</h1>
-      <AdminTokenInput />
+      <h1>我的 API 密钥</h1>
+      <label v-if="auth.isAdmin.value" class="toggle">
+        <input v-model="scopeAll" type="checkbox" @change="refresh" />
+        看全部用户
+      </label>
     </div>
     <p class="sub">
       为你的应用（刷题系统、教学平台…）签发密钥，通过开放接口调用知识追踪推理。
+      {{ quotaHint }}。
     </p>
 
     <div class="card create-card">
@@ -147,7 +141,7 @@ onUnmounted(() => window.removeEventListener("unikt:admin-token", reloadOnToken)
     <p v-else-if="loading">加载中…</p>
 
     <template v-else>
-      <p v-if="keys.length === 0" class="empty">还没有密钥。</p>
+      <p v-if="keys.length === 0" class="empty">还没有密钥，生成一枚开始使用。</p>
       <div v-else class="card">
         <table class="table">
           <thead>
@@ -155,7 +149,7 @@ onUnmounted(() => window.removeEventListener("unikt:admin-token", reloadOnToken)
               <th>名称</th>
               <th>密钥前缀</th>
               <th>状态</th>
-              <th>调用次数</th>
+              <th>今日 / 累计调用</th>
               <th>最近使用</th>
               <th></th>
             </tr>
@@ -169,7 +163,7 @@ onUnmounted(() => window.removeEventListener("unikt:admin-token", reloadOnToken)
                   {{ k.active ? "启用" : "已吊销" }}
                 </span>
               </td>
-              <td class="num">{{ k.requestCount }}</td>
+              <td class="num">{{ k.dailyCount }} / {{ k.requestCount }}</td>
               <td class="num">{{ fmtTime(k.lastUsedAt) }}</td>
               <td>
                 <button
@@ -214,17 +208,26 @@ curl -H "X-API-Key: unikt_你的密钥" {{ apiBase }}/api/v1/skills/DKT</pre>
 </template>
 
 <style scoped>
-.sub {
-  color: var(--muted);
-  max-width: 40rem;
-}
-
 .head {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
   flex-wrap: wrap;
+}
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+  user-select: none;
+}
+
+.sub {
+  color: var(--muted);
+  max-width: 40rem;
 }
 
 .create-card {

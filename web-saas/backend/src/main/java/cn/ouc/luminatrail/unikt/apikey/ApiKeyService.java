@@ -4,10 +4,13 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.HexFormat;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-/** API Key 的生成与校验（SecureRandom 生成，仅存 SHA-256 哈希）。 */
+/** API Key 的生成、校验与每日配额（SecureRandom 生成，仅存 SHA-256 哈希）。 */
 @Service
 public class ApiKeyService {
 
@@ -21,8 +24,8 @@ public class ApiKeyService {
         this.keys = keys;
     }
 
-    /** 生成形如 unikt_&lt;40位hex&gt; 的密钥；返回实体与明文（仅此一次可见）。 */
-    public CreatedKey create(String name) {
+    /** 生成形如 unikt_&lt;40位hex&gt; 的密钥，归属 owner；明文仅此一次可见。 */
+    public CreatedKey create(String name, Long ownerId) {
         StringBuilder sb = new StringBuilder(RANDOM_HEX_LEN);
         for (int i = 0; i < RANDOM_HEX_LEN / 2; i++) {
             sb.append(String.format("%02x", random.nextInt(256)));
@@ -30,6 +33,7 @@ public class ApiKeyService {
         String raw = PREFIX + sb;
         ApiKeyUser user = new ApiKeyUser();
         user.setName(name);
+        user.setOwnerId(ownerId);
         user.setKeyHash(sha256(raw));
         user.setKeyPrefix(raw.substring(0, PREFIX.length() + 8) + "…");
         return new CreatedKey(keys.save(user), raw);
@@ -47,10 +51,28 @@ public class ApiKeyService {
         return user;
     }
 
-    /** 记录一次调用（原子自增，与 verify 分离避免 detached merge）。 */
-    @org.springframework.transaction.annotation.Transactional
-    public void touch(Long id) {
-        keys.touch(id, java.time.Instant.now());
+    /**
+     * 消耗一次当日配额（原子自增用量 + 跨天重置）。
+     *
+     * @return false 表示配额已满（本次未消耗）
+     */
+    @Transactional
+    public boolean tryConsumeQuota(ApiKeyUser keyUser, long dailyLimit) {
+        ApiKeyUser fresh = keys.findById(keyUser.getId()).orElse(null);
+        if (fresh == null) {
+            return false;
+        }
+        String today = LocalDate.now(ZoneOffset.UTC).toString();
+        if (!today.equals(fresh.getDailyDate())) {
+            fresh.setDailyDate(today);
+            fresh.setDailyCount(0);
+        }
+        if (fresh.getDailyCount() >= dailyLimit) {
+            return false;
+        }
+        int updated = keys.consume(fresh.getId(), today, fresh.getDailyCount() + 1,
+                java.time.Instant.now());
+        return updated > 0;
     }
 
     /** record 与实体一并返回（明文 key 不落库；toString 掩码防误打印）。 */

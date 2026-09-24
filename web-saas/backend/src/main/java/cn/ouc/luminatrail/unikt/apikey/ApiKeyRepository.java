@@ -1,6 +1,7 @@
 package cn.ouc.luminatrail.unikt.apikey;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -12,9 +13,13 @@ public interface ApiKeyRepository extends JpaRepository<ApiKeyUser, Long> {
 
     Optional<ApiKeyUser> findByKeyHash(String keyHash);
 
-    /** 原子自增用量（避免 detached merge 的并发丢更新）。 */
+    List<ApiKeyUser> findByOwnerIdOrderByIdDesc(Long ownerId);
+
+    /** 原子写入当日计数与用量（配额不超发）。 */
     @Modifying
-    @Query("update ApiKeyUser u set u.requestCount = u.requestCount + 1,"
-            + " u.lastUsedAt = :now where u.id = :id")
-    int touch(@Param("id") Long id, @Param("now") Instant now);
+    @Query("update ApiKeyUser u set u.dailyCount = :count, u.dailyDate = :day,"
+            + " u.requestCount = u.requestCount + 1, u.lastUsedAt = :now"
+            + " where u.id = :id")
+    int consume(@Param("id") Long id, @Param("day") String day,
+                @Param("count") long count, @Param("now") Instant now);
 }

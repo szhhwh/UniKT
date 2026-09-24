@@ -1,5 +1,18 @@
 /** SpringBoot 后端 API 客户端。开发期经 Vite 代理到 localhost:8080。 */
-import { getAdminToken } from "./adminToken";
+
+export class ApiError extends Error {
+  status: number;
+
+  constructor(status: number, message: string) {
+    super(message);
+    this.status = status;
+  }
+}
+
+export interface AuthInfo {
+  username: string;
+  role: "USER" | "ADMIN";
+}
 
 export interface ModelInfo {
   name: string;
@@ -16,7 +29,6 @@ export interface HealthInfo {
   docsAvailable: boolean;
   nodesOnline?: number;
   nodesTotal?: number;
-  adminTokenRequired?: boolean;
 }
 
 export interface NodeInfo {
@@ -58,6 +70,7 @@ export interface KeyInfo {
   active: boolean;
   lastUsedAt: string | null;
   requestCount: number;
+  dailyCount: number;
   createdAt: string;
 }
 
@@ -74,19 +87,17 @@ export interface SkillInfo {
 }
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
-  const token = getAdminToken();
-  const headers: Record<string, string> = { "Content-Type": "application/json" };
-  if (token) {
-    headers["X-Admin-Token"] = token;
-  }
-  const res = await fetch(`/api${path}`, { headers, ...init });
+  const res = await fetch(`/api${path}`, {
+    headers: { "Content-Type": "application/json" },
+    ...init,
+  });
   if (res.status === 204) {
     return undefined as T;
   }
   if (!res.ok) {
     const body = await res.json().catch(() => null);
     const message = body?.message || body?.detail || `请求失败：${res.status}`;
-    throw new Error(message);
+    throw new ApiError(res.status, message);
   }
   return res.json() as Promise<T>;
 }
@@ -109,9 +120,41 @@ export const api = {
     remove: (id: number) => request<void>(`/nodes/${id}`, { method: "DELETE" }),
   },
   keys: {
-    list: () => request<KeyInfo[]>("/keys"),
+    list: (scope?: "all") =>
+      request<KeyInfo[]>(scope === "all" ? "/keys?scope=all" : "/keys"),
     create: (name: string) =>
       request<CreatedKey>("/keys", { method: "POST", body: JSON.stringify({ name }) }),
     revoke: (id: number) => request<void>(`/keys/${id}`, { method: "DELETE" }),
   },
+  auth: {
+    register: (username: string, password: string) =>
+      request<AuthInfo>("/auth/register", {
+        method: "POST",
+        body: JSON.stringify({ username, password }),
+      }),
+    login: (username: string, password: string) =>
+      request<AuthInfo>("/auth/login", {
+        method: "POST",
+        body: JSON.stringify({ username, password }),
+      }),
+    logout: () => request<{ message: string }>("/auth/logout", { method: "POST" }),
+    me: () => request<AuthInfo>("/auth/me"),
+  },
+  admin: {
+    users: () => request<AdminUserInfo[]>("/admin/users"),
+    updateUser: (id: number, patch: { role?: string; active?: boolean }) =>
+      request<void>(`/admin/users/${id}`, {
+        method: "PATCH",
+        body: JSON.stringify(patch),
+      }),
+  },
 };
+
+export interface AdminUserInfo {
+  id: number;
+  username: string;
+  role: "USER" | "ADMIN";
+  active: boolean;
+  keyCount: number;
+  createdAt: string;
+}

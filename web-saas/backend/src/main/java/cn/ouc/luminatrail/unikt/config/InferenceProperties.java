@@ -11,5 +11,5 @@ public record InferenceProperties(
         String expBaseUrl,
         String inferenceSrc,
         long deployTimeoutMs,
-        String adminToken) {
+        long quotaDaily) {
 }

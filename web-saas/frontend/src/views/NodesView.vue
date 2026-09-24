@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref } from "vue";
 import { api, type NodeInfo } from "../api/client";
-import AdminTokenInput from "../components/AdminTokenInput.vue";
 
 const nodes = ref<NodeInfo[]>([]);
 const error = ref("");
@@ -146,7 +145,6 @@ function toggleLog(n: NodeInfo): void {
     <div class="head">
       <h1>计算节点</h1>
       <div class="head-right">
-        <AdminTokenInput />
         <button class="btn small" @click="formOpen = !formOpen">
           {{ formOpen ? "收起" : "+ 添加节点" }}
         </button>

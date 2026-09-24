@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { computed, onMounted } from "vue";
-import { RouterLink, RouterView } from "vue-router";
+import { RouterLink, RouterView, useRouter } from "vue-router";
 import { services, startServicePolling } from "./composables/useServices";
+import { auth, logout } from "./composables/useAuth";
 
+const router = useRouter();
 onMounted(() => startServicePolling());
 
 const statusClass = computed(() =>
@@ -25,6 +27,11 @@ const statusTitle = computed(() => {
   if (services.inferenceUp) return `默认推理服务在线（${services.modelCount} 个模型）`;
   return "推理服务不可达（可在「节点」页部署远程推理）";
 });
+
+async function doLogout(): Promise<void> {
+  await logout();
+  await router.push("/");
+}
 </script>
 
 <template>
@@ -39,15 +46,29 @@ const statusTitle = computed(() => {
         <RouterLink to="/models">模型</RouterLink>
         <RouterLink to="/playground">演练场</RouterLink>
         <RouterLink to="/docs">文档</RouterLink>
-        <span class="divider" aria-hidden="true"></span>
-        <span class="group-label">管理</span>
-        <RouterLink to="/nodes">节点</RouterLink>
-        <RouterLink to="/keys">API</RouterLink>
+        <template v-if="auth.isLoggedIn.value">
+          <span class="divider" aria-hidden="true"></span>
+          <span class="group-label">我的</span>
+          <RouterLink to="/keys">API 密钥</RouterLink>
+          <template v-if="auth.isAdmin.value">
+            <span class="divider" aria-hidden="true"></span>
+            <span class="group-label">管理</span>
+            <RouterLink to="/nodes">节点</RouterLink>
+            <RouterLink to="/admin/users">用户</RouterLink>
+          </template>
+        </template>
       </nav>
-      <span class="status" :title="statusTitle">
-        <span class="dot" :class="statusClass"></span>
-        {{ statusText }}
-      </span>
+      <div class="right">
+        <span class="status" :title="statusTitle">
+          <span class="dot" :class="statusClass"></span>
+          {{ statusText }}
+        </span>
+        <template v-if="auth.isLoggedIn.value">
+          <span class="user">{{ auth.me.value?.username }}</span>
+          <button class="link-btn" type="button" @click="doLogout">退出</button>
+        </template>
+        <RouterLink v-else class="login-link" to="/login">登录 / 注册</RouterLink>
+      </div>
     </header>
     <main class="content">
       <RouterView />
@@ -90,6 +111,8 @@ const statusTitle = computed(() => {
   display: flex;
   gap: 0.4rem;
   flex: 1;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .topbar nav a {
@@ -113,21 +136,6 @@ const statusTitle = computed(() => {
   font-weight: 600;
 }
 
-.status {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  font-size: 0.85rem;
-  color: var(--muted);
-  white-space: nowrap;
-}
-
-.content {
-  max-width: 1020px;
-  margin: 0 auto;
-  padding: 1.8rem 1.5rem 3rem;
-}
-
 .divider {
   width: 1px;
   height: 1.1rem;
@@ -138,7 +146,51 @@ const statusTitle = computed(() => {
 .group-label {
   color: #94a3b8;
   font-size: 0.78rem;
-  align-self: center;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  white-space: nowrap;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.user {
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 0.85rem;
+  padding: 0;
+}
+
+.link-btn:hover {
+  color: var(--danger);
+}
+
+.login-link {
+  font-size: 0.88rem;
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.content {
+  max-width: 1020px;
+  margin: 0 auto;
+  padding: 1.8rem 1.5rem 3rem;
 }
 
 @media (max-width: 640px) {

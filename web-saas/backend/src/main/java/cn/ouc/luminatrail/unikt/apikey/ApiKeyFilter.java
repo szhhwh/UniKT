@@ -1,5 +1,6 @@
 package cn.ouc.luminatrail.unikt.apikey;
 
+import cn.ouc.luminatrail.unikt.config.InferenceProperties;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,19 +11,19 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 /**
- * 开放 API（/api/v1/**）的 API Key 鉴权过滤器。
+ * 开放 API（/api/v1/**）的 API Key 鉴权过滤器：验证密钥 + 每日配额。
  *
- * 请求头 X-API-Key；无效/缺失返回 401 JSON（与门户统一错误体一致）。
- * CORS 预检（OPTIONS）放行。门户自身路由（/api/models 等）不走此
- * 过滤器——它们由浏览器会话使用，多用户化后统一收口到 Phase 3。
+ * 请求头 X-API-Key；无效/缺失 401，超出当日配额 429。CORS 预检放行。
  */
 @Component
 public class ApiKeyFilter extends OncePerRequestFilter {
 
     private final ApiKeyService apiKeys;
+    private final InferenceProperties props;
 
-    public ApiKeyFilter(ApiKeyService apiKeys) {
+    public ApiKeyFilter(ApiKeyService apiKeys, InferenceProperties props) {
         this.apiKeys = apiKeys;
+        this.props = props;
     }
 
     @Override
@@ -65,7 +66,10 @@ public class ApiKeyFilter extends OncePerRequestFilter {
         }
         // 供后续按调用方限流/审计使用（当前无消费者）
         request.setAttribute("apiKeyUser", user);
-        apiKeys.touch(user.getId());
+        if (!apiKeys.tryConsumeQuota(user, props.quotaDaily())) {
+            reject(response, 429, "今日调用配额已用完（" + props.quotaDaily() + " 次/天），明天再来");
+            return;
+        }
         chain.doFilter(request, response);
     }
 

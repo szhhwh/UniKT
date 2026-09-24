@@ -1,11 +1,19 @@
 server:
   port: 8080
+  servlet:
+    session:
+      cookie:
+        # 会话 Cookie：HttpOnly 由 Spring 默认开启；Strict 防跨站携带
+        same-site: strict
+        max-age: 7d
 
 spring:
   application:
     name: unikt-saas-backend
   datasource:
-    # 本地文件库；如需外部工具连库，用 UNIKT_DB_PASSWORD 换掉默认口令
+    # 默认零配置本地 H2 文件库；生产切 MySQL 只需覆盖：
+    #   SPRING_DATASOURCE_URL=jdbc:mysql://host:3306/unikt?useSSL=false
+    #   SPRING_DATASOURCE_USERNAME=... SPRING_DATASOURCE_PASSWORD=...
     url: jdbc:h2:file:./data/unikt-saas
     username: sa
     password: ${UNIKT_DB_PASSWORD:unikt-local}
@@ -26,8 +34,8 @@ unikt:
   inference-src: ../inference
   # 节点部署的并发数与单步 SSH 超时
   deploy-timeout-ms: 600000
-  # 管理令牌：设置后节点/密钥的改动型接口需 X-Admin-Token；空=无保护（仅内网演示）
-  admin-token: ${UNIKT_ADMINTOKEN:}
+  # 开放 API 每密钥每日调用配额
+  quota-daily: 2000
 
 logging:
   level:
