@@ -6,7 +6,7 @@ const users = ref<AdminUserInfo[]>([]);
 const error = ref("");
 const loading = ref(true);
 
-onMounted(async () => {
+async function reload(): Promise<void> {
   try {
     users.value = await api.admin.users();
   } catch (e) {
@@ -14,7 +14,8 @@ onMounted(async () => {
   } finally {
     loading.value = false;
   }
-});
+}
+onMounted(reload);
 
 const rows = computed(() => users.value);
 
@@ -47,7 +48,7 @@ function fmt(iso: string): string {
     <h1>用户管理</h1>
     <p class="sub">管理员可见。提升/降级管理员、启用/禁用账号。</p>
 
-    <p v-if="error" class="banner-error">{{ error }}</p>
+    <div v-if="error" class="banner-error">{{ error }} <button class="btn ghost small" type="button" @click="reload">重试</button></div>
     <p v-else-if="loading">加载中…</p>
 
     <div v-else class="card">

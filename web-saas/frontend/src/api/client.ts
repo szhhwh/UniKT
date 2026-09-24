@@ -193,21 +193,49 @@ export const api = {
       }),
   },
   datasets: {
-    upload: (name: string, interactions: File, skills: File | null) => {
-      const form = new FormData();
-      form.append("name", name);
-      form.append("interactions", interactions);
-      if (skills) {
-        form.append("skills", skills);
-      }
-      return fetch("/api/datasets", { method: "POST", body: form }).then(async (res) => {
-        const body = await res.json().catch(() => null);
-        if (!res.ok) {
-          throw new ApiError(res.status, body?.message || `上传失败：${res.status}`);
+    upload: (
+      name: string,
+      interactions: File,
+      skills: File | null,
+      onProgress?: (pct: number) => void,
+    ) =>
+      new Promise<DatasetInfo>((resolve, reject) => {
+        const form = new FormData();
+        form.append("name", name);
+        form.append("interactions", interactions);
+        if (skills) {
+          form.append("skills", skills);
         }
-        return body as DatasetInfo;
-      });
-    },
+        // XHR 而非 fetch：只有它提供上传进度回调（大文件体验关键）
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "/api/datasets");
+        xhr.upload.onprogress = (e) => {
+          if (e.lengthComputable && onProgress) {
+            onProgress(Math.round((e.loaded / e.total) * 100));
+          }
+        };
+        xhr.onload = () => {
+          let body: unknown = null;
+          try {
+            body = JSON.parse(xhr.responseText);
+          } catch {
+            body = null;
+          }
+          if (xhr.status >= 200 && xhr.status < 300) {
+            resolve(body as DatasetInfo);
+          } else {
+            const msg =
+              (body as { message?: string } | null)?.message ||
+              `上传失败：${xhr.status}`;
+            if (xhr.status === 401) {
+              window.dispatchEvent(new CustomEvent("unikt:unauthorized"));
+            }
+            reject(new ApiError(xhr.status, msg));
+          }
+        };
+        xhr.onerror = () => reject(new ApiError(0, "网络错误，上传中断"));
+        xhr.send(form);
+      }),
     list: (scope?: "all") =>
       request<DatasetInfo[]>(scope === "all" ? "/datasets?scope=all" : "/datasets"),
     remove: (id: number) => request<void>(`/datasets/${id}`, { method: "DELETE" }),

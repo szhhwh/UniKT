@@ -31,18 +31,14 @@ public class ApiKeyFilter extends OncePerRequestFilter {
         if ("OPTIONS".equals(request.getMethod())) {
             return true;
         }
-        // 覆盖整个 /api 命名空间：可疑形态（normalize 为 null）也要进
-        // doFilterInternal 拒绝，不能在 shouldNotFilter 里放行
-        return !underApi(request);
-    }
-
-    private static boolean underApi(HttpServletRequest request) {
-        String raw = request.getRequestURI();
-        String ctx = request.getContextPath();
-        if (ctx != null && !ctx.isEmpty()) {
-            return raw.startsWith(ctx + "/api");
+        // 解码后视角判定 /api 命名空间（原始 URI 的 //api、/api/%76%31
+        // 等变形由 normalize 拒绝为 null → 进 doFilterInternal 400，
+        // 绝不放行）。normalize==null 的任何请求都进过滤器拒绝。
+        String path = PathGuard.normalize(request);
+        if (path == null) {
+            return false;
         }
-        return raw.startsWith("/api");
+        return !path.startsWith("/api");
     }
 
     @Override

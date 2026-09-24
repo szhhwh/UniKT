@@ -11,7 +11,7 @@ const search = ref("");
 // 默认只看已训练：体验者关心的是"现在能用什么"
 const onlyReady = ref(true);
 
-onMounted(async () => {
+async function reload(): Promise<void> {
   try {
     models.value = await api.models();
   } catch (e) {
@@ -19,7 +19,8 @@ onMounted(async () => {
   } finally {
     loading.value = false;
   }
-});
+}
+onMounted(reload);
 
 const filtered = computed(() => {
   const q = search.value.trim().toLowerCase();
@@ -61,7 +62,7 @@ function tryModel(m: ModelInfo): void {
       </label>
     </div>
 
-    <p v-if="error" class="banner-error">获取失败：{{ error }}</p>
+    <div v-if="error" class="banner-error">获取失败：{{ error }} <button class="btn ghost small" type="button" @click="reload">重试</button></div>
     <p v-else-if="loading">加载中…</p>
 
     <template v-else>

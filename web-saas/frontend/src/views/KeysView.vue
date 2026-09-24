@@ -14,7 +14,8 @@ const freshKey = ref<string | null>(null);
 /** 管理员可切换查看全部用户的密钥。 */
 const scopeAll = ref(false);
 
-onMounted(refresh);
+const reload = refresh;
+onMounted(reload);
 
 async function refresh(): Promise<void> {
   try {
@@ -137,7 +138,7 @@ const quotaHint = computed(() => "每日配额 2000 次");
     </div>
 
     <p v-if="opError" class="banner-error">{{ opError }}</p>
-    <p v-else-if="loadError" class="banner-error">加载失败：{{ loadError }}</p>
+    <div v-else-if="loadError" class="banner-error">加载失败：{{ loadError }} <button class="btn ghost small" type="button" @click="reload">重试</button></div>
     <p v-else-if="loading">加载中…</p>
 
     <template v-else>

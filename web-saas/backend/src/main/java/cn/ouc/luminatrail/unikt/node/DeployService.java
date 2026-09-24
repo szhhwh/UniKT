@@ -251,7 +251,7 @@ public class DeployService {
     }
 
     /** 去掉 baseUrl 末尾斜杠，避免 RestClient CONCAT 出 //path。 */
-    static String normalize(String baseUrl) {
+    public static String normalize(String baseUrl) {
         return baseUrl == null ? "" : baseUrl.replaceAll("/+$", "");
     }
 

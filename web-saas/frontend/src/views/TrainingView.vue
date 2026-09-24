@@ -30,7 +30,8 @@ async function refresh(): Promise<void> {
 }
 
 async function doRefresh(): Promise<void> {
-  opError.value = ""; // 每轮清错误，一次网络抖动不能永久挡住列表
+  // opError 不在轮询路径清：提交/取消的错误要留得住（此前 5 秒被抹掉，
+  // 用户来不及读）。loadError 仍每轮清（轮询自愈）。
   loadError.value = "";
   // 三路并发、各自容错：models 走远程节点可慢至十余秒，不能拖住
   // 任务/数据集的展示（此前串行 await 让"加载中"挂 10 秒+）
@@ -103,9 +104,11 @@ async function submit(): Promise<void> {
       modelName: modelName.value.trim(),
       epochs: epochs.value,
     });
+    // 乐观插入：防重入守卫可能吞掉紧随的 refresh（慢节点下 create 与
+    // 轮询竞争，陈旧列表会让自停逻辑立刻杀掉新起的计时器）
+    jobs.value.unshift(job);
     expandedId.value = job.id;
-    await refresh();
-    startPolling(); // 计时器可能已因"全终态"自停，新任务要重新点起来
+    startPolling();
   } catch (e) {
     opError.value = e instanceof Error ? e.message : String(e);
   } finally {
@@ -161,7 +164,11 @@ function fmtTime(iso: string): string {
             placeholder="DKT"
           />
           <datalist id="model-names">
-            <option v-for="m in models" :key="m.name" :value="m.name" />
+            <option
+              v-for="m in models.filter((x) => /^[A-Za-z0-9]+$/.test(x.name))"
+              :key="m.name"
+              :value="m.name"
+            />
           </datalist>
           <span class="hint">
             {{ models.length }} 个可选；同名模型训练后以新数据集版本提供服务

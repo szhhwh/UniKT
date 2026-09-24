@@ -5,33 +5,44 @@ import jakarta.servlet.http.HttpServletRequest;
 /**
  * 过滤器路径守卫：以与 servlet 映射一致的视角判断受保护路径。
  *
- * {@link HttpServletRequest#getRequestURI()} 返回未解码、未归一化的
- * 原始串，直接 startsWith 会漏掉 ``/api/x/../v1/...``、``%2e%2e``、
- * ``;`` 路径参数等变体（映射层折叠后命中受保护 handler，过滤器却
- * 跳过）。这里先剥 context path，再显式拒绝可疑形态。
+ * 前缀判定基于 {@link HttpServletRequest#getServletPath()}（Boot 默认
+ * dispatcher 映射 / 时即**解码+归一化后**的路径）——此前用原始
+ * {@link HttpServletRequest#getRequestURI()} 做 startsWith，会被
+ * {@code //api/v1/x}、{@code /api//v1/x}、{@code /api/%76%31/x} 等
+ * 变形绕过（映射层归一化解码后命中 handler，过滤器却跳过/放行）。
+ *
+ * 原始 URI 仍做显式拒绝（纵深防御）：{@code /../}、{@code ;}、
+ * 编码点斜杠等可疑形态一律 400。
  */
 public final class PathGuard {
 
     private PathGuard() {
     }
 
-    /** 解析出剥掉 context path 的路径；形态可疑时返回 null（调用方应 400）。 */
+    /** 解析出解码后的 servlet 路径；原始 URI 形态可疑时返回 null（调用方应 400）。 */
     public static String normalize(HttpServletRequest request) {
-        String uri = request.getRequestURI();
+        String raw = request.getRequestURI();
         String ctx = request.getContextPath();
-        if (ctx != null && !ctx.isEmpty() && uri.startsWith(ctx)) {
-            uri = uri.substring(ctx.length());
+        String rawNoCtx = raw;
+        if (ctx != null && !ctx.isEmpty() && raw.startsWith(ctx)) {
+            rawNoCtx = raw.substring(ctx.length());
         }
-        if (!uri.startsWith("/")) {
+        if (!rawNoCtx.startsWith("/")) {
             return null;
         }
-        String lower = uri.toLowerCase();
+        String lower = rawNoCtx.toLowerCase();
         if (lower.contains("/../") || lower.contains("/./")
-                || uri.contains(";") || lower.contains("%2e")
+                || rawNoCtx.contains(";") || lower.contains("%2e")
                 || lower.contains("%2f") || lower.contains("%5c")
-                || uri.contains("\\")) {
+                || rawNoCtx.contains("\\")) {
             return null;
         }
-        return uri;
+        // 解码+归一化视角：getServletPath 在默认 / 映射下返回去上下文前缀
+        // 的解码路径（已折叠 // 与 ..）；与 getRequestURI 不一致时以它为准
+        String servletPath = request.getServletPath();
+        if (servletPath != null && !servletPath.isBlank()) {
+            return servletPath;
+        }
+        return rawNoCtx;
     }
 }

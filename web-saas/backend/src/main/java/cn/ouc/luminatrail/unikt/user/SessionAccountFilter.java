@@ -32,7 +32,7 @@ public class SessionAccountFilter extends OncePerRequestFilter {
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = PathGuard.normalize(request);
         if (path == null) {
-            return true; // 可疑路径交给安全链拒绝
+            return false; // 可疑路径：进 doFilter 由 ApiKeyFilter/安全链 400
         }
         return !(path.startsWith("/api/keys") || path.startsWith("/api/nodes")
                 || path.startsWith("/api/admin") || path.equals("/api/auth/me")

@@ -36,15 +36,18 @@ public class TrainingService {
     private final NodeRepository nodes;
     private final SshExecutor ssh;
     private final DatasetIngestService ingest;
+    private final cn.ouc.luminatrail.unikt.node.NodeRoutingService routing;
 
     public TrainingService(JobRepository jobs, DatasetRepository datasets,
                            NodeRepository nodes, SshExecutor ssh,
-                           DatasetIngestService ingest) {
+                           DatasetIngestService ingest,
+                           cn.ouc.luminatrail.unikt.node.NodeRoutingService routing) {
         this.jobs = jobs;
         this.datasets = datasets;
         this.nodes = nodes;
         this.ssh = ssh;
         this.ingest = ingest;
+        this.routing = routing;
     }
 
     /** 创建并启动训练。 */
@@ -58,6 +61,19 @@ public class TrainingService {
         }
         if (!modelName.matches("[A-Za-z0-9]+") || modelName.length() > 40) {
             throw new IllegalArgumentException("模型名不合法");
+        }
+        // 提交前校验模型名（走 NodeRoutingService 的缓存清单——同步扇出
+        // 逐节点拉 /models 会占请求线程最坏 N×15s，且无缓存）
+        boolean anyOnline = nodes.findAll(Sort.by("id")).stream()
+                .anyMatch(n -> ComputeNode.ONLINE.equals(n.getStatus()));
+        if (!anyOnline) {
+            throw new IllegalStateException("当前没有在线计算节点，请联系管理员");
+        }
+        boolean known = routing.aggregateModels(null, false).stream()
+                .anyMatch(m -> modelName.equals(m.name()));
+        if (!known) {
+            throw new IllegalArgumentException(
+                    "未知模型 '" + modelName + "'——在训练页下拉里选择可用的模型名");
         }
         // 每用户非终态任务上限：防脚本刷满节点池
         if (jobs.countByOwnerIdAndStatusIn(ownerId,
@@ -74,8 +90,6 @@ public class TrainingService {
                             n.getId(), TrainingJob.RUNNING) == 0)
                     .findFirst().orElse(null);
             if (node == null) {
-                boolean anyOnline = nodes.findAll(Sort.by("id")).stream()
-                        .anyMatch(n -> ComputeNode.ONLINE.equals(n.getStatus()));
                 throw new IllegalStateException(anyOnline
                         ? "所有在线节点都有训练任务在跑（每节点同时 1 个），稍后再试"
                         : "当前没有在线计算节点，请联系管理员");
@@ -244,7 +258,9 @@ public class TrainingService {
         // 终态与最终日志同一条 UPDATE（若先改状态再补日志，后者的
         // WHERE status='RUNNING' 永远 0 行——失败原因/最终指标会丢）
         if (out.contains("UNIKT_EXIT=0")) {
-            jobs.completeWithLog(job.getId(), findRunDir(node, job), tail.strip(),
+            String runDir = findRunDir(node, job);
+            jobs.completeWithLog(job.getId(),
+                    runDir == null ? null : truncate(runDir, 1000), tail.strip(),
                     Instant.now(), TrainingJob.RUNNING);
         } else if (out.contains("UNIKT_EXIT=")) {
             jobs.markFailedWithLog(job.getId(), "训练失败，看下方日志尾部定位原因",
@@ -298,8 +314,17 @@ public class TrainingService {
 
     /** 标记失败（仅 RUNNING 时生效：不覆盖用户取消写入的"已取消"）。 */
     private TrainingJob fail(TrainingJob job, String message) {
-        jobs.markFailed(job.getId(), message, Instant.now(), TrainingJob.RUNNING);
+        jobs.markFailed(job.getId(), truncate(message, 3800),
+                Instant.now(), TrainingJob.RUNNING);
         return jobs.findById(job.getId()).orElse(job);
+    }
+
+    /** lastError 列宽 3900 的统一截断（JPQL 绕过实体 setter）。 */
+    private static String truncate(String s, int max) {
+        if (s != null && s.length() > max) {
+            return s.substring(0, max);
+        }
+        return s;
     }
 
     @jakarta.annotation.PreDestroy

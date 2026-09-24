@@ -32,6 +32,7 @@ public class DatasetIngestService {
 
     private static final long MAX_ROWS = 2_000_000;
     private static final int MAX_FIELD_LEN = 10_000;
+    private static final int MAX_ROW_COLS = 64;
     private static final Set<String> REQUIRED =
             Set.of("user_id", "item_id", "skill_id", "correct");
 
@@ -275,16 +276,18 @@ public class DatasetIngestService {
                 }
                 if (inQuotes) {
                     if (ch == '"') {
-                        if (reader.ready()) {
-                            reader.mark(1);
-                            int next = reader.read();
-                            if (next == '"') {
-                                field.append('"');
-                                continue;
-                            }
-                            reader.reset();
+                        // 双引号转义预读：mark(1)+read+reset 把非转义字符
+                        // 推回流（reader.ready() 对大缓冲流不可靠）
+                        reader.mark(1);
+                        int next = reader.read();
+                        if (next == '"') {
+                            field.append('"');
+                            continue;
                         }
-                        inQuotes = false;
+                        if (next != -1) {
+                            reader.reset(); // 预读字符交回主循环处理
+                        }
+                        inQuotes = false; // 流尾(-1)也视为引号闭合
                     } else {
                         // 单字段上限：一个不成对的引号会把整个文件吞进
                         // 同一个 StringBuilder 且永不 emit（行数闸门失效）
@@ -298,6 +301,8 @@ public class DatasetIngestService {
                 } else if (ch == '"') {
                     inQuotes = true;
                 } else if (ch == ',') {
+                    checkFieldLen(field, lineNo);
+                    checkRowSize(row, lineNo);
                     row.add(field.toString());
                     field.setLength(0);
                 } else if (ch == '\n' || ch == '\r') {
@@ -310,6 +315,8 @@ public class DatasetIngestService {
                     row.add(field.toString());
                     field.setLength(0);
                     if (!(row.size() == 1 && row.get(0).isEmpty())) {
+                        checkFieldLen(field, lineNo);
+                        checkRowSize(row, lineNo);
                         lineNo++;
                         if (!handler.accept((int) lineNo, row.toArray(new String[0]))) {
                             return;
@@ -321,9 +328,28 @@ public class DatasetIngestService {
                 }
             }
             if (field.length() > 0 || !row.isEmpty()) {
+                checkFieldLen(field, lineNo);
+                checkRowSize(row, lineNo);
                 row.add(field.toString());
                 handler.accept((int) lineNo + 1, row.toArray(new String[0]));
             }
+        }
+    }
+
+    /** 字段长度闸门（引号内外统一）：无换行的超长内容在此截停，防 OOM。 */
+    private static void checkFieldLen(StringBuilder field, long lineNo) {
+        if (field.length() > MAX_FIELD_LEN) {
+            throw new IllegalArgumentException(
+                    "第 " + Math.max(1, lineNo) + " 行附近字段超过 "
+                            + MAX_FIELD_LEN + " 字符（未闭合引号或损坏文件）");
+        }
+    }
+
+    /** 单行列数闸门：纯逗号文件可累积亿级元素，同样防 OOM。 */
+    private static void checkRowSize(List<String> row, long lineNo) {
+        if (row.size() > MAX_ROW_COLS) {
+            throw new IllegalArgumentException(
+                    "第 " + Math.max(1, lineNo) + " 行列数超过 " + MAX_ROW_COLS);
         }
     }
 

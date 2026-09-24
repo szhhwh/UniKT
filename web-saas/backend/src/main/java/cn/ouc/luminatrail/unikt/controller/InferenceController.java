@@ -43,11 +43,17 @@ public class InferenceController {
     }
 
     @GetMapping("/skills/{model}")
-    public ResponseEntity<List<cn.ouc.luminatrail.unikt.dto.SkillDto>> skills(
-            @PathVariable String model) {
+    public ResponseEntity<?> skills(@PathVariable String model) {
+        // 限定名（@generic）的技能目录是用户上传数据的派生物，与 predict
+        // 同样的归属校验（此前漏了这处，匿名可读他人目录）
+        var denied = routing.checkModelAccess(model, currentViewerId(), isAdmin());
+        if (denied != null) {
+            return ResponseEntity.status(404).body(denied);
+        }
         List<cn.ouc.luminatrail.unikt.dto.SkillDto> catalog = routing.skillsFor(model);
         if (catalog == null) {
-            return ResponseEntity.status(404).body(null);
+            return ResponseEntity.status(404)
+                    .body(java.util.Map.of("message", "模型未训练或无目录"));
         }
         return ResponseEntity.ok(catalog);
     }
@@ -56,6 +62,12 @@ public class InferenceController {
      * 演练场预测：公开接口（评委开箱即玩），但按 IP 限流——
      * 否则绕过 /api/v1 的 API Key 配额直接打满 GPU。
      */
+    private static boolean isAdmin() {
+        var auth = SecurityContextHolder.getContext().getAuthentication();
+        return auth != null && auth.getAuthorities().stream()
+                .anyMatch(a -> "ROLE_ADMIN".equals(a.getAuthority()));
+    }
+
     private static Long currentViewerId() {
         var auth = org.springframework.security.core.context.SecurityContextHolder
                 .getContext().getAuthentication();

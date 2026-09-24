@@ -41,6 +41,7 @@ public class TrainingJob {
 
     private String status = RUNNING;
 
+    @Column(length = 1024)
     private String runDir;
 
 

@@ -30,8 +30,10 @@ public class SshExecutor {
     private static final Logger log = LoggerFactory.getLogger(SshExecutor.class);
 
     /** 排水线程池：daemon，仅负责读子进程输出。 */
-    private static final ExecutorService DRAIN_POOL = Executors.newFixedThreadPool(
-            4, r -> {
+    // 弹性池：部署/轮询/编排/取消多源并发时，固定小池会让第 3 个进程的
+    // 输出管道无人排水 → 子进程写阻塞 → waitFor 超时误杀
+    private static final ExecutorService DRAIN_POOL = Executors.newCachedThreadPool(
+            r -> {
                 Thread t = new Thread(r, "ssh-drain");
                 t.setDaemon(true);
                 return t;

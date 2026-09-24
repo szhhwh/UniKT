@@ -11,19 +11,24 @@ const name = ref("");
 const interactionsFile = ref<File | null>(null);
 const skillsFile = ref<File | null>(null);
 const uploading = ref(false);
+/** 上传进度 0-100（XHR 上传阶段；校验阶段无进度）。 */
+const progress = ref(0);
 /** 上传成功后的统计预览。 */
 const fresh = ref<DatasetInfo | null>(null);
 
 let timer: ReturnType<typeof setInterval> | null = null;
+let refreshing = false;
 
 async function refresh(): Promise<void> {
-  // 每轮先清错误：轮询中途抖一次不能把整页永久变成红色横幅
-  loadError.value = "";
+  if (refreshing) return; // 防重入
+  refreshing = true;
+  loadError.value = ""; // 每轮清：一次网络抖动不能永久挡住列表
   try {
     datasets.value = await api.datasets.list();
   } catch (e) {
     loadError.value = e instanceof Error ? e.message : String(e);
   } finally {
+    refreshing = false;
     loading.value = false;
   }
 }
@@ -52,11 +57,13 @@ async function upload(): Promise<void> {
   opError.value = "";
   fresh.value = null;
   uploading.value = true;
+  progress.value = 0;
   try {
     fresh.value = await api.datasets.upload(
       name.value.trim(),
       interactionsFile.value!,
       skillsFile.value,
+      (pct) => (progress.value = pct),
     );
     interactionsFile.value = null;
     skillsFile.value = null;
@@ -71,6 +78,7 @@ async function upload(): Promise<void> {
     await refresh();
   } catch (e) {
     opError.value = e instanceof Error ? e.message : String(e);
+    progress.value = 0;
   } finally {
     uploading.value = false;
   }
@@ -122,12 +130,16 @@ async function remove(d: DatasetInfo): Promise<void> {
         </div>
       </div>
       <p v-if="opError" class="banner-error">{{ opError }}</p>
+      <div v-if="progress > 0 && progress < 100" class="progress">
+        <div class="progress-fill" :style="{ width: progress + '%' }"></div>
+        <span class="progress-text">上传中 {{ progress }}%</span>
+      </div>
       <button
         class="btn"
         :disabled="uploading || !name.trim() || !interactionsFile"
         @click="upload"
       >
-        {{ uploading ? "校验中…" : "上传并校验" }}
+        {{ uploading ? (progress < 100 ? "上传中…" : "校验中…") : "上传并校验" }}
       </button>
       <details class="fmt" open>
         <summary>格式要求</summary>
@@ -183,6 +195,11 @@ k3,一元一次方程</pre>
                 <span :class="d.status === 'READY' ? 'badge ok' : 'badge muted'">
                   {{ d.status === "READY" ? "就绪" : "异常" }}
                 </span>
+                <span
+                  v-if="d.lastError"
+                  class="err-note"
+                  :title="d.lastError"
+                >· {{ d.lastError.slice(0, 30) }}</span>
               </td>
               <td>
                 <button class="btn ghost small danger" @click="remove(d)">删除</button>
@@ -255,6 +272,39 @@ k3,一元一次方程</pre>
 
 .empty {
   color: var(--muted);
+}
+
+.err-note {
+  color: var(--danger);
+  font-size: 0.78rem;
+  margin-left: 0.4rem;
+  cursor: help;
+}
+
+.progress {
+  position: relative;
+  height: 22px;
+  background: #eef2f7;
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 0.4rem 0;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #2563eb, #3b82f6);
+  transition: width 0.2s ease;
+}
+
+.progress-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.78rem;
+  color: #fff;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.4);
 }
 
 .table {

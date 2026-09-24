@@ -41,8 +41,15 @@ public class OpenApiController {
     }
 
     @GetMapping("/skills/{model}")
-    public ResponseEntity<List<cn.ouc.luminatrail.unikt.dto.SkillDto>> skills(
-            @PathVariable String model) {
+    public ResponseEntity<?> skills(@PathVariable String model,
+                                    jakarta.servlet.http.HttpServletRequest http) {
+        Object u = http.getAttribute("apiKeyUser");
+        Long ownerId = u instanceof cn.ouc.luminatrail.unikt.apikey.ApiKeyUser au
+                ? au.getOwnerId() : null;
+        var denied = routing.checkModelAccess(model, ownerId, false);
+        if (denied != null) {
+            return ResponseEntity.status(404).body(denied);
+        }
         List<cn.ouc.luminatrail.unikt.dto.SkillDto> catalog = routing.skillsFor(model);
         if (catalog == null) {
             return ResponseEntity.notFound().build();
