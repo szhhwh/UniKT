@@ -3,6 +3,7 @@ package cn.ouc.luminatrail.unikt.node;
 import cn.ouc.luminatrail.unikt.dto.ModelInfo;
 import cn.ouc.luminatrail.unikt.dto.PredictRequest;
 import cn.ouc.luminatrail.unikt.dto.PredictResponse;
+import cn.ouc.luminatrail.unikt.dataset.UserDataset;
 import cn.ouc.luminatrail.unikt.service.InferenceService;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -46,21 +47,34 @@ public class NodeRoutingService {
     private final NodeRepository nodes;
     private final InferenceService inference;
     private final cn.ouc.luminatrail.unikt.common.InferenceClients clients;
+    private final cn.ouc.luminatrail.unikt.dataset.DatasetRepository datasets;
     private final Map<String, ModelsCache> cache = new ConcurrentHashMap<>();
     private final Map<String, SkillsCache> skillsCache = new ConcurrentHashMap<>();
 
     public NodeRoutingService(NodeRepository nodes, InferenceService inference,
-                              cn.ouc.luminatrail.unikt.common.InferenceClients clients) {
+                              cn.ouc.luminatrail.unikt.common.InferenceClients clients,
+                              cn.ouc.luminatrail.unikt.dataset.DatasetRepository datasets) {
         this.nodes = nodes;
         this.inference = inference;
         this.clients = clients;
+        this.datasets = datasets;
     }
 
-    /** 聚合模型清单：同名模型合并 available（OR）与首个提供者。 */
-    public List<ModelInfo> aggregateModels() {
+    /**
+     * 聚合模型清单：同名模型合并 available（OR）与首个提供者。
+     *
+     * @param viewerId 当前用户 id（匿名 null）
+     * @param viewerAdmin 是否管理员
+     */
+    public List<ModelInfo> aggregateModels(Long viewerId, boolean viewerAdmin) {
         Map<String, ModelInfo> merged = new HashMap<>();
         for (Endpoint ep : endpoints()) {
             for (ModelInfo m : modelsOf(ep)) {
+                // 归属过滤：generic 限定模型（用户自有数据训练）只对
+                // 其 owner 与管理员可见；裸名内置模型对所有人可见
+                if (!visibleTo(m, viewerId, viewerAdmin)) {
+                    continue;
+                }
                 // 上游不感知节点名，这里按执行体打标（默认服务保持 null）
                 ModelInfo tagged = m.node() == null
                         ? new ModelInfo(m.name(), m.available(), m.numSkills(), ep.name(),
@@ -74,6 +88,24 @@ public class NodeRoutingService {
             }
         }
         return new ArrayList<>(merged.values());
+    }
+
+    /** 裸名与非 generic 数据集 → 公开；generic 数据集 → owner 或管理员。 */
+    private boolean visibleTo(ModelInfo m, Long viewerId, boolean viewerAdmin) {
+        String ds = m.dataset();
+        if (ds == null || !ds.startsWith("generic_")) {
+            return true;
+        }
+        if (viewerAdmin) {
+            return true;
+        }
+        if (viewerId == null) {
+            return false;
+        }
+        return datasets.findBySlug(ds)
+                .map(UserDataset::getOwnerId)
+                .map(viewerId::equals)
+                .orElse(false);
     }
 
     /** 路由一次预测：按候选顺序找第一个「有该可用模型」的执行体。 */
@@ -91,6 +123,31 @@ public class NodeRoutingService {
         }
         // 没有任何执行体声明该模型可用：仍交给默认服务，让它返回标准错误
         return inference.predict(request);
+    }
+
+    /**
+     * 预测前的模型访问校验：限定名（含 @generic）要求 viewer 是 owner
+     * 或管理员。返回 null 表示放行；否则返回错误体 Map。
+     */
+    public java.util.Map<String, Object> checkModelAccess(
+            String model, Long viewerId, boolean viewerAdmin) {
+        if (model == null || !model.contains("@")) {
+            return null; // 裸名走引擎的非 generic 解析，公共模型
+        }
+        String ds = model.substring(model.indexOf('@') + 1);
+        if (!ds.startsWith("generic_")) {
+            return null;
+        }
+        if (viewerAdmin) {
+            return null;
+        }
+        boolean allowed = viewerId != null && datasets.findBySlug(ds)
+                .map(UserDataset::getOwnerId)
+                .map(viewerId::equals)
+                .orElse(false);
+        return allowed ? null
+                : java.util.Map.of("status", 404,
+                        "message", "模型不存在或无权访问");
     }
 
     /** 该模型的技能目录：路由到持有它的执行体拉取（按模型缓存 5 分钟）；找不到返回 null。 */

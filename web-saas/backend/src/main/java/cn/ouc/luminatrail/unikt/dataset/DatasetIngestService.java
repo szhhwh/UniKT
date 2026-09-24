@@ -31,6 +31,7 @@ public class DatasetIngestService {
     }
 
     private static final long MAX_ROWS = 2_000_000;
+    private static final int MAX_FIELD_LEN = 10_000;
     private static final Set<String> REQUIRED =
             Set.of("user_id", "item_id", "skill_id", "correct");
 
@@ -100,6 +101,10 @@ public class DatasetIngestService {
                                 "第 " + lineNo + " 行 timestamp 需为整数（Unix 秒），实际："
                                         + r[tsIdx[0]]);
                     }
+                    // correct 归一化：true/false 写盘时统一成 1/0（下游
+                    // Python 只认 0/1，原样透传会拖到训练时才炸）
+                    r[idx[3]] = correct.equals("true") ? "1"
+                            : correct.equals("false") ? "0" : r[idx[3]];
                     users.add(user);
                     questions.add(item);
                     skills.add(skill);
@@ -269,6 +274,13 @@ public class DatasetIngestService {
                         }
                         inQuotes = false;
                     } else {
+                        // 单字段上限：一个不成对的引号会把整个文件吞进
+                        // 同一个 StringBuilder 且永不 emit（行数闸门失效）
+                        if (field.length() > MAX_FIELD_LEN) {
+                            throw new IllegalArgumentException(
+                                    "第 " + Math.max(1, lineNo + 1) + " 行附近有未闭合的引号"
+                                            + "（单字段超过 " + MAX_FIELD_LEN + " 字符）");
+                        }
                         field.append(ch);
                     }
                 } else if (ch == '"') {

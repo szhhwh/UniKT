@@ -22,6 +22,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends openssh-client 
     && rm -rf /var/lib/apt/lists/*
 COPY --from=backend /be/target/unikt-saas-backend-0.1.0-SNAPSHOT.jar app.jar
 COPY --from=frontend /fe/dist ./frontend-dist
+# Sphinx 产物（本地或 CI 先构建到 web-saas/docs-build；空目录则文档页降级）
+COPY docs-build ./docs-build
 COPY inference ./inference-src
 ENV UNIKT_FRONTEND_DIR=/app/frontend-dist \
     UNIKT_DOCS_DIR=/app/docs-build \

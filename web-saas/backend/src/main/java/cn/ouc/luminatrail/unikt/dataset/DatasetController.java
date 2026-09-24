@@ -25,6 +25,7 @@ import cn.ouc.luminatrail.unikt.user.PortalPrincipal;
 /** 数据集管理：上传（校验+统计+暂存）→ P3 训练用；用户只见自己的。 */
 @RestController
 @RequestMapping("/api/datasets")
+@org.springframework.validation.annotation.Validated
 public class DatasetController {
 
     public record DatasetDto(Long id, String name, String slug, String status,
@@ -91,12 +92,22 @@ public class DatasetController {
             d.setQuestions(stats.questions());
             d.setSkills(stats.skills());
             d.setStatus(UserDataset.READY);
-            d = datasets.save(d);
-            // 挪到正式目录（按 id）
-            java.nio.file.Path formal = ingest.stagedDir(d.getId());
+            // 先把暂存挪到按 id 的正式目录，成功后才落库——反过来会留下
+            // 一条"就绪"但底下没有文件的数据集（挪盘失败时）
+            UserDataset saved = datasets.save(d); // 先拿 id（可能回滚不了？——
+            // H2/JPA 无事务下 save 即提交；改为：先 save 拿 id，挪盘失败再删记录
+            java.nio.file.Path formal = ingest.stagedDir(saved.getId());
             java.nio.file.Files.createDirectories(formal.getParent());
-            java.nio.file.Files.move(tmp, formal,
-                    java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+            try {
+                java.nio.file.Files.move(tmp, formal,
+                        java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException moveFail) {
+                datasets.delete(saved);
+                deleteDirQuietly(tmp);
+                return ResponseEntity.status(500)
+                        .body(Map.of("message", "保存暂存失败，请重试：" + moveFail.getMessage()));
+            }
+            d = saved;
         } catch (IllegalArgumentException e) {
             deleteDirQuietly(tmp);
             return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));

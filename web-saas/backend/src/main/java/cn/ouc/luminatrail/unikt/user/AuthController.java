@@ -133,7 +133,7 @@ public class AuthController {
         // 避免"第 11 分钟错一次就再锁"的永久锁死
         loginFails.merge(username, new FailState(1, 0, now), (old, v) -> {
             int count = now - old.lastFailAt() > LOCK_MS ? 1 : old.count() + 1;
-            return new FailState(count, now, count >= MAX_FAILS ? now + LOCK_MS : 0);
+            return new FailState(count, count >= MAX_FAILS ? now + LOCK_MS : 0, now);
         });
         if (loginFails.size() > 5000) {
             // 上限防御：丢弃已过锁定期且久未活动的条目

@@ -43,6 +43,9 @@ public class TrainingJob {
 
     private String runDir;
 
+    /** 远端训练进程组 id（取消/超时时精确 kill -- -PGID，不误杀他人任务）。 */
+    private Long remotePgid;
+
     @Column(length = 4000)
     private String logTail = "";
 
@@ -112,6 +115,14 @@ public class TrainingJob {
     public void setStatus(String status) {
         this.status = status;
         this.updatedAt = Instant.now();
+    }
+
+    public Long getRemotePgid() {
+        return remotePgid;
+    }
+
+    public void setRemotePgid(Long remotePgid) {
+        this.remotePgid = remotePgid;
     }
 
     public String getRunDir() {

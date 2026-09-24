@@ -17,9 +17,10 @@ const fresh = ref<DatasetInfo | null>(null);
 let timer: ReturnType<typeof setInterval> | null = null;
 
 async function refresh(): Promise<void> {
+  // 每轮先清错误：轮询中途抖一次不能把整页永久变成红色横幅
+  loadError.value = "";
   try {
     datasets.value = await api.datasets.list();
-    loadError.value = "";
   } catch (e) {
     loadError.value = e instanceof Error ? e.message : String(e);
   } finally {
@@ -60,6 +61,13 @@ async function upload(): Promise<void> {
     interactionsFile.value = null;
     skillsFile.value = null;
     name.value = "";
+    // 重置原生 file input：否则输入框仍显示旧文件名、按钮看似卡死
+    for (const id of ["#ds-inter", "#ds-skills"]) {
+      const el = document.querySelector(id) as HTMLInputElement | null;
+      if (el) {
+        el.value = "";
+      }
+    }
     await refresh();
   } catch (e) {
     opError.value = e instanceof Error ? e.message : String(e);
@@ -121,7 +129,7 @@ async function remove(d: DatasetInfo): Promise<void> {
       >
         {{ uploading ? "校验中…" : "上传并校验" }}
       </button>
-      <details class="fmt">
+      <details class="fmt" open>
         <summary>格式要求</summary>
         <pre class="example">interactions.csv（表头固定，correct 只能 0/1，timestamp 可省略）：
 user_id,item_id,skill_id,correct,timestamp

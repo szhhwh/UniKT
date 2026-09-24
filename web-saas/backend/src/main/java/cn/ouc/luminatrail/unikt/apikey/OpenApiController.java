@@ -33,8 +33,11 @@ public class OpenApiController {
     }
 
     @GetMapping("/models")
-    public List<ModelInfo> models() {
-        return routing.aggregateModels();
+    public List<ModelInfo> models(jakarta.servlet.http.HttpServletRequest http) {
+        Object u = http.getAttribute("apiKeyUser");
+        Long ownerId = u instanceof cn.ouc.luminatrail.unikt.apikey.ApiKeyUser au
+                ? au.getOwnerId() : null;
+        return routing.aggregateModels(ownerId, false);
     }
 
     @GetMapping("/skills/{model}")
@@ -56,6 +59,13 @@ public class OpenApiController {
         if (!limiter.tryAcquire("v1:" + keyId, 60, 60_000)) {
             throw new cn.ouc.luminatrail.unikt.apikey.RateLimitedException(
                     "该密钥每分钟最多 60 次调用");
+        }
+        Long ownerId = u instanceof cn.ouc.luminatrail.unikt.apikey.ApiKeyUser au2
+                ? au2.getOwnerId() : null;
+        var denied = routing.checkModelAccess(request.model(), ownerId, false);
+        if (denied != null) {
+            throw new cn.ouc.luminatrail.unikt.apikey.ModelAccessDeniedException(
+                    (String) denied.get("message"));
         }
         return routing.route(request);
     }

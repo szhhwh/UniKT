@@ -17,29 +17,54 @@ const expandedId = ref<number | null>(null);
 
 let timer: ReturnType<typeof setInterval> | null = null;
 
+let refreshing = false;
+
 async function refresh(): Promise<void> {
-  // 三路各自容错：models 慢（远程节点）不能拖垮任务/数据集的展示
+  if (refreshing) return; // 防重入
+  refreshing = true;
   try {
-    jobs.value = await api.training.list();
-  } catch (e) {
-    loadError.value = e instanceof Error ? e.message : String(e);
+    await doRefresh();
+  } finally {
+    refreshing = false;
   }
-  try {
-    datasets.value = await api.datasets.list();
-  } catch (e) {
-    loadError.value = e instanceof Error ? e.message : String(e);
-  }
-  try {
-    models.value = await api.models();
-  } catch {
-    // 模型清单可选（datalist 建议）；失败不阻塞训练表单
-  }
+}
+
+async function doRefresh(): Promise<void> {
+  opError.value = ""; // 每轮清错误，一次网络抖动不能永久挡住列表
+  loadError.value = "";
+  // 三路并发、各自容错：models 走远程节点可慢至十余秒，不能拖住
+  // 任务/数据集的展示（此前串行 await 让"加载中"挂 10 秒+）
+  const tasks = [
+    api.training.list().then((v) => (jobs.value = v)).catch((e) => {
+      loadError.value = e instanceof Error ? e.message : String(e);
+    }),
+    api.datasets.list().then((v) => (datasets.value = v)).catch((e) => {
+      loadError.value = e instanceof Error ? e.message : String(e);
+    }),
+    api.models().then((v) => (models.value = v)).catch(() => {
+      // 模型清单可选（datalist 建议）；失败不阻塞训练表单
+    }),
+  ];
+  // 核心两路（任务+数据集）就绪即解除加载态；models 继续后台加载
+  await Promise.race([
+    Promise.allSettled([tasks[0], tasks[1]]),
+    new Promise((r) => setTimeout(r, 8000)),
+  ]);
   loading.value = false;
+  await Promise.allSettled(tasks);
 }
 
 onMounted(async () => {
   await refresh();
-  timer = setInterval(() => void refresh(), 5000);
+  // 有进行中任务才轮询；全部终态后停止（切后台不再空转）
+  timer = setInterval(() => {
+    if (jobs.value.every((j) => j.status !== "RUNNING")) {
+      if (timer !== null) clearInterval(timer);
+      timer = null;
+      return;
+    }
+    void refresh();
+  }, 5000);
 });
 onUnmounted(() => {
   if (timer !== null) clearInterval(timer);
@@ -79,6 +104,17 @@ async function submit(): Promise<void> {
     opError.value = e instanceof Error ? e.message : String(e);
   } finally {
     submitting.value = false;
+  }
+}
+
+async function cancelJob(j: { id: number; status: string }): Promise<void> {
+  if (j.status !== "RUNNING") return;
+  if (!window.confirm("取消这个训练任务？（节点上的进程会被终止）")) return;
+  try {
+    await api.training.cancel(j.id);
+    await refresh();
+  } catch (e) {
+    opError.value = e instanceof Error ? e.message : String(e);
   }
 }
 
@@ -152,6 +188,13 @@ function fmtTime(iso: string): string {
           <div class="actions">
             <button v-if="j.logTail" class="btn ghost small" @click="expandedId = expandedId === j.id ? null : j.id">
               {{ expandedId === j.id ? "收起日志" : "日志" }}
+            </button>
+            <button
+              v-if="j.status === 'RUNNING'"
+              class="btn ghost small danger"
+              @click="cancelJob(j)"
+            >
+              取消
             </button>
             <span v-if="j.status === 'DONE'" class="hint">模型已上线 → 去「演练场」试用</span>
           </div>

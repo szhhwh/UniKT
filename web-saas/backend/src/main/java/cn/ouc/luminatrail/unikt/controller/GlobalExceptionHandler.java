@@ -35,6 +35,12 @@ public class GlobalExceptionHandler {
                 .body(ApiError.of(413, "文件超过大小上限（200MB），请裁剪后重试"));
     }
 
+    @ExceptionHandler(cn.ouc.luminatrail.unikt.apikey.ModelAccessDeniedException.class)
+    public ResponseEntity<ApiError> modelDenied(
+            cn.ouc.luminatrail.unikt.apikey.ModelAccessDeniedException e) {
+        return ResponseEntity.status(404).body(ApiError.of(404, e.getMessage()));
+    }
+
     @ExceptionHandler(cn.ouc.luminatrail.unikt.apikey.RateLimitedException.class)
     public ResponseEntity<ApiError> rateLimited(
             cn.ouc.luminatrail.unikt.apikey.RateLimitedException e) {

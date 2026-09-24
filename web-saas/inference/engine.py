@@ -87,22 +87,44 @@ class InferenceEngine:
         """返回 run 目录根（``UNIKT_RUNS_DIR`` 可覆盖）."""
         return Path(os.environ.get("UNIKT_RUNS_DIR", _REPO_ROOT / "runs" / "normal"))
 
+    @staticmethod
+    def _split_identity(name: str) -> tuple[str, str | None]:
+        """拆 ``MODEL@dataset`` 限定名；裸名返回 (MODEL, None)."""
+        if "@" in name:
+            model, dataset = name.split("@", 1)
+            return model, dataset
+        return name, None
+
     def _find_run_dir(self, name: str) -> Path | None:
-        """定位该模型最新的含 best_model.pth 的 run 目录；无则 None."""
-        exact = os.environ.get(f"UNIKT_RUN_DIR_{name.upper()}")
+        """定位该模型最新的含 best_model.pth 的 run 目录；无则 None.
+
+        - 裸名 ``MODEL``：只在**非 generic 数据集**的 run 里挑最新——
+          用户自有数据（generic_*）训出的同名模型不允许顶掉内置数据
+          的公共版本（多用户隔离的地基）。
+        - 限定名 ``MODEL@dataset``：只在该 dataset 的 run 里挑最新。
+        """
+        base, dataset = self._split_identity(name)
+        exact = os.environ.get(f"UNIKT_RUN_DIR_{base.upper()}")
         if exact:
             p = Path(exact)
             return p if (p / CHECKPOINT_NAME).is_file() else None
         root = self._runs_root()
         if not root.is_dir():
             return None
-        candidates = [
-            d
-            for d in root.iterdir()
-            if d.is_dir()
-            and d.name.startswith(f"{name}_")
-            and (d / CHECKPOINT_NAME).is_file()
-        ]
+        candidates = []
+        for d in root.iterdir():
+            if not (d.is_dir() and d.name.startswith(f"{base}_")
+                    and (d / CHECKPOINT_NAME).is_file()):
+                continue
+            if dataset is None:
+                # 裸名：跳过 generic（用户自有数据）版本
+                ds = self._dataset_of(d)
+                if ds is not None and ds.startswith("generic_"):
+                    continue
+            else:
+                if self._dataset_of(d) != dataset:
+                    continue
+            candidates.append(d)
         return max(candidates, key=lambda d: d.stat().st_mtime) if candidates else None
 
     @property
@@ -125,6 +147,28 @@ class InferenceEngine:
                     "numSkills": self._dataset_num_skills(run_dir),
                     "dataset": self._dataset_of(run_dir),
                 }
+        # 每个模型再按 generic 数据集追加限定名条目（MODEL@generic_x），
+        # 归属隔离由门户侧按 dataset->owner 过滤，引擎只负责可寻址
+        root = self._runs_root()
+        if root.is_dir():
+            seen: set[tuple[str, str]] = set()
+            for d in root.iterdir():
+                if not (d.is_dir() and (d / CHECKPOINT_NAME).is_file()):
+                    continue
+                ds = self._dataset_of(d)
+                if ds is None or not ds.startswith("generic_"):
+                    continue
+                for base in discover_model_names():
+                    if d.name.startswith(f"{base}_") and (name, ds) not in seen:
+                        seen.add((name, ds))
+                        qualified = f"{base}@{ds}"
+                        if qualified not in result:
+                            result[qualified] = {
+                                "available": True,
+                                "numSkills": self._dataset_num_skills(d),
+                                "dataset": ds,
+                            }
+                        break
         return result
 
     @staticmethod
@@ -280,7 +324,8 @@ class InferenceEngine:
         exp_manager = ExperimentManager.from_run_dir(resolved)
         sub_manager = exp_manager.create_sub_experiment("inference")
 
-        trainer = TRAINERS.get(name)(rc=rc, data_src=data_src, exp_manager=sub_manager)
+        base, _dataset = self._split_identity(name)
+        trainer = TRAINERS.get(base)(rc=rc, data_src=data_src, exp_manager=sub_manager)
         trainer.load_weights(str(resolved / CHECKPOINT_NAME))
         trainer.model.eval()
 

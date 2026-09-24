@@ -4,6 +4,7 @@ backend/target
 backend/data
 inference/.venv
 inference/__pycache__
-docs-build
+docs-build/*
+!docs-build/.gitkeep
 deploy/.env
 .git

@@ -26,6 +26,12 @@ public class TrainingService {
 
     private final JobRepository jobs;
     private final Object createLock = new Object();
+    private final java.util.concurrent.ExecutorService orchestrator =
+            java.util.concurrent.Executors.newFixedThreadPool(2, r -> {
+                Thread t3 = new Thread(r, "train-orchestrator");
+                t3.setDaemon(true);
+                return t3;
+            });
     private final DatasetRepository datasets;
     private final NodeRepository nodes;
     private final SshExecutor ssh;
@@ -53,7 +59,13 @@ public class TrainingService {
         if (!modelName.matches("[A-Za-z0-9]+") || modelName.length() > 40) {
             throw new IllegalArgumentException("模型名不合法");
         }
+        // 每用户非终态任务上限：防脚本刷满节点池
+        if (jobs.countByOwnerIdAndStatusIn(ownerId,
+                java.util.List.of(TrainingJob.RUNNING)) >= 3) {
+            throw new IllegalStateException("你已有 3 个进行中的任务，等完成后再提交");
+        }
         ComputeNode node;
+        TrainingJob job;
         synchronized (createLock) {
             // pick+count+save 原子化（单实例足够），并遍历找空闲节点而非只看第一个
             node = nodes.findAll(Sort.by("id")).stream()
@@ -77,48 +89,70 @@ public class TrainingService {
             placeholder.setNodeId(node.getId());
             placeholder.setEpochs(epochs);
             placeholder.setDatasetName(ds.getName());
-            jobs.save(placeholder);
+            job = jobs.save(placeholder); // 直接用返回值（含 id），不回查
         }
-        TrainingJob job = jobs.findAll().stream()
-                .filter(j -> j.getOwnerId().equals(ownerId)
-                        && j.getDatasetId().equals(datasetId)
-                        && TrainingJob.RUNNING.equals(j.getStatus()))
-                .max(java.util.Comparator.comparing(TrainingJob::getId))
-                .orElseThrow();
 
-        // 1. 数据同步到节点 raw/（mkdir + rsync）
+        // rsync 与启动放后台：慢节点不再挂住 HTTP 请求（此前可挂 11 分钟）
+        final ComputeNode theNode = node;
+        orchestrator.submit(() -> {
+            try {
+                launch(job, ds, theNode);
+            } catch (Exception e) {
+                log.error("launch job {} failed", job.getId(), e);
+                fail(job, "启动失败: " + e.getMessage());
+            }
+        });
+        return job;
+    }
+
+    /** 在节点上执行数据同步与后台训练启动（orchestrator 线程内）。 */
+    private void launch(TrainingJob job, UserDataset ds, ComputeNode node) {
         String rawDir = node.getRepoPath() + "/data/" + ds.getSlug() + "/raw";
         SshExecutor.SshResult mkdir = ssh.run(node.getSshTarget(),
                 "mkdir -p " + SshExecutor.shellQuote(rawDir), 60);
         if (!mkdir.ok()) {
-            return fail(job, "创建远端目录失败: " + mkdir.stderr());
+            fail(job, "创建远端目录失败: " + mkdir.stderr());
+            return;
         }
         SshExecutor.SshResult sync = ssh.rsync(
-                ingest.stagedDir(datasetId).toAbsolutePath().toString(),
+                ingest.stagedDir(job.getDatasetId()).toAbsolutePath().toString(),
                 node.getSshTarget(), rawDir, 600);
         if (!sync.ok()) {
-            return fail(job, "数据同步失败: " + sync.stderr());
+            fail(job, "数据同步失败: " + sync.stderr());
+            return;
         }
 
-        // 2. 节点后台执行（setsid 防 SSH 会话回收；LD_PRELOAD 绝对路径）
+        // 节点后台执行（setsid 独立进程组；LD_PRELOAD 绝对路径）。
+        // 启动后立即回读该 sh 的 PGID，取消/超时按组精确 kill。
         String logFile = "/tmp/unikt-job-" + job.getId() + ".log";
+        String pidFile = "/tmp/unikt-job-" + job.getId() + ".pgid";
         String preload = node.getRepoPath() + "/.pixi/envs/cpu/lib/libstdc++.so.6";
-        String inner = "export PATH=$HOME/.pixi/bin:$PATH LD_PRELOAD=" + preload + "; "
+        // inner 的 $$ 即 setsid 出的新会话组长 PID（=PGID），写入 pidfile；
+        // 取消/超时读 pidfile 精确 kill -- -PGID（echo $! 外层捕获不稳）
+        String inner = "echo $$ > " + SshExecutor.shellQuote(pidFile) + "; "
+                + "export PATH=$HOME/.pixi/bin:$PATH LD_PRELOAD=" + preload + "; "
                 + "cd " + SshExecutor.shellQuote(node.getRepoPath()) + " && "
                 + "pixi run -e cpu python data_process.py process -d " + ds.getSlug()
                 + " --extra=[windowlate] && "
-                + "pixi run -e cpu python train.py -m " + modelName
-                + " -d " + ds.getSlug() + " --model.epochs " + epochs
+                + "pixi run -e cpu python train.py -m " + job.getModelName()
+                + " -d " + ds.getSlug() + " --model.epochs " + job.getEpochs()
                 + " --early_stopping.patience 3; "
                 + "echo UNIKT_EXIT=$?";
         String cmd = "setsid sh -c " + SshExecutor.shellQuote(inner)
-                + " > " + SshExecutor.shellQuote(logFile) + " 2>&1 < /dev/null &";
+                + " > " + SshExecutor.shellQuote(logFile) + " 2>&1 < /dev/null &"
+                + " echo $!";
         SshExecutor.SshResult kick = ssh.run(node.getSshTarget(), cmd, 60);
         if (!kick.ok()) {
-            return fail(job, "启动训练失败: " + kick.stderr());
+            fail(job, "启动训练失败: " + kick.stderr());
+            return;
+        }
+        try {
+            job.setRemotePgid(Long.parseLong(kick.stdout().strip().split("\n")[0]));
+        } catch (NumberFormatException ignored) {
+            // 拿不到 PGID 时取消/超时退化为日志标记（少见）
         }
         job.setLogTail("训练已启动（节点 " + node.getName() + "，日志 " + logFile + "）");
-        return jobs.save(job);
+        jobs.save(job);
     }
 
     /** 后台轮询 RUNNING 任务。 */
@@ -131,6 +165,29 @@ public class TrainingService {
             } catch (Exception e) {
                 log.debug("poll job {} failed: {}", job.getId(), e.getMessage());
             }
+        }
+    }
+
+    /** 从节点 pidfile 读该任务的 PGID（读不到返回 null）。 */
+    private Long readPgid(ComputeNode node, long jobId) {
+        SshExecutor.SshResult r = ssh.run(node.getSshTarget(),
+                "cat /tmp/unikt-job-" + jobId + ".pgid 2>/dev/null", 30);
+        try {
+            return Long.parseLong(r.stdout().strip());
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
+    /** 杀远端进程组（pidfile 优先，DB 记录兜底）。 */
+    private void killRemote(ComputeNode node, TrainingJob job) {
+        Long pgid = readPgid(node, job.getId());
+        if (pgid == null) {
+            pgid = job.getRemotePgid();
+        }
+        if (pgid != null) {
+            ssh.run(node.getSshTarget(),
+                    "kill -- -" + pgid + " 2>/dev/null; true", 30);
         }
     }
 
@@ -150,8 +207,11 @@ public class TrainingService {
         java.time.Duration stale = java.time.Duration.between(
                 job.getUpdatedAt(), Instant.now());
         if (stale.toMinutes() > 30 || age.toHours() >= 6) {
+            // 超时也要杀远端进程：否则槽位释放但 python 还在跑，
+            // 下一个任务与它在同节点并发写 runs/ 破坏"每节点 1 任务"
+            killRemote(node, job);
             job.setStatus(TrainingJob.FAILED);
-            job.setLastError("任务长时间无进展（节点失联或重启），已标记失败；可重新提交");
+            job.setLastError("任务长时间无进展（节点失联或重启），已终止；可重新提交");
             jobs.save(job);
             return;
         }
@@ -202,11 +262,9 @@ public class TrainingService {
             throw new IllegalArgumentException("任务不属于你");
         }
         if (TrainingJob.RUNNING.equals(job.getStatus())) {
-            nodes.findById(job.getNodeId()).ifPresent(node ->
-                    ssh.run(node.getSshTarget(),
-                            "pkill -f unikt-job-" + job.getId() + " 2>/dev/null;"
-                                    + " pkill -f 'train.py -m " + job.getModelName()
-                                    + "' 2>/dev/null; true", 30));
+            // 按进程组精确杀（此前 pkill -f 'train.py -m X' 会误杀别人
+            // 同模型名的任务；pidfile 记录的 PGID 是唯一可靠锚点）
+            nodes.findById(job.getNodeId()).ifPresent(node -> killRemote(node, job));
         }
         job.setStatus(TrainingJob.FAILED);
         job.setLastError("已取消");
@@ -217,6 +275,11 @@ public class TrainingService {
         job.setStatus(TrainingJob.FAILED);
         job.setLastError(message);
         return jobs.save(job);
+    }
+
+    @jakarta.annotation.PreDestroy
+    void shutdown() {
+        orchestrator.shutdown();
     }
 
     private ComputeNode pickNode() {

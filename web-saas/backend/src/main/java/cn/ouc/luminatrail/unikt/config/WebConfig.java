@@ -1,5 +1,6 @@
 package cn.ouc.luminatrail.unikt.config;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import org.springframework.context.annotation.Configuration;
@@ -41,26 +42,57 @@ public class WebConfig implements WebMvcConfigurer {
                         .setCachePeriod(600);
             }
         }
-        // 生产模式：托管前端构建产物（单端口部署）；/api 与 /docs-static
-        // 由控制器/上面的 handler 优先处理，资源处理器兜底静态文件
+        // 生产模式：托管前端构建产物（单端口部署）。SPA 兜底放在资源层
+        // （PathResourceResolver），不能用 /** 的 Controller——控制器优先
+        // 级高于资源处理器，会把 /docs-static、静态资产一起劫持掉。
         String frontendDir = props.frontendDir();
         if (frontendDir != null && !frontendDir.isBlank()) {
             Path dir = Path.of(frontendDir).toAbsolutePath().normalize();
             if (Files.isDirectory(dir)) {
                 registry.addResourceHandler("/**")
-                        .addResourceLocations(dir.toUri() + "/")
+                        .addResourceLocations(dir.toUri().toString())
                         .setCachePeriod(600)
-                        .resourceChain(true);
+                        .resourceChain(true)
+                        .addResolver(new org.springframework.web.servlet.resource.PathResourceResolver() {
+                            @Override
+                            protected org.springframework.core.io.Resource getResource(
+                                    String resourcePath,
+                                    org.springframework.core.io.Resource location)
+                                    throws IOException {
+                                if (resourcePath.isEmpty()) {
+                                    // "/" 根路径：直接回 index.html（createRelative("")
+                                    // 会拿到目录本身，目录不可作为响应体）
+                                    return location.createRelative("index.html");
+                                }
+                                org.springframework.core.io.Resource requested =
+                                        location.createRelative(resourcePath);
+                                if (requested.exists() && requested.isReadable()
+                                        && !requested.getFile().isDirectory()) {
+                                    return requested;
+                                }
+                                // SPA history 路由兜底：非接口/文档/带扩展名的
+                                // 路径回 index.html（前端路由器接管）
+                                boolean spa = (resourcePath.isEmpty()
+                                        || !resourcePath.contains("."))
+                                        && !resourcePath.startsWith("api/")
+                                        && !resourcePath.startsWith("docs-static/");
+                                if (spa) {
+                                    return location.createRelative("index.html");
+                                }
+                                return null; // 404
+                            }
+                        });
             }
         }
     }
 
-    /** 文档目录是否就绪（首页状态卡用）。 */
+    /** 文档目录是否就绪（首页状态卡用）：以 index.html 存在为准。 */
     public boolean docsAvailable() {
         String docsDir = props.docsDir();
         if (docsDir == null || docsDir.isBlank()) {
             return false;
         }
-        return Files.isDirectory(Path.of(docsDir).toAbsolutePath().normalize());
+        return Files.isRegularFile(Path.of(docsDir).toAbsolutePath()
+                .normalize().resolve("index.html"));
     }
 }

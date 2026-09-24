@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -32,7 +33,13 @@ public class InferenceController {
 
     @GetMapping("/models")
     public List<ModelInfo> models() {
-        return routing.aggregateModels();
+        var auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean admin = auth != null && auth.getAuthorities().stream()
+                .anyMatch(a -> "ROLE_ADMIN".equals(a.getAuthority()));
+        Long viewerId = auth != null
+                && auth.getPrincipal() instanceof cn.ouc.luminatrail.unikt.user.PortalPrincipal p
+                ? p.getId() : null;
+        return routing.aggregateModels(viewerId, admin);
     }
 
     @GetMapping("/skills/{model}")
@@ -49,6 +56,14 @@ public class InferenceController {
      * 演练场预测：公开接口（评委开箱即玩），但按 IP 限流——
      * 否则绕过 /api/v1 的 API Key 配额直接打满 GPU。
      */
+    private static Long currentViewerId() {
+        var auth = org.springframework.security.core.context.SecurityContextHolder
+                .getContext().getAuthentication();
+        return auth != null
+                && auth.getPrincipal() instanceof cn.ouc.luminatrail.unikt.user.PortalPrincipal p
+                ? p.getId() : null;
+    }
+
     @PostMapping("/predict")
     public ResponseEntity<?> predict(
             @Valid @RequestBody PredictRequest request,
@@ -59,6 +74,10 @@ public class InferenceController {
                     .body(java.util.Map.of("status", 429,
                             "message", "预测请求太频繁（每分钟 20 次），稍后再试；"
                                     + "批量调用请用 API 密钥走 /api/v1/predict"));
+        }
+        var denied = routing.checkModelAccess(request.model(), currentViewerId(), false);
+        if (denied != null) {
+            return ResponseEntity.status(404).body(denied);
         }
         return ResponseEntity.ok(routing.route(request));
     }

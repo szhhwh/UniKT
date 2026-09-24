@@ -213,6 +213,8 @@ export const api = {
     remove: (id: number) => request<void>(`/datasets/${id}`, { method: "DELETE" }),
   },
   training: {
+    cancel: (id: number) =>
+      request<TrainingJobInfo>(`/training-jobs/${id}`, { method: "DELETE" }),
     list: (scope?: "all") =>
       request<TrainingJobInfo[]>(
         scope === "all" ? "/training-jobs?scope=all" : "/training-jobs",

@@ -9,4 +9,6 @@ public interface JobRepository extends JpaRepository<TrainingJob, Long> {
     List<TrainingJob> findByOwnerIdOrderByIdDesc(Long ownerId);
 
     long countByNodeIdAndStatus(Long nodeId, String status);
+
+    long countByOwnerIdAndStatusIn(Long ownerId, java.util.List<String> statuses);
 }
