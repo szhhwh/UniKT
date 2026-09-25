@@ -179,6 +179,8 @@ class Assistments2009Data(DataSource):
             pl.col("user").is_not_null()
             & pl.col("skill").is_not_null()
             & pl.col("label").is_not_null()
+            # Drop clock artifacts (negative / 0 ms) so time features stay valid
+            & (pl.col("ms_first_response") > 0)
         )
 
         data = data.unique().collect()
