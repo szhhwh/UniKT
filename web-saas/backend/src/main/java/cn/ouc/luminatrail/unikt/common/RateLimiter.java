@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.stereotype.Component;
 
 /**
- * 进程内滑动窗口限流器（够课程规模；多实例部署需换 Redis，记录在案）。
+ * 进程内滑动窗口限流器（单实例设计；多实例部署需换 Redis 等外部共享存储）。
  *
  * key 形如 "predict:1.2.3.4"；窗口内超过 limit 次即拒绝。
  */
