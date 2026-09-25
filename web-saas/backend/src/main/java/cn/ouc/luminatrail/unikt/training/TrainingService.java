@@ -81,14 +81,15 @@ public class TrainingService {
             throw new IllegalArgumentException(
                     "未知模型 '" + modelName + "'——在训练页下拉里选择可用的模型名");
         }
-        // 每用户非终态任务上限：防脚本刷满节点池
-        if (jobs.countByOwnerIdAndStatusIn(ownerId,
-                java.util.List.of(TrainingJob.RUNNING)) >= 3) {
-            throw new IllegalStateException("你已有 3 个进行中的任务，等完成后再提交");
-        }
         ComputeNode node;
         TrainingJob job;
         synchronized (createLock) {
+            // 每用户非终态任务上限：防脚本刷满节点池。计数必须与占位落库同锁，
+            // 否则同用户并发双提交可双双通过（TOCTOU）
+            if (jobs.countByOwnerIdAndStatusIn(ownerId,
+                    java.util.List.of(TrainingJob.RUNNING)) >= 3) {
+                throw new IllegalStateException("你已有 3 个进行中的任务，等完成后再提交");
+            }
             // pick+count+save 原子化（单实例足够），并遍历找空闲节点而非只看第一个
             node = nodes.findAll(Sort.by("id")).stream()
                     .filter(n -> ComputeNode.ONLINE.equals(n.getStatus()))

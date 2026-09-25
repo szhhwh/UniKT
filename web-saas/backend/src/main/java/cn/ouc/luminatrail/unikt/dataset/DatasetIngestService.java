@@ -134,8 +134,11 @@ public class DatasetIngestService {
             throw new IllegalArgumentException(
                     "交互数太少（" + n[0] + " 行）：知识追踪训练至少需要数百条作答记录");
         }
-        if (users.size() < 2) {
-            throw new IllegalArgumentException("至少需要 2 个学生（user_id），当前 " + users.size());
+        if (users.size() < 5) {
+            // 训练按学生做 5 折划分（data_source.add_kfold_labels n_splits=5），
+            // 少于 5 个学生要到远端训练时才炸——校验期就拦住
+            throw new IllegalArgumentException(
+                    "至少需要 5 个学生（user_id）（训练按学生 5 折划分），当前 " + users.size());
         }
         if (skills.size() < 2) {
             throw new IllegalArgumentException("至少需要 2 个知识点（skill_id），当前 " + skills.size());
@@ -339,11 +342,12 @@ public class DatasetIngestService {
         }
     }
 
-    /** 字段长度闸门（引号内外统一）：无换行的超长内容在此截停，防 OOM。 */
+    /** 字段长度闸门（引号内外统一）：无换行的超长内容在此截停，防 OOM。
+     *  lineNo 内部从 0 计，报错口径与引号内检查一致（+1 再展示）。 */
     private static void checkFieldLen(StringBuilder field, long lineNo) {
         if (field.length() > MAX_FIELD_LEN) {
             throw new IllegalArgumentException(
-                    "第 " + Math.max(1, lineNo) + " 行附近字段超过 "
+                    "第 " + Math.max(1, lineNo + 1) + " 行附近字段超过 "
                             + MAX_FIELD_LEN + " 字符（未闭合引号或损坏文件）");
         }
     }
@@ -352,7 +356,7 @@ public class DatasetIngestService {
     private static void checkRowSize(List<String> row, long lineNo) {
         if (row.size() > MAX_ROW_COLS) {
             throw new IllegalArgumentException(
-                    "第 " + Math.max(1, lineNo) + " 行列数超过 " + MAX_ROW_COLS);
+                    "第 " + Math.max(1, lineNo + 1) + " 行列数超过 " + MAX_ROW_COLS);
         }
     }
 

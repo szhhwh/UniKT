@@ -19,6 +19,10 @@ let timer: ReturnType<typeof setInterval> | null = null;
 
 let refreshing = false;
 
+/** 乐观插入但尚未被服务端 list 确认的任务 id：先于 create 发出的陈旧 list
+ *  响应不含新任务，直接覆盖会把新卡抹掉并误判全终态停掉轮询。 */
+const optimisticIds = new Set<number>();
+
 async function refresh(): Promise<void> {
   if (refreshing) return; // 防重入
   refreshing = true;
@@ -36,7 +40,13 @@ async function doRefresh(): Promise<void> {
   // 三路并发、各自容错：models 走远程节点可慢至十余秒，不能拖住
   // 任务/数据集的展示（此前串行 await 让"加载中"挂 10 秒+）
   const tasks = [
-    api.training.list().then((v) => (jobs.value = v)).catch((e) => {
+    api.training.list().then((v) => {
+      for (const j of v) optimisticIds.delete(j.id);
+      const pending = jobs.value.filter(
+        (j) => optimisticIds.has(j.id) && !v.some((x) => x.id === j.id),
+      );
+      jobs.value = pending.length > 0 ? [...pending, ...v] : v;
+    }).catch((e) => {
       loadError.value = e instanceof Error ? e.message : String(e);
     }),
     api.datasets.list().then((v) => (datasets.value = v)).catch((e) => {
@@ -113,6 +123,7 @@ async function submit(): Promise<void> {
     });
     // 乐观插入：防重入守卫可能吞掉紧随的 refresh（慢节点下 create 与
     // 轮询竞争，陈旧列表会让自停逻辑立刻杀掉新起的计时器）
+    optimisticIds.add(job.id);
     jobs.value.unshift(job);
     expandedId.value = job.id;
     startPolling();

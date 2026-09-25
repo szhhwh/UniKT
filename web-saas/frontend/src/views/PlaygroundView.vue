@@ -15,6 +15,8 @@ const catalog = ref<SkillInfo[]>([]);
 const catalogLoading = ref(false);
 const modelName = ref("");
 const rows = ref<Row[]>([]);
+/** 作答行来源的数据集：跨数据集切换模型时旧知识点 id 语义已失效，必须重填。 */
+const rowsDataset = ref<string | null>(null);
 const result = ref<PredictResponse | null>(null);
 const error = ref("");
 const busy = ref(false);
@@ -61,8 +63,10 @@ watch(modelName, async (m) => {
   } finally {
     if (reqId === catalogReqId) {
       catalogLoading.value = false;
-      // 目录就绪（或确认拉不到）后自动填示例，避免用户面对空表单
-      if (rows.value.length === 0) {
+      // 目录就绪（或确认拉不到）后自动填示例，避免用户面对空表单；
+      // 跨数据集切换时旧行的知识点 id 语义已变，必须重填（同数据集换模型则保留）
+      const ds = selectedModel.value?.dataset ?? null;
+      if (rows.value.length === 0 || rowsDataset.value !== ds) {
         fillDefaultRows();
       }
     }
@@ -71,6 +75,7 @@ watch(modelName, async (m) => {
 
 /** 默认行：优先用带名称的技能示例；目录不可用时退化为 id 示例。 */
 function fillDefaultRows(): void {
+  rowsDataset.value = selectedModel.value?.dataset ?? null;
   const ex = examples.value[0];
   if (ex) {
     rows.value = ex.rows.map((r) => ({ ...r }));

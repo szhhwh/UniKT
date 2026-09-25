@@ -87,7 +87,8 @@ public class InferenceController {
                             "message", "预测请求太频繁（每分钟 20 次），稍后再试；"
                                     + "批量调用请用 API 密钥走 /api/v1/predict"));
         }
-        var denied = routing.checkModelAccess(request.model(), currentViewerId(), false);
+        // 与 skills/models 同口径：admin 可预测任意归属的模型（管理排障场景）
+        var denied = routing.checkModelAccess(request.model(), currentViewerId(), isAdmin());
         if (denied != null) {
             return ResponseEntity.status(404).body(denied);
         }
