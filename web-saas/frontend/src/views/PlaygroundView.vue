@@ -50,6 +50,13 @@ watch(modelName, async (m) => {
   result.value = null;
   error.value = "";
   if (!m) return;
+  // 跨数据集切换：旧行知识点 id 立即失效，先清掉（不等目录拉取——慢链路
+  // 下残留数秒，用户可带旧 id 抢点预测）；目录就绪后由 finally 重填
+  const ds = models.value.find((x) => x.name === m)?.dataset ?? null;
+  if (rows.value.length > 0 && rowsDataset.value !== ds) {
+    rows.value = [];
+    rowsDataset.value = ds;
+  }
   const reqId = ++catalogReqId;
   catalogLoading.value = true;
   try {
@@ -151,7 +158,11 @@ function fillExample(ex: { label: string; rows: Row[] }): void {
 }
 
 const canSubmit = computed(
-  () => !busy.value && modelName.value !== "" && rows.value.length >= 2,
+  () =>
+    !busy.value &&
+    !catalogLoading.value && // 目录切换中禁用：防慢链路下带旧 id 抢点
+    modelName.value !== "" &&
+    rows.value.length >= 2,
 );
 
 async function submit(): Promise<void> {

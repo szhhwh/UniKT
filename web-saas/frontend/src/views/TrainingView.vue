@@ -63,12 +63,12 @@ async function doRefresh(): Promise<void> {
   ]);
   loading.value = false;
   await Promise.allSettled(tasks);
-  // 任务拉取成功后记录全终态快照（乐观插入的 RUNNING 不会被它覆盖掉
-  // ——快照只反映服务端确认的状态）
+  // 任务拉取成功后记录全终态快照（合并保留的乐观 RUNNING 也计入：
+  // 未被服务端确认前不得视为全终态，否则轮询会被陈旧响应误停）
   lastRefreshAllTerminal = jobs.value.every((j) => j.status !== "RUNNING");
 }
 
-/** 最近一次 refresh 确认的全终态快照（自停依据，不读可能被乐观插入污染的 jobs.value）。 */
+/** 最近一次 refresh 后的全终态快照（自停依据；含未确认的乐观 RUNNING 任务）。 */
 let lastRefreshAllTerminal = false;
 
 /** 启动轮询（幂等）：有进行中任务才轮询；最近一次 refresh 确认全终态后自停。 */
