@@ -53,16 +53,12 @@ class WindowlateIterableDataset(IterableDataset):
     def _init_metadata(self) -> None:
         """Lazily initialise metadata from the parquet file."""
         if self._num_samples is None:
-            import polars as pl
-
-            stats = (
-                pl.scan_parquet(self.parquet_path)
-                .select(pl.col("sample_id").n_unique().alias("num_samples"))
-                .collect(engine="streaming")
-            )
-            self._num_samples = int(stats["num_samples"][0])
             parquet_file = pq.ParquetFile(self.parquet_path)
             self._num_row_groups = parquet_file.num_row_groups
+            sample_ids = parquet_file.read(columns=["sample_id"]).column("sample_id")
+            self._num_samples = int(
+                np.unique(sample_ids.to_numpy(zero_copy_only=False)).size
+            )
 
     def __len__(self) -> int:
         """Return the total number of samples."""
