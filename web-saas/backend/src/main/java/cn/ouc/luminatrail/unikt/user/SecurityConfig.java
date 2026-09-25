@@ -22,7 +22,7 @@ import org.springframework.security.web.context.SecurityContextRepository;
  * 登录用户：密钥管理（只见自己的）。管理员：节点、用户管理。
  *
  * CSRF 由 SameSite=Strict 会话 Cookie 覆盖（前后端同源）；关闭 csrf
- * token 是有意为之，已记录在 MULTIUSER.md。
+ * token 是有意为之。
  */
 @Configuration
 @EnableWebSecurity
