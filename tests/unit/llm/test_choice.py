@@ -54,6 +54,13 @@ class TestNormalizeChoice:
         with pytest.raises(LLMError, match="logprobs"):
             LLMClient._normalize_choice(["Yes", "No"], LLMResponse(text="Yes"))
 
+    def test_strip_colliding_options_raise(self) -> None:
+        # "Yes" and " Yes" would each match the same token mass and split it.
+        with pytest.raises(LLMError, match="collide"):
+            LLMClient._normalize_choice(
+                ["Yes", " Yes"], _resp([("Yes", 0.75), ("No", 0.25)])
+            )
+
 
 class TestChoiceEndToEnd:
     def test_mock_choice_is_deterministic_and_normalized(self, tmp_path: Path) -> None:

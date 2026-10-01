@@ -31,11 +31,7 @@ def cache_key(*parts: Any) -> str:
 
 
 class SQLiteResponseCache:
-    """Thread-safe key/payload store for cached LLM responses.
-
-    Args:
-        path: SQLite database file (parent directories are created).
-    """
+    """Thread-safe key/payload store for cached LLM responses."""
 
     def __init__(self, path: str) -> None:
         """Open (or create) the cache database.

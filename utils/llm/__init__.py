@@ -1,6 +1,6 @@
 """Unified LLM inference layer: capability clients + persistent cache.
 
-Model-agnostic service consumed by trainers (offline enrichment in
+Model-agnostic service for trainers (offline enrichment in
 ``build_components``), data processing, and analysis entry points; see
 :mod:`utils.llm.base` for the client contract. Backends register via
 ``@register_llm_client`` and are discovered statically like trainers.
