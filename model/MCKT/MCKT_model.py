@@ -26,20 +26,20 @@ def attention_score(
 
     with torch.no_grad():
         scores_ = scores.masked_fill(mask, -1e9)
-        scores_ = torch.softmax(scores_, dim=-1)
-
-        distcum_scores = torch.cumsum(scores_, dim=-1)
+        scores_ = F.softmax(scores_, dim=-1)
+        dist_scores = torch.cumsum(scores_, dim=-1)
         disttotal_scores = torch.sum(scores_, dim=-1, keepdim=True)
-        position_effect = torch.abs(x1 - x2)[None, None, :, :]
-        dist_scores = torch.clamp(
-            (disttotal_scores - distcum_scores) * position_effect, min=0.0
-        )
-        dist_scores = dist_scores.sqrt().detach()
+        del scores_
+        torch.sub(disttotal_scores, dist_scores, out=dist_scores)
+        del disttotal_scores
+        dist_scores.mul_(torch.abs(x1 - x2)[None, None, :, :]).clamp_min_(0.0).sqrt_()
 
     gamma = -1.0 * gamma.abs().unsqueeze(0)
     total_effect = torch.clamp((dist_scores * gamma).exp(), min=1e-5, max=1e5)
 
+    del dist_scores
     scores = scores * total_effect
+    del total_effect
     scores = scores.masked_fill(mask, -1e9)
     scores = torch.softmax(scores, dim=-1)
     scores = scores.masked_fill(mask, 0)

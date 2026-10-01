@@ -294,21 +294,24 @@ class MultiHeadAttention(nn.Module):
 
 def attention(q, k, v, d_k, mask, dropout, zero_pad, gamma):
     scores = torch.matmul(q, k.transpose(-2, -1)) / math.sqrt(d_k)
-    batch_size, heads, length = scores.shape[:3]
 
     with torch.no_grad():
         masked_scores = scores.masked_fill(~mask, -1e32)
-        masked_scores = F.softmax(masked_scores, dim=-1) * mask.float()
+        masked_scores = F.softmax(masked_scores, dim=-1)
+        masked_scores.masked_fill_(~mask, 0.0)
         cumulative = torch.cumsum(masked_scores, dim=-1)
         total = masked_scores.sum(dim=-1, keepdim=True)
-        distance = _position_effect(length, scores.device, scores.dtype)
-        distance = ((total - cumulative) * distance).clamp(min=0.0).sqrt()
+        del masked_scores
+        torch.sub(total, cumulative, out=cumulative)
+        del total
+        distance = _position_effect(q.size(-2), scores.device, scores.dtype)
+        distance = cumulative.mul_(distance).clamp_min_(0.0).sqrt_()
 
     decay = -F.softplus(gamma).unsqueeze(0)
     effect = (distance * decay).exp().clamp(min=1e-5, max=1e5)
     scores = (scores * effect).masked_fill(~mask, -1e32)
     scores = F.softmax(scores, dim=-1)
+    output = torch.matmul(dropout(scores), v)
     if zero_pad:
-        first_row = scores.new_zeros(batch_size, heads, 1, length)
-        scores = torch.cat((first_row, scores[:, :, 1:, :]), dim=2)
-    return torch.matmul(dropout(scores), v)
+        output[:, :, 0, :].zero_()
+    return output
