@@ -1,4 +1,5 @@
 import copy
+from typing import Any
 
 import pytest
 import torch
@@ -28,10 +29,15 @@ def test_mha_preserves_outputs_gradients_and_rng(
             else:
                 output, _ = module(inputs, inputs, inputs, attn_mask=mask)
             output.square().mean().backward()
+            gradients: list[torch.Tensor] = []
+            for parameter in module.parameters():
+                gradient = parameter.grad
+                assert gradient is not None
+                gradients.append(gradient.clone())
             results.append(
                 (
                     output.detach(),
-                    [p.grad.clone() for p in module.parameters()],
+                    gradients,
                     inputs.grad,
                     torch.get_rng_state(),
                 )
@@ -52,7 +58,7 @@ def test_mha_does_not_recompute_in_backward(training: bool) -> None:
         module = nn.MultiheadAttention(16, 4).train(training)
         inputs = torch.randn(7, 2, 16, requires_grad=True)
         mask = torch.ones(7, 7, dtype=torch.bool).triu(1)
-        calls = []
+        calls: list[None] = []
         handle = module.register_forward_pre_hook(lambda *args: calls.append(None))
         try:
             output = multihead_attention(module, inputs, inputs, inputs, mask)
@@ -72,9 +78,11 @@ def test_mha_inference_uses_weight_free_attention(
         inputs = torch.randn(7, 2, 16)
         mask = torch.ones(7, 7, dtype=torch.bool).triu(1)
         forward = module.forward
-        flags = []
+        flags: list[bool] = []
 
-        def record_forward(*args, **kwargs):
+        def record_forward(
+            *args: Any, **kwargs: Any
+        ) -> tuple[torch.Tensor, torch.Tensor | None]:
             flags.append(kwargs["need_weights"])
             return forward(*args, **kwargs)
 
