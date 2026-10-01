@@ -300,7 +300,7 @@ def build_run_config_schema(model_name: str) -> dict[str, type]:
     """Return ``{node_name: dataclass_cls}`` for the concrete model's tree.
 
     Binds the polymorphic ``model`` node to the concrete registered
-    :class:`ModelConfig` subclass; the framework nodes are the fixed five.
+    :class:`ModelConfig` subclass; the framework nodes are a fixed set.
 
     Raises:
         KeyError: If no ModelConfig is registered for ``model_name`` (raised

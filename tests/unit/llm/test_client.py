@@ -39,7 +39,7 @@ class TestFactory:
     def test_unknown_provider_lists_available(
         self, tmp_path: Path, registry_snapshot: None
     ) -> None:
-        with pytest.raises(KeyError, match="not found"):
+        with pytest.raises(KeyError, match=r"not found.*Available"):
             create_llm_client(_mock_cfg(tmp_path, provider="nope"))
 
     def test_discovery_indexes_backends(self, registry_snapshot: None) -> None:

@@ -105,29 +105,24 @@ class LiteLLMClient(LLMClient):
 
     def _run_one(self, req: LLMRequest) -> LLMResponse:
         """Send one request through litellm and adapt the response."""
+        params = self._resolved_params(req)
         kwargs: dict[str, Any] = {
             "model": self.cfg.model,
             "messages": req.messages,
-            "temperature": (
-                req.temperature if req.temperature is not None else self.cfg.temperature
-            ),
-            "max_tokens": req.max_tokens
-            if req.max_tokens is not None
-            else self.cfg.max_tokens,
+            "temperature": params["temperature"],
+            "max_tokens": params["max_tokens"],
             "num_retries": self.cfg.max_retries,
             "timeout": self.cfg.timeout_s,
         }
-        if req.seed is not None:
-            kwargs["seed"] = req.seed
-        if req.response_format is not None:
-            kwargs["response_format"] = req.response_format
-        if req.top_logprobs is not None:
+        if params["seed"] is not None:
+            kwargs["seed"] = params["seed"]
+        if params["top_logprobs"] is not None:
             # logprobs must travel together with top_logprobs; alone it
             # yields a null distribution on OpenAI-compatible backends.
             kwargs["logprobs"] = True
-            kwargs["top_logprobs"] = req.top_logprobs
-        if req.extra:
-            kwargs.update(req.extra)
+            kwargs["top_logprobs"] = params["top_logprobs"]
+        if params["extra"]:
+            kwargs.update(params["extra"])
         if self.cfg.api_base:
             kwargs["api_base"] = self.cfg.api_base
         if self._api_key is not None:

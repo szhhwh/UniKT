@@ -67,6 +67,20 @@ class TestLLMUsageCallback:
         assert trainer.metric_logger.final_calls == []
         assert load_run_metadata(trainer.log_dir) == {}
 
+    def test_pre_construction_spend_is_reported(self, tmp_path: Path) -> None:
+        # Mirrors the trainer wiring: build_components uses the client (LLM
+        # precompute) before build_callbacks constructs the callback.
+        client = _make_client(tmp_path)
+        client.generate([LLMRequest(messages=[{"role": "user", "content": "hi"}])])
+        trainer = _StubTrainer(tmp_path)
+        callback = LLMUsageCallback(client)
+
+        callback.on_train_end(trainer=trainer)
+
+        metrics = trainer.metric_logger.final_calls[0]
+        assert metrics["LLM/Requests"] == 1
+        assert load_run_metadata(trainer.log_dir)["llm_usage"]["requests"] == 1
+
     def test_unchanged_usage_skips_duplicate_report(self, tmp_path: Path) -> None:
         client = _make_client(tmp_path)
         trainer = _StubTrainer(tmp_path)

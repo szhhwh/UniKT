@@ -11,7 +11,7 @@ from utils.config import update_run_metadata
 from utils.core import get_logger
 from utils.training.callbacks import Callback
 
-from .base import LLMClient
+from .base import LLMClient, LLMUsage
 
 logger = get_logger(__name__)
 
@@ -24,9 +24,6 @@ class LLMUsageCallback(Callback):
     ``run_metadata.yaml``. Multi-stage trainers fire ``on_train_end`` per
     stage with the same callback instance, so reports are gated on the usage
     snapshot having changed since the last one.
-
-    Args:
-        client: The client whose cumulative usage is reported.
     """
 
     def __init__(self, client: LLMClient) -> None:
@@ -37,7 +34,11 @@ class LLMUsageCallback(Callback):
         """
         self.client = client
         self._trainer: Any = None
-        self._reported = asdict(client.usage)
+        # Baseline is zeroed, NOT the client's current usage: trainers run
+        # their LLM precompute in build_components, before build_callbacks
+        # constructs this callback — that spend must be included in the
+        # first report, not silently swallowed by the baseline.
+        self._reported = asdict(LLMUsage())
 
     def on_train_begin(self, epochs: int, **kwargs: Any) -> None:
         """Remember the trainer for the crash-path report in ``close``.

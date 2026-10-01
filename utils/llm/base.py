@@ -37,8 +37,8 @@ class LLMRequest:
         top_logprobs: Request the first-token distribution with this many
             candidates; populates :attr:`LLMResponse.logprobs`.
         seed: Sampling seed; part of the cache key when set.
-        response_format: Provider passthrough, e.g. ``{"type": "json_object"}``.
-        extra: Arbitrary provider kwargs passthrough.
+        extra: Provider kwargs passthrough, e.g. ``{"response_format":
+            {"type": "json_object"}}`` for JSON mode.
     """
 
     messages: list[dict]
@@ -46,7 +46,6 @@ class LLMRequest:
     max_tokens: int | None = None
     top_logprobs: int | None = None
     seed: int | None = None
-    response_format: dict | None = None
     extra: dict | None = None
 
 
@@ -104,15 +103,17 @@ class LLMResponse:
 class LLMUsage:
     """Cumulative client accounting.
 
-    Token counts and cost cover only requests that reached the transport
-    (cached responses cost nothing); ``cache_hits`` counts the rest.
+    Token counts and cost cover only generation requests that reached the
+    transport (cached responses cost nothing; embedding token usage is not
+    tracked); ``cache_hits`` counts requests of both kinds served from cache.
 
     Args:
         requests: Requests sent to the transport (generate + embed).
-        prompt_tokens: Input tokens across transported requests.
-        completion_tokens: Output tokens across transported requests.
+        prompt_tokens: Input tokens across transported generation requests.
+        completion_tokens: Output tokens across transported generation
+            requests.
         cache_hits: Requests served from the response cache.
-        cost_usd: Estimated total cost.
+        cost_usd: Estimated total generation cost.
     """
 
     requests: int = 0
@@ -157,9 +158,6 @@ class LLMClient(ABC):
     implement only the transport hooks ``_complete``/``_embed`` (concurrency
     and provider protocol live there). ``choice`` composes ``generate`` and
     normalizes first-token probability mass over the option set.
-
-    Args:
-        cfg: LLM configuration node (model, sampling defaults, cache path).
     """
 
     def __init__(self, cfg: LLMConfig) -> None:
@@ -205,9 +203,7 @@ class LLMClient(ABC):
                 self._account(resp)
                 if self._cache is not None:
                     self._cache.put(keys[pos], _response_payload(resp))
-        for r in results:
-            if r is not None and r.cached:
-                self.usage.cache_hits += 1
+        self.usage.cache_hits += len(requests) - len(misses)
         logger.debug(
             "generate: %d requests (%d cached, %d transported)",
             len(requests),
@@ -231,16 +227,14 @@ class LLMClient(ABC):
             raise LLMError(
                 "llm.embedding_model is not configured — embed() requires it"
             )
-        keys = [self._embed_key(t) for t in texts] if self._cache else []
+        keys = [self._embed_key(t) for t in texts]
         cached = self._cache.get_many(keys) if self._cache else {}
         results: list[list[float] | None] = [None] * len(texts)
         miss_pos: list[int] = []
-        hits = 0
-        for i in range(len(texts)):
-            payload = cached.get(keys[i]) if keys else None
+        for i, key in enumerate(keys):
+            payload = cached.get(key)
             if payload is not None:
                 results[i] = payload["vector"]
-                hits += 1
             else:
                 miss_pos.append(i)
         if miss_pos:
@@ -256,7 +250,13 @@ class LLMClient(ABC):
             if self._cache is not None:
                 for pos, vector in zip(miss_pos, fresh, strict=True):
                     self._cache.put(keys[pos], {"vector": vector})
-        self.usage.cache_hits += hits
+        self.usage.cache_hits += len(texts) - len(miss_pos)
+        logger.debug(
+            "embed: %d inputs (%d cached, %d transported)",
+            len(texts),
+            len(texts) - len(miss_pos),
+            len(miss_pos),
+        )
         return cast(list[list[float]], results)
 
     def choice(self, requests: list[ChoiceRequest]) -> list[dict[str, float]]:
@@ -301,25 +301,35 @@ class LLMClient(ABC):
 
     def _request_key(self, req: LLMRequest) -> str:
         """Cache key for one generate request (resolved params included)."""
-        resolved = {
-            "messages": req.messages,
-            "temperature": self._resolve(req.temperature, self.cfg.temperature),
-            "max_tokens": self._resolve(req.max_tokens, self.cfg.max_tokens),
-            "top_logprobs": req.top_logprobs,
-            "seed": req.seed,
-            "response_format": req.response_format,
-            "extra": req.extra,
-        }
-        return cache_key("generate", self.cfg.model, self.cfg.api_base, resolved)
+        return cache_key(
+            "generate",
+            self.cfg.model,
+            self.cfg.api_base,
+            {"messages": req.messages, **self._resolved_params(req)},
+        )
 
     def _embed_key(self, text: str) -> str:
         """Cache key for one embed input."""
         return cache_key("embed", self.cfg.embedding_model, self.cfg.api_base, text)
 
-    @staticmethod
-    def _resolve(value: Any, default: Any) -> Any:
-        """Return ``value`` unless None, then ``default``."""
-        return value if value is not None else default
+    def _resolved_params(self, req: LLMRequest) -> dict[str, Any]:
+        """Effective sampling params: request overrides over cfg defaults.
+
+        Single source of truth shared by cache-key derivation and the
+        transports' kwarg construction — keeping them in one place is what
+        guarantees cache keys match the request actually sent.
+        """
+        return {
+            "temperature": (
+                req.temperature if req.temperature is not None else self.cfg.temperature
+            ),
+            "max_tokens": (
+                req.max_tokens if req.max_tokens is not None else self.cfg.max_tokens
+            ),
+            "top_logprobs": req.top_logprobs,
+            "seed": req.seed,
+            "extra": req.extra,
+        }
 
     @staticmethod
     def _normalize_choice(options: list[str], resp: LLMResponse) -> dict[str, float]:
@@ -329,6 +339,11 @@ class LLMClient(ABC):
                 "choice() requires logprobs but the response carries none — "
                 "the backend dropped them or does not support logprobs"
             )
+        stripped = [opt.strip() for opt in options]
+        if len(set(stripped)) != len(stripped):
+            # Options equal after stripping would each match the same token
+            # mass and silently split it; that is never what the caller meant.
+            raise LLMError(f"options collide after stripping: {options}")
         weights = {
             opt: sum(
                 math.exp(t.logprob)
