@@ -37,13 +37,14 @@ class TestDefaults:
 
 
 class TestSchema:
-    def test_framework_nodes_are_the_fixed_five(self) -> None:
+    def test_framework_nodes_are_the_fixed_six(self) -> None:
         assert set(_FRAMEWORK_NODES) == {
             "general",
             "compile",
             "early_stopping",
             "experiment",
             "data",
+            "llm",
         }
 
     def test_schema_binds_registered_model(self, tiny_model_config_name: str) -> None:
@@ -72,6 +73,7 @@ class TestConfigToDict:
             "early_stopping",
             "experiment",
             "data",
+            "llm",
             "model",
         }
         assert d["model"]["hidden_dim"] == 16

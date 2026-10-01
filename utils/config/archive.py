@@ -86,6 +86,26 @@ def load_run_metadata(log_dir: str | Path) -> dict[str, Any]:
     return yaml.safe_load(path.read_text(encoding="utf-8")) or {}
 
 
+def update_run_metadata(log_dir: str | Path, updates: dict[str, Any]) -> None:
+    """Merge ``updates`` into the sidecar ``run_metadata.yaml`` (top-level keys).
+
+    The sidecar is written at archive time with run-start facts; values only
+    known at the end of a run (e.g. LLM token usage) extend it here. Keys not
+    present in ``updates`` are preserved.
+
+    Args:
+        log_dir: Run directory holding ``run_metadata.yaml``.
+        updates: Top-level keys to set or replace.
+    """
+    merged = load_run_metadata(log_dir)
+    merged.update(updates)
+    path = Path(log_dir) / "run_metadata.yaml"
+    path.write_text(
+        yaml.safe_dump(merged, sort_keys=False, allow_unicode=True),
+        encoding="utf-8",
+    )
+
+
 def _build_node_from_dict(cls: type, data: dict[str, Any]) -> Any:
     """Construct a config dataclass from a dict, raising on unknown archived keys."""
     valid = {f.name for f in fields(cls)}
@@ -102,4 +122,5 @@ __all__ = [
     "load_run_config_archive",
     "load_run_metadata",
     "save_run_config_archive",
+    "update_run_metadata",
 ]
