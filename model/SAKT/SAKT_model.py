@@ -49,12 +49,14 @@ class SAKTBlock(nn.Module):
         key_t = key.permute(1, 0, 2)
         value_t = value.permute(1, 0, 2)
 
-        attn_emb, _ = self.attn(
+        attn_emb = self.attn(
             query_t,
             key_t,
             value_t,
             attn_mask=self._causal_mask(key_t.shape[0], key_t.device),
-        )
+            need_weights=self.attn.training or torch.is_grad_enabled(),
+            average_attn_weights=False,
+        )[0]
         attn_emb = self.attn_dropout(attn_emb)
         attn_emb = attn_emb.permute(1, 0, 2)
 

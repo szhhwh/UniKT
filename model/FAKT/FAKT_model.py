@@ -866,13 +866,10 @@ def attention(q, k, v, d_k, mask, dropout, zero_pad):
     scores = torch.matmul(q, k.transpose(-2, -1)) / math.sqrt(d_k)
     scores.masked_fill_(mask == 0, -1e32)
     scores = F.softmax(scores, dim=-1)
-    if zero_pad:
-        pad_zero = torch.zeros(
-            scores.size(0), scores.size(1), 1, scores.size(3), device=scores.device
-        )
-        scores = torch.cat([pad_zero, scores[:, :, 1:, :]], dim=2)
     scores = dropout(scores)
     output = torch.matmul(scores, v)
+    if zero_pad:
+        output[:, :, 0, :].zero_()
     return output
 
 

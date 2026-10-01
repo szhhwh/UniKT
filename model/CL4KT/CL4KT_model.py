@@ -35,19 +35,21 @@ def individual_attention(q, k, v, d_k, mask, dropout, gamma, position_effect):
 
     with torch.no_grad():
         scores_ = scores.masked_fill(mask == 0, -1e32)
-        scores_ = F.softmax(scores_, dim=-1) * mask.float()
-        distcum_scores = torch.cumsum(scores_, dim=-1)
-        disttotal_scores = torch.sum(scores_, dim=-1, keepdim=True)
-        dist_scores = (
-            torch.clamp((disttotal_scores - distcum_scores) * position_effect, min=0.0)
-            .sqrt_()
-            .detach()
-        )
+        scores_ = F.softmax(scores_, dim=-1)
+        scores_.masked_fill_(mask == 0, 0.0)
+        dist_scores = torch.cumsum(scores_, dim=-1)
+        total = scores_.sum(dim=-1, keepdim=True)
+        del scores_
+        torch.sub(total, dist_scores, out=dist_scores)
+        del total
+        dist_scores.mul_(position_effect).clamp_min_(0.0).sqrt_()
 
     gamma_decay = (-F.softplus(gamma)).unsqueeze(0)  # [1, h, 1, 1]
     total_effect = torch.clamp((dist_scores * gamma_decay).exp(), min=1e-5, max=1e5)
 
+    del dist_scores
     scores = scores * total_effect
+    del total_effect
     scores = scores.masked_fill(mask == 0, -1e32)
     attn_scores = F.softmax(scores, dim=-1)
     output = torch.matmul(dropout(attn_scores), v)

@@ -135,38 +135,36 @@ def attention(
     Returns:
         output: 注意力输出 [BS, seq_len, d_model]
     """
-    device = q.device
     scores = torch.matmul(q, k.transpose(-2, -1)) / math.sqrt(d_k)
-    bs, head, seqlen = scores.size(0), scores.size(1), scores.size(2)
 
     if use_exp_decay:
         with torch.no_grad():
             scores_ = scores.masked_fill(mask == 0, -1e32)
             scores_ = F.softmax(scores_, dim=-1)
-            scores_ = scores_ * mask.float()
-            distcum_scores = torch.cumsum(scores_, dim=-1)
+            scores_.masked_fill_(mask == 0, 0.0)
+            dist_scores = torch.cumsum(scores_, dim=-1)
             disttotal_scores = torch.sum(scores_, dim=-1, keepdim=True)
-            dist_scores = torch.clamp(
-                (disttotal_scores - distcum_scores) * position_effect, min=0.0
-            )
-            dist_scores = dist_scores.sqrt().detach()
+            del scores_
+            torch.sub(disttotal_scores, dist_scores, out=dist_scores)
+            del disttotal_scores
+            dist_scores.mul_(position_effect).clamp_min_(0.0).sqrt_()
 
         gamma = -1.0 * F.softplus(gamma).unsqueeze(0)
-        total_effect = torch.clamp(
-            torch.clamp((dist_scores * gamma).exp(), min=1e-5), max=1e5
-        )
+        total_effect = torch.clamp((dist_scores * gamma).exp(), min=1e-5, max=1e5)
+        del dist_scores
         scores = scores * total_effect
+        del total_effect
 
     if kernel_bias is not None:
         scores = kernel_bias(scores)
 
     scores.masked_fill_(mask == 0, -1e32)
     scores = F.softmax(scores, dim=-1)
-    if zero_pad:
-        pad_zero = torch.zeros(bs, head, 1, seqlen, device=device)
-        scores = torch.cat([pad_zero, scores[:, :, 1:, :]], dim=2)
     scores = dropout(scores)
-    return torch.matmul(scores, v)
+    output = torch.matmul(scores, v)
+    if zero_pad:
+        output[:, :, 0, :].zero_()
+    return output
 
 
 class MultiHeadAttention(nn.Module):

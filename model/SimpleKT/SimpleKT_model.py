@@ -24,17 +24,14 @@ def attention(q, k, v, d_k, mask, dropout, zero_pad):
         注意力输出，形状为 [batch, heads, seq_len, d_k]
     """
     scores = torch.matmul(q, k.transpose(-2, -1)) / math.sqrt(d_k)
-    bs, head, seqlen = scores.size(0), scores.size(1), scores.size(2)
 
     scores.masked_fill_(mask == 0, -1e32)
     scores = F.softmax(scores, dim=-1)
 
-    if zero_pad:
-        pad_zero = torch.zeros(bs, head, 1, seqlen, device=scores.device)
-        scores = torch.cat([pad_zero, scores[:, :, 1:, :]], dim=2)
-
     scores = dropout(scores)
     output = torch.matmul(scores, v)
+    if zero_pad:
+        output[:, :, 0, :].zero_()
     return output
 
 
