@@ -6,6 +6,8 @@ import torch.nn.functional as F
 from torch.nn import Parameter
 from torch.nn.init import constant_, kaiming_normal_, xavier_uniform_
 
+from utils.attention import multihead_attention
+
 
 class ClusterKT(nn.Module):
     def __init__(
@@ -215,8 +217,12 @@ class ClusterKT(nn.Module):
             ),
             diagonal=1,
         ).bool()
-        trans_output, _ = self.pre_attn(
-            learning_states, forgetting_states, cluster_state, attn_mask=attn_mask
+        trans_output = multihead_attention(
+            self.pre_attn,
+            learning_states,
+            forgetting_states,
+            cluster_state,
+            attn_mask=attn_mask,
         )
         concat_q = torch.cat([trans_output, q_embed_data], dim=-1)
         output = self.mlp(concat_q)
@@ -429,19 +435,16 @@ def forgetting_attention(q, k, v, d_k, mask, dropout, zero_pad, state_sim, diffi
     with torch.no_grad():
         scores_ = scores.masked_fill(mask == 0, -1e32)
         scores_ = F.softmax(scores_, dim=-1)
-        scores_ = scores_ * mask.float()
-        distcum_scores = torch.cumsum(scores_, dim=-1)
+        scores_.masked_fill_(mask == 0, 0.0)
+        dist_scores = torch.cumsum(scores_, dim=-1)
         disttotal_scores = torch.sum(scores_, dim=-1, keepdim=True)
-        position_effect = torch.unsqueeze(state_sim, 1)
-        dist_scores = torch.clamp(
-            (disttotal_scores - distcum_scores) * position_effect, min=0.0
-        )
-        dist_scores = dist_scores.sqrt().detach()
+        del scores_
+        torch.sub(disttotal_scores, dist_scores, out=dist_scores)
+        del disttotal_scores
+        dist_scores.mul_(torch.unsqueeze(state_sim, 1)).clamp_min_(0.0).sqrt_()
         gamma = -1.0 * F.softplus(difficulty.unsqueeze(1))
 
-        total_effect = torch.clamp(
-            torch.clamp((dist_scores * gamma).exp(), min=1e-5), max=1e5
-        )
+        total_effect = torch.clamp((dist_scores * gamma).exp(), min=1e-5, max=1e5)
         scores = scores * total_effect
         scores.masked_fill_(mask == 0, -1e32)
         scores = F.softmax(scores, dim=-1)

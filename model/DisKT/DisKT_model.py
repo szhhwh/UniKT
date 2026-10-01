@@ -16,17 +16,15 @@ from torch.nn.init import constant_, xavier_uniform_
 def attention(q, k, v, d_k, mask, dropout, zero_pad):
     """Scaled dot-product attention with an optional first-row zero-out."""
     scores = torch.matmul(q, k.transpose(-2, -1)) / math.sqrt(d_k)
-    bs, head, seqlen = scores.size(0), scores.size(1), scores.size(2)
-    device = q.device
 
     scores = scores.masked_fill(mask == 0, -1e32)
     scores = F.softmax(scores, dim=-1)
     # Drop the query at position 0 so the first step sees no historical interaction.
-    if zero_pad:
-        pad_zero = torch.zeros(bs, head, 1, seqlen, device=device)
-        scores = torch.cat([pad_zero, scores[:, :, 1:, :]], dim=2)
     scores = dropout(scores)
-    return torch.matmul(scores, v)
+    output = torch.matmul(scores, v)
+    if zero_pad:
+        output[:, :, 0, :].zero_()
+    return output
 
 
 class MultiHeadAttention(nn.Module):
@@ -185,15 +183,7 @@ def contradictory_attention(
     p_attn = F.softmax(scores, dim=-1)
 
     # Zero out attention weights into counterfactual positions, then renormalise.
-    attn_reshape = p_attn.reshape(bs * head * seqlen, -1)
-    cam = (
-        counter_attention_mask.unsqueeze(1)
-        .expand(-1, head * seqlen, -1)
-        .reshape(-1, seqlen)
-    )
-    p_attn = torch.where(cam == 1, torch.zeros_like(attn_reshape), attn_reshape)
-
-    p_attn = p_attn.reshape(bs, head, seqlen, -1)
+    p_attn = p_attn.masked_fill(counter_attention_mask[:, None, None, :] == 1, 0.0)
     if mask is not None:
         p_attn = p_attn.masked_fill(mask == 0, -1e32)
     p_attn = F.softmax(p_attn, dim=-1)

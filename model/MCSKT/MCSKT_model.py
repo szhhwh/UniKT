@@ -176,9 +176,11 @@ class DynamicKSparseAttention(nn.Module):
         )
 
         topk_vals, topk_idx = scores.topk(k_max, dim=-1)
-        topk_vals = topk_vals.masked_fill(~head_keep[None, :, None, :], float("-inf"))
-        sparse_scores = torch.full_like(scores, float("-inf"))
-        sparse_scores.scatter_(-1, topk_idx, topk_vals)
+        del topk_vals
+        keep = torch.zeros_like(scores, dtype=torch.bool)
+        keep.scatter_(-1, topk_idx, head_keep[None, :, None, :].expand_as(topk_idx))
+        sparse_scores = scores.masked_fill(~keep, float("-inf"))
+        del keep, topk_idx
 
         # 重归一化；全 -∞ 行（如 t=0 无历史）置 0
         attn = torch.nan_to_num(torch.softmax(sparse_scores, dim=-1), nan=0.0)

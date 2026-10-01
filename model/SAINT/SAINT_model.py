@@ -9,6 +9,8 @@ import copy
 import torch
 from torch import nn
 
+from utils.attention import multihead_attention
+
 
 class TransformerFFN(nn.Module):
     """Linear-ReLU-Dropout-Linear feed-forward network."""
@@ -81,7 +83,9 @@ class SAINTEncoderBlock(nn.Module):
         # norm-first residual
         out = self.attn_layer_norm(out)
         skip_out = out
-        out, _ = self.self_attn(out, out, out, attn_mask=_ut_mask(n, out.device))
+        out = multihead_attention(
+            self.self_attn, out, out, out, attn_mask=_ut_mask(n, out.device)
+        )
         out = self.attn_dropout(out)
         out = out + skip_out
 
@@ -133,7 +137,9 @@ class SAINTDecoderBlock(nn.Module):
 
         out = self.self_attn_layer_norm(out)
         skip_out = out
-        out, _ = self.self_attn(out, out, out, attn_mask=_ut_mask(n, out.device))
+        out = multihead_attention(
+            self.self_attn, out, out, out, attn_mask=_ut_mask(n, out.device)
+        )
         out = self.self_attn_dropout(out)
         out = skip_out + out
 
@@ -141,8 +147,12 @@ class SAINTDecoderBlock(nn.Module):
         encoder_out = encoder_out.permute(1, 0, 2)  # (b, n, d) -> (n, b, d)
         encoder_out = self.cross_attn_layer_norm(encoder_out)
         skip_out = out
-        out, _ = self.cross_attn(
-            out, encoder_out, encoder_out, attn_mask=_ut_mask(n, out.device)
+        out = multihead_attention(
+            self.cross_attn,
+            out,
+            encoder_out,
+            encoder_out,
+            attn_mask=_ut_mask(n, out.device),
         )
         out = self.cross_attn_dropout(out)
         out = out + skip_out

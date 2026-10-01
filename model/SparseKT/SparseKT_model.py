@@ -31,7 +31,7 @@ def attention(q, k, v, d_k, mask, dropout, zero_pad, emb_type, sparse_ratio, k_i
         attn_weights 为 dropout 前的注意力权重（用于可视化/调试）。
     """
     scores = torch.matmul(q, k.transpose(-2, -1)) / math.sqrt(d_k)
-    bs, head, seqlen = scores.size(0), scores.size(1), scores.size(2)
+    bs, head, seqlen = scores.shape[:3]
 
     # 屏蔽未来位置
     scores.masked_fill_(mask == 0, -1e32)
@@ -50,7 +50,7 @@ def attention(q, k, v, d_k, mask, dropout, zero_pad, emb_type, sparse_ratio, k_i
                 bs * head * (seqlen - k_index - 1), -1
             )
             topk_vals, _ = torch.topk(scores_b, k_index, dim=-1)
-            scores_t = topk_vals[:, -1:].repeat(1, seqlen)
+            scores_t = topk_vals[:, -1:]
             # 保留 scores >= 阈值，其余置 -1e32。
             scores_b = scores_b.masked_fill(scores_b - scores_t < 0, -1e32).reshape(
                 bs, head, seqlen - k_index - 1, -1
@@ -68,17 +68,15 @@ def attention(q, k, v, d_k, mask, dropout, zero_pad, emb_type, sparse_ratio, k_i
         # 找到累积和首次 >= sparse_ratio 的位置，保留该位置及之前（更大）的分数
         acc_scores_b = (acc_scores >= sparse_ratio).long()
         idx = torch.argmax(acc_scores_b, dim=1, keepdim=True)
-        idx_matrix = torch.arange(seqlen, device=scores.device).repeat(
-            bs * seqlen * head, 1
-        )
+        idx_matrix = torch.arange(seqlen, device=scores.device)[None, :]
         # 排序后下标 <= idx 的位置保留（即 top-(idx+1) 个）
-        new_mask = torch.where(idx_matrix - idx <= 0, 0, 1).float()
+        new_mask = torch.where(idx_matrix <= idx, 0, 1).float()
         sorted_scores = new_mask * sorted_scores
         # 用 -1 标记被屏蔽的分数，便于后续通过最大值阈值还原。
         # masked_fill 与原 where(==0, full(-1), x) 数值等价，免去分配常量张量。
         sorted_scores = sorted_scores.masked_fill(sorted_scores == 0.0, -1.0)
         tmp_scores, _ = torch.max(sorted_scores, dim=1)
-        tmp_scores = tmp_scores.unsqueeze(-1).repeat(1, seqlen)
+        tmp_scores = tmp_scores.unsqueeze(-1)
         # 原始 scores 中大于保留阈值的位置保持，否则置 -1e32
         new_scores = scores.masked_fill(tmp_scores - scores >= 0, -1e32).reshape(
             (bs, head, seqlen, -1)
@@ -92,12 +90,11 @@ def attention(q, k, v, d_k, mask, dropout, zero_pad, emb_type, sparse_ratio, k_i
         attn_weights = scores
 
     # 第一行注意力分数置零：第一道题无历史交互信息
-    if zero_pad:
-        pad_zero = torch.zeros(bs, head, 1, seqlen, device=scores.device)
-        scores = torch.cat([pad_zero, scores[:, :, 1:, :]], dim=2)
 
     scores = dropout(scores)
     output = torch.matmul(scores, v)
+    if zero_pad:
+        output[:, :, 0, :].zero_()
     return output, attn_weights
 
 

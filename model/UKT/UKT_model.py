@@ -76,23 +76,17 @@ def _compute_dist_scores(scores, mask, position_effect):
     Returns:
         dist_scores: 距离衰减分数 [B, H, S, S]（已 detach）
     """
-    device = scores.device
-    mask_float = mask.float().to(device)
-
     with torch.no_grad():
-        scores_ = scores.masked_fill(mask == 0, -1e32)
-        scores_ = F.softmax(scores_, dim=-1)
-        scores_ = scores_ * mask_float
-        distcum_scores = torch.cumsum(scores_, dim=-1)
-        disttotal_scores = torch.sum(scores_, dim=-1, keepdim=True)
-
-        seqlen = scores.size(-1)
-        pe = position_effect[:seqlen, :seqlen].to(device)
-
-        dist_scores = torch.clamp((disttotal_scores - distcum_scores) * pe, min=0.0)
-        dist_scores = dist_scores.sqrt().detach()
-
-    return dist_scores
+        probabilities = F.softmax(scores.masked_fill(mask == 0, -1e32), dim=-1)
+        probabilities.masked_fill_(mask == 0, 0.0)
+        distance = torch.cumsum(probabilities, dim=-1)
+        total = probabilities.sum(dim=-1, keepdim=True)
+        del probabilities
+        torch.sub(total, distance, out=distance)
+        del total
+        length = scores.size(-1)
+        position = position_effect[:length, :length].to(scores.device)
+        return distance.mul_(position).clamp_min_(0.0).sqrt_()
 
 
 def _apply_position_effect(scores, dist_scores, gamma, softplus):
@@ -108,9 +102,7 @@ def _apply_position_effect(scores, dist_scores, gamma, softplus):
         修改后的注意力分数
     """
     gamma_val = -1.0 * softplus(gamma).unsqueeze(0)
-    total_effect = torch.clamp(
-        torch.clamp((dist_scores * gamma_val).exp(), min=1e-5), max=1e5
-    )
+    total_effect = torch.clamp((dist_scores * gamma_val).exp(), min=1e-5, max=1e5)
     return scores * total_effect
 
 
@@ -133,8 +125,6 @@ def dp_attention(
     scores_mean = torch.matmul(q_mean, k_mean.transpose(-2, -1)) / math.sqrt(d_k)
     scores_cov = torch.matmul(q_cov, k_cov.transpose(-2, -1)) / math.sqrt(d_k)
 
-    bs, head, seqlen = scores_mean.size(0), scores_mean.size(1), scores_mean.size(2)
-
     # 双流分别计算距离衰减
     dist_scores_mean = _compute_dist_scores(scores_mean, mask, position_effect)
     dist_scores_cov = _compute_dist_scores(scores_cov, mask, position_effect)
@@ -147,15 +137,14 @@ def dp_attention(
     scores_mean = F.softmax(scores_mean, dim=-1)
     scores_cov = F.softmax(scores_cov, dim=-1)
 
-    if zero_pad:
-        pad_zero = torch.zeros(bs, head, 1, seqlen, device=scores_mean.device)
-        scores_mean = torch.cat([pad_zero, scores_mean[:, :, 1:, :]], dim=2)
-        scores_cov = torch.cat([pad_zero, scores_cov[:, :, 1:, :]], dim=2)
     scores_mean = dropout(scores_mean)
     scores_cov = dropout(scores_cov)
 
     output_mean = torch.matmul(scores_mean, v_mean)
     output_cov = torch.matmul(scores_cov, v_cov)
+    if zero_pad:
+        output_mean[:, :, 0, :].zero_()
+        output_cov[:, :, 0, :].zero_()
     return output_mean, output_cov
 
 
@@ -176,7 +165,6 @@ def w2_attention(
 ):
     """Wasserstein 距离注意力"""
     scores = -wasserstein_distance_matmul(q_mean, q_cov, k_mean, k_cov) / math.sqrt(d_k)
-    bs, head, seqlen = scores.size(0), scores.size(1), scores.size(2)
 
     dist_scores = _compute_dist_scores(scores, mask, position_effect)
     scores = _apply_position_effect(scores, dist_scores, gamma, softplus)
@@ -184,13 +172,13 @@ def w2_attention(
     scores.masked_fill_(mask == 0, -1e32)
     scores = F.softmax(scores, dim=-1)
 
-    if zero_pad:
-        pad_zero = torch.zeros(bs, head, 1, seqlen, device=scores.device)
-        scores = torch.cat([pad_zero, scores[:, :, 1:, :]], dim=2)
     scores = dropout(scores)
 
     output_mean = torch.matmul(scores, v_mean)
     output_cov = torch.matmul(scores**2, v_cov)
+    if zero_pad:
+        output_mean[:, :, 0, :].zero_()
+        output_cov[:, :, 0, :].zero_()
     return output_mean, output_cov
 
 
