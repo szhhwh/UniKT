@@ -166,6 +166,49 @@ class RunDataConfig:
 
 
 @dataclass
+class LLMConfig:
+    """LLM inference service knobs (inactive until a consumer creates a client).
+
+    ``model=""`` leaves LLM access disabled; :func:`utils.llm.create_llm_client`
+    fails fast when an LLM-dependent model runs without configuration.
+
+    Args:
+        provider: ``LLM_CLIENTS`` registry key of the client backend.
+        model: LiteLLM model string, e.g. ``"gpt-4o-mini"``,
+            ``"anthropic/claude-sonnet-4-5"``, or ``"hosted_vllm/Qwen2.5-7B"``
+            paired with ``api_base`` for a self-hosted OpenAI-compatible
+            endpoint.
+        api_base: Base URL of a self-hosted OpenAI-compatible endpoint
+            (vLLM/sglang/ollama); remote APIs leave this unset.
+        api_key_env: Name of the env var holding the API key (archived
+            harmlessly as a name, never the key itself). None passes no key
+            and lets the transport resolve credentials itself.
+        temperature: Default sampling temperature (0 = deterministic
+            precompute, the typical KT enrichment workload).
+        max_tokens: Default generation budget.
+        embedding_model: Separate model string for :meth:`LLMClient.embed`
+            (shares ``api_base``/``api_key_env``); embed() requires it.
+        max_concurrency: Parallel in-flight requests.
+        timeout_s: Per-request timeout passed to the transport.
+        max_retries: Retry count passed to the transport.
+        cache_path: SQLite response cache location (None disables caching).
+            Content-addressed, so one cache is shared across runs and folds.
+    """
+
+    provider: str = "litellm"
+    model: str = ""
+    api_base: str | None = None
+    api_key_env: str | None = None
+    temperature: float = 0.0
+    max_tokens: int = 1024
+    embedding_model: str | None = None
+    max_concurrency: int = 8
+    timeout_s: float = 120.0
+    max_retries: int = 3
+    cache_path: str | None = "cache/llm_responses.sqlite"
+
+
+@dataclass
 class DownloadConfig:
     """Options for the data_process.py download subcommand.
 
@@ -229,6 +272,7 @@ class RunConfig:
         early_stopping: Early-stopping knobs.
         experiment: Experiment identity.
         data: Dataset / split / sampling knobs.
+        llm: LLM inference service knobs.
         model: Per-model hyperparameters (concrete ModelConfig subclass).
     """
 
@@ -237,6 +281,7 @@ class RunConfig:
     early_stopping: EarlyStoppingConfig = field(default_factory=EarlyStoppingConfig)
     experiment: ExperimentConfig = field(default_factory=ExperimentConfig)
     data: RunDataConfig = field(default_factory=RunDataConfig)
+    llm: LLMConfig = field(default_factory=LLMConfig)
     model: ModelConfig = field(default_factory=ModelConfig)
 
 
@@ -247,6 +292,7 @@ _FRAMEWORK_NODES: dict[str, type] = {
     "early_stopping": EarlyStoppingConfig,
     "experiment": ExperimentConfig,
     "data": RunDataConfig,
+    "llm": LLMConfig,
 }
 
 
@@ -289,6 +335,7 @@ __all__ = [
     "EarlyStoppingConfig",
     "ExperimentConfig",
     "GeneralConfig",
+    "LLMConfig",
     "ModelConfig",
     "ProcessConfig",
     "RunConfig",

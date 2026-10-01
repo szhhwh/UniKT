@@ -10,6 +10,7 @@ from .archive import (
     load_run_config_archive,
     load_run_metadata,
     save_run_config_archive,
+    update_run_metadata,
 )
 from .config_parser import (
     ConfigParser,
@@ -30,6 +31,7 @@ from .run_config import (
     EarlyStoppingConfig,
     ExperimentConfig,
     GeneralConfig,
+    LLMConfig,
     ModelConfig,
     ProcessConfig,
     RunConfig,
@@ -45,6 +47,7 @@ __all__ = [
     "EarlyStoppingConfig",
     "ExperimentConfig",
     "GeneralConfig",
+    "LLMConfig",
     "ModelConfig",
     "ProcessConfig",
     "RunConfig",
@@ -60,4 +63,5 @@ __all__ = [
     "reject_model_flags",
     "require_dataset",
     "save_run_config_archive",
+    "update_run_metadata",
 ]
