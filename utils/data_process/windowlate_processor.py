@@ -28,7 +28,9 @@ logger = get_logger(__name__)
 class WindowlateProcessor:
     """Build windowlate evaluation data.
 
-    - Each target KC generates exactly one evaluable window (target KC at the end).
+    - Interactions without prior skill history are excluded from evaluation.
+      Their skills and labels remain available as history for later targets.
+    - Each remaining target KC generates one evaluable window (at the end).
     - History positions serve as context only (mask=0).
     - Target positions are evaluated (mask=1).
     - When a sequence exceeds max_seq_len, only the last window ending at the
@@ -91,10 +93,14 @@ class WindowlateProcessor:
             max_seq_len: Maximum sequence length.
 
         Returns:
-            Number of samples this user will produce.
+            Number of target skills after the first interaction with skills.
         """
-        _ = max_seq_len  # Interface compatibility; count is independent of window length
-        return sum(len(q_skills) for q_skills in skills_list)
+        _ = max_seq_len  # Window length does not change the target count.
+        total_skills = sum(len(q_skills) for q_skills in skills_list)
+        first_interaction_skills = next(
+            (len(q_skills) for q_skills in skills_list if q_skills), 0
+        )
+        return total_skills - first_interaction_skills
 
     @classmethod
     def generate_user_samples(
@@ -109,7 +115,7 @@ class WindowlateProcessor:
         extras: dict[str, list],
         truncation_stage: str = "post_expansion",
     ) -> Iterator[list[tuple]]:
-        """Generate all sample data for a single user.
+        """Generate evaluation samples for a user, excluding targets without history.
 
         Args:
             user_id: User ID.
@@ -129,8 +135,8 @@ class WindowlateProcessor:
 
         Yields:
             list[tuple]: All rows for one complete sample, each row formatted as
-                (sample_id, position, skill, response, mask, user_id, group_id,
-                 true_label, *extra_values)
+                (sample_id, position, skill, question, response, mask, user_id,
+                 group_id, true_label, *extra_values)
         """
         extra_columns = cls.EXTRA_COLUMNS
         # Expand skills, labels, and all extra columns (aligned by skill expansion)
@@ -159,8 +165,11 @@ class WindowlateProcessor:
         num_interactions = len(skills_list)
 
         for inter_idx in range(num_interactions):
-            n_skills = len(skills_list[inter_idx])
             history_end = inter_boundaries[inter_idx]
+            if history_end == 0:
+                continue
+
+            n_skills = len(skills_list[inter_idx])
             for skill_offset in range(n_skills):
                 current_skill_pos = inter_boundaries[inter_idx] + skill_offset
                 current_skill = expanded_skills[current_skill_pos]
@@ -462,17 +471,18 @@ class WindowlateProcessor:
             extras = {col: user_df[col].to_list() for col in extra_columns}
 
             sample_count = cls.count_user_samples(skills_list, max_seq_len)
-            user_records.append(
-                (
-                    user,
-                    labels,
-                    skills_list,
-                    questions,
-                    global_sample_id,
-                    global_group_id,
-                    extras,
+            if sample_count:
+                user_records.append(
+                    (
+                        user,
+                        labels,
+                        skills_list,
+                        questions,
+                        global_sample_id,
+                        global_group_id,
+                        extras,
+                    )
                 )
-            )
             global_sample_id += sample_count
             global_group_id += len(skills_list)
 
