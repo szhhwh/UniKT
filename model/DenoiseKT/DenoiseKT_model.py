@@ -46,17 +46,14 @@ def attention(q, k, v, d_k, mask, dropout, zero_pad, boost_focus):
     scores = torch.matmul(q, k.transpose(-2, -1)) / math.sqrt(d_k)
     scores = scores * (1 + boost_focus)  # boost_focus 广播到 heads
 
-    bs, head, seqlen = scores.size(0), scores.size(1), scores.size(2)
     scores.masked_fill_(mask == 0, -1e32)
     scores = F.softmax(scores, dim=-1)
 
-    if zero_pad:
-        pad_zero = torch.zeros(
-            bs, head, 1, seqlen, device=scores.device, dtype=scores.dtype
-        )
-        scores = torch.cat([pad_zero, scores[:, :, 1:, :]], dim=2)
     scores = dropout(scores)
-    return torch.matmul(scores, v)
+    output = torch.matmul(scores, v)
+    if zero_pad:
+        output[:, :, 0, :].zero_()
+    return output
 
 
 class MultiHeadAttention(nn.Module):
@@ -360,9 +357,7 @@ class DenoiseKT(nn.Module):
 
         # boost_focus: 同概念位置对按距离衰减增强注意力
         boost_focus = self.bf ** self.boost_focus(cc).float()  # [B, S, S]
-        boost_focus = torch.where(
-            boost_focus == 1.0, torch.zeros_like(boost_focus), boost_focus
-        )
+        boost_focus = boost_focus.masked_fill(boost_focus == 1.0, 0.0)
         boost_focus = boost_focus.unsqueeze(1)  # [B, 1, S, S]
 
         d_output = self.model(q_embed_data, qa_embed_data, boost_focus)  # [B, S, D]

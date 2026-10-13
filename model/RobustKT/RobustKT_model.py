@@ -82,26 +82,26 @@ def attention(
     pos_effect: torch.Tensor | None = None,
 ) -> torch.Tensor:
     scores = torch.matmul(q, k.transpose(-2, -1)) / math.sqrt(d_k)
-    batch_size, heads, seq_len = scores.size(0), scores.size(1), scores.size(2)
+    heads = scores.size(1)
 
     with torch.no_grad():
         masked_scores = scores.masked_fill(mask == 0, -1e32)
         masked_scores = F.softmax(masked_scores, dim=-1)
-        masked_scores = masked_scores * mask.float()
-        distcum_scores = torch.cumsum(masked_scores, dim=-1)
+        masked_scores.masked_fill_(mask == 0, 0.0)
+        dist_scores = torch.cumsum(masked_scores, dim=-1)
         disttotal_scores = torch.sum(masked_scores, dim=-1, keepdim=True)
-        dist_scores = torch.clamp(
-            (disttotal_scores - distcum_scores) * pos_effect,
-            min=0.0,
-        )
-        dist_scores = dist_scores.sqrt()
+        del masked_scores
+        torch.sub(disttotal_scores, dist_scores, out=dist_scores)
+        del disttotal_scores
+        dist_scores.mul_(pos_effect).clamp_min_(0.0).sqrt_()
 
     if gamma is None:
         gamma = torch.zeros(heads, 1, 1, device=q.device)
     gamma = -1.0 * F.softplus(gamma).unsqueeze(0)
     if pdiff is None:
         total_effect = torch.clamp(
-            torch.clamp((dist_scores * gamma).exp(), min=1e-5),
+            (dist_scores * gamma).exp(),
+            min=1e-5,
             max=1e5,
         )
     else:
@@ -110,18 +110,21 @@ def attention(
         )
         diff = diff.sigmoid().exp()
         total_effect = torch.clamp(
-            torch.clamp((dist_scores * gamma * diff).exp(), min=1e-5),
+            (dist_scores * gamma * diff).exp(),
+            min=1e-5,
             max=1e5,
         )
+    del dist_scores
     scores = scores * total_effect
+    del total_effect
 
     scores.masked_fill_(mask == 0, -1e32)
     scores = F.softmax(scores, dim=-1)
-    if zero_pad:
-        pad_zero = torch.zeros(batch_size, heads, 1, seq_len, device=q.device)
-        scores = torch.cat([pad_zero, scores[:, :, 1:, :]], dim=2)
     scores = dropout(scores)
-    return torch.matmul(scores, v)
+    output = torch.matmul(scores, v)
+    if zero_pad:
+        output[:, :, 0, :].zero_()
+    return output
 
 
 class MultiHeadAttention(nn.Module):

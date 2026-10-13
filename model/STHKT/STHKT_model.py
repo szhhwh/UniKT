@@ -90,18 +90,18 @@ def attention(q, k, v, d_k, mask, dropout, zero_pad, gamma, position_effect):
     # the penalty shapes the distribution but receives no gradient itself.
     with torch.no_grad():
         scores_ = _masked_softmax(scores, mask)
-        distcum_scores = torch.cumsum(scores_, dim=-1)
-        disttotal_scores = torch.sum(scores_, dim=-1, keepdim=True)
-        dist_scores = torch.clamp(
-            (disttotal_scores - distcum_scores) * position_effect, min=0.0
-        )
-        dist_scores = dist_scores.sqrt().detach()
+        dist_scores = torch.cumsum(scores_, dim=-1)
+        total = scores_.sum(dim=-1, keepdim=True)
+        del scores_
+        torch.sub(total, dist_scores, out=dist_scores)
+        del total
+        dist_scores.mul_(position_effect).clamp_min_(0.0).sqrt_()
 
     gamma = -1.0 * F.softplus(gamma).unsqueeze(0)
-    total_effect = torch.clamp(
-        torch.clamp((dist_scores * gamma).exp(), min=1e-5), max=1e5
-    )
+    total_effect = torch.clamp((dist_scores * gamma).exp(), min=1e-5, max=1e5)
+    del dist_scores
     scores = scores * total_effect
+    del total_effect
 
     scores = _masked_softmax(scores, mask)
 

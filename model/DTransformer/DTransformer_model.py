@@ -9,7 +9,32 @@ from torch import nn
 MIN_SEQ_LEN = 5
 
 
-def attention(q, k, v, mask, gamma=None, maxout=False):
+def attention(q, k, v, mask, gamma=None, maxout=False, need_weights=True):
+    if need_weights or q.size(0) <= 64:
+        return _attention(q, k, v, mask, gamma, maxout, need_weights)
+    # Split independent knowledge batches, keeping full sequence reductions.
+    outputs = []
+    for start in range(0, q.size(0), 64):
+        stop = start + 64
+        chunk_mask = (
+            mask[start:stop]
+            if mask.dim() == q.dim() and mask.size(0) == q.size(0)
+            else mask
+        )
+        output, _ = _attention(
+            q[start:stop],
+            k[start:stop],
+            v[start:stop],
+            chunk_mask,
+            gamma,
+            maxout,
+            False,
+        )
+        outputs.append(output)
+    return torch.cat(outputs, dim=0), None
+
+
+def _attention(q, k, v, mask, gamma, maxout, need_weights):
     d_k = k.size(-1)
     scores = torch.matmul(q, k.transpose(-2, -1)) / math.sqrt(d_k)
     bs, head, seqlen, _ = scores.size()
@@ -23,17 +48,19 @@ def attention(q, k, v, mask, gamma=None, maxout=False):
         with torch.no_grad():
             scores_ = scores.masked_fill(mask == 0, -1e32)
             scores_ = F.softmax(scores_, dim=-1)
-            distcum_scores = torch.cumsum(scores_, dim=-1)
+            dist_scores = torch.cumsum(scores_, dim=-1)
             disttotal_scores = torch.sum(scores_, dim=-1, keepdim=True)
+            del scores_
             position_effect = torch.abs(x1 - x2)[None, None, :, :]
-            dist_scores = torch.clamp(
-                (disttotal_scores - distcum_scores) * position_effect, min=0.0
-            )
-            dist_scores = dist_scores.sqrt().detach()
+            torch.sub(disttotal_scores, dist_scores, out=dist_scores)
+            del disttotal_scores
+            dist_scores.mul_(position_effect).clamp_min_(0.0).sqrt_()
 
         gamma_val = -1.0 * gamma.abs().unsqueeze(0)
         total_effect = torch.clamp((dist_scores * gamma_val).exp(), min=1e-5, max=1e5)
+        del dist_scores
         scores = scores * total_effect
+        del total_effect
 
     scores.masked_fill_(mask == 0, -1e32)
     scores = F.softmax(scores, dim=-1)
@@ -44,7 +71,7 @@ def attention(q, k, v, mask, gamma=None, maxout=False):
         scores *= scale
 
     output = torch.matmul(scores, v)
-    return output, scores
+    return output, scores if need_weights else None
 
 
 class MultiHeadAttention(nn.Module):
@@ -64,7 +91,7 @@ class MultiHeadAttention(nn.Module):
         self.gammas = nn.Parameter(torch.zeros(n_heads, 1, 1))
         nn.init.xavier_uniform_(self.gammas)
 
-    def forward(self, q, k, v, mask, maxout=False):
+    def forward(self, q, k, v, mask, maxout=False, need_weights=True):
         bs = q.size(0)
 
         q = self.q_linear(q).view(bs, -1, self.h, self.d_k)
@@ -75,7 +102,7 @@ class MultiHeadAttention(nn.Module):
         q = q.transpose(1, 2)
         v = v.transpose(1, 2)
 
-        v_, scores = attention(q, k, v, mask, self.gammas, maxout)
+        v_, scores = attention(q, k, v, mask, self.gammas, maxout, need_weights)
 
         concat = v_.transpose(1, 2).contiguous().view(bs, -1, self.d_model)
         output = self.out_proj(concat)
@@ -89,7 +116,7 @@ class DTransformerLayer(nn.Module):
         self.dropout = nn.Dropout(dropout)
         self.layer_norm = nn.LayerNorm(d_model)
 
-    def forward(self, query, key, values, peek_cur=False):
+    def forward(self, query, key, values, peek_cur=False, need_weights=True):
         seqlen = query.size(1)
         mask = (
             torch.ones(seqlen, seqlen, device=query.device)
@@ -98,7 +125,7 @@ class DTransformerLayer(nn.Module):
         )
 
         query_, scores = self.masked_attn_head(
-            query, key, values, mask, maxout=not peek_cur
+            query, key, values, mask, maxout=not peek_cur, need_weights=need_weights
         )
         query = query + self.dropout(query_)
         return self.layer_norm(query), scores
@@ -212,7 +239,9 @@ class DTransformer(nn.Module):
             preds: 预测概率 [batch_size, seq_len]
             reg_loss: Rasch模型正则化损失
         """
-        output, _, _, _, reg_loss, _ = self._predict(sequence, response, pid_data)
+        output, _, _, _, reg_loss, _ = self._predict(
+            sequence, response, pid_data, need_weights=False
+        )
         preds = torch.sigmoid(output)
         return preds, reg_loss
 
@@ -230,7 +259,9 @@ class DTransformer(nn.Module):
             q_emb: 问题嵌入 [batch_size, seq_len, d_model]
             reg_loss: 正则化损失
         """
-        output, _, z, q_emb, reg_loss, _ = self._predict(sequence, response, pid_data)
+        output, _, z, q_emb, reg_loss, _ = self._predict(
+            sequence, response, pid_data, need_weights=False
+        )
         return output, z, q_emb, reg_loss
 
     def _base_emb(self, q_data, target):
@@ -259,7 +290,7 @@ class DTransformer(nn.Module):
 
         return q_embed_data, qa_embed_data, p_diff
 
-    def _encode(self, q_emb, s_emb):
+    def _encode(self, q_emb, s_emb, need_weights=True):
         if self.shortcut:
             hq, _ = self.block1(q_emb, q_emb, q_emb, peek_cur=True)
             hs, scores = self.block2(s_emb, s_emb, s_emb, peek_cur=True)
@@ -267,15 +298,21 @@ class DTransformer(nn.Module):
 
         if self.n_blocks == 1:
             hq = q_emb
-            p, q_scores = self.block1(q_emb, q_emb, s_emb, peek_cur=True)
+            p, q_scores = self.block1(
+                q_emb, q_emb, s_emb, peek_cur=True, need_weights=need_weights
+            )
         elif self.n_blocks == 2:
             hq = q_emb
             hs, _ = self.block1(s_emb, s_emb, s_emb, peek_cur=True)
-            p, q_scores = self.block2(hq, hq, hs, peek_cur=True)
+            p, q_scores = self.block2(
+                hq, hq, hs, peek_cur=True, need_weights=need_weights
+            )
         else:
             hq, _ = self.block1(q_emb, q_emb, q_emb, peek_cur=True)
             hs, _ = self.block2(s_emb, s_emb, s_emb, peek_cur=True)
-            p, q_scores = self.block3(hq, hq, hs, peek_cur=True)
+            p, q_scores = self.block3(
+                hq, hq, hs, peek_cur=True, need_weights=need_weights
+            )
 
         bs, seqlen, d_model = p.size()
         n_know = self.n_know
@@ -288,19 +325,21 @@ class DTransformer(nn.Module):
         )
         hq = hq.unsqueeze(1).expand(-1, n_know, -1, -1).reshape_as(query)
         p = p.unsqueeze(1).expand(-1, n_know, -1, -1).reshape_as(query)
-
-        z, k_scores = self.block4(query, hq, p, peek_cur=False)
+        z, k_scores = self.block4(
+            query, hq, p, peek_cur=False, need_weights=need_weights
+        )
         z = (
             z.view(bs, n_know, seqlen, d_model)
             .transpose(1, 2)
             .contiguous()
             .view(bs, seqlen, -1)
         )
-        k_scores = (
-            k_scores.view(bs, n_know, self.n_heads, seqlen, seqlen)
-            .permute(0, 2, 3, 1, 4)
-            .contiguous()
-        )
+        if need_weights:
+            k_scores = (
+                k_scores.view(bs, n_know, self.n_heads, seqlen, seqlen)
+                .permute(0, 2, 3, 1, 4)
+                .contiguous()
+            )
 
         return z, q_scores, k_scores
 
@@ -319,9 +358,9 @@ class DTransformer(nn.Module):
         alpha = torch.softmax(beta, -1)
         return torch.matmul(alpha, value).view(bs, seqlen, -1)
 
-    def _predict(self, q, s, pid=None):
+    def _predict(self, q, s, pid=None, need_weights=True):
         q_emb, s_emb, p_diff = self._embedding(q, s, pid)
-        z, q_scores, k_scores = self._encode(q_emb, s_emb)
+        z, q_scores, k_scores = self._encode(q_emb, s_emb, need_weights)
 
         h = z if self.shortcut else self._readout(z, q_emb)
 
