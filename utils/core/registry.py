@@ -199,6 +199,7 @@ EFFICIENCY_STAGES = UniversalRegistry(
     "efficiency_stages", decorator_name="register_efficiency_stage"
 )
 METRICS = UniversalRegistry("metrics", decorator_name="register_metric")
+LLM_CLIENTS = UniversalRegistry("llm_clients", decorator_name="register_llm_client")
 CASE_SINKS = UniversalRegistry("case_sinks", decorator_name="register_case_sink")
 CASE_SELECTORS = UniversalRegistry(
     "case_selectors", decorator_name="register_case_selector"
@@ -244,6 +245,18 @@ def register_model_config(name: str | None = None) -> Callable[[type[T]], type[T
         return register(dataclass(cls))
 
     return decorator
+
+
+def register_llm_client(name: str | None = None) -> Callable[[type[T]], type[T]]:
+    """Register an LLM client backend into ``LLM_CLIENTS``.
+
+    Args:
+        name: Optional registration name. Defaults to the class name.
+
+    Returns:
+        A decorator that registers the class with ``LLM_CLIENTS``.
+    """
+    return LLM_CLIENTS.register(name)
 
 
 def register_data_source(name: str | None = None) -> Callable[[type[T]], type[T]]:

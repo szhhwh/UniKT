@@ -246,11 +246,12 @@ class TestParserParity:
                 "DownloadConfig",
                 "EarlyStoppingConfig",
                 "GeneralConfig",
+                "LLMConfig",
                 "ProcessConfig",
                 "RunDataConfig",
             )
         ] + model_classes
-        assert len(classes) == 6 + len(model_classes)
+        assert len(classes) == 7 + len(model_classes)
 
         for cls in classes:
             reference = helper._parse_docstring_helps(cls)
