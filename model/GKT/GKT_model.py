@@ -144,10 +144,10 @@ class GKT(nn.Module):
         self.res_len = 2  # 响应类型数量 (0/1)
         self.graph_type = graph_type
 
-        # 图矩阵作为参数，但不参与梯度更新
+        # 图是先验常量而非可学习参数，用 buffer 避免占用优化器槽位
         if graph is None:
             graph = self._build_default_graph(num_c, graph_type)
-        self.graph = nn.Parameter(graph, requires_grad=False)
+        self.register_buffer("graph", graph, persistent=True)
 
         # 概念和交互嵌入
         self.interaction_emb = nn.Embedding(self.res_len * num_c, emb_size)
@@ -201,39 +201,34 @@ class GKT(nn.Module):
         return torch.from_numpy(graph).float()
 
     def _aggregate(
-        self, xt: torch.Tensor, qt: torch.Tensor, ht: torch.Tensor, batch_size: int
+        self, xt: torch.Tensor, qt: torch.Tensor, ht: torch.Tensor
     ) -> torch.Tensor:
         """聚合步骤
 
-        将输入特征与概念嵌入聚合
+        将当前交互嵌入写入对应概念行，再与隐状态拼接
 
         Args:
             xt: 当前时间步的交互特征索引，形状为 [batch_size]
             qt: 当前时间步的问题索引，形状为 [batch_size]
             ht: 当前时间步所有概念的隐藏表示，形状为 [batch_size, num_c, hidden_dim]
-            batch_size: 批次大小
 
         Returns:
             聚合后的特征，形状为 [batch_size, num_c, hidden_dim + emb_size]
         """
         device = xt.device
-        qt_mask = torch.ne(qt, -1)  # [batch_size], qt != -1
+        batch_size = ht.shape[0]
 
-        # 概念 id：有效行为 0..num_c-1，无效行为 num_c（padding 行）
-        concept_idx = torch.arange(self.num_c, device=device).expand(batch_size, -1)
-        concept_idx = torch.where(
-            qt_mask.unsqueeze(-1),
-            concept_idx,
-            torch.full_like(concept_idx, self.num_c),
+        # 概念嵌入展开到 batch；emb_c 第 num_c 行仅在无效交互时才会保留，
+        # 当前数据下不会发生，故保持参考实现的 num_c+1 行不变。
+        concept_embedding = self.emb_c(
+            torch.arange(self.num_c, device=device).expand(batch_size, -1)
+        )  # [batch_size, num_c, emb_size]
+
+        # 将当前交互的嵌入放入 qt 指定的那一行
+        concept_embedding = concept_embedding.index_put(
+            (torch.arange(batch_size, device=device), qt.long()),
+            self.interaction_emb(xt),
         )
-        concept_embedding = self.emb_c(concept_idx)  # [batch_size, num_c, emb_size]
-
-        # 将当前交互的嵌入放入对应位置
-        if qt_mask.any():
-            rows = torch.arange(batch_size, device=device)[qt_mask]
-            concept_embedding = concept_embedding.index_put(
-                (rows, qt[qt_mask].long()), self.interaction_emb(xt[qt_mask])
-            )
 
         # 拼接隐藏状态和概念嵌入
         tmp_ht = torch.cat(
@@ -254,43 +249,31 @@ class GKT(nn.Module):
             聚合邻居后的特征，形状为 [batch_size, num_c, hidden_dim]
         """
         device = qt.device
-        qt_mask = torch.ne(qt, -1)  # [batch_size], qt != -1
-
-        if not qt_mask.any():
-            return tmp_ht[:, :, : self.hidden_dim]
-
-        masked_qt = qt[qt_mask]  # [mask_num, ]
-        masked_tmp_ht = tmp_ht[qt_mask]  # [mask_num, num_c, hidden_dim + emb_size]
-        mask_num = masked_tmp_ht.shape[0]
+        batch_size = tmp_ht.shape[0]
 
         # 获取自身特征
-        self_index_tuple = (torch.arange(mask_num, device=device), masked_qt.long())
-        self_ht = masked_tmp_ht[self_index_tuple]  # [mask_num, hidden_dim + emb_size]
-        self_features = self.f_self(self_ht)  # [mask_num, hidden_dim]
+        self_index_tuple = (torch.arange(batch_size, device=device), qt.long())
+        self_ht = tmp_ht[self_index_tuple]  # [batch_size, hidden_dim + emb_size]
+        self_features = self.f_self(self_ht)  # [batch_size, hidden_dim]
 
         # 扩展自身特征用于邻居聚合
         expanded_self_ht = self_ht.unsqueeze(dim=1).expand(-1, self.num_c, -1)
-        # [mask_num, num_c, hidden_dim + emb_size]
-        neigh_ht = torch.cat((expanded_self_ht, masked_tmp_ht), dim=-1)
-        # [mask_num, num_c, 2 * (hidden_dim + emb_size)]
+        # [batch_size, num_c, hidden_dim + emb_size]
+        neigh_ht = torch.cat((expanded_self_ht, tmp_ht), dim=-1)
+        # [batch_size, num_c, 2 * (hidden_dim + emb_size)]
 
         # 获取邻接矩阵
-        adj = self.graph[masked_qt.long(), :].unsqueeze(dim=-1)  # [mask_num, num_c, 1]
-        reverse_adj = self.graph[:, masked_qt.long()].transpose(0, 1).unsqueeze(dim=-1)
-        # [mask_num, num_c, 1]
+        adj = self.graph[qt.long(), :].unsqueeze(dim=-1)  # [batch_size, num_c, 1]
+        reverse_adj = self.graph[:, qt.long()].transpose(0, 1).unsqueeze(dim=-1)
+        # [batch_size, num_c, 1]
 
         # 计算邻居特征
-        neigh_features = adj * self.f_neighbor_list[0](
-            neigh_ht
-        ) + reverse_adj * self.f_neighbor_list[1](neigh_ht)
-        # [mask_num, num_c, hidden_dim]
+        m_next = adj * self.f_neighbor_list[0](neigh_ht) + reverse_adj * (
+            self.f_neighbor_list[1](neigh_ht)
+        )  # [batch_size, num_c, hidden_dim]
 
-        # 更新特征
-        m_next = tmp_ht[:, :, : self.hidden_dim].clone()
-        m_next[qt_mask] = neigh_features
-        m_next[qt_mask] = m_next[qt_mask].index_put(self_index_tuple, self_features)
-
-        return m_next
+        # 自身行只保留 self 分支，不叠加邻居信息
+        return m_next.index_put(self_index_tuple, self_features)
 
     def _update(
         self, tmp_ht: torch.Tensor, ht: torch.Tensor, qt: torch.Tensor
@@ -307,44 +290,32 @@ class GKT(nn.Module):
         Returns:
             更新后的隐藏状态，形状为 [batch_size, num_c, hidden_dim]
         """
-        qt_mask = torch.ne(qt, -1)  # [batch_size], qt != -1
-        mask_num = qt_mask.sum().item()
-
         # GNN 聚合
         m_next = self._agg_neighbors(tmp_ht, qt)  # [batch_size, num_c, hidden_dim]
 
-        if mask_num > 0:
-            # 擦除添加门
-            m_next_qt = m_next[qt_mask].clone()
-            m_next_qt = self.erase_add_gate(m_next_qt)  # [mask_num, num_c, hidden_dim]
-            m_next[qt_mask] = m_next_qt
+        # 擦除添加门
+        m_next = self.erase_add_gate(m_next)
 
-            # GRU 更新
-            res = self.gru(
-                m_next[qt_mask].reshape(-1, self.hidden_dim),
-                ht[qt_mask].reshape(-1, self.hidden_dim),
-            )
-            # [mask_num * num_c, hidden_dim]
-            m_next[qt_mask] = res.reshape(-1, self.num_c, self.hidden_dim)
+        # GRU 更新
+        res = self.gru(
+            m_next.reshape(-1, self.hidden_dim), ht.reshape(-1, self.hidden_dim)
+        )  # [batch_size * num_c, hidden_dim]
+        return res.view(-1, self.num_c, self.hidden_dim)
 
-        return m_next
-
-    def _predict_step(self, h_next: torch.Tensor, qt: torch.Tensor) -> torch.Tensor:
+    def _predict_step(self, h_next: torch.Tensor) -> torch.Tensor:
         """预测步骤
 
         预测所有概念的正确概率
 
         Args:
             h_next: 下一时间步的隐藏状态，形状为 [batch_size, num_c, hidden_dim]
-            qt: 当前时间步的问题索引，形状为 [batch_size]
 
         Returns:
             预测概率，形状为 [batch_size, num_c]
         """
-        qt_mask = torch.ne(qt, -1)  # [batch_size], qt != -1
-        y = self.predict(h_next).squeeze(dim=-1)  # [batch_size, num_c]
-        y[qt_mask] = torch.sigmoid(y[qt_mask])  # [batch_size, num_c]
-        return y
+        return torch.sigmoid(
+            self.predict(h_next).squeeze(dim=-1)
+        )  # [batch_size, num_c]
 
     def _get_next_pred(self, yt: torch.Tensor, q_next: torch.Tensor) -> torch.Tensor:
         """获取下一时间步的预测
@@ -356,14 +327,7 @@ class GKT(nn.Module):
         Returns:
             下一问题的预测概率，形状为 [batch_size]
         """
-        device = yt.device
-        next_qt = torch.where(
-            q_next != -1, q_next, self.num_c * torch.ones_like(q_next, device=device)
-        )
-        # padding 位置（next_qt == num_c）预测值置 0
-        pred = yt.gather(1, next_qt.clamp(max=self.num_c - 1).unsqueeze(1)).squeeze(1)
-        pred = torch.where(next_qt != self.num_c, pred, torch.zeros_like(pred))
-        return pred
+        return yt.gather(1, q_next.clamp(max=self.num_c - 1).unsqueeze(1)).squeeze(1)
 
     def _step(
         self, ht: torch.Tensor, xt: torch.Tensor, qt: torch.Tensor
@@ -378,9 +342,9 @@ class GKT(nn.Module):
         Returns:
             (h_next, yt)：新隐藏状态与全概念预测
         """
-        tmp_ht = self._aggregate(xt, qt, ht, ht.shape[0])
+        tmp_ht = self._aggregate(xt, qt, ht)
         h_next = self._update(tmp_ht, ht, qt)
-        yt = self._predict_step(h_next, qt)
+        yt = self._predict_step(h_next)
         return h_next, yt
 
     @contextlib.contextmanager
@@ -408,9 +372,7 @@ class GKT(nn.Module):
     def _checkpoint_contexts(self):
         return contextlib.nullcontext(), self._frozen_bn_stats()
 
-    def forward(
-        self, sequence: torch.Tensor, response: torch.Tensor, mask: torch.Tensor
-    ) -> torch.Tensor:
+    def forward(self, sequence: torch.Tensor, response: torch.Tensor) -> torch.Tensor:
         """前向传播
 
         预测语义：y[:, t] 预测 response[:, t+1]
@@ -419,7 +381,6 @@ class GKT(nn.Module):
         Args:
             sequence: 概念ID序列，形状为 [batch_size, sequence_length]
             response: 响应序列，形状为 [batch_size, sequence_length]
-            mask: 有效位置掩码，形状为 [batch_size, sequence_length]
 
         Returns:
             预测结果，形状为 [batch_size, sequence_length - 1]

@@ -215,7 +215,7 @@ class GKTTrainer(BaseTrainer):
         mask = self._move_tensor_to_device(mask)
 
         # Model outputs [B, S-1]; y[:, t] predicts response[:, t+1] (next-item alignment)
-        y_hat_full = self._pad_to_full_sequence(self.model(sequence, response, mask))
+        y_hat_full = self._pad_to_full_sequence(self.model(sequence, response))
 
         # Pad to [B, S] then extract valid positions via built-in next-item alignment
         y_hat, y_label, _ = self._extract_valid_predictions(
@@ -259,7 +259,7 @@ class GKTTrainer(BaseTrainer):
         true_labels = self._move_tensor_to_device(true_labels)
 
         # Output [B, S-1]; y[:, t] predicts response[:, t+1]
-        y_hat_full = self.model(sequence, response, mask)
+        y_hat_full = self.model(sequence, response)
 
         # GKT prediction alignment: model outputs [B, S-1] where y[:, t]
         # predicts response[:, t+1], so y_hat_full aligns with [:, 1:].
