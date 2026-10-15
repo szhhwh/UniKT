@@ -23,6 +23,11 @@ class KDDCup2010Base(DataSource):
     """
 
     skill_column: str  # Subclass must set: e.g. "KC(Default)" or "KC(SubSkills)"
+    question_columns: tuple[str, ...] = (
+        "Problem Hierarchy",
+        "Problem Name",
+        "Step Name",
+    )
 
     def __init__(self, args: Any, dataset: str, raw_filename: str) -> None:
         """Initialize the KDD Cup 2010 base dataset handler."""
@@ -56,9 +61,7 @@ class KDDCup2010Base(DataSource):
         skill_col = self.skill_column
         required_columns = [
             "Anon Student Id",
-            "Problem Hierarchy",
-            "Problem Name",
-            "Step Name",
+            *self.question_columns,
             "First Transaction Time",
             "Correct First Attempt",
             skill_col,
@@ -74,11 +77,7 @@ class KDDCup2010Base(DataSource):
             [
                 pl.col("Anon Student Id").alias("user"),
                 pl.concat_str(
-                    [
-                        pl.col("Problem Hierarchy"),
-                        pl.col("Problem Name"),
-                        pl.col("Step Name"),
-                    ],
+                    [pl.col(column) for column in self.question_columns],
                     separator="___",
                 ).alias("question"),
                 pl.col("First Transaction Time").alias("raw_timestamp"),
@@ -246,9 +245,11 @@ class Algebra2005Data(KDDCup2010Base):
     """Algebra 2005-2006 dataset handler.
 
     Uses KC(Default) as the skill column.
+    Questions are identified by problem and step names.
     """
 
     skill_column = "KC(Default)"
+    question_columns = ("Problem Name", "Step Name")
 
     def __init__(self, args: Any) -> None:
         """Initialize the Algebra 2005-2006 dataset handler."""
