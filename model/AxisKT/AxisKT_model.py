@@ -77,6 +77,8 @@ class AxisKT(nn.Module):
         use_global: bool = True,
         use_local: bool = True,
         use_forgetting: bool = True,
+        use_rasch_embedding: bool = True,
+        use_irt_head: bool = True,
     ):
         super().__init__()
         if max_gap_bins < 1:
@@ -88,6 +90,8 @@ class AxisKT(nn.Module):
         self.use_global = bool(use_global)
         self.use_local = bool(use_local)
         self.use_forgetting = bool(use_forgetting)
+        self.use_rasch_embedding = bool(use_rasch_embedding)
+        self.use_irt_head = bool(use_irt_head)
 
         skill_ids = torch.as_tensor(question_skill_ids, dtype=torch.long)
         skill_mask = torch.as_tensor(question_skill_mask, dtype=torch.bool)
@@ -163,6 +167,12 @@ class AxisKT(nn.Module):
         nn.init.zeros_(self.local_write.weight)
         nn.init.zeros_(self.local_write.bias)
         nn.init.zeros_(self.local_readout.weight)
+
+    def _embedding_difficulty(self, questions: torch.Tensor) -> torch.Tensor:
+        """Keep output difficulty independent of the Rasch embedding ablation."""
+        if self.use_rasch_embedding:
+            return self.question_diff(questions)
+        return self.question_diff.weight.new_zeros(*questions.shape, 1)
 
     def _question_vector(self, questions: torch.Tensor) -> torch.Tensor:
         """Return the per-question vector at ``hidden_dim`` width.
@@ -405,7 +415,7 @@ class AxisKT(nn.Module):
         local_input = (
             self._question_vector(packed_question)
             + skill_embedding
-            + self.question_diff(packed_question) * skill_change_embedding
+            + self._embedding_difficulty(packed_question) * skill_change_embedding
             + self.answer_embed(packed_response)
         )
         if self.use_forgetting:
@@ -572,7 +582,7 @@ class AxisKT(nn.Module):
         return (
             q_features.question_vector
             + pooled_skill
-            + self.question_diff(questions) * pooled_change
+            + self._embedding_difficulty(questions) * pooled_change
         )
 
     def _global_history_states_dense(
@@ -672,12 +682,14 @@ class AxisKT(nn.Module):
     def _irt_term(
         self, features: torch.Tensor, next_questions: torch.Tensor
     ) -> torch.Tensor:
-        """IRT logit term ``a·(θ−β)`` — the sole prediction head.
+        """IRT logit ``a·(θ−β)``, or plain linear ``θ`` for the head ablation.
 
         ``θ`` comes from ``ability_head`` over the readout features and ``β``
         from the shared ``question_diff`` embedding of the predicted question.
         """
         theta = self.ability_head(features).squeeze(-1)
+        if not self.use_irt_head:
+            return theta
         beta = self.question_diff(next_questions).squeeze(-1)
         return self.irt_disc * (theta - beta)
 
@@ -751,7 +763,11 @@ class AxisKT(nn.Module):
                 skill_change_embedding,
                 question_vector,
                 questions,
-                self.question_diff.weight,
+                (
+                    self.question_diff.weight
+                    if self.use_rasch_embedding
+                    else torch.zeros_like(self.question_diff.weight)
+                ),
                 slot_valid,
                 kc_inverse,
                 self.question_skill_ids.size(1),

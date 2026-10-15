@@ -1,0 +1,22 @@
+# Best hyperparameters for ReKTP on algebra2005 from Optuna search
+# (see runs/hyperparam_search/ReKTP_algebra2005_*_n_trials100/ for the full study).
+
+experiment:
+  model_name: ReKTP
+
+data:
+  dataset: algebra2005
+
+model:
+  hidden_dim: 128
+  n_blocks: 4
+  conv_kernel_size: 5
+  conv_dilation_base: 1
+  residual_scale: 0.9159234919624879
+  dropout: 0.06609382466106366
+  question_embed_dim: 16
+  epochs: 100
+  learning_rate: 0.0007931698265535869
+  weight_decay: 3.580789669783857e-05
+  batch_size: 32
+  max_clip_grad_norm: 6.8992142389241

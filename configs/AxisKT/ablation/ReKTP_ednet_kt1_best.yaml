@@ -1,0 +1,22 @@
+# Best hyperparameters for ReKTP on ednet_kt1 from Optuna search
+# (see runs/hyperparam_search/ReKTP_ednet_kt1_*_n_trials100/ for the full study).
+
+experiment:
+  model_name: ReKTP
+
+data:
+  dataset: ednet_kt1
+
+model:
+  hidden_dim: 64
+  n_blocks: 4
+  conv_kernel_size: 7
+  conv_dilation_base: 2
+  residual_scale: 0.7042441541223674
+  dropout: 0.07679980885249449
+  question_embed_dim: 0
+  epochs: 100
+  learning_rate: 0.0038455907373878425
+  weight_decay: 5.340704073139678e-05
+  batch_size: 32
+  max_clip_grad_norm: 9.406603876249589

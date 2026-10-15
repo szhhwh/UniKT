@@ -1,0 +1,22 @@
+# Best hyperparameters for ReKTP on bridge2006 from Optuna search
+# (see runs/hyperparam_search/ReKTP_bridge2006_*_n_trials100/ for the full study).
+
+experiment:
+  model_name: ReKTP
+
+data:
+  dataset: bridge2006
+
+model:
+  hidden_dim: 64
+  n_blocks: 4
+  conv_kernel_size: 7
+  conv_dilation_base: 2
+  residual_scale: 0.7192832247820292
+  dropout: 0.34450134338700006
+  question_embed_dim: 64
+  epochs: 100
+  learning_rate: 0.0026888187358301814
+  weight_decay: 3.4033273651067326e-05
+  batch_size: 32
+  max_clip_grad_norm: 0.7902236733265346

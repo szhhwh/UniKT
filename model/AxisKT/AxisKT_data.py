@@ -164,6 +164,8 @@ def build_axiskt_model(rc, data_src: DataSource, extra: dict):
         use_global=m.use_global,
         use_local=m.use_local,
         use_forgetting=getattr(m, "use_forgetting", True),
+        use_rasch_embedding=m.use_rasch_embedding,
+        use_irt_head=m.use_irt_head,
     )
 
 
