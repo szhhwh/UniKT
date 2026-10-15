@@ -28,14 +28,12 @@ def raw_frame() -> pl.DataFrame:
 
 
 @pytest.mark.parametrize(
-    ("source_class", "expected_questions"),
-    [(Algebra2005Data, 3), (Algebra2006Data, 4), (Bridge2006Data, 4)],
+    "source_class", [Algebra2005Data, Algebra2006Data, Bridge2006Data]
 )
 def test_question_identity_across_curriculum_contexts(
     tmp_path: Path,
     raw_frame: pl.DataFrame,
     source_class: type[Algebra2005Data | Algebra2006Data | Bridge2006Data],
-    expected_questions: int,
 ) -> None:
     source = source_class(
         SimpleNamespace(data_base_path=str(tmp_path), seed=42, min_seq_len=1)
@@ -49,20 +47,27 @@ def test_question_identity_across_curriculum_contexts(
     questions = sequence["question"].to_list()
     assert sequence.height == 4
     assert sequence["label"].to_list() == [1, 0, 1, 0]
-    assert len(set(questions)) == expected_questions
+    assert questions[0] == questions[1]
+    assert len(set(questions)) == 3
     assert len({questions[0], questions[2], questions[3]}) == 3
     source._validate_data(source.relation_data, sequence)
 
 
 @pytest.mark.parametrize("hierarchy_present", [True, False])
-def test_algebra2005_accepts_missing_curriculum_context(
-    tmp_path: Path, raw_frame: pl.DataFrame, hierarchy_present: bool
+@pytest.mark.parametrize(
+    "source_class", [Algebra2005Data, Algebra2006Data, Bridge2006Data]
+)
+def test_accepts_missing_curriculum_context(
+    tmp_path: Path,
+    raw_frame: pl.DataFrame,
+    hierarchy_present: bool,
+    source_class: type[Algebra2005Data | Algebra2006Data | Bridge2006Data],
 ) -> None:
     if hierarchy_present:
         raw_frame = raw_frame.with_columns(pl.lit(None).alias("Problem Hierarchy"))
     else:
         raw_frame = raw_frame.drop("Problem Hierarchy")
-    source = Algebra2005Data(
+    source = source_class(
         SimpleNamespace(data_base_path=str(tmp_path), seed=42, min_seq_len=1)
     )
     source.raw_data = raw_frame.lazy()
