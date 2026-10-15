@@ -35,6 +35,10 @@ class AxisKTConfig(ModelConfig):
         use_forgetting: Enable the learned gap-conditioned temporal decay in
             the local branch. ``False`` keeps local writes and KC isolation but
             uses an identity transition for a forgetting ablation.
+        use_rasch_embedding: Include beta_q modulation in event embeddings and
+            local KC writes. False retains the output difficulty head.
+        use_irt_head: Use a*(theta-beta_q) logits. False uses the same linear
+            ability head directly, retaining Rasch embeddings.
         dropout: Dropout probability.
         epochs: Maximum training epochs.
         learning_rate: Adam learning rate.
@@ -73,6 +77,8 @@ class AxisKTConfig(ModelConfig):
     use_global: bool = True
     use_local: bool = True
     use_forgetting: bool = True
+    use_rasch_embedding: bool = True
+    use_irt_head: bool = True
     epochs: int = 100
     learning_rate: float = field(
         default=2.7e-3,
