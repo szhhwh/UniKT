@@ -229,6 +229,7 @@ class Assistments2017PerQueData(DataSource):
         data = data.with_columns(
             (pl.col("timestamp") * 1000).cast(pl.Int64).alias("timestamp"),
             (pl.col("ms_first_response") * 1000)
+            .round(0, mode="half_to_even")
             .cast(pl.Int64)
             .alias("ms_first_response"),
         )
