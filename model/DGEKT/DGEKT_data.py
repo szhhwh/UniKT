@@ -63,23 +63,22 @@ class DGEKTModelData(QuestionModelData):
         num_skills = self.data_src.get_metadata("num_skills")
         max_seq_len = self.data_src.get_metadata("max_question_seq_len")
 
-        user_sequence, user_response, user_mask, _ = self.load_sequence_data()
-
-        fold_idx = rc.data.fold if rc.data.fold >= 0 else None
-        if fold_idx is None:
-            raise ValueError("K-fold cross-validation is not enabled (fold < 0).")
-
-        train_slices, val_slices, test_slices = self.split_kfold_data(
-            user_sequence, user_response, user_mask, fold_idx=fold_idx
-        )
-        (tr_q, tr_a, tr_mask) = train_slices
-        (va_q, va_a, va_mask) = val_slices
-        (te_q, te_a, te_mask) = test_slices
+        data = self.load_split_data()
+        sequences = self.pack_sequences(data)
+        partition = sequences.partition(rc.data.fold)
+        user_sequence = sequences.question
+        user_response = sequences.response
+        user_mask = sequences.mask
 
         q_matrix = self.build_relationship_matrix(("question", "has", "skill"))
         hyper_p, hyper_q = self._build_hyper_factors(q_matrix)
         # Transition counts are collected from the training fold only.
-        adj_out, adj_in = self._build_transition_adj(tr_q, tr_a, tr_mask, num_questions)
+        adj_out, adj_in = self._build_transition_adj(
+            user_sequence[partition.train],
+            user_response[partition.train],
+            user_mask[partition.train],
+            num_questions,
+        )
         logger.info(
             f"DGEKT graphs: hyper P nnz={hyper_p._nnz()}, Q nnz={hyper_q._nnz()}, "
             f"adj_out nnz={adj_out._nnz()}, adj_in nnz={adj_in._nnz()}"
@@ -89,9 +88,8 @@ class DGEKTModelData(QuestionModelData):
             f"max_seq_len={max_seq_len}"
         )
 
-        train_dataset = DGEKTDataset(tr_q, tr_a, tr_mask)
-        val_dataset = DGEKTDataset(va_q, va_a, va_mask)
-        test_dataset = DGEKTDataset(te_q, te_a, te_mask)
+        dataset = DGEKTDataset(user_sequence, user_response, user_mask)
+        train_dataset, val_dataset, test_dataset = partition.apply(dataset)
 
         logger.info(
             f"DGEKT dataset sizes: train={len(train_dataset)}, "

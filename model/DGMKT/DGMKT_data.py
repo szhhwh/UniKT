@@ -10,6 +10,7 @@ from typing_extensions import override
 from utils.core import get_logger
 from utils.data_process import DataSource
 from utils.model_data import SkillModelData
+from utils.model_data.packed_sequences import to_first_skill_ids
 
 logger = get_logger(__name__)
 
@@ -83,21 +84,16 @@ class DGMKTModelData(SkillModelData):
 
     @override
     def prepare_data(self, rc: Any) -> tuple:
-        user_sequence, user_response, user_mask, user_id_sequence, _ = (
-            self.build_sequence_data()
-        )
+        data = self.load_split_data()
+        sequences = self.pack_sequences(data)
+        partition = sequences.partition(rc.data.fold)
+        user_sequence = to_first_skill_ids(sequences.skills)
+        user_response = sequences.response
+        user_mask = sequences.mask
 
         num_skills = self.data_src.get_metadata("num_skills")
-        orig_ids = user_id_sequence[:, 0]
+        orig_ids = sequences.user
         num_original = int(self.data_src.get_metadata("num_users"))
-
-        train_data, val_data, _ = self.split_kfold_data(
-            user_sequence,
-            user_response,
-            user_mask,
-            orig_ids,
-            fold_idx=rc.data.fold,
-        )
 
         logger.info(
             f"Building DGMKT student hypergraph from the full dataset: "
@@ -109,8 +105,9 @@ class DGMKTModelData(SkillModelData):
         H_coo, dv, de = _build_hypergraph_props(H)
         num_users = num_original
 
-        train_dataset = DGMKTDataset(*train_data)
-        val_dataset = DGMKTDataset(*val_data)
+        dataset = DGMKTDataset(user_sequence, user_response, user_mask, orig_ids)
+        train_dataset, val_dataset, _ = partition.apply(dataset)
+
         test_dataset = self.create_windowlate_dataloader(
             batch_size=rc.model.batch_size,
             shuffle=False,

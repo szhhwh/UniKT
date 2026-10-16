@@ -28,6 +28,8 @@
 import torch
 from torch import nn
 
+from model.layers.interaction import skills_to_multihot
+
 
 class TCKTNet(nn.Module):
     """Temporal- and Causal-enhanced Knowledge Tracing 模型。
@@ -44,7 +46,7 @@ class TCKTNet(nn.Module):
         seq_len: 固定序列长度（位置编码用）。
         global_dict_size: 全局字典大小 N（K-Means 簇数）。
         dropout: dropout 概率。
-        q_gamma: Q-matrix 的平滑系数（加到二值关联矩阵的每个元素上）。
+        q_gamma: Smoothing added to each interaction's skill indicator.
     """
 
     def __init__(
@@ -60,6 +62,7 @@ class TCKTNet(nn.Module):
         seq_len: int = 200,
         global_dict_size: int = 400,
         dropout: float = 0.2,
+        q_gamma: float = 0.0,
     ):
         super().__init__()
         self.d_k = d_k
@@ -119,10 +122,7 @@ class TCKTNet(nn.Module):
         self.dropout = nn.Dropout(dropout)
 
         # 缓冲区
-        # Q-matrix（题目-概念关联），加 q_gamma 平滑。
-        self.register_buffer(
-            "q_matrix", torch.zeros(num_questions, num_skills), persistent=False
-        )
+        self.q_gamma = q_gamma
         # 每题的贝叶斯难度（论文式 2）。
         self.register_buffer(
             "difficulty", torch.full((num_questions,), 0.5), persistent=False
@@ -132,11 +132,6 @@ class TCKTNet(nn.Module):
         # LSAT 的因果掩码（上三角为 True = 屏蔽未来）。
         mask = torch.triu(torch.ones(seq_len, seq_len, dtype=torch.bool), diagonal=1)
         self.register_buffer("causal_mask", mask, persistent=False)
-
-    def set_q_matrix(self, q_matrix, q_gamma: float):
-        """设置（带平滑的）Q-matrix 缓冲区。"""
-        qm = torch.as_tensor(q_matrix, dtype=self.q_matrix.dtype)
-        self.q_matrix.copy_(qm.to(self.q_matrix.device) + q_gamma)
 
     def set_difficulty(self, difficulty):
         """设置每题难度缓冲区。"""
@@ -181,6 +176,7 @@ class TCKTNet(nn.Module):
         a_data: torch.Tensor,
         it_data: torch.Tensor,
         c_data: torch.Tensor,
+        skills: torch.Tensor,
     ) -> torch.Tensor:
         """前向传播。
 
@@ -193,6 +189,7 @@ class TCKTNet(nn.Module):
             a_data: 答案序列 [B, S]（同时作为输入特征与预测目标）
             it_data: 间隔时间桶序列 [B, S]
             c_data: 概念（主知识点）序列 [B, S]
+            skills: 本次交互的完整技能列表 [B, S, K]，以 num_skills 填充
 
         Returns:
             pred: [B, S]，每个位置 ∈ (0, 1)。
@@ -255,9 +252,11 @@ class TCKTNet(nn.Module):
 
         # LBS + 预测（逐时刻循环，论文式 17-22）
         pred = torch.zeros(bs, seq_len, device=device)
+        skill_indicator = (
+            skills_to_multihot(skills, self.num_skills).to(h_pre.dtype) + self.q_gamma
+        )
         for t in range(seq_len - 1):
-            e = e_data[:, t]
-            q_e = self.q_matrix[e].view(bs, 1, -1)  # [bs, 1, num_skills]
+            q_e = skill_indicator[:, t].view(bs, 1, -1)
             at = at_embed_data[:, t]  # 响应时间嵌入 [bs, d_k]
             it = it_embed_data[:, t]  # 间隔时间嵌入 [bs, d_k]
 
@@ -290,8 +289,7 @@ class TCKTNet(nn.Module):
             h = h_pre * gamma_f.unsqueeze(1) + l_input
 
             # 预测下一题（论文式 22）。
-            e_next = e_data[:, t + 1]
-            h_tilde = self.q_matrix[e_next].view(bs, 1, -1).bmm(h).view(bs, d_k)
+            h_tilde = skill_indicator[:, t + 1].view(bs, 1, -1).bmm(h).view(bs, d_k)
             y = (
                 self.sig(
                     self.linear_y(torch.cat((e_embed_data[:, t + 1], h_tilde), dim=1))

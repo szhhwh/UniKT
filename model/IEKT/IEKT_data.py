@@ -1,4 +1,3 @@
-import numpy as np
 import torch
 from torch.utils.data import Dataset
 from typing_extensions import override
@@ -6,6 +5,7 @@ from typing_extensions import override
 from utils.core import get_logger
 from utils.data_process import DataSource
 from utils.model_data import QuestionModelData
+from utils.model_data.packed_sequences import to_multi_skill_ids
 
 logger = get_logger(__name__)
 
@@ -62,40 +62,23 @@ class IEKTModelData(QuestionModelData):
         """
         fold_idx = rc.data.fold if rc.data.fold >= 0 else None
 
-        user_sequence, user_response, user_mask, _ = self.load_sequence_data()
+        data = self.load_split_data()
+        sequences = self.pack_sequences(data)
+        partition = sequences.partition(rc.data.fold)
+        user_sequence = sequences.question
+        user_response = sequences.response
+        user_mask = sequences.mask
 
-        q_matrix = self.build_relationship_matrix(("question", "has", "skill"))
+        user_skills = to_multi_skill_ids(sequences.skills)
+        self.max_concepts = user_skills.shape[-1]
 
-        self.max_concepts = int(q_matrix.sum(axis=1).max())
-        user_skills = self._build_skill_sequences(user_sequence, q_matrix)
-
+        kfold_n_splits = self.data_src.get_metadata("kfold_n_splits")
         logger.info(
-            f"IEKT data prepared: max_concepts={self.max_concepts}, "
-            f"num_questions={q_matrix.shape[0]}, num_skills={q_matrix.shape[1]}"
+            f"Using K-fold cross-validation: fold {fold_idx + 1}/{kfold_n_splits}"
         )
 
-        if fold_idx is not None:
-            kfold_n_splits = self.data_src.get_metadata("kfold_n_splits")
-            if fold_idx < 0 or fold_idx >= kfold_n_splits:
-                raise ValueError(
-                    f"fold_idx {fold_idx} is out of range [0, {kfold_n_splits})"
-                )
-            logger.info(
-                f"Using K-fold cross-validation: fold {fold_idx + 1}/{kfold_n_splits}"
-            )
-            train_data, val_data, test_data = self.split_kfold_data(
-                user_sequence,
-                user_response,
-                user_mask,
-                user_skills,
-                fold_idx=fold_idx,
-            )
-        else:
-            raise ValueError("K-fold cross-validation is not enabled.")
-
-        train_dataset = IEKTDataset(*train_data)
-        val_dataset = IEKTDataset(*val_data)
-        test_dataset = IEKTDataset(*test_data)
+        dataset = IEKTDataset(user_sequence, user_response, user_mask, user_skills)
+        train_dataset, val_dataset, test_dataset = partition.apply(dataset)
 
         logger.info(
             f"IEKT dataset sizes: train={len(train_dataset)}, "
@@ -103,27 +86,3 @@ class IEKTModelData(QuestionModelData):
         )
 
         return train_dataset, val_dataset, test_dataset
-
-    def _build_skill_sequences(self, user_sequence, q_matrix):
-        """从 Q-matrix 构建多概念技能序列
-
-        为每个问题查找其关联的技能，构建 [N, S, max_concepts] 的技能序列。
-
-        Args:
-            user_sequence: 问题ID序列 [N, S]
-            q_matrix: 问题-技能关联矩阵 [num_questions, num_skills]
-
-        Returns:
-            多概念技能序列 [N, S, max_concepts]，-1 表示填充
-        """
-        num_questions = q_matrix.shape[0]
-
-        question_skills = np.full(
-            (num_questions, self.max_concepts), -1, dtype=np.int64
-        )
-        for q_id in range(num_questions):
-            related_skills = np.where(q_matrix[q_id] > 0)[0]
-            for k in range(min(len(related_skills), self.max_concepts)):
-                question_skills[q_id, k] = related_skills[k]
-
-        return question_skills[user_sequence]

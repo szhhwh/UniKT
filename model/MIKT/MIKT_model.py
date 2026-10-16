@@ -9,6 +9,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+from model.layers.interaction import skills_to_multihot
+
 
 class MIKT(nn.Module):
     """MIKT 模型
@@ -96,14 +98,14 @@ class MIKT(nn.Module):
             if isinstance(m, (nn.Linear, nn.Embedding)):
                 nn.init.xavier_uniform_(m.weight)
 
-    def forward(self, question, response, mask, pro2skill):
+    def forward(self, question, response, mask, skills):
         """前向传播
 
         Args:
             question: 题目ID序列 [B, S]
             response: 答题结果序列 [B, S]
             mask: 有效位置掩码 [B, S]
-            pro2skill: 问题-技能关联矩阵 [num_questions, num_skills]
+            skills: 本次交互的技能列表 [B, S, K]，以 num_skills 填充
 
         Returns:
             predictions: 预测概率 [B, S-1]
@@ -119,26 +121,25 @@ class MIKT(nn.Module):
         pro_embed = self.pro_embed
         skill_embed = self.skill_embed
 
-        skill_mean = torch.matmul(pro2skill, skill_embed) / (
-            torch.sum(pro2skill, dim=-1, keepdims=True) + 1e-8
+        skill_indicator = skills_to_multihot(skills, self.skill_max).to(
+            skill_embed.dtype
         )
-
+        skill_mean = torch.matmul(skill_indicator, skill_embed) / (
+            skill_indicator.sum(dim=-1, keepdim=True).clamp_min(1)
+        )
         pro_idx = torch.arange(self.pro_max, device=device)
         pro_diff = torch.sigmoid(self.pro_diff(pro_idx))
-
-        q_pro = self.pro_linear(pro_embed)
-        q_skill = self.skill_linear(self.skill_embed)
+        q_pro = self.pro_linear(F.embedding(question, pro_embed))
+        q_skill = self.skill_linear(skill_embed)
         attn = torch.matmul(q_pro, q_skill.transpose(-1, -2)) / math.sqrt(
             q_pro.shape[-1]
         )
-        attn = torch.masked_fill(attn, pro2skill == 0, -1e9)
-        attn = torch.softmax(attn, dim=-1)
+        attn = torch.softmax(attn.masked_fill(skill_indicator == 0, -1e9), dim=-1)
         skill_attn = torch.matmul(attn, skill_embed)
-
-        now_embed = skill_attn + pro_diff * self.pro_change(skill_mean)
-        pro_embed = self.dropout(now_embed)
-
-        next_pro_rasch = F.embedding(next_problem, pro_embed)
+        now_embed = skill_attn + F.embedding(question, pro_diff) * self.pro_change(
+            skill_mean
+        )
+        next_pro_rasch = self.dropout(now_embed[:, 1:])
         next_X = next_pro_rasch + self.ans_embed(next_ans)
         last_all_time = torch.ones(batch, device=device).long()
 
@@ -154,7 +155,7 @@ class MIKT(nn.Module):
 
         for now_step in range(seq):
             now_pro = next_problem[:, now_step]
-            now_pro2skill = F.embedding(now_pro, pro2skill).unsqueeze(1)
+            now_pro2skill = skill_indicator[:, now_step + 1].unsqueeze(1)
 
             now_pro_embed = next_pro_rasch[:, now_step]
 

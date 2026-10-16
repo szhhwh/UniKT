@@ -11,6 +11,7 @@ from typing_extensions import override
 from utils.core import get_logger
 from utils.data_process import DataSource
 from utils.model_data import SkillModelData
+from utils.model_data.packed_sequences import to_first_skill_ids
 
 logger = get_logger(__name__)
 
@@ -46,7 +47,11 @@ class DIMKTModelData(SkillModelData):
         super().__init__(data_src)
 
     def compute_difficulty_tables(
-        self, difficult_levels: int, fold_idx: int, min_attempts: int = 30
+        self,
+        data: pl.DataFrame,
+        difficult_levels: int,
+        fold_idx: int,
+        min_attempts: int = 30,
     ) -> tuple[torch.Tensor, torch.Tensor]:
         """计算技能 / 题目的离散难度等级查表。
 
@@ -66,8 +71,6 @@ class DIMKTModelData(SkillModelData):
         """
         num_skills = self.data_src.get_metadata("num_skills")
         num_questions = self.data_src.get_metadata("num_questions")
-
-        data = self.load_split_data()
 
         train_data = data.filter((pl.col("fold") != fold_idx) & (pl.col("fold") != -1))
 
@@ -123,33 +126,22 @@ class DIMKTModelData(SkillModelData):
         """准备训练、验证与窗口评估数据。"""
         fold_idx = rc.data.fold if rc.data.fold >= 0 else None
 
-        user_sequence, user_response, user_mask, _, user_question = (
-            self.build_sequence_data()
+        data = self.load_split_data()
+        sequences = self.pack_sequences(data)
+        partition = sequences.partition(rc.data.fold)
+        user_sequence = to_first_skill_ids(sequences.skills)
+        user_response = sequences.response
+        user_mask = sequences.mask
+        user_question = sequences.question
+
+        kfold_n_splits = self.data_src.get_metadata("kfold_n_splits")
+        logger.info(
+            f"Using K-fold cross-validation: fold {fold_idx + 1}/{kfold_n_splits}"
         )
 
-        if fold_idx is not None:
-            kfold_n_splits = self.data_src.get_metadata("kfold_n_splits")
-            if fold_idx < 0 or fold_idx >= kfold_n_splits:
-                raise ValueError(
-                    f"fold_idx {fold_idx} is out of range [0, {kfold_n_splits})"
-                )
-            logger.info(
-                f"Using K-fold cross-validation: fold {fold_idx + 1}/{kfold_n_splits}"
-            )
-            train_data, val_data, _ = self.split_kfold_data(
-                user_sequence,
-                user_response,
-                user_mask,
-                user_question,
-                fold_idx=fold_idx,
-            )
-        else:
-            raise ValueError("K-fold cross-validation is not enabled.")
+        dataset = DIMKTDataset(user_sequence, user_response, user_mask, user_question)
+        train_dataset, val_dataset, _ = partition.apply(dataset)
 
-        train_dataset = DIMKTDataset(
-            train_data[0], train_data[1], train_data[2], train_data[3]
-        )
-        val_dataset = DIMKTDataset(val_data[0], val_data[1], val_data[2], val_data[3])
         test_dataset = self.create_windowlate_dataloader(
             batch_size=rc.model.batch_size,
             shuffle=False,
@@ -164,7 +156,7 @@ class DIMKTModelData(SkillModelData):
         )
 
         skill_diff_table, question_diff_table = self.compute_difficulty_tables(
-            rc.model.difficult_levels, rc.data.fold
+            data, rc.model.difficult_levels, rc.data.fold
         )
 
         return (

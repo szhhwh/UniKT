@@ -6,6 +6,7 @@ from types import SimpleNamespace
 from typing import TYPE_CHECKING, Any
 
 import numpy as np
+import polars as pl
 import pyarrow as pa
 import pyarrow.parquet as pq
 import pytest
@@ -77,7 +78,11 @@ def windowlate_model_data(
     from pathlib import Path
 
     model_data = make_skill_model_data(
-        metadata={"max_windowlate_seq_len": 8, "kfold_n_splits": 2}
+        metadata={
+            "max_windowlate_seq_len": 8,
+            "max_skill_seq_len": 8,
+            "kfold_n_splits": 2,
+        }
     )
     model_data.data_src.data_folder = str(Path(windowlate_path).parent)
     return model_data
@@ -188,31 +193,30 @@ def test_public_loader_options(
     assert loader.persistent_workers is bool(num_workers)
 
 
-@pytest.fixture
-def sequence_arrays() -> tuple[np.ndarray, ...]:
-    shape = (2, 8)
-    return (
-        np.ones(shape, dtype=np.int64),
-        np.zeros(shape, dtype=np.int64),
-        np.ones(shape, dtype=np.bool_),
-        np.full(shape, 7, dtype=np.int64),
-        np.ones(shape, dtype=np.int64),
+def _training_frame() -> pl.DataFrame:
+    return pl.DataFrame(
+        {
+            "sequence_id": np.repeat(np.arange(4), 8),
+            "seq_pos": np.tile(np.arange(8), 4),
+            "user": np.repeat(np.arange(4), 8),
+            "fold": np.repeat([1, 1, 0, 0], 8),
+            "question": [0] * 32,
+            "skill": [1] * 32,
+            "label": [0] * 32,
+            "timestamp": np.tile(np.arange(8) * 60_000, 4),
+        }
     )
 
 
 @pytest.mark.parametrize("num_workers", [0, 2])
 def test_deepirt_prepare_preserves_test_loader_options(
     windowlate_model_data: SkillModelData,
-    sequence_arrays: tuple[np.ndarray, ...],
     monkeypatch: pytest.MonkeyPatch,
     num_workers: int,
 ) -> None:
     model_data = DeepIRTModelData(windowlate_model_data.data_src)
-    monkeypatch.setattr(model_data, "build_sequence_data", lambda: sequence_arrays)
     monkeypatch.setattr(
-        model_data,
-        "split_kfold_data",
-        lambda *arrays, **kwargs: (arrays, arrays, arrays),
+        model_data, "load_split_data", lambda **kwargs: _training_frame()
     )
     rc = SimpleNamespace(
         data=SimpleNamespace(fold=0),
@@ -236,19 +240,12 @@ def test_deepirt_prepare_preserves_test_loader_options(
 @pytest.mark.parametrize("model_data_class", [MCSKTModelData, MTKTModelData])
 def test_prepare_supplies_time_feature_hook_configuration(
     windowlate_model_data: SkillModelData,
-    sequence_arrays: tuple[np.ndarray, ...],
     monkeypatch: pytest.MonkeyPatch,
     model_data_class: type,
 ) -> None:
     model_data = model_data_class(windowlate_model_data.data_src)
-    monkeypatch.setattr(model_data, "build_sequence_data", lambda: sequence_arrays)
     monkeypatch.setattr(
-        model_data, "_load_timestamps", lambda: np.tile(np.arange(8) * 60_000, (2, 1))
-    )
-    monkeypatch.setattr(
-        model_data,
-        "split_kfold_data",
-        lambda *arrays, **kwargs: (arrays, arrays, arrays),
+        model_data, "load_split_data", lambda **kwargs: _training_frame()
     )
     rc = SimpleNamespace(
         data=SimpleNamespace(fold=0),

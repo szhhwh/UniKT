@@ -22,6 +22,8 @@ import torch
 import torch.nn.functional as F
 from torch import nn
 
+from model.layers.interaction import skills_to_multihot
+
 
 class _HypergraphConvolution(nn.Module):
     """单向超图卷积层：``factor @ (x W) + b``"""
@@ -67,6 +69,7 @@ class HGKTNet(nn.Module):
         hidden_size: 知识状态与各门维度 dk。
         time_dim: 答题 / 间隔时间嵌入维度 da。
         dropout: dropout 概率（仅施加于 learn_gains）。
+        q_gamma: Smoothing added to each interaction's skill indicator.
     """
 
     def __init__(
@@ -80,9 +83,11 @@ class HGKTNet(nn.Module):
         hidden_size: int = 128,
         time_dim: int = 50,
         dropout: float = 0.2,
+        q_gamma: float = 0.0,
     ):
         super().__init__()
         self.hidden_size = hidden_size
+        self.num_skills = num_skills
         self.time_dim = time_dim
         de, dk, da = emb_dim, hidden_size, time_dim
 
@@ -114,10 +119,7 @@ class HGKTNet(nn.Module):
         hyper_p, hyper_q = hyper_factors
         self.register_buffer("hyper_p", hyper_p, persistent=False)
         self.register_buffer("hyper_q", hyper_q, persistent=False)
-        # Q-matrix buffer: binary + gamma, i.e. kc values γ / 1+γ.
-        self.register_buffer(
-            "q_matrix", torch.zeros(num_questions, num_skills), persistent=False
-        )
+        self.q_gamma = q_gamma
 
         self.reset_parameters()
 
@@ -144,11 +146,6 @@ class HGKTNet(nn.Module):
             self.at_embed.weight[0].zero_()
             self.it_embed.weight[0].zero_()
         nn.init.xavier_uniform_(self.k_matrix)
-
-    def set_q_matrix(self, q_matrix, q_gamma: float) -> None:
-        """设置（带平滑的）Q-matrix 缓冲区：值由 {0, 1} 变为 {γ, 1+γ}。"""
-        qm = torch.as_tensor(q_matrix, dtype=self.q_matrix.dtype)
-        self.q_matrix.copy_(qm.to(self.q_matrix.device) + q_gamma)
 
     def _forget_pre_pair(
         self,
@@ -186,6 +183,7 @@ class HGKTNet(nn.Module):
         at_data: torch.Tensor,
         a_data: torch.Tensor,
         it_data: torch.Tensor,
+        skills: torch.Tensor,
     ) -> torch.Tensor:
         """前向传播。
 
@@ -194,6 +192,7 @@ class HGKTNet(nn.Module):
             at_data: 答题用时词表 id 序列 [B, S]
             a_data: 答案序列 [B, S]（输入特征与预测目标）
             it_data: 间隔时间词表 id 序列 [B, S]
+            skills: 本次交互的技能列表 [B, S, K]，以 num_skills 填充
 
         Returns:
             pred: [B, S]，每个位置 ∈ (0, 1)；``pred[:, 0]`` 恒为 0，
@@ -222,7 +221,7 @@ class HGKTNet(nn.Module):
 
         K = self.k_matrix.unsqueeze(0).expand(bs, -1, -1)  # [B, M, dk]
 
-        kc_rows = self.q_matrix[e_data]  # [B, S, M]
+        kc_rows = skills_to_multihot(skills, self.num_skills).to(K.dtype) + self.q_gamma
         # pred[:, 0] is a zero placeholder, dropped by the extraction stage.
         preds = [torch.zeros(bs, device=device)]
 

@@ -15,6 +15,7 @@ from typing_extensions import override
 from utils.core import get_logger
 from utils.data_process import DataSource
 from utils.model_data import SkillModelData
+from utils.model_data.packed_sequences import to_first_skill_ids
 from utils.model_data.skill_model_data import WindowlateIterableDataset
 
 logger = get_logger(__name__)
@@ -242,22 +243,6 @@ class MTKTModelData(SkillModelData):
 
         return user_rgap, user_sgap, user_pcount
 
-    def _load_timestamps(self) -> np.ndarray:
-        """从原始数据加载用户时间戳数组
-
-        Returns:
-            user_timestamp: shape (num_users, max_seq_len)
-        """
-        data = self.load_split_data(required=("timestamp",)).to_pandas()
-        max_seq_len: int = self.data_src.get_metadata("max_skill_seq_len")
-        num_users: int = int(data["sequence_id"].nunique())
-
-        user_timestamp = np.zeros((num_users, max_seq_len), dtype=np.float64)
-        user_indices = data["sequence_id"].values
-        seq_positions = data["seq_pos"].values
-        user_timestamp[user_indices, seq_positions] = data["timestamp"].values
-        return user_timestamp
-
     @override
     def prepare_data(self, rc: Any) -> tuple:
         """准备训练和验证数据
@@ -273,11 +258,15 @@ class MTKTModelData(SkillModelData):
         self.num_sgap = rc.model.num_sgap
         self.num_pcount = rc.model.num_pcount
 
-        user_sequence, user_response, user_mask, _, user_question = (
-            self.build_sequence_data()
-        )
+        data = self.load_split_data(required=("timestamp",))
+        sequences = self.pack_sequences(data)
+        partition = sequences.partition(rc.data.fold)
+        user_sequence = to_first_skill_ids(sequences.skills)
+        user_response = sequences.response
+        user_mask = sequences.mask
+        user_question = sequences.question
 
-        user_timestamp = self._load_timestamps()
+        user_timestamp = sequences.features["timestamp"].astype(np.float64)
 
         logger.info("Computing time gap features (rgap, sgap, pcount)...")
         user_rgap, user_sgap, user_pcount = self._build_time_gaps(
@@ -289,50 +278,21 @@ class MTKTModelData(SkillModelData):
             self.num_pcount,
         )
 
-        if fold_idx is not None:
-            kfold_n_splits = self.data_src.get_metadata("kfold_n_splits")
-            if fold_idx < 0 or fold_idx >= kfold_n_splits:
-                raise ValueError(
-                    f"fold_idx {fold_idx} is out of range [0, {kfold_n_splits})"
-                )
-            logger.info(
-                f"Using K-fold cross-validation: fold {fold_idx + 1}/{kfold_n_splits}"
-            )
-            (
-                train_data,
-                val_data,
-                _,
-            ) = self.split_kfold_data(
-                user_sequence,
-                user_response,
-                user_mask,
-                user_question,
-                user_rgap,
-                user_sgap,
-                user_pcount,
-                fold_idx=fold_idx,
-            )
-        else:
-            raise ValueError("K-fold cross-validation is not enabled.")
+        kfold_n_splits = self.data_src.get_metadata("kfold_n_splits")
+        logger.info(
+            f"Using K-fold cross-validation: fold {fold_idx + 1}/{kfold_n_splits}"
+        )
 
-        train_dataset = MTKTDataset(
-            train_data[0],
-            train_data[1],
-            train_data[2],
-            train_data[3],
-            train_data[4],
-            train_data[5],
-            train_data[6],
+        dataset = MTKTDataset(
+            user_sequence,
+            user_response,
+            user_mask,
+            user_question,
+            user_rgap,
+            user_sgap,
+            user_pcount,
         )
-        val_dataset = MTKTDataset(
-            val_data[0],
-            val_data[1],
-            val_data[2],
-            val_data[3],
-            val_data[4],
-            val_data[5],
-            val_data[6],
-        )
+        train_dataset, val_dataset, _ = partition.apply(dataset)
 
         test_dataset = self._create_windowlate_dataset()
 

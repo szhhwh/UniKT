@@ -22,7 +22,6 @@ from torch.utils.data import (
 )
 
 if TYPE_CHECKING:
-    import polars as pl
     from torch.utils.data import DataLoader
 
 from utils.core import get_logger
@@ -237,6 +236,8 @@ class SkillModelData(BaseModelData):
     Used to build skill-based (skill/concept) knowledge tracing model data.
     """
 
+    _sequence_length_key = "max_skill_seq_len"
+
     def __init__(self, data_src: DataSource, cache: bool = False):
         """Initialise the skill-level model data object.
 
@@ -246,56 +247,6 @@ class SkillModelData(BaseModelData):
         """
         super().__init__(data_src, cache=cache)
         self._split_getter = data_src.get_split_skill_sequence_data
-
-    def _get_kfold_data(self) -> pl.DataFrame:
-        """Override: retrieve K-fold labels from skill sequence data."""
-        return self.load_split_data()
-
-    def build_sequence_data(
-        self,
-    ) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
-        """Load user skill sequences from split skill sequence data.
-
-        Returns:
-            Tuple of (user_sequence, user_response, user_mask,
-            user_id_sequence, user_question) as numpy arrays,
-            each of shape (num_split_users, max_skill_seq_len) -- the padded
-            length recorded in metadata by preprocessing. user_id_sequence
-            carries ORIGINAL student ids (from the ``user`` column),
-            so one student's multiple splits share the same id -- matching
-            the windowlate parquet's id space.
-        """
-        import numpy as np
-        import polars as pl
-
-        logger.info("Building skill sequences from split data...")
-
-        data = self.load_split_data()
-        if isinstance(data, pl.LazyFrame):
-            data = data.collect()
-        max_seq_len = self.data_src.get_metadata("max_skill_seq_len")
-        num_users = data["sequence_id"].n_unique()
-
-        user_sequence = np.zeros((num_users, max_seq_len), dtype=int)
-        user_id_sequence = np.zeros((num_users, max_seq_len), dtype=int)
-        user_response = np.zeros((num_users, max_seq_len), dtype=int)
-        user_mask = np.zeros((num_users, max_seq_len), dtype=int)
-        user_question = np.zeros((num_users, max_seq_len), dtype=int)
-
-        user_indices = data["sequence_id"].to_numpy()
-        seq_positions = data["seq_pos"].to_numpy()
-
-        user_sequence[user_indices, seq_positions] = data["skill"].to_numpy()
-        user_id_sequence[user_indices, seq_positions] = data["user"].to_numpy()
-        user_response[user_indices, seq_positions] = data["label"].to_numpy()
-        user_mask[user_indices, seq_positions] = 1
-        user_question[user_indices, seq_positions] = data["question"].to_numpy()
-
-        logger.debug(
-            f"Built split skill sequences for {num_users} split users, max_len={max_seq_len}"
-        )
-
-        return user_sequence, user_response, user_mask, user_id_sequence, user_question
 
     def load_windowlate_data(
         self,

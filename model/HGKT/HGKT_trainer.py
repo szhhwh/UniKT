@@ -20,7 +20,7 @@ class HGKTConfig(ModelConfig):
         hidden_size: Knowledge-state / gate dimension dk.
         time_dim: Answer- and interval-time embedding dimension da.
         dropout: Dropout rate, applied to learn_gains only.
-        q_gamma: Q-matrix smoothing factor (kc values γ / 1+γ).
+        q_gamma: Smoothing added to each event's skill indicator.
         max_it_minutes: Interval-time cap in minutes.
         learning_rate: Learning rate.
         weight_decay: Adam weight decay.
@@ -87,8 +87,8 @@ class HGKTTrainer(BaseTrainer):
             hidden_size=m.hidden_size,
             time_dim=m.time_dim,
             dropout=m.dropout,
+            q_gamma=m.q_gamma,
         )
-        model.set_q_matrix(info["q_matrix"], m.q_gamma)
 
         loss_fn = nn.BCELoss(reduction="none")
         optimizer = torch.optim.Adam(
@@ -108,14 +108,15 @@ class HGKTTrainer(BaseTrainer):
 
     def forward_pass(self, batch_data: tuple) -> dict[str, torch.Tensor]:
         """模型输出 ``pred[:, t]`` 预测 ``a[:, t]``"""
-        e, at, a, it, mask, _ = batch_data
+        e, at, a, it, mask, _, skills = batch_data
         e = self._move_tensor_to_device(e)
         at = self._move_tensor_to_device(at)
         a = self._move_tensor_to_device(a)
         it = self._move_tensor_to_device(it)
         mask = self._move_tensor_to_device(mask)
+        skills = self._move_tensor_to_device(skills)
 
-        pred = self.model(e, at, a, it)  # [B, S]
+        pred = self.model(e, at, a, it, skills)  # [B, S]
 
         y_hat, y_label, _ = self._extract_valid_predictions(
             pred, a, mask, same_position=True

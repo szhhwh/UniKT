@@ -41,7 +41,12 @@ class MCKTModelData(QuestionModelData):
     def prepare_data(self, rc: Any):
         fold_idx = rc.data.fold if rc.data.fold >= 0 else None
 
-        user_questions, user_responses, user_masks, _ = self.load_sequence_data()
+        data = self.load_split_data()
+        sequences = self.pack_sequences(data)
+        partition = sequences.partition(rc.data.fold)
+        user_questions = sequences.question
+        user_responses = sequences.response
+        user_masks = sequences.mask
         user_questions, user_responses, user_masks = self._left_pad_sequences(
             user_questions, user_responses, user_masks
         )
@@ -51,25 +56,13 @@ class MCKTModelData(QuestionModelData):
             include_self=rc.model.pos_include_self,
         )
 
-        if fold_idx is None:
-            raise ValueError("K-fold cross-validation is not enabled.")
-
         kfold_n_splits = self.data_src.get_metadata("kfold_n_splits")
-        if fold_idx < 0 or fold_idx >= kfold_n_splits:
-            raise ValueError(
-                f"fold_idx {fold_idx} is out of range [0, {kfold_n_splits})"
-            )
         logger.info(
             f"Using K-fold cross-validation: fold {fold_idx + 1}/{kfold_n_splits}"
         )
 
-        train_data, val_data, test_data = self.split_kfold_data(
-            user_questions, user_responses, user_masks, fold_idx=fold_idx
-        )
-
-        train_dataset = MCKTDataset(train_data[0], train_data[1], train_data[2])
-        val_dataset = MCKTDataset(val_data[0], val_data[1], val_data[2])
-        test_dataset = MCKTDataset(test_data[0], test_data[1], test_data[2])
+        dataset = MCKTDataset(user_questions, user_responses, user_masks)
+        train_dataset, val_dataset, test_dataset = partition.apply(dataset)
 
         logger.info(
             f"MCKT data prepared: train={len(train_dataset)}, val={len(val_dataset)}, "

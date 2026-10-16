@@ -10,18 +10,14 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any, cast
 
-import numpy as np
 import polars as pl
 import pytest
-import torch
 
 from tests.unit.model_data.conftest import StubDataSource
 from utils.data_process import DataSource
 from utils.model_data.base_model_data import BaseModelData
-from utils.model_data.skill_model_data import SkillModelData
 
 if TYPE_CHECKING:
-    from collections.abc import Callable, Sequence
     from pathlib import Path
 
 
@@ -92,16 +88,6 @@ class _SeqModelData(BaseModelData):
     def prepare_data(self, args: Any) -> None: ...
 
 
-def _fold_frame(pairs: Sequence[tuple[int, int]]) -> pl.DataFrame:
-    """Build a split-skill frame of (sequence_id, fold) rows."""
-    return pl.DataFrame(
-        {
-            "sequence_id": [sid for sid, _ in pairs],
-            "fold": [fold for _, fold in pairs],
-        }
-    )
-
-
 # ---------------------------------------------------------------------------
 # disk_cache decorator
 # ---------------------------------------------------------------------------
@@ -148,122 +134,24 @@ class TestDiskCache:
         assert len(probe.calls) == 2  # read failed -> inner re-ran
         assert result["fresh"] is True
 
-
-# ---------------------------------------------------------------------------
-# _build_user_folds
-# ---------------------------------------------------------------------------
-
-
-class TestBuildUserFolds:
-    def test_missing_fold_column_raises(
-        self, make_skill_model_data: Callable[..., SkillModelData]
+    def test_processed_data_changes_invalidate_cached_model_inputs(
+        self, cache_root: Path
     ) -> None:
-        frame = pl.DataFrame({"sequence_id": [0, 1], "skill": [1, 2]})
-        model_data = make_skill_model_data(split_frame=frame)
-        with pytest.raises(ValueError, match="K-fold labels not found"):
-            model_data._build_user_folds(2)
+        probe = _CacheProbe()
+        metadata = cast(StubDataSource, probe.data_src)._metadata
+        metadata["sequence_data_md5"] = "original_interaction_annotations"
+        probe.make("same_config")
+        probe.make("same_config")
+        assert len(probe.calls) == 1
 
-    def test_inconsistent_user_folds_raises(
-        self, make_skill_model_data: Callable[..., SkillModelData]
-    ) -> None:
-        frame = _fold_frame([(0, 0), (0, 1), (1, 2)])  # user 0 in two folds
-        model_data = make_skill_model_data(split_frame=frame)
-        with pytest.raises(ValueError, match="inconsistent fold labels"):
-            model_data._build_user_folds(2)
+        metadata["sequence_data_md5"] = "changed_interaction_annotations"
+        probe.make("same_config")
+        probe.make("same_config")
+        assert len(probe.calls) == 2
 
-    def test_user_count_mismatch_raises(
-        self, make_skill_model_data: Callable[..., SkillModelData]
-    ) -> None:
-        frame = _fold_frame([(0, 0), (1, 1)])
-        model_data = make_skill_model_data(split_frame=frame)
-        with pytest.raises(ValueError, match="User count mismatch"):
-            model_data._build_user_folds(5)
-
-    def test_user_index_out_of_range_raises(
-        self, make_skill_model_data: Callable[..., SkillModelData]
-    ) -> None:
-        frame = _fold_frame([(0, 0), (7, 1)])  # 7 >= num_users=2
-        model_data = make_skill_model_data(split_frame=frame)
-        with pytest.raises(ValueError, match="User index out of range"):
-            model_data._build_user_folds(2)
-
-    def test_fold_mapping_array(
-        self, make_skill_model_data: Callable[..., SkillModelData]
-    ) -> None:
-        frame = _fold_frame([(0, 2), (1, 2), (2, 0), (3, 0), (4, -1)])
-        model_data = make_skill_model_data(split_frame=frame)
-        folds = model_data._build_user_folds(5)
-        assert folds.tolist() == [2, 2, 0, 0, -1]
-        assert folds.dtype == np.int32
-
-
-# ---------------------------------------------------------------------------
-# split_kfold_data
-# ---------------------------------------------------------------------------
-
-
-class TestSplitKfoldData:
-    @pytest.fixture
-    def split_model_data(
-        self, make_skill_model_data: Callable[..., SkillModelData]
-    ) -> SkillModelData:
-        frame = _fold_frame([(0, 0), (0, 0), (1, 1), (2, 0), (3, -1)])
-        return make_skill_model_data(split_frame=frame)
-
-    def test_val_test_train_assignment_and_union(
-        self, split_model_data: SkillModelData
-    ) -> None:
-        arr = np.arange(8, dtype=float).reshape(4, 2)
-        train, val, test = split_model_data.split_kfold_data(arr, fold_idx=1)
-
-        assert val[0].tolist() == [[2.0, 3.0]]  # fold == fold_idx
-        assert test[0].tolist() == [[6.0, 7.0]]  # fold == -1
-        assert train[0].tolist() == [[0.0, 1.0], [4.0, 5.0]]  # remaining folds
-
-        all_rows = np.concatenate([train[0], val[0], test[0]])
-        assert sorted(map(tuple, all_rows)) == sorted(
-            map(tuple, arr)
-        )  # union covers every user exactly once
-
-    def test_torch_matches_numpy_indexing(
-        self, split_model_data: SkillModelData
-    ) -> None:
-        base = np.arange(8, dtype=np.float64).reshape(4, 2)
-        tensor = torch.arange(8, dtype=torch.float32).reshape(4, 2)
-
-        np_train, np_val, _ = split_model_data.split_kfold_data(base, fold_idx=1)
-        t_train, t_val, _ = split_model_data.split_kfold_data(tensor, fold_idx=1)
-
-        assert t_train[0].tolist() == np_train[0].tolist()
-        assert t_val[0].tolist() == np_val[0].tolist()
-        assert isinstance(t_train[0], torch.Tensor)
-
-    def test_inconsistent_first_dims_raises(
-        self, split_model_data: SkillModelData
-    ) -> None:
-        with pytest.raises(ValueError, match="Input array 1 shape"):
-            split_model_data.split_kfold_data(
-                np.zeros((4, 2)), np.zeros((3, 2)), fold_idx=1
-            )
-
-    def test_no_arrays_raises(self, split_model_data: SkillModelData) -> None:
-        with pytest.raises(
-            ValueError, match="split_kfold_data requires at least one input"
-        ):
-            split_model_data.split_kfold_data(fold_idx=1)
-
-    def test_zero_rows_raises_domain_error(
-        self, make_skill_model_data: Callable[..., SkillModelData]
-    ) -> None:
-        empty = pl.DataFrame(
-            {
-                "sequence_id": pl.Series([], dtype=pl.Int64),
-                "fold": pl.Series([], dtype=pl.Int32),
-            }
-        )
-        model_data = make_skill_model_data(split_frame=empty)
-        with pytest.raises(ValueError, match="no users"):
-            model_data.split_kfold_data(np.zeros((0, 2)), fold_idx=0)
+        metadata["split_question_sequence_data_md5"] = "changed_sequence_order"
+        probe.make("same_config")
+        assert len(probe.calls) == 3
 
 
 # ---------------------------------------------------------------------------

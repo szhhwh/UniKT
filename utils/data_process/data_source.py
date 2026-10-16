@@ -39,6 +39,8 @@ _SPLIT_STRUCTURAL_COLUMNS: dict[str, tuple[str, ...]] = {
         "label",
         "user",
         "question",
+        "interaction_id",
+        "skills",
     ),
     "split_skill_sequence": (
         "sequence_id",
@@ -46,6 +48,7 @@ _SPLIT_STRUCTURAL_COLUMNS: dict[str, tuple[str, ...]] = {
         "label",
         "user",
         "question",
+        "interaction_id",
         "skill",
     ),
 }
@@ -56,6 +59,11 @@ class DataSource(ABC):
 
     Provides common functionality for downloading, loading, processing,
     and saving dataset files with metadata tracking and integrity checks.
+
+    Each canonical interaction owns a nonempty ``skills: List(Int32)``.
+    ``question`` identifies the shared item, while ``interaction_id`` identifies
+    one observation. The question-skill relation is derived from these events
+    for structural features; sequence expansion reads the event annotations.
     """
 
     # Injected by dataset-specific subclasses (Assistments2009Data, ...) —
@@ -107,6 +115,8 @@ class DataSource(ABC):
             "split_skill_sequence": {"lazy": False},
             "windowlate": {"lazy": True},
         }
+        if self.metadata_exists():
+            self.load_metadata()
 
     @property
     def raw_folder(self) -> str:
@@ -185,10 +195,81 @@ class DataSource(ABC):
         }
 
     def _sort_columns(self, primary: list[str] | None = None) -> list[str]:
-        """Get column sort order with primary keys first, remaining columns as tie-breakers."""
-        if primary is None:
-            primary = ["user", "timestamp"]
-        return primary + [c for c in self.sequence_data.columns if c not in primary]
+        """Order events by primary columns, with a unique tie-breaker last."""
+        columns = list(primary) if primary is not None else ["user", "timestamp"]
+        return columns + (["interaction_id"] if "interaction_id" not in columns else [])
+
+    def _map_interaction_skills(self, skills: pl.Expr) -> pl.Expr:
+        """Encode a source annotation using the shared skill vocabulary."""
+        return skills.list.eval(
+            pl.element().replace_strict(
+                self._id_mappings["skill"], return_dtype=pl.Int32
+            )
+        ).alias("skills")
+
+    @staticmethod
+    def _attach_metadata_skills(
+        data: pl.DataFrame, metadata_skills: pl.DataFrame
+    ) -> pl.DataFrame:
+        """Attach static item annotations during source transformation."""
+        annotations = metadata_skills.group_by("question").agg(
+            pl.col("skill").unique().sort().alias("skills")
+        )
+        return data.join(annotations, on="question", how="left", maintain_order="left")
+
+    def set_sequence_data(self, data: pl.DataFrame) -> None:
+        """Finalize canonical events and derive their structural skill relation."""
+        if "skills" not in data.columns:
+            raise ValueError(f"{self.dataset} interactions must provide skills")
+        if "interaction_id" not in data.columns:
+            raise ValueError(f"{self.dataset} interactions must provide interaction_id")
+        data = data.with_columns(
+            pl.col("skills").cast(pl.List(pl.Int32)).list.unique().list.sort(),
+            pl.col("interaction_id").cast(pl.Int64),
+        )
+        self._validate_interactions(data)
+        for key in (
+            "kfold_n_splits",
+            "test_ratio",
+            "sampled",
+            "sampling_config",
+            "sampling_stats",
+        ):
+            self.metadata.pop(key, None)
+        self._invalidate_windowlate()
+        self.sequence_data = data.sort(self._sort_columns())
+        self.relation_data["question_skill"] = (
+            data.select("question", pl.col("skills").alias("skill"))
+            .explode("skill")
+            .unique()
+        )
+
+    @staticmethod
+    def _validate_interactions(data: pl.DataFrame) -> None:
+        """Reject incomplete event annotations before expanding sequences."""
+        required = {
+            "user",
+            "question",
+            "label",
+            "timestamp",
+            "interaction_id",
+            "skills",
+        }
+        assert required <= set(data.columns), (
+            f"Missing interaction columns: {sorted(required - set(data.columns))}"
+        )
+        assert data.schema["skills"] == pl.List(pl.Int32), (
+            "skills must have dtype List(Int32)"
+        )
+        assert not data.select(
+            pl.col("skills").is_null().any()
+            | (pl.col("skills").list.len() == 0).any()
+            | pl.col("skills").list.eval(pl.element().is_null()).list.any().any()
+        ).item(), "Interaction skills must be nonempty lists without null entries"
+        assert data["interaction_id"].null_count() == 0, "interaction_id cannot be null"
+        assert data["interaction_id"].n_unique() == data.height, (
+            "interaction_id must uniquely identify each interaction"
+        )
 
     def save_data(self) -> None:
         """Save processed relation tables, sequence data, and metadata."""
@@ -236,10 +317,6 @@ class DataSource(ABC):
         split_skill_sequence_path = os.path.join(
             self.data_folder, f"{self.dataset}_split_skill_sequence.parquet"
         )
-        windowlate_data_path = os.path.join(
-            self.data_folder, f"{self.dataset}_windowlate.parquet"
-        )
-
         self.sequence_data.sort(self._sort_columns()).write_parquet(sequence_data_path)
         self.split_question_sequence_data.write_parquet(split_question_sequence_path)
         self.split_skill_sequence_data.write_parquet(split_skill_sequence_path)
@@ -287,13 +364,12 @@ class DataSource(ABC):
             f"Saved split question sequences to: {split_question_sequence_path}"
         )
         logger.debug(f"Saved split skill sequences to: {split_skill_sequence_path}")
-        if os.path.exists(windowlate_data_path):
-            metadata["windowlate_data_md5"] = self.compute_md5(windowlate_data_path)
-            logger.debug(f"Windowlate data already saved to: {windowlate_data_path}")
         logger.info(f"Data saved to {self.data_folder}")
 
         self.update_metadatas(metadata)
         self.save_metadata()
+        self._data_cache.clear()
+        self._split_schema_cache.clear()
 
     @staticmethod
     def _validate_data(
@@ -323,30 +399,17 @@ class DataSource(ABC):
             "sequence_data should not contain 'skill' column"
         )
 
-        # Validate question_id consistency
-        q_questions = set(question_skill["question"].unique().to_list())
-        s_questions = set(sequence_data["question"].unique().to_list())
-
-        missing_questions = s_questions - q_questions
-        if missing_questions:
-            raise AssertionError(
-                f"question_id mismatch: {len(missing_questions)} questions in sequence_data "
-                f"not found in question_skill relation"
-            )
-
-        assert q_questions == s_questions, (
-            f"question_id mismatch: question_skill has {len(q_questions)} unique, "
-            f"sequence_data has {len(s_questions)} unique"
+        observed = (
+            sequence_data.select("question", pl.col("skills").alias("skill"))
+            .explode("skill")
+            .unique()
         )
-
-        # Validate ID range consistency (Any: polars .max() unions trigger
-        # str-bytes-safe false positives on the f-string below)
-        q_max: Any = question_skill["question"].max()
-        s_max: Any = sequence_data["question"].max()
-        assert q_max == s_max, (
-            f"question_id range mismatch: question_skill max={q_max}, "
-            f"sequence_data max={s_max}"
-        )
+        assert observed.join(
+            question_skill, on=["question", "skill"], how="anti"
+        ).is_empty(), "Interaction skills missing from the question_skill relation"
+        assert question_skill.join(
+            observed, on=["question", "skill"], how="anti"
+        ).is_empty(), "question_skill relation contains unobserved skills"
 
         logger.info("Data validation passed!")
 
@@ -602,7 +665,7 @@ class DataSource(ABC):
         # Check if the file exists
         self._validate_data_files_exist([data_path])
         # Validate file integrity
-        self._validate_data_integrity(data_name, data_name + "_md5")
+        self._validate_data_integrity(data_path, data_name + "_data_md5")
 
         return data_path
 
@@ -727,12 +790,12 @@ class DataSource(ABC):
 
         Each relation is a 2-column DataFrame unique on (src, dst).
         """
+        if name in self.relation_data:
+            return self.relation_data[name]
         if (name, None) in self._data_cache:
             cached = self._data_cache[(name, None)]
             assert isinstance(cached, pl.DataFrame)  # relations are eager
             return cached
-        if self.relation_data and name in self.relation_data:
-            return self.relation_data[name]
         # Try loading from disk
         path = os.path.join(self.data_folder, f"{self.dataset}_relation_{name}.parquet")
         if not os.path.exists(path):
@@ -798,6 +861,12 @@ class DataSource(ABC):
             )
 
         columns = list(_SPLIT_STRUCTURAL_COLUMNS[data_type])
+        missing_core = set(columns) - available
+        if missing_core:
+            raise ValueError(
+                f"Dataset '{self.dataset}' is missing structural columns "
+                f"{sorted(missing_core)}; re-run data_process.py process."
+            )
         if "fold" in available:
             columns.append("fold")
         columns.extend(
@@ -864,6 +933,11 @@ class DataSource(ABC):
             Windowlate evaluation samples (long format).
             Columns: sample_id, position, skill, response, mask, user_id, group_id, true_label, fold
         """
+        if "windowlate_data_md5" not in self.metadata:
+            raise ValueError(
+                f"Dataset '{self.dataset}' needs windowlate preprocessing; "
+                "run data_process.py process --extra windowlate."
+            )
         data = self._load_data("windowlate")
         assert isinstance(data, pl.LazyFrame)  # windowlate is always lazy
         return data
@@ -893,11 +967,11 @@ class DataSource(ABC):
 
         with open(self.metadata_path) as f:
             self.metadata = json.load(f)
+        self._data_cache.clear()
+        self._split_schema_cache.clear()
 
     def get_metadata(self, key: str | None = None) -> Any:
         """Get metadata entry or entire metadata dict."""
-        if not self.metadata:
-            self.load_metadata()
         if key is not None and key not in self.metadata:
             raise KeyError(
                 f"Metadata key '{key}' not found in dataset '{self.dataset}'"
@@ -985,14 +1059,10 @@ class DataSource(ABC):
         return b.with_columns(pl.col("new_user_id").alias("sequence_id")), n_new
 
     @staticmethod
-    def _expand_batch_skills(
-        batch: pl.DataFrame, question_skills: pl.DataFrame
-    ) -> pl.DataFrame:
+    def _expand_batch_skills(batch: pl.DataFrame) -> pl.DataFrame:
         """Expand interactions in chronological order, with skills ascending."""
-        # The join may reorder interactions, including timestamp ties.
         return (
-            batch.join(question_skills, on="question", how="inner")
-            .explode("skills", empty_as_null=True)
+            batch.explode("skills", empty_as_null=True)
             .rename({"skills": "skill"})
             .sort(["__order", "skill"])
         )
@@ -1000,14 +1070,14 @@ class DataSource(ABC):
     def _split_batch_by_rows(
         self,
         batch: pl.DataFrame,
-        question_skills: pl.DataFrame | None,
+        expand_skills: bool,
         max_seq_len: int,
         min_seq_len: int,
         next_new_id: int,
     ) -> tuple[pl.DataFrame | None, int]:
-        """Split expanded skill rows, or question rows when skills are absent."""
-        if question_skills is not None:
-            batch = self._expand_batch_skills(batch, question_skills)
+        """Split expanded skill rows or original question rows."""
+        if expand_skills:
+            batch = self._expand_batch_skills(batch)
 
         b, n_new = self._split_batch_by_position(
             batch, max_seq_len, min_seq_len, next_new_id
@@ -1021,7 +1091,6 @@ class DataSource(ABC):
     def _split_batch_by_interaction(
         self,
         batch: pl.DataFrame,
-        question_skills: pl.DataFrame,
         max_seq_len: int,
         min_seq_len: int,
         next_new_id: int,
@@ -1032,7 +1101,7 @@ class DataSource(ABC):
         )
         if b is None:
             return None, n_new
-        b = self._expand_batch_skills(b, question_skills)
+        b = self._expand_batch_skills(b)
         b = b.with_columns(
             pl.int_range(pl.len()).over("sequence_id").alias("relative_pos")
         )
@@ -1054,26 +1123,18 @@ class DataSource(ABC):
         """
         max_seq_len = self.args.max_seq_len
         min_seq_len = self.args.min_seq_len
-        seq_cols = list(self.sequence_data.columns)
+        seq_cols = [
+            c
+            for c in self.sequence_data.columns
+            if not (expand_skills and c == "skills")
+        ]
         out_cols = [pl.col(c) for c in seq_cols]
         out_cols.append(pl.col("sequence_id"))
         if expand_skills:
             out_cols.append(pl.col("skill"))
         out_cols.append(pl.col("relative_pos").alias("seq_pos"))
 
-        # Break timestamp ties with the remaining columns.
         self.sequence_data = self.sequence_data.sort(self._sort_columns())
-
-        question_skills = None
-        if expand_skills:
-            if not self.relation_data or "question_skill" not in self.relation_data:
-                raise ValueError("question_skill relation not available.")
-            question_skills = (
-                self.relation_data["question_skill"]
-                .sort("question", "skill")
-                .group_by("question")
-                .agg(pl.col("skill").sort().alias("skills"))
-            )
 
         truncate_pre_expansion = (
             expand_skills and self.args.truncation_stage == "pre_expansion"
@@ -1100,10 +1161,8 @@ class DataSource(ABC):
                 batch = batch.with_columns(pl.int_range(pl.len()).alias("__order"))
 
             if truncate_pre_expansion:
-                assert question_skills is not None  # set when expand_skills
                 b, n_new = self._split_batch_by_interaction(
                     batch,
-                    question_skills,
                     max_seq_len,
                     min_seq_len,
                     next_new_id,
@@ -1111,7 +1170,7 @@ class DataSource(ABC):
             else:
                 b, n_new = self._split_batch_by_rows(
                     batch,
-                    question_skills,
+                    expand_skills,
                     max_seq_len,
                     min_seq_len,
                     next_new_id,
@@ -1169,9 +1228,6 @@ class DataSource(ABC):
             raise ValueError(
                 "No processed data available. Please call load_processed_data() or clear_data() first."
             )
-        if not self.relation_data or "question_skill" not in self.relation_data:
-            raise ValueError("question_skill relation not available.")
-
         self.split_skill_sequence_data = self._build_split_sequences(expand_skills=True)
         logger.debug(
             f"Split into {self.split_skill_sequence_data['sequence_id'].n_unique()} "
@@ -1187,8 +1243,6 @@ class DataSource(ABC):
             raise ValueError(
                 "No processed data available. Please call load_processed_data() or clear_data() first."
             )
-        if not self.relation_data or "question_skill" not in self.relation_data:
-            raise ValueError("question_skill relation not available.")
         if "fold" not in self.sequence_data.columns:
             raise ValueError(
                 "K-fold labels not found in data. Please call add_kfold_labels() first."
@@ -1198,6 +1252,7 @@ class DataSource(ABC):
         test_data = self.sequence_data.filter(pl.col("fold") == -1)
         if len(test_data) == 0:
             raise ValueError("No test-set interactions (fold == -1) found")
+        self._invalidate_windowlate()
 
         max_seq_len = self.args.max_seq_len
         truncation_stage = self.args.truncation_stage
@@ -1218,7 +1273,6 @@ class DataSource(ABC):
         # Build and save directly to file
         max_windowlate_seq_len = WindowlateProcessor.build(
             test_data=test_data,
-            question_data=self.relation_data["question_skill"],
             max_seq_len=max_seq_len,
             truncation_stage=truncation_stage,
             output_path=output_path,
@@ -1227,7 +1281,18 @@ class DataSource(ABC):
         # Padded length consumed by windowlate evaluation: with
         # truncation_stage="pre_expansion" a window keeps max_seq_len whole
         # interactions, so its row count may exceed max_seq_len.
-        self.update_metadata("max_windowlate_seq_len", max_windowlate_seq_len)
+        self.update_metadatas(
+            {
+                "max_windowlate_seq_len": max_windowlate_seq_len,
+                "windowlate_data_md5": self.compute_md5(output_path),
+            }
+        )
+
+    def _invalidate_windowlate(self) -> None:
+        """Revoke the saved windows when their source events change."""
+        self.metadata.pop("windowlate_data_md5", None)
+        self.metadata.pop("max_windowlate_seq_len", None)
+        self._data_cache.pop(("windowlate", None), None)
 
     def add_kfold_labels(self, n_splits: int = 5, test_ratio: float = 0.2) -> None:
         """Add K-fold cross-validation labels with test set separation.
@@ -1288,6 +1353,7 @@ class DataSource(ABC):
         self.sequence_data = self.sequence_data.join(
             user_fold_map, on="user", how="left"
         )
+        self._invalidate_windowlate()
         self.update_metadata("kfold_n_splits", n_splits)
         self.update_metadata("test_ratio", test_ratio)
 
@@ -1314,11 +1380,9 @@ class DataSource(ABC):
             pl.col("label").sum().alias("correct"),
         )
 
-        user_skill = self.sequence_data.select(["user", "question"]).join(
-            self.relation_data["question_skill"].select(["question", "skill"]),
-            on="question",
-            how="left",
-        )
+        user_skill = self.sequence_data.select(
+            "user", pl.col("skills").alias("skill")
+        ).explode("skill")
         skill_stats = user_skill.group_by("user").agg(
             pl.col("skill").n_unique().alias("skill_count")
         )
@@ -1615,6 +1679,12 @@ class DataSource(ABC):
 
     def _remap_question_ids(self) -> None:
         """Filter and remap question IDs and entity IDs to consecutive integers."""
+        self._invalidate_windowlate()
+        self.relation_data["question_skill"] = (
+            self.sequence_data.select("question", pl.col("skills").alias("skill"))
+            .explode("skill")
+            .unique()
+        )
         active_questions = self.sequence_data.select(pl.col("question").unique())
 
         # Step 1: Filter all relations to only active questions
@@ -1664,7 +1734,17 @@ class DataSource(ABC):
                 df.join(entity_id_map, on=entity_col, how="left")
                 .drop(entity_col)
                 .rename({f"new_{entity_col}": entity_col})
+                .sort("question", entity_col)
             )
+            if entity_col == "skill":
+                skill_map = dict(
+                    zip(entity_id_map["skill"], entity_id_map["new_skill"])
+                )
+                self.sequence_data = self.sequence_data.with_columns(
+                    pl.col("skills").list.eval(
+                        pl.element().replace_strict(skill_map, return_dtype=pl.Int32)
+                    )
+                )
 
     def _compute_strata_distribution(
         self, sampled_users: list[int], user_stats: pl.DataFrame

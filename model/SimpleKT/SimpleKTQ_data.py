@@ -40,15 +40,15 @@ class SimpleKTQModelData(QuestionModelData):
 
     @override
     def prepare_data(self, rc: Any) -> tuple:
-        user_question, user_response, user_mask, _ = self.load_sequence_data()
+        data = self.load_split_data()
+        sequences = self.pack_sequences(data)
+        partition = sequences.partition(rc.data.fold)
+        user_question = sequences.question
+        user_response = sequences.response
+        user_mask = sequences.mask
 
-        train_data, val_data, test_data = self.split_kfold_data(
-            user_question, user_response, user_mask, fold_idx=rc.data.fold
-        )
-
-        train_dataset = SimpleKTQDataset(train_data[0], train_data[1], train_data[2])
-        val_dataset = SimpleKTQDataset(val_data[0], val_data[1], val_data[2])
-        test_dataset = SimpleKTQDataset(test_data[0], test_data[1], test_data[2])
+        dataset = SimpleKTQDataset(user_question, user_response, user_mask)
+        train_dataset, val_dataset, test_dataset = partition.apply(dataset)
 
         logger.info(
             f"SimpleKTQ data prepared: train={len(train_dataset)}, "

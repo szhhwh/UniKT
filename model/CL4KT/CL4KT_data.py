@@ -7,12 +7,13 @@ from typing import Any
 
 import numpy as np
 import torch
-from torch.utils.data import Dataset
+from torch.utils.data import Dataset, Subset
 from typing_extensions import override
 
 from utils.core import get_logger
 from utils.data_process import DataSource
 from utils.model_data import SkillModelData
+from utils.model_data.packed_sequences import to_first_skill_ids
 
 logger = get_logger(__name__)
 
@@ -152,6 +153,7 @@ class CL4KTTrainDataset(Dataset):
         aug_probs: dict,
         easier_skills: dict,
         harder_skills: dict,
+        sequence_ids: np.ndarray,
     ):
         self.skills = skills.astype(np.int64)
         self.responses = responses.astype(np.int64)
@@ -161,6 +163,7 @@ class CL4KTTrainDataset(Dataset):
         self.aug_probs = aug_probs
         self.easier_skills = easier_skills
         self.harder_skills = harder_skills
+        self.sequence_ids = sequence_ids
 
     def __len__(self) -> int:
         return len(self.skills)
@@ -186,8 +189,9 @@ class CL4KTTrainDataset(Dataset):
         s = self.skills[idx]
         r = self.responses[idx]
         m = self.masks[idx]
-        s1, r1, m1, neg_r = self._augment(s, r, m, seed=2 * idx)
-        s2, r2, m2, _ = self._augment(s, r, m, seed=2 * idx + 1)
+        seed = 2 * int(self.sequence_ids[idx])
+        s1, r1, m1, neg_r = self._augment(s, r, m, seed=seed)
+        s2, r2, m2, _ = self._augment(s, r, m, seed=seed + 1)
         skills = (
             torch.from_numpy(s1),
             torch.from_numpy(s2),
@@ -230,14 +234,16 @@ class CL4KTModelData(SkillModelData):
 
     @override
     def prepare_data(self, rc: Any) -> tuple:
-        fold_idx = rc.data.fold
-        user_sequence, user_response, user_mask, _, _ = self.build_sequence_data()
+        data = self.load_split_data()
+        sequences = self.pack_sequences(data)
+        partition = sequences.partition(rc.data.fold)
+        user_sequence = to_first_skill_ids(sequences.skills)
+        user_response = sequences.response
+        user_mask = sequences.mask
 
-        train_split, val_split, _ = self.split_kfold_data(
-            user_sequence, user_response, user_mask, fold_idx=fold_idx
-        )
-        train_s, train_r, train_m = train_split
-        val_s, val_r, val_m = val_split
+        train_s = user_sequence[partition.train]
+        train_r = user_response[partition.train]
+        train_m = user_mask[partition.train]
 
         seq_len = self.data_src.get_metadata("max_skill_seq_len")
         num_skills = self.data_src.get_metadata("num_skills")
@@ -256,16 +262,21 @@ class CL4KTModelData(SkillModelData):
         )
 
         train_dataset = CL4KTTrainDataset(
-            train_s,
-            train_r,
-            train_m,
+            user_sequence,
+            user_response,
+            user_mask,
             seq_len,
             mask_token_id,
             aug_probs,
             easier_skills,
             harder_skills,
+            sequences.sequence_id,
         )
-        val_dataset = CL4KTEvalDataset(val_s, val_r, val_m)
+        train_dataset = Subset(train_dataset, partition.train.tolist())
+        val_dataset = Subset(
+            CL4KTEvalDataset(user_sequence, user_response, user_mask),
+            partition.val.tolist(),
+        )
         test_dataset = self.create_windowlate_dataloader(
             batch_size=rc.model.batch_size,
             shuffle=False,

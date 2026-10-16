@@ -76,27 +76,28 @@ class Assistments2017Data(DataSource):
             .rename({"question_id": "question"})
         )
 
-        question_skill = mapped_data.select(["question", "skill"]).unique(
-            subset=["question", "skill"], keep="first"
-        )
         question_assignment = mapped_data.select(["question", "assignment"]).unique(
             subset=["question", "assignment"]
         )
 
-        self._build_id_mapping(question_skill, ["skill"])
+        self._build_id_mapping(mapped_data, ["skill"])
         self._build_id_mapping(question_assignment, ["assignment"])
         logger.debug(
             f"ID mappings: skills={self._get_mapped_count('skill')}, "
             f"assignments={self._get_mapped_count('assignment')}"
         )
 
-        question_skill = self._apply_id_mapping(question_skill, columns=["skill"])
         question_assignment = self._apply_id_mapping(
             question_assignment, columns=["assignment"]
         )
 
+        mapped_data = mapped_data.with_columns(
+            self._map_interaction_skills(pl.concat_list("skill"))
+        )
         sequence_data = mapped_data.select(
             [
+                "interaction_id",
+                "skills",
                 "user",
                 "question",
                 "label",
@@ -112,106 +113,111 @@ class Assistments2017Data(DataSource):
         logger.debug(f"Built user ID mapping: {self._get_mapped_count('user')} users")
 
         self.relation_data = {
-            "question_skill": question_skill,
             "question_assignment": question_assignment,
         }
-        self.sequence_data = sequence_data
+        self.set_sequence_data(sequence_data)
 
     def clean_raw_data(self) -> None:
         """Clean raw action-level data."""
         if self.raw_data is None:
             self.load_src_data()
 
-        data = self.raw_data.drop(
-            [
-                "MiddleSchoolId",
-                "InferredGender",
-                "SY ASSISTments Usage",
-                "AveKnow",
-                "AveCarelessness",
-                "AveCorrect",
-                "NumActions",
-                "AveResBored",
-                "AveResEngcon",
-                "AveResConf",
-                "AveResFrust",
-                "AveResOfftask",
-                "AveResGaming",
-                "action_num",
-                "problemType",
-                "assistmentId",
-                "endTime",
-                "hint",
-                "hintTotal",
-                "scaffold",
-                "bottomHint",
-                "frIsHelpRequest",
-                "frPast5HelpRequest",
-                "frPast8HelpRequest",
-                "stlHintUsed",
-                "past8BottomOut",
-                "totalFrPercentPastWrong",
-                "totalFrPastWrongCount",
-                "frPast5WrongCount",
-                "frPast8WrongCount",
-                "totalFrTimeOnSkill",
-                "timeSinceSkill",
-                "frWorkingInSchool",
-                "totalFrAttempted",
-                "totalFrSkillOpportunities",
-                "responseIsFillIn",
-                "responseIsChosen",
-                "endsWithScaffolding",
-                "endsWithAutoScaffolding",
-                "frTimeTakenOnScaffolding",
-                "frTotalSkillOpportunitiesScaffolding",
-                "totalFrSkillOpportunitiesByScaffolding",
-                "frIsHelpRequestScaffolding",
-                "timeGreater5Secprev2wrong",
-                "sumRight",
-                "helpAccessUnder2Sec",
-                "timeGreater10SecAndNextActionRight",
-                "consecutiveErrorsInRow",
-                "sumTime3SDWhen3RowRight",
-                "sumTimePerSkill",
-                "totalTimeByPercentCorrectForskill",
-                "Prev5count",
-                "timeOver80",
-                "manywrong",
-                "confidence(BORED)",
-                "confidence(CONCENTRATING)",
-                "confidence(CONFUSED)",
-                "confidence(FRUSTRATED)",
-                "confidence(OFF TASK)",
-                "confidence(GAMING)",
-                "RES_BORED",
-                "RES_CONCENTRATING",
-                "RES_CONFUSED",
-                "RES_FRUSTRATED",
-                "RES_OFFTASK",
-                "RES_GAMING",
-                "Ln-1",
-                "Ln",
-                "MCAS",
-                "Enrolled",
-                "Selective",
-                "isSTEM",
-            ]
-        ).rename(
-            {
-                "studentId": "user",
-                "problemId": "question",
-                "correct": "label",
-                "skill": "skill",
-                "assignmentId": "assignment",
-                "hintCount": "hint_count",
-                "attemptCount": "attempt_count",
-                "startTime": "timestamp",
-                "timeTaken": "ms_first_response",
-            }
+        data = (
+            self.raw_data.with_row_index("interaction_id")
+            .drop(
+                [
+                    "MiddleSchoolId",
+                    "InferredGender",
+                    "SY ASSISTments Usage",
+                    "AveKnow",
+                    "AveCarelessness",
+                    "AveCorrect",
+                    "NumActions",
+                    "AveResBored",
+                    "AveResEngcon",
+                    "AveResConf",
+                    "AveResFrust",
+                    "AveResOfftask",
+                    "AveResGaming",
+                    "action_num",
+                    "problemType",
+                    "assistmentId",
+                    "endTime",
+                    "hint",
+                    "hintTotal",
+                    "scaffold",
+                    "bottomHint",
+                    "frIsHelpRequest",
+                    "frPast5HelpRequest",
+                    "frPast8HelpRequest",
+                    "stlHintUsed",
+                    "past8BottomOut",
+                    "totalFrPercentPastWrong",
+                    "totalFrPastWrongCount",
+                    "frPast5WrongCount",
+                    "frPast8WrongCount",
+                    "totalFrTimeOnSkill",
+                    "timeSinceSkill",
+                    "frWorkingInSchool",
+                    "totalFrAttempted",
+                    "totalFrSkillOpportunities",
+                    "responseIsFillIn",
+                    "responseIsChosen",
+                    "endsWithScaffolding",
+                    "endsWithAutoScaffolding",
+                    "frTimeTakenOnScaffolding",
+                    "frTotalSkillOpportunitiesScaffolding",
+                    "totalFrSkillOpportunitiesByScaffolding",
+                    "frIsHelpRequestScaffolding",
+                    "timeGreater5Secprev2wrong",
+                    "sumRight",
+                    "helpAccessUnder2Sec",
+                    "timeGreater10SecAndNextActionRight",
+                    "consecutiveErrorsInRow",
+                    "sumTime3SDWhen3RowRight",
+                    "sumTimePerSkill",
+                    "totalTimeByPercentCorrectForskill",
+                    "Prev5count",
+                    "timeOver80",
+                    "manywrong",
+                    "confidence(BORED)",
+                    "confidence(CONCENTRATING)",
+                    "confidence(CONFUSED)",
+                    "confidence(FRUSTRATED)",
+                    "confidence(OFF TASK)",
+                    "confidence(GAMING)",
+                    "RES_BORED",
+                    "RES_CONCENTRATING",
+                    "RES_CONFUSED",
+                    "RES_FRUSTRATED",
+                    "RES_OFFTASK",
+                    "RES_GAMING",
+                    "Ln-1",
+                    "Ln",
+                    "MCAS",
+                    "Enrolled",
+                    "Selective",
+                    "isSTEM",
+                ]
+            )
+            .rename(
+                {
+                    "studentId": "user",
+                    "problemId": "question",
+                    "correct": "label",
+                    "skill": "skill",
+                    "assignmentId": "assignment",
+                    "hintCount": "hint_count",
+                    "attemptCount": "attempt_count",
+                    "startTime": "timestamp",
+                    "timeTaken": "ms_first_response",
+                }
+            )
         )
 
-        data = data.unique().collect()
+        data = data.unique(
+            subset=pl.exclude("interaction_id"), keep="first", maintain_order=True
+        ).collect()
 
         data = data.with_columns(
             (pl.col("timestamp") * 1000).cast(pl.Int64).alias("timestamp"),
@@ -225,7 +231,7 @@ class Assistments2017Data(DataSource):
             .alias("timestamp")
         )
 
-        data = data.sort(["user", "timestamp"])
+        data = data.sort(self._sort_columns())
         data = data.with_columns(pl.col("user").cast(pl.Int32))
         data = data.filter(pl.col("skill").is_not_null())
         data = data.filter(pl.col("label").is_in([0, 1]))

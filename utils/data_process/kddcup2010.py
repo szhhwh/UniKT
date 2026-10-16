@@ -21,11 +21,11 @@ class KDDCup2010Base(DataSource):
     Step Name, ..., First Transaction Time, ..., Correct First Attempt,
     ..., KC(Default) or KC(SubSkills), Opportunity(...)
 
-    Questions are identified by problem and step names across curriculum contexts.
+    Steps retain independent interactions while sharing their problem identity.
     """
 
     skill_column: str  # Subclass must set: e.g. "KC(Default)" or "KC(SubSkills)"
-    question_columns: tuple[str, ...] = ("Problem Name", "Step Name")
+    question_columns: tuple[str, ...] = ("Problem Name",)
 
     def __init__(self, args: Any, dataset: str, raw_filename: str) -> None:
         """Initialize the KDD Cup 2010 base dataset handler."""
@@ -163,7 +163,9 @@ class KDDCup2010Base(DataSource):
             (pl.col("timestamp") - min_ts).alias("timestamp")
         ).drop(["raw_timestamp", "raw_label"])
 
-        data = data.sort(["user", "timestamp", "row_idx"]).drop("row_idx")
+        data = data.sort(["user", "timestamp", "row_idx"]).rename(
+            {"row_idx": "interaction_id"}
+        )
 
         data = exclude_short_sequences(data, self.args.min_seq_len)
 
@@ -198,44 +200,27 @@ class KDDCup2010Base(DataSource):
             .rename({"question_id": "question"})
         )
 
-        # Split multi-skill by "~~" and build question_skill relation
-        question_skill_sets = mapped_data.select(["question", "skill"]).unique(
-            subset=["question", "skill"], keep="first"
-        )
-        multi_kc_question_count = (
-            question_skill_sets.group_by("question")
-            .agg(pl.col("skill").n_unique().alias("num_skill_sets"))
-            .filter(pl.col("num_skill_sets") > 1)
-            .height
-        )
-        if multi_kc_question_count > 0:
-            logger.debug(
-                f"{self.dataset}: {multi_kc_question_count} questions have "
-                "multiple KC annotations across rows, taking union."
-            )
+        skill_data = mapped_data.select(
+            pl.col("skill").unique().str.split("~~")
+        ).explode("skill", empty_as_null=True)
+        self._build_id_mapping(skill_data, ["skill"])
 
-        question_skill = (
-            question_skill_sets.filter(pl.col("skill").is_not_null())
-            .with_columns(pl.col("skill").str.split("~~").alias("skill_parts"))
-            .explode("skill_parts", empty_as_null=True)
-            .with_columns(pl.col("skill_parts").cast(pl.String).alias("skill"))
-            .select(["question", "skill"])
-            .unique(subset=["question", "skill"], keep="first")
+        # Keep the observed annotations separate from the question-level relation.
+        sequence_data = mapped_data.select(
+            [
+                "user",
+                "question",
+                "label",
+                "timestamp",
+                pl.col("interaction_id").cast(pl.Int64),
+                self._map_interaction_skills(pl.col("skill").str.split("~~")),
+            ]
         )
-
-        self._build_id_mapping(question_skill, ["skill"])
-        question_skill = self._apply_id_mapping(question_skill, columns=["skill"])
-
-        # Build final sequence_data
-        sequence_data = mapped_data.select(["user", "question", "label", "timestamp"])
 
         self._build_id_mapping(sequence_data, ["user"])
         sequence_data = self._apply_id_mapping(sequence_data, columns=["user"])
 
-        self.relation_data = {
-            "question_skill": question_skill,
-        }
-        self.sequence_data = sequence_data
+        self.set_sequence_data(sequence_data)
 
 
 @register_data_source("algebra2005")

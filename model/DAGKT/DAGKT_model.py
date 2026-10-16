@@ -180,7 +180,7 @@ class DAGKT(nn.Module):
         user_response: torch.Tensor,  # [B, S]
         user_mask: torch.Tensor,  # [B, S]
         graph: Any,
-        question_skill_matrix: torch.Tensor,  # [Q, K]
+        skills: torch.Tensor,  # [B, S, K]
         attempt_counts: torch.Tensor,  # [B, S]
     ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
         """前向传播。
@@ -190,7 +190,7 @@ class DAGKT(nn.Module):
             user_response: 用户回答序列 [B, S]
             user_mask: 有效位置掩码 [B, S]
             graph: 问题-技能异构图
-            question_skill_matrix: 问题-技能关联矩阵 [Q, K]
+            skills: 本次交互的技能列表 [B, S, K]，以 num_skills 填充
             attempt_counts: 每个学生对每题的累计尝试次数 [B, S]
 
         Returns:
@@ -243,12 +243,6 @@ class DAGKT(nn.Module):
             self.transdiff(torch.cat([next_q_emb, next_diff_emb], dim=-1))
         )  # [B, S, E]
 
-        # Next-step response embeddings feed the knowledge_status built in GeneralInteraction
-        next_user_response = torch.zeros_like(user_response)  # [B, S]
-        if S > 1:
-            next_user_response[:, :-1] = user_response[:, 1:]
-            next_user_response[:, -1] = 0
-
         history_question_neighbors = self.history_review(
             q_emb,
             next_q_emb,
@@ -260,51 +254,22 @@ class DAGKT(nn.Module):
             [lstm_output.unsqueeze(2), history_question_neighbors], dim=2
         )  # [B, S, M+1, H]
 
-        q_skill_vectors = question_skill_matrix[
-            next_user_sequence
-        ]  # [B, S, num_skills]
-
-        sorted_skill_indices = torch.argsort(
-            q_skill_vectors, dim=-1, descending=True
-        )  # [B, S, num_skills]
-
-        max_skills_per_question = int(q_skill_vectors.sum(dim=-1).max().item())
-        skill_counts = q_skill_vectors.sum(dim=-1).long()  # [B, S]
-
-        related_skill_ids = sorted_skill_indices[
-            ..., :max_skills_per_question
-        ].clone()  # [B, S, K]
-
-        device = next_user_sequence.device
-        pos = torch.arange(max_skills_per_question, device=device).view(
-            1, 1, -1
-        )  # [1, 1, K]
-        valid_pos_mask = pos < skill_counts.unsqueeze(-1)  # [B, S, K]
-
-        padding_index = skill_conv.size(0)
-        padding_ids = torch.full_like(related_skill_ids, padding_index)
-        related_skill_ids = torch.where(
-            valid_pos_mask, related_skill_ids, padding_ids
-        )  # [B, S, K]
-
-        skill_conv_padded = torch.cat(
-            [
-                skill_conv,
-                torch.zeros(1, self.hidden_dim, device=device, dtype=skill_conv.dtype),
-            ],
-            dim=0,
-        )  # [num_skills+1, H]
-
+        related_skill_ids = torch.cat([skills[:, 1:], skills[:, -1:]], dim=1)
+        skill_slot_mask = related_skill_ids != skill_conv.size(0)
+        skill_conv_padded = F.pad(skill_conv, (0, 0, 0, 1))
         related_skill_embs = skill_conv_padded[related_skill_ids]
 
         # knowledge_status uses next_q_fused (already difficulty-fused) as the question representation
         knowledge_status = torch.cat(
             [next_q_fused.unsqueeze(2), related_skill_embs],
             dim=2,
-        )  # [B, S, max_skills_per_question+1, E/H]
+        )  # [B, S, K+1, E]
 
         logits = self.general_interaction(
-            student_status, knowledge_status, user_mask
+            student_status,
+            knowledge_status,
+            user_mask,
+            skill_slot_mask=skill_slot_mask,
         )  # [B, S]
 
         return logits, loss_diff, loss_attempt

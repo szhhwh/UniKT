@@ -17,6 +17,7 @@ import polars as pl
 
 from utils.core import get_logger
 from utils.data_process import DataSource
+from utils.model_data.packed_sequences import PackedSequences, pack_sequences
 
 logger = get_logger(__name__)
 
@@ -56,9 +57,9 @@ class BaseModelData(ABC):
     ) -> pl.DataFrame:
         """Load split sequences projected to the declared columns.
 
-        Returns the structural core (sequence_id/seq_pos/label/user/
-        question[/skill], plus fold when present) with the declared feature
-        columns merged in.
+        Returns the structural core (sequence_id/seq_pos/label/user/question/
+        interaction_id, plus skills or skill and fold when present) with the
+        declared feature columns merged in.
 
         Args:
             required: Feature columns that must exist in the dataset;
@@ -69,6 +70,16 @@ class BaseModelData(ABC):
                 handle the fallback.
         """
         return self._split_getter(required=required, optional=optional)
+
+    _sequence_length_key: str
+
+    def pack_sequences(self, data: pl.DataFrame) -> PackedSequences:
+        """Pack loaded rows with their sequence identity and fold membership."""
+        return pack_sequences(
+            data,
+            max_seq_len=self.data_src.get_metadata(self._sequence_length_key),
+            num_folds=self.data_src.get_metadata("kfold_n_splits"),
+        )
 
     @overload
     @staticmethod
@@ -103,7 +114,7 @@ class BaseModelData(ABC):
 
         Notes:
             - Caching is only enabled when the instance's ``self._cache`` is True.
-            - Cache key is built from the class name, function name, and arguments.
+            - Cache keys include method arguments and processed-data checksums.
             - Cache directory: ``.cache/<ClassName>/``.
         """
 
@@ -166,11 +177,20 @@ class BaseModelData(ABC):
                 target_dir.mkdir(parents=True, exist_ok=True)
 
                 method_name = cache_name or func.__name__
-                dataset_tag = getattr(getattr(self, "data_src", None), "dataset", None)
+                data_src = self.data_src
+                metadata = data_src.get_metadata()
+                data_checksums = tuple(
+                    sorted(
+                        (key, value)
+                        for key, value in metadata.items()
+                        if key.endswith("_md5")
+                    )
+                )
                 key_payload = (
                     class_name,
                     func.__name__,
-                    dataset_tag,
+                    data_src.dataset,
+                    data_checksums,
                     _normalize_for_key(args),
                     _normalize_for_key(kwargs),
                 )
@@ -212,75 +232,6 @@ class BaseModelData(ABC):
 
         return decorator
 
-    def _get_kfold_data(self) -> pl.DataFrame:
-        """Retrieve the K-fold label data source for this model data.
-
-        Subclasses should override this method to return the actual sequence
-        data they use (e.g. split_skill_sequence or split_question_sequence).
-
-        Returns:
-            polars.LazyFrame: Data containing user and fold columns.
-        """
-        return self.data_src.get_sequence_data()
-
-    def _build_user_folds(self, num_users: int) -> np.ndarray:
-        """Build a user-to-fold mapping array from K-fold data.
-
-        Args:
-            num_users: Number of users.
-
-        Returns:
-            np.ndarray: user_folds[user_idx] = fold_label.
-
-        Raises:
-            ValueError: If the fold column is missing, the fold data is empty,
-                or user counts mismatch.
-        """
-        data = self._get_kfold_data()
-
-        if "fold" not in data.columns:
-            raise ValueError(
-                "K-fold labels not found in data. Please call data_src.add_kfold_labels() first."
-            )
-
-        id_col = "sequence_id" if "sequence_id" in data.columns else "user"
-
-        inconsistent = (
-            data.group_by(id_col)
-            .agg(pl.col("fold").n_unique().alias("fold_nunique"))
-            .filter(pl.col("fold_nunique") > 1)
-        )
-        if inconsistent.height > 0:
-            raise ValueError("Found users with inconsistent fold labels")
-
-        user_fold = data.select([id_col, "fold"]).unique(subset=[id_col], keep="first")
-
-        if user_fold.height != num_users:
-            raise ValueError(
-                f"User count mismatch: fold data has {user_fold.height} users, "
-                f"but model data has {num_users} users. "
-                f"Ensure K-fold labels are added to the correct data source."
-            )
-
-        user_idx = user_fold[id_col].to_numpy()
-        fold_label = user_fold["fold"].to_numpy()
-
-        if user_idx.size == 0:
-            raise ValueError(
-                "Fold data contains no users; add K-fold labels to a non-empty "
-                "data source before splitting."
-            )
-
-        if user_idx.min() < 0 or user_idx.max() >= num_users:
-            raise ValueError(
-                f"User index out of range: min={int(user_idx.min())}, max={int(user_idx.max())}, "
-                f"num_users={num_users}"
-            )
-
-        user_folds = np.full(num_users, -1, dtype=np.int32)
-        user_folds[user_idx] = fold_label
-        return user_folds
-
     @abstractmethod
     def prepare_data(self, args: Any) -> Any:
         """Prepare data required by the model.
@@ -289,92 +240,6 @@ class BaseModelData(ABC):
             args: Configuration arguments.
         """
         raise NotImplementedError("Subclasses should implement prepare_data method")
-
-    def split_kfold_data(
-        self, *arrays: Any, fold_idx: int
-    ) -> tuple[tuple[Any, ...], tuple[Any, ...], tuple[Any, ...]]:
-        """Split data into train, validation, and test sets by K-fold index.
-
-        Args:
-            *arrays: Any number of arrays or tensors with users as the first dimension.
-            fold_idx: Current fold index (keyword-only, required).
-
-        Returns:
-            train_data: Tuple of train slices with the same structure as input.
-            val_data: Tuple of validation slices.
-            test_data: Tuple of test slices.
-
-        Notes:
-            - Validation set uses the specified fold (fold_idx); test set uses
-              fold == -1; training set uses remaining folds.
-            - Requires user-to-row-index mapping in the data source.
-        """
-        import numpy as np
-
-        # Validate inputs
-        if len(arrays) == 0:
-            raise ValueError(
-                "split_kfold_data requires at least one input array/tensor"
-            )
-
-        # Get valid user indices
-        num_users = arrays[0].shape[0]
-        # Validate consistent user count across all inputs
-        for i, arr in enumerate(arrays):
-            if arr.shape[0] != num_users:
-                raise ValueError(
-                    f"Input array {i} shape is {arr.shape}, but expected shape is (num_users, *)"
-                )
-
-        # Build user fold information mapping
-        user_folds = self._build_user_folds(num_users)
-
-        # Split users by fold label:
-        # Validation: fold == fold_idx
-        # Test: fold == -1
-        # Training: fold != fold_idx and fold != -1
-        train_user_indices = np.where((user_folds != fold_idx) & (user_folds != -1))[0]
-        val_user_indices = np.where(user_folds == fold_idx)[0]
-        test_user_indices = np.where(user_folds == -1)[0]
-
-        train_idx_list = train_user_indices[train_user_indices < num_users].tolist()
-        val_idx_list = val_user_indices[val_user_indices < num_users].tolist()
-        test_idx_list = test_user_indices[test_user_indices < num_users].tolist()
-
-        train_slices = []
-        val_slices = []
-        test_slices = []
-        for arr in arrays:
-            # Detect torch.Tensor
-            is_torch_tensor = False
-            try:
-                import torch
-
-                is_torch_tensor = hasattr(arr, "dim") and hasattr(arr, "index_select")
-            except Exception:
-                is_torch_tensor = False
-
-            if is_torch_tensor:
-                import torch
-
-                train_idx = torch.tensor(
-                    train_idx_list, dtype=torch.long, device=arr.device
-                )
-                val_idx = torch.tensor(
-                    val_idx_list, dtype=torch.long, device=arr.device
-                )
-                test_idx = torch.tensor(
-                    test_idx_list, dtype=torch.long, device=arr.device
-                )
-                train_slices.append(arr.index_select(0, train_idx))
-                val_slices.append(arr.index_select(0, val_idx))
-                test_slices.append(arr.index_select(0, test_idx))
-            else:
-                train_slices.append(arr[train_idx_list])
-                val_slices.append(arr[val_idx_list])
-                test_slices.append(arr[test_idx_list])
-
-        return tuple(train_slices), tuple(val_slices), tuple(test_slices)
 
     def calculate_question_difficulty(
         self, exclude_fold: int | None = None

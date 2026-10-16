@@ -3,6 +3,7 @@
 from typing import Any
 
 import numpy as np
+import polars as pl
 import torch
 from torch.utils.data import Dataset
 from typing_extensions import override
@@ -115,30 +116,27 @@ class STHKTModelData(QuestionModelData):
         num_users = self.data_src.get_metadata("num_users")
         max_seq_len = self.data_src.get_metadata("max_question_seq_len")
 
-        user_sequence, user_response, user_mask, _ = self.load_sequence_data()
+        data = self.load_split_data()
+        sequences = self.pack_sequences(data)
+        partition = sequences.partition(rc.data.fold)
+        user_sequence = sequences.question
+        user_response = sequences.response
+        user_mask = sequences.mask
 
         # Shift questions to 1-based (0 = padding); mark padded responses as 2
         # so they index a dedicated row of the answer embedding.
         question = np.where(user_mask == 1, user_sequence + 1, 0)
         response = np.where(user_mask == 1, user_response, 2)
 
-        fold_idx = rc.data.fold if rc.data.fold >= 0 else None
-        if fold_idx is None:
-            raise ValueError("K-fold cross-validation is not enabled (fold < 0).")
-
-        train_slices, val_slices, test_slices = self.split_kfold_data(
-            question, response, user_mask, fold_idx=fold_idx
-        )
-        train_dataset = STHKTDataset(*train_slices)
-        val_dataset = STHKTDataset(*val_slices)
-        test_dataset = STHKTDataset(*test_slices)
+        dataset = STHKTDataset(question, response, user_mask)
+        train_dataset, val_dataset, test_dataset = partition.apply(dataset)
 
         logger.info(
             f"STHKT dataset sizes: train={len(train_dataset)}, "
             f"val={len(val_dataset)}, test={len(test_dataset)}"
         )
 
-        graph_data = self._build_graph_data(num_questions, num_skills, num_users)
+        graph_data = self._build_graph_data(data, num_questions, num_skills, num_users)
 
         info = {
             "graph_data": graph_data,
@@ -150,7 +148,7 @@ class STHKTModelData(QuestionModelData):
         return train_dataset, val_dataset, test_dataset, info
 
     def _build_graph_data(
-        self, num_questions: int, num_skills: int, num_users: int
+        self, data: pl.DataFrame, num_questions: int, num_skills: int, num_users: int
     ) -> dict[str, Any]:
         """Build the graph-side inputs for both graph modules.
 
@@ -168,7 +166,7 @@ class STHKTModelData(QuestionModelData):
 
         # No user–question relation table exists; 'user' holds real student
         # ids in the split sequences.
-        pairs = self.load_split_data().select(["user", "question"]).unique()
+        pairs = data.select(["user", "question"]).unique()
         qs_q = pairs["question"].to_numpy() + 1
         qs_s = pairs["user"].to_numpy()
 

@@ -1,9 +1,7 @@
 """Tests for SkillModelData / WindowlateIterableDataset user_id propagation.
 
-Covers the 2026-08 framework change: the windowlate iterable dataset appends
-the ORIGINAL student id as a 7th tuple element, and ``build_sequence_data``
-fills ``user_id_sequence`` from the split data's ``user`` column so
-train/val/test share one id space.
+Windowlate samples and packed sequences preserve original student IDs across
+subsequences and fold partitions.
 """
 
 from __future__ import annotations
@@ -132,10 +130,10 @@ class TestWindowlateIterableDatasetUserId:
         assert len(WindowlateIterableDataset(path, max_seq_len=8)) == 2
 
 
-# --- SkillModelData.build_sequence_data ---------------------------------------
+# --- Packed sequence identity ------------------------------------------------
 
 
-class TestBuildSequenceDataOriginalUser:
+class TestPackedSequenceOriginalUser:
     """user_id_sequence fills from user, not the split row index."""
 
     @pytest.fixture
@@ -152,6 +150,7 @@ class TestBuildSequenceDataOriginalUser:
                 "question": [1, 2, 3, 4, 5, 6, 7],
                 "label": [1, 0, 1, 0, 1, 1, 0],
                 "user": [5, 5, 5, 9, 9, 5, 5],
+                "fold": [0, 0, 0, -1, -1, 0, 0],
             }
         )
 
@@ -165,7 +164,10 @@ class TestBuildSequenceDataOriginalUser:
         return _Concrete(
             cast(
                 DataSource,
-                StubDataSource(frame, {"max_skill_seq_len": 3, "num_users": 10}),
+                StubDataSource(
+                    frame,
+                    {"max_skill_seq_len": 3, "num_users": 10, "kfold_n_splits": 2},
+                ),
             )
         )
 
@@ -173,12 +175,15 @@ class TestBuildSequenceDataOriginalUser:
         self, split_frame: pl.DataFrame
     ) -> None:
         model_data = self._make(split_frame)
-        _, _, _, user_id_sequence, _ = model_data.build_sequence_data()
-        assert user_id_sequence.shape == (3, 3)
-        # Split rows 0 and 2 belong to original student 5 -> same id shared.
-        assert user_id_sequence[0].tolist() == [5, 5, 5]
-        assert user_id_sequence[1].tolist() == [9, 9, 0]
-        assert user_id_sequence[2].tolist() == [5, 5, 0]
+        sequences = model_data.pack_sequences(model_data.load_split_data())
+        assert sequences.user.tolist() == [5, 9, 5]
+        assert sequences.sequence_id.tolist() == [0, 1, 2]
+        assert sequences.fold.tolist() == [0, -1, 0]
+        assert sequences.mask.tolist() == [
+            [True, True, True],
+            [True, True, False],
+            [True, True, False],
+        ]
 
     def test_missing_user_column_raises(self) -> None:
         # No backward compatibility: legacy split frames without the column
@@ -193,8 +198,8 @@ class TestBuildSequenceDataOriginalUser:
             }
         )
         model_data = self._make(frame)
-        with pytest.raises(Exception):
-            model_data.build_sequence_data()
+        with pytest.raises(pl.exceptions.ColumnNotFoundError):
+            model_data.pack_sequences(model_data.load_split_data())
 
 
 # --- load_windowlate_data (numpy variant) -------------------------------------
@@ -282,7 +287,10 @@ class TestSplitPipelineOriginalUserColumn:
                 "truncation_stage": "post_expansion",
             },
         )()
-        ds.sequence_data = frame
+        ds.sequence_data = frame.with_columns(
+            pl.int_range(pl.len(), dtype=pl.Int64).alias("interaction_id"),
+            pl.concat_list(pl.col("question").cast(pl.Int32)).alias("skills"),
+        )
         # expand_skills=False path never reads relation_data; None keeps
         # the fixture honest about the unprepared state.
         ds.relation_data = cast(Any, None)

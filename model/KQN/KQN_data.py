@@ -9,6 +9,7 @@ from typing_extensions import override
 from utils.core import get_logger
 from utils.data_process import DataSource
 from utils.model_data import SkillModelData
+from utils.model_data.packed_sequences import to_first_skill_ids
 
 logger = get_logger(__name__)
 
@@ -55,32 +56,22 @@ class KQNModelData(SkillModelData):
     def prepare_data(self, rc: Any) -> tuple:
         fold_idx = rc.data.fold if rc.data.fold >= 0 else None
 
-        concepts, responses, masks, _, questions = self.build_sequence_data()
-
-        if fold_idx is None:
-            raise ValueError("K-fold cross-validation is not enabled.")
+        data = self.load_split_data()
+        sequences = self.pack_sequences(data)
+        partition = sequences.partition(rc.data.fold)
+        concepts = to_first_skill_ids(sequences.skills)
+        responses = sequences.response
+        masks = sequences.mask
+        questions = sequences.question
 
         kfold_n_splits = self.data_src.get_metadata("kfold_n_splits")
-        if fold_idx < 0 or fold_idx >= kfold_n_splits:
-            raise ValueError(
-                f"fold_idx {fold_idx} is out of range [0, {kfold_n_splits})"
-            )
         logger.info(
             f"Using K-fold cross-validation: fold {fold_idx + 1}/{kfold_n_splits}"
         )
 
-        train_data, val_data, _ = self.split_kfold_data(
-            concepts,
-            responses,
-            masks,
-            questions,
-            fold_idx=fold_idx,
-        )
+        dataset = KQNDataset(concepts, responses, masks, questions)
+        train_dataset, val_dataset, _ = partition.apply(dataset)
 
-        train_dataset = KQNDataset(
-            train_data[0], train_data[1], train_data[2], train_data[3]
-        )
-        val_dataset = KQNDataset(val_data[0], val_data[1], val_data[2], val_data[3])
         test_dataset = self.create_windowlate_dataloader(
             batch_size=rc.model.batch_size,
             shuffle=False,

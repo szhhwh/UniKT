@@ -1,4 +1,5 @@
 import numpy as np
+import polars as pl
 import torch
 from scipy.stats import norm, poisson
 from torch.utils.data.dataset import Dataset
@@ -7,13 +8,21 @@ from typing_extensions import override
 from utils.core import get_logger
 from utils.data_process import DataSource
 from utils.model_data import QuestionModelData
+from utils.model_data.packed_sequences import to_multi_skill_ids
 
 logger = get_logger(__name__)
 
 
 class LBKTDataset(Dataset):
     def __init__(
-        self, sequences, responses, masks, time_factors, attempt_factors, hint_factors
+        self,
+        sequences,
+        responses,
+        masks,
+        time_factors,
+        attempt_factors,
+        hint_factors,
+        skills,
     ):
         self.sequences = sequences
         self.responses = responses
@@ -21,6 +30,7 @@ class LBKTDataset(Dataset):
         self.time_factors = time_factors
         self.attempt_factors = attempt_factors
         self.hint_factors = hint_factors
+        self.skills = skills
 
     def __getitem__(self, index):
         return (
@@ -30,6 +40,7 @@ class LBKTDataset(Dataset):
             torch.tensor(self.time_factors[index], dtype=torch.float32),
             torch.tensor(self.attempt_factors[index], dtype=torch.float32),
             torch.tensor(self.hint_factors[index], dtype=torch.float32),
+            torch.tensor(self.skills[index], dtype=torch.long),
         )
 
     def __len__(self):
@@ -45,44 +56,38 @@ class LBKTModelData(QuestionModelData):
         fold_idx = rc.data.fold if rc.data.fold >= 0 else None
         kfold_n_splits = self.data_src.get_metadata("kfold_n_splits")
 
-        if fold_idx is None:
-            raise ValueError("fold_idx must be specified for K-fold cross-validation")
-        if fold_idx < 0 or fold_idx >= kfold_n_splits:
-            raise ValueError(
-                f"fold_idx {fold_idx} is out of range [0, {kfold_n_splits})"
-            )
         logger.info(
             f"Using K-fold cross-validation: fold {fold_idx + 1}/{kfold_n_splits}"
         )
 
-        (
-            user_sequence,
-            user_response,
-            user_mask,
-            user_time_factor,
-            user_attempt_factor,
-            user_hint_factor,
-        ) = self.load_sequence_data_with_factors(fold_idx=fold_idx)
-
-        q_matrix = self.build_q_matrix(gamma=rc.model.q_gamma)
-
-        train_data, val_data, test_data = self.split_kfold_data(
-            user_sequence,
-            user_response,
-            user_mask,
-            user_time_factor,
-            user_attempt_factor,
-            user_hint_factor,
-            fold_idx=fold_idx,
+        data = self.load_split_data(
+            required=("ms_first_response", "attempt_count", "hint_count")
+        )
+        sequences = self.pack_sequences(data)
+        partition = sequences.partition(rc.data.fold)
+        user_sequence = sequences.question
+        user_response = sequences.response
+        user_mask = sequences.mask
+        user_time_factor, user_attempt_factor, user_hint_factor = (
+            self._build_behavior_factors(data, sequences, fold_idx=fold_idx)
         )
 
-        train_dataset = LBKTDataset(*train_data)
-        val_dataset = LBKTDataset(*val_data)
-        test_dataset = LBKTDataset(*test_data)
+        dataset = LBKTDataset(
+            user_sequence,
+            user_response,
+            user_mask,
+            user_time_factor,
+            user_attempt_factor,
+            user_hint_factor,
+            to_multi_skill_ids(
+                sequences.skills, padding_value=self.data_src.get_metadata("num_skills")
+            ),
+        )
+        train_dataset, val_dataset, test_dataset = partition.apply(dataset)
 
-        return train_dataset, val_dataset, test_dataset, q_matrix
+        return train_dataset, val_dataset, test_dataset
 
-    def load_sequence_data_with_factors(self, fold_idx: int):
+    def _build_behavior_factors(self, data: pl.DataFrame, sequences, fold_idx: int):
         """加载用户答题序列并计算行为因子。
 
         - time_factor: norm(mean_log, std_log).cdf(log(response_time))
@@ -94,12 +99,7 @@ class LBKTModelData(QuestionModelData):
         """
         logger.info("Building response sequences with behavioral factors...")
 
-        data = self.load_split_data(
-            required=("ms_first_response", "attempt_count", "hint_count")
-        ).to_pandas()
-
-        max_seq_len = self.data_src.get_metadata("max_question_seq_len")
-        num_users = data["sequence_id"].nunique()
+        data = data.to_pandas()
 
         fold_labels = data["fold"].values
         train_mask = (fold_labels != fold_idx) & (fold_labels != -1)
@@ -109,31 +109,14 @@ class LBKTModelData(QuestionModelData):
         attempt_factors = self._compute_attempt_factor(data, train_mask)
         hint_factors = self._compute_hint_factor(data, train_mask)
 
-        user_sequence = np.zeros((num_users, max_seq_len), dtype=int)
-        user_response = np.zeros((num_users, max_seq_len), dtype=int)
-        user_mask = np.zeros((num_users, max_seq_len), dtype=int)
-        user_time_factor = np.zeros((num_users, max_seq_len), dtype=np.float32)
-        user_attempt_factor = np.zeros((num_users, max_seq_len), dtype=np.float32)
-        user_hint_factor = np.zeros((num_users, max_seq_len), dtype=np.float32)
-
-        user_indices = data["sequence_id"].values
-        seq_positions = data["seq_pos"].values
-
-        user_sequence[user_indices, seq_positions] = data["question"].values
-        user_response[user_indices, seq_positions] = data["label"].values
-        user_mask[user_indices, seq_positions] = 1
-        user_time_factor[user_indices, seq_positions] = time_factors
-        user_attempt_factor[user_indices, seq_positions] = attempt_factors
-        user_hint_factor[user_indices, seq_positions] = hint_factors
-
-        return (
-            user_sequence,
-            user_response,
-            user_mask,
-            user_time_factor,
-            user_attempt_factor,
-            user_hint_factor,
-        )
+        rows = np.searchsorted(sequences.sequence_id, data["sequence_id"].values)
+        positions = data["seq_pos"].values
+        factors = []
+        for values in (time_factors, attempt_factors, hint_factors):
+            packed = np.zeros(sequences.mask.shape, dtype=np.float32)
+            packed[rows, positions] = values
+            factors.append(packed)
+        return tuple(factors)
 
     def _compute_time_factor(self, data, train_mask) -> np.ndarray:
         """计算时间因子。
@@ -232,11 +215,3 @@ class LBKTModelData(QuestionModelData):
             ).astype(np.float32)
 
         return hint_factors
-
-    def build_q_matrix(self, gamma: float = 0.1) -> torch.Tensor:
-        """构建带 gamma 平滑的 Q-matrix。"""
-        binary_matrix = self.build_relationship_matrix(
-            ("question", "has", "skill"), value_type="binary"
-        )
-        q_matrix = (1 - gamma) * binary_matrix + gamma
-        return torch.from_numpy(q_matrix).float()

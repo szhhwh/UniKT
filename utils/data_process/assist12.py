@@ -81,11 +81,6 @@ class Assistments2012Data(DataSource):
         )
 
         # Build normalized relation tables
-        question_skill = mapped_data.select(["question", "skill"]).unique(
-            subset=["question", "skill"], keep="first"
-        )
-        logger.debug(f"question_skill shape: {question_skill.shape}")
-
         question_assignment = mapped_data.select(["question", "assignment"]).unique(
             subset=["question", "assignment"]
         )
@@ -96,8 +91,8 @@ class Assistments2012Data(DataSource):
         )
         logger.debug(f"question_template shape: {question_template.shape}")
 
-        # Build ID mappings from each relation
-        self._build_id_mapping(question_skill, ["skill"])
+        # Build ID mappings for skills and item metadata.
+        self._build_id_mapping(mapped_data, ["skill"])
         self._build_id_mapping(question_assignment, ["assignment"])
         self._build_id_mapping(question_template, ["template"])
         logger.info(
@@ -107,7 +102,6 @@ class Assistments2012Data(DataSource):
         )
 
         # Apply ID mappings
-        question_skill = self._apply_id_mapping(question_skill, columns=["skill"])
         question_assignment = self._apply_id_mapping(
             question_assignment, columns=["assignment"]
         )
@@ -116,8 +110,13 @@ class Assistments2012Data(DataSource):
         )
 
         # Build final sequence_data
+        mapped_data = mapped_data.with_columns(
+            self._map_interaction_skills(pl.concat_list("skill"))
+        )
         sequence_data = mapped_data.select(
             [
+                "interaction_id",
+                "skills",
                 "user",
                 "question",
                 "label",
@@ -135,11 +134,10 @@ class Assistments2012Data(DataSource):
 
         # Store processed data
         self.relation_data = {
-            "question_skill": question_skill,
             "question_assignment": question_assignment,
             "question_template": question_template,
         }
-        self.sequence_data = sequence_data
+        self.set_sequence_data(sequence_data)
 
     def clean_raw_data(self) -> None:
         """Clean raw sequence data."""
@@ -147,7 +145,7 @@ class Assistments2012Data(DataSource):
             self.load_src_data()
 
         # Drop skill text column
-        data = self.raw_data.drop("skill")
+        data = self.raw_data.with_row_index("interaction_id").drop("skill")
 
         # Rename columns
         data = data.rename(
@@ -162,7 +160,9 @@ class Assistments2012Data(DataSource):
             }
         )
 
-        data = data.unique()
+        data = data.unique(
+            subset=pl.exclude("interaction_id"), keep="first", maintain_order=True
+        )
         data = data.collect()
 
         # Parse timestamp as datetime and convert to Unix milliseconds
@@ -182,7 +182,7 @@ class Assistments2012Data(DataSource):
             .alias("timestamp")
         )
 
-        data = data.sort(["user", "timestamp"])
+        data = data.sort(self._sort_columns())
         data = data.with_columns([pl.col("user").cast(pl.Int32)])
         # Filter out rows with null skill early (these questions have no skill info)
         data = data.filter(pl.col("skill").is_not_null())

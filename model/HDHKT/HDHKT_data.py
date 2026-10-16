@@ -1,23 +1,25 @@
 from typing import Any
 
+import numpy as np
 import torch
 from torch.utils.data.dataset import Dataset
 from typing_extensions import override
 
-from model.HDHKT.skill_index import build_skill_index_table
 from model.layers.hypergraph import Hypergraph
 from utils.core import get_logger
 from utils.data_process import DataSource
 from utils.model_data import QuestionModelData
+from utils.model_data.packed_sequences import to_multi_skill_ids
 
 logger = get_logger(__name__)
 
 
 class HDHKTDataset(Dataset):
-    def __init__(self, sequences, responses, masks, user_ids=None):
+    def __init__(self, sequences, responses, masks, skills, user_ids=None):
         self.sequences = torch.as_tensor(sequences, dtype=torch.long)
         self.responses = torch.as_tensor(responses, dtype=torch.long)
         self.masks = torch.as_tensor(masks, dtype=torch.bool)
+        self.skills = torch.as_tensor(skills, dtype=torch.long)
         self.user_ids = (
             torch.as_tensor(user_ids, dtype=torch.long)
             if user_ids is not None
@@ -25,18 +27,13 @@ class HDHKTDataset(Dataset):
         )
 
     def __getitem__(self, index):
-        if self.user_ids is not None:
-            return (
-                self.user_ids[index],
-                self.sequences[index],
-                self.responses[index],
-                self.masks[index],
-            )
-        return (
+        sample = (
             self.sequences[index],
             self.responses[index],
             self.masks[index],
+            self.skills[index],
         )
+        return (self.user_ids[index], *sample) if self.user_ids is not None else sample
 
     def __len__(self):
         return len(self.sequences)
@@ -53,24 +50,21 @@ class HDHKTModelData(QuestionModelData):
 
         When ``with_user_ids=True``, each Dataset additionally returns the
         user id per sample (for case analysis); the training path keeps
-        the 3-tuple layout unchanged.
+        the question, response, mask, and interaction-skill fields.
         """
-        fold_idx = rc.data.fold if rc.data.fold >= 0 else None
-        kfold_n_splits = self.data_src.get_metadata("kfold_n_splits")
 
-        user_sequence, user_response, user_mask, user_id_sequence = (
-            self.load_sequence_data()
-        )
+        data = self.load_split_data()
+        sequences = self.pack_sequences(data)
+        partition = sequences.partition(rc.data.fold)
+        user_sequence = sequences.question
+        user_response = sequences.response
+        user_mask = sequences.mask
 
         question_skill_matrix = torch.from_numpy(
             self.build_relationship_matrix(("question", "has", "skill"))
         ).float()
 
-        # Precomputed per-question related-skill id table
         num_skills = self.data_src.get_metadata("num_skills")
-        skill_ids_per_question = build_skill_index_table(
-            question_skill_matrix, padding_index=num_skills
-        )
 
         skill_hypergraph = self.build_difficulty_weighted_hypergraph(
             ("question", "has", "skill"),
@@ -101,50 +95,14 @@ class HDHKTModelData(QuestionModelData):
             ]
         )
 
-        if fold_idx is not None:
-            kfold_n_splits = self.data_src.get_metadata("kfold_n_splits")
-            if fold_idx < 0 or fold_idx >= kfold_n_splits:
-                raise ValueError(
-                    f"fold_idx {fold_idx} is out of range [0, {kfold_n_splits})"
-                )
-            logger.info(
-                f"Using K-fold cross-validation: fold {fold_idx + 1}/{kfold_n_splits}"
-            )
-            if with_user_ids:
-                train_data, val_data, test_data = self.split_kfold_data(
-                    user_sequence,
-                    user_response,
-                    user_mask,
-                    user_id_sequence,
-                    fold_idx=fold_idx,
-                )
-            else:
-                train_data, val_data, test_data = self.split_kfold_data(
-                    user_sequence, user_response, user_mask, fold_idx=fold_idx
-                )
-        else:
-            raise ValueError(
-                "K-fold cross-validation is required for HDHKT. Please specify a valid fold index."
-            )
-
-        train_dataset = HDHKTDataset(
-            train_data[0],
-            train_data[1],
-            train_data[2],
-            user_ids=train_data[3] if with_user_ids else None,
+        dataset = HDHKTDataset(
+            user_sequence,
+            user_response,
+            user_mask,
+            to_multi_skill_ids(sequences.skills, padding_value=num_skills),
+            user_ids=sequences.user if with_user_ids else None,
         )
-        val_dataset = HDHKTDataset(
-            val_data[0],
-            val_data[1],
-            val_data[2],
-            user_ids=val_data[3] if with_user_ids else None,
-        )
-        test_dataset = HDHKTDataset(
-            test_data[0],
-            test_data[1],
-            test_data[2],
-            user_ids=test_data[3] if with_user_ids else None,
-        )
+        train_dataset, val_dataset, test_dataset = partition.apply(dataset)
 
         return_data = {
             "train_dataset": train_dataset,
@@ -153,7 +111,6 @@ class HDHKTModelData(QuestionModelData):
             "skill_hypergraph": skill_hypergraph,
             "hetero_graph": hetero_graph,
             "question_skill_matrix": question_skill_matrix,
-            "skill_ids_per_question": skill_ids_per_question,
         }
 
         return return_data
@@ -188,7 +145,6 @@ class HDHKTModelData(QuestionModelData):
                 num_difficulty_clusters=3
             )
         """
-        import numpy as np
         from sklearn.cluster import KMeans
         from tqdm import tqdm
 

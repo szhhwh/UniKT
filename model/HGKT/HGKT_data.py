@@ -38,7 +38,8 @@ class HGKTModelData(LPKTModelData):
             在 LPKT 的基础上追加 ``hyper_factors``。
         """
         train_dataset, val_dataset, test_dataset, info = super().prepare_data(rc)
-        info["hyper_factors"] = self._build_hyper_factors(info["q_matrix"])
+        q_matrix = self.build_relationship_matrix(("question", "has", "skill"))
+        info["hyper_factors"] = self._build_hyper_factors(q_matrix)
         hyper_p, hyper_q = info["hyper_factors"]
         logger.info(f"HGKT hypergraph: P nnz={hyper_p._nnz()}, Q nnz={hyper_q._nnz()}")
         return train_dataset, val_dataset, test_dataset, info

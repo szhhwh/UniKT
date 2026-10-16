@@ -9,6 +9,7 @@ from torch.utils.data import Dataset
 
 from utils.core import get_logger
 from utils.model_data import QuestionModelData
+from utils.model_data.packed_sequences import to_first_skill_ids
 
 logger = get_logger(__name__)
 
@@ -70,9 +71,13 @@ class SQGKTModelData(QuestionModelData):
         super().__init__(data_src)
 
     def prepare_data(self, rc: Any):
-        user_sequence, user_response, user_mask, user_id_sequence = (
-            self.load_sequence_data()
-        )
+        data = self.load_split_data(required=("attempt_count", "hint_count"))
+        sequences = self.pack_sequences(data)
+        partition = sequences.partition(rc.data.fold)
+        user_sequence = sequences.question
+        user_response = sequences.response
+        user_mask = sequences.mask
+        user_id_sequence = np.where(sequences.mask, sequences.user[:, None], 0)
 
         question_skill_matrix = self.build_relationship_matrix(
             ("question", "has", "skill"), value_type="binary"
@@ -94,31 +99,17 @@ class SQGKTModelData(QuestionModelData):
 
         logger.info("Building student-question graph...")
         q_neighbors_2, uq_stat_q = self.build_sq_graph(
-            num_questions, rc.model.user_neighbor_num, rc.data.fold, rng
+            data, num_questions, rc.model.user_neighbor_num, rc.data.fold, rng
         )
 
-        train_data, val_data, test_data = self.split_kfold_data(
+        dataset = SQGKTDataset(
             user_sequence,
             user_response,
             user_mask,
             user_id_sequence,
-            fold_idx=rc.data.fold,
+            to_first_skill_ids(sequences.skills),
         )
-        train_seq, train_res, train_mask, train_uid = train_data
-        val_seq, val_res, val_mask, val_uid = val_data
-        test_seq, test_res, test_mask, test_uid = test_data
-
-        train_skills = self._extract_skills(train_seq, question_skill_matrix)
-        val_skills = self._extract_skills(val_seq, question_skill_matrix)
-        test_skills = self._extract_skills(test_seq, question_skill_matrix)
-
-        train_dataset = SQGKTDataset(
-            train_seq, train_res, train_mask, train_uid, train_skills
-        )
-        val_dataset = SQGKTDataset(val_seq, val_res, val_mask, val_uid, val_skills)
-        test_dataset = SQGKTDataset(
-            test_seq, test_res, test_mask, test_uid, test_skills
-        )
+        train_dataset, val_dataset, test_dataset = partition.apply(dataset)
 
         train_collate = partial(
             sqgkt_collate_fn, hist_neighbor_num=rc.model.hist_neighbor_num
@@ -187,7 +178,7 @@ class SQGKTModelData(QuestionModelData):
             )
         return question_neighbors, skill_neighbors
 
-    def build_sq_graph(self, num_questions, k, fold_idx, rng):
+    def build_sq_graph(self, data, num_questions, k, fold_idx, rng):
         """学生-问题图（论文 §4.1–4.2）。
 
         对每个问题 q_j 采样 k 个答过它的学生，并按论文式 (6) 计算边权 g_ij 的三个分量：
@@ -200,7 +191,6 @@ class SQGKTModelData(QuestionModelData):
         """
         from scipy.stats import poisson
 
-        data = self.load_split_data(required=("attempt_count", "hint_count"))
         data = data.filter(
             (pl.col("fold") != fold_idx) & (pl.col("fold") != -1)
         ).to_pandas()
@@ -246,15 +236,6 @@ class SQGKTModelData(QuestionModelData):
                     nq.get((int(u), q), 0), lam_n.get(q, 0.0)
                 )
         return q_neighbors_2, uq_stat_q
-
-    @staticmethod
-    def _extract_skills(user_sequence, question_skill_matrix):
-        first_skill = np.argmax(question_skill_matrix, axis=1)
-        has_skill = np.any(question_skill_matrix == 1, axis=1)
-        question_to_skill = np.where(has_skill, first_skill, 0).astype(
-            user_sequence.dtype, copy=False
-        )
-        return question_to_skill[user_sequence]
 
 
 class SQGKTDataset(Dataset):

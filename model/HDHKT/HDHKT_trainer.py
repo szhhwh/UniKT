@@ -94,8 +94,6 @@ class HDHKTTrainer(BaseTrainer):
         test_dataset = data_dict.get("test_dataset")
         self.hypergraph = data_dict["skill_hypergraph"]
         self.hetero_graph = data_dict["hetero_graph"]
-        self.question_skill_matrix = data_dict["question_skill_matrix"]
-        self.skill_ids_per_question = data_dict["skill_ids_per_question"]
 
         from model.HDHKT.HDHKT_model import HDHKT
 
@@ -130,8 +128,6 @@ class HDHKTTrainer(BaseTrainer):
         self.hetero_graph = self.hetero_graph.to(device)
         self.hypergraph = self.hypergraph.to(device)
         _ = self.hypergraph.L_HGNN
-        self.question_skill_matrix = self.question_skill_matrix.to(device)
-        self.skill_ids_per_question = self.skill_ids_per_question.to(device)
 
         return RuntimeComponents(
             model=model,
@@ -144,19 +140,20 @@ class HDHKTTrainer(BaseTrainer):
         )
 
     def forward_pass(
-        self, batch_data: tuple[torch.Tensor, torch.Tensor, torch.Tensor]
+        self, batch_data: tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]
     ) -> dict[str, torch.Tensor]:
         """HDHKT 前向传播，使用基类辅助方法统一处理数据移动和预测生成。
 
         Args:
-            batch_data: 包含 (sequence, response, mask) 的元组
+            batch_data: (sequence, response, mask, skills)
 
         Returns:
             包含 y_hat, y_label, y_predict 的字典
         """
-        sequence, response, mask = batch_data
+        sequence, response, mask, skills = batch_data
         sequence = self._move_tensor_to_device(sequence)
         response = self._move_tensor_to_device(response)
+        skills = self._move_tensor_to_device(skills)
         mask = self._move_tensor_to_device(mask)
 
         # Model output at step t predicts the label at step t+1
@@ -166,7 +163,7 @@ class HDHKTTrainer(BaseTrainer):
             mask,
             self.hetero_graph,
             self.hypergraph,
-            self.skill_ids_per_question,
+            skills,
         )  # [B, S]
 
         y_hat, y_label, _ = self._extract_valid_predictions(y_hat_full, response, mask)
