@@ -78,6 +78,7 @@ class NIPS2020T34Data(DataSource):
             answer_meta.select(["AnswerId", "DateAnswered"]),
             on="AnswerId",
             how="left",
+            maintain_order="left",
         )
 
         data = data.select(
@@ -86,7 +87,7 @@ class NIPS2020T34Data(DataSource):
                 pl.col("QuestionId").alias("question"),
                 pl.col("IsCorrect").cast(pl.Int32).alias("label"),
                 pl.col("DateAnswered").alias("timestamp"),
-                pl.col("_row_id"),
+                pl.col("_row_id").alias("interaction_id"),
             ]
         )
 
@@ -114,8 +115,10 @@ class NIPS2020T34Data(DataSource):
             (pl.col("timestamp") - min_ts).cast(pl.Int64).alias("timestamp")
         )
 
-        data = data.unique(subset=["user", "question", "timestamp"])
-        data = data.sort(["user", "timestamp", "_row_id"])
+        data = data.unique(
+            subset=["user", "question", "timestamp"], keep="first", maintain_order=True
+        )
+        data = data.sort(self._sort_columns())
         data = exclude_short_sequences(data, self.args.min_seq_len)
 
         self.cleaned_raw_data = data
@@ -192,15 +195,15 @@ class NIPS2020T34Data(DataSource):
         # Filter sequence_data to only questions with skills
         valid_questions = set(question_skill["question"].to_list())
         sequence_data = mapped_data.filter(pl.col("question").is_in(valid_questions))
-        sequence_data = sequence_data.select(["user", "question", "label", "timestamp"])
+        sequence_data = sequence_data.select(
+            ["interaction_id", "user", "question", "label", "timestamp"]
+        )
 
         self._build_id_mapping(sequence_data, ["user"])
         sequence_data = self._apply_id_mapping(sequence_data, columns=["user"])
 
-        self.relation_data = {
-            "question_skill": question_skill,
-        }
-        self.sequence_data = sequence_data
+        sequence_data = self._attach_metadata_skills(sequence_data, question_skill)
+        self.set_sequence_data(sequence_data)
 
 
 __all__ = ["NIPS2020T34Data"]

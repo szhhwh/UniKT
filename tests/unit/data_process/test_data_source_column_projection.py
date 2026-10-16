@@ -10,11 +10,12 @@ from utils.data_process.data_source import DataSource
 
 # Mirrors a rich-column split parquet (assistments-style schema).
 _ROWS = 6
-_CORE = ("sequence_id", "seq_pos", "label", "user", "question")
+_CORE = ("sequence_id", "seq_pos", "label", "user", "question", "interaction_id")
 
 
 def _write_split_parquet(data_folder: Path, name: str, *, skill: bool) -> None:
     frame = {
+        "interaction_id": pl.Series(range(_ROWS), dtype=pl.Int64),
         "user": pl.Series([0] * 3 + [1] * 3, dtype=pl.Int32),
         "question": pl.Series([1, 2, 3] * 2, dtype=pl.Int32),
         "label": pl.Series([1, 0, 1] * 2, dtype=pl.Int8),
@@ -28,6 +29,8 @@ def _write_split_parquet(data_folder: Path, name: str, *, skill: bool) -> None:
     }
     if skill:
         frame["skill"] = pl.Series([10, 11, 12] * 2, dtype=pl.Int32)
+    else:
+        frame["skills"] = pl.Series([[10], [11], [12]] * 2, dtype=pl.List(pl.Int32))
     pl.DataFrame(frame).write_parquet(data_folder / f"stub_{name}.parquet")
 
 
@@ -40,7 +43,7 @@ class TestResolveSplitColumns:
 
         assert ds._resolve_split_columns(
             "split_question_sequence", required=(), optional=()
-        ) == [*_CORE, "fold"]
+        ) == [*_CORE, "skills", "fold"]
 
     def test_skill_chain_includes_skill_column(
         self, make_data_source: Callable[..., DataSource], tmp_path: Path
@@ -110,7 +113,7 @@ class TestSplitGetterProjection:
         ds = make_data_source(data_folder=tmp_path)
 
         df = ds.get_split_question_sequence_data()
-        assert df.columns == [*_CORE, "fold"]
+        assert df.columns == [*_CORE, "skills", "fold"]
         assert df.height == _ROWS
 
     def test_feature_columns_loaded_via_required(

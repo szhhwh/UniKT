@@ -83,34 +83,23 @@ class Assistments2009Data(DataSource):
             .rename({"question_id": "question"})
         )
 
-        # Build normalized relation tables
-        # Relation 1: question_skill
         # ASSISTments 09 skill format: "2_37_70" -> ["2", "37", "70"]
-        question_skill = (
-            mapped_data.select(["question", "skill"])
-            .unique(subset=["question", "skill"], keep="first")
-            .with_columns(pl.col("skill").str.split("_").alias("skill_parts"))
-            .explode("skill_parts", empty_as_null=True)
-            .with_columns(pl.col("skill_parts").cast(pl.String).alias("skill"))
-            .select(["question", "skill"])
-            .unique(subset=["question", "skill"], keep="first")
-        )
-        logger.debug(f"question_skill shape: {question_skill.shape}")
+        skill_data = mapped_data.select(
+            pl.col("skill").unique().str.split("_")
+        ).explode("skill", empty_as_null=True)
 
-        # Relation 2: question_assignment
         question_assignment = mapped_data.select(["question", "assignment"]).unique(
             subset=["question", "assignment"]
         )
         logger.debug(f"question_assignment shape: {question_assignment.shape}")
 
-        # Relation 3: question_template
         question_template = mapped_data.select(["question", "template"]).unique(
             subset=["question", "template"]
         )
         logger.debug(f"question_template shape: {question_template.shape}")
 
-        # Build ID mappings from each relation independently
-        self._build_id_mapping(question_skill, ["skill"])
+        # Build ID mappings for skills and item metadata.
+        self._build_id_mapping(skill_data, ["skill"])
         self._build_id_mapping(question_assignment, ["assignment"])
         self._build_id_mapping(question_template, ["template"])
         logger.debug(
@@ -120,7 +109,6 @@ class Assistments2009Data(DataSource):
         )
 
         # Apply ID mappings independently
-        question_skill = self._apply_id_mapping(question_skill, columns=["skill"])
         question_assignment = self._apply_id_mapping(
             question_assignment, columns=["assignment"]
         )
@@ -129,8 +117,13 @@ class Assistments2009Data(DataSource):
         )
 
         # Build final sequence_data
+        mapped_data = mapped_data.with_columns(
+            self._map_interaction_skills(pl.col("skill").str.split("_"))
+        )
         sequence_data = mapped_data.select(
             [
+                "interaction_id",
+                "skills",
                 "user",
                 "question",
                 "label",
@@ -147,11 +140,10 @@ class Assistments2009Data(DataSource):
 
         # Store processed data
         self.relation_data = {
-            "question_skill": question_skill,
             "question_assignment": question_assignment,
             "question_template": question_template,
         }
-        self.sequence_data = sequence_data
+        self.set_sequence_data(sequence_data)
 
     def clean_raw_data(self) -> None:
         """Clean raw sequence data."""
@@ -159,7 +151,9 @@ class Assistments2009Data(DataSource):
             self.load_src_data()
 
         schema_names = self.raw_data.collect_schema().names()
-        data = self.raw_data.drop("") if "" in schema_names else self.raw_data
+        data = self.raw_data.with_row_index("interaction_id")
+        if "" in schema_names:
+            data = data.drop("")
 
         # Rename columns
         data = data.rename(
@@ -183,7 +177,9 @@ class Assistments2009Data(DataSource):
             & (pl.col("ms_first_response") > 0)
         )
 
-        data = data.unique().collect()
+        data = data.unique(
+            subset=pl.exclude("interaction_id"), keep="first", maintain_order=True
+        ).collect()
 
         # Convert to global relative time (dataset-wise earliest timestamp as zero)
         data = data.with_columns(
@@ -194,7 +190,7 @@ class Assistments2009Data(DataSource):
             .alias("timestamp")
         )
 
-        data = data.sort(["user", "timestamp"])
+        data = data.sort(self._sort_columns())
 
         # Exclude sequences that are too short
         data = exclude_short_sequences(data, self.args.min_seq_len)

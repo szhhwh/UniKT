@@ -11,6 +11,7 @@ from typing_extensions import override
 from utils.core import get_logger
 from utils.data_process import DataSource
 from utils.model_data import SkillModelData
+from utils.model_data.packed_sequences import to_first_skill_ids
 from utils.model_data.skill_model_data import WindowlateIterableDataset
 
 logger = get_logger(__name__)
@@ -157,31 +158,17 @@ class DKTForgetModelData(SkillModelData):
         self.num_sgap: int = 0
         self.num_pcount: int = 0
 
-    def _build_dense_arrays(self):
-        data = self.load_split_data(required=("timestamp",))
-
-        max_seq_len = self.data_src.get_metadata("max_skill_seq_len")
-        num_users = data["sequence_id"].n_unique()
-
-        user_indices = data["sequence_id"].to_numpy()
-        seq_positions = data["seq_pos"].to_numpy()
-
-        user_sequence = np.zeros((num_users, max_seq_len), dtype=np.int64)
-        user_response = np.zeros((num_users, max_seq_len), dtype=np.int64)
-        user_mask = np.zeros((num_users, max_seq_len), dtype=np.int64)
-        user_timestamp = np.zeros((num_users, max_seq_len), dtype=np.int64)
-
-        user_sequence[user_indices, seq_positions] = data["skill"].to_numpy()
-        user_response[user_indices, seq_positions] = data["label"].to_numpy()
-        user_mask[user_indices, seq_positions] = 1
-        user_timestamp[user_indices, seq_positions] = data["timestamp"].to_numpy()
-
-        rgaps = np.zeros((num_users, max_seq_len), dtype=np.int64)
-        sgaps = np.zeros((num_users, max_seq_len), dtype=np.int64)
-        pcounts = np.zeros((num_users, max_seq_len), dtype=np.int64)
+    def _build_gap_features(self, sequences):
+        user_sequence = to_first_skill_ids(sequences.skills)
+        user_mask = sequences.mask
+        user_timestamp = sequences.features["timestamp"]
+        num_sequences, max_seq_len = user_sequence.shape
+        rgaps = np.zeros_like(user_sequence)
+        sgaps = np.zeros_like(user_sequence)
+        pcounts = np.zeros_like(user_sequence)
 
         max_rgap = max_sgap = max_pcount = 0
-        for u in range(num_users):
+        for u in range(num_sequences):
             m = user_mask[u].astype(bool)
             if not m.any():
                 continue
@@ -200,45 +187,29 @@ class DKTForgetModelData(SkillModelData):
             f"num_sgap={self.num_sgap} num_pcount={self.num_pcount}"
         )
 
-        return user_sequence, user_response, user_mask, rgaps, sgaps, pcounts
+        return rgaps, sgaps, pcounts
 
     @override
     def prepare_data(self, rc: Any) -> tuple:
         """准备训练、验证和测试数据"""
         fold_idx = rc.data.fold if rc.data.fold >= 0 else None
 
-        (
-            user_sequence,
-            user_response,
-            user_mask,
-            rgaps,
-            sgaps,
-            pcounts,
-        ) = self._build_dense_arrays()
+        sequences = self.load_sequences(required=("timestamp",))
+        partition = sequences.partition(rc.data.fold)
+        user_sequence = to_first_skill_ids(sequences.skills)
+        user_response = sequences.response
+        user_mask = sequences.mask
+        rgaps, sgaps, pcounts = self._build_gap_features(sequences)
 
-        if fold_idx is not None:
-            kfold_n_splits = self.data_src.get_metadata("kfold_n_splits")
-            if fold_idx < 0 or fold_idx >= kfold_n_splits:
-                raise ValueError(
-                    f"fold_idx {fold_idx} is out of range [0, {kfold_n_splits})"
-                )
-            logger.info(
-                f"Using K-fold cross-validation: fold {fold_idx + 1}/{kfold_n_splits}"
-            )
-            train_data, val_data, _ = self.split_kfold_data(
-                user_sequence,
-                user_response,
-                user_mask,
-                rgaps,
-                sgaps,
-                pcounts,
-                fold_idx=fold_idx,
-            )
-        else:
-            raise ValueError("K-fold cross-validation is not enabled.")
+        kfold_n_splits = self.data_src.get_metadata("kfold_n_splits")
+        logger.info(
+            f"Using K-fold cross-validation: fold {fold_idx + 1}/{kfold_n_splits}"
+        )
 
-        train_dataset = DKTForgetDataset(*train_data)
-        val_dataset = DKTForgetDataset(*val_data)
+        dataset = DKTForgetDataset(
+            user_sequence, user_response, user_mask, rgaps, sgaps, pcounts
+        )
+        train_dataset, val_dataset, _ = partition.apply(dataset)
 
         test_dataset = self.create_windowlate_dataloader(
             batch_size=rc.model.batch_size,

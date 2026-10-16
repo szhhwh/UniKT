@@ -20,6 +20,8 @@ LPKT-S 在学习门 σ 支路、遗忘门、预测层前置三处注入 student 
 import torch
 from torch import nn
 
+from model.layers.interaction import skills_to_multihot
+
 
 class LPKTBase(nn.Module):
     """LPKT 家族共享结构（模板方法基类）。
@@ -31,6 +33,7 @@ class LPKTBase(nn.Module):
         n_it: 间隔时间词表大小（含 padding 0 行）。
         hidden_size: 隐藏维度 h。
         dropout: dropout 概率（仅施加于 learn_gains）。
+        q_gamma: Smoothing added to each interaction's skill indicator.
     """
 
     def __init__(
@@ -41,6 +44,7 @@ class LPKTBase(nn.Module):
         n_it: int,
         hidden_size: int = 128,
         dropout: float = 0.2,
+        q_gamma: float = 0.0,
     ):
         super().__init__()
         self.hidden_size = hidden_size
@@ -66,10 +70,7 @@ class LPKTBase(nn.Module):
         self.sigmoid = nn.Sigmoid()
         self.tanh = nn.Tanh()
 
-        # Q-matrix buffer: binary + gamma, i.e. kc values γ / 1+γ.
-        self.register_buffer(
-            "q_matrix", torch.zeros(num_questions, num_skills), persistent=False
-        )
+        self.q_gamma = q_gamma
 
         self.reset_parameters()
 
@@ -85,11 +86,6 @@ class LPKTBase(nn.Module):
             self.at_embed.weight[0].zero_()
             self.it_embed.weight[0].zero_()
         nn.init.xavier_uniform_(self.k_matrix)
-
-    def set_q_matrix(self, q_matrix, q_gamma: float) -> None:
-        """设置（带平滑的）Q-matrix 缓冲区：值变为 γ / 1+γ。"""
-        qm = torch.as_tensor(q_matrix, dtype=self.q_matrix.dtype)
-        self.q_matrix.copy_(qm.to(self.q_matrix.device) + q_gamma)
 
     # ===== Variant hooks (implemented by subclasses) =====
 
@@ -129,6 +125,7 @@ class LPKTBase(nn.Module):
         at_data: torch.Tensor,
         a_data: torch.Tensor,
         it_data: torch.Tensor,
+        skills: torch.Tensor,
         student: torch.Tensor | None = None,
     ) -> torch.Tensor:
         """前向传播。
@@ -141,6 +138,7 @@ class LPKTBase(nn.Module):
             at_data: 答题用时词表 id 序列 [B, S]
             a_data: 答案序列 [B, S]（输入特征与预测目标）
             it_data: 间隔时间词表 id 序列 [B, S]
+            skills: 本次交互的技能列表 [B, S, K]，以 num_skills 填充
             student: 用户 id [B]（LPKT-S 用，LPKT 忽略）
 
         Returns:
@@ -166,9 +164,12 @@ class LPKTBase(nn.Module):
         K = self.k_matrix.unsqueeze(0).expand(bs, -1, -1)  # [B, Sk, h]
 
         pred = torch.zeros(bs, seq_len, device=device)
+        skill_indicator = (
+            skills_to_multihot(skills, self.num_skills).to(K.dtype) + self.q_gamma
+        )
 
         for t in range(seq_len):
-            kc_row = self.q_matrix[e_data[:, t]]  # [B, Sk]
+            kc_row = skill_indicator[:, t]
             # Prediction and learning gate share the same state and kc row,
             # so a single aggregation serves both.
             kkk = torch.einsum("bs,bsh->bh", kc_row, K)  # [B, h]
@@ -206,8 +207,11 @@ class LPKTNet(LPKTBase):
         num_users: int | None = None,  # accepted for a uniform signature; unused
         hidden_size: int = 128,
         dropout: float = 0.2,
+        q_gamma: float = 0.0,
     ):
-        super().__init__(num_questions, num_skills, n_at, n_it, hidden_size, dropout)
+        super().__init__(
+            num_questions, num_skills, n_at, n_it, hidden_size, dropout, q_gamma
+        )
         h = hidden_size
         self.w_f = nn.Linear(3 * h, h)
         self.linear_predict = nn.Linear(2 * h, h)
@@ -246,8 +250,11 @@ class LPKTSNet(LPKTBase):
         num_users: int,
         hidden_size: int = 128,
         dropout: float = 0.2,
+        q_gamma: float = 0.0,
     ):
-        super().__init__(num_questions, num_skills, n_at, n_it, hidden_size, dropout)
+        super().__init__(
+            num_questions, num_skills, n_at, n_it, hidden_size, dropout, q_gamma
+        )
         h = hidden_size
         # Vocabulary covers ALL users; val/test embeddings stay at init.
         self.student_embed = nn.Embedding(num_users, h)
@@ -259,10 +266,10 @@ class LPKTSNet(LPKTBase):
         nn.init.xavier_uniform_(self.linear_predict.weight)
         nn.init.zeros_(self.linear_predict.bias)
 
-    def forward(self, e_data, at_data, a_data, it_data, student=None):
+    def forward(self, e_data, at_data, a_data, it_data, skills, student=None):
         # Look up the student embedding once; hooks receive [B, h].
         s = self.student_embed(student)
-        return super().forward(e_data, at_data, a_data, it_data, s)
+        return super().forward(e_data, at_data, a_data, it_data, skills, s)
 
     def _learning_gate_input(self, q0, it_e, x, kkk, student):
         return torch.cat((q0, it_e, x, student), dim=1)

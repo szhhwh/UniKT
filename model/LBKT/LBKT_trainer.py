@@ -20,7 +20,7 @@ class LBKTConfig(ModelConfig):
         dim_hidden: Response embedding dimension (default: 50).
         num_units: Hidden dimension (default: 128).
         dropout: Dropout rate (default: 0.2).
-        q_gamma: Q-matrix smoothing factor (default: 0.1).
+        q_gamma: Smoothing added to each event's skill indicator (default: 0.1).
         epochs: Number of training epochs (default: 100).
         learning_rate: Learning rate for optimizer (default: 0.001).
         lr_decay_step: Learning rate decay step size (default: 1).
@@ -73,7 +73,6 @@ class LBKTTrainer(BaseTrainer):
             train_dataset,
             val_dataset,
             test_dataset,
-            self.q_matrix,
         ) = model_data.prepare_data(rc)
 
         logger.info("Initializing LBKT model...")
@@ -85,6 +84,7 @@ class LBKTTrainer(BaseTrainer):
             num_units=m.num_units,
             dropout=m.dropout,
             data_metadata=metadata,
+            q_gamma=m.q_gamma,
         )
 
         # 优化器和损失函数
@@ -100,16 +100,6 @@ class LBKTTrainer(BaseTrainer):
         lr_scheduler = torch.optim.lr_scheduler.StepLR(
             optimizer, step_size=m.lr_decay_step, gamma=m.lr_decay_rate
         )
-
-        # build() hasn't run yet, so self.device_ is None. Resolve the target
-        # device from rc to place the trainer-side q_matrix correctly.
-        dev = rc.general.device
-        device = (
-            torch.device(dev)
-            if dev
-            else torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        )
-        self.q_matrix = self.q_matrix.to(device)
 
         return RuntimeComponents(
             model=model,
@@ -130,7 +120,9 @@ class LBKTTrainer(BaseTrainer):
         Returns:
             包含 y_hat, y_label, y_predict 的字典
         """
-        sequence, response, mask, time_factor, attempt_factor, hint_factor = batch_data
+        sequence, response, mask, time_factor, attempt_factor, hint_factor, skills = (
+            batch_data
+        )
 
         sequence = self._move_tensor_to_device(sequence)
         response = self._move_tensor_to_device(response)
@@ -138,6 +130,7 @@ class LBKTTrainer(BaseTrainer):
         time_factor = self._move_tensor_to_device(time_factor)
         attempt_factor = self._move_tensor_to_device(attempt_factor)
         hint_factor = self._move_tensor_to_device(hint_factor)
+        skills = self._move_tensor_to_device(skills)
 
         preds = self.model(
             sequence,
@@ -145,7 +138,7 @@ class LBKTTrainer(BaseTrainer):
             time_factor,
             attempt_factor,
             hint_factor,
-            self.q_matrix,
+            skills,
         )
 
         y_hat, y_label, _ = self._extract_valid_predictions(

@@ -48,24 +48,17 @@ class UKTQModelData(QuestionModelData):
 
     @override
     def prepare_data(self, rc: Any) -> tuple:
-        user_question, user_response, user_mask, _ = self.load_sequence_data()
+        sequences = self.load_sequences()
+        partition = sequences.partition(rc.data.fold)
+        user_question = sequences.question
+        user_response = sequences.response
+        user_mask = sequences.mask
         user_response_aug = build_ukt_response_aug(user_response, user_mask)
 
-        train_data, val_data, test_data = self.split_kfold_data(
-            user_question,
-            user_response,
-            user_mask,
-            user_response_aug,
-            fold_idx=rc.data.fold,
+        dataset = UKTQDataset(
+            user_question, user_response, user_mask, user_response_aug
         )
-
-        train_dataset = UKTQDataset(
-            train_data[0], train_data[1], train_data[2], train_data[3]
-        )
-        val_dataset = UKTQDataset(val_data[0], val_data[1], val_data[2], val_data[3])
-        test_dataset = UKTQDataset(
-            test_data[0], test_data[1], test_data[2], test_data[3]
-        )
+        train_dataset, val_dataset, test_dataset = partition.apply(dataset)
 
         logger.info(
             f"UKTQ data prepared: train={len(train_dataset)}, "

@@ -24,7 +24,9 @@ class TestValidateData:
             users=[0, 0, 1, 1], questions=[1, 2, 2, 3], labels=[1, 0, 1, 0]
         )
         rel = {"question_skill": make_question_skill_frame([(1, 10), (2, 11), (3, 12)])}
-        return rel, seq
+        return rel, seq.with_columns(
+            pl.Series("skills", [[10], [11], [11], [12]], dtype=pl.List(pl.Int32))
+        )
 
     def test_missing_question_skill_relation_raises(
         self, make_sequence_frame: Callable[..., pl.DataFrame]
@@ -92,10 +94,12 @@ class TestValidateData:
         make_question_skill_frame: Callable[..., pl.DataFrame],
     ) -> None:
         # question 3 answered in sequence but absent from the relation.
-        seq = make_sequence_frame(users=[0, 0], questions=[1, 3])
+        seq = make_sequence_frame(users=[0, 0], questions=[1, 3]).with_columns(
+            pl.Series("skills", [[10], [12]], dtype=pl.List(pl.Int32))
+        )
         rel = {"question_skill": make_question_skill_frame([(1, 10)])}
         with pytest.raises(
-            AssertionError, match="not found in question_skill relation"
+            AssertionError, match="missing from the question_skill relation"
         ):
             DataSource._validate_data(rel, seq)
 
@@ -105,11 +109,11 @@ class TestValidateData:
         make_question_skill_frame: Callable[..., pl.DataFrame],
     ) -> None:
         # question 3 in the relation but never answered in sequence.
-        seq = make_sequence_frame(users=[0], questions=[1])
+        seq = make_sequence_frame(users=[0], questions=[1]).with_columns(
+            pl.Series("skills", [[10]], dtype=pl.List(pl.Int32))
+        )
         rel = {"question_skill": make_question_skill_frame([(1, 10), (3, 12)])}
-        with pytest.raises(
-            AssertionError, match="question_skill has 2 unique, sequence_data has 1"
-        ):
+        with pytest.raises(AssertionError, match="contains unobserved skills"):
             DataSource._validate_data(rel, seq)
 
     def test_valid_data_passes(
@@ -121,6 +125,52 @@ class TestValidateData:
             make_sequence_frame, make_question_skill_frame
         )
         assert DataSource._validate_data(rel, seq) is None
+
+    @pytest.mark.parametrize("skills", [None, [], [None], [10, None]])
+    def test_invalid_observed_skill_lists_raise(
+        self,
+        make_data_source: Callable[..., DataSource],
+        make_sequence_frame: Callable[..., pl.DataFrame],
+        skills: list[int | None] | None,
+    ) -> None:
+        sequence = make_sequence_frame([0], [1]).with_columns(
+            pl.Series("skills", [skills], dtype=pl.List(pl.Int32))
+        )
+        source = make_data_source()
+        with pytest.raises(AssertionError, match="nonempty lists without null entries"):
+            source.set_sequence_data(sequence)
+
+    def test_observed_skill_must_belong_to_its_question(
+        self,
+        make_sequence_frame: Callable[..., pl.DataFrame],
+        make_question_skill_frame: Callable[..., pl.DataFrame],
+    ) -> None:
+        sequence = make_sequence_frame([0, 0], [1, 2]).with_columns(
+            pl.Series("skills", [[11], [10]], dtype=pl.List(pl.Int32))
+        )
+        relation = {"question_skill": make_question_skill_frame([(1, 10), (2, 11)])}
+        with pytest.raises(
+            AssertionError, match="missing from the question_skill relation"
+        ):
+            DataSource._validate_data(relation, sequence)
+
+    def test_user_skill_count_uses_observed_annotations(
+        self,
+        make_data_source: Callable[..., DataSource],
+        make_sequence_frame: Callable[..., pl.DataFrame],
+        make_question_skill_frame: Callable[..., pl.DataFrame],
+    ) -> None:
+        sequence = make_sequence_frame([0, 1], [1, 1]).with_columns(
+            pl.Series("skills", [[10], [11]], dtype=pl.List(pl.Int32))
+        )
+        source = make_data_source(
+            sequence_data=sequence,
+            relation_data={
+                "question_skill": make_question_skill_frame([(1, 10), (1, 11)])
+            },
+        )
+        stats = source.get_user_stats().sort("user")
+        assert stats["skill_count"].to_list() == [1, 1]
 
 
 # --- _iter_user_aligned_slices ---------------------------------------------------
@@ -175,6 +225,29 @@ class TestIterUserAlignedSlices:
 
 
 class TestRemapIds:
+    def test_observed_skills_follow_relation_id_remapping(
+        self,
+        make_data_source: Callable[..., DataSource],
+        make_sequence_frame: Callable[..., pl.DataFrame],
+        make_question_skill_frame: Callable[..., pl.DataFrame],
+    ) -> None:
+        sequence = make_sequence_frame([0, 0], [10, 10]).with_columns(
+            pl.Series("skills", [[30, 10], [10]], dtype=pl.List(pl.Int32))
+        )
+        relation = make_question_skill_frame([(10, 10), (10, 30), (20, 20)])
+        source = make_data_source(
+            sequence_data=sequence, relation_data={"question_skill": relation}
+        )
+        source._remap_question_ids()
+
+        assert source.sequence_data["question"].to_list() == [0, 0]
+        assert source.sequence_data["skills"].to_list() == [[1, 0], [0]]
+        assert source.relation_data["question_skill"].sort("skill").rows() == [
+            (0, 0),
+            (0, 1),
+        ]
+        source._validate_data(source.relation_data, source.sequence_data)
+
     def test_user_ids_remapped_dense_preserving_row_order(
         self, make_data_source: Callable[..., DataSource]
     ) -> None:
@@ -213,6 +286,13 @@ class TestRemapIds:
                 }
             )
         }
+        seq = seq.with_columns(
+            pl.Series(
+                "skills",
+                [[52], [50, 51], [52], [50, 51], [52]],
+                dtype=pl.List(pl.Int32),
+            )
+        )
         ds = make_data_source(sequence_data=seq, relation_data=rel)
         ds._remap_user_ids()
         ds._remap_question_ids()
@@ -221,8 +301,8 @@ class TestRemapIds:
         # question 999 (relation-only) is filtered out.
         assert sorted(ds.sequence_data["question"].unique().to_list()) == [0, 1, 2]
         qs = ds.relation_data["question_skill"]
-        assert sorted(qs["question"].unique().to_list()) == [0, 1]
-        assert qs.height == 3  # the (999, 53) row is gone
+        assert sorted(qs["question"].unique().to_list()) == [0, 1, 2]
+        assert qs.height == 4  # the (999, 53) row is gone
 
         # Step 3: skill ids remapped dense independently per relation.
         assert sorted(qs["skill"].unique().to_list()) == [0, 1, 2]
@@ -231,13 +311,7 @@ class TestRemapIds:
         seq_pairs = set(zip(seq["question"], ds.sequence_data["question"]))
         expected = {(100, 0), (200, 1), (300, 2)}
         assert expected <= seq_pairs
-        rel_pairs = set(
-            zip(
-                [100, 100, 200],
-                qs.sort("skill")["question"].to_list(),
-            )
-        )
-        assert rel_pairs == {(100, 0), (200, 1)}
+        assert set(qs.rows()) == {(0, 0), (0, 1), (1, 2), (2, 2)}
 
     def test_remap_deterministic_across_calls(
         self, make_data_source: Callable[..., DataSource]

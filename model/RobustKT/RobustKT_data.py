@@ -8,6 +8,7 @@ from typing_extensions import override
 
 from utils.core import get_logger
 from utils.model_data import SkillModelData
+from utils.model_data.packed_sequences import to_first_skill_ids
 
 logger = get_logger(__name__)
 
@@ -34,35 +35,24 @@ class RobustKTModelData(SkillModelData):
     @override
     def prepare_data(self, rc: Any) -> tuple:
         fold_idx = rc.data.fold if rc.data.fold >= 0 else None
-        user_sequence, user_response, user_mask, _, user_question = (
-            self.build_sequence_data()
-        )
-
-        if fold_idx is None:
-            raise ValueError("K-fold cross-validation is not enabled.")
+        sequences = self.load_sequences()
+        partition = sequences.partition(rc.data.fold)
+        user_sequence = to_first_skill_ids(sequences.skills)
+        user_response = sequences.response
+        user_mask = sequences.mask
+        user_question = sequences.question
 
         kfold_n_splits = self.data_src.get_metadata("kfold_n_splits")
-        if fold_idx < 0 or fold_idx >= kfold_n_splits:
-            raise ValueError(
-                f"fold_idx {fold_idx} is out of range [0, {kfold_n_splits})"
-            )
 
         logger.info(
             f"Using K-fold cross-validation: fold {fold_idx + 1}/{kfold_n_splits}"
         )
-        train_data, val_data, _ = self.split_kfold_data(
-            user_sequence, user_response, user_mask, fold_idx=fold_idx
-        )
-        train_question, val_question, _ = self.split_kfold_data(
-            user_question, user_response, user_mask, fold_idx=fold_idx
-        )
 
-        train_dataset = RobustKTDataset(
-            train_data[0], train_data[1], train_data[2], train_question[0]
+        dataset = RobustKTDataset(
+            user_sequence, user_response, user_mask, user_question
         )
-        val_dataset = RobustKTDataset(
-            val_data[0], val_data[1], val_data[2], val_question[0]
-        )
+        train_dataset, val_dataset, _ = partition.apply(dataset)
+
         test_batch_size = getattr(rc.model, "test_batch_size", rc.model.batch_size)
         test_dataset = self.create_windowlate_dataloader(
             batch_size=test_batch_size,

@@ -85,7 +85,6 @@ class DenoiseKTTrainer(BaseTrainer):
             train_dataset,
             val_dataset,
             test_dataset,
-            question_concepts,
             question_graph,
         ) = model_data.prepare_data(rc)
 
@@ -100,7 +99,6 @@ class DenoiseKTTrainer(BaseTrainer):
         model = DenoiseKT(
             num_c=num_c,
             num_q=num_q,
-            question_concepts=question_concepts,
             question_graph=question_graph,
             d_model=m.d_model,
             n_blocks=m.n_blocks,
@@ -137,21 +135,22 @@ class DenoiseKTTrainer(BaseTrainer):
         )
 
     def forward_pass(
-        self, batch_data: tuple[torch.Tensor, torch.Tensor, torch.Tensor]
+        self, batch_data: tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]
     ) -> dict:
         """前向传播。
 
         预测语义：
         ``preds[:, t]`` 使用 ``question[:, t]`` 与历史 ``qa[:, :t]`` 预测 ``response[:, t]``。
 
-        batch_data: ``(question, response, mask)``
+        batch_data: ``(question, response, mask, skills)``
         """
-        question, response, mask = batch_data
+        question, response, mask, skills = batch_data
         question = self._move_tensor_to_device(question)
         response = self._move_tensor_to_device(response)
         mask = self._move_tensor_to_device(mask)
+        skills = self._move_tensor_to_device(skills)
 
-        preds = self.model(question, response)  # [B, S]
+        preds = self.model(question, response, skills)  # [B, S]
 
         y_hat, y_label, _ = self._extract_valid_predictions(
             preds, response, mask, same_position=True

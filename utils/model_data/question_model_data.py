@@ -7,7 +7,6 @@ construction.
 
 from __future__ import annotations
 
-from abc import abstractmethod
 from typing import TYPE_CHECKING, Any
 
 from utils.core import get_logger
@@ -15,8 +14,6 @@ from utils.data_process import DataSource
 from utils.model_data import BaseModelData
 
 if TYPE_CHECKING:
-    import numpy as np
-    import polars as pl
     from torch_geometric.data import HeteroData
 
 logger = get_logger(__name__)
@@ -24,6 +21,8 @@ logger = get_logger(__name__)
 
 class QuestionModelData(BaseModelData):
     """Base class for question-level model data preparation."""
+
+    _sequence_length_key = "max_question_seq_len"
 
     def __init__(self, data_src: DataSource, cache: bool = False):
         """Initialise the question-level model data object.
@@ -34,56 +33,6 @@ class QuestionModelData(BaseModelData):
         """
         super().__init__(data_src, cache=cache)
         self._split_getter = data_src.get_split_question_sequence_data
-
-    def _get_kfold_data(self) -> pl.DataFrame:
-        """Override: retrieve K-fold labels from question sequence data."""
-        return self.load_split_data()
-
-    @abstractmethod
-    def prepare_data(self, args: Any) -> Any:
-        """Prepare data required by question-level models.
-
-        Args:
-            args: Configuration arguments.
-        """
-        raise NotImplementedError("Subclasses should implement prepare_data method")
-
-    def load_sequence_data(
-        self,
-    ) -> tuple[np.ndarray, ...]:
-        """Load user response sequences.
-
-        Loads split question sequence data from disk and builds sequence arrays.
-
-        Returns:
-            tuple: (user_sequence, user_response, user_mask, user_id_sequence)
-                   as numpy arrays of shape (num_users, max_question_seq_len)
-                   -- the padded length recorded in metadata by preprocessing.
-        """
-        import numpy as np
-
-        logger.info("Building response sequences from split data...")
-
-        # Load split sequence data
-        data = self.load_split_data().to_pandas()
-        max_seq_len = self.data_src.get_metadata("max_question_seq_len")
-        num_users = data["sequence_id"].nunique()
-
-        # Build sequence arrays
-        user_sequence = np.zeros((num_users, max_seq_len), dtype=int)
-        user_id_sequence = np.zeros((num_users, max_seq_len), dtype=int)
-        user_response = np.zeros((num_users, max_seq_len), dtype=int)
-        user_mask = np.zeros((num_users, max_seq_len), dtype=int)
-
-        user_indices = data["sequence_id"].values
-        seq_positions = data["seq_pos"].values
-
-        user_sequence[user_indices, seq_positions] = data["question"].values
-        user_id_sequence[user_indices, seq_positions] = data["user"].values
-        user_response[user_indices, seq_positions] = data["label"].values
-        user_mask[user_indices, seq_positions] = 1
-
-        return user_sequence, user_response, user_mask, user_id_sequence
 
     def build_hetero_graph(
         self,

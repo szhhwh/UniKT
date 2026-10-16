@@ -192,7 +192,9 @@ class GKTTrainer(BaseTrainer):
             return build_dense_graph(num_skills)
         elif graph_type == "transition":
             logger.info("Building transition graph from training data...")
-            sequences = train_dataset.sequences.tolist()
+            sequences = [
+                train_dataset[i][0].tolist() for i in range(len(train_dataset))
+            ]
             return build_transition_graph(sequences, num_skills)
         else:
             logger.warning(f"Unknown graph type: {graph_type}, using dense graph")

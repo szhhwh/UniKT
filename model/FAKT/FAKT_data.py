@@ -9,6 +9,7 @@ from typing_extensions import override
 from utils.core import get_logger
 from utils.data_process import DataSource
 from utils.model_data import SkillModelData
+from utils.model_data.packed_sequences import to_first_skill_ids
 from utils.model_data.skill_model_data import WindowlateIterableDataset
 
 logger = get_logger(__name__)
@@ -166,36 +167,31 @@ class FAKTModelData(SkillModelData):
         """
         fold_idx = rc.data.fold if rc.data.fold >= 0 else None
 
-        user_sequence, user_response, user_mask, _, user_question = (
-            self.build_sequence_data()
+        sequences = self.load_sequences(required=("timestamp",))
+        partition = sequences.partition(rc.data.fold)
+        user_sequence = to_first_skill_ids(sequences.skills)
+        user_response = sequences.response
+        user_mask = sequences.mask
+        user_question = sequences.question
+
+        rgaps, sgaps, pcounts = self._compute_time_gaps(sequences)
+
+        kfold_n_splits = self.data_src.get_metadata("kfold_n_splits")
+        logger.info(
+            f"Using K-fold cross-validation: fold {fold_idx + 1}/{kfold_n_splits}"
         )
 
-        rgaps, sgaps, pcounts = self._compute_time_gaps()
+        dataset = FAKTDataset(
+            user_sequence,
+            user_response,
+            user_mask,
+            rgaps,
+            sgaps,
+            pcounts,
+            user_question,
+        )
+        train_dataset, val_dataset, _ = partition.apply(dataset)
 
-        if fold_idx is not None:
-            kfold_n_splits = self.data_src.get_metadata("kfold_n_splits")
-            if fold_idx < 0 or fold_idx >= kfold_n_splits:
-                raise ValueError(
-                    f"fold_idx {fold_idx} is out of range [0, {kfold_n_splits})"
-                )
-            logger.info(
-                f"Using K-fold cross-validation: fold {fold_idx + 1}/{kfold_n_splits}"
-            )
-            train_data, val_data, _ = self.split_kfold_data(
-                user_sequence,
-                user_response,
-                user_mask,
-                rgaps,
-                sgaps,
-                pcounts,
-                user_question,
-                fold_idx=fold_idx,
-            )
-        else:
-            raise ValueError("K-fold cross-validation is not enabled.")
-
-        train_dataset = FAKTDataset(*train_data)
-        val_dataset = FAKTDataset(*val_data)
         test_dataset = self.create_windowlate_dataloader(
             batch_size=rc.model.batch_size,
             shuffle=False,
@@ -226,21 +222,11 @@ class FAKTModelData(SkillModelData):
             num_pcount=self.num_pcount,
         )
 
-    def _compute_time_gaps(self):
-        """从 split_skill_sequence_data 的时间戳计算 rgaps/sgaps/pcounts。"""
-        data = self.load_split_data(required=("timestamp",)).to_pandas()
-        max_seq_len = self.data_src.get_metadata("max_skill_seq_len")
-        num_users = data["sequence_id"].nunique()
-
-        users = data["sequence_id"].values
-        seq_positions = data["seq_pos"].values
-
-        skills_mat = np.zeros((num_users, max_seq_len), dtype=np.int64)
-        ts_mat = np.zeros((num_users, max_seq_len), dtype=np.float64)
-        skills_mat[users, seq_positions] = data["skill"].values
-        ts_mat[users, seq_positions] = (
-            data["timestamp"].fillna(0).values.astype(np.float64)
-        )
+    def _compute_time_gaps(self, sequences):
+        """Derive forgetting features from the already packed event history."""
+        skills_mat = to_first_skill_ids(sequences.skills)
+        ts_mat = sequences.features["timestamp"].astype(np.float64)
+        num_users, max_seq_len = skills_mat.shape
 
         rgaps = np.zeros((num_users, max_seq_len), dtype=np.int64)
         sgaps = np.zeros((num_users, max_seq_len), dtype=np.int64)

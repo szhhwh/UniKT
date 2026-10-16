@@ -6,6 +6,7 @@ from torch.utils.data import Dataset
 
 from utils.core import get_logger
 from utils.model_data import QuestionModelData
+from utils.model_data.packed_sequences import to_skill_combination_ids
 
 logger = get_logger(__name__)
 
@@ -34,10 +35,10 @@ class DisKTDataset(Dataset):
 
 
 class DisKTModelData(QuestionModelData):
-    """Question-level data with multi-skill questions folded to one concept.
+    """Question-level data with each interaction's skills folded to one concept.
 
-    Each Q-matrix row is a question's skill set; deduplicated rows each map to
-    one new concept, so every question has exactly one concept id. Concept ids
+    Each interaction provides its skill set; distinct sets each map to
+    one new concept, so every interaction has exactly one concept id. Concept ids
     are 1-indexed (0 reserved for padding).
     """
 
@@ -45,55 +46,38 @@ class DisKTModelData(QuestionModelData):
         super().__init__(data_src)
 
     def prepare_data(self, rc):
-        user_question, user_response, user_mask, _ = self.load_sequence_data()
+        sequences = self.load_sequences()
+        partition = sequences.partition(rc.data.fold)
+        user_question = sequences.question
+        user_response = sequences.response
+        user_mask = sequences.mask
         num_questions = self.data_src.get_metadata("num_questions")
 
         # Multi-skill folding: collapse shared skill sets into single concepts.
-        q_matrix = self.build_relationship_matrix(
-            ("question", "has", "skill"), value_type="binary"
-        )
-        collapsed = np.unique(q_matrix, axis=0, return_inverse=True)[1]
-        num_concepts = int(collapsed.max()) + 1
-        num_skills = num_concepts + 1  # 1..num_concepts real, 0 padding
-        logger.info(
-            f"DisKT folded {q_matrix.shape[1]} base skills into {num_concepts} concepts"
-        )
+        skills_sequence, num_concepts = to_skill_combination_ids(sequences.skills)
+        num_skills = num_concepts + 1
 
-        question_to_skill = collapsed + 1
-        skills_sequence = question_to_skill[user_question] * user_mask
-
-        train_data, val_data, test_data = self.split_kfold_data(
-            user_question,
-            user_response,
-            user_mask,
-            skills_sequence,
-            fold_idx=rc.data.fold,
-        )
-
-        # Skill difficulty from the training fold only, to avoid leakage.
         skill_difficulty = self._compute_skill_difficulty(
-            train_data[3], train_data[1], train_data[2], num_skills
+            skills_sequence[partition.train],
+            user_response[partition.train],
+            user_mask[partition.train],
+            num_skills,
         )
-
-        train_counter = self._build_counter_masks(
-            train_data[3], train_data[1], train_data[2], skill_difficulty, seed_base=0
+        counters = np.empty_like(user_response, dtype=np.int8)
+        for seed, indices in enumerate(
+            (partition.train, partition.val, partition.test)
+        ):
+            counters[indices] = self._build_counter_masks(
+                skills_sequence[indices],
+                user_response[indices],
+                user_mask[indices],
+                skill_difficulty,
+                seed_base=seed,
+            )
+        dataset = DisKTDataset(
+            user_question, skills_sequence, user_response, user_mask, counters
         )
-        val_counter = self._build_counter_masks(
-            val_data[3], val_data[1], val_data[2], skill_difficulty, seed_base=1
-        )
-        test_counter = self._build_counter_masks(
-            test_data[3], test_data[1], test_data[2], skill_difficulty, seed_base=2
-        )
-
-        train_dataset = DisKTDataset(
-            train_data[0], train_data[3], train_data[1], train_data[2], train_counter
-        )
-        val_dataset = DisKTDataset(
-            val_data[0], val_data[3], val_data[1], val_data[2], val_counter
-        )
-        test_dataset = DisKTDataset(
-            test_data[0], test_data[3], test_data[1], test_data[2], test_counter
-        )
+        train_dataset, val_dataset, test_dataset = partition.apply(dataset)
 
         logger.info(
             f"Train: {len(train_dataset)}, Val: {len(val_dataset)}, Test: {len(test_dataset)}"

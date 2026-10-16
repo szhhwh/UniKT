@@ -217,7 +217,7 @@ class HDHKT(nn.Module):
     Example:
         >>> model = HDHKT(data_metadata, hetero_metadata, hidden_dim=250, n_hop=4, heads=1,
         ...               lstm_layers=1, dropout=0.25, history_neighbour=5, att_bound=0.1)
-        >>> logits = model(user_sequence, user_response, user_mask, hetero_graph, hypergraph, question_skill_matrix)
+        >>> logits = model(user_sequence, user_response, user_mask, hetero_graph, hypergraph, interaction_skills)
     """
 
     def __init__(
@@ -368,7 +368,7 @@ class HDHKT(nn.Module):
         user_mask: torch.Tensor,  # [B, S]
         hetero_graph: Any,  # HeteroData
         hypergraph: Hypergraph,
-        skill_ids_per_question: torch.Tensor,  # [Q, K_max] (padding_index = num_skills)
+        interaction_skills: torch.Tensor,  # [B, S, K_max], padded with num_skills
         return_states: bool = False,
     ) -> torch.Tensor:  # [B, S]
         """前向传播。
@@ -379,7 +379,7 @@ class HDHKT(nn.Module):
             user_mask: 有效位置掩码 [B, S]
             hetero_graph: 异构图数据
             hypergraph: 超图数据
-            skill_ids_per_question: 预计算的每题关联技能 id 表 [Q, K_max]，
+            interaction_skills: 本次交互的技能 id 列表 [B, S, K_max]，
                 未用槽位填 ``num_skills``（前向时追加零向量行）
             return_states: 是否返回内部状态（用于知识状态计算）
 
@@ -434,13 +434,10 @@ class HDHKT(nn.Module):
 
         # Knowledge status = next-question features + related skill features
         num_skills = skill_hetero_conv.size(0)
-        k_max = skill_ids_per_question.size(-1)
-        skill_ids_full = skill_ids_per_question[next_user_sequence]  # [B, S, K_max]
-        skill_counts = (skill_ids_full != num_skills).sum(dim=-1)  # [B, S]
-        batch_k = skill_counts.max()  # 0-d tensor, kept on-device
-        k_slot_mask = (
-            torch.arange(k_max, device=skill_ids_full.device) < batch_k
-        )  # [K_max]
+        skill_ids_full = torch.cat(
+            [interaction_skills[:, 1:], interaction_skills[:, -1:]], dim=1
+        )
+        skill_slot_mask = skill_ids_full != num_skills
 
         # Append a zero-vector row so the padding index resolves to zeros
         skill_conv_padded = F.pad(skill_hetero_conv, (0, 0, 0, 1))  # [num_skills+1, H]
@@ -454,7 +451,10 @@ class HDHKT(nn.Module):
         )  # [B, S, K_max+1, embedding_dim]
 
         logits = self.general_interaction(
-            student_status, knowledge_status, user_mask, skill_slot_mask=k_slot_mask
+            student_status,
+            knowledge_status,
+            user_mask,
+            skill_slot_mask=skill_slot_mask,
         )  # [B, S]
 
         if return_states:

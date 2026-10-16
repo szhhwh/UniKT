@@ -90,8 +90,9 @@ class PracticeAnatomyData(DataSource):
             self.load_src_data()
 
         # Select only needed columns and rename
-        data = self.raw_data.select(
+        data = self.raw_data.with_row_index("interaction_id").select(
             [
+                pl.col("interaction_id"),
                 pl.col("user"),
                 pl.col("item_asked"),
                 pl.col("item_answered"),
@@ -147,10 +148,12 @@ class PracticeAnatomyData(DataSource):
         )
 
         # Sort by user and timestamp
-        data = data.sort(["user", "timestamp"])
+        data = data.sort(self._sort_columns())
 
         # Remove duplicates
-        data = data.unique()
+        data = data.unique(
+            subset=pl.exclude("interaction_id"), keep="first", maintain_order=True
+        )
 
         # Ensure label is 0 or 1
         data = data.filter(pl.col("label").is_in([0, 1]))
@@ -208,21 +211,12 @@ class PracticeAnatomyData(DataSource):
             .rename({"question_id": "question"})
         )
 
-        # Build normalized relation tables
-        question_data = (
-            self.cleaned_raw_data.select(["question", "skill", "assignment"])
-            .unique(subset=["question"])
-            .join(question_map_df, on="question", how="left")
-            .with_columns(pl.col("question_id").cast(pl.Int32))
-            .drop("question")
-            .rename({"question_id": "question"})
+        question_assignment = mapped_data.select(["question", "assignment"]).unique(
+            subset=["question"]
         )
 
-        question_skill = question_data.select(["question", "skill"])
-        question_assignment = question_data.select(["question", "assignment"])
-
-        # Build ID mappings from each relation (assignment string -> dense int)
-        self._build_id_mapping(question_skill, ["skill"])
+        # Build ID mappings for skills and item metadata.
+        self._build_id_mapping(mapped_data, ["skill"])
         self._build_id_mapping(question_assignment, ["assignment"])
         logger.debug(
             f"ID mappings: skills={self._get_mapped_count('skill')}, "
@@ -230,13 +224,17 @@ class PracticeAnatomyData(DataSource):
         )
 
         # Apply ID mappings
-        question_skill = self._apply_id_mapping(question_skill, columns=["skill"])
         question_assignment = self._apply_id_mapping(
             question_assignment, columns=["assignment"]
         )
 
         # Build sequence_data
-        sequence_data = mapped_data.select(["user", "question", "label", "timestamp"])
+        mapped_data = mapped_data.with_columns(
+            self._map_interaction_skills(pl.concat_list("skill"))
+        )
+        sequence_data = mapped_data.select(
+            ["interaction_id", "skills", "user", "question", "label", "timestamp"]
+        )
 
         # Build ID mapping for user
         self._build_id_mapping(sequence_data, ["user"])
@@ -245,10 +243,9 @@ class PracticeAnatomyData(DataSource):
 
         # Store processed data
         self.relation_data = {
-            "question_skill": question_skill,
             "question_assignment": question_assignment,
         }
-        self.sequence_data = sequence_data
+        self.set_sequence_data(sequence_data)
 
 
 __all__ = ["PracticeAnatomyData"]

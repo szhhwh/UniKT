@@ -50,26 +50,31 @@ class Junyi2015Data(DataSource):
         )
         logger.info(f"Loading raw data from: {log_pattern}")
 
-        self.sequence_data_lazy = pl.scan_csv(
-            log_pattern,
-            schema_overrides={
-                "user_id": pl.Int64,
-                "exercise": pl.Utf8,
-                "correct": pl.Utf8,
-                "time_done": pl.Int64,
-                "count_attempts": pl.Int64,
-                "count_hints": pl.Int64,
-            },
-        ).select(
-            [
-                "user_id",
-                "exercise",
-                "correct",
-                "time_done",
-                "count_attempts",
-                "count_hints",
-                "time_taken_attempts",
-            ]
+        self.sequence_data_lazy = (
+            pl.scan_csv(
+                log_pattern,
+                schema_overrides={
+                    "user_id": pl.Int64,
+                    "exercise": pl.Utf8,
+                    "correct": pl.Utf8,
+                    "time_done": pl.Int64,
+                    "count_attempts": pl.Int64,
+                    "count_hints": pl.Int64,
+                },
+            )
+            .with_row_index("interaction_id")
+            .select(
+                [
+                    "interaction_id",
+                    "user_id",
+                    "exercise",
+                    "correct",
+                    "time_done",
+                    "count_attempts",
+                    "count_hints",
+                    "time_taken_attempts",
+                ]
+            )
         )
 
     def _validate_data_paths(self) -> None:
@@ -159,6 +164,7 @@ class Junyi2015Data(DataSource):
         # Build final sequence_data
         sequence_data = mapped_data.select(
             [
+                "interaction_id",
                 "user",
                 "question",
                 "label",
@@ -176,10 +182,10 @@ class Junyi2015Data(DataSource):
 
         # Store processed data
         self.relation_data = {
-            "question_skill": question_skill,
             "question_assignment": question_assignment,
         }
-        self.sequence_data = sequence_data
+        sequence_data = self._attach_metadata_skills(sequence_data, question_skill)
+        self.set_sequence_data(sequence_data)
 
     @override
     def clean_raw_data(self) -> None:
@@ -229,7 +235,7 @@ class Junyi2015Data(DataSource):
             .alias("timestamp")
         )
 
-        sequence_data = sequence_data.sort(["user", "timestamp"])
+        sequence_data = sequence_data.sort(self._sort_columns())
 
         logger.debug(f"Loaded {len(sequence_data)} raw interactions.")
 

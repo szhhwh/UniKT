@@ -359,7 +359,6 @@ class WindowlateProcessor:
     def build(
         cls,
         test_data: pl.DataFrame,
-        question_data: pl.DataFrame,
         max_seq_len: int,
         output_path: str,
         num_workers: int = 0,
@@ -370,7 +369,6 @@ class WindowlateProcessor:
 
         Args:
             test_data: Test set sequence data.
-            question_data: Question data containing skill mappings.
             max_seq_len: Maximum sequence length; what it counts follows
                 ``truncation_stage``.
             output_path: Output file path (streamed write).
@@ -384,16 +382,23 @@ class WindowlateProcessor:
             The largest window row count across all generated samples; this
             is the padded length evaluation must allocate.
         """
-        # Build question-to-skill-list mapping
-        q_skill_map = (
-            question_data.sort("question", "skill")
-            .group_by("question")
-            .agg(pl.col("skill").sort().alias("skills"))
-        )
-
-        # Map skill lists to test data
-        test_data = test_data.join(q_skill_map, on="question", how="inner")
-        sorted_test_data = test_data.sort(["user", "timestamp"])
+        required = {
+            "user",
+            "question",
+            "label",
+            "timestamp",
+            "skills",
+            "interaction_id",
+        }
+        if missing := required - set(test_data.columns):
+            raise ValueError(f"Missing interaction columns: {sorted(missing)}")
+        if test_data.filter(
+            pl.col("skills").is_null()
+            | (pl.col("skills").list.len() == 0)
+            | pl.col("skills").list.eval(pl.element().is_null()).list.any()
+        ).height:
+            raise ValueError("Interaction skills must be nonempty without nulls")
+        sorted_test_data = test_data.sort(["user", "timestamp", "interaction_id"])
 
         # Configure dynamic schema: preserve all source columns not mapped to core columns
         cls.EXTRA_COLUMNS = [

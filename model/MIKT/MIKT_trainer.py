@@ -77,7 +77,6 @@ class MIKTTrainer(BaseTrainer):
             train_dataset,
             val_dataset,
             test_dataset,
-            self.question_skill_matrix,
         ) = model_data.prepare_data(rc)
 
         loss_fn = torch.nn.BCELoss()
@@ -90,16 +89,6 @@ class MIKTTrainer(BaseTrainer):
             lr_scheduler = torch.optim.lr_scheduler.ExponentialLR(
                 optimizer, gamma=m.lr_decay
             )
-
-        # build() hasn't run yet, so self.device_ is None. Resolve the target
-        # device from rc to place the trainer-side question_skill_matrix correctly.
-        dev = rc.general.device
-        device = (
-            torch.device(dev)
-            if dev
-            else torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        )
-        self.question_skill_matrix = self.question_skill_matrix.to(device)
 
         return RuntimeComponents(
             model=model,
@@ -120,14 +109,15 @@ class MIKTTrainer(BaseTrainer):
         模型输出 P[:, t] 预测 response[:, t+1]，即 [B, S-1] 的预测。
         对应标签为 response[:, 1:]，对应掩码为 mask[:, 1:]。
         """
-        sequence, response, mask = batch_data
+        sequence, response, mask, skills = batch_data
         sequence = self._move_tensor_to_device(sequence)
         response = self._move_tensor_to_device(response)
+        skills = self._move_tensor_to_device(skills)
         mask = self._move_tensor_to_device(mask, dtype=torch.bool)
 
         # Model outputs [B, S-1]; P[:, t] predicts response[:, t+1] (next-item). Pad to [B, S] for built-in alignment.
         y_hat_full = self._pad_to_full_sequence(
-            self.model(sequence, response, mask, self.question_skill_matrix)
+            self.model(sequence, response, mask, skills)
         )
 
         y_hat, y_label, _ = self._extract_valid_predictions(y_hat_full, response, mask)

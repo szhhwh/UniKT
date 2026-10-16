@@ -37,7 +37,7 @@ class TCKTConfig(ModelConfig):
         d_e: Exercise embedding dim.
         num_heads: Attention heads.
         dropout: Dropout rate.
-        q_gamma: Q-matrix smoothing factor.
+        q_gamma: Smoothing added to each event's skill indicator.
         global_dict_size: Global dictionary size N (K-Means clusters).
         max_rt_seconds: Response time cap in seconds (n_at = this + 1).
         max_it_minutes: Interval time cap in minutes (n_it = this + 1).
@@ -143,8 +143,8 @@ class TCKTTrainer(BaseTrainer):
             seq_len=info["max_question_seq_len"],
             global_dict_size=m.global_dict_size,
             dropout=m.dropout,
+            q_gamma=m.q_gamma,
         )
-        model.set_q_matrix(info["q_matrix"], m.q_gamma)
         model.set_difficulty(info["difficulty"])
 
         # Clustering config used by the refresh callback.
@@ -183,15 +183,16 @@ class TCKTTrainer(BaseTrainer):
 
         模型输出 ``pred[:, t]`` 预测 ``a[:, t]``（same-position 约定）。
         """
-        e, at, a, it, c, mask = batch_data
+        e, at, a, it, c, mask, skills = batch_data
         e = self._move_tensor_to_device(e)
         at = self._move_tensor_to_device(at)
         a = self._move_tensor_to_device(a)
         it = self._move_tensor_to_device(it)
         c = self._move_tensor_to_device(c)
         mask = self._move_tensor_to_device(mask)
+        skills = self._move_tensor_to_device(skills)
 
-        pred = self.model(e, at, a, it, c)  # [B, S]
+        pred = self.model(e, at, a, it, c, skills)  # [B, S]
 
         y_hat, y_label, _ = self._extract_valid_predictions(
             pred, a, mask, same_position=True
@@ -224,7 +225,7 @@ class TCKTTrainer(BaseTrainer):
         chunks: list[np.ndarray] = []
         collected = 0
         for batch in self.train_data:
-            e, _at, a, _it, c, mask = batch
+            e, _at, a, _it, c, mask, _skills = batch
             e = e.to(device)
             c = c.to(device)
             a = a.to(device)

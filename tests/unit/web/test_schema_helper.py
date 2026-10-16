@@ -27,7 +27,12 @@ if TYPE_CHECKING:
 
 import web.backend.services._schema_helper as helper
 
-_REPO_ROOT = str(Path(__file__).resolve().parents[2])
+# Anchor on a repo-root marker instead of a fixed parent count so this file
+# keeps working wherever it sits in the tests/ tree.
+_REPO_ROOT = str(
+    next(p for p in Path(__file__).resolve().parents if (p / "pyproject.toml").exists())
+)
+_BACKEND_DIR = str(Path(_REPO_ROOT) / "web" / "backend")
 
 
 def _cls_with_doc(doc: str) -> type:
@@ -276,11 +281,8 @@ class TestExtractorRobustness:
 
     @pytest.fixture
     def extractor(self) -> tuple[ModuleType, SchemaExtractor]:
-        backend_dir = str(
-            Path(__file__).resolve().parent.parent.parent / "web" / "backend"
-        )
         saved = list(sys.path)
-        sys.path.insert(0, backend_dir)
+        sys.path.insert(0, _BACKEND_DIR)
         try:
             import services.schema_extractor as mod
 

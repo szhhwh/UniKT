@@ -86,11 +86,7 @@ class Assistments2015Data(DataSource):
             .rename({"question_id": "question"})
         )
 
-        # Build normalized relation tables
         # assist15 has no real skill/assignment — use identity mapping
-        question_skill = mapped_data.select(["question"]).unique(subset=["question"])
-        question_skill = question_skill.with_columns(pl.col("question").alias("skill"))
-
         question_assignment = mapped_data.select(["question"]).unique(
             subset=["question"]
         )
@@ -99,8 +95,20 @@ class Assistments2015Data(DataSource):
         )
 
         # Build sequence_data
+        mapped_data = mapped_data.with_columns(
+            pl.concat_list(pl.col("question").cast(pl.Int32)).alias("skills")
+        )
         sequence_data = mapped_data.select(
-            ["user", "question", "label", "attempt_count", "hint_count", "timestamp"]
+            [
+                "interaction_id",
+                "skills",
+                "user",
+                "question",
+                "label",
+                "attempt_count",
+                "hint_count",
+                "timestamp",
+            ]
         )
 
         # Build ID mappings for user
@@ -108,17 +116,16 @@ class Assistments2015Data(DataSource):
         sequence_data = self._apply_id_mapping(sequence_data, columns=["user"])
 
         self.relation_data = {
-            "question_skill": question_skill,
             "question_assignment": question_assignment,
         }
-        self.sequence_data = sequence_data
+        self.set_sequence_data(sequence_data)
 
     def clean_raw_data(self) -> None:
         """Clean raw sequence data."""
         if self.raw_data is None:
             self.load_src_data()
 
-        data = self.raw_data.rename(
+        data = self.raw_data.with_row_index("interaction_id").rename(
             {
                 "user_id": "user",
                 "sequence_id": "question",
@@ -148,7 +155,9 @@ class Assistments2015Data(DataSource):
             pl.lit(0, dtype=pl.Int32).alias("hint_count"),
         )
 
-        data = data.unique().collect()
+        data = data.unique(
+            subset=pl.exclude("interaction_id"), keep="first", maintain_order=True
+        ).collect()
 
         # Convert to global relative time
         data = data.with_columns(
@@ -159,7 +168,7 @@ class Assistments2015Data(DataSource):
             .alias("timestamp")
         )
 
-        data = data.sort(["user", "timestamp"])
+        data = data.sort(self._sort_columns())
 
         data = exclude_short_sequences(data, self.args.min_seq_len)
 

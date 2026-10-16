@@ -63,26 +63,6 @@ class HiTSKTDataset(Dataset):
 class HiTSKTModelData(QuestionModelData):
     """Use framework question folds and assign one ID per skill combination."""
 
-    def _skill_mapping(self):
-        relation = self.data_src.get_relation("question_skill")
-        n_questions = self.data_src.get_metadata("num_questions")
-        per_question = [set() for _ in range(n_questions)]
-        for question, skill in relation.select("question", "skill").iter_rows():
-            per_question[int(question)].add(int(skill))
-        combinations = [tuple(sorted(skills)) for skills in per_question]
-        unique = sorted(set(combinations))
-        combination_ids = {
-            combination: index + 1 for index, combination in enumerate(unique)
-        }
-        missing = sum(not combination for combination in combinations)
-        if missing:
-            logger.warning(
-                f"HiTSKT: {missing} questions have no linked skills; using an empty-combination ID"
-            )
-        return [combination_ids[combination] for combination in combinations], len(
-            unique
-        )
-
     @staticmethod
     def _timestamp_scale(rows, unit):
         if unit == "seconds":
@@ -92,7 +72,7 @@ class HiTSKTModelData(QuestionModelData):
         gaps = []
         previous_user = None
         previous_time = None
-        for user, _, _, timestamp, _ in rows:
+        for user, _, _, timestamp, *_ in rows:
             if user == previous_user and timestamp > previous_time:
                 gaps.append(timestamp - previous_time)
             previous_user, previous_time = user, timestamp
@@ -125,11 +105,16 @@ class HiTSKTModelData(QuestionModelData):
         if not 0 <= rc.data.fold < folds:
             raise ValueError(f"fold must be in [0, {folds})")
 
-        relation_skills, n_combinations = self._skill_mapping()
+        data = self.load_split_frame(required=("timestamp",))
+        annotations = data["skills"].to_list()
+        vocabulary = {
+            skills: i + 1
+            for i, skills in enumerate(sorted({tuple(s) for s in annotations}))
+        }
+        n_combinations = len(vocabulary)
         rows = (
-            self.load_split_data(required=("timestamp",))
-            .sort(["user", "timestamp", "sequence_id", "seq_pos"])
-            .select("user", "question", "label", "timestamp", "fold")
+            data.sort(["user", "timestamp", "sequence_id", "seq_pos"])
+            .select("user", "question", "label", "timestamp", "fold", "skills")
             .iter_rows()
         )
         rows = list(rows)
@@ -176,7 +161,7 @@ class HiTSKTModelData(QuestionModelData):
 
         n_questions = self.data_src.get_metadata("num_questions")
         eos = (n_questions + 1, n_combinations + 1, 0)
-        for user, question, label, timestamp, fold in rows:
+        for user, question, label, timestamp, fold, skills in rows:
             if label not in (0, 1):
                 raise ValueError("HiTSKT requires binary labels")
             if user != current_user:
@@ -194,7 +179,7 @@ class HiTSKTModelData(QuestionModelData):
             current_events.append(
                 (
                     question + 1,
-                    relation_skills[question],
+                    vocabulary[tuple(skills)],
                     label,
                     question_counts[key],
                 )

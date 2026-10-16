@@ -61,22 +61,20 @@ class SKTModelData(QuestionModelData):
         num_questions = self.data_src.get_metadata("num_questions")
         max_seq_len = self.data_src.get_metadata("max_question_seq_len")
 
-        user_sequence, user_response, user_mask, _ = self.load_sequence_data()
-
-        fold_idx = rc.data.fold if rc.data.fold >= 0 else None
-        if fold_idx is None:
-            raise ValueError("K-fold cross-validation is not enabled (fold < 0).")
-
-        train_slices, val_slices, test_slices = self.split_kfold_data(
-            user_sequence, user_response, user_mask, fold_idx=fold_idx
-        )
-        (tr_q, tr_a, tr_mask) = train_slices
-        (va_q, va_a, va_mask) = val_slices
-        (te_q, te_a, te_mask) = test_slices
+        sequences = self.load_sequences()
+        partition = sequences.partition(rc.data.fold)
+        user_sequence = sequences.question
+        user_response = sequences.response
+        user_mask = sequences.mask
 
         # Both graphs are derived from the training fold only
         topk = rc.model.graph_topk
-        transition = self._build_correct_transition(tr_q, tr_a, tr_mask, num_questions)
+        transition = self._build_correct_transition(
+            user_sequence[partition.train],
+            user_response[partition.train],
+            user_mask[partition.train],
+            num_questions,
+        )
         successor_adj = self._build_successor_adj(transition, topk)
         neighbor_adj = self._build_neighbor_adj(successor_adj, topk)
         logger.info(
@@ -85,9 +83,8 @@ class SKTModelData(QuestionModelData):
             f"neighbor nnz={int(neighbor_adj.sum())}"
         )
 
-        train_dataset = SKTDataset(tr_q, tr_a, tr_mask)
-        val_dataset = SKTDataset(va_q, va_a, va_mask)
-        test_dataset = SKTDataset(te_q, te_a, te_mask)
+        dataset = SKTDataset(user_sequence, user_response, user_mask)
+        train_dataset, val_dataset, test_dataset = partition.apply(dataset)
 
         logger.info(
             f"SKT data: num_questions={num_questions}, max_seq_len={max_seq_len}"

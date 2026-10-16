@@ -172,7 +172,8 @@ class EdNetKT1Data(DataSource):
         ).lazy()
 
         return (
-            lazy_df.join(lookup_lazy, on="question_id", how="inner")
+            lazy_df.with_row_index("interaction_id")
+            .join(lookup_lazy, on="question_id", how="inner")
             .with_columns(
                 [
                     (pl.col("user_answer") == pl.col("correct_answer"))
@@ -181,7 +182,7 @@ class EdNetKT1Data(DataSource):
                     pl.col("question_id").cast(pl.Utf8),
                 ]
             )
-            .select(["user_id", "question_id", "label", "timestamp"])
+            .select(["interaction_id", "user_id", "question_id", "label", "timestamp"])
         )
 
     @override
@@ -298,7 +299,9 @@ class EdNetKT1Data(DataSource):
         # EdNet uses timestamp as order, no attempt_count/hint_count columns
         # Use placeholders for attempt_count/hint_count (set to 1 and 0 respectively) since they are required by our format
         sequence_data = (
-            mapped_data.select(["user", "question", "label", "timestamp"])
+            mapped_data.select(
+                ["interaction_id", "user", "question", "label", "timestamp"]
+            )
             .with_columns(
                 [
                     pl.lit(1).alias("attempt_count"),  # Placeholder
@@ -307,6 +310,7 @@ class EdNetKT1Data(DataSource):
             )
             .select(
                 [
+                    "interaction_id",
                     "user",
                     "question",
                     "label",
@@ -324,17 +328,23 @@ class EdNetKT1Data(DataSource):
 
         # Store processed data
         self.relation_data = {
-            "question_skill": question_skill,
             "question_assignment": question_assignment,
             "question_template": question_template,
         }
-        self.sequence_data = sequence_data
+        sequence_data = self._attach_metadata_skills(sequence_data, question_skill)
+        self.set_sequence_data(sequence_data)
 
     def clean_raw_data(self) -> None:
         """Clean raw sequence data."""
         self.load_src_data()
 
-        required_cols = ["user_id", "question_id", "label", "timestamp"]
+        required_cols = [
+            "interaction_id",
+            "user_id",
+            "question_id",
+            "label",
+            "timestamp",
+        ]
         current_cols = self.sequence_data_raw.columns
         missing_cols = [col for col in required_cols if col not in current_cols]
         if missing_cols:
@@ -351,7 +361,7 @@ class EdNetKT1Data(DataSource):
                 & pl.col("question").is_not_null()
                 & pl.col("label").is_not_null()
             )
-            .sort(["user", "timestamp"])
+            .sort(self._sort_columns())
         )
 
         # Convert to global relative time (dataset-wise earliest timestamp as zero)
