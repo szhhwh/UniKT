@@ -1,24 +1,37 @@
-"""Tests for ``utils.model_data.base_model_data``: cache, folds, difficulty, relations.
+"""Tests for ``utils.model_data.base_model_data``.
 
-Reuses the area conftest ``StubDataSource`` / ``make_skill_model_data``
-factories. The disk cache normally writes to the repo-root ``.cache/``, so a
-fixture redirects ``base_model_data.Path`` to keep every write inside
-``tmp_path``.
+Covers the three concerns of the module: the ``disk_cache`` decorator,
+``calculate_question_difficulty`` / ``build_relationship_matrix``, and the
+split-sequence loading surface (``load_split_frame`` / ``pack_sequences`` /
+``load_sequences``) that every model-side ``*ModelData`` inherits.
+
+Doubles come from the area conftest. The disk cache normally writes to the
+repo-root ``.cache/``, so a fixture redirects ``base_model_data.Path`` to keep
+every write inside ``tmp_path``.
 """
 
 from __future__ import annotations
 
+from pathlib import Path
 from typing import TYPE_CHECKING, Any, cast
 
+import numpy as np
 import polars as pl
 import pytest
+import torch
+from torch.utils.data import TensorDataset
 
-from tests.unit.model_data.conftest import StubDataSource
+from tests.unit.model_data.conftest import (
+    EventQuestionData,
+    EventSkillData,
+    StubDataSource,
+    event_skill_frame,
+)
 from utils.data_process import DataSource
 from utils.model_data.base_model_data import BaseModelData
 
 if TYPE_CHECKING:
-    from pathlib import Path
+    from tests.unit.model_data.conftest import ParquetReads, ParquetSource
 
 
 @pytest.fixture
@@ -246,3 +259,109 @@ class TestRelationshipMatrix:
             self._model_data(relation, metadata).build_relationship_matrix(
                 ("question", "has", "skill"), value_type="tfidf"
             )
+
+
+# ---------------------------------------------------------------------------
+# load_split_frame / pack_sequences / load_sequences
+# ---------------------------------------------------------------------------
+
+
+def _write_skill_split(parquet_source: ParquetSource, max_seq_len: int) -> None:
+    """Lay down the skill-chain parquet the SkillModelData path reads."""
+    event_skill_frame().write_parquet(
+        Path(parquet_source.data_folder) / "events_split_skill_sequence.parquet"
+    )
+    parquet_source.metadata["max_skill_seq_len"] = max_seq_len
+
+
+@pytest.mark.parametrize(
+    ("model_data_class", "max_seq_len"),
+    [(EventQuestionData, 4), (EventSkillData, 6)],
+)
+def test_load_sequences_matches_explicit_packing_and_reuses_projection(
+    model_data_class: type[BaseModelData],
+    max_seq_len: int,
+    parquet_source: ParquetSource,
+    parquet_reads: ParquetReads,
+) -> None:
+    if model_data_class is EventSkillData:
+        _write_skill_split(parquet_source, max_seq_len)
+
+    data = model_data_class(parquet_source)
+    required = ("timestamp",)
+    optional = ("attempt_count", "absent_feature")
+
+    sequences = data.load_sequences(required=required, optional=optional)
+    frame = data.load_split_frame(required=required, optional=optional)
+    explicit = data.pack_sequences(frame)
+
+    # One parquet read backs all three entry points.
+    assert len(parquet_reads.columns) == len(parquet_source._data_cache) == 1
+    assert sequences.mask.shape == (3, max_seq_len)
+    assert sequences.num_folds == explicit.num_folds == 2
+    for field in (
+        "question",
+        "response",
+        "mask",
+        "skills",
+        "sequence_id",
+        "user",
+        "fold",
+    ):
+        actual = getattr(sequences, field)
+        expected = getattr(explicit, field)
+        np.testing.assert_array_equal(actual, expected)
+        assert actual.dtype == expected.dtype
+    assert (
+        set(sequences.features)
+        == set(explicit.features)
+        == {
+            "interaction_id",
+            "timestamp",
+            "attempt_count",
+        }
+    )
+    for name in sequences.features:
+        np.testing.assert_array_equal(sequences.features[name], explicit.features[name])
+    assert sequences.partition(0).train.tolist() == [1]
+    assert sequences.partition(0).val.tolist() == [0]
+    assert sequences.partition(0).test.tolist() == [2]
+
+
+def test_load_sequences_keeps_per_event_skills_not_the_question_column(
+    parquet_source: ParquetSource,
+) -> None:
+    """Events 0 and 2 share question 0 but annotate different skills."""
+    sequences = EventQuestionData(parquet_source).load_sequences()
+    assert sequences.skills[0][:3].tolist() == [[0, -1], [1, -1], [0, 2]]
+
+
+def test_load_sequences_rejects_missing_required_feature_before_reading(
+    parquet_source: ParquetSource, parquet_reads: ParquetReads
+) -> None:
+    with pytest.raises(ValueError, match=r"missing required column.*absent_feature"):
+        EventQuestionData(parquet_source).load_sequences(required=("absent_feature",))
+    assert parquet_reads.columns == []
+
+
+def test_pack_sequences_and_partition_reuse_one_real_projection(
+    parquet_source: ParquetSource, parquet_reads: ParquetReads
+) -> None:
+    data = EventQuestionData(parquet_source)
+    frame = data.load_split_frame(required=("timestamp",))
+
+    sequences = data.pack_sequences(frame)
+    dataset = TensorDataset(
+        torch.from_numpy(sequences.question),
+        torch.from_numpy(sequences.skills),
+    )
+    train, val, test = sequences.partition(0).apply(dataset)
+
+    assert len(parquet_reads.columns) == len(parquet_source._data_cache) == 1
+    assert "timestamp" in parquet_reads.columns[0]
+    assert data.load_split_frame(required=("timestamp",)) is frame
+    assert len(parquet_reads.columns) == 1
+    assert train.dataset is val.dataset is test.dataset is dataset
+    for split in (train, val, test):
+        assert len(split) == 1
+        np.testing.assert_array_equal(split[0][1][:3], [[0, -1], [1, -1], [0, 2]])

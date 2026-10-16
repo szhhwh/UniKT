@@ -1,10 +1,19 @@
+from typing import cast
+
 import numpy as np
 import polars as pl
 import pytest
 import torch
 from torch.utils.data import TensorDataset
 
-from utils.model_data.packed_sequences import pack_sequences
+from tests.unit.model_data.conftest import EventQuestionData, EventSource
+from utils.data_process import DataSource
+from utils.model_data.packed_sequences import (
+    pack_sequences,
+    to_first_skill_ids,
+    to_multi_skill_ids,
+    to_skill_combination_ids,
+)
 
 
 @pytest.fixture
@@ -130,3 +139,83 @@ def test_duplicate_positions_fail_at_packing(events: pl.DataFrame) -> None:
 def test_empty_sequences_fail_at_packing(events: pl.DataFrame) -> None:
     with pytest.raises(ValueError, match="empty split"):
         pack_sequences(events.head(0), 3, 2)
+
+
+# --- skill-id converters over packed annotations --------------------------------
+#
+# The event-annotated source is the interesting input here: every event carries
+# its own observed skill list, so packing cannot fall back to the question id.
+
+
+def test_event_skills_survive_packing_and_feed_every_converter(
+    event_source: EventSource,
+) -> None:
+    data = EventQuestionData(cast(DataSource, event_source))
+    sequences = data.pack_sequences(event_source.data)
+
+    assert sequences.skills.shape == (3, 4, 2)
+    assert sequences.skills[0].tolist() == [[0, -1], [1, -1], [0, 2], [-1, -1]]
+    assert to_first_skill_ids(sequences.skills)[0].tolist() == [0, 1, 0, 0]
+    assert to_first_skill_ids(sequences.skills, offset=1)[0].tolist() == [1, 2, 1, 0]
+    assert to_multi_skill_ids(sequences.skills, padding_value=9, offset=1)[
+        0
+    ].tolist() == [
+        [1, 9],
+        [2, 9],
+        [1, 3],
+        [9, 9],
+    ]
+    # pack_sequences takes the caller's rows; it must not read the source.
+    assert event_source.loads == 0
+
+
+def test_folding_uses_observed_combinations_with_zero_reserved_for_padding(
+    event_source: EventSource,
+) -> None:
+    data = EventQuestionData(cast(DataSource, event_source))
+    folded, count = to_skill_combination_ids(
+        data.pack_sequences(event_source.data).skills
+    )
+
+    assert count == 3
+    assert len(set(folded[0, :3])) == 3
+    assert folded[:, -1].tolist() == [0, 0, 0]
+    np.testing.assert_array_equal(folded[0], folded[1])
+
+
+@pytest.mark.parametrize("offset", [0, 1])
+def test_to_first_skill_ids_own_only_scalar_storage_and_keep_row_alignment(
+    event_source: EventSource, offset: int
+) -> None:
+    frame = event_source.data.reverse()
+    sequences = EventQuestionData(cast(DataSource, event_source)).pack_sequences(frame)
+    primary = to_first_skill_ids(sequences.skills, offset=offset)
+
+    np.testing.assert_array_equal(
+        primary,
+        np.tile([offset, 1 + offset, offset, 0], (3, 1)),
+    )
+    assert primary.dtype == np.int64
+    assert primary.flags.owndata
+    assert primary.flags.c_contiguous
+    assert primary.nbytes == 3 * 4 * np.dtype(np.int64).itemsize
+
+
+def test_pack_sequences_does_not_load_or_mutate_the_supplied_rows(
+    event_source: EventSource,
+) -> None:
+    data = EventQuestionData(cast(DataSource, event_source))
+    frame = event_source.data.head(2).reverse()
+    original = frame.clone()
+
+    sequences = data.pack_sequences(frame)
+    questions, responses, mask = sequences.question, sequences.response, sequences.mask
+
+    assert event_source.loads == 0
+    assert frame.equals(original)
+    assert questions.shape == responses.shape == mask.shape == (1, 4)
+    assert to_multi_skill_ids(sequences.skills, padding_value=3).tolist() == [
+        [[0], [1], [3], [3]]
+    ]
+    assert to_first_skill_ids(sequences.skills, offset=1).tolist() == [[1, 2, 0, 0]]
+    assert to_skill_combination_ids(sequences.skills)[0].tolist() == [[1, 2, 0, 0]]

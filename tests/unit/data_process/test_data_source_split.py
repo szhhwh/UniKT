@@ -254,6 +254,64 @@ class TestBuildSplitSequencesInteraction:
         }
 
 
+class TestBuildSplitSequencesUserColumn:
+    """Split pipeline preserves the pre-split student id (user)."""
+
+    def test_user_column_present_and_matches_source(
+        self,
+        make_data_source: Callable[..., DataSource],
+        make_sequence_frame: Callable[..., pl.DataFrame],
+    ) -> None:
+        seq = make_sequence_frame(
+            [0, 0, 0, 1, 1], [1, 2, 3, 4, 5], [1, 0, 1, 0, 1], [1, 2, 3, 1, 2]
+        )
+        ds = make_data_source(sequence_data=seq, max_seq_len=2, min_seq_len=1)
+        out = ds._build_split_sequences(expand_skills=False)
+
+        assert "user" in out.columns
+        assert "sequence_id" in out.columns
+        # user 0 -> splits (0,0),(0,1) -> new ids 0,1; user 1 -> split id 2.
+        # New ids are assigned per (user, split_idx) in global order.
+        assert out["sequence_id"].to_list() == [0, 0, 1, 2, 2]
+        assert out["user"].to_list() == [0, 0, 0, 1, 1]
+        assert out["seq_pos"].to_list() == [0, 1, 0, 0, 1]
+
+    def test_empty_input_keeps_schema(
+        self,
+        make_data_source: Callable[..., DataSource],
+        make_sequence_frame: Callable[..., pl.DataFrame],
+    ) -> None:
+        seq = make_sequence_frame([], [], [], [])
+        ds = make_data_source(sequence_data=seq, max_seq_len=2, min_seq_len=1)
+        out = ds._build_split_sequences(expand_skills=False)
+
+        assert "user" in out.columns
+        assert "sequence_id" in out.columns
+        assert "original_user" not in out.columns
+        assert out.height == 0
+
+    def test_min_seq_len_drop_keeps_global_id_order(
+        self,
+        make_data_source: Callable[..., DataSource],
+        make_sequence_frame: Callable[..., pl.DataFrame],
+    ) -> None:
+        # user 0: 4 interactions -> two full splits (ids 0,1); user 1: 1
+        # interaction -> dropped by min_seq_len=2 -> user 2's single split
+        # takes dense id 2 (ids stay dense, ordered by (user, split_idx)).
+        seq = make_sequence_frame(
+            [0, 0, 0, 0, 1, 2, 2],
+            [1, 2, 3, 4, 5, 6, 7],
+            [1, 0, 1, 0, 1, 1, 0],
+            [1, 2, 3, 4, 1, 1, 2],
+        )
+        ds = make_data_source(sequence_data=seq, max_seq_len=2, min_seq_len=2)
+        out = ds._build_split_sequences(expand_skills=False)
+
+        assert out["sequence_id"].to_list() == [0, 0, 1, 1, 2, 2]
+        assert out["user"].to_list() == [0, 0, 0, 0, 2, 2]
+        assert out["seq_pos"].to_list() == [0, 1, 0, 1, 0, 1]
+
+
 class TestBuildSplitSequencesBatches:
     @pytest.mark.parametrize("expand_skills", [False, True], ids=["question", "skill"])
     @pytest.mark.parametrize("truncation_stage", ["post_expansion", "pre_expansion"])

@@ -1,17 +1,28 @@
-"""Tests for SkillModelData / WindowlateIterableDataset user_id propagation.
+"""Tests for ``utils.model_data.skill_model_data``.
 
-Windowlate samples and packed sequences preserve original student IDs across
-subsequences and fold partitions.
+Two concerns:
+
+- ``WindowlateIterableDataset`` / ``SkillModelData`` preserve the original
+  student id across subsequences and fold partitions.
+- ``create_windowlate_dataloader`` is batch-equivalent to a plain
+  ``DataLoader`` over the same dataset, across worker counts, drop_last,
+  spawn contexts and persistent workers.
 """
 
 from __future__ import annotations
 
+from pathlib import Path
 from typing import TYPE_CHECKING, Any, cast
 
+import numpy as np
 import polars as pl
+import pyarrow as pa
+import pyarrow.parquet as pq
 import pytest
 import torch
+from torch.utils.data import DataLoader
 
+from utils.config.data_config import DataLoaderConfig, create_optimized_dataloader
 from utils.data_process import DataSource
 from utils.model_data.skill_model_data import (
     SkillModelData,
@@ -198,86 +209,167 @@ class TestPackedSequenceOriginalUser:
             model_data.load_sequences()
 
 
-# --- DataSource._build_split_sequences ----------------------------------------
+# --- create_windowlate_dataloader: batch-equivalence with a plain DataLoader ---
 
 
-class TestSplitPipelineOriginalUserColumn:
-    """Split pipeline preserves the pre-split student id (user)."""
-
-    @staticmethod
-    def _build(frame: pl.DataFrame, max_seq_len: int, min_seq_len: int) -> pl.DataFrame:
-        from utils.data_process.data_source import DataSource
-
-        class _MinimalDS(DataSource):
-            def load_src_data(self) -> None: ...
-            def transform_data(self) -> None: ...
-            def clean_raw_data(self) -> None: ...
-
-        ds = _MinimalDS.__new__(_MinimalDS)
-        ds.args = type(
-            "Args",
-            (),
-            {
-                "max_seq_len": max_seq_len,
-                "min_seq_len": min_seq_len,
-                "truncation_stage": "post_expansion",
-            },
-        )()
-        ds.sequence_data = frame.with_columns(
-            pl.int_range(pl.len(), dtype=pl.Int64).alias("interaction_id"),
-            pl.concat_list(pl.col("question").cast(pl.Int32)).alias("skills"),
+@pytest.fixture
+def windowlate_path(tmp_path: Path) -> str:
+    # Multi-skill targets share histories/group ids; lengths include singleton,
+    # short, full and expanded windows. Row groups contain 2/1/3/3 samples.
+    lengths = [1, 2, 2, 4, 4, 6, 6, 8, 8]
+    groups = [101, 205, 205, 309, 309, 411, 411, 512, 610]
+    labels = [1, 0, 0, 1, 1, 0, 0, 1, 1]
+    samples = []
+    for index, (length, group, label) in enumerate(zip(lengths, groups, labels)):
+        positions = np.arange(length)
+        skill = (positions % 3 + 1).astype(np.int32)
+        skill[-1] = index % 7 + 1
+        response = (positions % 2).astype(np.int8)
+        response[-1] = 0
+        true_label = response.copy()
+        true_label[-1] = label
+        samples.append(
+            pa.table(
+                {
+                    "sample_id": np.full(length, index * 3 + 11, dtype=np.int64),
+                    "position": positions.astype(np.int32),
+                    "skill": skill,
+                    "question": (positions + 1).astype(np.int32),
+                    "response": response,
+                    "mask": (positions == length - 1).astype(np.int8),
+                    "user_id": np.full(length, 7 if index < 5 else 42, dtype=np.int32),
+                    "group_id": np.full(length, group, dtype=np.int64),
+                    "true_label": true_label,
+                    "timestamp": (positions * 60_000 + 1_000).astype(np.int64),
+                }
+            )
         )
-        # expand_skills=False path never reads relation_data; None keeps
-        # the fixture honest about the unprepared state.
-        ds.relation_data = cast(Any, None)
-        return ds._build_split_sequences(expand_skills=False)
+    path = str(tmp_path / "stub_windowlate.parquet")
+    with pq.ParquetWriter(path, samples[0].schema) as writer:
+        for start, end in ((0, 2), (2, 3), (3, 6), (6, 9)):
+            writer.write_table(pa.concat_tables(samples[start:end]))
+    return path
 
-    def test_user_column_present_and_matches_source(self) -> None:
-        frame = pl.DataFrame(
-            {
-                "user": [0, 0, 0, 1, 1],
-                "question": [1, 2, 3, 4, 5],
-                "label": [1, 0, 1, 0, 1],
-                "timestamp": [1, 2, 3, 1, 2],
-            }
-        )
-        out = self._build(frame, max_seq_len=2, min_seq_len=1)
-        assert "user" in out.columns
-        assert "sequence_id" in out.columns
-        # user 0 -> splits (0,0),(0,1) -> new ids 0,1; user 1 -> split id 2.
-        # new ids are assigned per (user, split_idx) in global order.
-        assert out["sequence_id"].to_list() == [0, 0, 1, 2, 2]
-        assert out["user"].to_list() == [0, 0, 0, 1, 1]
-        assert out["seq_pos"].to_list() == [0, 1, 0, 0, 1]
 
-    def test_empty_input_keeps_schema(self) -> None:
-        frame = pl.DataFrame(
-            {
-                "user": pl.Series([], dtype=pl.Int32),
-                "question": pl.Series([], dtype=pl.Int32),
-                "label": pl.Series([], dtype=pl.Int8),
-                "timestamp": pl.Series([], dtype=pl.Int64),
-            }
-        )
-        out = self._build(frame, max_seq_len=2, min_seq_len=1)
-        assert "user" in out.columns
-        assert "sequence_id" in out.columns
-        assert "original_user" not in out.columns
-        assert out.height == 0
+@pytest.fixture
+def windowlate_model_data(
+    windowlate_path: str, make_skill_model_data: Callable[..., SkillModelData]
+) -> SkillModelData:
+    model_data = make_skill_model_data(
+        metadata={
+            "max_windowlate_seq_len": 8,
+            "max_skill_seq_len": 8,
+            "kfold_n_splits": 2,
+        }
+    )
+    model_data.data_src.data_folder = str(Path(windowlate_path).parent)
+    return model_data
 
-    def test_min_seq_len_drop_keeps_global_id_order(self) -> None:
-        # user 0: 4 interactions -> two full splits (ids 0,1); user 1: 1
-        # interaction -> dropped by min_seq_len=2 -> user 2's single split
-        # takes dense id 2 (ids stay dense, ordered by (user, split_idx)).
-        frame = pl.DataFrame(
-            {
-                "user": [0, 0, 0, 0, 1, 2, 2],
-                "question": [1, 2, 3, 4, 5, 6, 7],
-                "label": [1, 0, 1, 0, 1, 1, 0],
-                "timestamp": [1, 2, 3, 4, 1, 1, 2],
-            }
-        )
-        out = self._build(frame, max_seq_len=2, min_seq_len=2)
-        assert out["sequence_id"].to_list() == [0, 0, 1, 1, 2, 2]
-        assert out["user"].to_list() == [0, 0, 0, 0, 2, 2]
-        assert out["seq_pos"].to_list() == [0, 1, 0, 1, 0, 1]
+
+@pytest.mark.parametrize("batch_size", [1, 2, 4, 16])
+@pytest.mark.parametrize("num_workers", [0, 2])
+@pytest.mark.parametrize("drop_last", [False, True])
+def test_batches_match_legacy_loader(
+    windowlate_model_data: SkillModelData,
+    batch_size: int,
+    num_workers: int,
+    drop_last: bool,
+) -> None:
+    dataset = windowlate_model_data._create_windowlate_dataset()
+    kwargs: dict[str, Any] = {
+        "batch_size": batch_size,
+        "num_workers": num_workers,
+        "drop_last": drop_last,
+    }
+    legacy = list(DataLoader(dataset, **kwargs))
+    optimized_loader = windowlate_model_data.create_windowlate_dataloader(**kwargs)
+    optimized = list(optimized_loader)
+    assert len(optimized_loader) == len(DataLoader(dataset, **kwargs))
+    assert len(optimized) == len(legacy)
+    for actual, expected in zip(optimized, legacy, strict=True):
+        assert type(actual) is type(expected)
+        for actual_field, expected_field in zip(actual, expected, strict=True):
+            torch.testing.assert_close(actual_field, expected_field, rtol=0, atol=0)
+    # Constructing a loader must not switch the source's public iterator to raw views.
+    assert isinstance(next(iter(dataset)), tuple)
+
+
+def test_batch_path_skips_single_sample_tensor_builder(
+    windowlate_model_data: SkillModelData, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    def fail(*args: object) -> None:
+        raise AssertionError("The batched path must not allocate per-sample tensors")
+
+    monkeypatch.setattr(WindowlateIterableDataset, "_build_single_tensor", fail)
+    batch = next(iter(windowlate_model_data.create_windowlate_dataloader(batch_size=4)))
+    assert len(batch) == 7
+    assert batch[0].shape == (4, 8)
+
+
+@pytest.mark.parametrize("num_workers", [0, 2])
+def test_public_loader_options(
+    windowlate_model_data: SkillModelData, num_workers: int
+) -> None:
+    loader = windowlate_model_data.create_windowlate_dataloader(
+        batch_size=4,
+        num_workers=num_workers,
+        pin_memory=True,
+        prefetch_factor=3,
+        persistent_workers=True,
+        drop_last=True,
+        timeout=0,
+    )
+    assert loader.batch_size == 4
+    assert loader.num_workers == num_workers
+    assert loader.pin_memory is True
+    assert loader.drop_last is True
+    assert loader.prefetch_factor == (3 if num_workers else None)
+    assert loader.persistent_workers is bool(num_workers)
+
+
+def test_shared_factory_uses_batch_construction(windowlate_path: str) -> None:
+    dataset = WindowlateIterableDataset(windowlate_path, max_seq_len=8)
+    loader = create_optimized_dataloader(
+        dataset,
+        batch_size=4,
+        shuffle=False,
+        config=DataLoaderConfig(num_workers=0),
+        device=torch.device("cpu"),
+    )
+    assert loader.collate_fn == dataset._collate_batch
+    assert next(iter(loader))[0].shape == (4, 8)
+
+
+def test_spawn_workers_match_legacy_loader(
+    windowlate_model_data: SkillModelData,
+) -> None:
+    dataset = windowlate_model_data._create_windowlate_dataset()
+    kwargs: dict[str, Any] = {
+        "batch_size": 4,
+        "num_workers": 2,
+        "multiprocessing_context": "spawn",
+    }
+    for actual, expected in zip(
+        windowlate_model_data.create_windowlate_dataloader(**kwargs),
+        DataLoader(dataset, **kwargs),
+        strict=True,
+    ):
+        for actual_field, expected_field in zip(actual, expected, strict=True):
+            torch.testing.assert_close(actual_field, expected_field, rtol=0, atol=0)
+
+
+def test_persistent_workers_preserve_repeated_iteration(
+    windowlate_model_data: SkillModelData,
+) -> None:
+    dataset = windowlate_model_data._create_windowlate_dataset()
+    kwargs: dict[str, Any] = {
+        "batch_size": 4,
+        "num_workers": 2,
+        "persistent_workers": True,
+    }
+    legacy = DataLoader(dataset, **kwargs)
+    optimized = windowlate_model_data.create_windowlate_dataloader(**kwargs)
+    for _ in range(2):
+        for actual, expected in zip(optimized, legacy, strict=True):
+            for actual_field, expected_field in zip(actual, expected, strict=True):
+                torch.testing.assert_close(actual_field, expected_field, rtol=0, atol=0)

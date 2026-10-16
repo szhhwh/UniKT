@@ -4,8 +4,8 @@ Column names and dtypes mirror what the ETL pipeline produces
 (``utils/data_process/assist09.py``): sequence frames carry
 ``user/question/label/timestamp`` (Int32/Int32/Int8/Int64) and relation tables
 carry exactly two columns. ``make_data_source`` builds a DataSource WITHOUT
-running any ETL: the ``__new__`` bypass (see test_skill_model_data.py) plus
-explicitly assigned attributes, so tests exercise only the logic under test.
+running any ETL: the ``__new__`` bypass plus explicitly assigned attributes, so
+tests exercise only the logic under test.
 """
 
 import os
