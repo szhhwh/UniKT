@@ -1,12 +1,12 @@
-"""AxisKT: private KC scans with a stacked causal-conv global encoder."""
+"""AxisKT: independent KC memories with a causal-conv global encoder."""
 
 from collections import namedtuple
+from typing import Literal
 
 import torch
 import torch.nn.functional as F
 from torch import nn
-
-from model.AxisKT.triton_scan import segmented_scalar_affine_exclusive_scan
+from torch.nn.utils.rnn import PackedSequence
 
 _EventFeatures = namedtuple(
     "_EventFeatures",
@@ -56,9 +56,10 @@ class AxisKT(nn.Module):
 
     The readout concatenates ``[global_state, local_pre_state,
     event_embedding]``. ``use_global`` / ``use_local`` ablate the global
-    conv branch / the local scan branch (an ablated branch emits all-zero
-    features and receives no gradient); ``use_forgetting=False`` keeps the
-    local writes and scan but uses an identity temporal transition.
+    conv branch / the local memory branch (an ablated branch emits all-zero
+    features and receives no gradient). ``local_encoder="lstm"`` uses a shared
+    LSTM with independent per-KC states and no temporal decay. ``"ciam"`` uses
+    the affine scan, where ``use_forgetting`` controls temporal decay.
     """
 
     def __init__(
@@ -74,8 +75,11 @@ class AxisKT(nn.Module):
         use_global: bool = True,
         use_local: bool = True,
         use_forgetting: bool = True,
+        local_encoder: Literal["ciam", "lstm"] = "lstm",
     ):
         super().__init__()
+        if local_encoder not in ("ciam", "lstm"):
+            raise ValueError("local_encoder must be 'ciam' or 'lstm'")
         if max_gap_bins < 1:
             raise ValueError("max_gap_bins must be at least 1")
         self.num_questions = int(data_metadata["num_questions"])
@@ -85,6 +89,7 @@ class AxisKT(nn.Module):
         self.use_global = bool(use_global)
         self.use_local = bool(use_local)
         self.use_forgetting = bool(use_forgetting)
+        self.local_encoder = local_encoder
 
         # Cap the intrinsic question-embedding width at ``hidden_dim``.
         if question_embed_dim is None:
@@ -111,14 +116,15 @@ class AxisKT(nn.Module):
             self.num_skills + 1, hidden_dim, padding_idx=self.num_skills
         )
 
-        # Scalar per-dimension transition: gap-modulated decay (forgetting) and
-        # event-conditioned write, one private state per KC.
-        self.local_write = nn.Linear(hidden_dim, hidden_dim)
+        if local_encoder == "ciam":
+            self.local_write = nn.Linear(hidden_dim, hidden_dim)
         self.local_init = nn.Linear(hidden_dim, hidden_dim)
-        # Learned per-gap, per-state-dimension decay logits.
-        self.local_decay_logits = nn.Parameter(
-            torch.full((max_gap_bins, hidden_dim), -4.0)
-        )
+        if local_encoder == "lstm":
+            self.local_lstm = nn.LSTM(hidden_dim, hidden_dim, batch_first=True)
+        else:
+            self.local_decay_logits = nn.Parameter(
+                torch.full((max_gap_bins, hidden_dim), -4.0)
+            )
         # Per-KC softmax scores use local-state and skill features.
         self.local_readout = nn.Linear(2 * hidden_dim, 1, bias=False)
         self.global_blocks = nn.ModuleList(
@@ -147,8 +153,9 @@ class AxisKT(nn.Module):
         self.irt_disc = nn.Parameter(torch.tensor(1.0))
 
         nn.init.zeros_(self.question_diff.weight)
-        nn.init.zeros_(self.local_write.weight)
-        nn.init.zeros_(self.local_write.bias)
+        if local_encoder == "ciam":
+            nn.init.zeros_(self.local_write.weight)
+            nn.init.zeros_(self.local_write.bias)
         nn.init.zeros_(self.local_readout.weight)
 
     def _question_vector(self, questions: torch.Tensor) -> torch.Tensor:
@@ -319,6 +326,67 @@ class AxisKT(nn.Module):
             packed_pos,
         )
 
+    def _lstm_pre_states(
+        self,
+        local_input: torch.Tensor,
+        packed_skill: torch.Tensor,
+        packed_valid: torch.Tensor,
+        skill_embedding: torch.Tensor,
+    ) -> torch.Tensor:
+        """Batch observed (sample, KC) histories and return pre-update states."""
+        batch_size, packed_len, hidden = local_input.shape
+        valid_index = packed_valid.flatten().nonzero().flatten()
+        if valid_index.numel() == 0:
+            return torch.zeros_like(local_input)
+
+        skills = packed_skill.flatten().index_select(0, valid_index)
+        rows = valid_index // packed_len
+        heads = torch.ones_like(skills, dtype=torch.bool)
+        heads[1:] = (skills[1:] != skills[:-1]) | (rows[1:] != rows[:-1])
+        starts = heads.nonzero().flatten()
+        lengths = torch.diff(
+            torch.cat([starts, starts.new_tensor([valid_index.numel()])])
+        )
+        sequence_order = torch.argsort(lengths, descending=True, stable=True)
+        sequence_rank = torch.empty_like(sequence_order)
+        sequence_rank[sequence_order] = torch.arange(
+            starts.numel(), device=starts.device
+        )
+        sequence_id = heads.long().cumsum(0) - 1
+        step = (
+            torch.arange(valid_index.numel(), device=starts.device)
+            - starts[sequence_id]
+        )
+
+        # Time-major packed data avoids padding across skills or histories.
+        lstm_order = torch.argsort(step * starts.numel() + sequence_rank[sequence_id])
+        batch_sizes = torch.bincount(step).cpu()
+        inputs = local_input.flatten(0, 1).index_select(0, valid_index)
+        initial = torch.tanh(
+            self.local_init(
+                skill_embedding.flatten(0, 1)
+                .index_select(0, valid_index)
+                .index_select(0, starts)
+            )
+        )
+        h0 = initial.index_select(0, sequence_order).unsqueeze(0).contiguous()
+        output, _ = self.local_lstm(
+            PackedSequence(inputs.index_select(0, lstm_order), batch_sizes),
+            (h0, torch.zeros_like(h0)),
+        )
+        post_state = torch.empty_like(output.data).index_copy(
+            0, lstm_order, output.data
+        )
+        previous = torch.cat([post_state.new_zeros(1, hidden), post_state[:-1]])
+        pre_state = torch.where(
+            heads.unsqueeze(-1), initial[sequence_id].to(previous.dtype), previous
+        )
+        return (
+            pre_state.new_zeros(batch_size * packed_len, hidden)
+            .index_copy(0, valid_index, pre_state)
+            .view(batch_size, packed_len, hidden)
+        )
+
     def _scan_states(
         self,
         questions: torch.Tensor,
@@ -331,13 +399,10 @@ class AxisKT(nn.Module):
         skill_embedding: torch.Tensor | None = None,
         skill_change_embedding: torch.Tensor | None = None,
     ) -> tuple[torch.Tensor, ...]:
-        """Run the gap/decay/write pipeline and the segmented scan.
+        """Return the private KC state before each occurrence's update.
 
-        Returns each occurrence's exclusive scan state — the KC memory
-        accumulated through that KC's previous occurrences only — together
-        with the shared packed tensors. The occurrence's own decay composes
-        only into later reads of the same KC, so the timestamp of the
-        interaction being predicted never enters its prediction.
+        The LSTM only consumes earlier interactions of the same KC. In CIAM,
+        an occurrence's decay composes only into later reads of the same KC.
         """
         if packed is None:
             packed = self._pack_kc_occurrences(
@@ -359,18 +424,6 @@ class AxisKT(nn.Module):
             packed_pos,
         ) = packed
 
-        previous_time = torch.zeros_like(packed_time)
-        previous_time[:, 1:] = packed_time[:, :-1]
-        same_segment = torch.zeros_like(packed_valid)
-        same_segment[:, 1:] = (
-            packed_valid[:, 1:]
-            & packed_valid[:, :-1]
-            & (packed_skill[:, 1:] == packed_skill[:, :-1])
-        )
-        gap = torch.where(same_segment, packed_time - previous_time, packed_time + 1)
-        gap_bucket = torch.floor(torch.log2(gap.clamp_min(1).float())).long()
-        gap_bucket = gap_bucket.clamp_max(self.max_gap_bins - 1)
-
         if skill_embedding is None:
             skill_embedding = self.skill_embed(packed_skill)
         if skill_change_embedding is None:
@@ -381,35 +434,51 @@ class AxisKT(nn.Module):
             + self.question_diff(packed_question) * skill_change_embedding
             + self.answer_embed(packed_response)
         )
-        if self.use_forgetting:
-            decay_table = torch.exp(-F.softplus(self.local_decay_logits))
-            decay_codes = gap_bucket
-        else:
-            # Identity transition: keep local writes and per-KC segmentation,
-            # drop only the temporal forgetting.
-            decay_table = torch.ones(
-                1,
-                self.hidden_dim,
-                device=packed_skill.device,
-                dtype=skill_embedding.dtype,
+        if self.local_encoder == "lstm":
+            packed_state = self._lstm_pre_states(
+                local_input, packed_skill, packed_valid, skill_embedding
             )
-            decay_codes = torch.zeros_like(gap_bucket)
-        init_table = torch.tanh(self.local_init(self.skill_embed.weight))
-        bias = torch.tanh(self.local_write(local_input)).unsqueeze(-1)
+        else:
+            from model.AxisKT.triton_scan import segmented_scalar_affine_exclusive_scan
 
-        packed_state_blocks = segmented_scalar_affine_exclusive_scan(
-            None,
-            bias,
-            packed_skill,
-            packed_valid,
-            None,
-            matrix_table=decay_table,
-            matrix_codes=decay_codes,
-            init_table=init_table,
-            init_codes=packed_skill,
-            post_multiply=False,
-        )
-        packed_state = packed_state_blocks.squeeze(-1)
+            previous_time = torch.zeros_like(packed_time)
+            previous_time[:, 1:] = packed_time[:, :-1]
+            same_segment = torch.zeros_like(packed_valid)
+            same_segment[:, 1:] = (
+                packed_valid[:, 1:]
+                & packed_valid[:, :-1]
+                & (packed_skill[:, 1:] == packed_skill[:, :-1])
+            )
+            gap = torch.where(
+                same_segment, packed_time - previous_time, packed_time + 1
+            )
+            gap_bucket = torch.floor(torch.log2(gap.clamp_min(1).float())).long()
+            gap_bucket = gap_bucket.clamp_max(self.max_gap_bins - 1)
+            if self.use_forgetting:
+                decay_table = torch.exp(-F.softplus(self.local_decay_logits))
+                decay_codes = gap_bucket
+            else:
+                decay_table = torch.ones(
+                    1,
+                    self.hidden_dim,
+                    device=packed_skill.device,
+                    dtype=skill_embedding.dtype,
+                )
+                decay_codes = torch.zeros_like(gap_bucket)
+            init_table = torch.tanh(self.local_init(self.skill_embed.weight))
+            bias = torch.tanh(self.local_write(local_input)).unsqueeze(-1)
+            packed_state = segmented_scalar_affine_exclusive_scan(
+                None,
+                bias,
+                packed_skill,
+                packed_valid,
+                None,
+                matrix_table=decay_table,
+                matrix_codes=decay_codes,
+                init_table=init_table,
+                init_codes=packed_skill,
+                post_multiply=False,
+            ).squeeze(-1)
         return (
             packed_state,
             skill_embedding,
@@ -656,10 +725,8 @@ class AxisKT(nn.Module):
     ) -> torch.Tensor:
         """Return next-item logits where output[t] predicts response[t+1].
 
-        ``times`` holds per-position interaction times in seconds; only
-        within-sequence differences are used, so any consistent offset works.
-        The timestamp of a position never enters the prediction of that
-        position's response: gap decays compose only into later reads of the
+        ``times`` is ignored by the LSTM encoder. CIAM uses within-sequence
+        differences, with gap decays composing only into later reads of the
         same KC. ``kc_inverse`` is the dataset-precomputed inverse of
         ``kc_order`` over the full flat slot domain; when omitted the fused
         inference path rebuilds it on the fly. ``compact_global`` selects
@@ -693,11 +760,12 @@ class AxisKT(nn.Module):
                 raise ValueError("kc_inverse must have shape [batch_size, S*K]")
             if kc_inverse.device != questions.device:
                 raise ValueError("kc_inverse must be on the same device as questions")
-        # Interactions are measured relative to the first valid interaction;
-        # padding is pinned to zero so log-bucketing never sees negatives.
-        first_time = times.masked_fill(~mask, torch.inf).min(dim=1, keepdim=True).values
-        times = times - first_time
-        times = times.masked_fill(~mask, 0.0)
+        if self.local_encoder == "ciam":
+            # Normalize timestamps before CIAM's gap bucketing.
+            first_time = (
+                times.masked_fill(~mask, torch.inf).min(dim=1, keepdim=True).values
+            )
+            times = (times - first_time).masked_fill(~mask, 0.0)
         event_features = self._resolve_event_features(questions, skill_ids, skill_mask)
         if not torch.is_grad_enabled() and self.use_local and questions.is_cuda:
             # Fused inference path: one Triton kernel produces both the local

@@ -1,6 +1,7 @@
 """Trainer and configuration for AxisKT."""
 
 from dataclasses import field
+from typing import Literal
 
 import torch
 
@@ -29,12 +30,13 @@ class AxisKTConfig(ModelConfig):
         use_global: Ablate the global causal dilated-conv branch. ``False``
             skips the stacked conv encoder and feeds zero global features to
             the readout; the branch parameters then stay inert.
-        use_local: Ablate the local per-KC affine recursion branch. ``False``
-            skips the segmented scan and feeds zero local features to the
-            readout; the branch parameters then stay inert.
-        use_forgetting: Enable the learned gap-conditioned temporal decay in
-            the local branch. ``False`` keeps local writes and KC isolation but
-            uses an identity transition for a forgetting ablation.
+        use_local: Enable the local per-KC memory branch. ``False`` feeds zero
+            local features to the readout; the branch parameters stay inert.
+        local_encoder: ``lstm`` uses a shared LSTM with independent per-KC
+            hidden/cell states and no time features; ``ciam`` uses the original
+            affine scan.
+        use_forgetting: Enable gap-conditioned decay for ``ciam`` only. Ignored
+            by ``lstm``, which retains the standard LSTM forget gate.
         dropout: Dropout probability.
         epochs: Maximum training epochs.
         learning_rate: Adam learning rate.
@@ -72,6 +74,7 @@ class AxisKTConfig(ModelConfig):
     )
     use_global: bool = True
     use_local: bool = True
+    local_encoder: Literal["ciam", "lstm"] = "lstm"
     use_forgetting: bool = True
     epochs: int = 100
     learning_rate: float = field(

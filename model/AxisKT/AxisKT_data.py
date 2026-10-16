@@ -134,6 +134,7 @@ def build_axiskt_model(rc, data_src: DataSource, extra: dict):
         use_global=m.use_global,
         use_local=m.use_local,
         use_forgetting=getattr(m, "use_forgetting", True),
+        local_encoder=m.local_encoder,
     )
 
 
