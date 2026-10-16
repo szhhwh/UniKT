@@ -146,8 +146,7 @@ class AxisKTModelData(QuestionModelData):
 
         kfold_n_splits = self.data_src.get_metadata("kfold_n_splits")
 
-        data = self.load_split_data(optional=("ms_first_response", "timestamp"))
-        sequences = self.pack_sequences(data)
+        sequences = self.load_sequences(optional=("ms_first_response", "timestamp"))
         partition = sequences.partition(rc.data.fold)
         questions = sequences.question
         responses = sequences.response

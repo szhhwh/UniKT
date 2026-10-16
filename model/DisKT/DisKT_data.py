@@ -46,8 +46,7 @@ class DisKTModelData(QuestionModelData):
         super().__init__(data_src)
 
     def prepare_data(self, rc):
-        data = self.load_split_data()
-        sequences = self.pack_sequences(data)
+        sequences = self.load_sequences()
         partition = sequences.partition(rc.data.fold)
         user_question = sequences.question
         user_response = sequences.response

@@ -93,8 +93,7 @@ class DenoiseKTModelData(QuestionModelData):
             f"Using K-fold cross-validation: fold {fold_idx + 1}/{kfold_n_splits}"
         )
 
-        data = self.load_split_data()
-        sequences = self.pack_sequences(data)
+        sequences = self.load_sequences()
         partition = sequences.partition(rc.data.fold)
         user_question = sequences.question
         user_response = sequences.response

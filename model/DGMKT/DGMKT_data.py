@@ -84,8 +84,7 @@ class DGMKTModelData(SkillModelData):
 
     @override
     def prepare_data(self, rc: Any) -> tuple:
-        data = self.load_split_data()
-        sequences = self.pack_sequences(data)
+        sequences = self.load_sequences()
         partition = sequences.partition(rc.data.fold)
         user_sequence = to_first_skill_ids(sequences.skills)
         user_response = sequences.response

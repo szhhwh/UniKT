@@ -61,8 +61,7 @@ class PSKTModelData(QuestionModelData):
         """
         fold_idx = rc.data.fold if rc.data.fold >= 0 else None
 
-        data = self.load_split_data(required=("timestamp",))
-        sequences = self.pack_sequences(data)
+        sequences = self.load_sequences(required=("timestamp",))
         partition = sequences.partition(rc.data.fold)
         user_sequence = sequences.question
         user_response = np.where(sequences.mask, sequences.response, 2)

@@ -171,7 +171,7 @@ class TestPackedSequenceOriginalUser:
         self, split_frame: pl.DataFrame
     ) -> None:
         model_data = self._make(split_frame)
-        sequences = model_data.pack_sequences(model_data.load_split_data())
+        sequences = model_data.load_sequences()
         assert sequences.user.tolist() == [5, 9, 5]
         assert sequences.sequence_id.tolist() == [0, 1, 2]
         assert sequences.fold.tolist() == [0, -1, 0]
@@ -195,7 +195,7 @@ class TestPackedSequenceOriginalUser:
         )
         model_data = self._make(frame)
         with pytest.raises(pl.exceptions.ColumnNotFoundError):
-            model_data.pack_sequences(model_data.load_split_data())
+            model_data.load_sequences()
 
 
 # --- DataSource._build_split_sequences ----------------------------------------

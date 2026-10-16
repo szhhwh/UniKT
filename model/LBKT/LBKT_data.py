@@ -60,7 +60,7 @@ class LBKTModelData(QuestionModelData):
             f"Using K-fold cross-validation: fold {fold_idx + 1}/{kfold_n_splits}"
         )
 
-        data = self.load_split_data(
+        data = self.load_split_frame(
             required=("ms_first_response", "attempt_count", "hint_count")
         )
         sequences = self.pack_sequences(data)

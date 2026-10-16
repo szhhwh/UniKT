@@ -216,7 +216,7 @@ def test_deepirt_prepare_preserves_test_loader_options(
 ) -> None:
     model_data = DeepIRTModelData(windowlate_model_data.data_src)
     monkeypatch.setattr(
-        model_data, "load_split_data", lambda **kwargs: _training_frame()
+        model_data, "load_split_frame", lambda **kwargs: _training_frame()
     )
     rc = SimpleNamespace(
         data=SimpleNamespace(fold=0),
@@ -245,7 +245,7 @@ def test_prepare_supplies_time_feature_hook_configuration(
 ) -> None:
     model_data = model_data_class(windowlate_model_data.data_src)
     monkeypatch.setattr(
-        model_data, "load_split_data", lambda **kwargs: _training_frame()
+        model_data, "load_split_frame", lambda **kwargs: _training_frame()
     )
     rc = SimpleNamespace(
         data=SimpleNamespace(fold=0),

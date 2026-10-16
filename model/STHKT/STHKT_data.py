@@ -116,7 +116,7 @@ class STHKTModelData(QuestionModelData):
         num_users = self.data_src.get_metadata("num_users")
         max_seq_len = self.data_src.get_metadata("max_question_seq_len")
 
-        data = self.load_split_data()
+        data = self.load_split_frame()
         sequences = self.pack_sequences(data)
         partition = sequences.partition(rc.data.fold)
         user_sequence = sequences.question

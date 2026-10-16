@@ -56,8 +56,7 @@ class KQNModelData(SkillModelData):
     def prepare_data(self, rc: Any) -> tuple:
         fold_idx = rc.data.fold if rc.data.fold >= 0 else None
 
-        data = self.load_split_data()
-        sequences = self.pack_sequences(data)
+        sequences = self.load_sequences()
         partition = sequences.partition(rc.data.fold)
         concepts = to_first_skill_ids(sequences.skills)
         responses = sequences.response

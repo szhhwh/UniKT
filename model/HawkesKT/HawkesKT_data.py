@@ -49,10 +49,9 @@ class HawkesKTModelData(QuestionModelData):
         fold_idx = rc.data.fold if rc.data.fold >= 0 else None
 
         # 1. Load question split data (one row per question, has timestamp)
-        q_data = self.load_split_data(
+        sequences = self.load_sequences(
             required=("timestamp",), optional=("ms_first_response",)
         )
-        sequences = self.pack_sequences(q_data)
         partition = sequences.partition(rc.data.fold)
         skill_seqs = to_first_skill_ids(sequences.skills)
         problem_seqs = sequences.question

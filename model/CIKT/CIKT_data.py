@@ -140,7 +140,7 @@ class CIKTModelData(QuestionModelData):
         """准备训练 / 验证 / 测试数据及 CIKT 专用查表。"""
         fold_idx = rc.data.fold if rc.data.fold >= 0 else None
 
-        data = self.load_split_data()
+        data = self.load_split_frame()
         sequences = self.pack_sequences(data)
         partition = sequences.partition(rc.data.fold)
         user_sequence = sequences.question

@@ -167,8 +167,7 @@ class FAKTModelData(SkillModelData):
         """
         fold_idx = rc.data.fold if rc.data.fold >= 0 else None
 
-        data = self.load_split_data(required=("timestamp",))
-        sequences = self.pack_sequences(data)
+        sequences = self.load_sequences(required=("timestamp",))
         partition = sequences.partition(rc.data.fold)
         user_sequence = to_first_skill_ids(sequences.skills)
         user_response = sequences.response

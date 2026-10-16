@@ -51,8 +51,7 @@ class ASIKTModelData(SkillModelData):
         fold = rc.data.fold
         if fold < 0:
             raise ValueError("ASIKT requires a validation fold")
-        data = self.load_split_data()
-        sequences = self.pack_sequences(data)
+        sequences = self.load_sequences()
         partition = sequences.partition(rc.data.fold)
         skill = to_first_skill_ids(sequences.skills)
         response = sequences.response

@@ -83,8 +83,7 @@ class ClusterKTModelData(QuestionModelData):
         n_et = rc.model.n_et
 
         # Build sequences
-        data = self.load_split_data(required=("timestamp",))
-        sequences = self.pack_sequences(data)
+        sequences = self.load_sequences(required=("timestamp",))
         partition = sequences.partition(rc.data.fold)
         folded, self.num_skill_groups = to_skill_combination_ids(sequences.skills)
         user_sequence = np.where(sequences.mask, folded - 1, 0)

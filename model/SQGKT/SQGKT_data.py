@@ -71,7 +71,7 @@ class SQGKTModelData(QuestionModelData):
         super().__init__(data_src)
 
     def prepare_data(self, rc: Any):
-        data = self.load_split_data(required=("attempt_count", "hint_count"))
+        data = self.load_split_frame(required=("attempt_count", "hint_count"))
         sequences = self.pack_sequences(data)
         partition = sequences.partition(rc.data.fold)
         user_sequence = sequences.question

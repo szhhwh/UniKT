@@ -75,8 +75,7 @@ class LPKTModelData(QuestionModelData):
         num_skills = self.data_src.get_metadata("num_skills")
         num_users = self.data_src.get_metadata("num_users")
 
-        data = self.load_split_data(required=("ms_first_response", "timestamp"))
-        sequences = self.pack_sequences(data)
+        sequences = self.load_sequences(required=("ms_first_response", "timestamp"))
         partition = sequences.partition(rc.data.fold)
         user_sequence = sequences.question
         user_response = sequences.response

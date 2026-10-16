@@ -61,8 +61,7 @@ class SKTModelData(QuestionModelData):
         num_questions = self.data_src.get_metadata("num_questions")
         max_seq_len = self.data_src.get_metadata("max_question_seq_len")
 
-        data = self.load_split_data()
-        sequences = self.pack_sequences(data)
+        sequences = self.load_sequences()
         partition = sequences.partition(rc.data.fold)
         user_sequence = sequences.question
         user_response = sequences.response

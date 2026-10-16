@@ -127,8 +127,7 @@ class KeenKTModelData(SkillModelData):
             训练数据集、验证数据集和窗口测试 DataLoader
         """
 
-        data = self.load_split_data()
-        sequences = self.pack_sequences(data)
+        sequences = self.load_sequences()
         partition = sequences.partition(rc.data.fold)
         user_sequence = to_first_skill_ids(sequences.skills)
         user_response = sequences.response

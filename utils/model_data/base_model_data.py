@@ -52,10 +52,10 @@ class BaseModelData(ABC):
     # QuestionModelData / SkillModelData at construction.
     _split_getter: _SplitSequenceGetter
 
-    def load_split_data(
+    def load_split_frame(
         self, required: Sequence[str] = (), optional: Sequence[str] = ()
     ) -> pl.DataFrame:
-        """Load split sequences projected to the declared columns.
+        """Load split interaction rows projected to the declared columns.
 
         Returns the structural core (sequence_id/seq_pos/label/user/question/
         interaction_id, plus skills or skill and fold when present) with the
@@ -80,6 +80,17 @@ class BaseModelData(ABC):
             max_seq_len=self.data_src.get_metadata(self._sequence_length_key),
             num_folds=self.data_src.get_metadata("kfold_n_splits"),
         )
+
+    def load_sequences(
+        self, required: Sequence[str] = (), optional: Sequence[str] = ()
+    ) -> PackedSequences:
+        """Load and pack split sequences using the chain-specific metadata.
+
+        Column requirements follow :meth:`load_split_frame`. Call that method
+        separately when the same rows are also needed for model statistics.
+        """
+        frame = self.load_split_frame(required=required, optional=optional)
+        return self.pack_sequences(frame)
 
     @overload
     @staticmethod

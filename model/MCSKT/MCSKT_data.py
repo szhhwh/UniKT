@@ -218,8 +218,7 @@ class MCSKTModelData(SkillModelData):
         self.num_sgap = rc.model.num_sgap
         self.num_pcount = rc.model.num_pcount
 
-        data = self.load_split_data(required=("timestamp",))
-        sequences = self.pack_sequences(data)
+        sequences = self.load_sequences(required=("timestamp",))
         partition = sequences.partition(rc.data.fold)
         user_sequence = to_first_skill_ids(sequences.skills)
         user_response = sequences.response

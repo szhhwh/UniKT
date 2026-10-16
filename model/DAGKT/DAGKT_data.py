@@ -53,8 +53,7 @@ class DAGKTModelData(QuestionModelData):
         fold_idx = rc.data.fold if rc.data.fold >= 0 else None
         kfold_n_splits = self.data_src.get_metadata("kfold_n_splits")
 
-        data = self.load_split_data(optional=("attempt_count",))
-        sequences = self.pack_sequences(data)
+        sequences = self.load_sequences(optional=("attempt_count",))
         partition = sequences.partition(rc.data.fold)
         user_sequence = sequences.question
         user_response = sequences.response

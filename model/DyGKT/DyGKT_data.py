@@ -463,8 +463,7 @@ class DyGKTModelData(QuestionModelData):
         config = DyGKTNeighborConfig.from_run_config(rc, num_questions)
 
         # Load sequences
-        split_data = self.load_split_data(required=("timestamp", "skills"))
-        sequences = self.pack_sequences(split_data)
+        sequences = self.load_sequences(required=("timestamp", "skills"))
         partition = sequences.partition(rc.data.fold)
         question_sequences = sequences.question
         user_responses = sequences.response

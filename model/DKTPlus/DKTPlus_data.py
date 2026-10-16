@@ -65,8 +65,7 @@ class DKTPlusModelData(SkillModelData):
         """准备训练、验证与窗口测试数据"""
         fold_idx = rc.data.fold if rc.data.fold >= 0 else None
 
-        data = self.load_split_data()
-        sequences = self.pack_sequences(data)
+        sequences = self.load_sequences()
         partition = sequences.partition(rc.data.fold)
         user_sequence = to_first_skill_ids(sequences.skills)
         user_response = sequences.response

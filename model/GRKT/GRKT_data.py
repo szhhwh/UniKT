@@ -61,8 +61,7 @@ class GRKTModelData(QuestionModelData):
         num_skills = self.data_src.get_metadata("num_skills")
 
         # Load split question sequence data
-        q_data = self.load_split_data(optional=("timestamp",))
-        sequences = self.pack_sequences(q_data)
+        sequences = self.load_sequences(optional=("timestamp",))
         partition = sequences.partition(rc.data.fold)
         user_sequence = sequences.question
         user_response = sequences.response

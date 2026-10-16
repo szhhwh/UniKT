@@ -63,8 +63,7 @@ class DGEKTModelData(QuestionModelData):
         num_skills = self.data_src.get_metadata("num_skills")
         max_seq_len = self.data_src.get_metadata("max_question_seq_len")
 
-        data = self.load_split_data()
-        sequences = self.pack_sequences(data)
+        sequences = self.load_sequences()
         partition = sequences.partition(rc.data.fold)
         user_sequence = sequences.question
         user_response = sequences.response

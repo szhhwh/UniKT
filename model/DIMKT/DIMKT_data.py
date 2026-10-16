@@ -126,7 +126,7 @@ class DIMKTModelData(SkillModelData):
         """准备训练、验证与窗口评估数据。"""
         fold_idx = rc.data.fold if rc.data.fold >= 0 else None
 
-        data = self.load_split_data()
+        data = self.load_split_frame()
         sequences = self.pack_sequences(data)
         partition = sequences.partition(rc.data.fold)
         user_sequence = to_first_skill_ids(sequences.skills)

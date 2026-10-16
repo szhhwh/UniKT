@@ -80,8 +80,7 @@ class TCKTModelData(QuestionModelData):
         num_questions = self.data_src.get_metadata("num_questions")
         num_skills = self.data_src.get_metadata("num_skills")
 
-        data = self.load_split_data(required=("ms_first_response", "timestamp"))
-        sequences = self.pack_sequences(data)
+        sequences = self.load_sequences(required=("ms_first_response", "timestamp"))
         partition = sequences.partition(rc.data.fold)
         user_sequence = sequences.question
         user_response = sequences.response

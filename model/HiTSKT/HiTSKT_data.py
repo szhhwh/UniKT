@@ -105,7 +105,7 @@ class HiTSKTModelData(QuestionModelData):
         if not 0 <= rc.data.fold < folds:
             raise ValueError(f"fold must be in [0, {folds})")
 
-        data = self.load_split_data(required=("timestamp",))
+        data = self.load_split_frame(required=("timestamp",))
         annotations = data["skills"].to_list()
         vocabulary = {
             skills: i + 1

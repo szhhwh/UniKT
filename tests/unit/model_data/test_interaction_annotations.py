@@ -10,7 +10,7 @@ import torch
 from torch.utils.data import TensorDataset
 
 from utils.data_process import DataSource
-from utils.model_data import QuestionModelData
+from utils.model_data import BaseModelData, QuestionModelData, SkillModelData
 from utils.model_data.packed_sequences import (
     to_first_skill_ids,
     to_multi_skill_ids,
@@ -62,11 +62,14 @@ class _Data(QuestionModelData):
     def prepare_data(self, args: Any) -> None: ...
 
 
+class _SkillData(SkillModelData):
+    def prepare_data(self, args: Any) -> None: ...
+
+
 def test_annotation_packing_keeps_event_skills_for_repeated_question() -> None:
     source = _Source()
     data = _Data(cast(DataSource, source))
-    frame = data.load_split_data()
-    sequences = data.pack_sequences(frame)
+    sequences = data.load_sequences()
     packed = sequences.skills
     assert packed.shape == (3, 4, 2)
     assert packed[0].tolist() == [[0, -1], [1, -1], [0, 2], [-1, -1]]
@@ -164,13 +167,86 @@ class _ParquetReads:
         return self.read(*args, **kwargs)
 
 
+@pytest.mark.parametrize(
+    ("model_data_class", "max_seq_len"),
+    [(_Data, 4), (_SkillData, 6)],
+)
+def test_load_sequences_matches_explicit_packing_and_reuses_projection(
+    model_data_class: type[BaseModelData],
+    max_seq_len: int,
+    parquet_source: _ParquetSource,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    if model_data_class is _SkillData:
+        skill_frame = (
+            _Source()
+            .data.with_columns(pl.col("skills").list.first().alias("skill"))
+            .drop("skills")
+        )
+        skill_frame.write_parquet(
+            Path(parquet_source.data_folder) / "events_split_skill_sequence.parquet"
+        )
+        parquet_source.metadata["max_skill_seq_len"] = max_seq_len
+
+    reads = _ParquetReads()
+    monkeypatch.setattr(pl, "read_parquet", reads)
+    data = model_data_class(parquet_source)
+    required = ("timestamp",)
+    optional = ("attempt_count", "absent_feature")
+
+    sequences = data.load_sequences(required=required, optional=optional)
+    frame = data.load_split_frame(required=required, optional=optional)
+    explicit = data.pack_sequences(frame)
+
+    assert len(reads.columns) == len(parquet_source._data_cache) == 1
+    assert sequences.mask.shape == (3, max_seq_len)
+    assert sequences.num_folds == explicit.num_folds == 2
+    for field in (
+        "question",
+        "response",
+        "mask",
+        "skills",
+        "sequence_id",
+        "user",
+        "fold",
+    ):
+        actual = getattr(sequences, field)
+        expected = getattr(explicit, field)
+        np.testing.assert_array_equal(actual, expected)
+        assert actual.dtype == expected.dtype
+    assert (
+        set(sequences.features)
+        == set(explicit.features)
+        == {
+            "interaction_id",
+            "timestamp",
+            "attempt_count",
+        }
+    )
+    for name in sequences.features:
+        np.testing.assert_array_equal(sequences.features[name], explicit.features[name])
+    assert sequences.partition(0).train.tolist() == [1]
+    assert sequences.partition(0).val.tolist() == [0]
+    assert sequences.partition(0).test.tolist() == [2]
+
+
+def test_load_sequences_rejects_missing_required_feature_before_reading(
+    parquet_source: _ParquetSource, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    reads = _ParquetReads()
+    monkeypatch.setattr(pl, "read_parquet", reads)
+    with pytest.raises(ValueError, match=r"missing required column.*absent_feature"):
+        _Data(parquet_source).load_sequences(required=("absent_feature",))
+    assert reads.columns == []
+
+
 def test_packers_and_fold_split_reuse_one_real_projection(
     parquet_source: _ParquetSource, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     reads = _ParquetReads()
     monkeypatch.setattr(pl, "read_parquet", reads)
     data = _Data(parquet_source)
-    frame = data.load_split_data(required=("timestamp",))
+    frame = data.load_split_frame(required=("timestamp",))
 
     sequences = data.pack_sequences(frame)
     dataset = TensorDataset(
@@ -181,7 +257,7 @@ def test_packers_and_fold_split_reuse_one_real_projection(
 
     assert len(reads.columns) == len(parquet_source._data_cache) == 1
     assert "timestamp" in reads.columns[0]
-    assert data.load_split_data(required=("timestamp",)) is frame
+    assert data.load_split_frame(required=("timestamp",)) is frame
     assert len(reads.columns) == 1
     assert train.dataset is val.dataset is test.dataset is dataset
     for split in (train, val, test):

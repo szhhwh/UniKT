@@ -46,8 +46,7 @@ class ReKTKCModelData(SkillModelData):
         fold_idx = rc.data.fold if rc.data.fold >= 0 else None
         kfold_n_splits = self.data_src.get_metadata("kfold_n_splits")
 
-        data = self.load_split_data()
-        sequences = self.pack_sequences(data)
+        sequences = self.load_sequences()
         partition = sequences.partition(rc.data.fold)
         user_skill_sequence = to_first_skill_ids(sequences.skills)
         user_response = sequences.response

@@ -53,8 +53,7 @@ class HDHKTModelData(QuestionModelData):
         the question, response, mask, and interaction-skill fields.
         """
 
-        data = self.load_split_data()
-        sequences = self.pack_sequences(data)
+        sequences = self.load_sequences()
         partition = sequences.partition(rc.data.fold)
         user_sequence = sequences.question
         user_response = sequences.response
