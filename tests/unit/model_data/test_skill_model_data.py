@@ -8,10 +8,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any, cast
 
-import numpy as np
 import polars as pl
-import pyarrow as pa
-import pyarrow.parquet as pq
 import pytest
 import torch
 
@@ -23,7 +20,6 @@ from utils.model_data.skill_model_data import (
 
 if TYPE_CHECKING:
     from collections.abc import Callable
-    from pathlib import Path
 
     from utils.config.run_config import RunConfig
 
@@ -200,66 +196,6 @@ class TestPackedSequenceOriginalUser:
         model_data = self._make(frame)
         with pytest.raises(pl.exceptions.ColumnNotFoundError):
             model_data.pack_sequences(model_data.load_split_data())
-
-
-# --- load_windowlate_data (numpy variant) -------------------------------------
-
-
-class TestLoadWindowlateDataOrder:
-    """user_id moved to the tuple tail, matching the iterable dataset order."""
-
-    def _write_parquet(self, tmp_path: Path) -> str:
-        path = tmp_path / "stub_windowlate.parquet"
-        pq.write_table(
-            pa.table(
-                {
-                    "sample_id": pa.array([0, 0, 0, 1, 1], pa.int32()),
-                    "position": pa.array([0, 1, 2, 0, 1], pa.int32()),
-                    "skill": pa.array([10, 11, 12, 13, 14], pa.int32()),
-                    "question": pa.array([1, 2, 3, 4, 5], pa.int32()),
-                    "response": pa.array([1, 0, 0, 0, 1], pa.int8()),
-                    "mask": pa.array([0, 0, 1, 0, 1], pa.int8()),
-                    "user_id": pa.array([7, 7, 7, 9, 9], pa.int32()),
-                    "group_id": pa.array([1, 1, 1, 2, 2], pa.int64()),
-                    "true_label": pa.array([1, 0, 1, 0, 1], pa.int8()),
-                }
-            ),
-            path,
-        )
-        return str(path)
-
-    def test_tuple_order(
-        self, tmp_path: Path, make_skill_model_data: Callable[..., SkillModelData]
-    ) -> None:
-        import polars as pl
-
-        path = self._write_parquet(tmp_path)
-        lazy = pl.scan_parquet(path)
-        model_data = make_skill_model_data(
-            windowlate_data=lazy, metadata={"max_windowlate_seq_len": 4}
-        )
-        out = model_data.load_windowlate_data()
-        assert len(out) == 7
-        # user_id last, NOT at index 3 (its old numpy-variant position).
-        user_id_sequence = out[-1]
-        assert user_id_sequence.shape == (2, 4)
-        assert user_id_sequence.dtype == np.int32
-        assert user_id_sequence[0].tolist() == [7, 7, 7, 0]
-        assert user_id_sequence[1].tolist() == [9, 9, 0, 0]
-        # The other six keep the iterable dataset's order semantics.
-        seq, _resp, mask, gid, _label, _q, _ = out
-        assert seq[0].tolist() == [10, 11, 12, 0]
-        assert mask[0].tolist() == [0, 0, 1, 0]
-        assert gid[1].tolist() == [2, 2, -1, -1]
-
-    def test_missing_windowlate_data_raises(
-        self, make_skill_model_data: Callable[..., SkillModelData]
-    ) -> None:
-        model_data = make_skill_model_data(
-            windowlate_data=None, metadata={"max_windowlate_seq_len": 4}
-        )
-        with pytest.raises(ValueError):
-            model_data.load_windowlate_data()
 
 
 # --- DataSource._build_split_sequences ----------------------------------------

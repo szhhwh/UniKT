@@ -43,13 +43,11 @@ class StubDataSource:
         self,
         split_skill_sequence_data: pl.DataFrame | None = None,
         metadata: dict[str, Any] | None = None,
-        windowlate_data: pl.LazyFrame | None = None,
     ) -> None:
         self.dataset = "stub"
         self.data_folder = "/nonexistent"
         self._split_skill_sequence_data = split_skill_sequence_data
         self._metadata = metadata or {}
-        self._windowlate_data = windowlate_data
 
     def get_split_skill_sequence_data(
         self,
@@ -57,9 +55,6 @@ class StubDataSource:
         optional: tuple[str, ...] = (),
     ) -> pl.DataFrame | None:
         return self._split_skill_sequence_data
-
-    def get_windowlate_data(self) -> pl.LazyFrame | None:
-        return self._windowlate_data
 
     def get_metadata(self, key: str | None = None) -> Any:
         if key is not None and key not in self._metadata:
@@ -98,7 +93,6 @@ def make_skill_model_data() -> Callable[..., SkillModelData]:
     def _make(
         split_frame: pl.DataFrame | None = None,
         metadata: dict[str, Any] | None = None,
-        windowlate_data: pl.LazyFrame | None = None,
     ) -> SkillModelData:
         return _ConcreteSkillModelData(
             # Stub implements the duck-typed surface SkillModelData reads;
@@ -108,7 +102,6 @@ def make_skill_model_data() -> Callable[..., SkillModelData]:
                 StubDataSource(
                     split_skill_sequence_data=split_frame,
                     metadata=metadata,
-                    windowlate_data=windowlate_data,
                 ),
             )
         )
