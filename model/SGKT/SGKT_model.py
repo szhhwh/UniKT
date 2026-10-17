@@ -73,20 +73,20 @@ class HRGEmbedding(nn.Module):
             raise ValueError("aggregator must be 'sum' or 'concat'")
         aggregator_cls = SumAggregator if aggregator == "sum" else ConcatAggregator
 
-        # Pre-create aggregators as persistent nn.Modules so their weights are
-        # registered, tracked by the optimizer, and reused across forward calls.
-        # TF creates n_hop aggregators; each one is reused across inner hops
-        # within its layer (same as original aggregate() loop structure).
-        self.aggregators = nn.ModuleList(
-            [
-                aggregator_cls(
-                    dim=embedding_dim,
-                    dropout=1.0 - self.keep_prob_gnn,
-                    act=torch.tanh,
-                )
-                for _ in range(n_hop)
-            ]
-        )
+        # The source creates independent aggregators for the two question branches.
+        self.aggregators, self.next_aggregators = [
+            nn.ModuleList(
+                [
+                    aggregator_cls(
+                        dim=embedding_dim,
+                        dropout=1.0 - self.keep_prob_gnn,
+                        act=torch.tanh,
+                    )
+                    for _ in range(n_hop)
+                ]
+            )
+            for _ in range(2)
+        ]
 
     def get_neighbors(self, n_hop, question_index, question_neighbors):
         seeds = [question_index]
@@ -102,7 +102,7 @@ class HRGEmbedding(nn.Module):
             seeds.append(neighbor)
         return seeds
 
-    def aggregate(self, input_neighbors, embedding_table):
+    def aggregate(self, input_neighbors, embedding_table, aggregators):
         sq_neighbor_vectors = []
         for neighbors in input_neighbors:
             temp_neighbors = embedding_table[neighbors.reshape(-1)].reshape(
@@ -110,8 +110,7 @@ class HRGEmbedding(nn.Module):
             )
             sq_neighbor_vectors.append(temp_neighbors)
 
-        for i in range(self.n_hop):
-            aggregator = self.aggregators[i]
+        for i, aggregator in enumerate(aggregators):
             for hop in range(self.n_hop - i):
                 if hop % 2 == 0:
                     shape = [
@@ -145,14 +144,14 @@ class HRGEmbedding(nn.Module):
             self.n_hop, question_indices, hrg_data["question_neighbors"]
         )
         aggregate_embedding = self.aggregate(
-            input_neighbors, hrg_data["feature_embedding"]
+            input_neighbors, hrg_data["feature_embedding"], self.aggregators
         )
 
         next_input_neighbors = self.get_neighbors(
             self.n_hop, next_question_indices, hrg_data["question_neighbors"]
         )
         next_aggregate_embedding = self.aggregate(
-            next_input_neighbors, hrg_data["feature_embedding"]
+            next_input_neighbors, hrg_data["feature_embedding"], self.next_aggregators
         )
 
         question_features = aggregate_embedding[0]
@@ -193,11 +192,12 @@ class SGEmbedding(nn.Module):
     def __init__(self, embedding_dim):
         super().__init__()
         self.embedding_dim = embedding_dim
-        self.gru = nn.GRU(
-            input_size=2 * embedding_dim,
-            hidden_size=embedding_dim,
-            batch_first=True,
-        )
+        self.gru_gates = nn.Linear(3 * embedding_dim, 2 * embedding_dim)
+        self.gru_candidate = nn.Linear(3 * embedding_dim, embedding_dim)
+        nn.init.xavier_uniform_(self.gru_gates.weight)
+        nn.init.ones_(self.gru_gates.bias)
+        nn.init.xavier_uniform_(self.gru_candidate.weight)
+        nn.init.zeros_(self.gru_candidate.bias)
         stdv = 1.0 / math.sqrt(embedding_dim)
         self.W_in = nn.Parameter(torch.empty(embedding_dim, embedding_dim))
         self.b_in = nn.Parameter(torch.empty(embedding_dim))
@@ -209,21 +209,26 @@ class SGEmbedding(nn.Module):
         nn.init.uniform_(self.b_out, -stdv, stdv)
 
     def forward(self, question_emb, answer_emb, input_trans_embedding):
-        # Pre-compute all per-timestep inputs (independent of hidden state)
-        in_states = question_emb + answer_emb + input_trans_embedding  # [B, T, D]
-        fin_states_in = in_states @ self.W_in + self.b_in  # [B, T, D]
-        fin_states_out = in_states @ self.W_out + self.b_out  # [B, T, D]
+        in_states = question_emb + answer_emb + input_trans_embedding
+        fin_states_in = in_states @ self.W_in + self.b_in
+        fin_states_out = in_states @ self.W_out + self.b_out
         av_all = torch.cat([fin_states_in, fin_states_out], dim=-1) + torch.cat(
             [in_states, in_states], dim=-1
-        )  # [B, T, 2D]
+        )
 
-        # Initial hidden state: answer embedding at t=0
-        h0 = answer_emb[:, 0:1, :].transpose(0, 1).contiguous()  # [1, B, D]
-
-        # Single nn.GRU call replaces the per-step GRUCell loop.
-        # Numerically equivalent (verified), but uses cuDNN fused kernel on GPU.
-        output_series, _ = self.gru(av_all, h0)  # [B, T, D]
-        return output_series
+        state = answer_emb[:, 0]
+        outputs = []
+        for av in av_all.unbind(dim=1):
+            reset, update = torch.sigmoid(
+                self.gru_gates(torch.cat([av, state], dim=-1))
+            ).chunk(2, dim=-1)
+            # TF1 applies the reset gate before the recurrent candidate projection.
+            candidate = torch.tanh(
+                self.gru_candidate(torch.cat([av, reset * state], dim=-1))
+            )
+            state = update * state + (1 - update) * candidate
+            outputs.append(state)
+        return torch.stack(outputs, dim=1)
 
 
 class SelfAttentionHistory(nn.Module):
@@ -300,8 +305,7 @@ class SelfAttentionHistory(nn.Module):
             torch.ones(att_len, att_len, device=device), diagonal=1
         ).bool()
 
-        A = A.masked_fill(causal_mask_att.unsqueeze(0), float("-inf"))
-        A = F.softmax(A, dim=-1)  # [B, T+1, T+1]
+        A = A.masked_fill(causal_mask_att.unsqueeze(0), 0.0)
         B = torch.matmul(A, EV)  # [B, T+1, H]
 
         zero_padding = torch.zeros(
