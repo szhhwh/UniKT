@@ -26,25 +26,11 @@ def sample_hist_neighbors(
     pad_index=None,
     deterministic=False,
 ):
-    """
-    Sample historical neighbors based on skill matching.
+    """Sample positions k <= t matching the skill of the next question t+1.
 
-    Following the original TF implementation (data_process.py:198-220).
-    For each position t, find historical positions [0, t-1] with the same skill,
-    then randomly select M positions as neighbors.
-
-    Args:
-        batch_size: Batch size
-        max_seq_len: Maximum sequence length
-        hist_neighbor_num: Number of historical neighbors to sample (M)
-        skill_index: [batch_size, max_seq_len] Skill indices (tensor or ndarray)
-        pad_index: Padding index used when no valid historical neighbor exists.
-                   Defaults to max_seq_len and requires downstream gather to
-                   append one zero-padding position.
-
-    Returns:
-        hist_neighbor_index: [batch_size, max_seq_len, hist_neighbor_num]
-                            Pre-computed historical neighbor indices
+    skill_index contains full [batch_size, max_seq_len+1] sequences.
+    The output has shape [batch_size, max_seq_len, hist_neighbor_num];
+    no-match entries select an appended zero state at pad_index.
     """
     if pad_index is None:
         pad_index = max_seq_len
@@ -52,33 +38,26 @@ def sample_hist_neighbors(
     if hist_neighbor_num == 0:
         return np.zeros((batch_size, max_seq_len, 0), dtype=np.int64)
 
-    # Convert to numpy if tensor
     if isinstance(skill_index, torch.Tensor):
         skills = skill_index.numpy()
     else:
         skills = np.asarray(skill_index)
 
-    # Result array: default to pad_index (dedicated padding position for no-match fallback)
     result = np.full(
         (batch_size, max_seq_len, hist_neighbor_num),
         pad_index,
         dtype=np.int64,
     )
-    # Position 0 has no history; keep padding index to avoid future leakage.
-    result[:, 0, :] = pad_index
-
+    causal = np.tril(np.ones((max_seq_len, max_seq_len), dtype=bool))
     for b in range(batch_size):
-        seq_skills = skills[b]  # [max_seq_len]
+        seq_skills = skills[b]
+        same_skill = (
+            seq_skills[np.newaxis, :max_seq_len]
+            == seq_skills[1 : max_seq_len + 1, np.newaxis]
+        )
+        valid = same_skill & causal
 
-        # Build same-skill match matrix: same_skill[t, k] = True if skills match
-        # and k < t (causal: only look at history)
-        # [max_seq_len] == [max_seq_len, 1] -> [max_seq_len, max_seq_len]
-        same_skill = seq_skills[np.newaxis, :] == seq_skills[:, np.newaxis]
-        # Causal mask: position k < t
-        causal = np.tril(np.ones((max_seq_len, max_seq_len), dtype=bool), k=-1)
-        valid = same_skill & causal  # [max_seq_len, max_seq_len]
-
-        for t in range(1, max_seq_len):
+        for t in range(max_seq_len):
             candidates = np.where(valid[t])[0]
             n_candidates = len(candidates)
             if deterministic and n_candidates > 0:
@@ -92,7 +71,6 @@ def sample_hist_neighbors(
                 result[b, t] = np.random.choice(
                     candidates, hist_neighbor_num, replace=True
                 )
-            # else: keeps default pad_index
 
     return result
 
@@ -359,17 +337,14 @@ def sgkt_collate_fn(batch, hist_neighbor_num=5, deterministic=False):
     # First, batch the regular tensors
     batched = default_collate(batch)
 
-    # Compute hist_neighbor_index for this batch
     batch_size = batched["skills"].shape[0]
-    full_seq_len = batched["skills"].shape[1]  # e.g., 200
-    model_seq_len = full_seq_len - 1  # e.g., 199
+    model_seq_len = batched["skills"].shape[1] - 1
 
-    # Compute hist_neighbor_index using model sequence length
     hist_neighbor_index = sample_hist_neighbors(
         batch_size,
-        model_seq_len,  # Use model_seq_len instead of full_seq_len
+        model_seq_len,
         hist_neighbor_num,
-        batched["skills"][:, :model_seq_len],  # Slice skills to model_seq_len
+        batched["skills"],
         pad_index=model_seq_len,
         deterministic=deterministic,
     )
