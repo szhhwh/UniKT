@@ -181,11 +181,13 @@ def _write_native_fixture(source: DataSource, labels: list[int]) -> list[int | s
             {
                 "Anon Student Id": ["student"] * 3,
                 "Problem Name": questions,
+                "Step Name": ["FinalAnswer"] * 3,
                 "First Transaction Time": times,
                 "Correct First Attempt": labels,
                 source.skill_column: ["skill3", "skill1", "skill2"],
             }
         ).write_csv(source.raw_data_path, separator="\t")
+        questions = [f"{question}----FinalAnswer" for question in questions]
     elif isinstance(source, EdNetKT1Data):
         contents = raw / "EdNet-Contents"
         logs = raw / "EdNet-KT1" / "KT1"

@@ -48,8 +48,8 @@ def test_question_identity_across_curriculum_contexts(
     assert sequence.height == 4
     assert sequence["label"].to_list() == [1, 0, 1, 0]
     assert questions[0] == questions[1]
-    assert len(set(questions)) == 2
-    assert questions[0] == questions[2]
+    assert len(set(questions)) == 3
+    assert questions[0] != questions[2]
     assert questions[0] != questions[3]
     source._validate_data(source.relation_data, sequence)
 
@@ -77,7 +77,178 @@ def test_accepts_missing_curriculum_context(
     source.transform_data()
 
     assert source.sequence_data.height == 4
+    assert source.sequence_data["question"].n_unique() == 3
+
+
+@pytest.mark.parametrize(
+    "source_class", [Algebra2005Data, Algebra2006Data, Bridge2006Data]
+)
+def test_question_keys_escape_and_join_names(
+    tmp_path: Path,
+    raw_frame: pl.DataFrame,
+    source_class: type[Algebra2005Data | Algebra2006Data | Bridge2006Data],
+) -> None:
+    # Escape both fields before joining them with "----".
+    source = source_class(
+        SimpleNamespace(data_base_path=str(tmp_path), seed=42, min_seq_len=1)
+    )
+    source.raw_data = raw_frame.with_columns(
+        pl.Series("Problem Name", ["P_1,a", "P_1,a", "P_1,a", "P_2,a"]),
+        pl.Series("Step Name", ["S_1,b", "S_1,b", "S_2,b", "S_1,b"]),
+    ).lazy()
+
+    source.clean_raw_data()
+    assert source.cleaned_raw_data["question"].to_list() == [
+        "P####1@@@@a----S####1@@@@b",
+        "P####1@@@@a----S####1@@@@b",
+        "P####1@@@@a----S####2@@@@b",
+        "P####2@@@@a----S####1@@@@b",
+    ]
+    source.transform_data()
+    assert source.sequence_data["question"].to_list() == [0, 0, 1, 2]
+
+
+@pytest.mark.parametrize(
+    "source_class", [Algebra2005Data, Algebra2006Data, Bridge2006Data]
+)
+@pytest.mark.parametrize("from_file", [False, True])
+@pytest.mark.parametrize("column", ["Problem Name", "Step Name"])
+def test_requires_question_columns(
+    tmp_path: Path,
+    raw_frame: pl.DataFrame,
+    source_class: type[Algebra2005Data | Algebra2006Data | Bridge2006Data],
+    from_file: bool,
+    column: str,
+) -> None:
+    source = source_class(
+        SimpleNamespace(data_base_path=str(tmp_path), seed=42, min_seq_len=1)
+    )
+    if from_file:
+        path = Path(source.raw_data_path)
+        path.parent.mkdir(parents=True)
+        raw_frame.drop(column).write_csv(path, separator="\t")
+    else:
+        source.raw_data = raw_frame.drop(column).lazy()
+
+    with pytest.raises(ValueError, match=rf"missing columns: \['{column}'\]"):
+        source.clean_raw_data()
+
+
+@pytest.mark.parametrize(
+    "source_class", [Algebra2005Data, Algebra2006Data, Bridge2006Data]
+)
+def test_preserves_numeric_names_and_leading_zeros_from_file(
+    tmp_path: Path,
+    raw_frame: pl.DataFrame,
+    source_class: type[Algebra2005Data | Algebra2006Data | Bridge2006Data],
+) -> None:
+    source = source_class(
+        SimpleNamespace(data_base_path=str(tmp_path), seed=42, min_seq_len=1)
+    )
+    path = Path(source.raw_data_path)
+    path.parent.mkdir(parents=True)
+    raw_frame.with_columns(
+        pl.Series("Problem Name", ["001", "001", "1", "001"]),
+        pl.Series("Step Name", ["01", "1", "01", "01"]),
+    ).write_csv(path, separator="\t")
+
+    source.clean_raw_data()
+    assert source.cleaned_raw_data["question"].to_list() == [
+        "001----01",
+        "001----1",
+        "1----01",
+        "001----01",
+    ]
+    source.transform_data()
+    assert source.sequence_data["question"].to_list() == [0, 1, 2, 0]
+
+
+@pytest.mark.parametrize(
+    "source_class", [Algebra2005Data, Algebra2006Data, Bridge2006Data]
+)
+@pytest.mark.parametrize("column", ["Problem Name", "Step Name"])
+def test_drops_missing_question_components(
+    tmp_path: Path,
+    raw_frame: pl.DataFrame,
+    source_class: type[Algebra2005Data | Algebra2006Data | Bridge2006Data],
+    column: str,
+) -> None:
+    source = source_class(
+        SimpleNamespace(data_base_path=str(tmp_path), seed=42, min_seq_len=1)
+    )
+    source.raw_data = raw_frame.with_columns(
+        pl.when(pl.int_range(pl.len()) == 2)
+        .then(None)
+        .otherwise(pl.col(column))
+        .alias(column)
+    ).lazy()
+
+    source.clean_raw_data()
+    source.transform_data()
+
+    assert source.sequence_data["interaction_id"].to_list() == [0, 1, 3]
     assert source.sequence_data["question"].n_unique() == 2
+
+
+@pytest.mark.parametrize(
+    "source_class", [Algebra2005Data, Algebra2006Data, Bridge2006Data]
+)
+@pytest.mark.parametrize(
+    "problem_names,step_names",
+    [
+        (["P_1", "P####1"], ["S", "S"]),
+        (["P,1", "P@@@@1"], ["S", "S"]),
+        (["A----B", "A"], ["C", "B----C"]),
+    ],
+)
+def test_rejects_ambiguous_question_keys(
+    tmp_path: Path,
+    raw_frame: pl.DataFrame,
+    source_class: type[Algebra2005Data | Algebra2006Data | Bridge2006Data],
+    problem_names: list[str],
+    step_names: list[str],
+) -> None:
+    source = source_class(
+        SimpleNamespace(data_base_path=str(tmp_path), seed=42, min_seq_len=1)
+    )
+    source.raw_data = (
+        raw_frame.head(2)
+        .with_columns(
+            pl.Series("Problem Name", problem_names),
+            pl.Series("Step Name", step_names),
+        )
+        .lazy()
+    )
+
+    with pytest.raises(ValueError, match="same question key"):
+        source.clean_raw_data()
+
+
+@pytest.mark.parametrize(
+    "source_class", [Algebra2005Data, Algebra2006Data, Bridge2006Data]
+)
+def test_question_identity_is_independent_of_student_and_problem_view(
+    tmp_path: Path,
+    raw_frame: pl.DataFrame,
+    source_class: type[Algebra2005Data | Algebra2006Data | Bridge2006Data],
+) -> None:
+    source = source_class(
+        SimpleNamespace(data_base_path=str(tmp_path), seed=42, min_seq_len=1)
+    )
+    source.raw_data = raw_frame.with_columns(
+        pl.Series("Anon Student Id", ["s1", "s2", "s1", "s2"]),
+        pl.Series("Problem View", [1, 2, 3, 4]),
+        pl.lit("default_skill").alias("KC(Default)"),
+        pl.lit("sub_skill").alias("KC(SubSkills)"),
+    ).lazy()
+    source.clean_raw_data()
+    source.transform_data()
+
+    sequence = source.sequence_data.sort("interaction_id")
+    assert sequence["question"].to_list() == [0, 0, 1, 2]
+    assert sequence["user"][0] != sequence["user"][1]
+    expected_skill = "sub_skill" if source_class is Bridge2006Data else "default_skill"
+    assert source._id_mappings["skill"] == {expected_skill: 0}
 
 
 @pytest.mark.parametrize(
@@ -126,7 +297,11 @@ def test_preserves_observed_skills_and_interaction_order(
     relation = source.relation_data["question_skill"].filter(
         pl.col("question") == questions["question"][0]
     )
-    assert relation["skill"].sort().to_list() == [0, 1, 2, 3]
+    assert relation["skill"].sort().to_list() == [0, 1, 3]
+    step_relation = source.relation_data["question_skill"].filter(
+        pl.col("question") == questions["question"][2]
+    )
+    assert step_relation["skill"].to_list() == [2]
 
     skills = source.split_skill_sequence_data
     assert "skills" not in skills.columns

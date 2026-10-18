@@ -21,11 +21,12 @@ class KDDCup2010Base(DataSource):
     Step Name, ..., First Transaction Time, ..., Correct First Attempt,
     ..., KC(Default) or KC(SubSkills), Opportunity(...)
 
-    Steps retain independent interactions while sharing their problem identity.
+    A question is a Problem Name + Step Name pair within each dataset.
+    Repeated observations retain independent interaction IDs.
     """
 
     skill_column: str  # Subclass must set: e.g. "KC(Default)" or "KC(SubSkills)"
-    question_columns: tuple[str, ...] = ("Problem Name",)
+    question_columns: tuple[str, ...] = ("Problem Name", "Step Name")
 
     def __init__(self, args: Any, dataset: str, raw_filename: str) -> None:
         """Initialize the KDD Cup 2010 base dataset handler."""
@@ -38,6 +39,18 @@ class KDDCup2010Base(DataSource):
         self.args = args
         self.raw_data_path = os.path.join(self.data_folder, "raw", raw_filename)
 
+    def _question_expression(self) -> pl.Expr:
+        """Escape and join problem and step names into a question key."""
+        return pl.concat_str(
+            [
+                pl.col(column)
+                .str.replace_all("_", "####", literal=True)
+                .str.replace_all(",", "@@@@", literal=True)
+                for column in self.question_columns
+            ],
+            separator="----",
+        )
+
     @override
     def load_src_data(self) -> None:
         if not os.path.exists(self.raw_data_path):
@@ -46,6 +59,7 @@ class KDDCup2010Base(DataSource):
         self.raw_data = pl.scan_csv(
             self.raw_data_path,
             separator="\t",
+            schema_overrides=dict.fromkeys(self.question_columns, pl.String),
             ignore_errors=True,
             try_parse_dates=False,
             null_values=[""],
@@ -74,10 +88,8 @@ class KDDCup2010Base(DataSource):
         data = self.raw_data.select(
             [
                 pl.col("Anon Student Id").alias("user"),
-                pl.concat_str(
-                    [pl.col(column) for column in self.question_columns],
-                    separator="___",
-                ).alias("question"),
+                *[pl.col(column) for column in self.question_columns],
+                self._question_expression().alias("question"),
                 pl.col("First Transaction Time").alias("raw_timestamp"),
                 pl.col("Correct First Attempt").alias("raw_label"),
                 pl.col(skill_col).alias("skill"),
@@ -128,6 +140,16 @@ class KDDCup2010Base(DataSource):
                 f"Dropped {dropped_count} {self.dataset} rows with missing "
                 "user/question/timestamp/label/skill."
             )
+
+        # This text encoding is not injective for arbitrary field contents
+        # (e.g. literal "####" versus "_"). Never silently merge distinct pairs.
+        question_pairs = data.select("question", *self.question_columns).unique()
+        if question_pairs["question"].n_unique() != question_pairs.height:
+            raise ValueError(
+                f"{self.dataset} has distinct Problem Name + Step Name pairs "
+                "that produce the same question key."
+            )
+        data = data.drop(self.question_columns)
 
         min_ts = data.select(pl.col("timestamp").min()).item()
         if min_ts is None:
@@ -227,7 +249,7 @@ class KDDCup2010Base(DataSource):
 class Algebra2005Data(KDDCup2010Base):
     """Algebra 2005-2006 dataset handler.
 
-    Uses KC(Default) as the skill column.
+    Uses KC(Default) and the shared Problem Name + Step Name question identity.
     """
 
     skill_column = "KC(Default)"
@@ -245,7 +267,7 @@ class Algebra2005Data(KDDCup2010Base):
 class Algebra2006Data(KDDCup2010Base):
     """Algebra 2006-2007 dataset handler.
 
-    Uses KC(Default) as the skill column.
+    Uses KC(Default) and the shared Problem Name + Step Name question identity.
     """
 
     skill_column = "KC(Default)"
@@ -263,7 +285,7 @@ class Algebra2006Data(KDDCup2010Base):
 class Bridge2006Data(KDDCup2010Base):
     """Bridge to Algebra 2006-2007 dataset handler.
 
-    Uses KC(SubSkills) as the skill column.
+    Uses KC(SubSkills) and the shared Problem Name + Step Name question identity.
     """
 
     skill_column = "KC(SubSkills)"
