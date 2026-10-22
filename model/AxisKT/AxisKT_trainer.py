@@ -129,7 +129,17 @@ class AxisKTTrainer(BaseTrainer):
     ) -> dict[str, torch.Tensor]:
         from model.AxisKT.AxisKT_data import use_compact_global
 
-        questions, responses, times, mask, kc_order, kc_inverse, valid_idx = batch_data
+        (
+            questions,
+            responses,
+            times,
+            mask,
+            kc_order,
+            kc_inverse,
+            valid_idx,
+            skills,
+            skill_mask,
+        ) = batch_data
         compact_global = not self.run_config.compile.compile and use_compact_global(
             mask
         )
@@ -140,6 +150,8 @@ class AxisKTTrainer(BaseTrainer):
         kc_order = self._move_tensor_to_device(kc_order)
         kc_inverse = self._move_tensor_to_device(kc_inverse)
         valid_idx = self._move_tensor_to_device(valid_idx)
+        skills = self._move_tensor_to_device(skills)
+        skill_mask = self._move_tensor_to_device(skill_mask)
 
         use_amp = bool(self.run_config.model.amp)
         with torch.autocast(
@@ -152,6 +164,8 @@ class AxisKTTrainer(BaseTrainer):
                 responses,
                 times,
                 mask,
+                skill_ids=skills,
+                skill_mask=skill_mask,
                 kc_order=kc_order,
                 kc_inverse=kc_inverse,
                 compact_global=compact_global,

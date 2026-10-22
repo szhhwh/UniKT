@@ -4,8 +4,8 @@ Column names and dtypes mirror what the ETL pipeline produces
 (``utils/data_process/assist09.py``): sequence frames carry
 ``user/question/label/timestamp`` (Int32/Int32/Int8/Int64) and relation tables
 carry exactly two columns. ``make_data_source`` builds a DataSource WITHOUT
-running any ETL: the ``__new__`` bypass (see test_skill_model_data.py) plus
-explicitly assigned attributes, so tests exercise only the logic under test.
+running any ETL: the ``__new__`` bypass plus explicitly assigned attributes, so
+tests exercise only the logic under test.
 """
 
 import os
@@ -53,7 +53,7 @@ def make_sequence_frame() -> Callable[..., pl.DataFrame]:
                     dtype=pl.Int64,
                 ),
             }
-        )
+        ).with_columns(pl.int_range(pl.len(), dtype=pl.Int64).alias("interaction_id"))
 
     return _make
 
@@ -102,8 +102,31 @@ def make_data_source(tmp_path: Path) -> Callable[..., _MinimalDataSource]:
         )
         # DataSource declares a non-optional field; callers that don't need
         # sequence data pass None and never read the attribute.
+        if sequence_data is not None:
+            if "interaction_id" not in sequence_data.columns:
+                sequence_data = sequence_data.with_row_index(
+                    "interaction_id"
+                ).with_columns(pl.col("interaction_id").cast(pl.Int64))
+            if "skills" not in sequence_data.columns:
+                annotations = (
+                    {
+                        question: group["skill"].sort().to_list()
+                        for (question,), group in relation_data[
+                            "question_skill"
+                        ].group_by("question")
+                    }
+                    if relation_data and "question_skill" in relation_data
+                    else {}
+                )
+                sequence_data = sequence_data.with_columns(
+                    pl.Series(
+                        "skills",
+                        [annotations.get(q, [q]) for q in sequence_data["question"]],
+                        dtype=pl.List(pl.Int32),
+                    )
+                )
         ds.sequence_data = cast(pl.DataFrame, sequence_data)
-        ds.relation_data = {} if relation_data is None else relation_data
+        ds.relation_data = {} if relation_data is None else dict(relation_data)
         ds.metadata = {} if metadata is None else metadata
         ds.seed = seed
         ds.raw_data = None

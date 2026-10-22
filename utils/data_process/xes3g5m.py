@@ -93,6 +93,7 @@ class Xes3g5mData(DataSource):
                 }
             )
             .explode(explode_cols, empty_as_null=True)
+            .with_row_index("interaction_id")
             .with_columns(
                 [
                     pl.col("user").cast(pl.Int32),
@@ -117,6 +118,12 @@ class Xes3g5mData(DataSource):
 
         train = self._flatten(self.raw_data["train"], has_selectmask=True)
         test = self._flatten(self.raw_data["test"], has_selectmask=False)
+        train_end = train.select(
+            pl.col("interaction_id").cast(pl.Int64).max().fill_null(-1) + 1
+        ).item()
+        test = test.with_columns(
+            (pl.col("interaction_id") + train_end).alias("interaction_id")
+        )
         data = pl.concat([train, test], how="vertical")
 
         # Drop rows with mislabeled timestamps. The interactions form a tight
@@ -143,7 +150,7 @@ class Xes3g5mData(DataSource):
             .cast(pl.Int64)
             .alias("timestamp")
         )
-        data = data.sort(["user", "timestamp"])
+        data = data.sort(self._sort_columns())
 
         data = exclude_short_sequences(data, self.args.min_seq_len)
 
@@ -156,19 +163,17 @@ class Xes3g5mData(DataSource):
 
     @override
     def transform_data(self) -> None:
-        """Build the question_skill relation and sequence_data from cleaned data."""
+        """Encode observed skills and build canonical interactions."""
         logger.info("Processing XES3G5M data...")
         if self.cleaned_raw_data is None:
             raise ValueError("clean_raw_data must be called before transform_data")
 
-        # "_" joins the KCs of one question; explode to one row per KC. Each
-        # question maps to a single, consistent concept-set in the source data.
-        question_skill = (
-            self.cleaned_raw_data.select(["question", "concept"])
-            .with_columns(pl.col("concept").str.split("_").alias("skill"))
+        skill_data = (
+            self.cleaned_raw_data.select(
+                pl.col("concept").unique().str.split("_").alias("skill")
+            )
             .explode("skill", empty_as_null=True)
             .with_columns(pl.col("skill").cast(pl.Int32))
-            .unique()
         )
 
         # Dense, contiguous question ids starting at 0.
@@ -186,36 +191,32 @@ class Xes3g5mData(DataSource):
             )
         )
 
-        question_skill = (
-            question_skill.join(question_map_df, on="question", how="left")
-            .drop("question")
-            .rename({"question_id": "question"})
-        )
-
         sequence_data = (
             self.cleaned_raw_data.join(question_map_df, on="question", how="left")
             .with_columns(pl.col("question_id").cast(pl.Int32))
             .drop("question")
             .rename({"question_id": "question"})
-            .select(["user", "question", "label", "timestamp"])
+            .select(
+                ["interaction_id", "user", "question", "label", "timestamp", "concept"]
+            )
         )
 
-        self._build_id_mapping(question_skill, ["skill"])
-        question_skill = self._apply_id_mapping(question_skill, ["skill"])
+        self._build_id_mapping(skill_data, ["skill"])
 
         self._build_id_mapping(sequence_data, ["user"])
         sequence_data = self._apply_id_mapping(sequence_data, ["user"])
 
         logger.debug(
-            f"Built question_skill: {question_skill.shape[0]} pairs, "
-            f"{self._get_mapped_count('skill')} skills, "
+            f"ID mappings: {self._get_mapped_count('skill')} skills, "
             f"{self._get_mapped_count('user')} users"
         )
 
-        self.relation_data = {
-            "question_skill": question_skill.select(["question", "skill"])
-        }
-        self.sequence_data = sequence_data
+        sequence_data = sequence_data.with_columns(
+            self._map_interaction_skills(
+                pl.col("concept").str.split("_").list.eval(pl.element().cast(pl.Int32))
+            )
+        ).drop("concept")
+        self.set_sequence_data(sequence_data)
 
 
 __all__ = ["Xes3g5mData"]

@@ -147,15 +147,9 @@ class DyGKT(nn.Module):
         )
         self.num_nodes = self.user_id_offset + num_users
 
-        question_features = data_metadata.get("question_features")
-        question_skill_ids = data_metadata.get("question_skill_ids")
-        if question_skill_ids is None:
-            question_skill_ids = np.zeros(num_questions, dtype=np.int64)
-        question_skill_ids = np.asarray(question_skill_ids, dtype=np.int64)
-
-        if question_features is None:
-            question_features = question_skill_ids.astype(np.float32)[:, np.newaxis]
-        question_features = np.asarray(question_features, dtype=np.float32)
+        question_features = np.asarray(
+            data_metadata["question_features"], dtype=np.float32
+        )
 
         node_feature_dim = int(question_features.shape[1])
         node_raw_features = np.zeros(
@@ -165,28 +159,19 @@ class DyGKT(nn.Module):
             self.question_id_offset : self.question_id_offset + num_questions, :
         ] = question_features
 
-        node_skill_ids = np.zeros(self.num_nodes, dtype=np.int64)
-        node_skill_ids[
-            self.question_id_offset : self.question_id_offset + num_questions
-        ] = question_skill_ids
-
-        self.num_skills = (
-            int(question_skill_ids.max()) + 1 if question_skill_ids.size > 0 else 1
-        )
+        self.num_skills = int(data_metadata["num_skills"])
 
         self.register_buffer(
             "node_raw_features", torch.from_numpy(node_raw_features), persistent=False
         )
-        self.register_buffer(
-            "node_skill_ids", torch.from_numpy(node_skill_ids), persistent=False
-        )
-
         self.projection_layer = nn.ModuleDict(
             {
                 "feature_Linear": nn.Linear(
                     in_features=node_feature_dim, out_features=self.node_dim, bias=True
                 ),
-                "feature_Embed": nn.Embedding(self.num_skills, self.node_dim),
+                "feature_Embed": nn.Embedding(
+                    self.num_skills + 1, self.node_dim, padding_idx=0
+                ),
                 "node": nn.Embedding(self.num_nodes, self.node_dim),
                 "edge": nn.Linear(in_features=1, out_features=self.node_dim, bias=True),
                 "time": nn.Linear(
@@ -221,28 +206,29 @@ class DyGKT(nn.Module):
     def set_neighbor_sampler(self, neighbor_sampler: Any) -> None:
         self.neighbor_sampler = neighbor_sampler
 
-    def get_features(
+    def get_node_features(
         self,
-        nodes_neighbor_ids: torch.Tensor,
+        node_ids: torch.Tensor,
+        skill_ids: torch.Tensor,
+    ) -> torch.Tensor:
+        if self.ablation in ["embed", "q_kid"]:
+            features = self.projection_layer["feature_Embed"](skill_ids)
+        elif self.ablation == "q_qid":
+            features = self.projection_layer["node"](node_ids)
+        else:
+            raw = self.node_raw_features[node_ids].float()
+            features = self.projection_layer["feature_Linear"](raw)
+
+        if self.ablation == "skill":
+            features = features * 0
+        return features
+
+    def get_edge_time_features(
+        self,
         nodes_edge_features: torch.Tensor,
         nodes_neighbor_times: torch.Tensor,
         node_interact_times: torch.Tensor,
-    ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
-        if self.ablation in ["embed", "q_kid"]:
-            skill_ids = self.node_skill_ids[nodes_neighbor_ids].long()
-            nodes_neighbor_node_raw_features = self.projection_layer["feature_Embed"](
-                skill_ids
-            )
-        elif self.ablation == "q_qid":
-            nodes_neighbor_node_raw_features = self.projection_layer["node"](
-                nodes_neighbor_ids
-            )
-        else:
-            raw = self.node_raw_features[nodes_neighbor_ids].float()
-            nodes_neighbor_node_raw_features = self.projection_layer["feature_Linear"](
-                raw
-            )
-
+    ) -> tuple[torch.Tensor, torch.Tensor]:
         if self.ablation == "dual":
             rel_time = node_interact_times.unsqueeze(1) - nodes_neighbor_times
             nodes_neighbor_time_features = self.time_encoder(rel_time)
@@ -256,11 +242,8 @@ class DyGKT(nn.Module):
 
         if self.ablation == "time":
             nodes_neighbor_time_features = nodes_neighbor_time_features * 0
-        elif self.ablation == "skill":
-            nodes_neighbor_node_raw_features = nodes_neighbor_node_raw_features * 0
 
         return (
-            nodes_neighbor_node_raw_features,
             nodes_edge_raw_features,
             nodes_neighbor_time_features,
         )
@@ -274,6 +257,8 @@ class DyGKT(nn.Module):
 
         src_neighbor_node_ids = batch["src_neighbor_node_ids"].long()
         dst_neighbor_node_ids = batch["dst_neighbor_node_ids"].long()
+        target_skill_ids = batch["skill"].long()
+        src_neighbor_skill_ids = batch["src_neighbor_skill_ids"].long()
 
         src_neighbor_times = batch["src_neighbor_times"].float()
         dst_neighbor_times = batch["dst_neighbor_times"].float()
@@ -283,13 +268,6 @@ class DyGKT(nn.Module):
 
         batch_size = src_node_ids.shape[0]
         device = src_node_ids.device
-
-        src_neighbor_node_ids = torch.cat(
-            [src_neighbor_node_ids, src_node_ids.unsqueeze(1)], dim=1
-        )
-        dst_neighbor_node_ids = torch.cat(
-            [dst_neighbor_node_ids, dst_node_ids.unsqueeze(1)], dim=1
-        )
 
         src_neighbor_times = torch.cat(
             [src_neighbor_times, node_interact_times.unsqueeze(1)], dim=1
@@ -303,22 +281,16 @@ class DyGKT(nn.Module):
         dst_neighbor_edge_feats = torch.cat([dst_neighbor_edge_feats, zero_edge], dim=1)
 
         src_nodes_neighbor_co_occurrence_features = (
-            (src_neighbor_node_ids[:, :-1] == dst_node_ids.unsqueeze(1))
-            .unsqueeze(-1)
-            .float()
+            (src_neighbor_node_ids == dst_node_ids.unsqueeze(1)).unsqueeze(-1).float()
         )
         dst_nodes_neighbor_co_occurrence_features = (
-            (dst_neighbor_node_ids[:, :-1] == src_node_ids.unsqueeze(1))
-            .unsqueeze(-1)
-            .float()
+            (dst_neighbor_node_ids == src_node_ids.unsqueeze(1)).unsqueeze(-1).float()
         )
 
-        src_node_skill = self.node_skill_ids[src_neighbor_node_ids][:, :-1].long()
-        dst_node_skill = (
-            self.node_skill_ids[dst_neighbor_node_ids[:, -1]].long().unsqueeze(1)
-        )
         src_nodes_neighbor_skill_features = (
-            (src_node_skill == dst_node_skill).unsqueeze(-1).float()
+            (src_neighbor_skill_ids == target_skill_ids.unsqueeze(1))
+            .unsqueeze(-1)
+            .float()
         )
 
         a = 0.0 if self.ablation == "counter" else 1.0
@@ -339,58 +311,60 @@ class DyGKT(nn.Module):
         dst_nodes_neighbor_struct_features = struct_projections[1]
         src_nodes_neighbor_skill_struct_features = struct_projections[2]
 
-        (
-            src_nodes_neighbor_node_raw_features,
-            src_nodes_edge_raw_features,
-            src_nodes_neighbor_time_features,
-        ) = self.get_features(
-            nodes_neighbor_ids=src_neighbor_node_ids,
-            nodes_edge_features=src_neighbor_edge_feats,
-            nodes_neighbor_times=src_neighbor_times,
-            node_interact_times=node_interact_times,
+        src_nodes_neighbor_node_raw_features = self.get_node_features(
+            src_neighbor_node_ids, src_neighbor_skill_ids
         )
-        (
-            dst_nodes_neighbor_node_raw_features,
-            dst_nodes_edge_raw_features,
-            dst_nodes_neighbor_time_features,
-        ) = self.get_features(
-            nodes_neighbor_ids=dst_neighbor_node_ids,
-            nodes_edge_features=dst_neighbor_edge_feats,
-            nodes_neighbor_times=dst_neighbor_times,
-            node_interact_times=node_interact_times,
+        dst_node_raw_features = self.get_node_features(dst_node_ids, target_skill_ids)
+        src_nodes_edge_raw_features, src_nodes_neighbor_time_features = (
+            self.get_edge_time_features(
+                nodes_edge_features=src_neighbor_edge_feats,
+                nodes_neighbor_times=src_neighbor_times,
+                node_interact_times=node_interact_times,
+            )
+        )
+        dst_nodes_edge_raw_features, dst_nodes_neighbor_time_features = (
+            self.get_edge_time_features(
+                nodes_edge_features=dst_neighbor_edge_feats,
+                nodes_neighbor_times=dst_neighbor_times,
+                node_interact_times=node_interact_times,
+            )
         )
 
+        src_edge_time_features = (
+            src_nodes_edge_raw_features + src_nodes_neighbor_time_features
+        )
+        dst_edge_time_features = (
+            dst_nodes_edge_raw_features + dst_nodes_neighbor_time_features
+        )
         src_nodes_features = (
             src_nodes_neighbor_node_raw_features
-            + src_nodes_edge_raw_features
-            + src_nodes_neighbor_time_features
-        )
-        dst_nodes_features = (
-            dst_nodes_neighbor_node_raw_features
-            + dst_nodes_edge_raw_features
-            + dst_nodes_neighbor_time_features
+            + src_nodes_edge_raw_features[:, :-1, :]
+            + src_nodes_neighbor_time_features[:, :-1, :]
         )
 
         src_node_embeddings = (
             self.src_node_updater.update(
-                src_nodes_features[:, :-1, :]
+                src_nodes_features
                 + src_nodes_neighbor_skill_struct_features
                 + src_nodes_neighbor_struct_features
             )
-            + (src_nodes_edge_raw_features + src_nodes_neighbor_time_features)[:, -1, :]
+            + src_edge_time_features[:, -1, :]
         )
 
         if self.ablation in ["q_qid", "q_kid"]:
-            dst_node_embeddings = dst_nodes_neighbor_node_raw_features[:, -1, :]
+            dst_node_embeddings = dst_node_raw_features
         else:
+            dst_target_features = (
+                dst_node_raw_features
+                + dst_nodes_edge_raw_features[:, -1, :]
+                + dst_nodes_neighbor_time_features[:, -1, :]
+            )
             dst_node_embeddings = (
                 self.dst_node_updater.update(
-                    (dst_nodes_edge_raw_features + dst_nodes_neighbor_time_features)[
-                        :, :-1, :
-                    ]
+                    dst_edge_time_features[:, :-1, :]
                     + dst_nodes_neighbor_struct_features
                 )
-                + dst_nodes_features[:, -1, :]
+                + dst_target_features
             )
 
         src_node_embeddings = self.output_layer(src_node_embeddings)

@@ -9,6 +9,7 @@ from torch.utils.data import Dataset
 
 from utils.core import get_logger
 from utils.model_data import QuestionModelData
+from utils.model_data.packed_sequences import to_first_skill_ids
 
 logger = get_logger(__name__)
 
@@ -70,9 +71,12 @@ class GIKTModelData(QuestionModelData):
         super().__init__(data_src)
 
     def prepare_data(self, rc: Any):
-        user_sequence, user_response, user_mask, user_id_sequence = (
-            self.load_sequence_data()
-        )
+        sequences = self.load_sequences()
+        partition = sequences.partition(rc.data.fold)
+        user_sequence = sequences.question
+        user_response = sequences.response
+        user_mask = sequences.mask
+        np.where(sequences.mask, sequences.user[:, None], 0)
 
         question_skill_matrix = self.build_relationship_matrix(
             ("question", "has", "skill"), value_type="binary"
@@ -89,27 +93,12 @@ class GIKTModelData(QuestionModelData):
             rc.model.skill_neighbor_num,
         )
 
-        train_data, val_data, test_data = self.split_kfold_data(
-            user_sequence,
-            user_response,
-            user_mask,
-            user_id_sequence,
-            fold_idx=rc.data.fold,
-        )
-        train_sequence, train_response, train_mask, _ = train_data
-        val_sequence, val_response, val_mask, _ = val_data
-        test_sequence, test_response, test_mask, _ = test_data
+        user_skills = to_first_skill_ids(sequences.skills)
 
         # First skill id per position (used for same-skill history sampling and sim_emb=skill_emb).
-        train_skills = self._extract_skills(train_sequence)
-        val_skills = self._extract_skills(val_sequence)
-        test_skills = self._extract_skills(test_sequence)
 
-        train_dataset = GIKTDataset(
-            train_sequence, train_response, train_mask, train_skills
-        )
-        val_dataset = GIKTDataset(val_sequence, val_response, val_mask, val_skills)
-        test_dataset = GIKTDataset(test_sequence, test_response, test_mask, test_skills)
+        dataset = GIKTDataset(user_sequence, user_response, user_mask, user_skills)
+        train_dataset, val_dataset, test_dataset = partition.apply(dataset)
 
         train_collate_fn = partial(
             gikt_collate_fn, hist_neighbor_num=rc.model.hist_neighbor_num
@@ -182,18 +171,6 @@ class GIKTModelData(QuestionModelData):
                 neighbors, skill_neighbor_num, replace=replace
             )
         return question_neighbors, skill_neighbors
-
-    def _extract_skills(self, user_sequence):
-        """题目 id -> 首个技能 id。"""
-        question_skill_matrix = self.build_relationship_matrix(
-            ("question", "has", "skill"), value_type="binary"
-        )
-        first_skill = np.argmax(question_skill_matrix, axis=1)
-        has_skill = np.any(question_skill_matrix == 1, axis=1)
-        question_to_skill = np.where(has_skill, first_skill, 0).astype(
-            user_sequence.dtype, copy=False
-        )
-        return question_to_skill[user_sequence]
 
 
 class GIKTDataset(Dataset):

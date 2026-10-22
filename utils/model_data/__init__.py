@@ -5,7 +5,14 @@ that handle data loading, sequence building, and graph construction.
 """
 
 from .base_model_data import BaseModelData
+from .packed_sequences import PackedSequences, SequencePartition
 from .question_model_data import QuestionModelData
 from .skill_model_data import SkillModelData
 
-__all__ = ["BaseModelData", "QuestionModelData", "SkillModelData"]
+__all__ = [
+    "BaseModelData",
+    "PackedSequences",
+    "QuestionModelData",
+    "SequencePartition",
+    "SkillModelData",
+]

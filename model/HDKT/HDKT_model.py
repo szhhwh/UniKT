@@ -6,7 +6,7 @@
        做 additive attention，hard gumbel 输出"该步是否目标练习"；
     2. 序列级 VAE：重构同一编码序列，hard gumbel 输出"该步是否可重构"；
 两信号同时为 1 的位置视为噪声，将题目 / 答题用时 / 间隔时间三个嵌入置零
-后再进 KT 循环（答案特征与 Q-matrix 行不受影响）。总损失 = BCE + VAE
+后再进 KT 循环（答案特征与技能指示向量不受影响）。总损失 = BCE + VAE
 重构损失。
 
 same-position 约定：``pred[:, t]`` 预测 ``a[:, t]``；q0-shift 代替上一步
@@ -16,6 +16,8 @@ learning、分解实现的遗忘门避免物化 [B, Sk, 3h]。
 import torch
 import torch.nn.functional as F
 from torch import nn
+
+from model.layers.interaction import skills_to_multihot
 
 
 class VAE(nn.Module):
@@ -66,6 +68,7 @@ class HDKTNet(nn.Module):
         dropout: 门控 dropout 概率（learn_gains 与判别器 attention 共用）。
         tau: hard gumbel-softmax 温度。
         emb_dropout: 去噪组件的嵌入 dropout 概率。
+        q_gamma: Smoothing added to each interaction's skill indicator.
     """
 
     def __init__(
@@ -80,6 +83,7 @@ class HDKTNet(nn.Module):
         dropout: float = 0.2,
         tau: float = 100.0,
         emb_dropout: float = 0.3,
+        q_gamma: float = 0.0,
     ):
         super().__init__()
         self.hidden_size = hidden_size
@@ -104,10 +108,7 @@ class HDKTNet(nn.Module):
 
         self.dropout = nn.Dropout(dropout)
 
-        # Q-matrix buffer: binary + gamma smoothing, set by the trainer.
-        self.register_buffer(
-            "q_matrix", torch.zeros(num_questions, num_skills), persistent=False
-        )
+        self.q_gamma = q_gamma
 
         # ===== Denoising front end =====
         self.student_emb = nn.Embedding(num_users, h)
@@ -158,11 +159,6 @@ class HDKTNet(nn.Module):
             self.it_embed.weight[0].zero_()
             self.knowledge_emb.weight[0].zero_()
 
-    def set_q_matrix(self, q_matrix, q_gamma: float) -> None:
-        """设置（带平滑的）Q-matrix 缓冲区：值 = 原值 + γ。"""
-        qm = torch.as_tensor(q_matrix, dtype=self.q_matrix.dtype)
-        self.q_matrix.copy_(qm.to(self.q_matrix.device) + q_gamma)
-
     def forward(
         self,
         e_data: torch.Tensor,
@@ -172,6 +168,7 @@ class HDKTNet(nn.Module):
         mask: torch.Tensor,
         student: torch.Tensor,
         skill_data: torch.Tensor,
+        skills: torch.Tensor,
     ) -> tuple[torch.Tensor, torch.Tensor]:
         """前向传播。
 
@@ -186,6 +183,7 @@ class HDKTNet(nn.Module):
             mask: 有效位置掩码 [B, S]
             student: 用户 id [B]（学生嵌入，进判别器）
             skill_data: 知识点序列 [B, S]（每题一个关联 skill，padding 为 0）
+            skills: 本次交互的完整技能列表 [B, S, K]，以 num_skills 填充
 
         Returns:
             (pred, reloss): 预测 [B, S]，每个位置 ∈ (0, 1)；VAE 重构损失标量。
@@ -209,7 +207,7 @@ class HDKTNet(nn.Module):
         deno = (1.0 - seq_score * stu_signal) * mask.to(k_.dtype)  # [B, S]
         deno = deno.unsqueeze(-1)  # broadcast over h
 
-        # --- KT main body; answers and Q-matrix rows are NOT denoised ---
+        # Answers and skill indicators retain their observed values.
         e_embed_data = self.e_embed(e_data) * deno
         at_embed_data = self.at_embed(at_data) * deno
         it_embed_data = self.it_embed(it_data) * deno
@@ -225,9 +223,12 @@ class HDKTNet(nn.Module):
         K = self.k_matrix.unsqueeze(0).expand(bs, -1, -1)  # [B, Sk, h]
 
         pred = torch.zeros(bs, seq_len, device=e_data.device)
+        skill_indicator = (
+            skills_to_multihot(skills, self.num_skills).to(K.dtype) + self.q_gamma
+        )
 
         for t in range(seq_len):
-            kc_row = self.q_matrix[e_data[:, t]]  # [B, Sk]
+            kc_row = skill_indicator[:, t]
             kkk = torch.einsum("bs,bsh->bh", kc_row, K)
 
             if t > 0:

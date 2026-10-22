@@ -1,6 +1,8 @@
 import torch
 import torch.nn as nn
 
+from model.layers.interaction import skills_to_multihot
+
 
 class Layer1(nn.Module):
     """行为效应门控层。"""
@@ -138,6 +140,7 @@ class LBKT(nn.Module):
         num_units: int,
         dropout: float,
         data_metadata: dict,
+        q_gamma: float = 0.1,
     ):
         super().__init__()
         num_questions = data_metadata["num_questions"]
@@ -145,6 +148,7 @@ class LBKT(nn.Module):
         memory_size = num_skills
 
         self.memory_size = memory_size
+        self.q_gamma = q_gamma
         self.num_units = num_units
 
         self.embedding_topic = nn.Embedding(num_questions, dim_tp)
@@ -168,13 +172,16 @@ class LBKT(nn.Module):
         time_factor: torch.Tensor,
         attempt_factor: torch.Tensor,
         hint_factor: torch.Tensor,
-        q_matrix: torch.Tensor,
+        skills: torch.Tensor,
     ) -> torch.Tensor:
         batch_size, seq_len = topics.size()
 
         topic_emb = self.embedding_topic(topics)
         resps_emb = self.embedding_resps(resps)
-        correlation_weight = q_matrix[topics]
+        skill_indicator = skills_to_multihot(skills, self.memory_size).to(
+            topic_emb.dtype
+        )
+        correlation_weight = (1 - self.q_gamma) * skill_indicator + self.q_gamma
 
         acts_emb = torch.relu(self.input_layer(torch.cat([topic_emb, resps_emb], -1)))
 

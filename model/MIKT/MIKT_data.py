@@ -9,6 +9,7 @@ from typing_extensions import override
 from utils.core import get_logger
 from utils.data_process import DataSource
 from utils.model_data import QuestionModelData
+from utils.model_data.packed_sequences import to_multi_skill_ids
 
 logger = get_logger(__name__)
 
@@ -19,16 +20,18 @@ class MIKTDataset(Dataset):
     返回 (sequence, response, mask) 元组。
     """
 
-    def __init__(self, sequences, responses, masks):
+    def __init__(self, sequences, responses, masks, skills):
         self.sequences = sequences
         self.responses = responses
         self.masks = masks
+        self.skills = skills
 
     def __getitem__(self, index):
         return (
             torch.tensor(self.sequences[index], dtype=torch.long),
             torch.tensor(self.responses[index], dtype=torch.long),
             torch.tensor(self.masks[index], dtype=torch.bool),
+            torch.tensor(self.skills[index], dtype=torch.long),
         )
 
     def __len__(self):
@@ -52,37 +55,30 @@ class MIKTModelData(QuestionModelData):
             rc: RunConfig (OmegaConf DictConfig)
 
         Returns:
-            (train_dataset, val_dataset, test_dataset, question_skill_matrix)
+            (train_dataset, val_dataset, test_dataset)
         """
         fold_idx = rc.data.fold if rc.data.fold >= 0 else None
 
-        user_sequence, user_response, user_mask, _ = self.load_sequence_data()
+        sequences = self.load_sequences()
+        partition = sequences.partition(rc.data.fold)
+        user_sequence = sequences.question
+        user_response = sequences.response
+        user_mask = sequences.mask
 
-        question_skill_matrix = torch.from_numpy(
-            self.build_relationship_matrix(("question", "has", "skill"))
-        ).float()
+        skills = to_multi_skill_ids(
+            sequences.skills, padding_value=self.data_src.get_metadata("num_skills")
+        )
 
-        if fold_idx is not None:
-            kfold_n_splits = self.data_src.get_metadata("kfold_n_splits")
-            if fold_idx < 0 or fold_idx >= kfold_n_splits:
-                raise ValueError(
-                    f"fold_idx {fold_idx} is out of range [0, {kfold_n_splits})"
-                )
-            logger.info(
-                f"Using K-fold cross-validation: fold {fold_idx + 1}/{kfold_n_splits}"
-            )
-            train_data, val_data, test_data = self.split_kfold_data(
-                user_sequence, user_response, user_mask, fold_idx=fold_idx
-            )
-        else:
-            raise ValueError("fold_idx must be specified for K-fold cross-validation")
+        kfold_n_splits = self.data_src.get_metadata("kfold_n_splits")
+        logger.info(
+            f"Using K-fold cross-validation: fold {fold_idx + 1}/{kfold_n_splits}"
+        )
 
-        train_dataset = MIKTDataset(train_data[0], train_data[1], train_data[2])
-        val_dataset = MIKTDataset(val_data[0], val_data[1], val_data[2])
-        test_dataset = MIKTDataset(test_data[0], test_data[1], test_data[2])
+        dataset = MIKTDataset(user_sequence, user_response, user_mask, skills)
+        train_dataset, val_dataset, test_dataset = partition.apply(dataset)
 
         logger.debug(
             f"MIKT data prepared: train={len(train_dataset)}, val={len(val_dataset)}, test={len(test_dataset)}"
         )
 
-        return train_dataset, val_dataset, test_dataset, question_skill_matrix
+        return train_dataset, val_dataset, test_dataset

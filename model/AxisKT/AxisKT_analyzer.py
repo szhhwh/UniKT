@@ -16,6 +16,7 @@ after events ``<= r + 1``.
 from typing import Any
 
 import numpy as np
+import polars as pl
 import torch
 from torch.utils.data import Dataset
 
@@ -25,7 +26,6 @@ from utils.data_process import DataSource
 from utils.training.runtime_components import RuntimeComponents
 
 from .AxisKT_data import (
-    AxisKTDataset,
     AxisKTModelData,
     axiskt_packed_collate_fn,
     build_axiskt_model,
@@ -43,7 +43,7 @@ class _UserAwareAxisKTDataset(Dataset):
     trailing element is transparent to :func:`axiskt_packed_collate_fn`.
     """
 
-    def __init__(self, dataset: AxisKTDataset, user_ids: np.ndarray):
+    def __init__(self, dataset: Dataset, user_ids: np.ndarray):
         self.dataset = dataset
         self.user_ids = np.asarray(user_ids)
 
@@ -71,12 +71,9 @@ class AxisKTAnalyzer(BaseCaseAnalyzer):
 
         self.num_questions = data_src.get_metadata("num_questions")
         self.num_skills = data_src.get_metadata("num_skills")
-        # CPU copies of the question-KC table for skill extraction.
-        self.question_skill_ids_np = np.asarray(extra["question_skill_ids"])
-        self.question_skill_mask_np = np.asarray(extra["question_skill_mask"])
         # Every question covering each skill, used for the mean mastery
         # readout over all associated questions.
-        self._skill_questions = self._build_skill_questions()
+        self._skill_questions = self._build_skill_questions(data_src)
 
         model = build_axiskt_model(rc, data_src, extra)
 
@@ -92,24 +89,46 @@ class AxisKTAnalyzer(BaseCaseAnalyzer):
 
         Args:
             batch_data: Tuple of (users, questions, responses, times, mask,
-                kc_order, valid_idx)
+                kc_order, kc_inverse, valid_idx, skills, skill_mask)
 
         Returns:
             Dictionary with y_hat (flattened logits), y_label (flattened),
             y_predict, and knowledge_states [B, S, num_skills] per-skill
             mastery pseudo-probabilities.
         """
-        users, questions, responses, times, mask, kc_order, _, valid_idx = batch_data
+        (
+            users,
+            questions,
+            responses,
+            times,
+            mask,
+            kc_order,
+            kc_inverse,
+            valid_idx,
+            skills,
+            skill_mask,
+        ) = batch_data
         compact_global = use_compact_global(mask)
         questions = self._move_tensor_to_device(questions)
         responses = self._move_tensor_to_device(responses)
         times = self._move_tensor_to_device(times)
         mask = self._move_tensor_to_device(mask)
         kc_order = self._move_tensor_to_device(kc_order)
+        kc_inverse = self._move_tensor_to_device(kc_inverse)
         valid_idx = self._move_tensor_to_device(valid_idx)
+        skills = self._move_tensor_to_device(skills)
+        skill_mask = self._move_tensor_to_device(skill_mask)
 
         logits_full, captured = self._forward_with_captured_states(
-            questions, responses, times, mask, kc_order, compact_global
+            questions,
+            responses,
+            times,
+            mask,
+            kc_order,
+            kc_inverse,
+            compact_global,
+            skills,
+            skill_mask,
         )
 
         logits = logits_full[:, :-1].flatten()[valid_idx]
@@ -134,7 +153,10 @@ class AxisKTAnalyzer(BaseCaseAnalyzer):
         times: torch.Tensor,
         mask: torch.Tensor,
         kc_order: torch.Tensor,
+        kc_inverse: torch.Tensor,
         compact_global: bool,
+        skills: torch.Tensor,
+        skill_mask: torch.Tensor,
     ) -> tuple[torch.Tensor, dict[str, torch.Tensor]]:
         """Run the model forward, capturing per-KC states and features.
 
@@ -151,8 +173,8 @@ class AxisKTAnalyzer(BaseCaseAnalyzer):
             )
         )
 
-        def hooked_scan(q, r, t, m, q_features=None, kc_order=None, **kwargs):
-            out = orig_scan(q, r, t, m, q_features, kc_order, **kwargs)
+        def hooked_scan(q, r, t, m, event_features, kc_order=None, **kwargs):
+            out = orig_scan(q, r, t, m, event_features, kc_order, **kwargs)
             captured["packed_state"] = out[0].detach().float()
             captured["packed_skill"] = out[2].detach()
             captured["packed_valid"] = out[3].detach()
@@ -172,7 +194,10 @@ class AxisKTAnalyzer(BaseCaseAnalyzer):
                     responses,
                     times,
                     mask,
+                    skill_ids=skills,
+                    skill_mask=skill_mask,
                     kc_order=kc_order,
+                    kc_inverse=kc_inverse,
                     compact_global=compact_global,
                 )
             if use_amp:
@@ -182,21 +207,19 @@ class AxisKTAnalyzer(BaseCaseAnalyzer):
             write_hook.remove()
         return logits_full, captured
 
-    def _build_skill_questions(self) -> list[np.ndarray]:
-        """Return one list of question ids per skill: every question covering it.
-
-        A question covers a skill when the skill is listed among the
-        question's non-masked KC slots.
-        """
-        ids = self.question_skill_ids_np
-        mask = self.question_skill_mask_np
-        return [
-            np.asarray(
-                [q for q in range(len(ids)) if k in ids[q][mask[q]].tolist()],
-                dtype=np.int64,
-            )
-            for k in range(self.num_skills)
-        ]
+    def _build_skill_questions(self, data_src: DataSource) -> list[np.ndarray]:
+        """Read structural question coverage for the mastery readout."""
+        relation = data_src.get_relation("question_skill")
+        grouped = relation.group_by("skill").agg(pl.col("question").unique().sort())
+        result = [np.empty(0, dtype=np.int64) for _ in range(self.num_skills)]
+        for skill, questions in grouped.iter_rows():
+            if skill < 0 or skill >= self.num_skills:
+                raise ValueError(f"Skill id {skill} is outside metadata range")
+            question_ids = np.asarray(questions, dtype=np.int64)
+            if question_ids.min() < 0 or question_ids.max() >= self.num_questions:
+                raise ValueError(f"Skill {skill} has an out-of-range question id")
+            result[skill] = question_ids
+        return result
 
     def _per_skill_mastery(
         self,
@@ -312,19 +335,20 @@ class AxisKTAnalyzer(BaseCaseAnalyzer):
 
         Args:
             batch_data: Raw batch tuple (users, questions, responses, times,
-                mask, kc_order, valid_idx)
+                mask, kc_order, kc_inverse, valid_idx, skills, skill_mask)
             outputs: Output dict from forward_pass
 
         Returns:
             Dictionary with extracted data (all flattened to valid positions)
         """
-        users, questions, responses, times, mask, kc_order, _, _ = batch_data
+        users, questions, responses, times, mask, kc_order, _, _, skills, skill_mask = (
+            batch_data
+        )
 
         seq_len = questions.shape[1]
         # Row r predicts response[r + 1]; its knowledge state is the
         # post-event mastery at position t+1 (the state after events <= t+1).
-        masks_bool = mask.bool()
-        adjacent = masks_bool[:, :-1] & masks_bool[:, 1:]
+        adjacent = mask[:, :-1] & mask[:, 1:]
         valid_pair = adjacent.view(-1).nonzero(as_tuple=True)[0]
         row_idx = valid_pair // (seq_len - 1)
         t = valid_pair % (seq_len - 1)
@@ -342,24 +366,19 @@ class AxisKTAnalyzer(BaseCaseAnalyzer):
         return {
             "user_ids": user_ids_flat,
             "question_ids": question_ids_flat,
-            "skills": self._get_all_skills_for_questions(question_ids_flat),
+            "skills": [
+                ids[valid].tolist()
+                for ids, valid in zip(
+                    skills.reshape(-1, skills.size(-1))[flat].cpu().numpy(),
+                    skill_mask.reshape(-1, skill_mask.size(-1))[flat].cpu().numpy(),
+                )
+            ],
             "labels": outputs["y_label"].cpu().numpy(),
             "predictions": outputs["y_predict"].cpu().numpy(),
             "logits": outputs["y_hat"].cpu().numpy(),
-            "mask": masks_bool.view(-1)[flat].cpu().numpy(),
+            "mask": mask.view(-1)[flat].cpu().numpy(),
             "knowledge_states": knowledge_states_flat,
         }
-
-    def _get_all_skills_for_questions(
-        self, question_ids: np.ndarray
-    ) -> list[list[int]]:
-        """Get all skills for each question; ``[0]`` if none found."""
-        skills_list = []
-        for q_id in question_ids:
-            slots = np.where(self.question_skill_mask_np[q_id])[0]
-            question_skills = self.question_skill_ids_np[q_id][slots].tolist()
-            skills_list.append(question_skills if question_skills else [0])
-        return skills_list
 
 
 __all__ = ["AxisKTAnalyzer"]

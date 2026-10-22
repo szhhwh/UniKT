@@ -371,6 +371,56 @@ class TestProcessUserBatch:
 
 
 class TestBuild:
+    @pytest.mark.parametrize("num_workers", [1, 2])
+    @pytest.mark.parametrize("stage", ["post_expansion", "pre_expansion"])
+    def test_observed_skills_define_targets_and_history(
+        self,
+        processor_defaults: None,
+        tmp_path: Path,
+        num_workers: int,
+        stage: str,
+    ) -> None:
+        test_data = pl.DataFrame(
+            {
+                "user": pl.Series([7, 7, 7], dtype=pl.Int32),
+                "question": pl.Series([10, 10, 10], dtype=pl.Int32),
+                "label": pl.Series([1, 1, 0], dtype=pl.Int8),
+                "timestamp": pl.Series([1, 1, 1], dtype=pl.Int64),
+                "interaction_id": pl.Series([2, 0, 1], dtype=pl.Int64),
+                "skills": pl.Series(
+                    [[102, 100], [101], [100, 102]], dtype=pl.List(pl.Int32)
+                ),
+            }
+        )
+        output_path = str(tmp_path / "windowlate.parquet")
+        max_window = WindowlateProcessor.build(
+            test_data=test_data,
+            max_seq_len=10,
+            output_path=output_path,
+            num_workers=num_workers,
+            users_per_batch=1,
+            truncation_stage=stage,
+        )
+        result = pl.read_parquet(output_path)
+        targets = result.filter(pl.col("mask") == 1)
+        assert max_window == 4
+        assert targets["skill"].to_list() == [100, 102, 102, 100]
+        assert targets["group_id"].to_list() == [1, 1, 2, 2]
+        assert targets["interaction_id"].to_list() == [1, 1, 2, 2]
+        assert targets["true_label"].to_list() == [0, 0, 1, 1]
+        assert targets["response"].to_list() == [0, 0, 0, 0]
+        histories = (
+            result.filter(pl.col("mask") == 0)
+            .group_by("sample_id", maintain_order=True)
+            .agg(pl.col("skill"))
+        )
+        assert histories["skill"].to_list() == [
+            [101],
+            [101],
+            [101, 100, 102],
+            [101, 100, 102],
+        ]
+
     @staticmethod
     def _test_data() -> pl.DataFrame:
         return pl.DataFrame(
@@ -379,6 +429,10 @@ class TestBuild:
                 "question": pl.Series([10, 11, 10], dtype=pl.Int32),
                 "label": pl.Series([1, 0, 0], dtype=pl.Int8),
                 "timestamp": pl.Series([1, 2, 1], dtype=pl.Int64),
+                "interaction_id": pl.Series([0, 1, 2], dtype=pl.Int64),
+                "skills": pl.Series(
+                    [[100], [101, 102], [100]], dtype=pl.List(pl.Int32)
+                ),
             }
         )
 
@@ -397,7 +451,6 @@ class TestBuild:
         output_path = str(tmp_path / "windowlate.parquet")
         WindowlateProcessor.build(
             test_data=self._test_data(),
-            question_data=self._question_data(),
             max_seq_len=100,
             output_path=output_path,
             num_workers=1,
@@ -417,13 +470,14 @@ class TestBuild:
             "true_label",
             "fold",
             "timestamp",
+            "interaction_id",
         ]
         # User 7's second interaction supplies two targets; user 8 has no history.
         assert df.rows() == [
-            (0, 0, 100, 10, 1, 0, 7, 0, 1, -1, 1),
-            (0, 1, 101, 11, 0, 1, 7, 1, 0, -1, 2),
-            (1, 0, 100, 10, 1, 0, 7, 0, 1, -1, 1),
-            (1, 1, 102, 11, 0, 1, 7, 1, 0, -1, 2),
+            (0, 0, 100, 10, 1, 0, 7, 0, 1, -1, 1, 0),
+            (0, 1, 101, 11, 0, 1, 7, 1, 0, -1, 2, 1),
+            (1, 0, 100, 10, 1, 0, 7, 0, 1, -1, 1, 0),
+            (1, 1, 102, 11, 0, 1, 7, 1, 0, -1, 2, 1),
         ]
 
     @pytest.mark.parametrize("num_workers", [1, 2])
@@ -436,12 +490,16 @@ class TestBuild:
                 "question": pl.Series([10, 10, 11, 10, 11, 10], dtype=pl.Int32),
                 "label": pl.Series([0, 1, 0, 1, 0, 1], dtype=pl.Int8),
                 "timestamp": pl.Series([1, 1, 2, 1, 1, 2], dtype=pl.Int64),
+                "interaction_id": pl.Series(range(6), dtype=pl.Int64),
+                "skills": pl.Series(
+                    [[100], [100], [101, 102], [100], [101, 102], [100]],
+                    dtype=pl.List(pl.Int32),
+                ),
             }
         )
         output_path = str(tmp_path / "windowlate.parquet")
         max_window = WindowlateProcessor.build(
             test_data=test_data,
-            question_data=self._question_data(),
             max_seq_len=100,
             output_path=output_path,
             num_workers=num_workers,
@@ -472,21 +530,16 @@ class TestBuild:
                 "question": pl.Series([10, 11, 12], dtype=pl.Int32),
                 "label": pl.Series([1, 0, 1], dtype=pl.Int8),
                 "timestamp": pl.Series([1, 2, 3], dtype=pl.Int64),
+                "interaction_id": pl.Series([0, 1, 2], dtype=pl.Int64),
+                "skills": pl.Series(
+                    [[100], [101, 102], [103]], dtype=pl.List(pl.Int32)
+                ),
             }
-        )
-        question_data = self._question_data().vstack(
-            pl.DataFrame(
-                {
-                    "question": pl.Series([12], dtype=pl.Int32),
-                    "skill": pl.Series([103], dtype=pl.Int32),
-                }
-            )
         )
         for stage, expected in (("post_expansion", 2), ("pre_expansion", 3)):
             output_path = str(tmp_path / f"windowlate_{stage}.parquet")
             max_window = WindowlateProcessor.build(
                 test_data=test_data,
-                question_data=question_data,
                 max_seq_len=2,
                 output_path=output_path,
                 num_workers=1,
@@ -495,18 +548,14 @@ class TestBuild:
             )
             assert max_window == expected, stage
 
-    def test_all_questions_missing_raises(
+    def test_missing_skill_annotations_raise(
         self, processor_defaults: None, tmp_path: Path
     ) -> None:
         test_data = self._test_data().filter(pl.col("user") == 7)
-        # Inner join on question drops everything -> no evaluable samples.
-        question_data = self._question_data().filter(pl.col("question") == 999)
-        with pytest.raises(
-            ValueError, match="No valid windowlate evaluation samples for test set"
-        ):
+        test_data = test_data.drop("skills")
+        with pytest.raises(ValueError, match="Missing interaction columns"):
             WindowlateProcessor.build(
                 test_data=test_data,
-                question_data=question_data,
                 max_seq_len=10,
                 output_path=str(tmp_path / "out.parquet"),
                 num_workers=1,
@@ -522,7 +571,6 @@ class TestBuild:
         ):
             WindowlateProcessor.build(
                 test_data=test_data,
-                question_data=self._question_data(),
                 max_seq_len=100,
                 output_path=output_path,
                 num_workers=1,

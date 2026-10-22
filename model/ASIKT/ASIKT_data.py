@@ -5,6 +5,7 @@ import torch
 from torch.utils.data import Dataset
 
 from utils.model_data import SkillModelData
+from utils.model_data.packed_sequences import to_first_skill_ids
 
 
 class ASIKTDataset(Dataset):
@@ -50,21 +51,30 @@ class ASIKTModelData(SkillModelData):
         fold = rc.data.fold
         if fold < 0:
             raise ValueError("ASIKT requires a validation fold")
-        skill, response, mask, _, question = self.build_sequence_data()
-        train, val, _ = self.split_kfold_data(
-            skill, response, mask, question, fold_idx=fold
-        )
+        sequences = self.load_sequences()
+        partition = sequences.partition(rc.data.fold)
+        skill = to_first_skill_ids(sequences.skills)
+        response = sequences.response
+        mask = sequences.mask
+        question = sequences.question
+        train, val, _ = partition.apply(ASIKTDataset(skill, response, mask, question))
         n_skill = self.data_src.get_metadata("num_skills")
         n_question = self.data_src.get_metadata("num_questions")
         self.skill_prior, self.skill_frequency = difficulty_prior(
-            train[0], train[1], train[2].astype(bool), n_skill
+            skill[partition.train],
+            response[partition.train],
+            mask[partition.train].astype(bool),
+            n_skill,
         )
         self.question_prior, self.question_frequency = difficulty_prior(
-            train[3], train[1], train[2].astype(bool), n_question
+            question[partition.train],
+            response[partition.train],
+            mask[partition.train].astype(bool),
+            n_question,
         )
         test = self.create_windowlate_dataloader(
             batch_size=rc.model.batch_size,
             shuffle=False,
             num_workers=0,
         )
-        return ASIKTDataset(*train), ASIKTDataset(*val), test
+        return train, val, test

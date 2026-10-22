@@ -22,7 +22,7 @@ class LPKTConfigBase(ModelConfig):
     Args:
         hidden_size: Hidden dimension h.
         dropout: Dropout rate, applied to learn_gains only.
-        q_gamma: Q-matrix smoothing factor (kc values γ / 1+γ).
+        q_gamma: Smoothing added to each event's skill indicator.
         max_it_minutes: Interval-time cap in minutes.
         learning_rate: Learning rate.
         weight_decay: Adam weight decay.
@@ -88,7 +88,6 @@ class LPKTTrainerBase(BaseTrainer):
         ).prepare_data(rc)
         m = rc.model
         model = self._build_model(info, m)
-        model.set_q_matrix(info["q_matrix"], m.q_gamma)
 
         loss_fn = nn.BCELoss(reduction="none")
         optimizer = torch.optim.Adam(
@@ -115,15 +114,16 @@ class LPKTTrainerBase(BaseTrainer):
 
         uid 统一传入模型：LPKTS 用作 student embedding 索引，LPKT 忽略。
         """
-        e, at, a, it, mask, uid = batch_data
+        e, at, a, it, mask, uid, skills = batch_data
         e = self._move_tensor_to_device(e)
         at = self._move_tensor_to_device(at)
         a = self._move_tensor_to_device(a)
         it = self._move_tensor_to_device(it)
         mask = self._move_tensor_to_device(mask)
         uid = self._move_tensor_to_device(uid)
+        skills = self._move_tensor_to_device(skills)
 
-        pred = self.model(e, at, a, it, uid)  # [B, S]
+        pred = self.model(e, at, a, it, skills, uid)  # [B, S]
 
         y_hat, y_label, _ = self._extract_valid_predictions(
             pred, a, mask, same_position=True
@@ -160,6 +160,7 @@ class LPKTTrainer(LPKTTrainerBase):
             num_users=info["num_users"],
             hidden_size=m.hidden_size,
             dropout=m.dropout,
+            q_gamma=m.q_gamma,
         )
 
 
@@ -178,4 +179,5 @@ class LPKTSTrainer(LPKTTrainerBase):
             num_users=info["num_users"],
             hidden_size=m.hidden_size,
             dropout=m.dropout,
+            q_gamma=m.q_gamma,
         )

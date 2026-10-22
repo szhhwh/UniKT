@@ -7,6 +7,7 @@ from typing_extensions import override
 from utils.core import get_logger
 from utils.data_process import DataSource
 from utils.model_data import SkillModelData
+from utils.model_data.packed_sequences import to_first_skill_ids
 
 logger = get_logger(__name__)
 
@@ -45,37 +46,21 @@ class ReKTKCModelData(SkillModelData):
         fold_idx = rc.data.fold if rc.data.fold >= 0 else None
         kfold_n_splits = self.data_src.get_metadata("kfold_n_splits")
 
-        # build_sequence_data
-        (
-            user_skill_sequence,
-            user_response,
-            user_mask,
-            _,
-            user_question_sequence,
-        ) = self.build_sequence_data()
+        sequences = self.load_sequences()
+        partition = sequences.partition(rc.data.fold)
+        user_skill_sequence = to_first_skill_ids(sequences.skills)
+        user_response = sequences.response
+        user_mask = sequences.mask
+        user_question_sequence = sequences.question
 
-        if fold_idx is not None:
-            if fold_idx < 0 or fold_idx >= kfold_n_splits:
-                raise ValueError(
-                    f"fold_idx {fold_idx} is out of range [0, {kfold_n_splits})"
-                )
-            logger.info(
-                f"Using K-fold cross-validation: fold {fold_idx + 1}/{kfold_n_splits}"
-            )
-            train_data, val_data, _ = self.split_kfold_data(
-                user_question_sequence,
-                user_skill_sequence,
-                user_response,
-                user_mask,
-                fold_idx=fold_idx,
-            )
-        else:
-            raise ValueError("fold_idx must be specified for K-fold cross-validation")
-
-        train_dataset = ReKTKCDataset(
-            train_data[0], train_data[1], train_data[2], train_data[3]
+        logger.info(
+            f"Using K-fold cross-validation: fold {fold_idx + 1}/{kfold_n_splits}"
         )
-        val_dataset = ReKTKCDataset(val_data[0], val_data[1], val_data[2], val_data[3])
+
+        dataset = ReKTKCDataset(
+            user_question_sequence, user_skill_sequence, user_response, user_mask
+        )
+        train_dataset, val_dataset, _ = partition.apply(dataset)
 
         test_dataset = self.create_windowlate_dataloader(
             batch_size=rc.model.batch_size,

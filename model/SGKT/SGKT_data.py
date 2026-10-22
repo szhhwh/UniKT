@@ -13,6 +13,7 @@ from torch.utils.data import Dataset
 
 from utils.core import get_logger
 from utils.model_data import QuestionModelData
+from utils.model_data.packed_sequences import to_first_skill_ids
 
 logger = get_logger(__name__)
 
@@ -125,9 +126,12 @@ class SGKTModelData(QuestionModelData):
             num_questions: Number of questions
         """
         # 1. Build sequence data
-        user_sequence, user_response, user_mask, user_id_sequence = (
-            self.load_sequence_data()
-        )
+        sequences = self.load_sequences()
+        partition = sequences.partition(rc.data.fold)
+        user_sequence = sequences.question
+        user_response = sequences.response
+        user_mask = sequences.mask
+        np.where(sequences.mask, sequences.user[:, None], 0)
 
         # 2. Build question-skill relationship matrix
         question_skill_matrix = self.build_relationship_matrix(
@@ -140,10 +144,7 @@ class SGKTModelData(QuestionModelData):
 
         logger.info("Building question-skill neighbors for HRG")
 
-        user_folds = self._build_user_folds(user_sequence.shape[0])
-        train_user_indices = np.where(
-            (user_folds != rc.data.fold) & (user_folds != -1)
-        )[0]
+        train_user_indices = partition.train
         question_neighbors, skill_neighbors = self.build_qs_neighbors(
             question_skill_matrix=question_skill_matrix,
             user_sequence=user_sequence[train_user_indices],
@@ -156,39 +157,16 @@ class SGKTModelData(QuestionModelData):
         question_neighbors[:num_skills] = skill_neighbors
 
         # 4. Split data into train/val or k-fold
-        train_data, val_data, test_data = self.split_kfold_data(
-            user_sequence,
-            user_response,
-            user_mask,
-            user_id_sequence,
-            fold_idx=rc.data.fold,
-        )
+        user_skills = to_first_skill_ids(sequences.skills)
 
         # Unpack train/val/test data
-        train_sequence, train_response, train_mask, _ = train_data
-        val_sequence, val_response, val_mask, _ = val_data
-        test_sequence, test_response, test_mask, _ = test_data
 
-        # 5. Get skill data for hist_neighbor_index computation
-        # Extract skills from sequence data
-        train_skills = self._extract_skills(train_sequence)
-        val_skills = self._extract_skills(val_sequence)
-        test_skills = self._extract_skills(test_sequence)
-
-        # 6. Create datasets
         hist_neighbor_num = rc.model.hist_neighbor_num
 
-        train_dataset = SGKTDataset(
-            train_sequence, train_response, train_mask, train_skills, hist_neighbor_num
+        dataset = SGKTDataset(
+            user_sequence, user_response, user_mask, user_skills, hist_neighbor_num
         )
-
-        val_dataset = SGKTDataset(
-            val_sequence, val_response, val_mask, val_skills, hist_neighbor_num
-        )
-
-        test_dataset = SGKTDataset(
-            test_sequence, test_response, test_mask, test_skills, hist_neighbor_num
-        )
+        train_dataset, val_dataset, test_dataset = partition.apply(dataset)
 
         # Create custom collate function with hist_neighbor_num
         train_collate_fn = partial(sgkt_collate_fn, hist_neighbor_num=hist_neighbor_num)
@@ -322,27 +300,6 @@ class SGKTModelData(QuestionModelData):
                         )
 
         return question_neighbors, skill_neighbors
-
-    def _extract_skills(self, user_sequence):
-        """
-        Extract skill IDs from question IDs using question-skill matrix.
-
-        Args:
-            user_sequence: [num_users, max_seq_len] Question IDs
-
-        Returns:
-            user_skills: [num_users, max_seq_len] Skill IDs
-        """
-        question_skill_matrix = self.build_relationship_matrix(
-            ("question", "has", "skill"), value_type="binary"
-        )
-        first_skill = np.argmax(question_skill_matrix, axis=1)
-        has_skill = np.any(question_skill_matrix == 1, axis=1)
-        question_to_skill = np.where(has_skill, first_skill, 0).astype(
-            user_sequence.dtype, copy=False
-        )
-
-        return question_to_skill[user_sequence]
 
 
 class SGKTDataset(Dataset):

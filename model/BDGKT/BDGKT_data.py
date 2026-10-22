@@ -3,12 +3,14 @@
 from collections import defaultdict
 
 import numpy as np
+import polars as pl
 import torch
 from torch.utils.data import Dataset
 from tqdm import tqdm
 
 from utils.core import get_logger
 from utils.model_data import BaseModelData, QuestionModelData
+from utils.model_data.packed_sequences import SequencePartition
 
 logger = get_logger(__name__)
 
@@ -23,6 +25,7 @@ class BDGKTDataset(Dataset):
         Args:
             data: dict with keys:
                 target_students [N], target_questions [N], labels [N],
+                target_skills [N, K], hist_skills [N, l_s, K],
                 hist_q [N, l_s], hist_r [N, l_s], hist_mask [N, l_s],
                 q_ans_s [N, l_s, l_q], q_ans_r [N, l_s, l_q],
                 q_ans_mask [N, l_s, l_q]
@@ -42,6 +45,8 @@ def _collate_fn(batch):
         "target_students",
         "target_questions",
         "labels",
+        "target_skills",
+        "hist_skills",
         "hist_q",
         "hist_r",
         "hist_mask",
@@ -55,15 +60,13 @@ def _collate_fn(batch):
 class BDGKTModelData(QuestionModelData):
     """BDGKT model data preparation."""
 
-    def _get_kfold_data(self):
-        return self.data_src.get_sequence_data()
-
     @BaseModelData.disk_cache()
     def prepare_data(self, rc):
         l_s = rc.model.question_max_length
         l_q = rc.model.student_max_length
 
-        raw_data = self.data_src.get_sequence_data().to_pandas()
+        events = self.data_src.get_sequence_data()
+        raw_data = events.to_pandas()
         logger.info(
             f"Loaded {len(raw_data)} interactions, "
             f"{raw_data['user'].nunique()} users, "
@@ -72,45 +75,58 @@ class BDGKTModelData(QuestionModelData):
 
         edges = self._build_sorted_edges(raw_data)
 
-        q_kc_np = self.build_relationship_matrix(
-            ("question", "has", "skill"), value_type="binary"
-        )
-        q_kc = torch.tensor(q_kc_np, dtype=torch.float)
-
         num_students = edges["num_students"]
-        user_folds = self._build_user_folds(num_students)
+        membership = (
+            events.group_by("user")
+            .agg(pl.col("fold").first(), pl.col("fold").n_unique().alias("fold_count"))
+            .sort("user")
+        )
+        if membership.filter(pl.col("fold_count") != 1).height:
+            raise ValueError("Each student must belong to one fold")
+        partition = SequencePartition.from_folds(
+            membership["fold"].to_numpy(),
+            rc.data.fold,
+            self.data_src.get_metadata("kfold_n_splits"),
+        )
         fold_idx = rc.data.fold
 
-        train_users = np.where((user_folds != fold_idx) & (user_folds != -1))[0]
-        val_users = np.where(user_folds == fold_idx)[0]
-        test_users = np.where(user_folds == -1)[0]
+        user_ids = membership["user"].to_numpy()
+        train_users = user_ids[partition.train]
+        val_users = user_ids[partition.val]
+        test_users = user_ids[partition.test]
 
         logger.info(
             f"Fold {fold_idx}: train={len(train_users)}, "
             f"val={len(val_users)}, test={len(test_users)} users"
         )
 
-        response_map = _generate_response_map(edges, l_s)
-        train_ds = _build_dataset(train_users, edges, response_map, l_s, l_q)
-        val_ds = _build_dataset(val_users, edges, response_map, l_s, l_q)
-        test_ds = _build_dataset(test_users, edges, response_map, l_s, l_q)
+        student_qr_sets = _build_student_qr_sets(edges, l_s)
+        train_ds = _build_dataset(train_users, edges, student_qr_sets, l_s, l_q)
+        val_ds = _build_dataset(val_users, edges, student_qr_sets, l_s, l_q)
+        test_ds = _build_dataset(test_users, edges, student_qr_sets, l_s, l_q)
 
         logger.info(
             f"Targets: train={len(train_ds)}, val={len(val_ds)}, test={len(test_ds)}"
         )
 
-        return train_ds, val_ds, test_ds, num_students, edges["num_questions"], q_kc
+        return train_ds, val_ds, test_ds, num_students, edges["num_questions"]
 
     def _build_sorted_edges(self, raw_data):
         users = raw_data["user"].values.astype(np.int64)
         questions = raw_data["question"].values.astype(np.int64)
         labels = raw_data["label"].values.astype(np.int64)
         timestamps = raw_data["timestamp"].values.astype(np.float64)
+        interaction_ids = raw_data["interaction_id"].values.astype(np.int64)
+        event_skills = raw_data["skills"].values
+        skill_width = max(map(len, event_skills))
+        skills = np.full((len(raw_data), skill_width), -1, dtype=np.int64)
+        for i, annotated_skills in enumerate(event_skills):
+            skills[i, : len(annotated_skills)] = annotated_skills
 
         num_students = int(users.max()) + 1
         num_questions = int(questions.max()) + 1
 
-        s2q_order = np.lexsort((timestamps, users))
+        s2q_order = np.lexsort((interaction_ids, timestamps, users))
         s2q_users = users[s2q_order]
         s2q_questions = questions[s2q_order]
         s2q_labels = labels[s2q_order]
@@ -120,7 +136,7 @@ class BDGKTModelData(QuestionModelData):
         s_offset = np.zeros(num_students + 1, dtype=np.int64)
         np.cumsum(user_counts, out=s_offset[1:])
 
-        q2s_order = np.lexsort((timestamps, questions))
+        q2s_order = np.lexsort((interaction_ids, timestamps, questions))
         q2s_questions = questions[q2s_order]
         q2s_users = users[q2s_order]
         q2s_labels = labels[q2s_order]
@@ -135,6 +151,7 @@ class BDGKTModelData(QuestionModelData):
                 np.stack([s2q_users, s2q_questions]), dtype=torch.long
             ),
             "s2q_response": torch.tensor(s2q_labels, dtype=torch.long),
+            "s2q_skills": torch.tensor(skills[s2q_order], dtype=torch.long),
             "s2q_timestamp": torch.tensor(s2q_timestamps, dtype=torch.float),
             "student_offset": torch.tensor(s_offset, dtype=torch.long),
             "student_len": torch.tensor(user_counts, dtype=torch.long),
@@ -150,8 +167,8 @@ class BDGKTModelData(QuestionModelData):
         }
 
 
-def _generate_response_map(edges, l_s):
-    """Precompute per-student QR sets and (student, question) → response map."""
+def _build_student_qr_sets(edges, l_s):
+    """Precompute recent question-response sets for student similarity."""
     s2q_ei = edges["s2q_edge_index"].numpy()
     s2q_r = edges["s2q_response"].numpy()
     s_offset = edges["student_offset"].numpy()
@@ -171,18 +188,9 @@ def _generate_response_map(edges, l_s):
     # per-student question set (for fast intersection check)
     student_q_sets = [frozenset(q for q, _ in qr) for qr in student_qr_sets]
 
-    # (student, question) → last response
-    response_map = {}
-    E = s2q_r.shape[0]
-    for pos in range(E):
-        s = int(s2q_ei[0, pos])
-        q = int(s2q_ei[1, pos])
-        response_map[(s, q)] = int(s2q_r[pos])
-
     return {
         "student_qr_sets": student_qr_sets,
         "student_q_sets": student_q_sets,
-        "response_map": response_map,
     }
 
 
@@ -205,11 +213,13 @@ def _collect_targets(user_indices, s_offset_np, s_len_np):
     return e_indices, N
 
 
-def _extract_history(e_indices, t_students, l_s, s_offset_np, s2q_ei, s2q_r, s2q_t):
+def _extract_history(
+    e_indices, t_students, l_s, s_offset_np, s2q_ei, s2q_r, s2q_t, s2q_skills
+):
     """Extract l_s history for all targets.
 
     Returns:
-        hist_q [N, l_s], hist_r [N, l_s], hist_mask [N, l_s], hist_ts [N, l_s]
+        hist_q, hist_r, hist_mask, hist_ts [N, l_s], hist_skills [N, l_s, K]
     """
     steps = np.arange(l_s - 1, -1, -1, dtype=np.int64)
     raw_idx = e_indices[:, None] - steps[None, :]  # [N, l_s]
@@ -221,37 +231,40 @@ def _extract_history(e_indices, t_students, l_s, s_offset_np, s2q_ei, s2q_r, s2q
     hist_q = np.where(hist_mask, s2q_ei[1, safe_idx], 0)
     hist_r = np.where(hist_mask, s2q_r[safe_idx], 0)
     hist_ts = np.where(hist_mask, s2q_t[safe_idx], 0.0)
+    hist_skills = np.where(hist_mask[..., None], s2q_skills[safe_idx], -1)
 
-    return hist_q, hist_r, hist_mask, hist_ts
+    return hist_q, hist_r, hist_mask, hist_ts, hist_skills
 
 
-def _build_dataset(user_indices, edges, response_map, l_s, l_q):
+def _build_dataset(user_indices, edges, student_histories, l_s, l_q):
     """Build fixed-shape context tensors for a group of users."""
     s_offset_np = edges["student_offset"].numpy()
     s_len_np = edges["student_len"].numpy()
     s2q_ei = edges["s2q_edge_index"].numpy()
     s2q_r = edges["s2q_response"].numpy()
+    s2q_skills = edges["s2q_skills"].numpy()
     s2q_t = edges["s2q_timestamp"].numpy()
     q_offset_np = edges["question_offset"].numpy()
     q2s_ei = edges["q2s_edge_index"].numpy()
+    q2s_r = edges["q2s_response"].numpy()
     q2s_t = edges["q2s_timestamp"].numpy()
 
-    student_qr_sets = response_map["student_qr_sets"]
-    student_q_sets = response_map["student_q_sets"]
-    response_map = response_map["response_map"]
+    student_qr_sets = student_histories["student_qr_sets"]
+    student_q_sets = student_histories["student_q_sets"]
 
     # Phase 1: collect targets
     e_indices, N = _collect_targets(user_indices, s_offset_np, s_len_np)
     if N == 0:
-        return BDGKTDataset(_empty_data(l_s, l_q))
+        return BDGKTDataset(_empty_data(l_s, l_q, s2q_skills.shape[-1]))
 
     t_students = s2q_ei[0, e_indices]
     t_questions = s2q_ei[1, e_indices]
     t_labels = s2q_r[e_indices].copy()
+    t_skills = s2q_skills[e_indices]
 
     # Phase 2: history extraction
-    hist_q, hist_r, hist_mask, hist_ts = _extract_history(
-        e_indices, t_students, l_s, s_offset_np, s2q_ei, s2q_r, s2q_t
+    hist_q, hist_r, hist_mask, hist_ts, hist_skills = _extract_history(
+        e_indices, t_students, l_s, s_offset_np, s2q_ei, s2q_r, s2q_t, s2q_skills
     )
 
     # Phase 3: group by target student, reuse Jaccard
@@ -310,7 +323,7 @@ def _build_dataset(user_indices, edges, response_map, l_s, l_q):
 
                 answerers = q2s_ei[1, q_s:ans_end]
                 valid = answerers != target_s
-                candidates = answerers[valid]
+                candidates = np.flatnonzero(valid) + q_s
                 if len(candidates) == 0:
                     continue
                 if len(candidates) > l_q * 3:
@@ -318,24 +331,26 @@ def _build_dataset(user_indices, edges, response_map, l_s, l_q):
 
                 # sort by Jaccard
                 scored = [
-                    (int(c), jaccard_map.get(int(c), 0.0))
-                    for c in candidates
-                    if int(c) in jaccard_map
+                    (int(pos), jaccard_map[int(q2s_ei[1, pos])])
+                    for pos in candidates
+                    if int(q2s_ei[1, pos]) in jaccard_map
                 ]
                 if not scored:
                     continue
                 scored.sort(key=lambda x: -x[1])
 
                 for rank in range(min(l_q, len(scored))):
-                    ans_s, _ = scored[rank]
-                    q_ans_s[i, j, rank] = ans_s
-                    q_ans_r[i, j, rank] = response_map.get((ans_s, h_q), 0)
+                    ans_pos, _ = scored[rank]
+                    q_ans_s[i, j, rank] = q2s_ei[1, ans_pos]
+                    q_ans_r[i, j, rank] = q2s_r[ans_pos]
                     q_ans_mask[i, j, rank] = True
 
     data = {
         "target_students": torch.tensor(t_students, dtype=torch.long),
         "target_questions": torch.tensor(t_questions, dtype=torch.long),
         "labels": torch.tensor(t_labels, dtype=torch.long),
+        "target_skills": torch.tensor(t_skills, dtype=torch.long),
+        "hist_skills": torch.tensor(hist_skills, dtype=torch.long),
         "hist_q": torch.tensor(hist_q, dtype=torch.long),
         "hist_r": torch.tensor(hist_r, dtype=torch.long),
         "hist_mask": torch.tensor(hist_mask, dtype=torch.bool),
@@ -346,11 +361,13 @@ def _build_dataset(user_indices, edges, response_map, l_s, l_q):
     return BDGKTDataset(data)
 
 
-def _empty_data(l_s, l_q):
+def _empty_data(l_s, l_q, skill_width):
     return {
         "target_students": torch.zeros(0, dtype=torch.long),
         "target_questions": torch.zeros(0, dtype=torch.long),
         "labels": torch.zeros(0, dtype=torch.long),
+        "target_skills": torch.full((0, skill_width), -1, dtype=torch.long),
+        "hist_skills": torch.full((0, l_s, skill_width), -1, dtype=torch.long),
         "hist_q": torch.zeros(0, l_s, dtype=torch.long),
         "hist_r": torch.zeros(0, l_s, dtype=torch.long),
         "hist_mask": torch.zeros(0, l_s, dtype=torch.bool),

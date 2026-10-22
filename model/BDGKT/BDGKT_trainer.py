@@ -79,7 +79,6 @@ class BDGKTTrainer(BaseTrainer):
             test_dataset,
             num_students,
             num_questions,
-            q_kc,
         ) = model_data.prepare_data(rc)
 
         # 2. create model
@@ -95,7 +94,6 @@ class BDGKTTrainer(BaseTrainer):
             drop1=m.drop1,
             drop2=m.drop2,
             layer_num=m.layer_num,
-            Q_KC=q_kc,
         )
 
         # 3. optimizer and loss
@@ -121,6 +119,7 @@ class BDGKTTrainer(BaseTrainer):
 
         Args:
             batch_data: (target_students, target_questions, labels,
+                        target_skills, hist_skills,
                         hist_q, hist_r, hist_mask,
                         q_ans_s, q_ans_r, q_ans_mask)
         """
@@ -128,6 +127,8 @@ class BDGKTTrainer(BaseTrainer):
             target_students,
             target_questions,
             labels,
+            target_skills,
+            hist_skills,
             hist_q,
             hist_r,
             hist_mask,
@@ -139,6 +140,8 @@ class BDGKTTrainer(BaseTrainer):
         target_students = self._move_tensor_to_device(target_students)
         target_questions = self._move_tensor_to_device(target_questions)
         y_label = self._move_tensor_to_device(labels).float()
+        target_skills = self._move_tensor_to_device(target_skills)
+        hist_skills = self._move_tensor_to_device(hist_skills)
 
         hist_q = self._move_tensor_to_device(hist_q)
         hist_r = self._move_tensor_to_device(hist_r)
@@ -150,6 +153,8 @@ class BDGKTTrainer(BaseTrainer):
         pred = self.model(
             target_students,
             target_questions,
+            target_skills,
+            hist_skills,
             hist_q,
             hist_r,
             hist_mask,

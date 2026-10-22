@@ -23,7 +23,6 @@ class BDGKT(nn.Module):
         drop1,
         drop2,
         layer_num,
-        Q_KC,
     ):
         super().__init__()
         self.hidden_size = hidden_size
@@ -52,13 +51,14 @@ class BDGKT(nn.Module):
         self.dynamic_fusion = nn.Linear(skill_num * 2, skill_num)
         self.qdiff_encoder = nn.Linear(hidden_size, skill_num)
 
-        self.register_buffer("Q_KC", Q_KC, persistent=False)
         self.reset_parameters()
 
     def forward(
         self,
         target_students,
         target_questions,
+        target_skills,
+        hist_skills,
         hist_q,
         hist_r,
         hist_mask,
@@ -70,6 +70,8 @@ class BDGKT(nn.Module):
         Args:
             target_students: [B]
             target_questions: [B]
+            target_skills: [B, K], padded with -1
+            hist_skills: [B, l_s, K], padded with -1
             hist_q: [B, l_s]
             hist_r: [B, l_s]
             hist_mask: [B, l_s]
@@ -90,18 +92,16 @@ class BDGKT(nn.Module):
         hist_mask_f = hist_mask.float().unsqueeze(-1)  # [B, l_s, 1]
 
         # skill features
-        skill_multi = self.Q_KC[hist_q]  # [B, l_s, num_skills]
-        skill_feat = skill_multi @ self.skill_emb.weight  # [B, l_s, H]
-        skill_norm = skill_multi.sum(-1, keepdim=True).clamp(min=1)
-        skill_feat = skill_feat / skill_norm
+        skill_mask = (hist_skills >= 0) & hist_mask.unsqueeze(-1)
+        skill_embeddings = self.skill_emb(hist_skills.clamp_min(0))
+        skill_feat = (skill_embeddings * skill_mask.unsqueeze(-1)).sum(
+            -2
+        ) / skill_mask.sum(-1, keepdim=True).clamp(min=1)
 
         # peer student embeddings
         ans_s_emb = self.student_emb(q_ans_s)  # [B, l_s, l_q, H]
         ans_r_emb = self.response_emb(q_ans_r)  # [B, l_s, l_q, H]
         ans_mask_f = q_ans_mask.float().unsqueeze(-1)  # [B, l_s, l_q, 1]
-
-        # target question skills
-        tq_skill_multi = self.Q_KC[target_questions]  # [B, num_skills]
 
         # precompute q_abs_raw
         q_abs_raw = torch.cat([hq_emb, skill_feat], -1)  # [B, l_s, 2H]
@@ -161,7 +161,11 @@ class BDGKT(nn.Module):
 
         raw_prob = 1.0 / (1.0 + torch.exp(-1.702 * 5.0 * (factor - abs_qdiff)))
 
-        pred = (raw_prob * tq_skill_multi).sum(-1) / tq_skill_multi.sum(-1).clamp(min=1)
+        target_skill_mask = target_skills >= 0
+        skill_prob = raw_prob.gather(-1, target_skills.clamp_min(0))
+        pred = (skill_prob * target_skill_mask).sum(-1) / target_skill_mask.sum(
+            -1
+        ).clamp(min=1)
         pred = pred.clamp(1e-6, 1.0 - 1e-6)
 
         return pred

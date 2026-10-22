@@ -77,7 +77,6 @@ class HDHKTAnalyzer(BaseCaseAnalyzer):
         self.hetero_graph = hetero_graph
         self.hypergraph = hypergraph
         self.question_skill_matrix = question_skill_matrix
-        self.skill_ids_per_question = data_dict["skill_ids_per_question"]
 
         return RuntimeComponents(model=model, val_data=val_dataset)
 
@@ -86,16 +85,17 @@ class HDHKTAnalyzer(BaseCaseAnalyzer):
         self.hetero_graph = self.hetero_graph.to(device)
         self.hypergraph = self.hypergraph.to(device)
         self.question_skill_matrix = self.question_skill_matrix.to(device)
-        self.skill_ids_per_question = self.skill_ids_per_question.to(device)
 
     def forward_pass(
         self,
-        batch_data: tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor],
+        batch_data: tuple[
+            torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor
+        ],
     ) -> dict[str, torch.Tensor]:
         """HDHKT forward pass for inference.
 
         Args:
-            batch_data: Tuple of (user_ids, sequence, response, mask);
+            batch_data: Tuple of (user_ids, sequence, response, mask, skills);
                 user ids are ignored here and consumed by
                 ``extract_case_data``.
 
@@ -103,9 +103,10 @@ class HDHKTAnalyzer(BaseCaseAnalyzer):
             Dictionary with y_hat (flattened), y_label (flattened), y_predict,
             full_y_hat (unflattened), and knowledge_states (for visualization)
         """
-        _, sequence, response, mask = batch_data
+        _, sequence, response, mask, skills = batch_data
         sequence = self._move_tensor_to_device(sequence)
         response = self._move_tensor_to_device(response)
+        skills = self._move_tensor_to_device(skills)
         mask = self._move_tensor_to_device(mask)
 
         y_hat_full, skill_hetero_conv, lstm_output = self.model(
@@ -114,7 +115,7 @@ class HDHKTAnalyzer(BaseCaseAnalyzer):
             mask,
             self.hetero_graph,
             self.hypergraph,
-            self.skill_ids_per_question,
+            skills,
             return_states=True,
         )
 
@@ -293,36 +294,38 @@ class HDHKTAnalyzer(BaseCaseAnalyzer):
         """Extract case data from batch outputs.
 
         Args:
-            batch_data: Raw batch data (user_ids, sequences, responses, masks tuple)
+            batch_data: (user_ids, sequences, responses, masks, skills)
             outputs: Output dict from forward_pass
 
         Returns:
             Dictionary with extracted data (all flattened to valid positions)
         """
-        users, sequences, responses, masks = batch_data
-
-        batch_size, seq_len = sequences.shape
+        users, sequences, responses, masks, skills = batch_data
 
         y_label = outputs["y_label"]
         y_predict = outputs["y_predict"]
         y_hat = outputs["y_hat"]
         knowledge_states = outputs["knowledge_states"]  # [B, S, num_skills]
 
-        masks_bool = masks.bool()
-        if seq_len > 1:
-            masks_bool[:, 0] = False
+        masks_bool = torch.zeros_like(masks, dtype=torch.bool)
+        masks_bool[:, 1:] = masks[:, :-1].bool() & masks[:, 1:].bool()
 
         valid_indices = masks_bool.view(-1).nonzero(as_tuple=True)[0]
 
         question_ids_flat = sequences.view(-1)[valid_indices].cpu().numpy()
-        user_ids_flat = users.view(-1)[valid_indices].cpu().numpy()
+        user_ids_flat = users[valid_indices // masks.shape[1]].cpu().numpy()
 
         num_skills = knowledge_states.shape[-1]
         knowledge_states_flat = (
             knowledge_states.view(-1, num_skills)[valid_indices].cpu().numpy()
         )
 
-        skill_ids_list = self._get_all_skills_for_questions(question_ids_flat)
+        selected_skills = (
+            skills.reshape(-1, skills.size(-1))[valid_indices].cpu().numpy()
+        )
+        skill_ids_list = [
+            ids[ids != self.num_skills].tolist() for ids in selected_skills
+        ]
 
         return {
             "user_ids": user_ids_flat,
@@ -334,23 +337,3 @@ class HDHKTAnalyzer(BaseCaseAnalyzer):
             "mask": masks_bool.view(-1)[valid_indices].cpu().numpy(),
             "knowledge_states": knowledge_states_flat,
         }
-
-    def _get_all_skills_for_questions(
-        self, question_ids: np.ndarray
-    ) -> list[list[int]]:
-        """Get all skills for each question, returning as list of lists.
-
-        Args:
-            question_ids: Array of question IDs
-
-        Returns:
-            List of lists, where each inner list contains all skill IDs for that question.
-            Returns [0] if no skills found.
-        """
-        skills_list = []
-        for q_id in question_ids:
-            question_skills = np.where(self.question_skill_matrix_np[q_id] == 1)[
-                0
-            ].tolist()
-            skills_list.append(question_skills if question_skills else [0])
-        return skills_list

@@ -8,17 +8,19 @@ from typing_extensions import override
 from utils.core import get_logger
 from utils.data_process import DataSource
 from utils.model_data import QuestionModelData
+from utils.model_data.packed_sequences import to_multi_skill_ids
 
 logger = get_logger(__name__)
 
 
 class DAGKTDataset(Dataset):
-    """DAGKT 数据集，返回 (sequence, response, mask, attempt_counts) 四元组。"""
+    """DAGKT samples: (sequence, response, mask, attempt_counts, skills)."""
 
-    def __init__(self, sequences, responses, masks, attempt_counts):
+    def __init__(self, sequences, responses, masks, attempt_counts, skills):
         self.sequences = torch.as_tensor(sequences, dtype=torch.long)
         self.responses = torch.as_tensor(responses, dtype=torch.long)
         self.masks = torch.as_tensor(masks, dtype=torch.long)
+        self.skills = torch.as_tensor(skills, dtype=torch.long)
         self.attempt_counts = torch.as_tensor(attempt_counts, dtype=torch.float)
 
     def __getitem__(self, index):
@@ -27,6 +29,7 @@ class DAGKTDataset(Dataset):
             self.responses[index],
             self.masks[index],
             self.attempt_counts[index],
+            self.skills[index],
         )
 
     def __len__(self):
@@ -44,53 +47,21 @@ class DAGKTModelData(QuestionModelData):
     def __init__(self, data_src: DataSource):
         super().__init__(data_src)
 
-    def load_sequence_data(self):
-        """加载用户答题序列，额外加载 attempt_count 字段。
-
-        Returns:
-            (user_sequence, user_response, user_mask, user_id_sequence, user_attempt)
-        """
-        import numpy as np
-
-        logger.info("Building response sequences from split data...")
-
-        data = self.load_split_data(optional=("attempt_count",)).to_pandas()
-        max_seq_len = self.data_src.get_metadata("max_question_seq_len")
-        num_users = data["sequence_id"].nunique()
-
-        user_sequence = np.zeros((num_users, max_seq_len), dtype=int)
-        user_id_sequence = np.zeros((num_users, max_seq_len), dtype=int)
-        user_response = np.zeros((num_users, max_seq_len), dtype=int)
-        user_mask = np.zeros((num_users, max_seq_len), dtype=int)
-        user_attempt = np.zeros((num_users, max_seq_len), dtype=np.float32)
-
-        user_indices = data["sequence_id"].values
-        seq_positions = data["seq_pos"].values
-
-        user_sequence[user_indices, seq_positions] = data["question"].values
-        user_id_sequence[user_indices, seq_positions] = data["user"].values
-        user_response[user_indices, seq_positions] = data["label"].values
-        user_mask[user_indices, seq_positions] = 1
-
-        if "attempt_count" in data.columns:
-            user_attempt[user_indices, seq_positions] = data[
-                "attempt_count"
-            ].values.astype(np.float32)
-            logger.info("Loaded attempt_count from dataset.")
-        else:
-            logger.warning("attempt_count column not found in data, using zeros.")
-
-        return user_sequence, user_response, user_mask, user_id_sequence, user_attempt
-
     @override
     def prepare_data(self, rc: Any):
         r"""准备 DAGKT 模型所需的数据。"""
         fold_idx = rc.data.fold if rc.data.fold >= 0 else None
         kfold_n_splits = self.data_src.get_metadata("kfold_n_splits")
 
-        user_sequence, user_response, user_mask, user_id_sequence, attempt_counts = (
-            self.load_sequence_data()
-        )
+        sequences = self.load_sequences(optional=("attempt_count",))
+        partition = sequences.partition(rc.data.fold)
+        user_sequence = sequences.question
+        user_response = sequences.response
+        user_mask = sequences.mask
+        np.where(sequences.mask, sequences.user[:, None], 0)
+        attempt_counts = sequences.features.get(
+            "attempt_count", np.zeros_like(user_response)
+        ).astype(np.float32)
 
         graph = self.build_hetero_graph(
             [
@@ -102,10 +73,6 @@ class DAGKTModelData(QuestionModelData):
             ]
         )
 
-        question_skill_matrix = torch.from_numpy(
-            self.build_relationship_matrix(("question", "has", "skill"))
-        ).float()
-
         num_questions = self.data_src.get_metadata("num_questions")
         question_difficulty = self._compute_question_correct_rates(
             num_questions, fold_idx
@@ -113,34 +80,26 @@ class DAGKTModelData(QuestionModelData):
 
         attempt_counts = self._normalize_attempt_counts(attempt_counts)
 
-        if fold_idx is not None:
-            if fold_idx < 0 or fold_idx >= kfold_n_splits:
-                raise ValueError(
-                    f"fold_idx {fold_idx} is out of range [0, {kfold_n_splits})"
-                )
-            logger.info(
-                f"Using K-fold cross-validation: fold {fold_idx + 1}/{kfold_n_splits}"
-            )
-            train_data, val_data, test_data = self.split_kfold_data(
-                user_sequence,
-                user_response,
-                user_mask,
-                attempt_counts,
-                fold_idx=fold_idx,
-            )
-        else:
-            raise ValueError("fold_idx must be specified for K-fold cross-validation")
+        logger.info(
+            f"Using K-fold cross-validation: fold {fold_idx + 1}/{kfold_n_splits}"
+        )
 
-        train_dataset = DAGKTDataset(*train_data)
-        val_dataset = DAGKTDataset(*val_data)
-        test_dataset = DAGKTDataset(*test_data)
+        dataset = DAGKTDataset(
+            user_sequence,
+            user_response,
+            user_mask,
+            attempt_counts,
+            to_multi_skill_ids(
+                sequences.skills, padding_value=self.data_src.get_metadata("num_skills")
+            ),
+        )
+        train_dataset, val_dataset, test_dataset = partition.apply(dataset)
 
         return (
             train_dataset,
             val_dataset,
             test_dataset,
             graph,
-            question_skill_matrix,
             question_difficulty,
         )
 

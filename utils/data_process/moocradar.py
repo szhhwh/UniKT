@@ -130,8 +130,14 @@ class MoocRadarData(DataSource):
         if self.raw_data is None:
             self.load_src_data()
 
-        data = self.raw_data.select(
-            ["user", "question", "label", "timestamp", "log_seq"]
+        # log_seq is the source order within a user, even when file rows differ.
+        data = (
+            self.raw_data.with_row_index("_row_id")
+            .sort(["user", "log_seq", "_row_id"])
+            .with_row_index("interaction_id")
+            .select(
+                ["interaction_id", "user", "question", "label", "timestamp", "log_seq"]
+            )
         )
 
         # submit_time "%Y-%m-%d %H:%M:%S" -> epoch ms, then dataset-relative
@@ -151,10 +157,10 @@ class MoocRadarData(DataSource):
             .alias("timestamp")
         )
 
-        # Order within user by submit_time; log_seq breaks same-timestamp ties.
-        data = data.sort(["user", "timestamp", "log_seq"]).drop("log_seq")
-
-        data = data.unique()
+        data = data.sort(self._sort_columns()).drop("log_seq")
+        data = data.unique(
+            subset=pl.exclude("interaction_id"), keep="first", maintain_order=True
+        )
         data = data.filter(pl.col("label").is_in([0, 1]))
 
         data = exclude_short_sequences(data, self.args.min_seq_len)
@@ -206,13 +212,13 @@ class MoocRadarData(DataSource):
         self._build_id_mapping(question_skill, ["skill"])
         question_skill = self._apply_id_mapping(question_skill, ["skill"])
 
-        # One row per interaction; skills live only in the relation table.
+        # Attach the item annotations before exposing canonical interactions.
         sequence_data = (
             self.cleaned_raw_data.join(question_map_df, on="question", how="left")
             .with_columns(pl.col("question_id").cast(pl.Int32))
             .drop("question")
             .rename({"question_id": "question"})
-            .select(["user", "question", "label", "timestamp"])
+            .select(["interaction_id", "user", "question", "label", "timestamp"])
         )
 
         self._build_id_mapping(sequence_data, ["user"])
@@ -225,8 +231,8 @@ class MoocRadarData(DataSource):
             f"{sequence_data['user'].n_unique()} users"
         )
 
-        self.relation_data = {"question_skill": question_skill}
-        self.sequence_data = sequence_data
+        sequence_data = self._attach_metadata_skills(sequence_data, question_skill)
+        self.set_sequence_data(sequence_data)
 
 
 __all__ = ["MoocRadarData"]

@@ -207,7 +207,6 @@ class DenoiseKT(nn.Module):
     Args:
         num_c: 概念（技能）数量。
         num_q: 题目数量。
-        question_concepts: 数据派生查表 ``[num_q, max_concepts]``，每题概念列表，-1 填充。
         question_graph: 数据派生稀疏邻接 ``[num_q, num_q]``（``A = R Rᵀ``），供 GCN 使用。
         d_model: 模型隐藏维度。
         n_blocks: Transformer 块数量。
@@ -224,7 +223,6 @@ class DenoiseKT(nn.Module):
         self,
         num_c: int,
         num_q: int,
-        question_concepts: torch.Tensor,
         question_graph: torch.Tensor,
         d_model: int = 256,
         n_blocks: int = 1,
@@ -248,9 +246,6 @@ class DenoiseKT(nn.Module):
 
         embed_l = d_model
 
-        self.register_buffer(
-            "question_concepts", question_concepts.long(), persistent=False
-        )
         self.register_buffer("question_graph", question_graph, persistent=False)
 
         # 相对位置 [L, L]，[i,j] = i-j（对角为 0），供 boost_focus 使用
@@ -332,12 +327,14 @@ class DenoiseKT(nn.Module):
         self,
         question: torch.Tensor,
         response: torch.Tensor,
+        skills: torch.Tensor,
     ) -> torch.Tensor:
         """前向传播。
 
         Args:
             question: 题目 id ``[B, S]``。
             response: 作答 ``[B, S]`` (0/1)。
+            skills: 本次交互的技能列表 ``[B, S, K]``，以 -1 填充。
 
         Returns:
             preds: ``[B, S]``，``preds[:, t]`` 由 ``question[:, t]`` 与历史
@@ -345,7 +342,7 @@ class DenoiseKT(nn.Module):
         """
         cq = question
         cr = response
-        cc = self.question_concepts[cq]  # [B, S, k]
+        cc = skills
 
         # GCN 聚合题目嵌入
         q_embed = self.gcn(self.pro_embed, self.question_graph)  # [num_q, D]

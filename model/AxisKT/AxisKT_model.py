@@ -2,15 +2,14 @@
 
 from collections import namedtuple
 
-import numpy as np
 import torch
 import torch.nn.functional as F
 from torch import nn
 
 from model.AxisKT.triton_scan import segmented_scalar_affine_exclusive_scan
 
-_QuestionFeatures = namedtuple(
-    "_QuestionFeatures",
+_EventFeatures = namedtuple(
+    "_EventFeatures",
     [
         "skill_ids",
         "skill_mask",
@@ -65,8 +64,6 @@ class AxisKT(nn.Module):
     def __init__(
         self,
         data_metadata: dict,
-        question_skill_ids: np.ndarray | torch.Tensor,
-        question_skill_mask: np.ndarray | torch.Tensor,
         hidden_dim: int = 128,
         n_blocks: int = 2,
         max_gap_bins: int = 8,
@@ -88,16 +85,6 @@ class AxisKT(nn.Module):
         self.use_global = bool(use_global)
         self.use_local = bool(use_local)
         self.use_forgetting = bool(use_forgetting)
-
-        skill_ids = torch.as_tensor(question_skill_ids, dtype=torch.long)
-        skill_mask = torch.as_tensor(question_skill_mask, dtype=torch.bool)
-        expected_questions = self.num_questions
-        if skill_ids.ndim != 2 or skill_ids.size(0) != expected_questions:
-            raise ValueError("question_skill_ids must have shape [num_questions, K]")
-        if skill_mask.shape != skill_ids.shape:
-            raise ValueError("question_skill_mask must match question_skill_ids")
-        self.register_buffer("question_skill_ids", skill_ids, persistent=True)
-        self.register_buffer("question_skill_mask", skill_mask, persistent=True)
 
         # Cap the intrinsic question-embedding width at ``hidden_dim``.
         if question_embed_dim is None:
@@ -184,12 +171,16 @@ class AxisKT(nn.Module):
             vector = self.question_embed_proj(vector)
         return vector
 
-    def _resolve_question_features(self, questions: torch.Tensor) -> _QuestionFeatures:
-        """Gather the question-derived tensors shared across the forward."""
-        skill_ids = self.question_skill_ids[questions]
-        return _QuestionFeatures(
+    def _resolve_event_features(
+        self,
+        questions: torch.Tensor,
+        skill_ids: torch.Tensor,
+        skill_mask: torch.Tensor,
+    ) -> _EventFeatures:
+        """Combine event annotations with the shared question embedding."""
+        return _EventFeatures(
             skill_ids=skill_ids,
-            skill_mask=self.question_skill_mask[questions],
+            skill_mask=skill_mask,
             question_vector=self._question_vector(questions),
         )
 
@@ -212,9 +203,11 @@ class AxisKT(nn.Module):
         weight = self.local_readout.weight
         w_local = weight[:, :h]
         w_skill = weight[:, h:]
-        scores = F.linear(packed_state, w_local).squeeze(-1) + F.linear(
-            packed_skill_embedding, w_skill
-        ).squeeze(-1)
+        # Keep attention scores in fp32, as in the inference kernel.
+        with torch.autocast(device_type=packed_state.device.type, enabled=False):
+            scores = F.linear(packed_state.float(), w_local.float()).squeeze(
+                -1
+            ) + F.linear(packed_skill_embedding.float(), w_skill.float()).squeeze(-1)
         # Padded occurrences are invalid; keep them out of their position's
         # softmax group.
         scores = scores.masked_fill(~packed_valid, torch.finfo(scores.dtype).min)
@@ -280,13 +273,7 @@ class AxisKT(nn.Module):
             packed_length = int(flat_valid.sum(dim=1).max().item())
             order = order[:, :packed_length]
         else:
-            if kc_order.ndim != 2 or kc_order.size(0) != batch_size:
-                raise ValueError("kc_order must have shape [batch_size, packed_length]")
-            if kc_order.size(1) > flat_skill.size(1):
-                raise ValueError("kc_order width exceeds the flattened KC width")
-            if kc_order.device != questions.device:
-                raise ValueError("kc_order must be on the same device as questions")
-            order = kc_order.long()
+            order = kc_order
 
         def gather(values: torch.Tensor) -> torch.Tensor:
             return torch.gather(values, 1, order)
@@ -299,15 +286,11 @@ class AxisKT(nn.Module):
         responses: torch.Tensor,
         times: torch.Tensor,
         mask: torch.Tensor,
-        skill_ids: torch.Tensor | None = None,
-        skill_mask: torch.Tensor | None = None,
+        skill_ids: torch.Tensor,
+        skill_mask: torch.Tensor,
         kc_order: torch.Tensor | None = None,
     ) -> tuple[torch.Tensor, ...]:
         batch_size, seq_len = questions.shape
-        if skill_ids is None:
-            skill_ids = self.question_skill_ids[questions]
-        if skill_mask is None:
-            skill_mask = self.question_skill_mask[questions]
         max_skills = skill_ids.size(-1)
         (
             packed_skill,
@@ -342,7 +325,7 @@ class AxisKT(nn.Module):
         responses: torch.Tensor,
         times: torch.Tensor,
         mask: torch.Tensor,
-        q_features: _QuestionFeatures | None = None,
+        event_features: _EventFeatures,
         kc_order: torch.Tensor | None = None,
         packed: tuple[torch.Tensor, ...] | None = None,
         skill_embedding: torch.Tensor | None = None,
@@ -357,23 +340,13 @@ class AxisKT(nn.Module):
         interaction being predicted never enters its prediction.
         """
         if packed is None:
-            skill_ids = (
-                q_features.skill_ids
-                if q_features is not None
-                else self.question_skill_ids[questions]
-            )
-            skill_mask = (
-                q_features.skill_mask
-                if q_features is not None
-                else self.question_skill_mask[questions]
-            )
             packed = self._pack_kc_occurrences(
                 questions,
                 responses,
                 times,
                 mask,
-                skill_ids,
-                skill_mask,
+                event_features.skill_ids,
+                event_features.skill_mask,
                 kc_order=kc_order,
             )
         (
@@ -452,7 +425,7 @@ class AxisKT(nn.Module):
         responses: torch.Tensor,
         times: torch.Tensor,
         mask: torch.Tensor,
-        q_features: _QuestionFeatures | None = None,
+        event_features: _EventFeatures,
         kc_order: torch.Tensor | None = None,
         packed: tuple[torch.Tensor, ...] | None = None,
         skill_embedding: torch.Tensor | None = None,
@@ -479,30 +452,25 @@ class AxisKT(nn.Module):
             responses,
             times,
             mask,
-            q_features,
+            event_features,
             kc_order,
             packed=packed,
             skill_embedding=skill_embedding,
             skill_change_embedding=skill_change_embedding,
-        )
-        question_vector = (
-            q_features.question_vector
-            if q_features is not None
-            else self._question_vector(questions)
         )
         return self._packed_question_conditioned_readout(
             packed_state,
             skill_embedding,
             packed_pos,
             packed_valid,
-            question_vector,
+            event_features.question_vector,
         )
 
     def _event_embeddings(
         self,
         questions: torch.Tensor,
-        q_features: _QuestionFeatures | None = None,
-        mask: torch.Tensor | None = None,
+        event_features: _EventFeatures,
+        mask: torch.Tensor,
         kc_order: torch.Tensor | None = None,
         packed: tuple[torch.Tensor, ...] | None = None,
         skill_embedding: torch.Tensor | None = None,
@@ -511,23 +479,16 @@ class AxisKT(nn.Module):
         """Per-position event embedding with packed-occurrence KC pooling.
 
         The per-KC skill and change embeddings are pooled over each
-        position's valid occurrences. Without ``mask`` every position is
-        treated as valid; with it, masked positions pool to zero.
+        position's valid occurrences; masked positions pool to zero.
         """
-        if q_features is None:
-            q_features = self._resolve_question_features(questions)
-        if mask is None:
-            mask = torch.ones(
-                questions.shape, dtype=torch.bool, device=questions.device
-            )
         if packed is not None:
             packed_skill, packed_valid, packed_pos = packed[0], packed[4], packed[6]
         else:
             (packed_skill, packed_valid, packed_pos) = self._pack_kc_positions(
                 questions,
-                mask.bool(),
-                q_features.skill_ids,
-                q_features.skill_mask,
+                mask,
+                event_features.skill_ids,
+                event_features.skill_mask,
                 kc_order,
             )[:3]
         if skill_embedding is None:
@@ -570,7 +531,7 @@ class AxisKT(nn.Module):
             / denom
         )
         return (
-            q_features.question_vector
+            event_features.question_vector
             + pooled_skill
             + self.question_diff(questions) * pooled_change
         )
@@ -687,6 +648,8 @@ class AxisKT(nn.Module):
         responses: torch.Tensor,
         times: torch.Tensor,
         mask: torch.Tensor,
+        skill_ids: torch.Tensor,
+        skill_mask: torch.Tensor,
         kc_order: torch.Tensor | None = None,
         kc_inverse: torch.Tensor | None = None,
         compact_global: bool = False,
@@ -703,18 +666,40 @@ class AxisKT(nn.Module):
         equivalent causal computation over active sequence prefixes; the
         caller determines whether the batch has enough trailing padding.
         """
-        mask = mask.bool()
         if times.shape != questions.shape:
             raise ValueError(
                 "times must have shape [batch_size, seq_len] matching questions"
             )
+        if (
+            skill_ids.ndim != 3
+            or skill_ids.shape[:2] != questions.shape
+            or skill_ids.size(-1) < 1
+        ):
+            raise ValueError("skill_ids must have shape [batch_size, seq_len, K]")
+        if skill_mask.shape != skill_ids.shape:
+            raise ValueError("skill_mask must match skill_ids")
+        if kc_order is not None:
+            if kc_order.ndim != 2 or kc_order.size(0) != questions.size(0):
+                raise ValueError("kc_order must have shape [batch_size, packed_length]")
+            if kc_order.size(1) > questions.size(1) * skill_ids.size(-1):
+                raise ValueError("kc_order width exceeds the flattened KC width")
+            if kc_order.device != questions.device:
+                raise ValueError("kc_order must be on the same device as questions")
+        if kc_inverse is not None:
+            if kc_inverse.shape != (
+                questions.size(0),
+                questions.size(1) * skill_ids.size(-1),
+            ):
+                raise ValueError("kc_inverse must have shape [batch_size, S*K]")
+            if kc_inverse.device != questions.device:
+                raise ValueError("kc_inverse must be on the same device as questions")
         # Interactions are measured relative to the first valid interaction;
         # padding is pinned to zero so log-bucketing never sees negatives.
         first_time = times.masked_fill(~mask, torch.inf).min(dim=1, keepdim=True).values
         times = times - first_time
         times = times.masked_fill(~mask, 0.0)
-        q_features = self._resolve_question_features(questions)
-        if not torch.is_grad_enabled() and self.use_local:
+        event_features = self._resolve_event_features(questions, skill_ids, skill_mask)
+        if not torch.is_grad_enabled() and self.use_local and questions.is_cuda:
             # Fused inference path: one Triton kernel produces both the local
             # readout and the event-embedding pooling; training keeps the aten
             # scatter chain so gradient semantics stay untouched.
@@ -728,14 +713,14 @@ class AxisKT(nn.Module):
                 _packed_pos,
                 order,
             ) = self._scan_states(
-                questions, responses, times, mask, q_features, kc_order
+                questions, responses, times, mask, event_features, kc_order
             )
             skill_change_embedding = self.skill_change(packed_skill)
-            question_vector = q_features.question_vector
+            question_vector = event_features.question_vector
             if kc_inverse is None:
                 kc_inverse = torch.zeros(
                     questions.shape[0],
-                    questions.shape[1] * self.question_skill_ids.size(1),
+                    questions.shape[1] * skill_ids.size(2),
                     dtype=torch.long,
                     device=questions.device,
                 )
@@ -744,7 +729,7 @@ class AxisKT(nn.Module):
                     order,
                     torch.arange(order.size(1), device=order.device).expand_as(order),
                 )
-            slot_valid = (q_features.skill_mask & mask.unsqueeze(-1)).flatten(1)
+            slot_valid = (event_features.skill_mask & mask.unsqueeze(-1)).flatten(1)
             local_pre_state, event_embedding = fused_readout_event(
                 packed_state,
                 skill_embedding,
@@ -754,7 +739,7 @@ class AxisKT(nn.Module):
                 self.question_diff.weight,
                 slot_valid,
                 kc_inverse,
-                self.question_skill_ids.size(1),
+                skill_ids.size(2),
                 self.local_readout.weight,
             )
         else:
@@ -763,15 +748,15 @@ class AxisKT(nn.Module):
                 responses,
                 times,
                 mask,
-                q_features.skill_ids,
-                q_features.skill_mask,
+                event_features.skill_ids,
+                event_features.skill_mask,
                 kc_order=kc_order,
             )
             skill_embedding = self.skill_embed(packed[0])
             skill_change_embedding = self.skill_change(packed[0])
             event_embedding = self._event_embeddings(
                 questions,
-                q_features,
+                event_features,
                 mask=mask,
                 kc_order=kc_order,
                 packed=packed,
@@ -783,7 +768,7 @@ class AxisKT(nn.Module):
                 responses,
                 times,
                 mask,
-                q_features,
+                event_features,
                 kc_order=kc_order,
                 packed=packed,
                 skill_embedding=skill_embedding,

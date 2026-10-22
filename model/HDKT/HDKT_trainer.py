@@ -20,7 +20,7 @@ class HDKTConfig(ModelConfig):
         emb_dropout: Embedding dropout rate in the denoising components.
         tau: Hard gumbel-softmax temperature (not searched).
         vae_alpha: Weight of the VAE reconstruction loss.
-        q_gamma: Q-matrix smoothing factor (0 keeps the raw binary matrix).
+        q_gamma: Smoothing added to each event's skill indicator.
         max_it_minutes: Interval-time cap in minutes.
         learning_rate: Learning rate.
         weight_decay: Adam weight decay.
@@ -89,8 +89,8 @@ class HDKTTrainer(BaseTrainer):
             dropout=m.dropout,
             tau=m.tau,
             emb_dropout=m.emb_dropout,
+            q_gamma=m.q_gamma,
         )
-        model.set_q_matrix(info["q_matrix"], m.q_gamma)
 
         # Mean reduction keeps the default _compute_eval_loss scalar-valued;
         # the "none" variant would return a vector there (item() crash).
@@ -115,7 +115,7 @@ class HDKTTrainer(BaseTrainer):
 
         ``_vae_loss`` 为去噪前端的 VAE 重构损失，仅参与训练损失组合。
         """
-        e, at, a, it, mask, uid, skill = batch_data
+        e, at, a, it, mask, uid, skill, skills = batch_data
         e = self._move_tensor_to_device(e)
         at = self._move_tensor_to_device(at)
         a = self._move_tensor_to_device(a)
@@ -123,8 +123,9 @@ class HDKTTrainer(BaseTrainer):
         mask = self._move_tensor_to_device(mask)
         uid = self._move_tensor_to_device(uid)
         skill = self._move_tensor_to_device(skill)
+        skills = self._move_tensor_to_device(skills)
 
-        pred, vae_loss = self.model(e, at, a, it, mask, uid, skill)  # [B, S]
+        pred, vae_loss = self.model(e, at, a, it, mask, uid, skill, skills)  # [B, S]
 
         y_hat, y_label, _ = self._extract_valid_predictions(
             pred, a, mask, same_position=True

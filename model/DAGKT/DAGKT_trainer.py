@@ -95,7 +95,6 @@ class DAGKTTrainer(BaseTrainer):
             val_dataset,
             test_dataset,
             self.graph,
-            self.question_skill_matrix,
             question_difficulty,
         ) = model_data.prepare_data(rc)
 
@@ -138,7 +137,6 @@ class DAGKTTrainer(BaseTrainer):
             else torch.device("cuda" if torch.cuda.is_available() else "cpu")
         )
         self.graph = self.graph.to(device)
-        self.question_skill_matrix = self.question_skill_matrix.to(device)
 
         return RuntimeComponents(
             model=model,
@@ -151,19 +149,23 @@ class DAGKTTrainer(BaseTrainer):
         )
 
     def forward_pass(
-        self, batch_data: tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]
+        self,
+        batch_data: tuple[
+            torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor
+        ],
     ) -> dict[str, torch.Tensor]:
         """DAGKT 前向传播。
 
         Args:
-            batch_data: 包含 (sequence, response, mask, attempt_counts) 的四元组
+            batch_data: (sequence, response, mask, attempt_counts, skills)
 
         Returns:
             包含 y_hat, y_label, y_predict, _ae_loss_diff, _ae_loss_attempt 的字典
         """
-        sequence, response, mask, attempt_counts = batch_data
+        sequence, response, mask, attempt_counts, skills = batch_data
         sequence = self._move_tensor_to_device(sequence)
         response = self._move_tensor_to_device(response)
+        skills = self._move_tensor_to_device(skills)
         mask = self._move_tensor_to_device(mask, dtype=torch.bool)
         attempt_counts = self._move_tensor_to_device(attempt_counts, dtype=torch.float)
 
@@ -172,7 +174,7 @@ class DAGKTTrainer(BaseTrainer):
             response,
             mask,
             self.graph,
-            self.question_skill_matrix,
+            skills,
             attempt_counts,
         )  # y_hat_full: [B, S]
 

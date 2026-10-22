@@ -114,11 +114,6 @@ def fused_readout_event(
     seq_len = question_vector.shape[1]
     device = packed_state.device
 
-    if kc_inverse is None or slot_valid is None:
-        raise ValueError("kc_inverse and slot_valid must be precomputed")
-    if slot_valid.ndim != 2 or slot_valid.shape[1] != seq_len * max_skills:
-        raise ValueError("slot_valid must have shape [B, S*K]")
-
     # One pooled allocation for the two [B, S, H] outputs; each slice stays
     # contiguous.
     n_out = batch * seq_len * hidden

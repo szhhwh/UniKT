@@ -9,6 +9,7 @@ from typing_extensions import override
 from utils.core import get_logger
 from utils.data_process import DataSource
 from utils.model_data import QuestionModelData
+from utils.model_data.packed_sequences import to_first_skill_ids
 
 logger = get_logger(__name__)
 
@@ -155,7 +156,8 @@ def build_tensors(
     """Build interaction tensors from user sequences.
 
     Args:
-        data_all: List of user sequence records (target interactions).
+        data_all: User sequences with first-skill IDs in skill_seq (one-based,
+            with zero reserved for padding).
         config: DyGKT configuration.
         history_data: Additional history data (for val/test sets).
         target_user_ids: Target user IDs to filter (from data_all).
@@ -190,6 +192,7 @@ def build_tensors(
     global_id_arr = np.zeros(total_interactions, dtype=np.int32)
     user_arr = np.zeros(total_interactions, dtype=np.int32)
     question_arr = np.zeros(total_interactions, dtype=np.int32)
+    skill_arr = np.zeros(total_interactions, dtype=np.int32)
     time_arr = np.zeros(total_interactions, dtype=np.int64)
     correctness_arr = np.zeros(total_interactions, dtype=np.int8)
 
@@ -208,6 +211,7 @@ def build_tensors(
         user_id = num_question + 1 + int(user_data["user_id"])
         seq_len = int(user_data["seq_len"])
         question_seq = user_data["question_seq"][:seq_len]
+        skill_seq = user_data["skill_seq"][:seq_len]
         correctness_seq = user_data["correctness_seq"][:seq_len]
         time_seq = user_data["time_seq"][:seq_len]
         interaction_id_seq = user_data.get("interaction_id_seq")
@@ -232,6 +236,7 @@ def build_tensors(
             global_id_arr[pos] = gid
             user_arr[pos] = user_id
             question_arr[pos] = q_id + 1
+            skill_arr[pos] = int(skill_seq[i])
             time_arr[pos] = t
             correctness_arr[pos] = c
 
@@ -329,11 +334,13 @@ def build_tensors(
     max_idx = int(idx_arr.max()) if total_interactions > 0 else 0
     lookup_user = np.zeros(max_idx + 1, dtype=np.int32)
     lookup_question = np.zeros(max_idx + 1, dtype=np.int32)
+    lookup_skill = np.zeros(max_idx + 1, dtype=np.int32)
     lookup_time = np.zeros(max_idx + 1, dtype=np.int64)
     lookup_correctness = np.zeros(max_idx + 1, dtype=np.int8)
 
     lookup_user[idx_arr] = user_arr
     lookup_question[idx_arr] = question_arr
+    lookup_skill[idx_arr] = skill_arr
     lookup_time[idx_arr] = time_arr
     lookup_correctness[idx_arr] = correctness_arr
 
@@ -361,6 +368,7 @@ def build_tensors(
         "idx": torch.from_numpy(idx_arr),
         "user": torch.from_numpy(user_arr),
         "question": torch.from_numpy(question_arr),
+        "skill": torch.from_numpy(skill_arr),
         "time": torch.from_numpy(time_arr).float(),
         "correctness": torch.from_numpy(correctness_arr).float(),
         "user_his_idx": torch.from_numpy(user_his_padded),
@@ -369,6 +377,7 @@ def build_tensors(
         "que_his_len": torch.from_numpy(que_his_len),
         "lookup_user": torch.from_numpy(lookup_user),
         "lookup_question": torch.from_numpy(lookup_question),
+        "lookup_skill": torch.from_numpy(lookup_skill),
         "lookup_time": torch.from_numpy(lookup_time).float(),
         "lookup_correctness": torch.from_numpy(lookup_correctness).float(),
     }
@@ -416,9 +425,11 @@ class DyGKTDataset(Dataset):
             "idx": t["idx"][data_indices],
             "user": t["user"][data_indices],
             "question": t["question"][data_indices],
+            "skill": t["skill"][data_indices],
             "time": t["time"][data_indices],
             "correctness": t["correctness"][data_indices],
             "src_neighbor_node_ids": t["lookup_question"][user_his_idx],
+            "src_neighbor_skill_ids": t["lookup_skill"][user_his_idx],
             "src_neighbor_times": t["lookup_time"][user_his_idx],
             "src_neighbor_edge_feats": t["lookup_correctness"][user_his_idx],
             "src_neighbor_len": t["user_his_len"][data_indices],
@@ -441,12 +452,8 @@ class DyGKTModelData(QuestionModelData):
     @override
     def prepare_data(self, rc: Any):
         fold_idx = rc.data.fold if rc.data.fold >= 0 else None
-        if fold_idx is None:
-            raise ValueError("fold_idx must be specified for K-fold cross-validation")
 
         kfold_n_splits = self.data_src.get_metadata("kfold_n_splits")
-        if fold_idx < 0 or fold_idx >= kfold_n_splits:
-            raise ValueError(f"fold_idx {fold_idx} out of range [0, {kfold_n_splits})")
 
         logger.info(f"K-fold: fold {fold_idx + 1}/{kfold_n_splits}")
 
@@ -456,25 +463,34 @@ class DyGKTModelData(QuestionModelData):
         config = DyGKTNeighborConfig.from_run_config(rc, num_questions)
 
         # Load sequences
-        question_sequences, user_responses, user_masks, user_id_sequences = (
-            self.load_sequence_data()
-        )
-        time_sequences = self._load_time_sequences(question_sequences.shape)
+        sequences = self.load_sequences(required=("timestamp", "skills"))
+        partition = sequences.partition(rc.data.fold)
+        question_sequences = sequences.question
+        user_responses = sequences.response
+        user_masks = sequences.mask
+        user_ids = sequences.user
+        # DyGKT uses one skill per event; reserve zero for absent history.
+        skill_sequences = to_first_skill_ids(sequences.skills, offset=1)
+        time_sequences = sequences.features["timestamp"].astype(np.float64)
         time_sequences = self._normalize_timestamps(time_sequences)
 
-        # Split data
-        train_data, val_data, test_data = self.split_kfold_data(
+        event_arrays = (
             question_sequences,
             user_responses,
             user_masks,
             time_sequences,
-            user_id_sequences,
-            fold_idx=fold_idx,
+            user_ids,
+            skill_sequences,
         )
-
-        train_records = self._build_interaction_records(*train_data)
-        val_records = self._build_interaction_records(*val_data)
-        test_records = self._build_interaction_records(*test_data)
+        train_records = self._build_interaction_records(
+            *(array[partition.train] for array in event_arrays)
+        )
+        val_records = self._build_interaction_records(
+            *(array[partition.val] for array in event_arrays)
+        )
+        test_records = self._build_interaction_records(
+            *(array[partition.test] for array in event_arrays)
+        )
 
         # Build datasets
         train_tensors, train_targets = build_tensors(train_records, config)
@@ -497,27 +513,19 @@ class DyGKTModelData(QuestionModelData):
         test_dataset = DyGKTDataset(test_tensors, test_targets, config.num_neighbor)
 
         # Build metadata
-        question_skill_ids = self._build_primary_skill_ids(q_table)
         num_users = int(self.data_src.get_metadata("num_users"))
 
         metadata = {
             "num_questions": num_questions,
             "num_users": num_users,
+            "num_skills": int(self.data_src.get_metadata("num_skills")),
             "question_id_offset": 1,
             "user_id_offset": num_questions + 1,
-            "question_skill_ids": question_skill_ids,
             "question_features": q_table.astype(np.float32),
             "num_neighbor": config.num_neighbor,
         }
 
         return train_dataset, val_dataset, test_dataset, metadata
-
-    def _build_primary_skill_ids(self, q_table: np.ndarray) -> np.ndarray:
-        has_skill = q_table > 0
-        first_skill = has_skill.argmax(axis=1).astype(np.int64)
-        no_skill_mask = has_skill.sum(axis=1) == 0
-        first_skill[no_skill_mask] = 0
-        return first_skill
 
     def _normalize_timestamps(self, timestamps: np.ndarray) -> np.ndarray:
         ts = np.asarray(timestamps, dtype=np.int64).copy()
@@ -525,65 +533,38 @@ class DyGKTModelData(QuestionModelData):
         ts[valid] = ts[valid] // 1000  # 毫秒 → 秒
         return ts
 
-    def _load_time_sequences(self, target_shape: tuple[int, int]) -> np.ndarray:
-        num_users, max_seq_len = target_shape
-        timestamps = np.zeros((num_users, max_seq_len), dtype=np.int64)
-
-        split_data = self.load_split_data(required=("timestamp",)).to_pandas()
-
-        ts_series = split_data["timestamp"]
-        if np.issubdtype(ts_series.dtype, np.datetime64):
-            ts = (ts_series.astype("int64") // 10**9).to_numpy(dtype=np.int64)
-        else:
-            import pandas as pd
-
-            ts = (
-                pd.to_numeric(ts_series, errors="coerce")
-                .fillna(0)
-                .to_numpy(dtype=np.int64)
-            )
-
-        users = split_data["sequence_id"].to_numpy(dtype=np.int64)
-        seq_pos = split_data["seq_pos"].to_numpy(dtype=np.int64)
-        valid = (
-            (users >= 0)
-            & (users < num_users)
-            & (seq_pos >= 0)
-            & (seq_pos < max_seq_len)
-        )
-        timestamps[users[valid], seq_pos[valid]] = ts[valid]
-        return timestamps
-
     def _build_interaction_records(
         self,
         question_sequences: np.ndarray,
         user_responses: np.ndarray,
         user_masks: np.ndarray,
         time_sequences: np.ndarray,
-        user_id_sequences: np.ndarray,
+        user_ids: np.ndarray,
+        skill_sequences: np.ndarray,
     ) -> list[dict[str, Any]]:
         records = []
 
-        for idx, (q_seq, r_seq, mask_seq, t_seq, uid_seq) in enumerate(
-            zip(
-                question_sequences,
-                user_responses,
-                user_masks,
-                time_sequences,
-                user_id_sequences,
-            )
+        for q_seq, r_seq, mask_seq, t_seq, user_id, skill_seq in zip(
+            question_sequences,
+            user_responses,
+            user_masks,
+            time_sequences,
+            user_ids,
+            skill_sequences,
+            strict=True,
         ):
             seq_len = int(mask_seq.sum())
             if seq_len <= 0:
                 continue
 
-            user_id = int(uid_seq[0]) if uid_seq[0] >= 0 else idx
+            user_id = int(user_id)
 
             records.append(
                 {
                     "user_id": user_id,
                     "seq_len": seq_len,
                     "question_seq": q_seq[:seq_len].astype(np.int64).tolist(),
+                    "skill_seq": skill_seq[:seq_len].astype(np.int64).tolist(),
                     "correctness_seq": r_seq[:seq_len].astype(np.int64).tolist(),
                     "time_seq": t_seq[:seq_len].astype(np.int64).tolist(),
                 }
