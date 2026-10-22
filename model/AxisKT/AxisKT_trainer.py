@@ -32,11 +32,11 @@ class AxisKTConfig(ModelConfig):
             the readout; the branch parameters then stay inert.
         use_local: Enable the local per-KC memory branch. ``False`` feeds zero
             local features to the readout; the branch parameters stay inert.
-        local_encoder: ``lstm`` uses a shared LSTM with independent per-KC
-            hidden/cell states and no time features; ``ciam`` uses the original
-            affine scan.
+        local_encoder: ``lstm`` uses a shared LSTM, ``gru`` uses a shared GRU,
+            and both maintain independent per-KC states without time features;
+            ``ciam`` uses the original affine scan.
         use_forgetting: Enable gap-conditioned decay for ``ciam`` only. Ignored
-            by ``lstm``, which retains the standard LSTM forget gate.
+            by ``lstm`` and ``gru``, which retain their recurrent gates.
         dropout: Dropout probability.
         epochs: Maximum training epochs.
         learning_rate: Adam learning rate.
@@ -74,7 +74,7 @@ class AxisKTConfig(ModelConfig):
     )
     use_global: bool = True
     use_local: bool = True
-    local_encoder: Literal["ciam", "lstm"] = "lstm"
+    local_encoder: Literal["ciam", "lstm", "gru"] = "ciam"
     use_forgetting: bool = True
     epochs: int = 100
     learning_rate: float = field(

@@ -57,9 +57,10 @@ class AxisKT(nn.Module):
     The readout concatenates ``[global_state, local_pre_state,
     event_embedding]``. ``use_global`` / ``use_local`` ablate the global
     conv branch / the local memory branch (an ablated branch emits all-zero
-    features and receives no gradient). ``local_encoder="lstm"`` uses a shared
-    LSTM with independent per-KC states and no temporal decay. ``"ciam"`` uses
-    the affine scan, where ``use_forgetting`` controls temporal decay.
+    features and receives no gradient). ``local_encoder`` selects the local
+    memory: ``"lstm"`` and ``"gru"`` use shared recurrent cells with
+    independent per-KC states and no temporal decay; ``"ciam"`` uses the
+    affine scan, where ``use_forgetting`` controls temporal decay.
     """
 
     def __init__(
@@ -75,11 +76,11 @@ class AxisKT(nn.Module):
         use_global: bool = True,
         use_local: bool = True,
         use_forgetting: bool = True,
-        local_encoder: Literal["ciam", "lstm"] = "lstm",
+        local_encoder: Literal["ciam", "lstm", "gru"] = "ciam",
     ):
         super().__init__()
-        if local_encoder not in ("ciam", "lstm"):
-            raise ValueError("local_encoder must be 'ciam' or 'lstm'")
+        if local_encoder not in ("ciam", "lstm", "gru"):
+            raise ValueError("local_encoder must be 'ciam', 'lstm', or 'gru'")
         if max_gap_bins < 1:
             raise ValueError("max_gap_bins must be at least 1")
         self.num_questions = int(data_metadata["num_questions"])
@@ -121,6 +122,8 @@ class AxisKT(nn.Module):
         self.local_init = nn.Linear(hidden_dim, hidden_dim)
         if local_encoder == "lstm":
             self.local_lstm = nn.LSTM(hidden_dim, hidden_dim, batch_first=True)
+        elif local_encoder == "gru":
+            self.local_gru = nn.GRU(hidden_dim, hidden_dim, batch_first=True)
         else:
             self.local_decay_logits = nn.Parameter(
                 torch.full((max_gap_bins, hidden_dim), -4.0)
@@ -387,6 +390,65 @@ class AxisKT(nn.Module):
             .view(batch_size, packed_len, hidden)
         )
 
+    def _gru_pre_states(
+        self,
+        local_input: torch.Tensor,
+        packed_skill: torch.Tensor,
+        packed_valid: torch.Tensor,
+        skill_embedding: torch.Tensor,
+    ) -> torch.Tensor:
+        """Batch observed (sample, KC) histories and return pre-update states."""
+        batch_size, packed_len, hidden = local_input.shape
+        valid_index = packed_valid.flatten().nonzero().flatten()
+        if valid_index.numel() == 0:
+            return torch.zeros_like(local_input)
+
+        skills = packed_skill.flatten().index_select(0, valid_index)
+        rows = valid_index // packed_len
+        heads = torch.ones_like(skills, dtype=torch.bool)
+        heads[1:] = (skills[1:] != skills[:-1]) | (rows[1:] != rows[:-1])
+        starts = heads.nonzero().flatten()
+        lengths = torch.diff(
+            torch.cat([starts, starts.new_tensor([valid_index.numel()])])
+        )
+        sequence_order = torch.argsort(lengths, descending=True, stable=True)
+        sequence_rank = torch.empty_like(sequence_order)
+        sequence_rank[sequence_order] = torch.arange(
+            starts.numel(), device=starts.device
+        )
+        sequence_id = heads.long().cumsum(0) - 1
+        step = (
+            torch.arange(valid_index.numel(), device=starts.device)
+            - starts[sequence_id]
+        )
+
+        # Time-major packed data avoids padding across skills or histories.
+        gru_order = torch.argsort(step * starts.numel() + sequence_rank[sequence_id])
+        batch_sizes = torch.bincount(step).cpu()
+        inputs = local_input.flatten(0, 1).index_select(0, valid_index)
+        initial = torch.tanh(
+            self.local_init(
+                skill_embedding.flatten(0, 1)
+                .index_select(0, valid_index)
+                .index_select(0, starts)
+            )
+        )
+        h0 = initial.index_select(0, sequence_order).unsqueeze(0).contiguous()
+        output, _ = self.local_gru(
+            PackedSequence(inputs.index_select(0, gru_order), batch_sizes),
+            h0,
+        )
+        post_state = torch.empty_like(output.data).index_copy(0, gru_order, output.data)
+        previous = torch.cat([post_state.new_zeros(1, hidden), post_state[:-1]])
+        pre_state = torch.where(
+            heads.unsqueeze(-1), initial[sequence_id].to(previous.dtype), previous
+        )
+        return (
+            pre_state.new_zeros(batch_size * packed_len, hidden)
+            .index_copy(0, valid_index, pre_state)
+            .view(batch_size, packed_len, hidden)
+        )
+
     def _scan_states(
         self,
         questions: torch.Tensor,
@@ -401,8 +463,9 @@ class AxisKT(nn.Module):
     ) -> tuple[torch.Tensor, ...]:
         """Return the private KC state before each occurrence's update.
 
-        The LSTM only consumes earlier interactions of the same KC. In CIAM,
-        an occurrence's decay composes only into later reads of the same KC.
+        Recurrent modes only consume earlier interactions of the same KC. In
+        CIAM, an occurrence's decay composes only into later reads of the same
+        KC.
         """
         if packed is None:
             packed = self._pack_kc_occurrences(
@@ -436,6 +499,10 @@ class AxisKT(nn.Module):
         )
         if self.local_encoder == "lstm":
             packed_state = self._lstm_pre_states(
+                local_input, packed_skill, packed_valid, skill_embedding
+            )
+        elif self.local_encoder == "gru":
+            packed_state = self._gru_pre_states(
                 local_input, packed_skill, packed_valid, skill_embedding
             )
         else:
@@ -725,7 +792,7 @@ class AxisKT(nn.Module):
     ) -> torch.Tensor:
         """Return next-item logits where output[t] predicts response[t+1].
 
-        ``times`` is ignored by the LSTM encoder. CIAM uses within-sequence
+        ``times`` is ignored by recurrent encoders. CIAM uses within-sequence
         differences, with gap decays composing only into later reads of the
         same KC. ``kc_inverse`` is the dataset-precomputed inverse of
         ``kc_order`` over the full flat slot domain; when omitted the fused
