@@ -1,0 +1,391 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/datasets/catalog/xes3g5m.md:1 832e3066ff3d420ba529b160e223cb57
+msgid "XES3G5M"
+msgstr "XES3G5M"
+
+#: ../../source/datasets/catalog/xes3g5m.md:3 26137577612c4a5f936d514d2161e6d6
+msgid "XES3G5M 是采集自好未来学而思三年级数学课程的知识追踪基准数据集，提供题目与知识概念两级序列以及题目文本、解析和图片等辅助信息。"
+msgstr ""
+"XES3G5M is a knowledge tracing benchmark dataset collected from TAL "
+"Education Xueersi 3rd-grade mathematics courses, providing question- and "
+"knowledge-concept-level sequences alongside auxiliary question texts, "
+"explanations, and images."
+
+#: ../../source/datasets/catalog/xes3g5m.md:5 149e17521cfe43d6808fe78c710d4c0d
+msgid "数据集链接"
+msgstr "Dataset Link"
+
+#: ../../source/datasets/catalog/xes3g5m.md:7 ec3b2b9f5451458f84ca02f9af14f909
+msgid "官方仓库：[ai4ed/XES3G5M](https://github.com/ai4ed/XES3G5M)"
+msgstr "Official repository: [ai4ed/XES3G5M](https://github.com/ai4ed/XES3G5M)"
+
+#: ../../source/datasets/catalog/xes3g5m.md:8 44dd916ec7484471b3551f938f9b38f0
+msgid ""
+"下载入口：[XES3G5M "
+"数据包](https://drive.google.com/file/d/1eFiIYyh5O2V90RA0brammGH6EpHvPDQe/view)"
+msgstr ""
+"Download portal: [XES3G5M Data "
+"Package](https://drive.google.com/file/d/1eFiIYyh5O2V90RA0brammGH6EpHvPDQe/view)"
+
+#: ../../source/datasets/catalog/xes3g5m.md:9 f51bf613dd874c3394c943e66b5bd1a7
+msgid ""
+"赛事说明：[AAAI2023 Global Knowledge Tracing "
+"Challenge](https://ai4ed.cc/competitions/aaai2023competition)"
+msgstr ""
+"Challenge details: [AAAI2023 Global Knowledge Tracing "
+"Challenge](https://ai4ed.cc/competitions/aaai2023competition)"
+
+#: ../../source/datasets/catalog/xes3g5m.md:11 0d806fda6f6843a28cc0ee699107f440
+msgid "数据规模与形态"
+msgstr "Data Scale and Format"
+
+#: ../../source/datasets/catalog/xes3g5m.md 81757c8f638c46d49870871a12c4f33c
+msgid "指标"
+msgstr "Metrics"
+
+#: ../../source/datasets/catalog/xes3g5m.md f902cc5a8a9c4f968d09702c5f2c7c46
+msgid "规模"
+msgstr "Scale"
+
+#: ../../source/datasets/catalog/xes3g5m.md
+#: ../../source/datasets/catalog/xes3g5m.md:21 1fae9a1a26374faaa6cc3e01f6d0e644
+#: 2ce27a5bea264779997b3e837afebe04 48425a14ba0042ffbef7e6736fdcfd6f
+#: 729ebd70c051473ca0b8fa30c60b42c5
+msgid "说明"
+msgstr "Description"
+
+#: ../../source/datasets/catalog/xes3g5m.md 6647a15f58c8403db71d39e0877256f3
+msgid "学生数"
+msgstr "Student Count"
+
+#: ../../source/datasets/catalog/xes3g5m.md 28f7e233ead542e6b2bde108ffd6ad02
+msgid "18,066"
+msgstr "18,066"
+
+#: ../../source/datasets/catalog/xes3g5m.md f2ee6f1e74124a8fb8a1f45f54c357aa
+msgid "训练验证集 14,453 名，独立测试集 3,613 名"
+msgstr "14,453 in train/validation sets, 3,613 in independent test set"
+
+#: ../../source/datasets/catalog/xes3g5m.md c5f5cd6ec3064a39972cae54dd091e17
+msgid "题目数"
+msgstr "Question Count"
+
+#: ../../source/datasets/catalog/xes3g5m.md 65eaf07e2b164980b3c20c41aa49f7d5
+msgid "7,652"
+msgstr "7,652"
+
+#: ../../source/datasets/catalog/xes3g5m.md a003012110114079b780ba98166a249d
+msgid "`metadata/questions.json` 收录的有效题目"
+msgstr "Valid questions contained in `metadata/questions.json`"
+
+#: ../../source/datasets/catalog/xes3g5m.md 2b4e9d124a7046b387d3ea9fe3ca2bd8
+msgid "知识概念路径数"
+msgstr "Knowledge Concept Path Count"
+
+#: ../../source/datasets/catalog/xes3g5m.md b33fa3b8851743e580c9125e53ea8f16
+msgid "1,175"
+msgstr "1,175"
+
+#: ../../source/datasets/catalog/xes3g5m.md 606e5741e20642889dae035b3eff1a66
+msgid "`metadata/kc_routes_map.json` 映射的标准知识点路径"
+msgstr "Standard knowledge concept paths mapped in `metadata/kc_routes_map.json`"
+
+#: ../../source/datasets/catalog/xes3g5m.md d76e62cc7ccc4ff09b7242fee96f2d65
+msgid "题目级序列数"
+msgstr "Question-Level Sequence Count"
+
+#: ../../source/datasets/catalog/xes3g5m.md dc241caf0fa74c6aa907a2b6cd38fe2a
+msgid "34,578"
+msgstr "34,578"
+
+#: ../../source/datasets/catalog/xes3g5m.md c2558c58dfdf43b4a3ec7181f297be57
+msgid "训练验证窗口 30,965 条，测试集 3,613 条"
+msgstr "30,965 train/validation windows, 3,613 test set windows"
+
+#: ../../source/datasets/catalog/xes3g5m.md 2ce8cbbc13f54b6f944b063f9aa81288
+msgid "概念级序列数"
+msgstr "Concept-Level Sequence Count"
+
+#: ../../source/datasets/catalog/xes3g5m.md 5e57299fdba442b0933d023d23f58a72
+msgid "37,010"
+msgstr "37,010"
+
+#: ../../source/datasets/catalog/xes3g5m.md 06a51120384c4fbdaceae860b4743923
+msgid "训练验证窗口 33,397 条，测试集 3,613 条"
+msgstr "33,397 train/validation windows, 3,613 test set windows"
+
+#: ../../source/datasets/catalog/xes3g5m.md:22 dadb2dbda0e449cd930af4bf73adb6c6
+msgid ""
+"XES3G5M 源自 AAAI 2023 全球知识追踪挑战赛，官方发布包专为序列化建模设计，已预先按最大长度 200 进行窗口切分。UniKT "
+"默认基于题目级序列 `question_level` 进行加载与评估。"
+msgstr ""
+"XES3G5M originates from the AAAI 2023 Global Knowledge Tracing Challenge;"
+" the official release is tailored for sequential modeling, pre-split into"
+" windows with maximum length 200. UniKT loads and evaluates on question-"
+"level sequences `question_level` by default."
+
+#: ../../source/datasets/catalog/xes3g5m.md:25 c0fa437547b84d479bfbd181f8d3b804
+msgid "发布包字段"
+msgstr "Release Package Fields"
+
+#: ../../source/datasets/catalog/xes3g5m.md:27 df7c834875334ce9aa467b2a9158dfeb
+msgid "以下字段按发布包各 CSV 的实际表头分组。"
+msgstr ""
+"The following fields are grouped by actual table headers in each CSV of "
+"the release package."
+
+#: ../../source/datasets/catalog/xes3g5m.md:29 56754058e1a1453499706fe6d7773be0
+msgid "所有序列文件共有的基础列"
+msgstr "Base Columns Shared Across All Sequence Files"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 0296e96dfb214a38bb307a780538ec9a
+#: 2b2fd57e6bf74928975479329e689b18 a6b5fb66750a419b955dfb45495953a0
+msgid "字段名称"
+msgstr "Field Name"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 45f59635fc9648919180d65879569d2c
+#: f583a128121b4e28bf154164029477c8
+msgid "数据类型"
+msgstr "Data Type"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 ded5854c935548259b5867665d8e9c71
+msgid "`fold`"
+msgstr "`fold`"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 77b410e4551d4d298b2de4498c1044c1
+#: b8f48a4111584ee6a856cf5dd2822270 bd384eaabd1b43748c8b3b4db125c7b5
+msgid "Integer"
+msgstr "Integer"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 0893aa96f450466f836390b7a1e9f4db
+msgid "训练验证集折号，取值 0 至 4；测试集为 -1"
+msgstr "Fold index for train/val sets, values 0 to 4; -1 for test set"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 900a1e4fc42d4c0096eef3c99063233b
+msgid "`uid`"
+msgstr "`uid`"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 14ddad40fc75466581f445be03bec405
+msgid "学生编号"
+msgstr "Student ID"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 39c1d9c5d83648c694a947343a0fcf42
+msgid "`questions`"
+msgstr "`questions`"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 173305fa6c234bf88b55dee37485da61
+#: 3872039383e747138902340b7a45d0e0 54ee9077cc5d4b5096164e04d52c707c
+#: 6a09f68824fe44ceb5bf943ec1cd28be 8a98f3cb0b2c42feb4a3fd4105238e91
+#: b8e23c9b8bf940e587e4240c8441354a de0400511ad845ea8054b8afebdc14c6
+#: fb4b13f1c0bb41628bf153ead199d00b
+msgid "String"
+msgstr "String"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 ff7d91f7b71b4ccdb2dd5bdbd918fd1b
+msgid "题目编号序列，逗号分隔"
+msgstr "Question ID sequence, comma-separated"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 bccc96c8f91a47fcae0948ae81d49703
+msgid "`concepts`"
+msgstr "`concepts`"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 d086c709b4a247aa84594930b5a69535
+msgid "知识概念编号序列，逗号分隔；题目级文件中多个概念以下划线分隔"
+msgstr ""
+"Knowledge concept ID sequence, comma-separated; multiple concepts "
+"separated by underscores in question-level files"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 764439e0a1e143b09ca5e28a9e97fad1
+msgid "`responses`"
+msgstr "`responses`"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 e2efe8838a6547779cbfe9c420fb4779
+msgid "作答正误序列，1 为正确，0 为错误"
+msgstr "Response correctness sequence, 1 for correct, 0 for incorrect"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 f4fde545f48d442f88669e7a6509c083
+msgid "`timestamps`"
+msgstr "`timestamps`"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 11fd9b0d58474e8d9a90fd7d1a05abe5
+msgid "作答开始时间戳序列，毫秒级"
+msgstr "Response start timestamp sequence, in milliseconds"
+
+#: ../../source/datasets/catalog/xes3g5m.md:40 3ff309b868e84c6b9eacfc550738d50b
+msgid "按文件附加的列"
+msgstr "Additional Columns by File"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 c189c68d09634278954a566ba2baca54
+msgid "出现文件"
+msgstr "Appearing Files"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 9812eb8b6003473caa5cb43f728cde4c
+msgid "`selectmasks`"
+msgstr "`selectmasks`"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 444cca464e0b414ab315fcbea408eef0
+msgid "题目级训练与窗口测试文件、`kc_level/train_valid_sequences.csv`、`kc_level/test_question_window_sequences.csv`"
+msgstr ""
+"Question-level train and window test files, "
+"`kc_level/train_valid_sequences.csv`, "
+"`kc_level/test_question_window_sequences.csv`"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 4f342832d74449e984b12185b656393d
+msgid "批处理有效位掩码；-1 表示填充位置或仅作为历史、不参与损失与评估的交互"
+msgstr ""
+"Batch valid bit mask; -1 indicates padding or historical-only "
+"interactions excluded from loss and evaluation"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 25861b0896dd4e2e8c190a3f08461b55
+msgid "`is_repeat`"
+msgstr "`is_repeat`"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 aaece11e98754625840da9ff96e7e347
+msgid "`kc_level/train_valid_sequences.csv`、`kc_level/test.csv`、`kc_level/test_question_window_sequences.csv`"
+msgstr ""
+"`kc_level/train_valid_sequences.csv`, `kc_level/test.csv`, "
+"`kc_level/test_question_window_sequences.csv`"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 c351467b59164ab3be14f8025f1097d8
+msgid "1 表示当前概念与上一个概念属于同一道题，0 表示新题目"
+msgstr ""
+"1 indicates current concept belongs to the same question as preceding "
+"concept, 0 indicates a new question"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 495ecf2641bd4e349f6e2f2dd2525210
+msgid "`cidxs`"
+msgstr "`cidxs`"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 9760d6ea2d9f4c5eb64ca4c8fb9774a0
+msgid "`kc_level/test.csv`"
+msgstr "`kc_level/test.csv`"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 240cff9bfca84999a0f3350e8b26ef51
+msgid "知识概念级测试集中的交互索引序列"
+msgstr "Interaction index sequence in concept-level test set"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 553848e6da5c47f8b05b6df06bb5ca55
+msgid "`qidxs`"
+msgstr "`qidxs`"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 5174e7dbef6c44dcaac1c22b0f81c9e8
+#: db6ecb9608e94573b6b43894ef624f5f de68ee97e44c4b1dade1f222574d7890
+msgid "`kc_level/test_question_window_sequences.csv`"
+msgstr "`kc_level/test_question_window_sequences.csv`"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 eec3c5762283413cbb0be49692917973
+msgid "题目级测试集中的交互索引序列"
+msgstr "Interaction index sequence in question-level test set"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 0ec8209897294ae0b1c810d651918923
+msgid "`rest`"
+msgstr "`rest`"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 61553217cc254c75b573bd29784ed4fe
+msgid "该交互在原序列中剩余的知识概念数量，用于预测融合"
+msgstr ""
+"Remaining knowledge concepts count for this interaction in original "
+"sequence, used for prediction fusion"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 197aee678bd143f396129911c206ba0e
+msgid "`orirow`"
+msgstr "`orirow`"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 0459062a132c4476b6b9d723570517b1
+msgid "该交互在测试集中的行号"
+msgstr "Row index of this interaction in the test set"
+
+#: ../../source/datasets/catalog/xes3g5m.md:51 376b2e1e8c1b494b9e457c4eea6eb422
+msgid ""
+"题目级测试文件 `question_level/test_quelevel.csv` 仅包含基础列，不含 "
+"`selectmasks`、`is_repeat`、`cidxs`、`qidxs`、`rest`、`orirow`。"
+msgstr ""
+"Question-level test file `question_level/test_quelevel.csv` contains base"
+" columns only, excluding `selectmasks`, `is_repeat`, `cidxs`, `qidxs`, "
+"`rest`, `orirow`."
+
+#: ../../source/datasets/catalog/xes3g5m.md:53 2825c4f2bf034be0a42f847499f29a38
+msgid "题目元数据（`metadata/questions.json`）"
+msgstr "Question Metadata (`metadata/questions.json`)"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 afc0850bba5748199304c3b979ef2060
+msgid "`content`"
+msgstr "`content`"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 01d08b7a9ee4402cb87cbfaa25fdd172
+msgid "题干文本，保留 LaTeX"
+msgstr "Question stem text, preserving LaTeX"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 463af6bb422140689287b8dbff41f268
+msgid "`kc_routes`"
+msgstr "`kc_routes`"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 3ea09b54e748457aa17c2d038e8e415b
+msgid "知识概念路径文本"
+msgstr "Knowledge concept path text"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 149f29009ee646a991347b873597accc
+msgid "`answer`"
+msgstr "`answer`"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 cef6fe0910994cf0b36470c92eec5560
+msgid "标准答案"
+msgstr "Standard correct answer"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 212893367b5a4c728c8562572d4b5a9a
+msgid "`options`"
+msgstr "`options`"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 71726652fdc74be8b082e3ec91516cb4
+msgid "List[String]"
+msgstr "List[String]"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 8e05c4f128a74f22880e9c3a51b8a743
+msgid "选择题选项，填空题可为空"
+msgstr "Multiple choice options, can be null for fill-in-the-blank questions"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 427f090bfd7947799c0c5e7d8612c563
+msgid "`analysis`"
+msgstr "`analysis`"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 f3f7cad0774548bfacf1d764a1ef6ad9
+msgid "解析文本，保留 LaTeX"
+msgstr "Explanation text, preserving LaTeX"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 697237f0b9bb47cdb09f7bca91b156df
+msgid "`type`"
+msgstr "`type`"
+
+#: ../../source/datasets/catalog/xes3g5m.md:21 4f7983207901469489e8f49b142dc223
+msgid "题型，0 为填空题，1 为选择题"
+msgstr "Question type, 0 for fill-in-the-blank, 1 for multiple choice"
+
+#: ../../source/datasets/catalog/xes3g5m.md:64 1e807442fafd4cd19330f515bf21053a
+msgid ""
+"`metadata/kc_routes_map.json` 记录知识概念编号与大纲路径文本的映射；`metadata/embeddings/` 与"
+" `metadata/images/` 分别提供题目、解析、知识概念的向量表示和题目图片。"
+msgstr ""
+"`metadata/kc_routes_map.json` records mappings between knowledge concept "
+"IDs and syllabus path texts; `metadata/embeddings/` and "
+"`metadata/images/` provide vector representations and images for "
+"questions, explanations, and concepts respectively."

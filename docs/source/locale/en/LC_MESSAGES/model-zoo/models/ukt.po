@@ -1,0 +1,130 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/ukt.md:1 0c1ac04c175244649e784fe064df21e9
+msgid "UKT"
+msgstr "UKT"
+
+#: ../../source/model-zoo/models/ukt.md:3 10795676f09342c8a9f77f9484f73db2
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/ukt.md cda10bbf6aa14f859a65790d63a3b204
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/ukt.md bddd32c1c8384d519c3647e4183dce19
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/ukt.md 91691c7a74a44eaa80f35dbb84c48093
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/ukt.md 8de5e43af804453e9d309997ce9d6380
+msgid ""
+"[Uncertainty-aware Knowledge "
+"Tracing](https://doi.org/10.1609/aaai.v39i27.35007)"
+msgstr ""
+"[Uncertainty-aware Knowledge "
+"Tracing](https://doi.org/10.1609/aaai.v39i27.35007)"
+
+#: ../../source/model-zoo/models/ukt.md 96e1cef989f343f0bcadbc47444ea755
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/ukt.md fafe6f7a50654ea4824e54b5473c31bd
+msgid ""
+"Weihua Cheng, Hanwen Du, Chunxiao Li, Ersheng Ni, Liangdi Tan, Tianqi Xu,"
+" Yongxin Ni"
+msgstr ""
+"Weihua Cheng, Hanwen Du, Chunxiao Li, Ersheng Ni, Liangdi Tan, Tianqi Xu,"
+" Yongxin Ni"
+
+#: ../../source/model-zoo/models/ukt.md 2176b70832674cfb969eec990b28f7fc
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/ukt.md 8bf573722a21472fab5d55f2509f006d
+msgid "2025"
+msgstr "2025"
+
+#: ../../source/model-zoo/models/ukt.md 13d98950603a4c999e41a647e5b4f579
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/ukt.md 1cbd7e05fe94452397b388476a20b86c
+msgid "Proceedings of the AAAI Conference on Artificial Intelligence"
+msgstr "Proceedings of the AAAI Conference on Artificial Intelligence"
+
+#: ../../source/model-zoo/models/ukt.md:12 aa0ec5e1db04413c80312b1986780770
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/ukt.md:14 11ea76a583cf4702bc234eeb265dab5b
+msgid ""
+"Knowledge Tracing (KT) is crucial in education assessment, which focuses "
+"on depicting students' learning states and assessing students' mastery of"
+" subjects. With the rise of modern online learning platforms, "
+"particularly massive open online courses (MOOCs), an abundance of "
+"interaction data has greatly advanced the development of the KT "
+"technology. Previous research commonly adopts deterministic "
+"representation to capture students' knowledge states, which neglects the "
+"uncertainty during student interactions and thus fails to model the true "
+"knowledge state in learning process. In light of this, we propose an "
+"Uncertainty-Aware Knowledge Tracing model (UKT) which employs stochastic "
+"distribution embeddings to represent the uncertainty in student "
+"interactions, with a Wasserstein self-attention mechanism designed to "
+"capture the transition of state distribution in student learning "
+"behaviors. Additionally, we introduce the aleatory uncertainty-aware "
+"contrastive learning loss, which strengthens the model's robustness "
+"towards different types of uncertainties. Extensive experiments on six "
+"real-world datasets demonstrate that UKT not only significantly surpasses"
+" existing deep learning-based models in KT prediction, but also shows "
+"unique advantages in handling the uncertainty of student interactions."
+msgstr ""
+"Knowledge Tracing (KT) is crucial in education assessment, which focuses "
+"on depicting students' learning states and assessing students' mastery of"
+" subjects. With the rise of modern online learning platforms, "
+"particularly massive open online courses (MOOCs), an abundance of "
+"interaction data has greatly advanced the development of the KT "
+"technology. Previous research commonly adopts deterministic "
+"representation to capture students' knowledge states, which neglects the "
+"uncertainty during student interactions and thus fails to model the true "
+"knowledge state in learning process. In light of this, we propose an "
+"Uncertainty-Aware Knowledge Tracing model (UKT) which employs stochastic "
+"distribution embeddings to represent the uncertainty in student "
+"interactions, with a Wasserstein self-attention mechanism designed to "
+"capture the transition of state distribution in student learning "
+"behaviors. Additionally, we introduce the aleatory uncertainty-aware "
+"contrastive learning loss, which strengthens the model's robustness "
+"towards different types of uncertainties. Extensive experiments on six "
+"real-world datasets demonstrate that UKT not only significantly surpasses"
+" existing deep learning-based models in KT prediction, but also shows "
+"unique advantages in handling the uncertainty of student interactions."
+
+#: ../../source/model-zoo/models/ukt.md:17 e16f6e6a9c5649928c2b90b351036ffa
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/ukt.md:19 6753c5a10f7440fa93b16224fc54e3cb
+msgid "[UncertaintyForKnowledgeTracing/UKT](https://github.com/UncertaintyForKnowledgeTracing/UKT)"
+msgstr "[UncertaintyForKnowledgeTracing/UKT](https://github.com/UncertaintyForKnowledgeTracing/UKT)"

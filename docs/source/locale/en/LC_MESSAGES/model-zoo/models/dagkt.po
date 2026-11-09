@@ -1,0 +1,126 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/dagkt.md:1 47fb94e3bbd04cc18df73ea1619d77f0
+msgid "DAGKT"
+msgstr "DAGKT"
+
+#: ../../source/model-zoo/models/dagkt.md:3 526501c97e8c4a268a7c9f0d664520ae
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/dagkt.md d4141fc5d0d94a228edfb0f09efa436c
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/dagkt.md 88db568ea62f42078f6042a519f789b8
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/dagkt.md a7eff4c68d3042debcef6aee189f3057
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/dagkt.md eda0cbb6ad3a43bbb0d4521e83072a00
+msgid ""
+"[DAGKT: Difficulty and Attempts Boosted Graph-Based Knowledge "
+"Tracing](https://doi.org/10.1007/978-3-031-30108-7_22)"
+msgstr ""
+"[DAGKT: Difficulty and Attempts Boosted Graph-Based Knowledge "
+"Tracing](https://doi.org/10.1007/978-3-031-30108-7_22)"
+
+#: ../../source/model-zoo/models/dagkt.md ce0d72d4f60e44d3a10f388e398f63c1
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/dagkt.md 1f5c00d79cff4116b4490520e5827ba9
+msgid "Rui Luo, Fei Liu, Wenhao Liang, Yuhong Zhang, Chenyang Bu, Xuegang Hu"
+msgstr "Rui Luo, Fei Liu, Wenhao Liang, Yuhong Zhang, Chenyang Bu, Xuegang Hu"
+
+#: ../../source/model-zoo/models/dagkt.md 40b379a324bf413a9872a34b84c1e9ed
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/dagkt.md a88e0b6f8ac14129bc886ee291472a8f
+msgid "2023"
+msgstr "2023"
+
+#: ../../source/model-zoo/models/dagkt.md b76d1467fd334efb9a706b54247c350b
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/dagkt.md bb47fe66786a4b28b55a817e4ae46acb
+msgid "Neural Information Processing"
+msgstr "Neural Information Processing"
+
+#: ../../source/model-zoo/models/dagkt.md 73a1ead3965e4e7793622455dbbfcf16
+msgid "DOI"
+msgstr "DOI"
+
+#: ../../source/model-zoo/models/dagkt.md b67cc2ab874145c7b12fc32d302bd353
+msgid "[10.1007/978-3-031-30108-7_22](https://doi.org/10.1007/978-3-031-30108-7_22)"
+msgstr "[10.1007/978-3-031-30108-7_22](https://doi.org/10.1007/978-3-031-30108-7_22)"
+
+#: ../../source/model-zoo/models/dagkt.md:13 e7ea1f353dfb47c6a0e2d1a5141200e2
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/dagkt.md:15 8402edd58931447ab0441841c194f864
+msgid ""
+"In the field of intelligent education, knowledge tracing (KT) has "
+"attracted increasing attention, which estimates and traces students' "
+"mastery of knowledge concepts to provide high-quality education. In KT, "
+"there are natural graph structures among questions and knowledge concepts"
+" so some studies explored the application of graph neural networks (GNNs)"
+" to improve the performance of the KT models which have not used graph "
+"structure. However, most of them ignored both the questions' difficulties"
+" and students' attempts at questions. Actually, questions with the same "
+"knowledge concepts have different difficulties, and students' different "
+"attempts also represent different knowledge mastery. In this paper, we "
+"propose a difficulty and attempts boosted graph-based KT (DAGKT), using "
+"rich information from students' records. Moreover, a novel method is "
+"designed to establish the question similarity relationship inspired by "
+"the F1 score. Extensive experiments on three real-world datasets "
+"demonstrate the effectiveness of the proposed DAGKT."
+msgstr ""
+"In the field of intelligent education, knowledge tracing (KT) has "
+"attracted increasing attention, which estimates and traces students' "
+"mastery of knowledge concepts to provide high-quality education. In KT, "
+"there are natural graph structures among questions and knowledge concepts"
+" so some studies explored the application of graph neural networks (GNNs)"
+" to improve the performance of the KT models which have not used graph "
+"structure. However, most of them ignored both the questions' difficulties"
+" and students' attempts at questions. Actually, questions with the same "
+"knowledge concepts have different difficulties, and students' different "
+"attempts also represent different knowledge mastery. In this paper, we "
+"propose a difficulty and attempts boosted graph-based KT (DAGKT), using "
+"rich information from students' records. Moreover, a novel method is "
+"designed to establish the question similarity relationship inspired by "
+"the F1 score. Extensive experiments on three real-world datasets "
+"demonstrate the effectiveness of the proposed DAGKT."
+
+#: ../../source/model-zoo/models/dagkt.md:18 da4fa01a3a7345b9bf0015581c68e31c
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/dagkt.md:20 559f0f6b566349ed8714347854ad94e3
+msgid "[DMiC-Lab-HFUT/DAGKT](https://github.com/DMiC-Lab-HFUT/DAGKT)"
+msgstr "[DMiC-Lab-HFUT/DAGKT](https://github.com/DMiC-Lab-HFUT/DAGKT)"

@@ -10,7 +10,7 @@
   left: 12px;
   top: 50%;
   transform: translateY(-50%);
-  color: #8a8a8a;
+  color: var(--unikt-muted, #8a8a8a);
   pointer-events: none;
 }
 
@@ -18,22 +18,22 @@
   width: 100%;
   max-width: 380px;
   padding: 8px 14px 8px 38px;
-  border: 1px solid #e1e4e5;
+  border: 1px solid var(--unikt-border, #e1e4e5);
   border-radius: 4px;
-  background: #fff;
-  color: #404045;
+  background: var(--color-background-primary, #fff);
+  color: var(--unikt-ink, #404045);
   font-size: 0.9rem;
   outline: none;
   transition: border-color 0.15s, box-shadow 0.15s;
 }
 
 .arena-search input::placeholder {
-  color: #a0a0a0;
+  color: var(--unikt-muted, #a0a0a0);
 }
 
 .arena-search input:focus {
-  border-color: #2980b9;
-  box-shadow: 0 0 0 2px rgba(41, 128, 185, 0.2);
+  border-color: var(--unikt-brand, #4338ca);
+  box-shadow: 0 0 0 2px var(--unikt-brand-soft, #eeedfc);
 }
 
 /* Dataset tabs */
@@ -48,72 +48,137 @@ button.arena-tab {
   display: inline-flex;
   align-items: center;
   padding: 5px 14px;
-  border: 1px solid #e1e4e5;
+  border: 1px solid var(--unikt-border, #e1e4e5);
   border-radius: 4px;
-  background: #f8f8f8;
-  color: #5e5e5e;
+  background: var(--unikt-surface, #f8f8f8);
+  color: var(--unikt-muted, #5e5e5e);
   font-size: 0.85rem;
   cursor: pointer;
   transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
 
 button.arena-tab:hover {
-  color: #404045;
-  border-color: #2980b9;
-  background: #eef4f9;
+  color: var(--unikt-ink, #404045);
+  border-color: var(--unikt-brand, #4338ca);
+  background: var(--color-background-hover, #eef4f9);
 }
 
 button.arena-tab.active {
-  background: #2980b9 !important;
-  border-color: #2980b9 !important;
-  color: #fff !important;
+  background: var(--unikt-brand, #4338ca) !important;
+  border-color: var(--unikt-brand, #4338ca) !important;
+  /* Brand is light in dark mode; page background keeps the label legible in both. */
+  color: var(--color-background-primary, #fff) !important;
   font-weight: 600;
 }
 
-/* Table + helpers */
+/* Table: Tabulator's base CSS only lays it out; colours mirror article table.docutils.
+   The #arena-table prefix outranks the base sheet, which loads after this file. */
 #arena-table {
   min-height: 400px;
+  margin-bottom: 1rem;
+}
+
+#arena-table.tabulator {
+  background: var(--color-background-primary);
+  border: 0;
+  border-top: 1px solid var(--unikt-border);
+  border-bottom: 1px solid var(--unikt-border);
+  color: var(--unikt-ink);
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+}
+
+#arena-table.tabulator .tabulator-header {
+  background: var(--unikt-surface);
+  border-bottom: 1px solid var(--unikt-border);
+  color: var(--unikt-ink);
+  font-weight: 600;
+}
+
+#arena-table.tabulator .tabulator-header .tabulator-col {
+  background: var(--unikt-surface);
+  border-right: 0;
+}
+
+#arena-table.tabulator .tabulator-header .tabulator-col .tabulator-col-content {
+  padding: 0.6rem 0.6rem;
+}
+
+#arena-table.tabulator .tabulator-header .tabulator-col.tabulator-sortable.tabulator-col-sorter-element:hover {
+  background: var(--color-background-hover);
+}
+
+#arena-table.tabulator .tabulator-header .tabulator-col.tabulator-sortable .tabulator-col-content .tabulator-col-sorter .tabulator-arrow {
+  border-bottom-color: var(--unikt-border);
+  border-top-color: var(--unikt-border);
+}
+
+#arena-table.tabulator .tabulator-header .tabulator-col.tabulator-sortable[aria-sort="ascending"] .tabulator-col-content .tabulator-col-sorter .tabulator-arrow {
+  border-bottom-color: var(--unikt-brand);
+}
+
+#arena-table.tabulator .tabulator-header .tabulator-col.tabulator-sortable[aria-sort="descending"] .tabulator-col-content .tabulator-col-sorter .tabulator-arrow {
+  border-top-color: var(--unikt-brand);
+}
+
+#arena-table.tabulator .tabulator-header .tabulator-col[aria-sort="ascending"],
+#arena-table.tabulator .tabulator-header .tabulator-col[aria-sort="descending"] {
+  color: var(--unikt-brand);
+}
+
+#arena-table.tabulator .tabulator-tableholder .tabulator-table {
+  background: var(--color-background-primary);
+  color: var(--unikt-ink);
+}
+
+#arena-table.tabulator .tabulator-tableholder .tabulator-placeholder .tabulator-placeholder-contents {
+  color: var(--unikt-muted);
+  font-size: 0.95rem;
+  font-weight: 400;
+}
+
+#arena-table .tabulator-row {
+  background: var(--color-background-primary);
+  border-bottom: 0;
+}
+
+#arena-table .tabulator-row.tabulator-row-even {
+  background: var(--unikt-surface);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  #arena-table .tabulator-row:hover {
+    background: var(--unikt-brand-soft, var(--color-background-hover));
+  }
+}
+
+#arena-table .tabulator-row .tabulator-cell {
+  border-right: 0;
+  padding: 0.55rem 0.6rem;
+}
+
+#arena-table .tabulator-cell.arena-rank,
+#arena-table .tabulator-cell.arena-std,
+.arena-note {
+  color: var(--unikt-muted);
+}
+
+#arena-table .tabulator-cell.arena-model {
+  font-weight: 600;
 }
 
 .arena-note {
   font-size: 0.85rem;
-  color: #8a8a8a;
 }
 
 .arena-error {
-  color: #b94a48;
+  color: var(--color-problematic, #b94a48);
   padding: 40px;
   text-align: center;
 }
 
-/* Dark mode: follow the system colour scheme (RTD theme respects prefers-color-scheme). */
-@media (prefers-color-scheme: dark) {
-  html:not([data-theme="light"]) .arena-search input {
-    background: #2a2a2a;
-    color: #d9d9d9;
-    border-color: #404040;
-  }
-
-  html:not([data-theme="light"]) .arena-search input::placeholder {
-    color: #777;
-  }
-
-  html:not([data-theme="light"]) .arena-search-icon {
-    color: #999;
-  }
-
-  html:not([data-theme="light"]) button.arena-tab {
-    background: #2a2a2a;
-    color: #b0b0b0;
-    border-color: #404040;
-  }
-
-  html:not([data-theme="light"]) button.arena-tab:hover {
-    background: #3a3a3a;
-    color: #eee;
-  }
-
-  html:not([data-theme="light"]) .arena-note {
-    color: #999;
-  }
+#arena-count {
+  font-size: 0.85rem;
+  color: var(--unikt-muted, #8a8a8a);
+  margin-top: 8px;
 }

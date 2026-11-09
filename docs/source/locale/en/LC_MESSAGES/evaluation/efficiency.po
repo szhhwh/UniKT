@@ -1,0 +1,575 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/evaluation/efficiency.md:1 32e3ba3151d945178a8f2fe62b62dfa9
+msgid "效率评测"
+msgstr "Efficiency Benchmarking"
+
+#: ../../source/evaluation/efficiency.md:3 4fc4bf84d6a94dbab9078875f24d57ef
+msgid ""
+"本指南介绍如何使用 UniKT "
+"的能效评测工具（`efficiency.py`）对知识追踪模型在目标硬件上的推理延迟、吞吐量、训练步耗时、显存峰值占用以及理论计算量进行标准化基准测试，并评估"
+" PyTorch 2.0+ `torch.compile` 的加速表现。"
+msgstr ""
+"This guide details how to benchmark inference latency, throughput, "
+"training step duration, peak GPU memory allocation, and theoretical "
+"computation FLOPs using UniKT's efficiency tool (`efficiency.py`), as "
+"well as evaluating PyTorch 2.0+ `torch.compile` acceleration."
+
+#: ../../source/evaluation/efficiency.md:5 499607bfd40c4584a8f52861da0b8c6d
+msgid "目标与适用场景"
+msgstr "Objectives & Use Cases"
+
+#: ../../source/evaluation/efficiency.md:7 229b9f01d2c34afa93520efaa1172443
+msgid "测量模型在实际推理场景下的端到端延迟（Mean、P50、P90、P99 分位数）与单秒吞吐量。"
+msgstr ""
+"Measuring end-to-end latency (Mean, P50, P90, P99 quantiles) and per-"
+"second throughput under realistic inference scenarios."
+
+#: ../../source/evaluation/efficiency.md:8 23e24643c2cf48c893f50f44b7c1a611
+msgid "统计模型在不同批大小下的 GPU 显存峰值与显存溢出临界点。"
+msgstr ""
+"Profiling peak GPU memory footprints across various batch sizes and "
+"identifying Out-of-Memory thresholds."
+
+#: ../../source/evaluation/efficiency.md:9 bdc8f2dd5b924b689efd8e2fb0032599
+msgid ""
+"评估 `torch.compile`（`default`, `reduce-overhead`, `max-"
+"autotune`）对知识追踪模型的加速比。"
+msgstr ""
+"Assessing speedup gains from `torch.compile` modes (`default`, `reduce-"
+"overhead`, `max-autotune`) on knowledge tracing models."
+
+#: ../../source/evaluation/efficiency.md:10 330a37dcd116462097bb51c03c2025c2
+msgid "支持两种启动模式：**全新初始化快速评测**（无需等待训练）与**真实检查点评测**（完全继承实际训练参数）。"
+msgstr ""
+"Supports two launch modes: **Clean Initialization Fast Benchmarking** (no"
+" prior training required) and **Trained Checkpoint Benchmarking** "
+"(inherits exact training parameters)."
+
+#: ../../source/evaluation/efficiency.md:12 6e6973c1c4334a48a9d00ce0de13d1b3
+msgid "前置条件"
+msgstr "Prerequisites"
+
+#: ../../source/evaluation/efficiency.md:14 e5d0cd36698e497c8f9aa50cf047fe74
+msgid "**环境准备**：建议在具有独立 GPU（CUDA）的环境下运行。CPU 环境同样支持，但 CUDA 相关的显存采样与动态图优化将被自适应跳过。"
+msgstr ""
+"**Environment**: Dedicated GPU (CUDA) recommended. CPU execution is "
+"supported, with CUDA memory sampling and dynamic graph optimization "
+"automatically bypassed."
+
+#: ../../source/evaluation/efficiency.md:15 a94d876d74404d09b19ffba5cd0c58c8
+msgid "**数据就绪**：评测会构建真实的数据批次以确保输入张量维度与实际训练评估完全一致，因此需要目标数据集已完成预处理。"
+msgstr ""
+"**Data Preparation**: The benchmark constructs real data batches to "
+"ensure tensor dimensions match production training, requiring "
+"preprocessed dataset files."
+
+#: ../../source/evaluation/efficiency.md:17 dff27b1135f94cec8866d57123d7602e
+msgid "评测模式与基本命令"
+msgstr "Benchmark Modes and Basic Commands"
+
+#: ../../source/evaluation/efficiency.md:19 fc2c1f6457544b9ea4af24b45bd22e61
+msgid "模式一：全新初始化快速评测"
+msgstr "Mode 1: Clean Initialization Fast Benchmark"
+
+#: ../../source/evaluation/efficiency.md:21 4ac3e27f193f49f8a56e5f4a0e9c0e07
+msgid ""
+"如果你正在设计一个新模型架构，或者想要在短时间内比较多个模型的硬件资源消耗，可以直接使用 `-m` 和 `-d` "
+"进行快速基准测试（模型采用随机权重初始化，无需提前训练）："
+msgstr ""
+"If designing a novel architecture or benchmarking relative resource "
+"consumption across models, run fast benchmarks using `-m` and `-d` "
+"(models initialize with random weights without training):"
+
+#: ../../source/evaluation/efficiency.md:23 cb94901a7ee941329ffa0cc7bf019918
+msgid "python efficiency.py -m GIKT -d assistments09\n"
+msgstr "python efficiency.py -m GIKT -d assistments09\n"
+
+#: ../../source/evaluation/efficiency.md:27 508dd97885b9417e9bbc109d784c97d2
+msgid "若有单独导出的权重文件，可通过 `--efficiency.weights` 注入："
+msgstr ""
+"If a standalone exported weight file is available, inject it via "
+"`--efficiency.weights`:"
+
+#: ../../source/evaluation/efficiency.md:29 5f78f72296a949f1acff8db52a8ee5b5
+msgid ""
+"python efficiency.py -m SAKT -d assistments09 \\\n"
+"  --efficiency.weights "
+"runs/normal/SAKT_assistments09_20261109-120000_fold0_bs128/best_model.pth"
+"\n"
+msgstr ""
+"python efficiency.py -m SAKT -d assistments09 \\\n"
+"  --efficiency.weights "
+"runs/normal/SAKT_assistments09_20261109-120000_fold0_bs128/best_model.pth"
+"\n"
+
+#: ../../source/evaluation/efficiency.md:34 c8bc008533724794a9eb560f05dd0ded
+msgid "模式二：基于已训练检查点评测"
+msgstr "Mode 2: Benchmark with Trained Checkpoint"
+
+#: ../../source/evaluation/efficiency.md:36 410abbf4e4664258baafe971a29bb980
+msgid ""
+"若需要严格评测某个已完成实验的实际表现，使用 `--efficiency.run_dir` 参数。系统会自动读取该目录下的 "
+"`run_config.yaml`，完全复现训练时的网络层数、嵌入维度及最大序列截断长度："
+msgstr ""
+"To evaluate exact performance from a completed experiment, supply "
+"`--efficiency.run_dir`. The system automatically parses "
+"`run_config.yaml`, replicating layer depths, embedding dimensions, and "
+"sequence cutoff bounds:"
+
+#: ../../source/evaluation/efficiency.md:38 48e664849f0e4841b6a2f27524ff2636
+msgid ""
+"python efficiency.py \\\n"
+"  --efficiency.run_dir "
+"runs/normal/GIKT_assistments09_20261109-120000_fold0_bs128\n"
+msgstr ""
+"python efficiency.py \\\n"
+"  --efficiency.run_dir "
+"runs/normal/GIKT_assistments09_20261109-120000_fold0_bs128\n"
+
+#: ../../source/evaluation/efficiency.md:43 f89f7edf1c454960ab12e83bba9ffea6
+msgid "进阶能效扫描"
+msgstr "Advanced Efficiency Sweeps"
+
+#: ../../source/evaluation/efficiency.md:45 5ada575a679d4496bf9816531337801d
+msgid "`efficiency.py` 原生支持笛卡尔积交叉扫描，只需一条命令即可完成不同批大小与不同编译模式的系统化评测对比。"
+msgstr ""
+"`efficiency.py` natively supports Cartesian product sweeps, running "
+"systematic comparisons across batch sizes and compilation modes in a "
+"single command."
+
+#: ../../source/evaluation/efficiency.md:47 6b899ac756df42579fc0ebe32826ed35
+msgid "1. 扫描批大小"
+msgstr "1\\. Batch Size Sweeps"
+
+#: ../../source/evaluation/efficiency.md:49 4030203b3d9e4c89a7037e6dfaf8eaf2
+msgid "对比批大小对显存增长与推理吞吐量的影响。每次批大小测试都会在隔离的子环境中重新初始化训练器，保证 CUDA 显存分配器干净："
+msgstr ""
+"Compare how batch sizes scale memory consumption and inference "
+"throughput. Each batch size re-initializes trainers in isolation, "
+"ensuring a clean CUDA memory allocator state:"
+
+#: ../../source/evaluation/efficiency.md:51 dabede52d65a4dcbbeab174f01d91f03
+msgid ""
+"python efficiency.py -m SAKT -d assistments09 \\\n"
+"  --efficiency.general.batch_sizes 32,64,128,256\n"
+msgstr ""
+"python efficiency.py -m SAKT -d assistments09 \\\n"
+"  --efficiency.general.batch_sizes 32,64,128,256\n"
+
+#: ../../source/evaluation/efficiency.md:56 660b55f5755c4657a0ee1b66f98b35d2
+msgid "2. 评测 PyTorch 编译加速"
+msgstr "2\\. Benchmark PyTorch Compilation Speedup"
+
+#: ../../source/evaluation/efficiency.md:58 67be4a5c2b9f45ff8f81149a80270997
+msgid "评测 PyTorch 2.0+ 编译技术带来的性能收益。系统将在同一硬件上对比基线（`off`，未编译）与不同编译模式下的推理耗时："
+msgstr ""
+"Measure performance gains from PyTorch 2.0+ compilation. The system "
+"compares uncompiled baselines (`off`) against various compilation modes "
+"on identical hardware:"
+
+#: ../../source/evaluation/efficiency.md:60 b7967bb1bddb4b49a5e515df8c647124
+msgid ""
+"python efficiency.py -m SAKT -d assistments09 \\\n"
+"  --efficiency.general.compile_modes off,default,reduce-overhead\n"
+msgstr ""
+"python efficiency.py -m SAKT -d assistments09 \\\n"
+"  --efficiency.general.compile_modes off,default,reduce-overhead\n"
+
+#: ../../source/evaluation/efficiency.md:65 8866177e49894c0496bcc0d64d538ba2
+msgid "3. 组合交叉扫描"
+msgstr "3\\. Combined Cross Sweeps"
+
+#: ../../source/evaluation/efficiency.md:67 dd0827c95eed4605a25697985304a929
+msgid "同时扫描批大小与编译模式，评估两者联合优化空间："
+msgstr ""
+"Simultaneously sweep batch sizes and compile modes to evaluate compound "
+"optimization benefits:"
+
+#: ../../source/evaluation/efficiency.md:69 8fe8786e92154a6a9f8090338d5b586b
+msgid ""
+"python efficiency.py -m SAKT -d assistments09 \\\n"
+"  --efficiency.general.batch_sizes 32,64 \\\n"
+"  --efficiency.general.compile_modes off,default\n"
+msgstr ""
+"python efficiency.py -m SAKT -d assistments09 \\\n"
+"  --efficiency.general.batch_sizes 32,64 \\\n"
+"  --efficiency.general.compile_modes off,default\n"
+
+#: ../../source/evaluation/efficiency.md:75 3feb8856b96b4ac1932df92f5babc4c5
+msgid "评测阶段与参数配置"
+msgstr "Benchmark Phases & Configuration"
+
+#: ../../source/evaluation/efficiency.md:77 86872287c64244afa2ea9c71ffdd7920
+msgid "UniKT 能效评测系统由多个相互独立的评测阶段构成，默认全部执行。可以通过 `--efficiency.general.modes` 按需挑选："
+msgstr ""
+"UniKT efficiency benchmarking consists of multiple independent evaluation"
+" phases, all executed by default. Select specific phases via "
+"`--efficiency.general.modes`:"
+
+#: ../../source/evaluation/efficiency.md:79 4e829120745d40649bef798a4b2dc49f
+msgid ""
+"# 仅执行推理延迟评测\n"
+"python efficiency.py -m AKT -d assistments09 \\\n"
+"  --efficiency.general.modes inference \\\n"
+"  --efficiency.inference.iters 500\n"
+msgstr ""
+"# Execute inference latency benchmark only\n"
+"python efficiency.py -m AKT -d assistments09 \\\n"
+"  --efficiency.general.modes inference \\\n"
+"  --efficiency.inference.iters 500\n"
+
+#: ../../source/evaluation/efficiency.md 77ab0b99f87840559621906a81e5f984
+msgid "评测阶段"
+msgstr "Benchmark Phase"
+
+#: ../../source/evaluation/efficiency.md 8d4d727da2224409a8ca796cebeaf91b
+msgid "标识符"
+msgstr "Identifier"
+
+#: ../../source/evaluation/efficiency.md 89e455e6e3b846c58cfa3eb711726a1b
+msgid "核心测量内容"
+msgstr "Core Measurements"
+
+#: ../../source/evaluation/efficiency.md 63adc95a15dd4fc58406dd63e26f7371
+msgid "常用定制参数"
+msgstr "Common Custom Parameters"
+
+#: ../../source/evaluation/efficiency.md 9dba269ca5ab49ab94d418fe37c091ae
+msgid "**推理延迟与吞吐**"
+msgstr "**Inference Latency & Throughput**"
+
+#: ../../source/evaluation/efficiency.md 15ce2b4d93d44d6895b58bf3484dc441
+msgid "`inference`"
+msgstr "`inference`"
+
+#: ../../source/evaluation/efficiency.md f2bab15df33f4dacad3e81aa000a5cee
+msgid "前向推理延迟（P50/P90/P99）、吞吐量、推理显存峰值"
+msgstr "Forward latency (P50/P90/P99), throughput, peak inference memory"
+
+#: ../../source/evaluation/efficiency.md e9bdc863b4264717ada93940d0d8de80
+msgid "`--efficiency.inference.iters 200`<br/>`--efficiency.inference.repeats 3`"
+msgstr "`--efficiency.inference.iters 200`<br/>`--efficiency.inference.repeats 3`"
+
+#: ../../source/evaluation/efficiency.md ad7f39cd942447ada8f0ba933cabb4e4
+msgid "**训练步耗时**"
+msgstr "**Training Step Time**"
+
+#: ../../source/evaluation/efficiency.md 72ccb5a7a69d4ca48527626e4245b540
+msgid "`train`"
+msgstr "`train`"
+
+#: ../../source/evaluation/efficiency.md e41ef55bb2c04013b540e0e292da6b2b
+msgid "完整训练步耗时（前向 + Loss + 反向传播 + 优化器更新）"
+msgstr "Full training step duration (forward + loss + backward + optimizer step)"
+
+#: ../../source/evaluation/efficiency.md 3c714dc4637442d7bd950bb02aa60705
+msgid "`--efficiency.train.iters 50`<br/>`--efficiency.train.repeats 1`"
+msgstr "`--efficiency.train.iters 50`<br/>`--efficiency.train.repeats 1`"
+
+#: ../../source/evaluation/efficiency.md b7f58cf2d0e54192bb2a154f65c61728
+msgid "**模型复杂度分析**"
+msgstr "**Model Complexity Analysis**"
+
+#: ../../source/evaluation/efficiency.md b8091e503bbf414f8a1f9039d251d841
+msgid "`profile`"
+msgstr "`profile`"
+
+#: ../../source/evaluation/efficiency.md 08d241aff2d44ecc8d380b6d14ddd50b
+msgid "参数量、理论浮点计算量 FLOPs、乘加累加数"
+msgstr "Parameter count, theoretical FLOPs, MACs"
+
+#: ../../source/evaluation/efficiency.md 8019afc74d3e4a288b2569e6b4986119
+msgid "`--efficiency.profile.flops true`"
+msgstr "`--efficiency.profile.flops true`"
+
+#: ../../source/evaluation/efficiency.md 5dab22bfa5494c5fbda5f4d907168370
+msgid "**算子算力追踪**"
+msgstr "**Operator Profiling**"
+
+#: ../../source/evaluation/efficiency.md 44a2eaeef76a44fd848280eedc508d03
+msgid "`trace`"
+msgstr "`trace`"
+
+#: ../../source/evaluation/efficiency.md cff59087eb58489794d8c29b5a8b501b
+msgid "PyTorch Profiler 算子级分析，导出前 N 个耗时最大的 CUDA/CPU 算子"
+msgstr ""
+"PyTorch Profiler operator-level profiling, exporting top-N time-consuming"
+" CUDA/CPU kernels"
+
+#: ../../source/evaluation/efficiency.md c378b127b7594bf2ae934216855db942
+msgid "`--efficiency.trace.iters 20`<br/>`--efficiency.trace.top_ops 15`"
+msgstr "`--efficiency.trace.iters 20`<br/>`--efficiency.trace.top_ops 15`"
+
+#: ../../source/evaluation/efficiency.md 67190a9cbdad4990971ac1da0c4874d3
+msgid "**滑动窗口推断**"
+msgstr "**Sliding Window Inference**"
+
+#: ../../source/evaluation/efficiency.md 3d63a37afd494124bec4409ddfb7e132
+msgid "`windowlate`"
+msgstr "`windowlate`"
+
+#: ../../source/evaluation/efficiency.md ca359ef21cab4ae386f013d16ca9af54
+msgid "在长序列流式预测下的滑窗更新延迟"
+msgstr "Sliding window update latency under long-sequence streaming prediction"
+
+#: ../../source/evaluation/efficiency.md b3add1dcf394488b9324abdc04e61656
+msgid "`--efficiency.windowlate.iters 200`"
+msgstr "`--efficiency.windowlate.iters 200`"
+
+#: ../../source/evaluation/efficiency.md:94 53c043614b7e45a899ec85bf610f7312
+msgid "通用控制参数"
+msgstr "General Control Parameters"
+
+#: ../../source/evaluation/efficiency.md 1ff558302e8646c596690899ec14a729
+msgid "参数项"
+msgstr "Parameter Option"
+
+#: ../../source/evaluation/efficiency.md c89f5e71784a464a9d92768e4b3b6785
+msgid "类型"
+msgstr "Type"
+
+#: ../../source/evaluation/efficiency.md d1223b638ada4d0987bf3d3f4b21d164
+msgid "默认值"
+msgstr "Default"
+
+#: ../../source/evaluation/efficiency.md 008ec92cf1f04c8e9f384935db9efde4
+msgid "说明"
+msgstr "Description"
+
+#: ../../source/evaluation/efficiency.md 133cc03f6b1847a7ac7f867bca15324a
+msgid "`--efficiency.general.warmup_iters`"
+msgstr "`--efficiency.general.warmup_iters`"
+
+#: ../../source/evaluation/efficiency.md a9893ab758e14074a453aee0b932707b
+msgid "`int`"
+msgstr "`int`"
+
+#: ../../source/evaluation/efficiency.md 19f6cef5b33040f19c9145a7f17d7fbf
+msgid "`50`"
+msgstr "`50`"
+
+#: ../../source/evaluation/efficiency.md 5ebe59076ec64744b792d89472b7f1c1
+msgid "正式计时前丢弃的预热轮数（用于消除 cuDNN 动态寻优与时钟爬升偏差）"
+msgstr ""
+"Warmup iterations discarded before measurement (eliminates cuDNN autotune"
+" and clock frequency ramp bias)"
+
+#: ../../source/evaluation/efficiency.md 21b786a721b74303a46ade7296fe510d
+msgid "`--efficiency.general.resource_sample_interval`"
+msgstr "`--efficiency.general.resource_sample_interval`"
+
+#: ../../source/evaluation/efficiency.md 04ed98da807d45b0b1ae2052741bfd3f
+msgid "`float`"
+msgstr "`float`"
+
+#: ../../source/evaluation/efficiency.md 704f03281f374bd387b8dc82c375b37b
+msgid "`0.05`"
+msgstr "`0.05`"
+
+#: ../../source/evaluation/efficiency.md 909e7c8d72794531ad6c892d28bf1bf6
+msgid "后台资源监控采样间隔（秒）"
+msgstr "Background resource monitoring sample interval (seconds)"
+
+#: ../../source/evaluation/efficiency.md 6ce2847fa72445968e3b883a6f21674b
+msgid "`--efficiency.general.output_dir`"
+msgstr "`--efficiency.general.output_dir`"
+
+#: ../../source/evaluation/efficiency.md 0fac3728e640482da3afdd0f5780b102
+msgid "`str`"
+msgstr "`str`"
+
+#: ../../source/evaluation/efficiency.md a1a6e320a601444dbbc2489c37e36b4f
+msgid "`null`"
+msgstr "`null`"
+
+#: ../../source/evaluation/efficiency.md 7283da65fcd64816aaecec2f3c120702
+msgid "评测报告 JSON 与日志输出路径（默认保存在实验时间戳目录）"
+msgstr ""
+"Path to benchmark JSON report and logs (defaults to experiment timestamp "
+"directory)"
+
+#: ../../source/evaluation/efficiency.md:102 7b43d282023a4ab594fcffe24dfa097e
+msgid "报告解读与结果验证"
+msgstr "Report Interpretation and Verification"
+
+#: ../../source/evaluation/efficiency.md:104 51302bd42a75437eb480f4a3930ee474
+msgid "评测完成后，终端将打印富文本对齐的汇总表格，并将结构化评测数据写入 `efficiency_report.json`。"
+msgstr ""
+"Upon completion, the terminal displays a rich formatted summary table and"
+" serializes structured metrics into `efficiency_report.json`."
+
+#: ../../source/evaluation/efficiency.md:106 126e4d85395a4e1289fbf319cabee046
+msgid "终端输出示例"
+msgstr "Terminal Output Example"
+
+#: ../../source/evaluation/efficiency.md:108 47568fa425614baa8350fafaf4caecd9
+msgid ""
+"Efficiency Report  GIKT on assistments09  (2026-11-09 12:00:00)\n"
+"  configured batch_size=128  modes=inference,train,profile\n"
+"  dataset padded lengths (metadata): max_question_seq_len=200  "
+"max_skill_seq_len=200\n"
+"\n"
+"                      Inference                       \n"
+" Iterations               200 x 3                     \n"
+" Data split               validation                  \n"
+" Batch size               128                         \n"
+" Count basis              measured_batch              \n"
+" Valid tokens / batch     9,741                       \n"
+" Latency mean             3.125 ms                    \n"
+" Latency p50 / p95 / p99  3.082 / 3.421 / 3.821 ms    \n"
+" Latency cv               0.021                       \n"
+" Repeat cv (stability)    0.010                       \n"
+" Throughput (sustained)   41,025 interactions/s       \n"
+" Per interaction          24,375 ns                   \n"
+"\n"
+"                        Train                         \n"
+" Iterations               50 x 3                      \n"
+" Data split               train                       \n"
+" Batch size               128                         \n"
+" Step time mean           9.452 ms                    \n"
+" Step time p50 / p95      9.281 / 10.124 ms           \n"
+" Throughput (sustained)   13,542 interactions/s       \n"
+"\n"
+"                       Profile                        \n"
+" Trainable params         412,850 (0.41 M)            \n"
+" Non-trainable params     0                           \n"
+" Theoretical GFLOPs       1.24                        \n"
+"\n"
+"      Resource Usage — inference      \n"
+" CPU%          168.4       192.1      \n"
+" Process RSS   1540.0 MiB  1580.2 MiB \n"
+" GPU util      65.2%       78.4%      \n"
+" GPU power     142.0 W     165.5 W    \n"
+" GPU mem used  384.5 MiB   384.5 MiB  \n"
+" GPU temp      54.0 °C     58.0 °C    \n"
+"\n"
+"Report exported to: "
+"runs/efficiency/GIKT_assistments09_20261109-120000_fold0_bs128/efficiency_report.json"
+"\n"
+msgstr ""
+"Efficiency Report  GIKT on assistments09  (2026-11-09 12:00:00)\n"
+"  configured batch_size=128  modes=inference,train,profile\n"
+"  dataset padded lengths (metadata): max_question_seq_len=200  "
+"max_skill_seq_len=200\n"
+"\n"
+"                      Inference\n"
+" Iterations               200 x 3\n"
+" Data split               validation\n"
+" Batch size               128\n"
+" Count basis              measured_batch\n"
+" Valid tokens / batch     9,741\n"
+" Latency mean             3.125 ms\n"
+" Latency p50 / p95 / p99  3.082 / 3.421 / 3.821 ms\n"
+" Latency cv               0.021\n"
+" Repeat cv (stability)    0.010\n"
+" Throughput (sustained)   41,025 interactions/s\n"
+" Per interaction          24,375 ns\n"
+"\n"
+"                        Train\n"
+" Iterations               50 x 3\n"
+" Data split               train\n"
+" Batch size               128\n"
+" Step time mean           9.452 ms\n"
+" Step time p50 / p95      9.281 / 10.124 ms\n"
+" Throughput (sustained)   13,542 interactions/s\n"
+"\n"
+"                       Profile\n"
+" Trainable params         412,850 (0.41 M)\n"
+" Non-trainable params     0\n"
+" Theoretical GFLOPs       1.24\n"
+"\n"
+"      Resource Usage — inference\n"
+" CPU%          168.4       192.1\n"
+" Process RSS   1540.0 MiB  1580.2 MiB\n"
+" GPU util      65.2%       78.4%\n"
+" GPU power     142.0 W     165.5 W\n"
+" GPU mem used  384.5 MiB   384.5 MiB\n"
+" GPU temp      54.0 °C     58.0 °C\n"
+"\n"
+"Report exported to: "
+"runs/efficiency/GIKT_assistments09_20261109-120000_fold0_bs128/efficiency_report.json"
+"\n"
+
+#: ../../source/evaluation/efficiency.md:150 779acb17d5664a139714ab1c923e47e0
+msgid "扫描报告文件结构"
+msgstr "Sweep Report File Structure"
+
+#: ../../source/evaluation/efficiency.md:152 08882061ecc54e5991c06ad53e4a3894
+msgid "在进行多参数扫描时，生成的 `efficiency_report.json` 会将各配置组合以字典形式记录："
+msgstr ""
+"When executing multi-parameter sweeps, `efficiency_report.json` records "
+"results structured by configuration keys:"
+
+#: ../../source/evaluation/efficiency.md:154 d8e7a3317286437a9de83017899fd0f9
+#, python-brace-format
+msgid ""
+"{\n"
+"  \"device\": \"NVIDIA GeForce RTX 4090\",\n"
+"  \"pytorch_version\": \"2.10.0\",\n"
+"  \"runs\": [\n"
+"    {\n"
+"      \"batch_size\": 32,\n"
+"      \"compile_mode\": \"off\",\n"
+"      \"inference_latency_ms\": 1.45,\n"
+"      \"throughput_samples_per_s\": 22068,\n"
+"      \"peak_vram_mb\": 182.4\n"
+"    },\n"
+"    {\n"
+"      \"batch_size\": 32,\n"
+"      \"compile_mode\": \"default\",\n"
+"      \"inference_latency_ms\": 0.98,\n"
+"      \"throughput_samples_per_s\": 32653,\n"
+"      \"peak_vram_mb\": 178.1\n"
+"    }\n"
+"  ]\n"
+"}\n"
+msgstr ""
+"{\n"
+"  \"device\": \"NVIDIA GeForce RTX 4090\",\n"
+"  \"pytorch_version\": \"2.10.0\",\n"
+"  \"runs\": [\n"
+"    {\n"
+"      \"batch_size\": 32,\n"
+"      \"compile_mode\": \"off\",\n"
+"      \"inference_latency_ms\": 1.45,\n"
+"      \"throughput_samples_per_s\": 22068,\n"
+"      \"peak_vram_mb\": 182.4\n"
+"    },\n"
+"    {\n"
+"      \"batch_size\": 32,\n"
+"      \"compile_mode\": \"default\",\n"
+"      \"inference_latency_ms\": 0.98,\n"
+"      \"throughput_samples_per_s\": 32653,\n"
+"      \"peak_vram_mb\": 178.1\n"
+"    }\n"
+"  ]\n"
+"}\n"
+
+#: ../../source/evaluation/efficiency.md:176 3cf2dedd101640c69dca7cc108baf416
+msgid ""
+"通过对比 `compile_mode: default` 与 `off` 的数据，可以直接获得当前硬件与数据配置下的加速比（如上述示例中的 "
+"1.48x 加速）。"
+msgstr ""
+"By comparing metrics between `compile_mode: default` and `off`, you "
+"obtain the exact speedup ratio on the current hardware and dataset setup "
+"(e.g., 1.48x speedup in the example above)."

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: UniKT \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-13 16:04+0800\n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -19,13 +19,903 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.18.0\n"
 
-#: ../../source/api/reference/config.md:1 0cfc5d6fae504b2fa072d19a6c147e7b
+#: ../../source/api/reference/config.md:1 d5d87fc93a6a4f5783660306e24f5d70
 msgid "配置系统"
-msgstr "Configuration system"
+msgstr "Configuration System"
 
-#: ../../source/api/reference/config.md:3 6f77fd6d0a8849e1b0dbc16d8443c79b
-msgid "命令行参数定义、运行时配置对象、DataLoader 配置。"
+#: ../../source/api/reference/config.md:3 1265449288e4415fbc5b96b402f58863
+msgid "强类型 Dataclass 配置树定义、命令行参数反射解析、DataLoader 优化配置与无损归档。"
 msgstr ""
-"CLI argument definitions, runtime configuration objects, and DataLoader "
-"configuration."
+"Strongly typed Dataclass configuration tree definition, command line "
+"reflection parsing, DataLoader optimization configuration, and lossless "
+"archiving."
 
+#: 698f38daffbc4d0fa7c6a4b4faa2f030 of utils.config.run_config:1
+msgid "RunConfig: the typed dataclass tree parsed by :class:`ConfigParser`."
+msgstr "RunConfig: the typed dataclass tree parsed by :class:`ConfigParser`."
+
+#: 5c9c34a28532493690c97b05eb626e65 of utils.config.run_config:3
+msgid ""
+"CLI flags, ``--config`` yaml, and archived ``run_config.yaml`` all round-"
+"trip through this schema. Framework-level knobs live in the fixed sub-"
+"configs below; per-model hyperparameters live in :class:`ModelConfig` "
+"subclasses registered via ``@register_model_config``."
+msgstr ""
+"CLI flags, ``--config`` yaml, and archived ``run_config.yaml`` all round-"
+"trip through this schema. Framework-level knobs live in the fixed sub-"
+"configs below; per-model hyperparameters live in :class:`ModelConfig` "
+"subclasses registered via ``@register_model_config``."
+
+#: b3b4902a617a45fdb3f2065d86dc7ae9 of utils.config.run_config:8
+msgid ""
+"Runtime ``rc`` is a :class:`RunConfig` instance. The polymorphic "
+"``model`` node is the concrete subclass at schema-build time (see "
+":func:`build_run_config_schema`), never the base."
+msgstr ""
+"Runtime ``rc`` is a :class:`RunConfig` instance. The polymorphic "
+"``model`` node is the concrete subclass at schema-build time (see "
+":func:`build_run_config_schema`), never the base."
+
+#: 44c0434519eb49db80179b9de2f9ca56 of utils.config.run_config:12
+msgid ""
+"Field help lives in each class ``Args:`` docstring; enumerated fields use"
+" :class:`typing.Literal` for validated choices."
+msgstr ""
+"Field help lives in each class ``Args:`` docstring; enumerated fields use"
+" :class:`typing.Literal` for validated choices."
+
+#: 093b6fe3f08f42938360cb62b456af59 2a9f55cf084e4f19821521151b1918ca
+#: 2cd27f94ac684c4196406f6e69bd106d 302c37ec391542c1ac012419113ff8f4
+#: 59d8715a73344dc584178cdaf6aaab20 64e8970a1cf34967895239a46e7b8001
+#: 898dcff2948d45f2b7818e38bf53339f beff975a0dbd46c081c98ea53794ee8e
+#: c4a349d1f54c4e0daa10d09ec7d517b9 c64aa11ccf38499f86b8457f4d67e250
+#: ca65eef52f204355bbb37ae0c010775f of
+#: utils.config.config_parser.ConfigParser:1
+#: utils.config.data_config.DataLoaderConfig:1
+#: utils.config.run_config.CompileConfig:1
+#: utils.config.run_config.DownloadConfig:1
+#: utils.config.run_config.EarlyStoppingConfig:1
+#: utils.config.run_config.ExperimentConfig:1
+#: utils.config.run_config.GeneralConfig:1
+#: utils.config.run_config.ModelConfig:1
+#: utils.config.run_config.ProcessConfig:1 utils.config.run_config.RunConfig:1
+#: utils.config.run_config.RunDataConfig:1
+msgid "基类：:py:class:`object`"
+msgstr "Bases: :py:class:`object`"
+
+#: c6148d10bc45480e8dcab0a5a2867ae5 of utils.config.run_config.CompileConfig:1
+msgid "``torch.compile`` execution knobs (framework-level, model-agnostic)."
+msgstr "``torch.compile`` execution knobs (framework-level, model-agnostic)."
+
+#: ../../source/api/reference/config.md 01a99e60f6d64f24bc13bf0136f3c440
+#: 08acbcce80f5442e8b6ee61743e910dc 1992556da8a24d48b49b1a85b3f333c4
+#: 200bca00cf1d418ba49753cacab19b11 22e12c2d10b54584bfda493938c032a6
+#: 2d115922b4114fa995282677bc153ce0 2d5dcdc8eb98407eb42a6c84a27a3f41
+#: 2ebfd399073b452e8acd1acb22cf3748 339ab7c3503646c7967c48a934259c97
+#: 3b1fdbb1d8be4e879a34ce27c4b912bf 3c0d8d3e5c4845c78f061b876c6805b7
+#: 42afbc7595e2492dae77a11951d6ed71 46cbc302fe4442a5b35ed7e34e83d6b4
+#: 65ed82fd88e24f48af3d64e3e1357eba 74b8cfe6dfe94b83978be32b4dc34dfc
+#: 7fd28e1490c04ede95b939282f826b61 87be19d04bb346ca8ed6267e5534c753
+#: 8c3c2941cbc64a5197b042167d577579 93a313c4e68c48ab87c05547d74c0000
+#: 944bbdb7d82a4aaf9ec27ad9ae4fd7ed c325bb26ee504aef89aa96f2d37519e1
+#: e150682fae494764a43b91fc1d15d21c ea69b3e6b276434cacd3026d8b1bad8e
+#: ec6a9ded850342a8aef53462b2eb462e f6da5f0a223a440f86574f6f4fa6b4d0
+#: fdf5af5467104fa59b3eaec213f17f37 of
+#: utils.config.archive.load_run_config_archive
+#: utils.config.archive.load_run_metadata
+#: utils.config.config_parser.ConfigParser.parse_args
+#: utils.config.config_parser.ConfigParser.parse_with_extras
+#: utils.config.config_parser.build_node
+#: utils.config.config_parser.expand_short_flags
+#: utils.config.config_parser.peek_flag_value
+#: utils.config.config_parser.reject_model_flags
+#: utils.config.config_parser.require_dataset
+#: utils.config.data_config.create_optimized_dataloader
+#: utils.config.run_config.config_to_dict
+msgid "参数"
+msgstr "Parameter"
+
+#: 3413bef5c51f44fcb745681ac0795378 of utils.config.run_config.CompileConfig:3
+msgid "Enable torch.compile for model optimization."
+msgstr "Enable torch.compile for model optimization."
+
+#: b5755bd30dde495390c24535d22399e2 of utils.config.run_config.CompileConfig:4
+msgid "Compilation mode."
+msgstr "Compilation mode."
+
+#: 70b4da9ae8464ea2b7f48091ff6445f1 of utils.config.run_config.CompileConfig:5
+msgid "Require the whole function be one capturable graph."
+msgstr "Require the whole function be one capturable graph."
+
+#: 5fc5a41ccdca45018d34052401ce8f8c of utils.config.run_config.CompileConfig:6
+msgid "Use dynamic shape tracing (null = PyTorch auto-detects)."
+msgstr "Use dynamic shape tracing (null = PyTorch auto-detects)."
+
+#: 07c906374c284db6868a7041456eec42 of utils.config.run_config.CompileConfig:7
+msgid "Compilation backend."
+msgstr "Compilation backend."
+
+#: 2042b556823d4fcc92122fd31e4bdc7f of utils.config.run_config.DownloadConfig:1
+msgid "Options for the data_process.py download subcommand."
+msgstr "Options for the data_process.py download subcommand."
+
+#: 1738da7b8b634f4eba76a37eaf00c822 of utils.config.run_config.DownloadConfig:3
+msgid "Override URL for downloading."
+msgstr "Override URL for downloading."
+
+#: 3593504eb9634407b66c2ed597486030 of utils.config.run_config.DownloadConfig:4
+msgid "Force re-download even if the file exists."
+msgstr "Force re-download even if the file exists."
+
+#: ea31b73ad6cf41ae9c898f7407445277 of utils.config.run_config.DownloadConfig:5
+msgid "Maximum download retries."
+msgstr "Maximum download retries."
+
+#: 84fc0a475499407088101d3377c6e2b2 of utils.config.run_config.DownloadConfig:6
+msgid "Parallel download threads."
+msgstr "Parallel download threads."
+
+#: a2f75a879aa547ae839f15b01f4f5182 of
+#: utils.config.run_config.EarlyStoppingConfig:1
+msgid "Early stopping configuration."
+msgstr "Early stopping configuration."
+
+#: ef6c80767d0042bc87d51d3d3a07199b of
+#: utils.config.run_config.EarlyStoppingConfig:3
+msgid "Metric to monitor."
+msgstr "Metric to monitor."
+
+#: 6f3aca09d6b943d0a17a277cf7c8fc8c of
+#: utils.config.run_config.EarlyStoppingConfig:4
+msgid "Optimization mode ('max' for auc/acc, 'min' for rmse/loss)."
+msgstr "Optimization mode ('max' for auc/acc, 'min' for rmse/loss)."
+
+#: 22dc845024db4c77ba871bfa376355f0 of
+#: utils.config.run_config.EarlyStoppingConfig:5
+msgid "Epochs with no improvement before stopping."
+msgstr "Epochs with no improvement before stopping."
+
+#: b866e2cde4874081987f01ad5e6f03b2 of
+#: utils.config.run_config.EarlyStoppingConfig:6
+msgid "Minimum change to qualify as improvement."
+msgstr "Minimum change to qualify as improvement."
+
+#: 0abf197a032c4a0db67a63deafad2c74 of
+#: utils.config.run_config.ExperimentConfig:1
+msgid "Experiment identity used for run naming and archive lookup."
+msgstr "Experiment identity used for run naming and archive lookup."
+
+#: a50c2f499d504b7e8eddd67076b7ba97 of
+#: utils.config.run_config.ExperimentConfig:3
+msgid "Registered model name (selects the trainer + ModelConfig)."
+msgstr "Registered model name (selects the trainer + ModelConfig)."
+
+#: 295a6061cb0c443f89cdfc25a5a81556 of utils.config.run_config.GeneralConfig:1
+msgid "Framework-level general knobs: logging, device, seed, tracking."
+msgstr "Framework-level general knobs: logging, device, seed, tracking."
+
+#: 3593fe3eca2e4f42816cb3c82c01262e of utils.config.run_config.GeneralConfig:3
+msgid "Directory to save logs and models (default runs/<timestamp>)."
+msgstr "Directory to save logs and models (default runs/<timestamp>)."
+
+#: 514e3eff6c4b48889d734ee1537b1b4a of utils.config.run_config.GeneralConfig:4
+msgid "Path to a checkpoint for resuming training."
+msgstr "Path to a checkpoint for resuming training."
+
+#: c79921953417492b934d071d0ce6eade of utils.config.run_config.GeneralConfig:5
+msgid "Device to use ('cuda' or 'cpu'; auto-detect when null)."
+msgstr "Device to use ('cuda' or 'cpu'; auto-detect when null)."
+
+#: 73ed7e3112424709bbeb79c5c9f87b98 of utils.config.run_config.GeneralConfig:6
+msgid "Random seed for reproducibility."
+msgstr "Random seed for reproducibility."
+
+#: ab35dc8d156c4480a0527ec62e8597fc of utils.config.run_config.GeneralConfig:7
+msgid "Enable deterministic algorithms (on by default; may reduce speed on GPU)."
+msgstr "Enable deterministic algorithms (on by default; may reduce speed on GPU)."
+
+#: 292bf3f5fc934d038f79a15c43c1a907 of utils.config.run_config.GeneralConfig:9
+msgid ""
+"Enable cloud experiment tracking (SwanLab or W&B; backend chosen via the "
+"``KT_TRACKING_BACKEND`` env var, default SwanLab)."
+msgstr ""
+"Enable cloud experiment tracking (SwanLab or W&B; backend chosen via the "
+"``KT_TRACKING_BACKEND`` env var, default SwanLab)."
+
+#: 8d43139773b5421d8e0c909167edc0ac of utils.config.run_config.GeneralConfig:12
+msgid "Log per-batch loss to batch_metrics_<phase>.csv."
+msgstr "Log per-batch loss to batch_metrics_<phase>.csv."
+
+#: 2eb930f37d40467a95a4543f38585831 of utils.config.run_config.GeneralConfig:13
+msgid "Skip test-set evaluation after training."
+msgstr "Skip test-set evaluation after training."
+
+#: 23f73b11a1e941eba45593a2623e5844 of utils.config.run_config.GeneralConfig:14
+msgid "Enable disk cache for model data preparation."
+msgstr "Enable disk cache for model data preparation."
+
+#: 45ca7773ce334123a88daabc9af0cd16 of utils.config.run_config.GeneralConfig:15
+msgid ""
+"Save a full checkpoint (``last_checkpoint.pth``) at the end of every "
+"epoch."
+msgstr ""
+"Save a full checkpoint (``last_checkpoint.pth``) at the end of every "
+"epoch."
+
+#: 94f3662d4fbd4eb4974a7f1afdfb32a4 of utils.config.run_config.GeneralConfig:17
+msgid "DataLoader host-memory pinning (null = auto: pin only on CUDA devices)."
+msgstr "DataLoader host-memory pinning (null = auto: pin only on CUDA devices)."
+
+#: ad02f55c05a247e8a6085aa4f0468876 of utils.config.run_config.GeneralConfig:19
+msgid ""
+"Progress rendering for the training loop. ``auto`` renders when stdout is"
+" a TTY; ``rich`` always renders; ``none`` disables (headless runs, in-"
+"process sweeps)."
+msgstr ""
+"Progress rendering for the training loop. ``auto`` renders when stdout is"
+" a TTY; ``rich`` always renders; ``none`` disables (headless runs, in-"
+"process sweeps)."
+
+#: 0be4e53583c44cc5844959c3179d60ff of utils.config.run_config.ModelConfig:1
+msgid "Base class for per-model hyperparameter configs."
+msgstr "Base class for per-model hyperparameter configs."
+
+#: c738a6d7c99c4a9d88f9be20a4dc182a of utils.config.run_config.ModelConfig:3
+msgid ""
+"Each model subclasses this and registers via ``@register_model_config``. "
+"The training knobs below are declared here as a contract (so the "
+"framework can always read ``rc.model.epochs`` / ``rc.model.batch_size`` /"
+" etc.); subclasses override the defaults with model-specific values and "
+"may carry an ``optuna`` field-metadata key consumed by the Optuna search-"
+"space derive."
+msgstr ""
+"Each model subclasses this and registers via ``@register_model_config``. "
+"The training knobs below are declared here as a contract (so the "
+"framework can always read ``rc.model.epochs`` / ``rc.model.batch_size`` /"
+" etc.); subclasses override the defaults with model-specific values and "
+"may carry an ``optuna`` field-metadata key consumed by the Optuna search-"
+"space derive."
+
+#: eddbdbe3e37b43ed801c766accc3e002 of utils.config.run_config.ModelConfig:9
+msgid "Number of training epochs."
+msgstr "Number of training epochs."
+
+#: 13af85392e77444c82a41b3badb45cba of utils.config.run_config.ModelConfig:10
+msgid "Batch size for training."
+msgstr "Batch size for training."
+
+#: 9b03be8b50064ef2adb8f2ca4f584326 of utils.config.run_config.ModelConfig:11
+msgid "Learning rate."
+msgstr "Learning rate."
+
+#: 5802f653d6c64035b9dfc7aab085ec0a of utils.config.run_config.ModelConfig:12
+msgid "Weight decay."
+msgstr "Weight decay."
+
+#: ce3fb3e97b754b1db2bbfa5e6a5a1bef of utils.config.run_config.ProcessConfig:1
+msgid "Options for the data_process.py process subcommand."
+msgstr "Options for the data_process.py process subcommand."
+
+#: 3583b48ba60a424c81da3b9960eb53a9 of utils.config.run_config.ProcessConfig:3
+msgid "Extra processing steps (e.g. windowlate)."
+msgstr "Extra processing steps (e.g. windowlate)."
+
+#: da97a4c8d121408eae945d61444639fb of utils.config.run_config.RunConfig:1
+msgid "Top-level run configuration tree."
+msgstr "Top-level run configuration tree."
+
+#: 8c38491e357a493e9c0bf4f3c064d58e of utils.config.run_config.RunConfig:3
+msgid ""
+"The ``model`` node is polymorphic: the runtime schema is assembled with "
+"the concrete :class:`ModelConfig` subclass, never structured on this "
+"base."
+msgstr ""
+"The ``model`` node is polymorphic: the runtime schema is assembled with "
+"the concrete :class:`ModelConfig` subclass, never structured on this "
+"base."
+
+#: d6f07dae706e499b88319fa803a4df4e of utils.config.run_config.RunConfig:6
+msgid "Framework-level general knobs."
+msgstr "Framework-level general knobs."
+
+#: 8f2bb396dcbb4ed9ba09cbd086a79daa of utils.config.run_config.RunConfig:7
+msgid "torch.compile execution knobs."
+msgstr "torch.compile execution knobs."
+
+#: bac2c55d6f3f4073b5ea274cd231375b of utils.config.run_config.RunConfig:8
+msgid "Early-stopping knobs."
+msgstr "Early-stopping knobs."
+
+#: a2f63c5263b34ad2bbcb291890faf636 of utils.config.run_config.RunConfig:9
+msgid "Experiment identity."
+msgstr "Experiment identity."
+
+#: da9870fa148f4012ae5b4eff7371db5d of utils.config.run_config.RunConfig:10
+msgid "Dataset / split / sampling knobs."
+msgstr "Dataset / split / sampling knobs."
+
+#: 0e614523aa2543cabc11ef0430a158d4 of utils.config.run_config.RunConfig:11
+msgid "Per-model hyperparameters (concrete ModelConfig subclass)."
+msgstr "Per-model hyperparameters (concrete ModelConfig subclass)."
+
+#: 95e814f5886d48eea773bedb6051c74c of utils.config.run_config.RunDataConfig:1
+msgid "Dataset selection, split, sequence bounds, and sampling."
+msgstr "Dataset selection, split, sequence bounds, and sampling."
+
+#: 218689e2639648d9b4e84ca66c5e08fe of utils.config.run_config.RunDataConfig:3
+msgid "Dataset name."
+msgstr "Dataset name."
+
+#: 18ae344c220c46fcbb3a02398b13ab34 of utils.config.run_config.RunDataConfig:4
+msgid "Path to the data files."
+msgstr "Path to the data files."
+
+#: 0623fd0908b94689b1266e405f778d0e of utils.config.run_config.RunDataConfig:5
+msgid "Fold index for K-fold cross-validation."
+msgstr "Fold index for K-fold cross-validation."
+
+#: 536d325ae8854259a27c7bb3a2c25652 of utils.config.run_config.RunDataConfig:6
+msgid "Number of folds (>=2 to enable K-fold)."
+msgstr "Number of folds (>=2 to enable K-fold)."
+
+#: 6223a2a7a5b34a0281ecbfbaea45abcb of utils.config.run_config.RunDataConfig:7
+msgid "Held-out test ratio."
+msgstr "Held-out test ratio."
+
+#: d99d0ea92ddf4c2294eac771cdfb4513 of utils.config.run_config.RunDataConfig:8
+msgid "Minimum sequence length."
+msgstr "Minimum sequence length."
+
+#: 6a29466c731e47c78390bff2ab97c753 of utils.config.run_config.RunDataConfig:9
+msgid ""
+"Truncation budget for sequence splitting; runtime tensors are sized from "
+"the real per-split maxima recorded in metadata by preprocessing "
+"(``max_question_seq_len`` / ``max_skill_seq_len`` / "
+"``max_windowlate_seq_len``), never from this budget."
+msgstr ""
+"Truncation budget for sequence splitting; runtime tensors are sized from "
+"the real per-split maxima recorded in metadata by preprocessing "
+"(``max_question_seq_len`` / ``max_skill_seq_len`` / "
+"``max_windowlate_seq_len``), never from this budget."
+
+#: 7bb31346bec140b7b98f693d30b1e246 of utils.config.run_config.RunDataConfig:14
+msgid ""
+"Stage of the KC expansion at which ``max_seq_len``/ ``min_seq_len`` "
+"truncate the skill (KC-level) sequence. ``\"post_expansion\"`` truncates "
+"AFTER the expansion: each split holds at most ``max_seq_len`` expanded "
+"skill rows, so one interaction's skills may straddle two splits. "
+"``\"pre_expansion\"`` truncates BEFORE the expansion: each split holds at"
+" most ``max_seq_len`` original interactions whose skills stay together, "
+"so the expanded split may exceed ``max_seq_len`` rows "
+"(``max_skill_seq_len`` may thus exceed the budget). Question sequences "
+"are unaffected."
+msgstr ""
+"Stage of the KC expansion at which ``max_seq_len``/ ``min_seq_len`` "
+"truncate the skill (KC-level) sequence. ``\"post_expansion\"`` truncates "
+"AFTER the expansion: each split holds at most ``max_seq_len`` expanded "
+"skill rows, so one interaction's skills may straddle two splits. "
+"``\"pre_expansion\"`` truncates BEFORE the expansion: each split holds at"
+" most ``max_seq_len`` original interactions whose skills stay together, "
+"so the expanded split may exceed ``max_seq_len`` rows "
+"(``max_skill_seq_len`` may thus exceed the budget). Question sequences "
+"are unaffected."
+
+#: b9a6a40ae16842e3841352cb61c8e905 of utils.config.run_config.RunDataConfig:24
+msgid "Absolute sample count (null disables sampling)."
+msgstr "Absolute sample count (null disables sampling)."
+
+#: aace2b81a8fa48da978986a63ea53a4b of utils.config.run_config.RunDataConfig:25
+msgid "Sample ratio 0.0-1.0 (overrides sample_size)."
+msgstr "Sample ratio 0.0-1.0 (overrides sample_size)."
+
+#: dd6c2a4e633e4461af60928da91d70e6 of utils.config.run_config.RunDataConfig:26
+msgid "Sampling strategy."
+msgstr "Sampling strategy."
+
+#: 7c50fb429d894980b9af95e119538943 of utils.config.run_config.RunDataConfig:27
+msgid "Attempt-count bin edges (e.g. [20, 100])."
+msgstr "Attempt-count bin edges (e.g. [20, 100])."
+
+#: 2301fd0fffdc416aaa4f374ab4270f0b of utils.config.run_config.RunDataConfig:28
+msgid "Correct-rate bin edges (e.g. [0.4, 0.8])."
+msgstr "Correct-rate bin edges (e.g. [0.4, 0.8])."
+
+#: b9ee59408dbd4589a462be0f1c8f8c4c of
+#: utils.config.run_config.build_run_config_schema:1
+#, python-brace-format
+msgid "Return ``{node_name: dataclass_cls}`` for the concrete model's tree."
+msgstr "Return ``{node_name: dataclass_cls}`` for the concrete model's tree."
+
+#: 7c1dd7468113453c8a73b025a983cf1d of
+#: utils.config.run_config.build_run_config_schema:3
+msgid ""
+"Binds the polymorphic ``model`` node to the concrete registered "
+":class:`ModelConfig` subclass; the framework nodes are the fixed five."
+msgstr ""
+"Binds the polymorphic ``model`` node to the concrete registered "
+":class:`ModelConfig` subclass; the framework nodes are the fixed five."
+
+#: ../../source/api/reference/config.md 1d7a89c987ff489f94ead6396c3625e7
+#: 86bb13efc6504690a53780a0e6d3cd36
+msgid "抛出"
+msgstr "Raises"
+
+#: a339168d615b4a6eab8196e55493ce84 of
+#: utils.config.run_config.build_run_config_schema:6
+msgid ""
+"If no ModelConfig is registered for ``model_name`` (raised     by the "
+"registry, listing the available names)."
+msgstr ""
+"If no ModelConfig is registered for ``model_name`` (raised     by the "
+"registry, listing the available names)."
+
+#: ../../source/api/reference/config.md 146f56c740064ed1affe2e3019f8d5b0
+#: 2ae6d03581694908b4a3fef183e1f9b0 34b5f54844bb4e038a1f4d5b83b58e73
+#: 37a91a465bc24fdeaba31a8f8795f1ed 3d879d194974438d916bd26e781c9fd1
+#: 4b88984b2ee64fa9a1951a56a74bfc64 4e609fc12df040d490d4bf87d66ee6f1
+#: 5121c01a10e641d2a2222f7e0cd8e070 5215be67e6da4f459f67d3c6aad7276b
+#: 6b94f548b5d644ed81d796cc4631d4a8 6eb0492173cd44f6b362ab84daebf362
+#: 8c9bc8a2726241febf19b7e92bf15d6a a9acab3a01614f12b10fccf9eb1255a2
+#: df3e0f2513bd4d16a97c820ed96b012f fea3ac207f20410493c12f11ab4e3e8e of
+#: utils.config.archive.load_run_config_archive
+#: utils.config.archive.load_run_metadata
+#: utils.config.config_parser.ConfigParser.parse_args
+#: utils.config.config_parser.ConfigParser.parse_with_extras
+#: utils.config.config_parser.build_node
+#: utils.config.config_parser.expand_short_flags
+#: utils.config.config_parser.peek_flag_value
+#: utils.config.config_parser.reject_model_flags
+#: utils.config.config_parser.require_dataset
+#: utils.config.data_config.create_optimized_dataloader
+#: utils.config.run_config.config_to_dict
+msgid "返回类型"
+msgstr "Return type"
+
+#: bbf3f6e5a6684f8a9e49c5f0342828f3 of utils.config.run_config.config_to_dict:1
+msgid "Recursively convert a config dataclass (instance or node) to a plain dict."
+msgstr "Recursively convert a config dataclass (instance or node) to a plain dict."
+
+#: 2e99e3cfd7f64b90ac0e92709922f59f of utils.config.run_config.config_to_dict:3
+msgid ""
+"Used for yaml serialization, metric logging, cache keys, and anywhere a "
+"config must cross into plain-Python land."
+msgstr ""
+"Used for yaml serialization, metric logging, cache keys, and anywhere a "
+"config must cross into plain-Python land."
+
+#: 29c251e08def4bf1a28004033ca12bb4 of utils.config.config_parser:1
+msgid "Reflective CLI parser for the RunConfig dataclass tree."
+msgstr "Reflective CLI parser for the RunConfig dataclass tree."
+
+#: 1c29e1fad9c6429fa3cf76a2baffa5c2 of utils.config.config_parser:3
+msgid ""
+"jsonargparse derives CLI flags from the schema (types, ``Literal`` "
+"choices, list nargs, bool), merges ``--config``/``default_config`` yaml "
+"under CLI overrides, and dumps/loads the same shape."
+msgstr ""
+"jsonargparse derives CLI flags from the schema (types, ``Literal`` "
+"choices, list nargs, bool), merges ``--config``/``default_config`` yaml "
+"under CLI overrides, and dumps/loads the same shape."
+
+#: 4d57b2d41020468eb220f1874a005da9 of utils.config.config_parser:7
+msgid ""
+"The model node is polymorphic and lazily discovered across multiple "
+"environments, so the model name (``-m`` / ``--experiment.model_name`` / a"
+" yaml) is resolved first and selects the concrete :class:`ModelConfig` "
+"subclass before the schema is built."
+msgstr ""
+"The model node is polymorphic and lazily discovered across multiple "
+"environments, so the model name (``-m`` / ``--experiment.model_name`` / a"
+" yaml) is resolved first and selects the concrete :class:`ModelConfig` "
+"subclass before the schema is built."
+
+#: c7b82e23910b458c94ddb7a8d020095a of utils.config.config_parser:12
+msgid ""
+"``parse_args`` returns a typed :class:`RunConfig` instance. Entry points "
+"needing their own nodes (e.g. ``efficiency.py``) use "
+"``parse_with_extras``. Entry points that restore an archived run "
+"(``evaluate.py``, ``case_analysis.py`` inference) use "
+":func:`parse_run_archive`, which seeds the schema from the run's "
+"``run_config.yaml`` before reflective CLI overrides apply."
+msgstr ""
+"``parse_args`` returns a typed :class:`RunConfig` instance. Entry points "
+"needing their own nodes (e.g. ``efficiency.py``) use "
+"``parse_with_extras``. Entry points that restore an archived run "
+"(``evaluate.py``, ``case_analysis.py`` inference) use "
+":func:`parse_run_archive`, which seeds the schema from the run's "
+"``run_config.yaml`` before reflective CLI overrides apply."
+
+#: ad314b50acb9488fa975e2b0eef3f85d of
+#: utils.config.config_parser.ConfigParser:1
+msgid ""
+"Build CLI flags reflectively from the RunConfig schema and parse to a "
+"RunConfig."
+msgstr ""
+"Build CLI flags reflectively from the RunConfig schema and parse to a "
+"RunConfig."
+
+#: 0a40170d96904dcd8920df59e341e538 of
+#: utils.config.config_parser.ConfigParser.parse_args:1
+msgid ""
+"Parse ``argv`` (default ``sys.argv[1:]``) into a :class:`RunConfig` "
+"instance."
+msgstr ""
+"Parse ``argv`` (default ``sys.argv[1:]``) into a :class:`RunConfig` "
+"instance."
+
+#: 38db1cb04d5e4a5aa6d8a30dbc6e72b5 of
+#: utils.config.config_parser.ConfigParser.parse_with_extras:1
+msgid ""
+"Parse and return ``(RunConfig, full Namespace)`` — Namespace exposes "
+"extra nodes."
+msgstr ""
+"Parse and return ``(RunConfig, full Namespace)`` — Namespace exposes "
+"extra nodes."
+
+#: 4acc9aebdf2645cc850d390c1e9f891d of utils.config.config_parser.build_node:1
+msgid "Instantiate a (possibly nested) config dataclass from its Namespace slice."
+msgstr "Instantiate a (possibly nested) config dataclass from its Namespace slice."
+
+#: 24039a4ff56e48e3b0dbe8a36edcf858 of utils.config.config_parser.build_node:3
+msgid ""
+"Scalar fields map straight through; a dataclass-valued field whose slice "
+"is still a Namespace recurses. The efficiency node is the repo's first "
+"nested config (general + per-stage sub-nodes); RunConfig nodes have only "
+"scalar fields, so this is a no-op for them."
+msgstr ""
+"Scalar fields map straight through; a dataclass-valued field whose slice "
+"is still a Namespace recurses. The efficiency node is the repo's first "
+"nested config (general + per-stage sub-nodes); RunConfig nodes have only "
+"scalar fields, so this is a no-op for them."
+
+#: b803c1b6c2234a2185d1fe579b2a842a of
+#: utils.config.config_parser.expand_short_flags:1
+msgid "Rewrite the two essential short flags to their full jsonargparse forms."
+msgstr "Rewrite the two essential short flags to their full jsonargparse forms."
+
+#: f7285476cd7a4f0988bb36154586fd62 of
+#: utils.config.config_parser.expand_short_flags:3
+msgid ""
+"``-m X`` -> ``--experiment.model_name X`` and ``-d X`` -> "
+"``--data.dataset X``. Kept as the only short flags for ergonomics; "
+"everything else uses readable dotted flags. Done by argv rewriting so "
+"jsonargparse only ever sees full flags."
+msgstr ""
+"``-m X`` -> ``--experiment.model_name X`` and ``-d X`` -> "
+"``--data.dataset X``. Kept as the only short flags for ergonomics; "
+"everything else uses readable dotted flags. Done by argv rewriting so "
+"jsonargparse only ever sees full flags."
+
+#: 89eff997671f4a8387f871c389a5d32d of
+#: utils.config.config_parser.parse_run_archive:1
+msgid "Parse an entry point that restores a RunConfig from a run archive."
+msgstr "Parse an entry point that restores a RunConfig from a run archive."
+
+#: c76a787fa43f4887943c25795fa5a070 of
+#: utils.config.config_parser.parse_run_archive:3
+msgid ""
+"Shared skeleton for ``evaluate.py`` and ``case_analysis.py`` inference: "
+"the archived ``run_config.yaml`` seeds the RunConfig, any reflective CLI "
+"flag overrides it, and entry-point knobs come from the typed "
+"``entry_cls`` node."
+msgstr ""
+"Shared skeleton for ``evaluate.py`` and ``case_analysis.py`` inference: "
+"the archived ``run_config.yaml`` seeds the RunConfig, any reflective CLI "
+"flag overrides it, and entry-point knobs come from the typed "
+"``entry_cls`` node."
+
+#: 56e8002275f244b09e52273eae842861 of
+#: utils.config.config_parser.parse_run_archive:7
+msgid "CLI tokens (default ``sys.argv[1:]``)."
+msgstr "CLI tokens (default ``sys.argv[1:]``)."
+
+#: c1fd0550c30844c2a82a496544c0b5f0 of
+#: utils.config.config_parser.parse_run_archive:8
+msgid "argparse ``prog`` used in error messages."
+msgstr "argparse ``prog`` used in error messages."
+
+#: 42541a0ab8d94b99b88055c225e02d6b of
+#: utils.config.config_parser.parse_run_archive:9
+msgid "argparse ``description`` shown by ``--help``."
+msgstr "argparse ``description`` shown by ``--help``."
+
+#: b8e454686c3b494ab43944ea7dc341d9 of
+#: utils.config.config_parser.parse_run_archive:10
+msgid ""
+"Extra-node name; the run directory is read from "
+"``--<entry_node>.run_dir``."
+msgstr ""
+"Extra-node name; the run directory is read from "
+"``--<entry_node>.run_dir``."
+
+#: e8deefa10b4c4a94b261981982d6e9f4 of
+#: utils.config.config_parser.parse_run_archive:12
+msgid ""
+"Dataclass exposed as ``--<entry_node>.*`` flags; must declare a "
+"``run_dir`` field."
+msgstr ""
+"Dataclass exposed as ``--<entry_node>.*`` flags; must declare a "
+"``run_dir`` field."
+
+#: ../../source/api/reference/config.md 1ca055e3166e4ad0bc00dc2dfbf969d2
+#: aa4fd2749e4e4cb097e052d0b6f71472 ca2c1b8949f74c51ab1cb801a182fb99
+#: cd4d12614659424294692efef9b4aefa of
+#: utils.config.data_config.create_optimized_dataloader
+msgid "返回"
+msgstr "Returns"
+
+#: 6b9a46877ce840569bc60d40da68b908 of
+#: utils.config.config_parser.parse_run_archive:15
+msgid "``(rc, entry_cfg, resolved_run_dir)``."
+msgstr "``(rc, entry_cfg, resolved_run_dir)``."
+
+#: 869f02cf888540ff9aa5984f2e9e9476 of
+#: utils.config.config_parser.parse_run_archive:17
+msgid ""
+"``run_dir`` missing (``-h``/``--help`` still prints the     framework "
+"reference and exits 0), an explicit model flag present,     or the "
+"archive file absent."
+msgstr ""
+"``run_dir`` missing (``-h``/``--help`` still prints the     framework "
+"reference and exits 0), an explicit model flag present,     or the "
+"archive file absent."
+
+#: d8d291999c5b4d708dac3b535ed5d8c1 of
+#: utils.config.config_parser.peek_flag_value:1
+msgid ""
+"Read the last value of ``flag`` (space or ``=`` form) from argv without "
+"parsing."
+msgstr ""
+"Read the last value of ``flag`` (space or ``=`` form) from argv without "
+"parsing."
+
+#: 1e547a3f4c664702b93021daa65689ea of
+#: utils.config.config_parser.peek_flag_value:3
+msgid ""
+"Entry points need ``--<node>.run_dir`` before :class:`ConfigParser` runs "
+"(the archive path feeds ``default_config``). Last occurrence wins, "
+"matching argparse's semantics for repeated flags."
+msgstr ""
+"Entry points need ``--<node>.run_dir`` before :class:`ConfigParser` runs "
+"(the archive path feeds ``default_config``). Last occurrence wins, "
+"matching argparse's semantics for repeated flags."
+
+#: d0cb194302ee4715adbf79488397333f of
+#: utils.config.config_parser.reject_model_flags:1
+msgid "Exit when argv mixes archive mode with an explicit model flag."
+msgstr "Exit when argv mixes archive mode with an explicit model flag."
+
+#: ef2553684e28470d85602dc4ab1a1f73 of
+#: utils.config.config_parser.reject_model_flags:3
+msgid ""
+"Archive-restoring entry points (``parse_run_archive`` users and "
+"``efficiency.py``'s run_dir mode) rebuild the model from the "
+"``run_config.yaml`` the run directory locates."
+msgstr ""
+"Archive-restoring entry points (``parse_run_archive`` users and "
+"``efficiency.py``'s run_dir mode) rebuild the model from the "
+"``run_config.yaml`` the run directory locates."
+
+#: b5470dbb8568409aa364c28cd410b870 of
+#: utils.config.config_parser.require_dataset:1
+msgid "Fail fast with a clear message when no dataset is selected."
+msgstr "Fail fast with a clear message when no dataset is selected."
+
+#: f2e4ae7540e945da97cf73cfb7ad93fc of
+#: utils.config.config_parser.require_dataset:3
+msgid ""
+"Without this, an empty ``rc.data.dataset`` reaches ``get_data_source`` "
+"late (after the run directory is created) as an opaque \"Unsupported "
+"dataset:\" error."
+msgstr ""
+"Without this, an empty ``rc.data.dataset`` reaches ``get_data_source`` "
+"late (after the run directory is created) as an opaque \"Unsupported "
+"dataset:\" error."
+
+#: d007b91be22d45ff89db70deb0fa098f of utils.config.data_config:1
+msgid "DataLoader configuration and the optimized DataLoader factory."
+msgstr "DataLoader configuration and the optimized DataLoader factory."
+
+#: 3e63239c3b2c406e9453c27dde4627eb of
+#: utils.config.data_config.DataLoaderConfig:1
+msgid "DataLoader configuration class."
+msgstr "DataLoader configuration class."
+
+#: 9872d34c1b514b7b86cbb65a61f359fc of
+#: utils.config.data_config.DataLoaderConfig:5
+msgid ""
+"Number of worker processes for data loading. \"auto\" sets it to min(CPU "
+"count, 8). 0 disables multiprocessing."
+msgstr ""
+"Number of worker processes for data loading. \"auto\" sets it to min(CPU "
+"count, 8). 0 disables multiprocessing."
+
+#: 671563c61ebe4e7a93eb327907e998c2 8d9bb7bf2c3b47d7b492a2fb3fa4d1ab
+#: d715c113cc5e4d0b8dcfb0b78c8e5fe4 dd93a5d1620e4815a11c516afa3f946b of
+#: utils.config.data_config.DataLoaderConfig
+msgid "type"
+msgstr "type"
+
+#: d2d24a2421da4979b89c4e8550a2c3ee of
+#: utils.config.data_config.DataLoaderConfig:9
+msgid "int | Literal['auto']"
+msgstr "int | Literal['auto']"
+
+#: ba4340aa6ded4aae91a8bcd514430b0a of
+#: utils.config.data_config.DataLoaderConfig:13
+msgid "Whether to pin host memory for CUDA transfers."
+msgstr "Whether to pin host memory for CUDA transfers."
+
+#: 45a3dae56ab240f6a74b97ed3cd88efd eca4e20fce914f019376b12a13fbe354 of
+#: utils.config.data_config.DataLoaderConfig:15
+#: utils.config.data_config.DataLoaderConfig:27
+msgid "bool"
+msgstr "bool"
+
+#: 2dab1a04817b4169aa738ee732272197 of
+#: utils.config.data_config.DataLoaderConfig:19
+msgid ""
+"Number of batches to prefetch per worker (only effective when num_workers"
+" > 0)."
+msgstr ""
+"Number of batches to prefetch per worker (only effective when num_workers"
+" > 0)."
+
+#: c1c8b102c4a243658bbb540d628eaedb of
+#: utils.config.data_config.DataLoaderConfig:21
+msgid "int"
+msgstr "int"
+
+#: aca76f6909f242cebf2644bb4dc4d026 of
+#: utils.config.data_config.DataLoaderConfig:25
+msgid "Whether to keep workers alive between epochs (PyTorch >= 1.7)."
+msgstr "Whether to keep workers alive between epochs (PyTorch >= 1.7)."
+
+#: 3403748c19c34543b02722cbcf1d8688 of
+#: utils.config.data_config.DataLoaderConfig.get_num_workers:1
+msgid "Get the actual num_workers value."
+msgstr "Get the actual num_workers value."
+
+#: e739474a7b454c3bb9fdc654ac903c66 of
+#: utils.config.data_config.DataLoaderConfig.get_num_workers:3
+msgid "Maximum number of worker processes"
+msgstr "Maximum number of worker processes"
+
+#: e0c13dc361254f409c647a20bd5603eb of
+#: utils.config.data_config.DataLoaderConfig.get_num_workers:5
+msgid "The actual num_workers value"
+msgstr "The actual num_workers value"
+
+#: feb96bc94cf04f3ebaa55e9065ac824d of
+#: utils.config.data_config.create_optimized_dataloader:1
+msgid "Create an optimized DataLoader."
+msgstr "Create an optimized DataLoader."
+
+#: e800bf4412b34d198d9d606e289b9c3c of
+#: utils.config.data_config.create_optimized_dataloader:3
+msgid "Dataset to load"
+msgstr "Dataset to load"
+
+#: 849e6e6df4734558a89c20df6ffe4943 of
+#: utils.config.data_config.create_optimized_dataloader:4
+msgid "Batch size"
+msgstr "Batch size"
+
+#: 343ddcd317814a2599726844b1557520 of
+#: utils.config.data_config.create_optimized_dataloader:5
+msgid "Whether to shuffle the data"
+msgstr "Whether to shuffle the data"
+
+#: 37a47557f15e46d0a97f35030b572462 of
+#: utils.config.data_config.create_optimized_dataloader:6
+msgid "DataLoader configuration (defaults to DataLoaderConfig())"
+msgstr "DataLoader configuration (defaults to DataLoaderConfig())"
+
+#: 16a75907207946eab7086f3af26f0495 of
+#: utils.config.data_config.create_optimized_dataloader:7
+msgid "Compute device (used to determine pin_memory)"
+msgstr "Compute device (used to determine pin_memory)"
+
+#: 5e0da01756004136b3e26506eb5952b8 of
+#: utils.config.data_config.create_optimized_dataloader:8
+msgid ""
+"Host-memory pinning override (None = auto from config and device; never "
+"true on non-CUDA devices)"
+msgstr ""
+"Host-memory pinning override (None = auto from config and device; never "
+"true on non-CUDA devices)"
+
+#: a9706bbd1faf4dd896d549ef83ad459b of
+#: utils.config.data_config.create_optimized_dataloader:10
+msgid "Additional arguments passed to DataLoader (overrides config)"
+msgstr "Additional arguments passed to DataLoader (overrides config)"
+
+#: 70a29ad3e4664a3ab9467792de05005a of
+#: utils.config.data_config.create_optimized_dataloader:12
+msgid "An optimized DataLoader"
+msgstr "An optimized DataLoader"
+
+#: 9962a4ded6f54577810282aaf3c643bc of
+#: utils.config.data_config.create_optimized_dataloader:15
+msgid "示例"
+msgstr "Example"
+
+#: 754af64357d7405290c65c240f4765e5 of utils.config.archive:1
+msgid "RunConfig yaml archive: lossless save/load for reproducibility."
+msgstr "RunConfig yaml archive: lossless save/load for reproducibility."
+
+#: 6b0ccf2868cc4655bfaacb7c97e493e9 of utils.config.archive:3
+msgid ""
+"The config tree serializes to ``run_config.yaml``; runtime-derived "
+"metadata (param count, optimizer, device info) that does not belong in "
+"config goes to a sidecar ``run_metadata.yaml``."
+msgstr ""
+"The config tree serializes to ``run_config.yaml``; runtime-derived "
+"metadata (param count, optimizer, device info) that does not belong in "
+"config goes to a sidecar ``run_metadata.yaml``."
+
+#: 088c13411e644a5dacf6e2f7fb01cef7 of utils.config.archive:7
+msgid ""
+"Load re-constructs the typed :class:`RunConfig` tree against the concrete"
+" model's schema, so a stale archive (unknown/removed field) raises at "
+"load time."
+msgstr ""
+"Load re-constructs the typed :class:`RunConfig` tree against the concrete"
+" model's schema, so a stale archive (unknown/removed field) raises at "
+"load time."
+
+#: fffa26913ae34b7daa1e94effcfea33d of
+#: utils.config.archive.load_run_config_archive:1
+msgid "Load a ``run_config.yaml`` and reconstruct the typed :class:`RunConfig`."
+msgstr "Load a ``run_config.yaml`` and reconstruct the typed :class:`RunConfig`."
+
+#: bf0504586d874474976b7759044406ba of
+#: utils.config.archive.load_run_config_archive:3
+msgid ""
+"The model name is read from ``experiment.model_name``; constructing each "
+"node dataclass against the current schema validates that archived fields "
+"still exist (unknown/removed fields raise ``TypeError``)."
+msgstr ""
+"The model name is read from ``experiment.model_name``; constructing each "
+"node dataclass against the current schema validates that archived fields "
+"still exist (unknown/removed fields raise ``TypeError``)."
+
+#: c83469a780cd4e53850eb058eac7ea8e of utils.config.archive.load_run_metadata:1
+#, python-brace-format
+msgid "Read the sidecar ``run_metadata.yaml`` if present, else return ``{}``."
+msgstr "Read the sidecar ``run_metadata.yaml`` if present, else return ``{}``."
+
+#: b7fb67d6475b4f0e88528782a2c38769 of
+#: utils.config.archive.save_run_config_archive:1
+msgid "Write a :class:`RunConfig` to ``<log_dir>/run_config.yaml``."
+msgstr "Write a :class:`RunConfig` to ``<log_dir>/run_config.yaml``."
+
+#: 35303ade2dc64b31b208cbf1d3c86fc0 of
+#: utils.config.archive.save_run_config_archive:3
+msgid "RunConfig instance."
+msgstr "RunConfig instance."
+
+#: b9953bbfa35a44c99bd94f36f04725f2 of
+#: utils.config.archive.save_run_config_archive:4
+msgid "Output directory (created if missing)."
+msgstr "Output directory (created if missing)."
+
+#: f4e57ccbbea1405f8406b33acec93e66 of
+#: utils.config.archive.save_run_config_archive:5
+msgid ""
+"Optional runtime-derived metadata written to a sidecar "
+"``run_metadata.yaml`` (e.g. total_params, optimizer, device info)."
+msgstr ""
+"Optional runtime-derived metadata written to a sidecar "
+"``run_metadata.yaml`` (e.g. total_params, optimizer, device info)."
+
+#: be2ff2bc806a461c932b2614946fe7e3 of
+#: utils.config.archive.save_run_config_archive:8
+msgid "``(config_path, metadata_path_or_none)``."
+msgstr "``(config_path, metadata_path_or_none)``."
+
+#~ msgid "命令行参数定义、运行时配置对象、DataLoader 配置。"
+#~ msgstr ""
+#~ "CLI argument definitions, runtime "
+#~ "configuration objects, and DataLoader "
+#~ "configuration."

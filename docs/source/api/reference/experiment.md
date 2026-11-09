@@ -28,7 +28,7 @@ Optuna 超参搜索、案例分析与可视化。
 ```
 
 ```{eval-rst}
-.. automodule:: utils.case_analysis.result_collector
+.. automodule:: utils.case_analysis.user_metrics
    :members:
 ```
 

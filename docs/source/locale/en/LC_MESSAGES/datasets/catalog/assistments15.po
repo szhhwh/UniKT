@@ -1,0 +1,160 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/datasets/catalog/assistments15.md:1
+#: f10f98d5e25448cab1993b19fdb83977
+msgid "ASSISTments 2015"
+msgstr "ASSISTments 2015"
+
+#: ../../source/datasets/catalog/assistments15.md:3
+#: 8700aedf57314d47afabce166e0bf7d2
+msgid "2015 年的 Skill Builder 数学练习数据。"
+msgstr "2015 Skill Builder mathematics exercise dataset."
+
+#: ../../source/datasets/catalog/assistments15.md:5
+#: c542a3a15bc242c79bdd995d034bb55e
+msgid ""
+"数据集链接：[2015 "
+"官方数据页](https://sites.google.com/site/assistmentsdata/datasets/2015"
+"-assistments-skill-builder-data)。"
+msgstr ""
+"Dataset link: [2015 Official Data "
+"Page](https://sites.google.com/site/assistmentsdata/datasets/2015"
+"-assistments-skill-builder-data)."
+
+#: ../../source/datasets/catalog/assistments15.md:7
+#: c990c9adb29c4138916779ef6d2e16cc
+msgid "数据参数"
+msgstr "Dataset Parameters"
+
+#: ../../source/datasets/catalog/assistments15.md
+#: 58a38d1d0282473ca81457d93b66e08c
+msgid "参数"
+msgstr "Parameter"
+
+#: ../../source/datasets/catalog/assistments15.md
+#: 590b21d0a3654a4db26c836f268652cd
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/datasets/catalog/assistments15.md
+#: 5b5c9d29bcf54bd2be86d2f866d0a295
+msgid "数据文件"
+msgstr "Data File"
+
+#: ../../source/datasets/catalog/assistments15.md
+#: f3df39f69af34d1c8b9cda1ca8b39380
+msgid "`2015_100_skill_builders_main_problems.csv`"
+msgstr "`2015_100_skill_builders_main_problems.csv`"
+
+#: ../../source/datasets/catalog/assistments15.md
+#: 581445d6abd3446e988a66f9607f645a
+msgid "技能练习集合"
+msgstr "Skill Practice Sets"
+
+#: ../../source/datasets/catalog/assistments15.md
+#: 1513fef676d84cb18dd6b9fa81e43620
+msgid "作答量最高的 100 个 Skill Builder，见上述官方数据页"
+msgstr "Top 100 Skill Builders by interaction volume; see official data page above"
+
+#: ../../source/datasets/catalog/assistments15.md
+#: 53f78b95643640af9badc51231536765
+msgid "数据行 / 不重复作答日志"
+msgstr "Data Rows / Unique Response Logs"
+
+#: ../../source/datasets/catalog/assistments15.md
+#: c0fa487eaa81403e98a14b8eac63bd94
+msgid "708,631 / 708,631，按 `log_id` 去重"
+msgstr "708,631 / 708,631, deduplicated by `log_id`"
+
+#: ../../source/datasets/catalog/assistments15.md
+#: 522577393eb34becbd34786e843a72cf
+msgid "学生 / 技能练习集合"
+msgstr "Students / Skill Practice Sets"
+
+#: ../../source/datasets/catalog/assistments15.md
+#: 4bff74a369564040b943b703dca81d6c
+msgid "19,917 / 100，分别按 `user_id`、`sequence_id` 去重；文件无题目标识"
+msgstr ""
+"19,917 / 100, deduplicated by `user_id` and `sequence_id` respectively; "
+"file lacks problem identifiers"
+
+#: ../../source/datasets/catalog/assistments15.md:16
+#: 1611d69aaf4744ba8c503ea16abcbb75
+msgid "去重时排除空值及 `NA`、`nan`、`null` 标记（不区分大小写）。"
+msgstr ""
+"Deduplication excludes null values and `NA`, `nan`, `null` markers (case-"
+"insensitive)."
+
+#: ../../source/datasets/catalog/assistments15.md:18
+#: d1a50a1976c24ba1afa31164abaa18ab
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/datasets/catalog/assistments15.md
+#: a97563e1342644729d14333d97b36e2c
+msgid "字段名称"
+msgstr "Field Name"
+
+#: ../../source/datasets/catalog/assistments15.md
+#: e9cb6f6da73746159c49c173e439d6af
+msgid "字段语义说明"
+msgstr "Field Semantic Description"
+
+#: ../../source/datasets/catalog/assistments15.md
+#: 15bac12bea504e619ae37858247afe47
+msgid "`user_id`"
+msgstr "`user_id`"
+
+#: ../../source/datasets/catalog/assistments15.md
+#: e997bc6e244d4ad79f7e3570228d6b38
+msgid "匿名学生标识符"
+msgstr "Anonymous student identifier"
+
+#: ../../source/datasets/catalog/assistments15.md
+#: 4a1252dd2799434c86dbd0e73b444d81
+msgid "`log_id`"
+msgstr "`log_id`"
+
+#: ../../source/datasets/catalog/assistments15.md
+#: 330f9836cbfb4c1a8ec778fbc6d19d94
+msgid "答题日志编号"
+msgstr "Response log ID"
+
+#: ../../source/datasets/catalog/assistments15.md
+#: d0cb5f19445d40f2a7a9c9cbff8046a4
+msgid "`sequence_id`"
+msgstr "`sequence_id`"
+
+#: ../../source/datasets/catalog/assistments15.md
+#: cda7c7476e474d3f9736e181fd45ec5b
+msgid "Skill Builder 技能练习编号"
+msgstr "Skill Builder practice set ID"
+
+#: ../../source/datasets/catalog/assistments15.md
+#: 3244b457de8d493f8d944c352e059d44
+msgid "`correct`"
+msgstr "`correct`"
+
+#: ../../source/datasets/catalog/assistments15.md
+#: d6224a00c95e4e34bd911a966b35fa2c
+msgid "**核心标签**：答题结果（`1`=正确，`0`=错误）"
+msgstr "**Core Label**: Response result (`1`=correct, `0`=incorrect)"

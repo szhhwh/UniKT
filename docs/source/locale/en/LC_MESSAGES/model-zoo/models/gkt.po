@@ -1,0 +1,132 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/gkt.md:1 f63263216f114dd8a10f3b7124cddf40
+msgid "GKT"
+msgstr "GKT"
+
+#: ../../source/model-zoo/models/gkt.md:3 9ad2126d4f794f6db33010d27b07b3f5
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/gkt.md cbf12c9e48804645b3135b2c61817052
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/gkt.md f3dd9a655106479bae65bd398a617071
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/gkt.md 5b4f6e6862b146ca8508602d6cda099e
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/gkt.md 39f02adf67fa447aa6aa38aee049e381
+msgid ""
+"[Graph-Based Knowledge Tracing: Modeling Student Proficiency Using Graph "
+"Neural Network](https://doi.org/10.1145/3350546.3352513)"
+msgstr ""
+"[Graph-Based Knowledge Tracing: Modeling Student Proficiency Using Graph "
+"Neural Network](https://doi.org/10.1145/3350546.3352513)"
+
+#: ../../source/model-zoo/models/gkt.md 30e8e973c0ff426288a7d8910fdfe463
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/gkt.md 8a0d6542a1744fd89020d1a1794dda50
+msgid "Hiromi Nakagawa, Yusuke Iwasawa, Yutaka Matsuo"
+msgstr "Hiromi Nakagawa, Yusuke Iwasawa, Yutaka Matsuo"
+
+#: ../../source/model-zoo/models/gkt.md 7a2c9e3e08744438b061c7f74e78c340
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/gkt.md 8c9bc88bb974474585da4dfecd488483
+msgid "2019"
+msgstr "2019"
+
+#: ../../source/model-zoo/models/gkt.md 3efe7b4f676040f588f3d10e088d5b20
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/gkt.md b19618c3793f48d182e87bc40cde64ff
+msgid "IEEE/WIC/ACM International Conference on Web Intelligence"
+msgstr "IEEE/WIC/ACM International Conference on Web Intelligence"
+
+#: ../../source/model-zoo/models/gkt.md 0d44f344f0d04b279b395554b4cda8a2
+msgid "DOI"
+msgstr "DOI"
+
+#: ../../source/model-zoo/models/gkt.md b21913698afe4479bea235b634a8a7a5
+msgid "[10.1145/3350546.3352513](https://doi.org/10.1145/3350546.3352513)"
+msgstr "[10.1145/3350546.3352513](https://doi.org/10.1145/3350546.3352513)"
+
+#: ../../source/model-zoo/models/gkt.md:13 03c384ab9c1c435cac2979a4f9ba7ee2
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/gkt.md:15 a60a9ded374a4771a97539ccc39403ad
+msgid ""
+"Recent advancements in computer-assisted learning systems have caused an "
+"increase in the research of knowledge tracing, wherein student "
+"performance on coursework exercises is predicted over time. From the "
+"viewpoint of data structure, the coursework can be potentially structured"
+" as a graph. Incorporating this graph-structured nature into the "
+"knowledge tracing model as a relational inductive bias can improve its "
+"performance; however, previous methods, such as deep knowledge tracing, "
+"did not consider such a latent graph structure. Inspired by the recent "
+"successes of the graph neural network (GNN), we herein propose a GNN-"
+"based knowledge tracing method, i.e., graph-based knowledge tracing. "
+"Casting the knowledge structure as a graph enabled us to reformulate the "
+"knowledge tracing task as a time-series node-level classification problem"
+" in the GNN. As the knowledge graph structure is not explicitly provided "
+"in most cases, we propose various implementations of the graph structure."
+" Empirical validations on two open datasets indicated that our method "
+"could potentially improve the prediction of student performance and "
+"demonstrated more interpretable predictions compared to those of the "
+"previous methods, without the requirement of any additional information."
+msgstr ""
+"Recent advancements in computer-assisted learning systems have caused an "
+"increase in the research of knowledge tracing, wherein student "
+"performance on coursework exercises is predicted over time. From the "
+"viewpoint of data structure, the coursework can be potentially structured"
+" as a graph. Incorporating this graph-structured nature into the "
+"knowledge tracing model as a relational inductive bias can improve its "
+"performance; however, previous methods, such as deep knowledge tracing, "
+"did not consider such a latent graph structure. Inspired by the recent "
+"successes of the graph neural network (GNN), we herein propose a GNN-"
+"based knowledge tracing method, i.e., graph-based knowledge tracing. "
+"Casting the knowledge structure as a graph enabled us to reformulate the "
+"knowledge tracing task as a time-series node-level classification problem"
+" in the GNN. As the knowledge graph structure is not explicitly provided "
+"in most cases, we propose various implementations of the graph structure."
+" Empirical validations on two open datasets indicated that our method "
+"could potentially improve the prediction of student performance and "
+"demonstrated more interpretable predictions compared to those of the "
+"previous methods, without the requirement of any additional information."
+
+#: ../../source/model-zoo/models/gkt.md:18 2aabe32d25274bf896886071320a0616
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/gkt.md:20 6d87142e4d324785aeb1cf2df16e10c1
+msgid "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"
+msgstr "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"

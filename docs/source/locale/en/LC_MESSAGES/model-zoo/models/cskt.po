@@ -1,0 +1,130 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/cskt.md:1 4008af85292a49baaa971d57d086c0f2
+msgid "CSKT"
+msgstr "CSKT"
+
+#: ../../source/model-zoo/models/cskt.md:3 ccb8fad0ec62475d964842d37a0d9c93
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/cskt.md 83cb234827d647848fb44c17e5920c3c
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/cskt.md b2564fceacc549f2838c6ccfe3f1d85a
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/cskt.md d4113466d7bc40c89ce7b4842788a0da
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/cskt.md 7b5021e167354f6c907a234bdf8802d1
+msgid ""
+"[csKT: Addressing cold-start problem in knowledge tracing via kernel bias"
+" and cone attention](https://doi.org/10.1016/j.eswa.2024.125988)"
+msgstr ""
+"[csKT: Addressing cold-start problem in knowledge tracing via kernel bias"
+" and cone attention](https://doi.org/10.1016/j.eswa.2024.125988)"
+
+#: ../../source/model-zoo/models/cskt.md 1317902f107d497cbd2ec4e93ebbe0f5
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/cskt.md b6159a7a308d4a2da79783e45ff4cda7
+msgid ""
+"Youheng Bai, Xueyi Li, Zitao Liu, Yaying Huang, Teng Guo, Mingliang Hou, "
+"Feng Xia, Weiqi Luo"
+msgstr ""
+"Youheng Bai, Xueyi Li, Zitao Liu, Yaying Huang, Teng Guo, Mingliang Hou, "
+"Feng Xia, Weiqi Luo"
+
+#: ../../source/model-zoo/models/cskt.md 92a01b83550041b1b10eaac9cd506e03
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/cskt.md 66cd6d9a3c9543ceb3974e937b0892c0
+msgid "2025"
+msgstr "2025"
+
+#: ../../source/model-zoo/models/cskt.md b898c899498e457cae81f92628036f8a
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/cskt.md 6b96119303344949b5cf67dd52292633
+msgid "Expert Systems with Applications, 266, 125988"
+msgstr "Expert Systems with Applications, 266, 125988"
+
+#: ../../source/model-zoo/models/cskt.md:12 3917edae92eb412b9fe4194966e38137
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/cskt.md:14 122a8d80ee8c4888a46e8152afbf86d0
+msgid ""
+"Knowledge tracing (KT) is the task of predicting students' future "
+"performances based on their past interactions in online learning systems."
+" When new students enter the system with short interaction sequences, the"
+" cold-start problem commonly arises in KT. Although existing deep "
+"learning based KT models exhibit impressive performance, it remains "
+"challenging for these models to be trained on short student interaction "
+"sequences and maintain stable prediction accuracy as the number of "
+"student interactions increases. In this paper, we propose cold-start KT "
+"(csKT) to address this problem. Specifically, csKT employs kernel bias to"
+" guide learning from short sequences and ensure accurate predictions for "
+"longer sequences, and it also introduces cone attention to better capture"
+" complex hierarchical relationships between knowledge components in cold-"
+"start scenarios. We evaluate csKT on four public real-world educational "
+"datasets, where it demonstrated superior performance over a broad range "
+"of deep learning based KT models using common evaluation metrics in cold-"
+"start scenarios. Additionally, we conduct ablation studies and produce "
+"visualizations to verify the effectiveness of our csKT model. In support "
+"of reproducible research, we have made all datasets and the corresponding"
+" code publicly accessible at https://pykt.org/."
+msgstr ""
+"Knowledge tracing (KT) is the task of predicting students' future "
+"performances based on their past interactions in online learning systems."
+" When new students enter the system with short interaction sequences, the"
+" cold-start problem commonly arises in KT. Although existing deep "
+"learning based KT models exhibit impressive performance, it remains "
+"challenging for these models to be trained on short student interaction "
+"sequences and maintain stable prediction accuracy as the number of "
+"student interactions increases. In this paper, we propose cold-start KT "
+"(csKT) to address this problem. Specifically, csKT employs kernel bias to"
+" guide learning from short sequences and ensure accurate predictions for "
+"longer sequences, and it also introduces cone attention to better capture"
+" complex hierarchical relationships between knowledge components in cold-"
+"start scenarios. We evaluate csKT on four public real-world educational "
+"datasets, where it demonstrated superior performance over a broad range "
+"of deep learning based KT models using common evaluation metrics in cold-"
+"start scenarios. Additionally, we conduct ablation studies and produce "
+"visualizations to verify the effectiveness of our csKT model. In support "
+"of reproducible research, we have made all datasets and the corresponding"
+" code publicly accessible at https://pykt.org/."
+
+#: ../../source/model-zoo/models/cskt.md:17 70a819c24f8042d3ae3588053fba8fd1
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/cskt.md:19 97892d84458042aa9c05d2934c570a24
+msgid "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"
+msgstr "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"

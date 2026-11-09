@@ -1,0 +1,138 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/iekt.md:1 b3d48869b9f345c596961431fd771ce2
+msgid "IEKT"
+msgstr "IEKT"
+
+#: ../../source/model-zoo/models/iekt.md:3 404c0cc32c494798b7d1283ea57d2b62
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/iekt.md c2d5f56ce5a74c02b10ab41d5a35c3d6
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/iekt.md 68e574cfce164437941c11e49e7ecc4a
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/iekt.md a229999d94aa40c88540bf4daf4deb8a
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/iekt.md 571328d006b344b4a18b1476b319e77e
+msgid ""
+"[Tracing Knowledge State with Individual Cognition and Acquisition "
+"Estimation](https://doi.org/10.1145/3404835.3462827)"
+msgstr ""
+"[Tracing Knowledge State with Individual Cognition and Acquisition "
+"Estimation](https://doi.org/10.1145/3404835.3462827)"
+
+#: ../../source/model-zoo/models/iekt.md eef9042ab05e4df888e2fe64f7b56d99
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/iekt.md 0f7fab628b244684b26a7796ef04c740
+msgid "Ting Long, Yunfei Liu, Jian Shen, Weinan Zhang, Yong Yu"
+msgstr "Ting Long, Yunfei Liu, Jian Shen, Weinan Zhang, Yong Yu"
+
+#: ../../source/model-zoo/models/iekt.md cd69df75a4b74de18daa05a3e7e42f33
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/iekt.md d957fbd0584f4cddb29c2872a43e4b7f
+msgid "2021"
+msgstr "2021"
+
+#: ../../source/model-zoo/models/iekt.md 98b16a14d7cd4d0d8eb11e70e44f83f5
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/iekt.md c1ad3d0d9cf84b8c8bc5e562590c2168
+msgid ""
+"Proceedings of the 44th International ACM SIGIR Conference on Research "
+"and Development in Information Retrieval"
+msgstr ""
+"Proceedings of the 44th International ACM SIGIR Conference on Research "
+"and Development in Information Retrieval"
+
+#: ../../source/model-zoo/models/iekt.md:12 59e53da2870849c89d6b8da5d8b2a960
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/iekt.md:14 a725ef91b9ba4bea9fc2fc85fd348391
+msgid ""
+"Knowledge tracing, which dynamically estimates students' learning states "
+"by predicting their performance on answering questions, is an essential "
+"task in online education. One typical solution for knowledge tracing is "
+"based on Recurrent Neural Networks (RNNs), which represent students' "
+"knowledge states with the hidden states of RNNs. Such type of methods "
+"normally assumes that students have the same cognition level and "
+"knowledge acquisition sensitivity on the same question. Thus, they (i) "
+"predict students' responses by referring to their knowledge states and "
+"question representations, and (ii) update the knowledge states according "
+"to the question representations and students' responses. No explicit "
+"cognition level or knowledge acquisition sensitivity is considered in the"
+" above two processes. However, in real-world scenarios, students have "
+"different understandings on a question and have various knowledge "
+"acquisition after they finish the same question. In this paper, we "
+"propose a novel model called Individual Estimation Knowledge Tracing "
+"(IEKT), which estimates the students' cognition on the question before "
+"response prediction and assesses their knowledge acquisition sensitivity "
+"on the questions before updating the knowledge state. In the experiments,"
+" we compare IEKT with 11 knowledge tracing baselines on four benchmark "
+"datasets, and the results show IEKT achieves the state-of-the-art "
+"performance."
+msgstr ""
+"Knowledge tracing, which dynamically estimates students' learning states "
+"by predicting their performance on answering questions, is an essential "
+"task in online education. One typical solution for knowledge tracing is "
+"based on Recurrent Neural Networks (RNNs), which represent students' "
+"knowledge states with the hidden states of RNNs. Such type of methods "
+"normally assumes that students have the same cognition level and "
+"knowledge acquisition sensitivity on the same question. Thus, they (i) "
+"predict students' responses by referring to their knowledge states and "
+"question representations, and (ii) update the knowledge states according "
+"to the question representations and students' responses. No explicit "
+"cognition level or knowledge acquisition sensitivity is considered in the"
+" above two processes. However, in real-world scenarios, students have "
+"different understandings on a question and have various knowledge "
+"acquisition after they finish the same question. In this paper, we "
+"propose a novel model called Individual Estimation Knowledge Tracing "
+"(IEKT), which estimates the students' cognition on the question before "
+"response prediction and assesses their knowledge acquisition sensitivity "
+"on the questions before updating the knowledge state. In the experiments,"
+" we compare IEKT with 11 knowledge tracing baselines on four benchmark "
+"datasets, and the results show IEKT achieves the state-of-the-art "
+"performance."
+
+#: ../../source/model-zoo/models/iekt.md:17 eb0e88c4bcc74d4a8518fecade20352d
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/iekt.md:19 fff9dc04f2fe44b795dd627a47e91ada
+msgid "[ApexEDM/iekt](https://github.com/ApexEDM/iekt)"
+msgstr "[ApexEDM/iekt](https://github.com/ApexEDM/iekt)"
+
+#: ../../source/model-zoo/models/iekt.md:20 6f85aec6aa1f4b649bdb0bb0f6760bc3
+msgid "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"
+msgstr "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"

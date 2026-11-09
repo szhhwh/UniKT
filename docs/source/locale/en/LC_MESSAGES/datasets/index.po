@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: UniKT \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-12 15:25+0800\n"
+"POT-Creation-Date: 2026-11-09 23:48+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -19,271 +19,346 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.18.0\n"
 
-#: ../../source/datasets/index.md:1 ../../source/datasets/index.md:5
-#: 618be9afceda4ddb9296d3072e43e2b1 9649455d5cba4d55b4fd634d257c8663
-msgid "支持的数据集"
-msgstr "Supported datasets"
-
-#: ../../source/datasets/index.md:3 afeac83e5ad84fa789169603adaf698c
-msgid "UniKT 支持 11 个知识追踪数据集，提供自动下载和预处理功能。"
-msgstr ""
-"UniKT supports 11 knowledge tracing datasets with automatic download and "
-"preprocessing."
-
-#: ../../source/datasets/index.md 0d38834b0614434e939623864db3e93e
+#: ../../source/datasets/index.md:-1 ../../source/datasets/index.md:5
+#: 9770f3caa6184b789fdd33f4272a6e84 97f9155a001b41ac844dcb52f2911895
 msgid "数据集"
 msgstr "Dataset"
 
-#: ../../source/datasets/index.md 306cb160213d42ec9b95fef14adde1ad
-msgid "来源"
-msgstr "Source"
-
-#: ../../source/datasets/index.md 5e0c2a00b0f1435eb0dc397feb72618c
-msgid "学生数"
-msgstr "Students"
-
-#: ../../source/datasets/index.md c62f6291a03a426996b047b25de14e9e
-msgid "交互数"
-msgstr "Interactions"
-
-#: ../../source/datasets/index.md 7a5e14d4080d410a890b8b9f7a77bd30
-msgid "技能数"
-msgstr "Skills"
-
-#: ../../source/datasets/index.md 43d17fac92f746588c43720310fc8926
-msgid "ASSISTments 2009"
-msgstr "ASSISTments 2009"
-
-#: ../../source/datasets/index.md 16bd6bb17909441bb2afc1ee479dcb78
-#: 8f9071bfaba44dc898e1c1fe97182c82 aea7c2027a744cb98e56ce1865ada863
-#: d977aa1468764f2983d54096562f2f5e
-msgid "[ASSISTmentsData](https://www.etrialstestbed.org/data-sets)"
-msgstr "[ASSISTmentsData](https://www.etrialstestbed.org/data-sets)"
-
-#: ../../source/datasets/index.md 537428012aaf437caa2c1754365c556b
-msgid "4,151"
-msgstr "4,151"
-
-#: ../../source/datasets/index.md 7416edea69d9481aa1ca136a23f986c6
-msgid "324,975"
-msgstr "324,975"
-
-#: ../../source/datasets/index.md d66b854b9c8245f488daa23c8bf6200f
-msgid "110"
-msgstr "110"
-
-#: ../../source/datasets/index.md 56799f0ca91e4bc9a5c7d8098741b228
-msgid "ASSISTments 2012"
-msgstr "ASSISTments 2012"
-
-#: ../../source/datasets/index.md c358b95e782d4780b39f4cd79160ff94
-msgid "26,688"
-msgstr "26,688"
-
-#: ../../source/datasets/index.md 372d09c5551f48148b76f5860ac4282c
-msgid "2,535,057"
-msgstr "2,535,057"
-
-#: ../../source/datasets/index.md ead57538cb954ceebf37b44af16dc5c3
-msgid "265"
-msgstr "265"
-
-#: ../../source/datasets/index.md e5449b5121d349c694c0bfda5482f2e4
-msgid "ASSISTments 2015"
-msgstr "ASSISTments 2015"
-
-#: ../../source/datasets/index.md 8436801e4d4a46f59007e4e771ef0548
-msgid "19,840"
-msgstr "19,840"
-
-#: ../../source/datasets/index.md aca75f5ffa644a76930cd005895cfd9f
-msgid "683,601"
-msgstr "683,601"
-
-#: ../../source/datasets/index.md f32a3d62325d4c9ca370dfd4df28cac3
-msgid "100"
-msgstr "100"
-
-#: ../../source/datasets/index.md 1b629d80188343498b00eb6547307fb0
-msgid "ASSISTments 2017"
-msgstr "ASSISTments 2017"
-
-#: ../../source/datasets/index.md 87ecce0a88244ac4b402549854af71be
-msgid "1,709"
-msgstr "1,709"
-
-#: ../../source/datasets/index.md 2a8de85e73d348e1b82816cc6378cd38
-msgid "942,816"
-msgstr "942,816"
-
-#: ../../source/datasets/index.md 7759e23173e841bf81d50cf9da084d59
-msgid "102"
-msgstr "102"
-
-#: ../../source/datasets/index.md 4650d3104dc04e7f889e83da980d35a4
-msgid "EdNet-KT1"
-msgstr "EdNet-KT1"
-
-#: ../../source/datasets/index.md 267fd77a77784cffaf7ce5816c7882fe
-msgid "[GitHub](https://github.com/riiid/ednet)"
-msgstr "[GitHub](https://github.com/riiid/ednet)"
-
-#: ../../source/datasets/index.md 198a60c4f0ef417c830760ecb13b8fe9
-msgid "784,309"
-msgstr "784,309"
-
-#: ../../source/datasets/index.md f908d2927fb34f6194b37f1fa10e0fb6
-msgid "131,441,538"
-msgstr "131,441,538"
-
-#: ../../source/datasets/index.md f612b76002234514a15bf3f8a66f3b57
-msgid "—"
-msgstr "—"
-
-#: ../../source/datasets/index.md 76ae6cc49b254c70aef859d897894f9e
-msgid "Junyi 2015"
-msgstr "Junyi 2015"
-
-#: ../../source/datasets/index.md 2c8611b2ca1d4b729118ca846af0e80e
+#: ../../source/datasets/index.md:9 4d5263b5637b42b2839bbac90d684b6d
 msgid ""
-"[Kaggle](https://www.kaggle.com/datasets/junyiacademy/learning-activity-"
-"public-dataset)"
+"查阅公开数据来源、规模与原始字段。准备实验数据时，结合[数据处理管线](../user-guides/data-"
+"pipeline.md)了解下载、清洗和序列切分流程。"
 msgstr ""
-"[Kaggle](https://www.kaggle.com/datasets/junyiacademy/learning-activity-"
-"public-dataset)"
+"Review public data sources, scales, and raw fields. When preparing "
+"experimental data, refer to [Data Pipeline](../user-guides/data-"
+"pipeline.md) to understand download, cleaning, and sequence splitting "
+"workflows."
 
-#: ../../source/datasets/index.md 49693a1451614cb3897ccdbfe241d85e
-msgid "247,606"
-msgstr "247,606"
+#: ../../source/datasets/index.md:-1 68003bddb5ec4f58b121f69a37d1c292
+msgid "官方数据入口"
+msgstr "Official Data Portal"
 
-#: ../../source/datasets/index.md f1a849a8ed96402ebd2357efbbf9e291
-msgid "25,925,922"
-msgstr "25,925,922"
+#: ../../source/datasets/index.md:-1 665959853ddd42a5ae010c4f49ce3d0e
+msgid "[ASSISTments 2009](catalog/assistments09.md)"
+msgstr "[ASSISTments 2009](catalog/assistments09.md)"
 
-#: ../../source/datasets/index.md 492b4081c6b1496b8039d9fef3825f9c
-msgid "179"
-msgstr "179"
-
-#: ../../source/datasets/index.md 7ea0873869654173823149a7facaf865
-msgid "Slepemapy"
-msgstr "Slepemapy"
-
-#: ../../source/datasets/index.md 4933c4e919e840c3882aaa328677dcc3
-msgid "[SLEP](https://www.fi.muni.cz/adaptivelearning/)"
-msgstr "[SLEP](https://www.fi.muni.cz/adaptivelearning/)"
-
-#: ../../source/datasets/index.md 611ae372a7604444b03ee60381afaa25
-msgid "91,001"
-msgstr "91,001"
-
-#: ../../source/datasets/index.md aab5743813f0434ab11e1a09aff05e00
-msgid "9,164,780"
-msgstr "9,164,780"
-
-#: ../../source/datasets/index.md 3b4a3ef3d9ba4eb996b102fcb3c09a6e
-msgid "1,457"
-msgstr "1,457"
-
-#: ../../source/datasets/index.md:18 4a3d3c0ae1b04734912ec2446d61a599
-msgid "数据格式"
-msgstr "Data format"
-
-#: ../../source/datasets/index.md:20 0cc0aae935a84c7dbb9b69ea0d98d586
-msgid "所有数据集都会被处理为标准化的 Parquet 文件："
-msgstr "All datasets are processed into standardized Parquet files:"
-
-#: ../../source/datasets/index.md:31 9100594d2c2b4e36afa502c51c92569e
-msgid "序列字段"
-msgstr "Sequence fields"
-
-#: ../../source/datasets/index.md e396ae3cf88248daa0303b567a6e9549
-msgid "字段"
-msgstr "Field"
-
-#: ../../source/datasets/index.md 7719daf056e44e6ab581cb6308247af0
-msgid "类型"
-msgstr "Type"
-
-#: ../../source/datasets/index.md b537506fa5934e5ab3bd5715d9f7e14b
-msgid "描述"
-msgstr "Description"
-
-#: ../../source/datasets/index.md 1e09474f0ef14c3a93c6b63ff6f00693
-msgid "``user``"
-msgstr "``user``"
-
-#: ../../source/datasets/index.md 28ea0850636a4427860e1858138811f2
-#: 2fd20b4535024fbaa50c3b179c0bd246 9d872e41ff7141e6b938211c47d58317
-#: a81e350ea1ff4360ab9d50d12ae192c4 f3ee2a22e404426d83133f8e47273108
-msgid "``Int32``"
-msgstr "``Int32``"
-
-#: ../../source/datasets/index.md 4c34310bd5fe44b38458ed5227a29836
-msgid "用户标识符（重映射）"
-msgstr "User identifier (remapped)"
-
-#: ../../source/datasets/index.md 0230cff003644a788ac3ccb37bd3269b
-msgid "``question``"
-msgstr "``question``"
-
-#: ../../source/datasets/index.md 76baddf6d2f34ef2b1be4f4206955f12
-msgid "题目标识符"
-msgstr "Question identifier"
-
-#: ../../source/datasets/index.md 4b0ddb2a3b3b402d99695a7808635fcb
-msgid "``skill``"
-msgstr "``skill``"
-
-#: ../../source/datasets/index.md b0ee4d40d699494cb3969f3f99149992
-msgid "技能/概念标识符"
-msgstr "Skill/concept identifier"
-
-#: ../../source/datasets/index.md 46286ae40074457b92148b4aed73c3e8
-msgid "``label``"
-msgstr "``label``"
-
-#: ../../source/datasets/index.md 1049629c3e134c8b9b1927726ae9a906
-msgid "``Int8``"
-msgstr "``Int8``"
-
-#: ../../source/datasets/index.md 655ef2bdde044aedb8d2b53fcef3c1bd
-msgid "回答正确性（0 或 1）"
-msgstr "Response correctness (0 or 1)"
-
-#: ../../source/datasets/index.md 7a80227e113442bc96fc7e58533567a4
-msgid "``timestamp``"
-msgstr "``timestamp``"
-
-#: ../../source/datasets/index.md 60fbe2356aab44a3978d68fb8129ee96
-msgid "``Int64``"
-msgstr "``Int64``"
-
-#: ../../source/datasets/index.md fbfbbccea77a4550a176e726d0e6db23
-msgid "Unix 时间戳（毫秒）"
-msgstr "Unix timestamp (milliseconds)"
-
-#: ../../source/datasets/index.md ee9c65800b26419e9dce45700a52f907
-msgid "``fold``"
-msgstr "``fold``"
-
-#: ../../source/datasets/index.md 43c307633125481cacf0a6e874f207ca
-msgid "K 折标签（-1 = 测试集）"
-msgstr "K-fold label (-1 = test set)"
-
-#: ../../source/datasets/index.md cea6c7c7be1d4d79a8cb5883b6618678
-msgid "``seq_pos``"
-msgstr "``seq_pos``"
-
-#: ../../source/datasets/index.md 5376a09b211b43f5b4c226805521ff4c
-msgid "序列中的位置"
-msgstr "Position within the sequence"
-
-#: ../../source/datasets/index.md:44 d1d183c61cf349fb9850f584905b4200
-msgid "使用方法"
-msgstr "Usage"
-
-#: ../../source/datasets/index.md:61 3140bb812bd34a4695ab31b35a936431
-msgid "详细流程文档请参阅[数据预处理](../user-guide/data-processing.md)。"
+#: ../../source/datasets/index.md:-1 4a5820f58c2a4fbdae9a3bd27b377aa0
+msgid ""
+"[官方入口](https://sites.google.com/site/assistmentsdata/home/2009-2010"
+"-assistment-data)"
 msgstr ""
-"For the detailed workflow, see [Data preprocessing](../user-guide/data-"
-"processing.md)."
+"[Official "
+"Portal](https://sites.google.com/site/assistmentsdata/home/2009-2010"
+"-assistment-data)"
+
+#: ../../source/datasets/index.md:-1 36e61050479e467ba7fda9cb6615e304
+msgid "[ASSISTments 2012](catalog/assistments12.md)"
+msgstr "[ASSISTments 2012](catalog/assistments12.md)"
+
+#: ../../source/datasets/index.md:-1 4b7e18d1df9a42559f45b6003bbc3fe9
+msgid ""
+"[官方入口](https://sites.google.com/site/assistmentsdata/datasets/2012-13"
+"-school-data-with-affect)"
+msgstr ""
+"[Official "
+"Portal](https://sites.google.com/site/assistmentsdata/datasets/2012-13"
+"-school-data-with-affect)"
+
+#: ../../source/datasets/index.md:-1 ef4731d857994136b31d69558870182e
+msgid "[ASSISTments 2015](catalog/assistments15.md)"
+msgstr "[ASSISTments 2015](catalog/assistments15.md)"
+
+#: ../../source/datasets/index.md:-1 e95b2026d00045ea970ff2ff65024b4b
+msgid ""
+"[官方入口](https://sites.google.com/site/assistmentsdata/datasets/2015"
+"-assistments-skill-builder-data)"
+msgstr ""
+"[Official "
+"Portal](https://sites.google.com/site/assistmentsdata/datasets/2015"
+"-assistments-skill-builder-data)"
+
+#: ../../source/datasets/index.md:-1 46e7aa1f3190439096a023df9aa61369
+msgid "[ASSISTments 2017](catalog/assistments17.md)"
+msgstr "[ASSISTments 2017](catalog/assistments17.md)"
+
+#: ../../source/datasets/index.md:-1 2e7de969c9de440e9563bce05560a44b
+msgid "[官方入口](https://sites.google.com/view/assistmentsdatamining/dataset)"
+msgstr ""
+"[Official "
+"Portal](https://sites.google.com/view/assistmentsdatamining/dataset)"
+
+#: ../../source/datasets/index.md:-1 d451d37fcb544345bcfd772de42a9980
+msgid "[Algebra I 2005–2006](catalog/algebra2005.md)"
+msgstr "[Algebra I 2005–2006](catalog/algebra2005.md)"
+
+#: ../../source/datasets/index.md:-1 8472f4db3a8847c38413edbaa55aef43
+#: d939cab471734551bb9c72f40fe426bb e9c1e712222942dc99d036904917a2d6
+msgid "[官方入口](https://pslcdatashop.web.cmu.edu/KDDCup/downloads.jsp)"
+msgstr "[Official Portal](https://pslcdatashop.web.cmu.edu/KDDCup/downloads.jsp)"
+
+#: ../../source/datasets/index.md:-1 b3633294052a4e2ab8668bd70162a1f4
+msgid "[Algebra I 2006–2007](catalog/algebra2006.md)"
+msgstr "[Algebra I 2006–2007](catalog/algebra2006.md)"
+
+#: ../../source/datasets/index.md:-1 3fd75316043249f388212b8e35504f50
+msgid "[Bridge to Algebra 2006–2007](catalog/bridge2006.md)"
+msgstr "[Bridge to Algebra 2006–2007](catalog/bridge2006.md)"
+
+#: ../../source/datasets/index.md:-1 82cb269416b844fc893c5aa3320ffc3d
+msgid "[EdNet-KT1](catalog/ednet.md)"
+msgstr "[EdNet-KT1](catalog/ednet.md)"
+
+#: ../../source/datasets/index.md:-1 813605461b3848af88d568af8f586d63
+msgid "[官方入口](https://github.com/riiid/ednet)"
+msgstr "[Official Portal](https://github.com/riiid/ednet)"
+
+#: ../../source/datasets/index.md:-1 6697df712c644a39b8e34199006ebce6
+msgid "[Junyi 2015](catalog/junyi2015.md)"
+msgstr "[Junyi 2015](catalog/junyi2015.md)"
+
+#: ../../source/datasets/index.md:-1 878576e7892b44dd8411af4a38aff3b2
+msgid "[官方入口](https://pslcdatashop.web.cmu.edu/DatasetInfo?datasetId=1198)"
+msgstr ""
+"[Official "
+"Portal](https://pslcdatashop.web.cmu.edu/DatasetInfo?datasetId=1198)"
+
+#: ../../source/datasets/index.md:-1 c5393b789a3943a6b783074d6c17d264
+msgid "[MOOC-Radar](catalog/moocradar.md)"
+msgstr "[MOOC-Radar](catalog/moocradar.md)"
+
+#: ../../source/datasets/index.md:-1 a18d4f7710f747b88ca53e93c5e43944
+msgid "[官方入口](https://github.com/THU-KEG/MOOC-Radar)"
+msgstr "[Official Portal](https://github.com/THU-KEG/MOOC-Radar)"
+
+#: ../../source/datasets/index.md:-1 da75ef360a204cbbaa02e9b9a5d12796
+msgid "[NeurIPS 2020 Task 3/4](catalog/nips2020.md)"
+msgstr "[NeurIPS 2020 Task 3/4](catalog/nips2020.md)"
+
+#: ../../source/datasets/index.md:-1 b8ec11a8bb6343d398e450d1f9862a5f
+msgid "[官方入口](https://competitions.codalab.org/competitions/25449)"
+msgstr "[Official Portal](https://competitions.codalab.org/competitions/25449)"
+
+#: ../../source/datasets/index.md:-1 3c1bd8be857741e0881dc945d9dae365
+msgid "[Practice Anatomy](catalog/practiceanatomy.md)"
+msgstr "[Practice Anatomy](catalog/practiceanatomy.md)"
+
+#: ../../source/datasets/index.md:-1 14d1a7f2c22145b58dba0d3958f7d4f0
+msgid "[官方入口](http://data.practiceanatomy.com/)"
+msgstr "[Official Portal](http://data.practiceanatomy.com/)"
+
+#: ../../source/datasets/index.md:-1 7dc4caba6b984a6998806217644faeab
+msgid "[Slepemapy](catalog/slepemapy.md)"
+msgstr "[Slepemapy](catalog/slepemapy.md)"
+
+#: ../../source/datasets/index.md:-1 93c064cffaa44692b2cca6b7bc745560
+msgid "[官方入口](https://www.fi.muni.cz/adaptivelearning/data/slepemapy/)"
+msgstr "[Official Portal](https://www.fi.muni.cz/adaptivelearning/data/slepemapy/)"
+
+#: ../../source/datasets/index.md:-1 65085feaa64148c1aea0ae1d6ef57436
+msgid "[XES3G5M](catalog/xes3g5m.md)"
+msgstr "[XES3G5M](catalog/xes3g5m.md)"
+
+#: ../../source/datasets/index.md:-1 dfca6fbbbc084eec917639e7f59b691e
+msgid "[官方入口](https://github.com/ai4ed/XES3G5M)"
+msgstr "[Official Portal](https://github.com/ai4ed/XES3G5M)"
+
+#~ msgid "支持的数据集"
+#~ msgstr "Supported datasets"
+
+#~ msgid "UniKT 支持 11 个知识追踪数据集，提供自动下载和预处理功能。"
+#~ msgstr ""
+#~ "UniKT supports 11 knowledge tracing "
+#~ "datasets with automatic download and "
+#~ "preprocessing."
+
+#~ msgid "来源"
+#~ msgstr "Source"
+
+#~ msgid "学生数"
+#~ msgstr "Students"
+
+#~ msgid "交互数"
+#~ msgstr "Interactions"
+
+#~ msgid "技能数"
+#~ msgstr "Skills"
+
+#~ msgid "ASSISTments 2009"
+#~ msgstr "ASSISTments 2009"
+
+#~ msgid "[ASSISTmentsData](https://www.etrialstestbed.org/data-sets)"
+#~ msgstr "[ASSISTmentsData](https://www.etrialstestbed.org/data-sets)"
+
+#~ msgid "4,151"
+#~ msgstr "4,151"
+
+#~ msgid "324,975"
+#~ msgstr "324,975"
+
+#~ msgid "110"
+#~ msgstr "110"
+
+#~ msgid "ASSISTments 2012"
+#~ msgstr "ASSISTments 2012"
+
+#~ msgid "26,688"
+#~ msgstr "26,688"
+
+#~ msgid "2,535,057"
+#~ msgstr "2,535,057"
+
+#~ msgid "265"
+#~ msgstr "265"
+
+#~ msgid "ASSISTments 2015"
+#~ msgstr "ASSISTments 2015"
+
+#~ msgid "19,840"
+#~ msgstr "19,840"
+
+#~ msgid "683,601"
+#~ msgstr "683,601"
+
+#~ msgid "100"
+#~ msgstr "100"
+
+#~ msgid "ASSISTments 2017"
+#~ msgstr "ASSISTments 2017"
+
+#~ msgid "1,709"
+#~ msgstr "1,709"
+
+#~ msgid "942,816"
+#~ msgstr "942,816"
+
+#~ msgid "102"
+#~ msgstr "102"
+
+#~ msgid "EdNet-KT1"
+#~ msgstr "EdNet-KT1"
+
+#~ msgid "[GitHub](https://github.com/riiid/ednet)"
+#~ msgstr "[GitHub](https://github.com/riiid/ednet)"
+
+#~ msgid "784,309"
+#~ msgstr "784,309"
+
+#~ msgid "131,441,538"
+#~ msgstr "131,441,538"
+
+#~ msgid "—"
+#~ msgstr "—"
+
+#~ msgid "Junyi 2015"
+#~ msgstr "Junyi 2015"
+
+#~ msgid ""
+#~ "[Kaggle](https://www.kaggle.com/datasets/junyiacademy/learning-"
+#~ "activity-public-dataset)"
+#~ msgstr ""
+#~ "[Kaggle](https://www.kaggle.com/datasets/junyiacademy/learning-"
+#~ "activity-public-dataset)"
+
+#~ msgid "247,606"
+#~ msgstr "247,606"
+
+#~ msgid "25,925,922"
+#~ msgstr "25,925,922"
+
+#~ msgid "179"
+#~ msgstr "179"
+
+#~ msgid "Slepemapy"
+#~ msgstr "Slepemapy"
+
+#~ msgid "[SLEP](https://www.fi.muni.cz/adaptivelearning/)"
+#~ msgstr "[SLEP](https://www.fi.muni.cz/adaptivelearning/)"
+
+#~ msgid "91,001"
+#~ msgstr "91,001"
+
+#~ msgid "9,164,780"
+#~ msgstr "9,164,780"
+
+#~ msgid "1,457"
+#~ msgstr "1,457"
+
+#~ msgid "数据格式"
+#~ msgstr "Data format"
+
+#~ msgid "所有数据集都会被处理为标准化的 Parquet 文件："
+#~ msgstr "All datasets are processed into standardized Parquet files:"
+
+#~ msgid "序列字段"
+#~ msgstr "Sequence fields"
+
+#~ msgid "字段"
+#~ msgstr "Field"
+
+#~ msgid "类型"
+#~ msgstr "Type"
+
+#~ msgid "描述"
+#~ msgstr "Description"
+
+#~ msgid "``user``"
+#~ msgstr "``user``"
+
+#~ msgid "``Int32``"
+#~ msgstr "``Int32``"
+
+#~ msgid "用户标识符（重映射）"
+#~ msgstr "User identifier (remapped)"
+
+#~ msgid "``question``"
+#~ msgstr "``question``"
+
+#~ msgid "题目标识符"
+#~ msgstr "Question identifier"
+
+#~ msgid "``skill``"
+#~ msgstr "``skill``"
+
+#~ msgid "技能/概念标识符"
+#~ msgstr "Skill/concept identifier"
+
+#~ msgid "``label``"
+#~ msgstr "``label``"
+
+#~ msgid "``Int8``"
+#~ msgstr "``Int8``"
+
+#~ msgid "回答正确性（0 或 1）"
+#~ msgstr "Response correctness (0 or 1)"
+
+#~ msgid "``timestamp``"
+#~ msgstr "``timestamp``"
+
+#~ msgid "``Int64``"
+#~ msgstr "``Int64``"
+
+#~ msgid "Unix 时间戳（毫秒）"
+#~ msgstr "Unix timestamp (milliseconds)"
+
+#~ msgid "``fold``"
+#~ msgstr "``fold``"
+
+#~ msgid "K 折标签（-1 = 测试集）"
+#~ msgstr "K-fold label (-1 = test set)"
+
+#~ msgid "``seq_pos``"
+#~ msgstr "``seq_pos``"
+
+#~ msgid "序列中的位置"
+#~ msgstr "Position within the sequence"
+
+#~ msgid "使用方法"
+#~ msgstr "Usage"
+
+#~ msgid "详细流程文档请参阅[数据预处理](../user-guide/data-processing.md)。"
+#~ msgstr ""
+#~ "For the detailed workflow, see [Data "
+#~ "preprocessing](../user-guide/data-processing.md)."
+
+#~ msgid "查阅公开数据来源、规模与原始字段。准备实验数据时，结合[数据处理指南](data-pipeline.md)了解下载、清洗和序列切分流程。"
+#~ msgstr ""

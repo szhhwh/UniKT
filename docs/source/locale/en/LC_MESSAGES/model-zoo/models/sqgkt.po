@@ -1,0 +1,147 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/sqgkt.md:1 d05c5c3a163e4f6bb6a5930d3828f2c4
+msgid "SQGKT"
+msgstr "SQGKT"
+
+#: ../../source/model-zoo/models/sqgkt.md:3 1d731d4099164ee2b3e4eb1aba24e5d2
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/sqgkt.md 126c55f51129463894df371f546b58ec
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/sqgkt.md 005083d4a4f0435d926e83b5bf5391e1
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/sqgkt.md 88ee02ab92844607ab0aaeb0e9b637e0
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/sqgkt.md 4e0471ca8cd446bba3599a3db9150c6f
+msgid ""
+"[SQGKT: Student-question interaction graph-based knowledge "
+"tracing](https://doi.org/10.1016/j.eswa.2025.129175)"
+msgstr ""
+"[SQGKT: Student-question interaction graph-based knowledge "
+"tracing](https://doi.org/10.1016/j.eswa.2025.129175)"
+
+#: ../../source/model-zoo/models/sqgkt.md f0a417548fe94fed8d3c3c44b9a0a935
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/sqgkt.md 9c510471d65045c59498306b610d60d7
+msgid ""
+"Tao Xu, Yingying Zhao, Juntao Zhang, Jiaming Deng, Zhilong Zhao, Daojun "
+"Han, Fengsi Wang, Xiangqian Wei"
+msgstr ""
+"Tao Xu, Yingying Zhao, Juntao Zhang, Jiaming Deng, Zhilong Zhao, Daojun "
+"Han, Fengsi Wang, Xiangqian Wei"
+
+#: ../../source/model-zoo/models/sqgkt.md ae613a73c8644a77869698d1007cd558
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/sqgkt.md 3de2b8b75c9247d38a1f2c6a452261fc
+msgid "2026"
+msgstr "2026"
+
+#: ../../source/model-zoo/models/sqgkt.md 10cdd048e1b64e1c92b4ec3813699f30
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/sqgkt.md 5e54328344034d05b708c4eba3c2e5a8
+msgid "Expert Systems with Applications"
+msgstr "Expert Systems with Applications"
+
+#: ../../source/model-zoo/models/sqgkt.md:12 de4619f66d41445c8ed813749dc89b09
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/sqgkt.md:14 d84d4c49a61c41a583737d6526161297
+#, python-format
+msgid ""
+"Knowledge tracing (KT) aims to predict students' performance by assessing"
+" their knowledge states and has been widely applied in online education. "
+"However, existing KT models have not delved into the implicit information"
+" in the process of students' answering, such as learning ability, attempt"
+" counts, hint counts, etc., so modeling the dynamic relationships among "
+"students, questions, and skills based on students' answer details remains"
+" a challenge. In addition, existing models overlook the high-order "
+"relationships between students and questions, resulting in the inability "
+"to utilize the answering behaviors of students other than the target "
+"student. To address these problems, we propose a new graph-based "
+"knowledge tracing model named Student-Question interaction Graph-based "
+"Knowledge Tracing (SQGKT) to trace students' knowledge states and predict"
+" the probability that students answer the question correctly next time. "
+"Firstly, we quantify learning ability, attempts, and hints to assess "
+"students' learning performance on questions. Then, we construct a "
+"student-question graph and a question-skill graph to describe the "
+"multiple relationships among students, questions, and skills, "
+"respectively. Next, we design a graph embedding and fusion module to "
+"perform graph convolution on two graphs and fuse their question "
+"embeddings, forming enhanced question representations that integrate "
+"students' answering performance and skill information. Finally, we employ"
+" LSTM to trace students' knowledge states and predict their performance. "
+"We conduct extensive experiments on three public datasets (i.e., "
+"ASSISTments 2009, ASSISTments 2012, and Junyi), and the experimental "
+"results demonstrate that our SQGKT significantly outperforms all "
+"baselines, with improvements of at least 2.40 \\% in AUC and at least "
+"4.72 \\% in ACC."
+msgstr ""
+"Knowledge tracing (KT) aims to predict students' performance by assessing"
+" their knowledge states and has been widely applied in online education. "
+"However, existing KT models have not delved into the implicit information"
+" in the process of students' answering, such as learning ability, attempt"
+" counts, hint counts, etc., so modeling the dynamic relationships among "
+"students, questions, and skills based on students' answer details remains"
+" a challenge. In addition, existing models overlook the high-order "
+"relationships between students and questions, resulting in the inability "
+"to utilize the answering behaviors of students other than the target "
+"student. To address these problems, we propose a new graph-based "
+"knowledge tracing model named Student-Question interaction Graph-based "
+"Knowledge Tracing (SQGKT) to trace students' knowledge states and predict"
+" the probability that students answer the question correctly next time. "
+"Firstly, we quantify learning ability, attempts, and hints to assess "
+"students' learning performance on questions. Then, we construct a "
+"student-question graph and a question-skill graph to describe the "
+"multiple relationships among students, questions, and skills, "
+"respectively. Next, we design a graph embedding and fusion module to "
+"perform graph convolution on two graphs and fuse their question "
+"embeddings, forming enhanced question representations that integrate "
+"students' answering performance and skill information. Finally, we employ"
+" LSTM to trace students' knowledge states and predict their performance. "
+"We conduct extensive experiments on three public datasets (i.e., "
+"ASSISTments 2009, ASSISTments 2012, and Junyi), and the experimental "
+"results demonstrate that our SQGKT significantly outperforms all "
+"baselines, with improvements of at least 2.40 \\% in AUC and at least "
+"4.72 \\% in ACC."
+
+#: ../../source/model-zoo/models/sqgkt.md:16 98f56bc2b6cc4676a77f4aa5e55ea5b7
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/sqgkt.md:18 061dee3b05d043318507e7f5afa6d828
+msgid "[Yingying933/SQGKT](https://github.com/Yingying933/SQGKT)"
+msgstr "[Yingying933/SQGKT](https://github.com/Yingying933/SQGKT)"

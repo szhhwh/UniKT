@@ -1,0 +1,896 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/developer-guides/multi-stage-training.md:1
+#: d68b564212154d94a03f1d5c2d27c766
+msgid "多阶段训练架构"
+msgstr "Multi-Stage Training Architecture"
+
+#: ../../source/developer-guides/multi-stage-training.md:3
+#: d4bce5e4de7944f6b9bbaa6b346c31e9
+msgid ""
+"部分先进的知识追踪模型采用了复合、分步或级联提升的训练范式。例如 ABKT 首先训练知识状态模块 KM 阶段，利用 IRT "
+"拟合学生对知识点的掌握度；待 KM 阶段收敛并冻结后，计算作答残差与样本权重，进而进入能力模块 AM "
+"阶段训练残差网络，最后由两阶段联合完成最终推断。"
+msgstr ""
+"Certain advanced knowledge tracing models employ composite, staged, or "
+"boosting training paradigms. For instance, ABKT first trains a knowledge "
+"module (KM) fitting student mastery via IRT; after KM converges and "
+"freezes, response residuals and sample weights are computed to train an "
+"ability module (AM) residual network, culminating in joint inference "
+"across both stages."
+
+#: ../../source/developer-guides/multi-stage-training.md:5
+#: 40d81fcb5cf24d3ca9fee9dd8bacfe77
+msgid "针对复杂的阶段化训练流程，UniKT 提供了 `MultiTrainer` 训练架构。其执行时序包含四个关键环节："
+msgstr ""
+"To support complex staged training workflows, UniKT provides the "
+"`MultiTrainer` framework. Its execution timeline encompasses four key "
+"phases:"
+
+#: ../../source/developer-guides/multi-stage-training.md:7
+#: 6b0931d0ac3d45c88cbc065d19b688fe
+msgid "**获取阶段编排**：`MultiTrainer.run()` 触发 `build_stages()` 获取阶段配置列表。"
+msgstr ""
+"**Stage Orchestration**: `MultiTrainer.run()` triggers `build_stages()` "
+"to obtain the sequence of stage configurations."
+
+#: ../../source/developer-guides/multi-stage-training.md:8
+#: ca73dd7dd91e4a70ba94b29ec5f43c0b
+msgid "**延迟构建与独立训练**：按顺序逐个阶段调用构建函数，每个阶段独立拥有专用的模型、优化器、早停监控与学习率调度器。"
+msgstr ""
+"**Lazy Construction & Independent Training**: Calls builder functions "
+"sequentially per stage, each equipped with dedicated models, optimizers, "
+"early stopping monitors, and learning rate schedulers."
+
+#: ../../source/developer-guides/multi-stage-training.md:9
+#: e635e3d3f1db4dc4a283870a247362cb
+msgid ""
+"**阶段流转与残差通信**：阶段收敛完成后，触发 `on_stage_complete(stage_name, result)` "
+"钩子，计算中间残差或更新下一阶段的输入特征。"
+msgstr ""
+"**Stage Transition & Residual Communication**: Upon stage convergence, "
+"the `on_stage_complete(stage_name, result)` hook fires to compute "
+"intermediate residuals or update input features for subsequent stages."
+
+#: ../../source/developer-guides/multi-stage-training.md:10
+#: e5f4e7b462534f1f86eacdea2fd25dfd
+msgid ""
+"**测试集联合推断**：所有阶段训练完成后触发测试评估，调用 `test_forward_pass(batch_data)` "
+"联合各阶段模型完成最终推断。"
+msgstr ""
+"**Joint Test Inference**: Once all stages finish training, test "
+"evaluation invokes `test_forward_pass(batch_data)` to execute joint "
+"inference across trained models."
+
+#: ../../source/developer-guides/multi-stage-training.md:14
+#: 70fcb91c57af499bace6fd2d3a2a8b53
+msgid "核心架构设计"
+msgstr "Core Architecture Design"
+
+#: ../../source/developer-guides/multi-stage-training.md:16
+#: 08899b0898fa410aae1c1c2f398205e9
+msgid "单阶段训练器 `BaseTrainer` 与多阶段训练器 `MultiTrainer` 的架构差异如下："
+msgstr ""
+"Architectural differences between single-stage `BaseTrainer` and multi-"
+"stage `MultiTrainer` are summarized below:"
+
+#: ../../source/developer-guides/multi-stage-training.md
+#: 255af577da2b44eead8f021e965cdeb4
+msgid "对比维度"
+msgstr "Comparison Dimension"
+
+#: ../../source/developer-guides/multi-stage-training.md
+#: beaef23ae92d4db0ac887b16c3147dcc
+msgid "BaseTrainer 单阶段"
+msgstr "BaseTrainer (Single-Stage)"
+
+#: ../../source/developer-guides/multi-stage-training.md
+#: 77438634dd3b48a7ab68cf3d83020f11
+msgid "MultiTrainer 多阶段"
+msgstr "MultiTrainer (Multi-Stage)"
+
+#: ../../source/developer-guides/multi-stage-training.md
+#: e86431b4c6c34408b2b8ab853e40564d
+msgid "**组件构建时机**"
+msgstr "**Component Build Timing**"
+
+#: ../../source/developer-guides/multi-stage-training.md
+#: 44b1fdc16402442995b68bf6f8304187
+msgid "构造阶段一次性调用 `build_components` 返回 `RuntimeComponents`"
+msgstr ""
+"Constructed upfront by calling `build_components` returning "
+"`RuntimeComponents`"
+
+#: ../../source/developer-guides/multi-stage-training.md
+#: c510c13816164015aedf78ca121ec484
+msgid "延迟执行：按阶段依次调用各阶段构建函数"
+msgstr "Lazy execution: stage builder functions called sequentially per stage"
+
+#: ../../source/developer-guides/multi-stage-training.md
+#: 1ee915a485e142139f093922b5f1c2e0
+msgid "**模型与优化器状态**"
+msgstr "**Model and Optimizer State**"
+
+#: ../../source/developer-guides/multi-stage-training.md
+#: 8ade08b41f1443718d59d10cb10ff73f
+msgid "单一的 `self.model`, `self.optimizer`, `self.loss_fn`"
+msgstr "Single `self.model`, `self.optimizer`, `self.loss_fn`"
+
+#: ../../source/developer-guides/multi-stage-training.md
+#: a92de170ecfa43d78d991fd4d0cb5702
+msgid "随阶段切换，每个阶段独享专用的 `model`, `optimizer`, `loss_fn`, `train_data`"
+msgstr ""
+"Switches per stage, each stage having dedicated `model`, `optimizer`, "
+"`loss_fn`, `train_data`"
+
+#: ../../source/developer-guides/multi-stage-training.md
+#: 16fae7c28a87414e90f127aee48f23bd
+msgid "**阶段间通信**"
+msgstr "**Inter-Stage Communication**"
+
+#: ../../source/developer-guides/multi-stage-training.md
+#: d0ed8d9dcf604df1b1161eca16f7072d
+msgid "无需阶段间通信"
+msgstr "No inter-stage communication needed"
+
+#: ../../source/developer-guides/multi-stage-training.md
+#: dc667fac3b62462d9ce3f33ccd8f3ccd
+msgid "通过 `on_stage_complete` 和实例属性传递特征、中间状态与残差数据"
+msgstr ""
+"Transfers features, intermediate states, and residuals via "
+"`on_stage_complete` and instance attributes"
+
+#: ../../source/developer-guides/multi-stage-training.md
+#: c278aeddaa1d47e6be428b597398107b
+msgid "**早停与检查点**"
+msgstr "**Early Stopping and Checkpoints**"
+
+#: ../../source/developer-guides/multi-stage-training.md
+#: e18ed7d64d1a4cf8a2940c32a399d360
+msgid "全局统一的 `EarlyStoppingConfig`"
+msgstr "Global unified `EarlyStoppingConfig`"
+
+#: ../../source/developer-guides/multi-stage-training.md
+#: f5ce4cf095a84c058161de33923f010c
+msgid "每个阶段可独立配置 `EarlyStoppingConfig`，监控不同指标"
+msgstr ""
+"Each stage configures independent `EarlyStoppingConfig` monitoring "
+"distinct metrics"
+
+#: ../../source/developer-guides/multi-stage-training.md
+#: 51f8da5e6a6e42968abcad8b25dd203c
+msgid "**测试推断**"
+msgstr "**Test Inference**"
+
+#: ../../source/developer-guides/multi-stage-training.md
+#: 6819f8ce079b44dcb2eae194b7dd2fec
+msgid "默认直接复用 `forward_pass`"
+msgstr "Reuses `forward_pass` by default"
+
+#: ../../source/developer-guides/multi-stage-training.md
+#: 641460dc15ff46a58f3d754b4a59f7e2
+msgid "建议覆盖 `test_forward_pass`，实现多阶段联合推断"
+msgstr ""
+"Recommended to override `test_forward_pass` for joint multi-stage "
+"inference"
+
+#: ../../source/developer-guides/multi-stage-training.md:28
+#: f320b8b463cd482e8513ec72cf0d77b8
+msgid "核心抽象与数据结构"
+msgstr "Core Abstractions and Data Structures"
+
+#: ../../source/developer-guides/multi-stage-training.md:30
+#: ace18a90c6df42a190d942c1be5f99b6
+msgid "多阶段训练器依托于 `utils.training` 中的两个核心类："
+msgstr "Multi-stage training relies on two core dataclasses in `utils.training`:"
+
+#: ../../source/developer-guides/multi-stage-training.md:32
+#: a4a6e7b7ab244d7bb0840f497b38cea6
+msgid "1. StageConfig"
+msgstr "1\\. StageConfig"
+
+#: ../../source/developer-guides/multi-stage-training.md:33
+#: 66487163b350489bb552b9bdbb8be333
+msgid "声明一个阶段的名称以及其延迟构建函数："
+msgstr "Declares stage names alongside their lazy builder callables:"
+
+#: ../../source/developer-guides/multi-stage-training.md:34
+#: 068f5bec0c7340ff907423c105bcb3f4
+msgid ""
+"@dataclass\n"
+"class StageConfig:\n"
+"    name: str  # 阶段标识（如 \"km\", \"am\", \"pretrain\" 等）\n"
+"    build: Callable[[], StageComponents]  # 零参数可调用对象，返回 StageComponents\n"
+msgstr ""
+"@dataclass\n"
+"class StageConfig:\n"
+"    name: str  # Stage identifier (e.g. \"km\", \"am\", \"pretrain\")\n"
+"    build: Callable[[], StageComponents]  # Zero-argument callable "
+"returning StageComponents\n"
+
+#: ../../source/developer-guides/multi-stage-training.md:41
+#: 3448f922c4c64e4f9995269682d5594a
+msgid "2. StageComponents"
+msgstr "2\\. StageComponents"
+
+#: ../../source/developer-guides/multi-stage-training.md:42
+#: e58231bdf4c24085be4fb1de7def4ab7
+msgid "封装单阶段训练所需的独立运行时组件："
+msgstr "Encapsulates independent runtime components required for a single stage:"
+
+#: ../../source/developer-guides/multi-stage-training.md:43
+#: b70e66153b23407d8ac7afd85a5425b0
+msgid ""
+"@dataclass\n"
+"class StageComponents:\n"
+"    model: torch.nn.Module  # 该阶段的模型\n"
+"    optimizer: torch.optim.Optimizer  # 该阶段的优化器\n"
+"    loss_fn: torch.nn.Module  # 该阶段的损失函数\n"
+"    train_data: Any  # 该阶段的训练数据（DataLoader 或 Dataset）\n"
+"    val_data: Any | None = None  # 验证数据（可选）\n"
+"    test_data: Any | None = None  # 测试数据（可选）\n"
+"    epochs: int = 100  # 该阶段运行轮数\n"
+"    lr_scheduler: Any | None = None  # 学习率调度器（可选）\n"
+"    early_stopping: EarlyStoppingConfig | None = None  # 早停配置对象（非构造实例）\n"
+"    max_clip_grad_norm: float | None = None  # 梯度裁剪阈值\n"
+"    checkpoint_monitor: str | None = None  # 最佳模型监控指标（如 \"auc\"）\n"
+"    checkpoint_mode: str | None = None  # 监控模式（\"max\" 或 \"min\"）\n"
+msgstr ""
+"@dataclass\n"
+"class StageComponents:\n"
+"    model: torch.nn.Module  # Stage model\n"
+"    optimizer: torch.optim.Optimizer  # Stage optimizer\n"
+"    loss_fn: torch.nn.Module  # Stage loss function\n"
+"    train_data: Any  # Stage training data (DataLoader or Dataset)\n"
+"    val_data: Any | None = None  # Validation data (optional)\n"
+"    test_data: Any | None = None  # Test data (optional)\n"
+"    epochs: int = 100  # Number of epochs for this stage\n"
+"    lr_scheduler: Any | None = None  # Learning rate scheduler (optional)"
+"\n"
+"    early_stopping: EarlyStoppingConfig | None = None  # Early stopping "
+"configuration (not constructed instance)\n"
+"    max_clip_grad_norm: float | None = None  # Gradient clipping "
+"threshold\n"
+"    checkpoint_monitor: str | None = None  # Best checkpoint monitor "
+"metric (e.g. \"auc\")\n"
+"    checkpoint_mode: str | None = None  # Monitor mode (\"max\" or "
+"\"min\")\n"
+
+#: ../../source/developer-guides/multi-stage-training.md:62
+#: 151c1f036ddd4b9d88efdb11ca4dd39e
+msgid "完整实现步骤"
+msgstr "Complete Implementation Steps"
+
+#: ../../source/developer-guides/multi-stage-training.md:64
+#: f65c4c4d60cc4083894bc94dcf0c50c2
+msgid "第一步：定义多阶段模型配置"
+msgstr "Step 1: Define Multi-Stage Model Configuration"
+
+#: ../../source/developer-guides/multi-stage-training.md:66
+#: 7f2ba6658b5347a98e8a30ba0315519a
+msgid "继承 `ModelConfig`，在字段中定义各个阶段特有的超参数："
+msgstr ""
+"Inherit from `ModelConfig` and declare stage-specific hyperparameters "
+"across fields:"
+
+#: ../../source/developer-guides/multi-stage-training.md:68
+#: 8c184819b87d4fa0ba55ca9ee6fdeb49
+msgid ""
+"from dataclasses import field\n"
+"from typing import Literal\n"
+"from utils.config import ModelConfig\n"
+"from utils.core import register_model_config\n"
+"\n"
+"\n"
+"@register_model_config(\"ABKT\")\n"
+"class ABKTConfig(ModelConfig):\n"
+"    \"\"\"ABKT 多阶段超参数配置。\"\"\"\n"
+"\n"
+"    # KM 阶段超参数\n"
+"    km_hidden_dim: int = 5\n"
+"    km_lr: float = 1e-3\n"
+"    km_epochs: int = 100\n"
+"    km_patience: int = 10\n"
+"\n"
+"    # AM 阶段超参数\n"
+"    am_embedding_dim: int = 50\n"
+"    am_lr: float = 1e-4\n"
+"    am_epochs: int = 500\n"
+"    am_patience: int = 10\n"
+"    am_lambda: float = 0.1  # 正则化权重\n"
+"\n"
+"    # 多阶段融合方式\n"
+"    combine_mode: Literal[\"add\", \"mul\"] = \"add\"\n"
+"    batch_size: int = 128\n"
+msgstr ""
+"from dataclasses import field\n"
+"from typing import Literal\n"
+"from utils.config import ModelConfig\n"
+"from utils.core import register_model_config\n"
+"\n"
+"\n"
+"@register_model_config(\"ABKT\")\n"
+"class ABKTConfig(ModelConfig):\n"
+"    \"\"\"ABKT multi-stage hyperparameter configuration.\"\"\"\n"
+"\n"
+"    # KM stage hyperparameters\n"
+"    km_hidden_dim: int = 5\n"
+"    km_lr: float = 1e-3\n"
+"    km_epochs: int = 100\n"
+"    km_patience: int = 10\n"
+"\n"
+"    # AM stage hyperparameters\n"
+"    am_embedding_dim: int = 50\n"
+"    am_lr: float = 1e-4\n"
+"    am_epochs: int = 500\n"
+"    am_patience: int = 10\n"
+"    am_lambda: float = 0.1  # Regularization weight\n"
+"\n"
+"    # Multi-stage fusion mode\n"
+"    combine_mode: Literal[\"add\", \"mul\"] = \"add\"\n"
+"    batch_size: int = 128"
+
+#: ../../source/developer-guides/multi-stage-training.md:97
+#: cb1b91ad8469436e9a7c147322529a6e
+msgid "第二步：继承 MultiTrainer 并声明阶段列表"
+msgstr "Step 2: Inherit MultiTrainer and Declare Stages"
+
+#: ../../source/developer-guides/multi-stage-training.md:99
+#: 020fcf63172c4155a1335af3d5185d5f
+msgid "训练器在 `__init__` 中只做跨阶段通用的数据预备（如解析 Q 矩阵与用户交互记录），通过 `build_stages` 声明阶段顺序："
+msgstr ""
+"The trainer prepares cross-stage shared data (e.g., Q-matrices, "
+"interaction records) in `__init__` and declares stage order via "
+"`build_stages`:"
+
+#: ../../source/developer-guides/multi-stage-training.md:101
+#: 29ccefa2a6594a25b207db917534df87
+msgid ""
+"from utils.core import register_trainer\n"
+"from utils.training import MultiTrainer, StageComponents, StageConfig\n"
+"\n"
+"\n"
+"@register_trainer(\"ABKT\")\n"
+"class ABKTTrainer(MultiTrainer):\n"
+"    def __init__(self, rc, data_src, exp_manager=None):\n"
+"        # 1. 准备跨阶段共享数据（在调用 super 之前）\n"
+"        from .ABKT_data import ABKTModelData\n"
+"\n"
+"        self.model_data = ABKTModelData(data_src)\n"
+"        self.data = self.model_data.prepare_data(rc)\n"
+"\n"
+"        # 2. 跨阶段状态槽位（将在阶段完成时由 hook 填充）\n"
+"        self.km_model = None\n"
+"        self.am_model = None\n"
+"        self.am_train_triplets = None\n"
+"        self.am_test_triplets = None\n"
+"\n"
+"        super().__init__(rc, data_src, exp_manager)\n"
+"\n"
+"    def build_stages(self) -> list[StageConfig]:\n"
+"        \"\"\"返回阶段执行顺序。构建器函数延迟执行。\"\"\"\n"
+"        return [\n"
+"            StageConfig(name=\"km\", build=self._build_km),\n"
+"            StageConfig(name=\"am\", build=self._build_am),\n"
+"        ]\n"
+msgstr ""
+"from utils.core import register_trainer\n"
+"from utils.training import MultiTrainer, StageComponents, StageConfig\n"
+"\n"
+"\n"
+"@register_trainer(\"ABKT\")\n"
+"class ABKTTrainer(MultiTrainer):\n"
+"    def __init__(self, rc, data_src, exp_manager=None):\n"
+"        # 1. Prepare data shared across stages (before calling super)\n"
+"        from .ABKT_data import ABKTModelData\n"
+"\n"
+"        self.model_data = ABKTModelData(data_src)\n"
+"        self.data = self.model_data.prepare_data(rc)\n"
+"\n"
+"        # 2. Cross-stage state slots (filled by hooks when a stage "
+"completes)\n"
+"        self.km_model = None\n"
+"        self.am_model = None\n"
+"        self.am_train_triplets = None\n"
+"        self.am_test_triplets = None\n"
+"\n"
+"        super().__init__(rc, data_src, exp_manager)\n"
+"\n"
+"    def build_stages(self) -> list[StageConfig]:\n"
+"        \"\"\"Return the stage execution order. Builder functions run "
+"lazily.\"\"\"\n"
+"        return [\n"
+"            StageConfig(name=\"km\", build=self._build_km),\n"
+"            StageConfig(name=\"am\", build=self._build_am),\n"
+"        ]"
+
+#: ../../source/developer-guides/multi-stage-training.md:131
+#: a190d1af9f444d828130a4f928437fb7
+msgid "第三步：实现各个阶段的延迟构建方法"
+msgstr "Step 3: Implement Lazy Stage Builders"
+
+#: ../../source/developer-guides/multi-stage-training.md:133
+#: 72e6efef89d9473bb4929b7ed7f43985
+msgid "每个阶段独立组装网络、优化器与数据集："
+msgstr "Each stage independently instantiates networks, optimizers, and datasets:"
+
+#: ../../source/developer-guides/multi-stage-training.md:135
+#: 6c1080e1aa8a40b0bf78f8c1a5ad3ee1
+msgid ""
+"    def _build_km(self) -> StageComponents:\n"
+"        \"\"\"构建第一阶段：KM 知识模块。\"\"\"\n"
+"        m = self.run_config.model\n"
+"        from .ABKT_model import K_CMF\n"
+"\n"
+"        # 实例化 KM 模型\n"
+"        self.km_model = K_CMF(\n"
+"            k_hidden_size=m.km_hidden_dim,\n"
+"            skill_num=self.data[\"num_skills\"],\n"
+"            user_num=self.data[\"num_users\"],\n"
+"            item_num=self.data[\"num_items\"],\n"
+"            q_matrix=self.data[\"Q_matrix\"].to(self.device_),\n"
+"        )\n"
+"\n"
+"        train_loader = self.data[\"km_train_loader\"]\n"
+"        val_loader = self.data[\"km_val_loader\"]\n"
+"\n"
+"        optimizer = torch.optim.Adam(self.km_model.parameters(), "
+"lr=m.km_lr)\n"
+"\n"
+"        return StageComponents(\n"
+"            model=self.km_model,\n"
+"            optimizer=optimizer,\n"
+"            loss_fn=torch.nn.BCELoss(),\n"
+"            train_data=train_loader,\n"
+"            val_data=val_loader,\n"
+"            epochs=m.km_epochs,\n"
+"            early_stopping=EarlyStoppingConfig(\n"
+"                monitor=\"auc\", mode=\"max\", patience=m.km_patience\n"
+"            ),\n"
+"        )\n"
+"\n"
+"    def _build_am(self) -> StageComponents:\n"
+"        \"\"\"构建第二阶段：AM 能力残差模块。\n"
+"\n"
+"        注意：此时 KM 阶段已完全结束，self.am_train_triplets 已由 hook 准备就绪。\n"
+"        \"\"\"\n"
+"        m = self.run_config.model\n"
+"        from .ABKT_model import GMF\n"
+"\n"
+"        if self.am_train_triplets is None:\n"
+"            raise RuntimeError(\"AM 阶段构建前必须先计算 Boosting 残差！\")\n"
+"\n"
+"        self.am_model = GMF(\n"
+"            n_users=self.data[\"num_users\"],\n"
+"            n_items=self.data[\"num_items\"],\n"
+"            embedding_k=m.am_embedding_dim,\n"
+"        )\n"
+"\n"
+"        # 基于 KM 残差创建 AM 数据加载器\n"
+"        train_loader = create_optimized_dataloader(\n"
+"            self.am_train_triplets,\n"
+"            batch_size=m.batch_size,\n"
+"            shuffle=True,\n"
+"            device=self.device_,\n"
+"        )\n"
+"        val_loader = create_optimized_dataloader(\n"
+"            self.am_test_triplets,\n"
+"            batch_size=m.batch_size,\n"
+"            shuffle=False,\n"
+"            device=self.device_,\n"
+"        )\n"
+"\n"
+"        optimizer = torch.optim.Adam(self.am_model.parameters(), "
+"lr=m.am_lr)\n"
+"        loss_fn = AMLoss(am_lambda=m.am_lambda, "
+"combine_mode=m.combine_mode)\n"
+"\n"
+"        return StageComponents(\n"
+"            model=self.am_model,\n"
+"            optimizer=optimizer,\n"
+"            loss_fn=loss_fn,\n"
+"            train_data=train_loader,\n"
+"            val_data=val_loader,\n"
+"            epochs=m.am_epochs,\n"
+"            early_stopping=EarlyStoppingConfig(\n"
+"                monitor=\"auc\", mode=\"max\", patience=m.am_patience\n"
+"            ),\n"
+"        )\n"
+msgstr ""
+"    def _build_km(self) -> StageComponents:\n"
+"        \"\"\"Build stage 1: KM knowledge module.\"\"\"\n"
+"        m = self.run_config.model\n"
+"        from .ABKT_model import K_CMF\n"
+"\n"
+"        # Instantiate KM model\n"
+"        self.km_model = K_CMF(\n"
+"            k_hidden_size=m.km_hidden_dim,\n"
+"            skill_num=self.data[\"num_skills\"],\n"
+"            user_num=self.data[\"num_users\"],\n"
+"            item_num=self.data[\"num_items\"],\n"
+"            q_matrix=self.data[\"Q_matrix\"].to(self.device_),\n"
+"        )\n"
+"\n"
+"        train_loader = self.data[\"km_train_loader\"]\n"
+"        val_loader = self.data[\"km_val_loader\"]\n"
+"\n"
+"        optimizer = torch.optim.Adam(self.km_model.parameters(), "
+"lr=m.km_lr)\n"
+"\n"
+"        return StageComponents(\n"
+"            model=self.km_model,\n"
+"            optimizer=optimizer,\n"
+"            loss_fn=torch.nn.BCELoss(),\n"
+"            train_data=train_loader,\n"
+"            val_data=val_loader,\n"
+"            epochs=m.km_epochs,\n"
+"            early_stopping=EarlyStoppingConfig(\n"
+"                monitor=\"auc\", mode=\"max\", patience=m.km_patience\n"
+"            ),\n"
+"        )\n"
+"\n"
+"    def _build_am(self) -> StageComponents:\n"
+"        \"\"\"Build stage 2: AM ability residual module.\n"
+"\n"
+"        Note: KM stage is finished; self.am_train_triplets is prepared by"
+" hook.\n"
+"        \"\"\"\n"
+"        m = self.run_config.model\n"
+"        from .ABKT_model import GMF\n"
+"\n"
+"        if self.am_train_triplets is None:\n"
+"            raise RuntimeError(\"Boosting residuals must be computed "
+"before AM stage!\")\n"
+"\n"
+"        self.am_model = GMF(\n"
+"            n_users=self.data[\"num_users\"],\n"
+"            n_items=self.data[\"num_items\"],\n"
+"            embedding_k=m.am_embedding_dim,\n"
+"        )\n"
+"\n"
+"        # Create AM dataloaders based on KM residuals\n"
+"        train_loader = create_optimized_dataloader(\n"
+"            self.am_train_triplets,\n"
+"            batch_size=m.batch_size,\n"
+"            shuffle=True,\n"
+"            device=self.device_,\n"
+"        )\n"
+"        val_loader = create_optimized_dataloader(\n"
+"            self.am_test_triplets,\n"
+"            batch_size=m.batch_size,\n"
+"            shuffle=False,\n"
+"            device=self.device_,\n"
+"        )\n"
+"\n"
+"        optimizer = torch.optim.Adam(self.am_model.parameters(), "
+"lr=m.am_lr)\n"
+"        loss_fn = AMLoss(am_lambda=m.am_lambda, "
+"combine_mode=m.combine_mode)\n"
+"\n"
+"        return StageComponents(\n"
+"            model=self.am_model,\n"
+"            optimizer=optimizer,\n"
+"            loss_fn=loss_fn,\n"
+"            train_data=train_loader,\n"
+"            val_data=val_loader,\n"
+"            epochs=m.am_epochs,\n"
+"            early_stopping=EarlyStoppingConfig(\n"
+"                monitor=\"auc\", mode=\"max\", patience=m.am_patience\n"
+"            ),\n"
+"        )\n"
+
+#: ../../source/developer-guides/multi-stage-training.md:214
+#: 9a6cfbc59fe443fe9438087a338709ce
+msgid "第四步：管理阶段生命周期钩子 (`on_stage_complete`)"
+msgstr "Step 4: Manage Stage Lifecycle Hooks (`on_stage_complete`)"
+
+#: ../../source/developer-guides/multi-stage-training.md:216
+#: 33558ce94d8645dda2b008ca3b3a5f6a
+msgid "通过覆盖 `on_stage_complete(name, result)`，在上一阶段结束时截获中间输出，计算残差或生成下一阶段输入："
+msgstr ""
+"Override `on_stage_complete(name, result)` to intercept intermediate "
+"outputs upon stage completion, computing residuals or constructing next-"
+"stage inputs:"
+
+#: ../../source/developer-guides/multi-stage-training.md:218
+#: 8141a04e57ad46b2a837c6784ab2f3b2
+msgid ""
+"    def on_stage_complete(self, name: str, result) -> None:\n"
+"        \"\"\"阶段结束回调。\"\"\"\n"
+"        if name == \"km\":\n"
+"            logger.info(\"KM 阶段完成，正在基于 KM 输出计算 AM 阶段的 Boosting 残差...\")\n"
+"            self._compute_boosting_residuals()\n"
+"\n"
+"    @torch.inference_mode()\n"
+"    def _compute_boosting_residuals(self) -> None:\n"
+"        \"\"\"利用已训练好的 KM 模型推断全量训练与测试序列，计算梯度与残差。\"\"\"\n"
+"        self.km_model.eval()\n"
+"        # 遍历训练数据，计算残差 g 与样本权重 w\n"
+"        # 并将带有残差的样本构造成 Tensor 赋值给 self.am_train_triplets 和 "
+"self.am_test_triplets\n"
+"        # ... 具体残差计算代码 ...\n"
+msgstr ""
+"    def on_stage_complete(self, name: str, result) -> None:\n"
+"        \"\"\"Stage completion hook.\"\"\"\n"
+"        if name == \"km\":\n"
+"            logger.info(\"KM stage complete. Computing AM stage boosting "
+"residuals...\")\n"
+"            self._compute_boosting_residuals()\n"
+"\n"
+"    @torch.inference_mode()\n"
+"    def _compute_boosting_residuals(self) -> None:\n"
+"        \"\"\"Infer sequences using trained KM model to compute gradients"
+" and residuals.\"\"\"\n"
+"        self.km_model.eval()\n"
+"        # Iterate over training data to compute residuals g and sample "
+"weights w\n"
+"        # Populate tensors self.am_train_triplets and "
+"self.am_test_triplets\n"
+"        # ... detailed residual calculation ...\n"
+
+#: ../../source/developer-guides/multi-stage-training.md:234
+#: 87de37c3ff12458e9958d177c5c061cd
+msgid "第五步：实现阶段化前向传播与损失计算"
+msgstr "Step 5: Implement Staged Forward Pass and Loss Computation"
+
+#: ../../source/developer-guides/multi-stage-training.md:236
+#: 8cfa6c1c6dcd4b6f8b3b0cd097e4a01c
+msgid "通过检查 `self._current_stage` 动态分支前向逻辑："
+msgstr "Dynamically branch forward logic by checking `self._current_stage`:"
+
+#: ../../source/developer-guides/multi-stage-training.md:238
+#: 0fc52411a8344e11be1a2739fbb42803
+#, python-brace-format
+msgid ""
+"    def forward_pass(self, batch_data: tuple) -> dict[str, torch.Tensor]:"
+"\n"
+"        \"\"\"按当前运行阶段分发前向计算。\"\"\"\n"
+"        if self._current_stage == \"km\":\n"
+"            return self._forward_km(batch_data)\n"
+"        elif self._current_stage == \"am\":\n"
+"            return self._forward_am(batch_data)\n"
+"        else:\n"
+"            raise ValueError(f\"未知的阶段: {self._current_stage}\")\n"
+"\n"
+"    def _forward_km(self, batch_data: tuple) -> dict:\n"
+"        user_ids, items, corrects = batch_data\n"
+"        # KM 阶段前向计算\n"
+"        pred = self.km_model(user_ids, items)\n"
+"        return {\n"
+"            \"y_hat\": pred,\n"
+"            \"y_label\": corrects.float(),\n"
+"            \"y_predict\": (pred >= 0.5).int(),\n"
+"            \"y_score\": pred,\n"
+"            \"y_prob\": pred,\n"
+"        }\n"
+"\n"
+"    def _forward_am(self, batch_data: tuple) -> dict:\n"
+"        # AM 阶段前向计算\n"
+"        batch = batch_data[0] if isinstance(batch_data, tuple) else "
+"batch_data\n"
+"        u_idx, i_idx, correct, km_pred = (\n"
+"            batch[:, 0],\n"
+"            batch[:, 1],\n"
+"            batch[:, 2],\n"
+"            batch[:, 3],\n"
+"        )\n"
+"\n"
+"        am_pred, u_norm, i_norm = self.am_model(u_idx.long(), "
+"i_idx.long())\n"
+"        if self.run_config.model.combine_mode == \"mul\":\n"
+"            final_pred = am_pred * km_pred\n"
+"        else:\n"
+"            final_pred = am_pred + km_pred\n"
+"\n"
+"        return {\n"
+"            \"y_hat\": final_pred,\n"
+"            \"y_label\": correct,\n"
+"            \"y_predict\": (final_pred >= 0.5).int(),\n"
+"            \"y_score\": final_pred,\n"
+"            \"y_prob\": final_pred.clamp(0.0, 1.0),\n"
+"            \"am_pred\": am_pred,\n"
+"            \"km_pred\": km_pred,\n"
+"            \"u_norm\": u_norm,\n"
+"            \"i_norm\": i_norm,\n"
+"        }\n"
+msgstr ""
+"    def forward_pass(self, batch_data: tuple) -> dict[str, torch.Tensor]:"
+"\n"
+"        \"\"\"Dispatch forward computation based on current stage.\"\"\"\n"
+"        if self._current_stage == \"km\":\n"
+"            return self._forward_km(batch_data)\n"
+"        elif self._current_stage == \"am\":\n"
+"            return self._forward_am(batch_data)\n"
+"        else:\n"
+"            raise ValueError(f\"Unknown stage: {self._current_stage}\")\n"
+"\n"
+"    def _forward_km(self, batch_data: tuple) -> dict:\n"
+"        user_ids, items, corrects = batch_data\n"
+"        # KM stage forward computation\n"
+"        pred = self.km_model(user_ids, items)\n"
+"        return {\n"
+"            \"y_hat\": pred,\n"
+"            \"y_label\": corrects.float(),\n"
+"            \"y_predict\": (pred >= 0.5).int(),\n"
+"            \"y_score\": pred,\n"
+"            \"y_prob\": pred,\n"
+"        }\n"
+"\n"
+"    def _forward_am(self, batch_data: tuple) -> dict:\n"
+"        # AM stage forward computation\n"
+"        batch = batch_data[0] if isinstance(batch_data, tuple) else "
+"batch_data\n"
+"        u_idx, i_idx, correct, km_pred = (\n"
+"            batch[:, 0],\n"
+"            batch[:, 1],\n"
+"            batch[:, 2],\n"
+"            batch[:, 3],\n"
+"        )\n"
+"\n"
+"        am_pred, u_norm, i_norm = self.am_model(u_idx.long(), "
+"i_idx.long())\n"
+"        if self.run_config.model.combine_mode == \"mul\":\n"
+"            final_pred = am_pred * km_pred\n"
+"        else:\n"
+"            final_pred = am_pred + km_pred\n"
+"\n"
+"        return {\n"
+"            \"y_hat\": final_pred,\n"
+"            \"y_label\": correct,\n"
+"            \"y_predict\": (final_pred >= 0.5).int(),\n"
+"            \"y_score\": final_pred,\n"
+"            \"y_prob\": final_pred.clamp(0.0, 1.0),\n"
+"            \"am_pred\": am_pred,\n"
+"            \"km_pred\": km_pred,\n"
+"            \"u_norm\": u_norm,\n"
+"            \"i_norm\": i_norm,\n"
+"        }\n"
+
+#: ../../source/developer-guides/multi-stage-training.md:289
+#: d5b9fcd7ca8c4979956932ef250b65d2
+msgid "第六步：覆盖测试推断 (`test_forward_pass`)"
+msgstr "Step 6: Override Test Inference (`test_forward_pass`)"
+
+#: ../../source/developer-guides/multi-stage-training.md:291
+#: de58f872b8ae42c382521acb53f80f05
+msgid ""
+"所有训练阶段完成后，UniKT 的 `TestEvaluationCallback` 会调用 "
+"`test_forward_pass`。覆盖该方法以实现双模型联合推断："
+msgstr ""
+"After all training stages finish, UniKT's `TestEvaluationCallback` calls "
+"`test_forward_pass`. Override this method for joint multi-stage "
+"inference:"
+
+#: ../../source/developer-guides/multi-stage-training.md:293
+#: 70659f35e0b64011b38be81a7c6f2a5c
+#, python-brace-format
+msgid ""
+"    def test_forward_pass(self, batch_data: tuple) -> dict[str, "
+"torch.Tensor]:\n"
+"        \"\"\"多阶段联合测试推断。\"\"\"\n"
+"        self.km_model.eval()\n"
+"        self.am_model.eval()\n"
+"\n"
+"        user_ids, items, corrects = batch_data\n"
+"        user_ids = self._move_tensor_to_device(user_ids)\n"
+"        items = self._move_tensor_to_device(items)\n"
+"        corrects = self._move_tensor_to_device(corrects)\n"
+"\n"
+"        # 1. 取得 KM 知识模块的预测\n"
+"        km_pred = self.km_model(user_ids, items)\n"
+"\n"
+"        # 2. 取得 AM 能力模块的残差预测\n"
+"        am_pred, _, _ = self.am_model(user_ids, items)\n"
+"\n"
+"        # 3. 联合推断\n"
+"        if self.run_config.model.combine_mode == \"mul\":\n"
+"            final_pred = am_pred * km_pred\n"
+"        else:\n"
+"            final_pred = am_pred + km_pred\n"
+"\n"
+"        final_pred = final_pred.clamp(0.0, 1.0)\n"
+"        return {\n"
+"            \"y_hat\": final_pred,\n"
+"            \"y_label\": corrects.float(),\n"
+"            \"y_predict\": (final_pred >= 0.5).int(),\n"
+"            \"y_score\": final_pred,\n"
+"            \"y_prob\": final_pred,\n"
+"        }\n"
+msgstr ""
+"    def test_forward_pass(self, batch_data: tuple) -> dict[str, "
+"torch.Tensor]:\n"
+"        \"\"\"Multi-stage joint test inference.\"\"\"\n"
+"        self.km_model.eval()\n"
+"        self.am_model.eval()\n"
+"\n"
+"        user_ids, items, corrects = batch_data\n"
+"        user_ids = self._move_tensor_to_device(user_ids)\n"
+"        items = self._move_tensor_to_device(items)\n"
+"        corrects = self._move_tensor_to_device(corrects)\n"
+"\n"
+"        # 1. Obtain KM prediction\n"
+"        km_pred = self.km_model(user_ids, items)\n"
+"\n"
+"        # 2. Obtain AM residual prediction\n"
+"        am_pred, _, _ = self.am_model(user_ids, items)\n"
+"\n"
+"        # 3. Joint inference\n"
+"        if self.run_config.model.combine_mode == \"mul\":\n"
+"            final_pred = am_pred * km_pred\n"
+"        else:\n"
+"            final_pred = am_pred + km_pred\n"
+"\n"
+"        final_pred = final_pred.clamp(0.0, 1.0)\n"
+"        return {\n"
+"            \"y_hat\": final_pred,\n"
+"            \"y_label\": corrects.float(),\n"
+"            \"y_predict\": (final_pred >= 0.5).int(),\n"
+"            \"y_score\": final_pred,\n"
+"            \"y_prob\": final_pred,\n"
+"        }\n"
+
+#: ../../source/developer-guides/multi-stage-training.md:328
+#: c8d9aa6dc8cc4f54b0dfdb582a75676b
+msgid "最佳实践与注意事项"
+msgstr "Best Practices and Considerations"
+
+#: ../../source/developer-guides/multi-stage-training.md:331
+#: b855254048b24a9e90e3b592534c6ecd
+msgid ""
+"**早停指标与检查点解耦**：在 `StageComponents` 中，可设置 `checkpoint_monitor` 与 "
+"`early_stopping.monitor` 不同。例如在 ABKT 中，KM 阶段早停监控 `acc`，但检查点可指定保存验证集上 "
+"`auc` 最高时的模型权重："
+msgstr ""
+"**Decouple Early Stopping from Checkpointing**: In `StageComponents`, "
+"`checkpoint_monitor` can differ from `early_stopping.monitor`. For "
+"instance in ABKT, the KM stage monitors `acc` for early stopping while "
+"checkpointing the model with the highest validation `auc`:"
+
+#: ../../source/developer-guides/multi-stage-training.md:332
+#: c4267bd2b93e42b38bde979c5722dae5
+msgid ""
+"StageComponents(\n"
+"    ...\n"
+"    early_stopping=EarlyStoppingConfig(monitor=\"acc\", mode=\"max\", "
+"patience=10),\n"
+"    checkpoint_monitor=\"auc\",\n"
+"    checkpoint_mode=\"max\",\n"
+")\n"
+msgstr ""
+"StageComponents(\n"
+"    ...\n"
+"    early_stopping=EarlyStoppingConfig(monitor=\"acc\", mode=\"max\", "
+"patience=10),\n"
+"    checkpoint_monitor=\"auc\",\n"
+"    checkpoint_mode=\"max\",\n"
+")\n"
+
+#: ../../source/developer-guides/multi-stage-training.md:340
+#: 4de1cc5aeeca4bc8ade699736441fffe
+msgid ""
+"**显存主动释放**：当切换阶段时，若前序阶段的优化器或中间激活值体积较大，可在 `on_stage_complete` 中将其从 GPU 上移至"
+" CPU，或调用 `torch.cuda.empty_cache()`，防止两阶段显存叠加导致 OOM。"
+msgstr ""
+"**Proactive Memory Management**: When transitioning stages, if prior "
+"optimizers or activations occupy significant memory, transfer them from "
+"GPU to CPU in `on_stage_complete` or invoke `torch.cuda.empty_cache()` to"
+" prevent compounded OOM errors."

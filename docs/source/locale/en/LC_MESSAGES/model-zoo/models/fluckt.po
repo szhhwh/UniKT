@@ -1,0 +1,138 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/fluckt.md:1 70911408fefa4d8c9c6568023bef2413
+msgid "FlucKT"
+msgstr "FlucKT"
+
+#: ../../source/model-zoo/models/fluckt.md:3 ecd1fe66a7a145d3845efb49eb36f2af
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/fluckt.md 779e792e37fd4d7887567d0b3906966a
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/fluckt.md 50bd40c3097d48f29e58c399fef19df1
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/fluckt.md 499fd06c19ff4bfba02c8a73f6ce601c
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/fluckt.md 3285883516c04721943f669152fed617
+msgid ""
+"[Cognitive Fluctuations Enhanced Attention Network for Knowledge "
+"Tracing](https://doi.org/10.1609/aaai.v39i13.33562)"
+msgstr ""
+"[Cognitive Fluctuations Enhanced Attention Network for Knowledge "
+"Tracing](https://doi.org/10.1609/aaai.v39i13.33562)"
+
+#: ../../source/model-zoo/models/fluckt.md 9776f8aca669496a916ae3f77dc8144b
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/fluckt.md 24351520bd0a415daac700c98db3655e
+msgid ""
+"Mingliang Hou, Xueyi Li, Teng Guo, Zitao Liu, Mi Tian, Renqiang Luo, "
+"Weiqi Luo"
+msgstr ""
+"Mingliang Hou, Xueyi Li, Teng Guo, Zitao Liu, Mi Tian, Renqiang Luo, "
+"Weiqi Luo"
+
+#: ../../source/model-zoo/models/fluckt.md 2e9ad38bfb6c4d2d9612ef001df1ce8e
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/fluckt.md 259ffbf0a5ca4b05a964d1a6a38fd957
+msgid "2025"
+msgstr "2025"
+
+#: ../../source/model-zoo/models/fluckt.md c5a5868bcad04feca5e3df05d13f5739
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/fluckt.md 828ef90c0496427c98cb31b7fcb3364e
+msgid "Proceedings of the AAAI Conference on Artificial Intelligence, 39(13)"
+msgstr "Proceedings of the AAAI Conference on Artificial Intelligence, 39(13)"
+
+#: ../../source/model-zoo/models/fluckt.md:12 9fe033712164433c8d83a5e580d925ce
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/fluckt.md:14 c0246f5d1cca43c18d7874ba5185bea6
+msgid ""
+"Knowledge tracing (KT) involves using the historical records of student-"
+"learning interactions to anticipate their performance on forthcoming "
+"questions. Central to this process is the modeling of human cognition to "
+"gain deeper insights into how knowledge is acquired and retained. Human "
+"cognition is characterized by two key features: long-term cognitive "
+"trends, reflecting the gradual accumulation and stabilization of "
+"knowledge over time, and short-term cognitive fluctuations, which arise "
+"from transient factors such as forgetting or momentary lapses in "
+"attention. Although existing attention-based KT models effectively "
+"capture long-term cognitive trends, they often fail to adequately address"
+" short-term cognitive fluctuations. These limitations lead to overly "
+"smoothed cognitive features and reduced model performance, especially "
+"when the test data length exceeds the training data length. To address "
+"these problems, we propose FlucKT, a novel short-term cognitive "
+"fluctuations enhanced attention network for KT tasks. FlucKT improves the"
+" attention mechanism in two ways: First, by using a decomposition-based "
+"layer with causal convolution to separate and dynamically reweight long-"
+"term and short-term cognitive features. Second, by introducing a "
+"kernelized bias attention score penalty to enhance focus on short-term "
+"fluctuations, improving length generalization capabilities. Our "
+"contributions are validated through extensive experiments on three real-"
+"world datasets, demonstrating significant improvements in length "
+"generalization and prediction performance."
+msgstr ""
+"Knowledge tracing (KT) involves using the historical records of student-"
+"learning interactions to anticipate their performance on forthcoming "
+"questions. Central to this process is the modeling of human cognition to "
+"gain deeper insights into how knowledge is acquired and retained. Human "
+"cognition is characterized by two key features: long-term cognitive "
+"trends, reflecting the gradual accumulation and stabilization of "
+"knowledge over time, and short-term cognitive fluctuations, which arise "
+"from transient factors such as forgetting or momentary lapses in "
+"attention. Although existing attention-based KT models effectively "
+"capture long-term cognitive trends, they often fail to adequately address"
+" short-term cognitive fluctuations. These limitations lead to overly "
+"smoothed cognitive features and reduced model performance, especially "
+"when the test data length exceeds the training data length. To address "
+"these problems, we propose FlucKT, a novel short-term cognitive "
+"fluctuations enhanced attention network for KT tasks. FlucKT improves the"
+" attention mechanism in two ways: First, by using a decomposition-based "
+"layer with causal convolution to separate and dynamically reweight long-"
+"term and short-term cognitive features. Second, by introducing a "
+"kernelized bias attention score penalty to enhance focus on short-term "
+"fluctuations, improving length generalization capabilities. Our "
+"contributions are validated through extensive experiments on three real-"
+"world datasets, demonstrating significant improvements in length "
+"generalization and prediction performance."
+
+#: ../../source/model-zoo/models/fluckt.md:17 f61ac44f46354f768eda2b88a25b4dc5
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/fluckt.md:19 93019b4395c746eaa72c1c472ee29436
+msgid "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"
+msgstr "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"

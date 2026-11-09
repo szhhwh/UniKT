@@ -1,0 +1,224 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/lpkt.md:1 18047731626346a8abce61a93e343f59
+msgid "LPKT"
+msgstr "LPKT"
+
+#: ../../source/model-zoo/models/lpkt.md:3 39011490d22041479a422bc8f0ea6c3d
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/lpkt.md 452b61a3f3af44f29eeb784e423d8b0d
+#: c2bbb1bb02c944039163ffd0de90ad44
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/lpkt.md 1c98ca421cfa431582890810f3ac52e1
+#: 46ca9a57194c4e549ec1ef20c12e58d2
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/lpkt.md 6c83f873c23344dfbda8df1cc466215f
+#: e0a150838f4e474c96b1081c7b11961a
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/lpkt.md 32bb5fc275eb4c0a96e92759f65c5bec
+msgid ""
+"[Learning Process-consistent Knowledge "
+"Tracing](https://doi.org/10.1145/3447548.3467237)"
+msgstr ""
+"[Learning Process-consistent Knowledge "
+"Tracing](https://doi.org/10.1145/3447548.3467237)"
+
+#: ../../source/model-zoo/models/lpkt.md 485d5084c1134872a0586168197a22b3
+#: e7cc0be76e15494cba481a43e53fa6f8
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/lpkt.md 207d4d78c5ec43a9be8e06eae1344d2a
+msgid ""
+"Shuanghong Shen, Qi Liu, Enhong Chen, Zhenya Huang, Wei Huang, Yu Yin, Yu"
+" Su, Shijin Wang"
+msgstr ""
+"Shuanghong Shen, Qi Liu, Enhong Chen, Zhenya Huang, Wei Huang, Yu Yin, Yu"
+" Su, Shijin Wang"
+
+#: ../../source/model-zoo/models/lpkt.md 631f7da6cf3a4bc0aa0d5cc271b6c936
+#: c10e57e1b8584911a395e3688be35db3
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/lpkt.md d59f43bcbb71400cad71fcbf7501a2ff
+msgid "2021"
+msgstr "2021"
+
+#: ../../source/model-zoo/models/lpkt.md e2a90046537443cc89ed5183233056dd
+#: efe204ed1f544a38b557e5a33035d9db
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/lpkt.md 8671a653d07644a1b5dbcce1e1f4aa7c
+msgid "ACM SIGKDD Conference on Knowledge Discovery and Data Mining (KDD)"
+msgstr "ACM SIGKDD Conference on Knowledge Discovery and Data Mining (KDD)"
+
+#: ../../source/model-zoo/models/lpkt.md:12
+#: ../../source/model-zoo/models/lpkt.md:26 2fa7055a417540c3b8e5eca056aa5dcd
+#: d09413cfe3674aca9db68254104b2b4b
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/lpkt.md:14 c575122c31e8403db4b108ac1e2ea24f
+msgid ""
+"Knowledge tracing (KT), which aims to trace students' changing knowledge "
+"state during their learning process, has improved students' learning "
+"efficiency in online learning systems. Recently, KT has attracted much "
+"research attention due to its critical significance in education. "
+"However, most of the existing KT methods pursue high accuracy of student "
+"performance prediction but neglect the consistency of students' changing "
+"knowledge state with their learning process. In this paper, we explore a "
+"new paradigm for the KT task and propose a novel model named Learning "
+"Process-consistent Knowledge Tracing (LPKT), which monitors students' "
+"knowledge state through directly modeling their learning process. "
+"Specifically, we first formalize the basic learning cell as the tuple "
+"exercise---answer time---answer. Then, we deeply measure the learning "
+"gain as well as its diversity from the difference of the present and "
+"previous learning cells, their interval time, and students' related "
+"knowledge state. We also design a learning gate to distinguish students' "
+"absorptive capacity of knowledge. Besides, we design a forgetting gate to"
+" model the decline of students' knowledge over time, which is based on "
+"their previous knowledge state, present learning gains, and the interval "
+"time. Extensive experimental results on three public datasets demonstrate"
+" that LPKT could obtain more reasonable knowledge state in line with the "
+"learning process. Moreover, LPKT also outperforms state-of-the-art KT "
+"methods on student performance prediction. Our work indicates a potential"
+" future research direction for KT, which is of both high interpretability"
+" and accuracy."
+msgstr ""
+"Knowledge tracing (KT), which aims to trace students' changing knowledge "
+"state during their learning process, has improved students' learning "
+"efficiency in online learning systems. Recently, KT has attracted much "
+"research attention due to its critical significance in education. "
+"However, most of the existing KT methods pursue high accuracy of student "
+"performance prediction but neglect the consistency of students' changing "
+"knowledge state with their learning process. In this paper, we explore a "
+"new paradigm for the KT task and propose a novel model named Learning "
+"Process-consistent Knowledge Tracing (LPKT), which monitors students' "
+"knowledge state through directly modeling their learning process. "
+"Specifically, we first formalize the basic learning cell as the tuple "
+"exercise---answer time---answer. Then, we deeply measure the learning "
+"gain as well as its diversity from the difference of the present and "
+"previous learning cells, their interval time, and students' related "
+"knowledge state. We also design a learning gate to distinguish students' "
+"absorptive capacity of knowledge. Besides, we design a forgetting gate to"
+" model the decline of students' knowledge over time, which is based on "
+"their previous knowledge state, present learning gains, and the interval "
+"time. Extensive experimental results on three public datasets demonstrate"
+" that LPKT could obtain more reasonable knowledge state in line with the "
+"learning process. Moreover, LPKT also outperforms state-of-the-art KT "
+"methods on student performance prediction. Our work indicates a potential"
+" future research direction for KT, which is of both high interpretability"
+" and accuracy."
+
+#: ../../source/model-zoo/models/lpkt.md:17 3f7be8ed2a38440b8d5500a1ba80f476
+msgid "相关论文：LPKT-S"
+msgstr "Related Paper: LPKT-S"
+
+#: ../../source/model-zoo/models/lpkt.md 15770c23209e40e5870865f4ff40b15a
+msgid ""
+"[Monitoring Student Progress for Learning Process-Consistent Knowledge "
+"Tracing](https://doi.org/10.1109/TKDE.2022.3221985)"
+msgstr ""
+"[Monitoring Student Progress for Learning Process-Consistent Knowledge "
+"Tracing](https://doi.org/10.1109/TKDE.2022.3221985)"
+
+#: ../../source/model-zoo/models/lpkt.md 1bdc7f1b7c7b4dc785c2526f215704bf
+msgid ""
+"Shuanghong Shen, Enhong Chen, Qi Liu, Zhenya Huang, Wei Huang, Yu Yin, Yu"
+" Su, Shijin Wang"
+msgstr ""
+"Shuanghong Shen, Enhong Chen, Qi Liu, Zhenya Huang, Wei Huang, Yu Yin, Yu"
+" Su, Shijin Wang"
+
+#: ../../source/model-zoo/models/lpkt.md 7a1abf9eca514f998e0403cf1a7ca4e8
+msgid "2023"
+msgstr "2023"
+
+#: ../../source/model-zoo/models/lpkt.md 2158068d6e1d46898acac053988b3c0e
+msgid "IEEE Transactions on Knowledge and Data Engineering"
+msgstr "IEEE Transactions on Knowledge and Data Engineering"
+
+#: ../../source/model-zoo/models/lpkt.md:28 e6a992a3f67442c9a88dfe7fa718c455
+msgid ""
+"Knowledge tracing (KT) is the task of tracing students' evolving "
+"knowledge state during learning, which has improved the learning "
+"efficiency. To facilitate KT's development, most existing methods pursue "
+"high accuracy of student performance prediction but neglect the "
+"consistency between students' dynamic knowledge state with their learning"
+" process. Moreover, they focus on learning outcomes at a single learning "
+"interaction, while student progress at continuous learning interactions "
+"is more instructive. In this paper, we explore a new paradigm for the KT "
+"task and propose a novel model named Learning Process-consistent "
+"Knowledge Tracing (LPKT), which captures the evolution of students' "
+"knowledge state through monitoring their learning progress. Specifically,"
+" we utilize both the positive effect of the learning gain and the "
+"negative effect of forgetting in learning to calculate student progress "
+"in continuous learning interactions. Then, considering that the rate of "
+"progress is student-specific, we extend LPKT to LPKT-S by explicitly "
+"distinguishing the individual progress rate of each student. Extensive "
+"experimental results on three public datasets demonstrate that LPKT and "
+"LPKT-S could obtain more appropriate knowledge states in line with the "
+"learning process. Moreover, LPKT and LPKT-S outperform state-of-the-art "
+"KT methods on student performance prediction. Our work indicates a "
+"promising future research direction for KT, which is highly interpretable"
+" and accurate."
+msgstr ""
+"Knowledge tracing (KT) is the task of tracing students' evolving "
+"knowledge state during learning, which has improved the learning "
+"efficiency. To facilitate KT's development, most existing methods pursue "
+"high accuracy of student performance prediction but neglect the "
+"consistency between students' dynamic knowledge state with their learning"
+" process. Moreover, they focus on learning outcomes at a single learning "
+"interaction, while student progress at continuous learning interactions "
+"is more instructive. In this paper, we explore a new paradigm for the KT "
+"task and propose a novel model named Learning Process-consistent "
+"Knowledge Tracing (LPKT), which captures the evolution of students' "
+"knowledge state through monitoring their learning progress. Specifically,"
+" we utilize both the positive effect of the learning gain and the "
+"negative effect of forgetting in learning to calculate student progress "
+"in continuous learning interactions. Then, considering that the rate of "
+"progress is student-specific, we extend LPKT to LPKT-S by explicitly "
+"distinguishing the individual progress rate of each student. Extensive "
+"experimental results on three public datasets demonstrate that LPKT and "
+"LPKT-S could obtain more appropriate knowledge states in line with the "
+"learning process. Moreover, LPKT and LPKT-S outperform state-of-the-art "
+"KT methods on student performance prediction. Our work indicates a "
+"promising future research direction for KT, which is highly interpretable"
+" and accurate."
+
+#: ../../source/model-zoo/models/lpkt.md:31 7b40fff991f84bdb9bd07477f1ae1aaa
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/lpkt.md:33 d099ba71d3e7469aaf2055959a94359a
+msgid "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"
+msgstr "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"

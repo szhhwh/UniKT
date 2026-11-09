@@ -1,0 +1,160 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/hawkeskt.md:1 6c5e534ba5e94b3898a6465a2902a043
+msgid "HawkesKT"
+msgstr "HawkesKT"
+
+#: ../../source/model-zoo/models/hawkeskt.md:3 a2c686ef573a4757b4e73d07ef258f85
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/hawkeskt.md b4f32b18b8e644709b0d06416ae18f59
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/hawkeskt.md f0b683ccafd94017b0af7c5595d6da5a
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/hawkeskt.md 6b6ef501bc394096b287c4f171250b03
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/hawkeskt.md 4a0b350ad4714755a868a7e22385289e
+msgid ""
+"[Temporal Cross-Effects in Knowledge "
+"Tracing](https://doi.org/10.1145/3437963.3441802)"
+msgstr ""
+"[Temporal Cross-Effects in Knowledge "
+"Tracing](https://doi.org/10.1145/3437963.3441802)"
+
+#: ../../source/model-zoo/models/hawkeskt.md fcae03b4a6ed4aeabcb2001dd0551967
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/hawkeskt.md 247acfec491d402f9a74f2f0dbb948fa
+msgid ""
+"Chenyang Wang, Weizhi Ma, Min Zhang, Chuancheng Lv, Fengyuan Wan, Huijie "
+"Lin, Taoran Tang, Yiqun Liu, Shaoping Ma"
+msgstr ""
+"Chenyang Wang, Weizhi Ma, Min Zhang, Chuancheng Lv, Fengyuan Wan, Huijie "
+"Lin, Taoran Tang, Yiqun Liu, Shaoping Ma"
+
+#: ../../source/model-zoo/models/hawkeskt.md f7e94b97b65541d69b9245a05977ee15
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/hawkeskt.md 111b174a3451432cbfdc82bf9ee63946
+msgid "2021"
+msgstr "2021"
+
+#: ../../source/model-zoo/models/hawkeskt.md dda61b90760543b3b043ccb2386f3bbe
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/hawkeskt.md 3a87cddf9e2e4235a2856ce3f2a57fd4
+msgid ""
+"Proceedings of the 14th ACM International Conference on Web Search and "
+"Data Mining"
+msgstr ""
+"Proceedings of the 14th ACM International Conference on Web Search and "
+"Data Mining"
+
+#: ../../source/model-zoo/models/hawkeskt.md 87b0cca0ae234faaab7957a21909bf88
+msgid "DOI"
+msgstr "DOI"
+
+#: ../../source/model-zoo/models/hawkeskt.md 721066ce70c241de883735d69e442871
+msgid "[10.1145/3437963.3441802](https://doi.org/10.1145/3437963.3441802)"
+msgstr "[10.1145/3437963.3441802](https://doi.org/10.1145/3437963.3441802)"
+
+#: ../../source/model-zoo/models/hawkeskt.md:13
+#: b257aa89d6d2449395f907474717b2e5
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/hawkeskt.md:15
+#: 03ef50ff8d4a48b0ac690089864d5f94
+msgid ""
+"Knowledge tracing (KT) aims to model students' knowledge level based on "
+"their historical performance, which plays an important role in computer-"
+"assisted education and adaptive learning. Recent studies try to take "
+"temporal effects of past interactions into consideration, such as the "
+"forgetting behavior. However, existing work mainly relies on time-related"
+" features or a global decay function to model the time-sensitive effects."
+" Fine-grained temporal dynamics of different cross-skill impacts have not"
+" been well studied (named as temporal cross-effects). For example, cross-"
+"effects on some difficult skills may drop quickly, and the effects caused"
+" by distinct previous interactions may also have different temporal "
+"evolutions, which cannot be captured in a global way. In this work, we "
+"investigate fine-grained temporal cross-effects between different skills "
+"in KT. We first validate the existence of temporal cross-effects in real-"
+"world datasets through empirical studies. Then, a novel model, HawkesKT, "
+"is proposed to explicitly model the temporal cross-effects inspired by "
+"the point process, where each previous interaction will have different "
+"time-sensitive impacts on the mastery of the target skill. HawkesKT "
+"adopts two components to model temporal cross-effects: 1) mutual "
+"excitation represents the degree of cross-effects and 2) kernel function "
+"controls the adaptive temporal evolution. To the best of our knowledge, "
+"we are the first to introduce Hawkes process to model temporal cross-"
+"effects in KT. Extensive experiments on three benchmark datasets show "
+"that HawkesKT is superior to state-of-the-art KT methods. Remarkably, our"
+" method also exhibits excellent interpretability and shows significant "
+"advantages in training efficiency, which makes it more applicable in "
+"real-world large-scale educational settings."
+msgstr ""
+"Knowledge tracing (KT) aims to model students' knowledge level based on "
+"their historical performance, which plays an important role in computer-"
+"assisted education and adaptive learning. Recent studies try to take "
+"temporal effects of past interactions into consideration, such as the "
+"forgetting behavior. However, existing work mainly relies on time-related"
+" features or a global decay function to model the time-sensitive effects."
+" Fine-grained temporal dynamics of different cross-skill impacts have not"
+" been well studied (named as temporal cross-effects). For example, cross-"
+"effects on some difficult skills may drop quickly, and the effects caused"
+" by distinct previous interactions may also have different temporal "
+"evolutions, which cannot be captured in a global way. In this work, we "
+"investigate fine-grained temporal cross-effects between different skills "
+"in KT. We first validate the existence of temporal cross-effects in real-"
+"world datasets through empirical studies. Then, a novel model, HawkesKT, "
+"is proposed to explicitly model the temporal cross-effects inspired by "
+"the point process, where each previous interaction will have different "
+"time-sensitive impacts on the mastery of the target skill. HawkesKT "
+"adopts two components to model temporal cross-effects: 1) mutual "
+"excitation represents the degree of cross-effects and 2) kernel function "
+"controls the adaptive temporal evolution. To the best of our knowledge, "
+"we are the first to introduce Hawkes process to model temporal cross-"
+"effects in KT. Extensive experiments on three benchmark datasets show "
+"that HawkesKT is superior to state-of-the-art KT methods. Remarkably, our"
+" method also exhibits excellent interpretability and shows significant "
+"advantages in training efficiency, which makes it more applicable in "
+"real-world large-scale educational settings."
+
+#: ../../source/model-zoo/models/hawkeskt.md:18
+#: 63f509a8e91c41e6a17c6f87c3c6ac1f
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/hawkeskt.md:20
+#: dc8ca66d28b34968a69166752e39e918
+msgid "[THUwangcy/HawkesKT](https://github.com/THUwangcy/HawkesKT)"
+msgstr "[THUwangcy/HawkesKT](https://github.com/THUwangcy/HawkesKT)"

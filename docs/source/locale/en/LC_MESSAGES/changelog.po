@@ -1,0 +1,97 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/changelog.md:1 6edf2e89aabb4489ba233abb14bf8c5a
+msgid "更新日志"
+msgstr "Changelog"
+
+#: ../../source/changelog.md:3 807cabc12d5241ad8b7f6c6c03d17f1d
+msgid "2026-11-09"
+msgstr "2026-11-09"
+
+#: ../../source/changelog.md:5 2f1736b863004a3cb069dc3143bbe679
+msgid "核心更改"
+msgstr "Core Changes"
+
+#: ../../source/changelog.md:7 fab37fd442a2451ba21172d45c317fb0
+msgid "**文档体系全面重构**：重新规划文档导航与层级结构，解耦面向使用的「用户指南」与面向进阶开发的「开发者指南」，显著提升检索效率。"
+msgstr ""
+"**Comprehensive Documentation Restructuring**: Redesigned documentation "
+"navigation and hierarchy, decoupling the usage-focused \"User Guides\" "
+"from the advanced \"Developer Guides\" to significantly improve retrieval"
+" efficiency."
+
+#: ../../source/changelog.md:8 37a8842c973c4f8f8285a61069cb48d7
+msgid ""
+"**模型库与数据集目录体系化**：收录 60+ 个经典与前沿 KT 模型并建立独立文档，系统梳理 14+ 个主流公开数据集规范及统一的五步 ETL"
+" 数据管线。"
+msgstr ""
+"**Systematic Model Zoo and Dataset Catalog**: Integrated 60+ classic and "
+"cutting-edge KT models with dedicated pages, alongside systematic "
+"coverage of 14+ mainstream public dataset specifications and a unified "
+"5-step ETL pipeline."
+
+#: ../../source/changelog.md:9 5dc57a22455a422ba09eea20b7355d08
+msgid "**新增基准评测与排行榜板块**：上线统一评测板块，引入交互式竞技场排行榜、标准化 5 折学生级交叉验证协议及模型吞吐与推理效率基准。"
+msgstr ""
+"**New Benchmark Suite and Leaderboard**: Launched a unified evaluation "
+"section featuring an interactive arena leaderboard, standardized 5-fold "
+"student-level cross-validation protocol, and model throughput/inference "
+"efficiency benchmarks."
+
+#: ../../source/changelog.md:10 5eb300a0f60e4cbea724dc8b45b58f9d
+msgid ""
+"**完善 CLI 命令行与 API 参考手册**：补齐训练、数据处理、Optuna 调参、K "
+"折交叉验证、案例分析等核心命令的使用手册与常用速查表，规范 Python 接口参考。"
+msgstr ""
+"**Enhanced CLI and API Reference Manuals**: Added comprehensive guides "
+"and quick cheatsheets for core commands including training, data "
+"processing, Optuna tuning, K-fold cross-validation, and case analysis, "
+"standardizing Python API references."
+
+#: ../../source/changelog.md:11 34a6ae0d05ed4b9cba8886ce679fa0c0
+msgid "**品牌视觉与交互体验升级**：上线 UniKT 专属字标与图标，深度定制 Furo 明暗双色主题、侧边栏二级折叠导航及移动端响应式布局。"
+msgstr ""
+"**Brand Identity and UX Upgrades**: Introduced the official UniKT "
+"wordmark and icon, with deeply customized Furo light/dark dual themes, "
+"collapsible two-level sidebar navigation, and responsive mobile layouts."
+
+#: ../../source/changelog.md:13 ef7caf818d1446eeb8ff8e58aabe439b
+msgid "其他细节"
+msgstr "Other Improvements"
+
+#: ../../source/changelog.md:15 d0596047dcc943b0876e92d58bc5e279
+msgid "首页改版为直观的知识追踪工作流示意图与基准概览入口。"
+msgstr ""
+"Revamped the home page with an intuitive knowledge tracing workflow "
+"diagram and benchmark overview entry points."
+
+#: ../../source/changelog.md:16 9e59ec3b2dbe49aea776290f76b9ac3c
+msgid "构建工作流收敛，将多语言构建与维护命令从 Makefile 统一迁移至 Pixi 的 `doc-i18n-*` 任务流。"
+msgstr ""
+"Consolidated build workflows by migrating the multi-language build and "
+"maintenance commands from the Makefile to Pixi's `doc-i18n-*` task flow."
+
+#: ../../source/changelog.md:17 7daf7d1d10f8422ba64538d26e0b4b1d
+msgid "优化表格横向滚动、代码块与提示框间距排版，修复搜索框边框细节并清理历史过时文档。"
+msgstr ""
+"Optimized table horizontal scrolling, code block and callout spacing, "
+"polished search bar border details, and purged deprecated documentation."

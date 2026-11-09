@@ -1,0 +1,136 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/hitskt.md:1 395ab36cece04ade93d801b89bf99008
+msgid "HiTSKT"
+msgstr "HiTSKT"
+
+#: ../../source/model-zoo/models/hitskt.md:3 7a8eb9f061bc4493beaf6aeca113fe48
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/hitskt.md 0889a3f208dc459584424a4a8cb4b60f
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/hitskt.md dc89282bee8347a987cd4e817054ffff
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/hitskt.md 94361b46e61d4b679f1d97ed14fc0945
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/hitskt.md 6bde0260408a4fa08793ceead40d1671
+msgid ""
+"[HiTSKT: A Hierarchical Transformer Model for Session-Aware Knowledge "
+"Tracing](https://doi.org/10.1016/j.knosys.2023.111300)"
+msgstr ""
+"[HiTSKT: A Hierarchical Transformer Model for Session-Aware Knowledge "
+"Tracing](https://doi.org/10.1016/j.knosys.2023.111300)"
+
+#: ../../source/model-zoo/models/hitskt.md 3ad1cf12441d4419a0356089e72d00e3
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/hitskt.md 8fc48ab31f5940bb888bcd6b0315dc50
+msgid ""
+"Fucai Ke, Weiqing Wang, Weicong Tan, Lan Du, Yuan Jin, Yujin Huang, "
+"Hongzhi Yin"
+msgstr ""
+"Fucai Ke, Weiqing Wang, Weicong Tan, Lan Du, Yuan Jin, Yujin Huang, "
+"Hongzhi Yin"
+
+#: ../../source/model-zoo/models/hitskt.md 7625cb6bac474d51af02331315b0b41b
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/hitskt.md f8e4f9a3edc6408aa9f425a2b39cb8f8
+msgid "2024"
+msgstr "2024"
+
+#: ../../source/model-zoo/models/hitskt.md fbee1921dc464ce491637f85f10cfa8b
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/hitskt.md 679dcac2fbad4658857cae051c08bde5
+msgid "Knowledge-Based Systems, 284, 111300"
+msgstr "Knowledge-Based Systems, 284, 111300"
+
+#: ../../source/model-zoo/models/hitskt.md:12 968e3b41c19d486b8f7f96793405ceb6
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/hitskt.md:14 4f53cc8f8b144cc4a2154f5b4a444bc0
+msgid ""
+"Knowledge tracing (KT) aims to leverage students' learning histories to "
+"estimate their mastery levels on a set of pre-defined skills, based on "
+"which the corresponding future performance can be accurately predicted. "
+"In practice, a student's learning history comprises answers to sets of "
+"massed questions, each known as a session, rather than merely being a "
+"sequence of independent answers. Theoretically, within and across these "
+"sessions, students' learning dynamics can be very different. Therefore, "
+"how to effectively model the dynamics of students' knowledge states "
+"within and across the sessions is crucial for handling the KT problem. "
+"Most existing KT models treat student's learning records as a single "
+"continuing sequence, without capturing the sessional shift of students' "
+"knowledge state. To address the above issue, we propose a novel "
+"hierarchical transformer model, named HiTSKT, comprises an "
+"interaction(-level) encoder to capture the knowledge a student acquires "
+"within a session, and a session(-level) encoder to summarize acquired "
+"knowledge across the past sessions. To predict an interaction in the "
+"current session, a knowledge retriever integrates the summarized past-"
+"session knowledge with the previous interactions' information into proper"
+" knowledge representations. These representations are then used to "
+"compute the student's current knowledge state. Additionally, to model the"
+" student's long-term forgetting behaviour across the sessions, a power-"
+"law-decay attention mechanism is designed and deployed in the session "
+"encoder, allowing it to emphasize more on the recent sessions. Extensive "
+"experiments on four public datasets demonstrate that HiTSKT achieves new "
+"state-of-the-art performance on all the datasets compared with seven "
+"state-of-the-art KT models."
+msgstr ""
+"Knowledge tracing (KT) aims to leverage students' learning histories to "
+"estimate their mastery levels on a set of pre-defined skills, based on "
+"which the corresponding future performance can be accurately predicted. "
+"In practice, a student's learning history comprises answers to sets of "
+"massed questions, each known as a session, rather than merely being a "
+"sequence of independent answers. Theoretically, within and across these "
+"sessions, students' learning dynamics can be very different. Therefore, "
+"how to effectively model the dynamics of students' knowledge states "
+"within and across the sessions is crucial for handling the KT problem. "
+"Most existing KT models treat student's learning records as a single "
+"continuing sequence, without capturing the sessional shift of students' "
+"knowledge state. To address the above issue, we propose a novel "
+"hierarchical transformer model, named HiTSKT, comprises an "
+"interaction(-level) encoder to capture the knowledge a student acquires "
+"within a session, and a session(-level) encoder to summarize acquired "
+"knowledge across the past sessions. To predict an interaction in the "
+"current session, a knowledge retriever integrates the summarized past-"
+"session knowledge with the previous interactions' information into proper"
+" knowledge representations. These representations are then used to "
+"compute the student's current knowledge state. Additionally, to model the"
+" student's long-term forgetting behaviour across the sessions, a power-"
+"law-decay attention mechanism is designed and deployed in the session "
+"encoder, allowing it to emphasize more on the recent sessions. Extensive "
+"experiments on four public datasets demonstrate that HiTSKT achieves new "
+"state-of-the-art performance on all the datasets compared with seven "
+"state-of-the-art KT models."

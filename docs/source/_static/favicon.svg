@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+  <path d="M8 27 19 12 32 23" fill="none" stroke="#4338ca" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="8" cy="27" r="4.5" fill="#4338ca"/>
+  <circle cx="19" cy="12" r="4.5" fill="#4338ca"/>
+  <circle cx="32" cy="23" r="5" fill="#fff" stroke="#087f78" stroke-width="3"/>
+  <style>@media(prefers-color-scheme:dark){path{stroke:#b3adff}circle{fill:#b3adff}circle:last-of-type{fill:#141923;stroke:#71d6c5}}</style>
+</svg>

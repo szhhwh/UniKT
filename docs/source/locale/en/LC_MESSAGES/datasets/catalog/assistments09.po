@@ -1,0 +1,452 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/datasets/catalog/assistments09.md:1
+#: e4cec5e9d6f64c8ab0a674e4e6be2a7e
+msgid "ASSISTments 2009"
+msgstr "ASSISTments 2009"
+
+#: ../../source/datasets/catalog/assistments09.md:3
+#: f307618e6d2a404f85f4a9240ce45e1c
+msgid "2009—2010 学年的 Skill Builder 数学练习数据。"
+msgstr "Skill Builder mathematics exercise dataset from the 2009–2010 school year."
+
+#: ../../source/datasets/catalog/assistments09.md:5
+#: 4b789edaab2f486fa09b559360367ab4
+msgid ""
+"数据集链接：[2009—2010 "
+"官方数据页](https://sites.google.com/site/assistmentsdata/home/2009-2010"
+"-assistment-data)。"
+msgstr ""
+"Dataset link: [2009–2010 Official Data "
+"Page](https://sites.google.com/site/assistmentsdata/home/2009-2010"
+"-assistment-data)."
+
+#: ../../source/datasets/catalog/assistments09.md:7
+#: 338ca2a3994844e68806be0036c8732f
+msgid "数据参数"
+msgstr "Dataset Parameters"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 3bcc51d7dd9a41018ba5c381bf3d6c2d
+msgid "参数"
+msgstr "Parameter"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: d940b06c99324700926f889dacc9e861
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 0bbc055794f949669e92b365ca2c9c56
+msgid "数据文件"
+msgstr "Data File"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: a24d4b78fab54c44a6aa8d1f74dd9af4
+msgid "`skill_builder_data_corrected_collapsed.csv`"
+msgstr "`skill_builder_data_corrected_collapsed.csv`"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: a135a0af468649e096a7a134e3051e0b
+msgid "数据行 / 不重复作答日志"
+msgstr "Data Rows / Unique Response Logs"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 26335c56245b4fb98c0a4b6c4cc45ff5
+msgid "346,860 / 346,860，按 `order_id` 去重"
+msgstr "346,860 / 346,860, deduplicated by `order_id`"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 473517c49d994f07bcf9c483db26d185
+msgid "学生 / 题目 / 技能"
+msgstr "Students / Questions / Skills"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 45fa8ae11bc14ab19adf5b8aeaa835a9
+msgid "4,217 / 26,688 / 149，分别按 `user_id`、`problem_id`、非空 `skill_id` 去重"
+msgstr ""
+"4,217 / 26,688 / 149, deduplicated by `user_id`, `problem_id`, and non-"
+"null `skill_id` respectively"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 79bfb5305d424c02923e817c467e2f61
+msgid "缺失技能的行数"
+msgstr "Rows with Missing Skills"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 59b32a96cd6c47069e8a38175538d400
+msgid "63,755"
+msgstr "63,755"
+
+#: ../../source/datasets/catalog/assistments09.md:16
+#: eb20eed88d7445e8b884f4b0d20eb2db
+msgid "去重时排除空值及 `NA`、`nan`、`null` 标记（不区分大小写）。"
+msgstr ""
+"Deduplication excludes null values and `NA`, `nan`, `null` markers (case-"
+"insensitive)."
+
+#: ../../source/datasets/catalog/assistments09.md:18
+#: 316fef1265a443789fa0adda340d09e6
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: e135a97311334a80a9ef48d19af80a0b
+msgid "字段名称"
+msgstr "Field Name"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 8289cbb3a4684c27a46585a2222558c3
+msgid "字段语义说明"
+msgstr "Field Semantic Description"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: c21972aba4ae4f88a474330ce66c58e4
+msgid "空列名"
+msgstr "Empty Column Name"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 9a6ba566d0e943b0bd8cef0dfea49c1a
+msgid "CSV 首列，表示行索引；部分读取工具显示为 `Unnamed: 0`"
+msgstr ""
+"First column of CSV representing row index; displayed as `Unnamed: 0` by "
+"some reading tools"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 8cce2b0772c94f3486a81970f40b5f6e
+msgid "`order_id`"
+msgstr "`order_id`"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 3cffa32f34fa4652886c17ad7e8521cf
+msgid "答题日志的时间顺序编号"
+msgstr "Chronological sequential ID of the response log"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 9120cf411f2b4134b2f2ae24d7dd6125
+msgid "`assignment_id`"
+msgstr "`assignment_id`"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: db61d9f1213a4ecc94ab691e6236d71f
+msgid "作业任务或练习任务集合的唯一编号"
+msgstr "Unique ID of the assignment task or exercise set"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: e46c6189b8b9442b84c000934d421a15
+msgid "`user_id`"
+msgstr "`user_id`"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 7614057f4a5d441e84d9dd9425a7a05b
+msgid "匿名学生的唯一标识符"
+msgstr "Unique identifier of the anonymous student"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 9f3a8702983d456ab6f09f598cc42c25
+msgid "`assistment_id`"
+msgstr "`assistment_id`"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 2d26496e82814b74a253f366d82fc764
+msgid "题目母题（Assistment 单元）编号"
+msgstr "Parent problem (Assistment unit) ID"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: d8341df011354df8bde5e1b56cdafae9
+msgid "`problem_id`"
+msgstr "`problem_id`"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 3be1d97f05644e8d818a626c4cca731e
+msgid "具体的题目编号（一道母题可包含主题或脚手架子题）"
+msgstr ""
+"Specific question ID (a parent problem may contain main questions or "
+"scaffolding subquestions)"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 6e6d221769534c43a2f6922a3d29e44d
+msgid "`original`"
+msgstr "`original`"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 24dd3c301b0347218fa1976224ceb84d
+msgid "是否为主题目（`1`=主干母题，`0`=由主题衍生出的辅助支架子题）"
+msgstr ""
+"Whether it is a main question (`1`=main parent question, `0`=scaffolding "
+"subquestion derived from main question)"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: ce09a4275fb24667a48655137c467b7b
+msgid "`correct`"
+msgstr "`correct`"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 28f424c44e9c4cddb1cacf31e9fd2404
+msgid "**核心标签**：首次作答是否正确（`1`=首次尝试正确且未看提示，`0`=错误或查看了提示）"
+msgstr ""
+"**Core Label**: Whether first response is correct (`1`=first attempt "
+"correct and no hint viewed, `0`=incorrect or hint viewed)"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 2233b83ab3ed4b238a560399e36c5731
+msgid "`attempt_count`"
+msgstr "`attempt_count`"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 858ba8ff7e444a9d9e43e91507769a44
+msgid "该学生在该题目上提交答案的尝试次数"
+msgstr "Number of answer submission attempts by the student on this question"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: b55b89d68dd245cf9fe9ccdebe6e3434
+msgid "`ms_first_response`"
+msgstr "`ms_first_response`"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 2480a43678404bb6b74fa25ea77aba4e
+msgid "**首答耗时**：从题目展示给学生到学生做出首次交互（提交或点提示）的毫秒数"
+msgstr ""
+"**First Response Time**: Milliseconds from problem display to the "
+"student's first interaction (submission or hint request)"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: c7d93a56d42143649b79498cbba7ecaa
+msgid "`tutor_mode`"
+msgstr "`tutor_mode`"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: da4de2a30f444fc38edc8324cd89e3d3
+msgid "辅导系统运行模式（`tutor` 交互辅导，`test` 纯测试）"
+msgstr ""
+"Tutoring system operation mode (`tutor` interactive tutoring, `test` pure"
+" testing)"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: ddfaa06af1084751ab4fa856702e846e
+msgid "`answer_type`"
+msgstr "`answer_type`"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 5bd93f731cd54df2a96153ea33360f65
+msgid "题目作答形式（`choose_1` 单选，`algebra` 表达式输入，`open_response` 开放文本）"
+msgstr ""
+"Question response type (`choose_1` single choice, `algebra` expression "
+"input, `open_response` open text)"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 3c6615b24ef2422f8db4bcab5fc8f459
+msgid "`sequence_id`"
+msgstr "`sequence_id`"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 6e3d017a282e49a093bba76dd00ce6c7
+msgid "知识体系中的题目链序列单元编号"
+msgstr "Sequence unit ID of question chain in knowledge structure"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: ec3c5d6be28d4008964e7167d89fa7c5
+msgid "`student_class_id`"
+msgstr "`student_class_id`"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 46dbeea427fa468e99936cc9312953ec
+msgid "班级唯一标识符"
+msgstr "Unique class identifier"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 0222f6c70f414bd98938539961e09c1b
+msgid "`position`"
+msgstr "`position`"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: c8b9af6f5d99435ea0988ab73c770db5
+msgid "作业在班级作业页面中的位置"
+msgstr "Position of assignment on the class assignment page"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 9585a3756fea49a2b8fbf8f4c9ed4efd
+msgid "`type`"
+msgstr "`type`"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 3d3d5e9961944656b2ec4feac39da732
+msgid "练习模式（如精通式训练 `MasterySection`）"
+msgstr "Practice mode (e.g., mastery training `MasterySection`)"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 907786c1d34b4d50acca9fddfac15c39
+msgid "`base_sequence_id`"
+msgstr "`base_sequence_id`"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: d5ec6b4759534f988b6311ddd8ced9f1
+msgid "基础序列编号"
+msgstr "Base sequence ID"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 2b729b6e5e604269889b6a1ab813bd17
+msgid "`skill_id`"
+msgstr "`skill_id`"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 05a3446f0f2c4673ae706cef36c05f9f
+msgid "绑定的知识组件（技能/KC）唯一数值编号（部分题若未标注可能缺失）"
+msgstr ""
+"Unique numeric ID of bound knowledge component (skill/KC) (may be missing"
+" if not annotated)"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: bb173920a3ba41679ab3ec120f07f2be
+msgid "`skill_name`"
+msgstr "`skill_name`"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 7c612c94087b4fff92a20fd93289979d
+msgid "知识组件的标准人类可读英文名称"
+msgstr "Standard human-readable English name of the knowledge component"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 4e84f53de3694052ae03d56d7a072656
+msgid "`teacher_id`"
+msgstr "`teacher_id`"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 092048b382b542dfa513848c38f1a6e9
+msgid "授课教师编号"
+msgstr "Teacher ID"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 7b8179fcac474f7f917f4a5f5145d79d
+msgid "`school_id`"
+msgstr "`school_id`"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: e6062bcd6e114a289e7e8b45794a5f92
+msgid "学校编号"
+msgstr "School ID"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 5b378ddf41774ef98d364856fc0f7988
+msgid "`hint_count`"
+msgstr "`hint_count`"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 3679f9f56b41429ba4a84ad1f20cc121
+msgid "学生在该题目上请求提示的总次数"
+msgstr "Total number of hint requests by the student on this question"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 585d770946e54a7894d6639756d4a715
+msgid "`hint_total`"
+msgstr "`hint_total`"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 671c639be1dd4b92b497a6a25a842b88
+msgid "系统为该题目配置的提示总级数"
+msgstr "Total hint levels configured for this question by the system"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 39fe25af41f2462e956615877aeeb5ec
+msgid "`overlap_time`"
+msgstr "`overlap_time`"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: eb54ef5168da4993b756a604ba1849a2
+msgid "重叠时间，单位为毫秒"
+msgstr "Overlap time in milliseconds"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 623c20ea648e48edae942fdc77badcc6
+msgid "`template_id`"
+msgstr "`template_id`"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: bb84db69dde64477be756e15f2d34bf2
+msgid "参数化题目生成模板编号（同一模板生成的题目共享相同解题模式）"
+msgstr ""
+"Parameterized question generation template ID (questions generated from "
+"the same template share the same problem pattern)"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 19d2be36412b4db5907351dcba9840b9
+msgid "`answer_id`"
+msgstr "`answer_id`"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 4df0f65bfd9b401280fdc5f49ec0bcec
+msgid "单选类题目的内部选项编号"
+msgstr "Internal option ID for multiple choice questions"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 29656775dda24e6ba4c58108bf4248c8
+msgid "`answer_text`"
+msgstr "`answer_text`"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 68320f5eb157402796ea5c55449c8ac1
+msgid "学生实际提交的文本答案内容"
+msgstr "Actual text answer content submitted by the student"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 7bfddae7596641db9b9a8fbd9c315f80
+msgid "`first_action`"
+msgstr "`first_action`"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 889ff19093244552956421ceaaca5e6f
+msgid "首次交互类型，包括尝试作答和请求提示"
+msgstr "First interaction type, including answer attempt and hint request"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: fbcf69fa275d4d558d12a9ab9b4f0303
+msgid "`bottom_hint`"
+msgstr "`bottom_hint`"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: bc9d3d341d5a4ab7a91d32789a48f49b
+msgid "是否已经查看到底部终极提示（Bottom-out Hint，直接给出答案解析）"
+msgstr "Whether bottom-out hint (directly providing answer explanation) was viewed"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 5b2490baa5b04ada8f63116f1968b294
+msgid "`opportunity`"
+msgstr "`opportunity`"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: 7221af6879ef4e2ca2aab0b191aa6744
+msgid "截止到当前步，该学生练习该技能的总次数机会计数"
+msgstr ""
+"Cumulative opportunity count for the student practicing this skill up to "
+"the current step"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: b48924e94a90442387823ae58e99eceb
+msgid "`opportunity_original`"
+msgstr "`opportunity_original`"
+
+#: ../../source/datasets/catalog/assistments09.md
+#: aa8d482888024cb0a8acb15a6d16af51
+msgid "仅计算母题练习机会的历史累计计数"
+msgstr ""
+"Historical cumulative count calculating parent problem practice "
+"opportunities only"

@@ -1,0 +1,557 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/user-guides/hyperparameter-search.md:1
+#: d39e12bb9e4c4b998b6440256a6ca5f2
+msgid "超参数自动化搜索"
+msgstr "Automated Hyperparameter Search"
+
+#: ../../source/user-guides/hyperparameter-search.md:3
+#: ed1bde6f0c9644e0bb3d18cebb1ef08a
+msgid ""
+"本指南介绍如何使用 UniKT 内置的 Optuna "
+"超参数搜索运行器（`optuna_search.py`），对知识追踪模型的超参数进行单目标贝叶斯调优或多目标帕累托前沿搜索，以及如何断点恢复试验并分析搜索结果数据库。"
+msgstr ""
+"This guide introduces how to use UniKT's built-in Optuna search runner "
+"(`optuna_search.py`) for single-objective Bayesian tuning or multi-"
+"objective Pareto frontier searches on knowledge tracing models, resume "
+"interrupted trials, and analyze search study databases."
+
+#: ../../source/user-guides/hyperparameter-search.md:5
+#: b777490aa95b456e871e1f3b9a3a5465
+msgid "目标与适用场景"
+msgstr "Objectives & Use Cases"
+
+#: ../../source/user-guides/hyperparameter-search.md:7
+#: a5063ed0306645cea96b719d58196231
+msgid "针对特定数据集寻找最佳学习率、批大小、嵌入维度、层数或模型专属超参数。"
+msgstr ""
+"Finding optimal learning rates, batch sizes, embedding dimensions, layer "
+"counts, or model-specific hyperparameters for target datasets."
+
+#: ../../source/user-guides/hyperparameter-search.md:8
+#: b59fa9cf08c04c24a3d2bd94d53168d7
+msgid "支持单目标优化（如最大化 AUC、最小化 RMSE）与多目标优化（如同时兼顾 AUC 与 RMSE）。"
+msgstr ""
+"Supports single-objective optimization (e.g., maximizing AUC, minimizing "
+"RMSE) and multi-objective optimization (e.g., balancing AUC and RMSE "
+"simultaneously)."
+
+#: ../../source/user-guides/hyperparameter-search.md:9
+#: 6f06d427010e4de498874c3452585024
+msgid "支持试验异常中断后的无损断点恢复。"
+msgstr ""
+"Supports lossless checkpoint resumption after unexpected trial "
+"interruptions."
+
+#: ../../source/user-guides/hyperparameter-search.md:10
+#: 0853459f7488439e88e3cb01604056c9
+msgid "搜索完成后自动生成最佳参数配置 `best_run_config.yaml`，便于直接一键复现重跑。"
+msgstr ""
+"Automatically generates `best_run_config.yaml` containing the optimal "
+"configuration upon search completion for one-click reproduction."
+
+#: ../../source/user-guides/hyperparameter-search.md:12
+#: 74fc166ea9664e08b63f5f19d445fccc
+msgid "前置条件"
+msgstr "Prerequisites"
+
+#: ../../source/user-guides/hyperparameter-search.md:14
+#: 275b95e303ed4742913ab4251960c4c3
+msgid "**环境准备**：Pixi 环境已内置安装 Optuna。"
+msgstr "**Environment**: Optuna is pre-installed in the Pixi environment."
+
+#: ../../source/user-guides/hyperparameter-search.md:15
+#: da4a49203dc94f1c81ac811edf10700c
+msgid "**数据就绪**：目标数据集已完成预处理。"
+msgstr "**Data Readiness**: Target datasets must be preprocessed beforehand."
+
+#: ../../source/user-guides/hyperparameter-search.md:16
+#: 5b2e45e0bd7042e0afe5c1f367c35396
+#, python-brace-format
+msgid ""
+"**搜索空间元数据已注册**：各模型的搜索空间直接在模型专属的 `ModelConfig` 类中通过 `metadata={'optuna': "
+"...}` 声明。无需手动编写或维护冗余的 JSON 参数文件。"
+msgstr ""
+"**Registered Search Space Metadata**: Search spaces are declared directly"
+" in model-specific `ModelConfig` classes via `metadata={'optuna': ...}`, "
+"eliminating the need to maintain redundant JSON parameter files."
+
+#: ../../source/user-guides/hyperparameter-search.md:18
+#: 8e65f3573a50415383049b2c2ab7bb5c
+msgid "运行超参数搜索"
+msgstr "Running Hyperparameter Search"
+
+#: ../../source/user-guides/hyperparameter-search.md:20
+#: 4eeab40de1e940c3999c6aa11a4f0cf9
+msgid "1. 单目标优化"
+msgstr "1\\. Single-Objective Optimization"
+
+#: ../../source/user-guides/hyperparameter-search.md:22
+#: d8c7b19d62ff4574a3b6cb7143875aef
+msgid "最常用的场景是最大化验证集 AUC："
+msgstr "The most common scenario is maximizing validation set AUC:"
+
+#: ../../source/user-guides/hyperparameter-search.md:24
+#: be4fc78a1faf4311b7168db9004da5d6
+msgid ""
+"python optuna_search.py -m GIKT -d assistments09 --optuna_search.metric "
+"auc\n"
+msgstr ""
+"python optuna_search.py -m GIKT -d assistments09 --optuna_search.metric "
+"auc\n"
+
+#: ../../source/user-guides/hyperparameter-search.md:28
+#: 7bf078a1d6a2419baad38ec5b053135e
+msgid "此命令将读取 `configs/optuna/optuna_config.yaml` 中的全局配置，并结合 GIKT 模型定义的搜索空间执行试验。"
+msgstr ""
+"This command reads global settings from "
+"`configs/optuna/optuna_config.yaml` and executes trials across the search"
+" space defined by GIKT."
+
+#: ../../source/user-guides/hyperparameter-search.md:30
+#: 277c2285e4fa4c33b9556a960b57dcb1
+msgid "2. 多目标帕累托优化"
+msgstr "2\\. Multi-Objective Pareto Optimization"
+
+#: ../../source/user-guides/hyperparameter-search.md:32
+#: 80d61df0f60d42979406e1682702eef5
+msgid "当需要同时权衡 AUC 与 RMSE 时，可以传入以逗号分隔的多个指标："
+msgstr "When balancing AUC and RMSE concurrently, pass comma-separated metrics:"
+
+#: ../../source/user-guides/hyperparameter-search.md:34
+#: fc70e155151b4758a25186f4221ab0e8
+msgid ""
+"python optuna_search.py -m GIKT -d assistments09 --optuna_search.metric "
+"auc,rmse\n"
+msgstr ""
+"python optuna_search.py -m GIKT -d assistments09 --optuna_search.metric "
+"auc,rmse\n"
+
+#: ../../source/user-guides/hyperparameter-search.md:39
+#: b7b0bac95c064d2e810c71679169bece
+msgid ""
+"当传入多个指标时，系统自动切换为多目标优化（例如 `auc` 设为 `maximize`，`rmse` 设为 "
+"`minimize`）。进行多目标搜索时，建议将采样器设置为 `nsgaii`。"
+msgstr ""
+"Passing multiple metrics automatically switches the search to multi-"
+"objective optimization (e.g., `auc` set to `maximize`, `rmse` set to "
+"`minimize`). The `nsgaii` sampler is recommended for multi-objective "
+"sweeps."
+
+#: ../../source/user-guides/hyperparameter-search.md:42
+#: 8006b9c6001c4d83ab377a03227dc371
+msgid "3. 命令行参数对照"
+msgstr "3\\. Command-Line Arguments Reference"
+
+#: ../../source/user-guides/hyperparameter-search.md:38
+#: f2aed2a592c34a228d983a3bc721858d
+msgid "参数项"
+msgstr "Parameter Option"
+
+#: ../../source/user-guides/hyperparameter-search.md:38
+#: f08eaf8150e44620a4379d4bb066eb7b
+msgid "类型"
+msgstr "Type"
+
+#: ../../source/user-guides/hyperparameter-search.md:38
+#: 621b18a3027a44caae9485727ba9e664
+msgid "默认值"
+msgstr "Default"
+
+#: ../../source/user-guides/hyperparameter-search.md:38
+#: 27ba2b6b225c47d7b22a5384b740abc6
+msgid "说明"
+msgstr "Description"
+
+#: ../../source/user-guides/hyperparameter-search.md:38
+#: dc8625dd1b8d4b0bbfc985d47f7cc95f
+msgid "`-m, --experiment.model_name`"
+msgstr "`-m, --experiment.model_name`"
+
+#: ../../source/user-guides/hyperparameter-search.md:38
+#: 2cf2f2bce79d4048a2367577909e1e0f 81523bba42f24e18a871b1b5df9df9e6
+#: 8de68db1c88b47f09afac4a7d1597c82 a02ee7fa5a4941acbd0e6e10450731ae
+#: aaf1968896d1452c8ea25fa0c47c0979 b2c1937ae36145be9aad26af3b22f07c
+msgid "`str`"
+msgstr "`str`"
+
+#: ../../source/user-guides/hyperparameter-search.md:38
+#: 492c07043a6e4b4e903c70d51af7e373 6962b0ecca7e4febb2586c4f4aec61a5
+msgid "必填"
+msgstr "Required"
+
+#: ../../source/user-guides/hyperparameter-search.md:38
+#: 192a17073a1f49769e492d1829c58ad2
+msgid "待调优的模型名称（如 `GIKT`, `AKT`）"
+msgstr "Target model name (e.g., `GIKT`, `AKT`)"
+
+#: ../../source/user-guides/hyperparameter-search.md:38
+#: 60478abd2e354750a0ebe5257ad38005
+msgid "`-d, --data.dataset`"
+msgstr "`-d, --data.dataset`"
+
+#: ../../source/user-guides/hyperparameter-search.md:38
+#: 03758d021ad046ac9c0a82a67c50fd6e
+msgid "数据集名称（如 `assistments09`）"
+msgstr "Dataset name (e.g., `assistments09`)"
+
+#: ../../source/user-guides/hyperparameter-search.md:38
+#: ab71fdf265a54d58ae420d4b9810707d
+msgid "`--optuna_search.optuna_config`"
+msgstr "`--optuna_search.optuna_config`"
+
+#: ../../source/user-guides/hyperparameter-search.md:38
+#: 86de95a02cc4444aac81f2f1ce188a0c
+msgid "`./configs/optuna/optuna_config.yaml`"
+msgstr "`./configs/optuna/optuna_config.yaml`"
+
+#: ../../source/user-guides/hyperparameter-search.md:38
+#: 190498caabc7450da1f1e775211c5eb4
+msgid "Optuna 全局配置文件路径"
+msgstr "Path to Optuna global configuration file"
+
+#: ../../source/user-guides/hyperparameter-search.md:38
+#: 4ae5fd3dc2944dc6a34c23721ce10e48
+msgid "`--optuna_search.metric`"
+msgstr "`--optuna_search.metric`"
+
+#: ../../source/user-guides/hyperparameter-search.md:38
+#: 167b5f70037c4c98875a4581a6c1b2c4
+msgid "`auc`"
+msgstr "`auc`"
+
+#: ../../source/user-guides/hyperparameter-search.md:38
+#: 470b28eda04c4e1aae51871b7f330f22
+msgid "目标指标。支持 `auc`, `acc`, `rmse`, `loss`, `auprc`。多个指标用逗号分隔"
+msgstr ""
+"Target metric(s), supporting `auc`, `acc`, `rmse`, `loss`, `auprc`. "
+"Separate multiple metrics with commas"
+
+#: ../../source/user-guides/hyperparameter-search.md:38
+#: 5dc3190659744c9995b4e45d25d59542
+msgid "`--optuna_search.resume`"
+msgstr "`--optuna_search.resume`"
+
+#: ../../source/user-guides/hyperparameter-search.md:38
+#: 18af576c0eac4a51bcf1349d600fc6ee d95b2689470645499217c81883a0ac25
+msgid "`null`"
+msgstr "`null`"
+
+#: ../../source/user-guides/hyperparameter-search.md:38
+#: 0aaf1d8f7a7b479daeef78db45cccf96
+msgid "从已有的运行目录恢复搜索（复用其中的 `study.db`）"
+msgstr "Resume search from an existing run directory (reusing its `study.db`)"
+
+#: ../../source/user-guides/hyperparameter-search.md:38
+#: 896d12c5bb8a4df592e5478356145143
+msgid "`--optuna_search.keep_trial_artifacts`"
+msgstr "`--optuna_search.keep_trial_artifacts`"
+
+#: ../../source/user-guides/hyperparameter-search.md:38
+#: 42dda6a16162495581c424d89f237314
+msgid "`bool`"
+msgstr "`bool`"
+
+#: ../../source/user-guides/hyperparameter-search.md:38
+#: b620f51e2ade474389b7d2bf536cdec4
+msgid "`false`"
+msgstr "`false`"
+
+#: ../../source/user-guides/hyperparameter-search.md:38
+#: 95e5c0cf2bf846a280d495fa769870ed
+msgid "是否保留每轮 Trial 的 SwanLab 上报、检查点与测试集评估（默认关闭以节省算力与存储）"
+msgstr ""
+"Whether to retain SwanLab logging, checkpoints, and test evaluations per "
+"trial (disabled by default to save storage and compute)"
+
+#: ../../source/user-guides/hyperparameter-search.md:38
+#: c6b06aac6ece4c278bc8b0b5c7298d41
+msgid "`--optuna_search.output_dir`"
+msgstr "`--optuna_search.output_dir`"
+
+#: ../../source/user-guides/hyperparameter-search.md:38
+#: 3a8ab69c23de41d4970d4388794791b3
+msgid "指定固定输出目录（供 Web 后端或自动化脚本确定性定位 `study.db`）"
+msgstr ""
+"Specify fixed output directory (used by Web backends or automation "
+"scripts to locate `study.db`)"
+
+#: ../../source/user-guides/hyperparameter-search.md:54
+#: 0b26068a5908423e97484b7ded945258
+msgid ""
+"除上述选项外，所有通用的 `--data.*` 和 `--general.*` 参数均可直接透传（例如 `--data.fold 0` 或 "
+"`--general.device cuda:0`）。"
+msgstr ""
+"In addition to these options, all general `--data.*` and `--general.*` "
+"arguments can be passed directly (e.g., `--data.fold 0` or "
+"`--general.device cuda:0`)."
+
+#: ../../source/user-guides/hyperparameter-search.md:56
+#: 05f169c2a43f4701b656fa8bb9efdfe8
+msgid "配置全局搜索参数：`optuna_config.yaml`"
+msgstr "Configuring Global Search Parameters: `optuna_config.yaml`"
+
+#: ../../source/user-guides/hyperparameter-search.md:58
+#: 6f943da0dc3841f0b12c7729fbfb5ed0
+msgid "全局搜索控制文件位于 `configs/optuna/optuna_config.yaml`，核心字段如下："
+msgstr ""
+"The global search configuration resides in "
+"`configs/optuna/optuna_config.yaml`, featuring the following core fields:"
+
+#: ../../source/user-guides/hyperparameter-search.md:60
+#: 18404c791bb54ad0999d31f09c5fc992
+msgid ""
+"# Optuna study 级别配置\n"
+"sampler: tpe             # 采样算法: tpe (Tree-structured Parzen Estimator) |"
+" random | nsgaii\n"
+"sampler_kwargs:\n"
+"  seed: 42\n"
+"  n_startup_trials: 10   # 前 10 次试验采用随机采样建立初始先验\n"
+"\n"
+"pruner: median           # 剪枝策略: median | percentile | successive_halving"
+" | hyperband | null\n"
+"pruner_kwargs:\n"
+"  n_startup_trials: 5    # 前 5 次试验不进行剪枝\n"
+"  n_warmup_steps: 10     # 每个 Trial 前 10 个 Epoch 不剪枝\n"
+"\n"
+"n_trials: 100            # 总试验次数\n"
+"n_jobs: 1                # 并行进程数（单卡建议保持为 1）\n"
+"timeout: null            # 超时时间（秒，null 表示无限制）\n"
+"study_name: hyperparameter_search\n"
+"db_url: null             # 数据库 URL（默认为本地 SQLite study.db）\n"
+"save_dir: ./optuna_results\n"
+"verbose: 1\n"
+msgstr ""
+"# Optuna study-level configuration\n"
+"sampler: tpe             # Sampling algorithm: tpe (Tree-structured "
+"Parzen Estimator) | random | nsgaii\n"
+"sampler_kwargs:\n"
+"  seed: 42\n"
+"  n_startup_trials: 10   # The first 10 trials sample randomly to build "
+"the initial prior\n"
+"\n"
+"pruner: median           # Pruning strategy: median | percentile | "
+"successive_halving | hyperband | null\n"
+"pruner_kwargs:\n"
+"  n_startup_trials: 5    # No pruning during the first 5 trials\n"
+"  n_warmup_steps: 10     # No pruning during the first 10 epochs of each "
+"trial\n"
+"\n"
+"n_trials: 100            # Total number of trials\n"
+"n_jobs: 1                # Number of parallel workers (keep at 1 for a "
+"single GPU)\n"
+"timeout: null            # Timeout in seconds (null means unlimited)\n"
+"study_name: hyperparameter_search\n"
+"db_url: null             # Database URL (defaults to the local SQLite "
+"study.db)\n"
+"save_dir: ./optuna_results\n"
+"verbose: 1"
+
+#: ../../source/user-guides/hyperparameter-search.md:81
+#: 5d1e2f7aa0394df4acb3ba06a5bac064
+msgid "常见配置调优建议"
+msgstr "Practical Tuning Recommendations"
+
+#: ../../source/user-guides/hyperparameter-search.md:83
+#: 1702def89e6c4c5ba3c12b00f76e094e
+msgid "**算力有限**：将 `n_trials` 调小至 `30`~`50`，并开启 `pruner: median` 以便尽早淘汰劣质参数组合。"
+msgstr ""
+"**Constrained Compute**: Set `n_trials` to `30`~`50` and enable `pruner: "
+"median` to prune unpromising trials early."
+
+#: ../../source/user-guides/hyperparameter-search.md:84
+#: fe8ee707a6804a9f8817893e7973a43a
+msgid "**多目标优化**：将 `sampler` 改为 `nsgaii`（非支配排序遗传算法）。"
+msgstr ""
+"**Multi-Objective Optimization**: Switch `sampler` to `nsgaii` (Non-"
+"dominated Sorting Genetic Algorithm II)."
+
+#: ../../source/user-guides/hyperparameter-search.md:85
+#: 0960250bd37f4fb48dd5724483f0042c
+msgid "**无剪枝纯评估**：若训练轮数较短或模型损失波动剧烈，可将 `pruner` 设为 `null` 避免误剪。"
+msgstr ""
+"**Unpruned Evaluation**: If training epochs are short or loss "
+"fluctuations are noisy, set `pruner` to `null` to avoid premature "
+"pruning."
+
+#: ../../source/user-guides/hyperparameter-search.md:87
+#: b274873329c0498e8c5f95b656858756
+msgid "试验中断与断点恢复"
+msgstr "Trial Interruption and Checkpoint Resumption"
+
+#: ../../source/user-guides/hyperparameter-search.md:89
+#: b71d20f45c6f4d1abc40429614baf6d8
+msgid "如果超参数搜索因节点维护或意外断电中断，只需指定上一次的实验运行目录即可无缝继续："
+msgstr ""
+"If hyperparameter search is interrupted by maintenance or outages, resume"
+" seamlessly by specifying the previous run directory:"
+
+#: ../../source/user-guides/hyperparameter-search.md:91
+#: 8b2188d369164cbe82404951a1641144
+msgid ""
+"python optuna_search.py -m GIKT -d assistments09 \\\n"
+"  --optuna_search.resume "
+"runs/hyperparam_search/GIKT_assistments09_20261109-120000_n_trials100\n"
+msgstr ""
+"python optuna_search.py -m GIKT -d assistments09 \\\n"
+"  --optuna_search.resume "
+"runs/hyperparam_search/GIKT_assistments09_20261109-120000_n_trials100\n"
+
+#: ../../source/user-guides/hyperparameter-search.md:96
+#: d190abc1e65543df9ffd1b71aab1d13c
+msgid "恢复时，UniKT 会自动连接已有目录下的 `study.db`，读取历史完成的 Trial 状态，并基于已积累的贝叶斯先验继续执行剩余的试验轮次。"
+msgstr ""
+"Upon resumption, UniKT reconnects to `study.db` in the directory, "
+"recovers completed trial histories, and leverages accumulated Bayesian "
+"priors to continue remaining trials."
+
+#: ../../source/user-guides/hyperparameter-search.md:98
+#: eb8b590e26a24bd680d57136c013f4d8
+msgid "产出物与结果分析"
+msgstr "Artifacts and Result Analysis"
+
+#: ../../source/user-guides/hyperparameter-search.md:100
+#: c83e07b56735449899db4a5bb99a0a79
+msgid "搜索完成后，实验目录将生成以下核心文件："
+msgstr ""
+"Following search completion, the experiment directory produces the "
+"following core files:"
+
+#: ../../source/user-guides/hyperparameter-search.md:102
+#: 3730e7f8ff6447e7a67d5d8bb248e59a
+msgid ""
+"runs/hyperparam_search/GIKT_assistments09_20261109-120000_n_trials100/\n"
+"├── study.db                      # SQLite 格式的 Optuna 完整试验数据库\n"
+"├── best_run_config.yaml          # 最优超参数组合构成的完整 RunConfig 配置文件\n"
+"├── trials_history_gikt.csv       # 包含所有试验参数、得分、耗时、状态的表格\n"
+"└── run.log                       # 搜索全流程日志记录\n"
+msgstr ""
+"runs/hyperparam_search/GIKT_assistments09_20261109-120000_n_trials100/\n"
+"├── study.db                  # Optuna SQLite study database\n"
+"├── optuna_study_summary.csv  # Flattened parameter and metric records "
+"across all trials\n"
+"├── best_params.yaml          # Optimal hyperparameter dictionary "
+"snapshot\n"
+"├── best_run_config.yaml      # Complete RunConfig with best parameters "
+"injected (for one-click reproduction)\n"
+"└── optuna_search.log         # Complete terminal search log\n"
+
+#: ../../source/user-guides/hyperparameter-search.md:110
+#: 710649e594a0438481436c8bfb1f8f03
+msgid "1. 使用最优配置一键重跑"
+msgstr "1\\. One-Click Reproduction with Best Configuration"
+
+#: ../../source/user-guides/hyperparameter-search.md:112
+#: 8158827c3afa41d0b85500451b42411d
+msgid ""
+"系统生成的 `best_run_config.yaml` "
+"已经将调优后的最优参数覆盖到位，且恢复了正常的检查点保存与测试集评估行为。你可以直接将其作为配置文件重新启动标准训练："
+msgstr ""
+"The generated `best_run_config.yaml` has the optimal parameters injected,"
+" restoring standard checkpoint saving and test evaluation. You can pass "
+"it directly to launch standard training:"
+
+#: ../../source/user-guides/hyperparameter-search.md:114
+#: d9a895901be044b38743f79d3853f74c
+msgid ""
+"python train.py --config "
+"runs/hyperparam_search/GIKT_assistments09_20261109-120000_n_trials100/best_run_config.yaml"
+"\n"
+msgstr ""
+"python train.py --config "
+"runs/hyperparam_search/GIKT_assistments09_20261109-120000_n_trials100/best_run_config.yaml"
+"\n"
+
+#: ../../source/user-guides/hyperparameter-search.md:118
+#: 46070b40b1db4a749efa5a8e1eb5bed3
+msgid "2. 通过 Optuna Dashboard 交互式查看"
+msgstr "2\\. Interactive Exploration via Optuna Dashboard"
+
+#: ../../source/user-guides/hyperparameter-search.md:120
+#: 943fff1b75024e0aba320ea3132cd55b
+msgid "通过 Web 界面直观查看超参数重要性分析图、平行坐标图及帕累托前沿曲线："
+msgstr ""
+"Explore parameter importance rankings, parallel coordinates, and Pareto "
+"frontiers visually via the Web UI:"
+
+#: ../../source/user-guides/hyperparameter-search.md:122
+#: fc838ad87fb34038947ca6e209a9df10
+msgid ""
+"optuna-dashboard "
+"sqlite:///runs/hyperparam_search/GIKT_assistments09_20261109-120000_n_trials100/study.db"
+"\n"
+msgstr ""
+"optuna-dashboard "
+"sqlite:///runs/hyperparam_search/GIKT_assistments09_20261109-120000_n_trials100/study.db"
+"\n"
+
+#: ../../source/user-guides/hyperparameter-search.md:126
+#: 6f385d1ab1654d10b9bd2d748c3c1043
+msgid "在浏览器打开终端提示的地址（通常为 `http://127.0.0.1:8080`）即可交互式探索。"
+msgstr ""
+"Open the URL indicated in the terminal (typically "
+"`http://127.0.0.1:8080`) in your browser to inspect interactive "
+"visualizations."
+
+#: ../../source/user-guides/hyperparameter-search.md:128
+#: bac0b46895664fdc918efe1ec6f71591
+msgid "3. 使用 Python 脚本读取结果"
+msgstr "3\\. Query Results Programmatically with Python"
+
+#: ../../source/user-guides/hyperparameter-search.md:130
+#: 56090b1cf4bb46f99b45dadc7d0b3b26
+msgid "也可以编写简单的脚本直接读取 `study.db`："
+msgstr "You can also query `study.db` directly using Python scripts:"
+
+#: ../../source/user-guides/hyperparameter-search.md:132
+#: 19efb7d58636488fa699fa54a157b3df
+#, python-brace-format
+msgid ""
+"import optuna\n"
+"\n"
+"study = optuna.load_study(\n"
+"    study_name=\"hyperparameter_search\",\n"
+"    "
+"storage=\"sqlite:///runs/hyperparam_search/GIKT_assistments09_20261109-120000_n_trials100/study.db\","
+"\n"
+")\n"
+"\n"
+"print(f\"完成的试验总数: {len(study.trials)}\")\n"
+"print(f\"最佳指标值: {study.best_value:.4f}\")\n"
+"print(\"最佳超参数组合:\")\n"
+"for k, v in study.best_params.items():\n"
+"    print(f\"  {k}: {v}\")\n"
+msgstr ""
+"import optuna\n"
+"\n"
+"study = optuna.load_study(\n"
+"    study_name=\"hyperparameter_search\",\n"
+"    "
+"storage=\"sqlite:///runs/hyperparam_search/GIKT_assistments09_20261109-120000_n_trials100/study.db\","
+"\n"
+")\n"
+"\n"
+"print(f\"Trials completed: {len(study.trials)}\")\n"
+"print(f\"Best metric value: {study.best_value:.4f}\")\n"
+"print(\"Best hyperparameter combination:\")\n"
+"for k, v in study.best_params.items():\n"
+"    print(f\"  {k}: {v}\")"

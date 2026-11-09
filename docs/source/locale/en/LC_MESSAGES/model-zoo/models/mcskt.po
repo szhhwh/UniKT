@@ -1,0 +1,137 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/mcskt.md:1 5ff70ba15c214457984ed523299a1234
+msgid "MCSKT"
+msgstr "MCSKT"
+
+#: ../../source/model-zoo/models/mcskt.md:3 9d90b510ba174c9883d71d192967a2e4
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/mcskt.md 474f7ab71a244c6cbb109498b36410e2
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/mcskt.md 7f2e045e131f4700b449739919789f70
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/mcskt.md b791800839ea4638b8165861badb4092
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/mcskt.md 5ec4b21624ad492fa9ffe55a21f660dc
+msgid ""
+"[An efficient knowledge tracing model via Mamba Contextual Encoding and "
+"Dynamic Sparse Attention "
+"mechanism](https://doi.org/10.1016/j.engappai.2026.114312)"
+msgstr ""
+"[An efficient knowledge tracing model via Mamba Contextual Encoding and "
+"Dynamic Sparse Attention "
+"mechanism](https://doi.org/10.1016/j.engappai.2026.114312)"
+
+#: ../../source/model-zoo/models/mcskt.md 466e00ee541a4ac9887bad1e8935fed4
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/mcskt.md 05dd18baf2a14e3e9bc00062139e6ae1
+msgid "RuiJuan Zhang, Feng Zhang, Cong Liu"
+msgstr "RuiJuan Zhang, Feng Zhang, Cong Liu"
+
+#: ../../source/model-zoo/models/mcskt.md 206676761a964ed48dcbe3a5cfaab82a
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/mcskt.md e6b6e64c1d674e44b9f023fd482d8b9e
+msgid "2026"
+msgstr "2026"
+
+#: ../../source/model-zoo/models/mcskt.md 32d5d68909264008a6b7bd24cc004822
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/mcskt.md 455144e4ba484902a4e6324fa2c54123
+msgid "Engineering Applications of Artificial Intelligence"
+msgstr "Engineering Applications of Artificial Intelligence"
+
+#: ../../source/model-zoo/models/mcskt.md:12 c15f3b5dccfd4a23861113172e4b5485
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/mcskt.md:14 5b72dac7449e496296a97cc6db89af73
+#, python-format
+msgid ""
+"Knowledge Tracing (KT) predicts learners' future performance by analyzing"
+" their historical learning records. While deep learning-based knowledge "
+"tracing models have significantly improved prediction performance, they "
+"suffer from substantial computational overhead and inefficiency when "
+"handling long interaction sequences. To address this problem, we propose "
+"an efficient knowledge tracing model named Mamba Contextual Encoding and "
+"Dynamic Sparse Attention Mechanism-based Knowledge Tracing (MCSKT). "
+"Firstly, leveraging the selective state space structure and linear-time "
+"complexity of Mamba, we design a dual-encoder composed of a question "
+"encoder and a knowledge encoder, which structurally disentangles the "
+"contextual dependencies at the question level and concept level. This "
+"design enhances semantic modeling capability while maintaining "
+"computational efficiency. Secondly, we propose a dynamic k-sparse "
+"attention mechanism to overcome the adaptability constraints inherent in "
+"traditional sparse attention methods that rely on manually configured "
+"static thresholds. This novel mechanism dynamically adjusts the filtering"
+" range of historical interactions, adaptively balancing noise suppression"
+" and critical information retention, while significantly reducing "
+"computational complexity. Experimental results demonstrate that MCSKT "
+"achieves an average improvement of 3.7\\% in Area Under the Curve (AUC) "
+"and 2.9\\% in Accuracy (ACC) across four public datasets. Moreover, "
+"compared with the state-of-the-art model, MCSKT achieves substantial "
+"acceleration, running approximately 10.1 times faster during training and"
+" 3.5 times faster during inference. In addition, the growth rate of time "
+"consumption for MCSKT is markedly slower than that of competing models as"
+" sequence length increases, highlighting its advantage in processing "
+"long-sequence data."
+msgstr ""
+"Knowledge Tracing (KT) predicts learners' future performance by analyzing"
+" their historical learning records. While deep learning-based knowledge "
+"tracing models have significantly improved prediction performance, they "
+"suffer from substantial computational overhead and inefficiency when "
+"handling long interaction sequences. To address this problem, we propose "
+"an efficient knowledge tracing model named Mamba Contextual Encoding and "
+"Dynamic Sparse Attention Mechanism-based Knowledge Tracing (MCSKT). "
+"Firstly, leveraging the selective state space structure and linear-time "
+"complexity of Mamba, we design a dual-encoder composed of a question "
+"encoder and a knowledge encoder, which structurally disentangles the "
+"contextual dependencies at the question level and concept level. This "
+"design enhances semantic modeling capability while maintaining "
+"computational efficiency. Secondly, we propose a dynamic k-sparse "
+"attention mechanism to overcome the adaptability constraints inherent in "
+"traditional sparse attention methods that rely on manually configured "
+"static thresholds. This novel mechanism dynamically adjusts the filtering"
+" range of historical interactions, adaptively balancing noise suppression"
+" and critical information retention, while significantly reducing "
+"computational complexity. Experimental results demonstrate that MCSKT "
+"achieves an average improvement of 3.7\\% in Area Under the Curve (AUC) "
+"and 2.9\\% in Accuracy (ACC) across four public datasets. Moreover, "
+"compared with the state-of-the-art model, MCSKT achieves substantial "
+"acceleration, running approximately 10.1 times faster during training and"
+" 3.5 times faster during inference. In addition, the growth rate of time "
+"consumption for MCSKT is markedly slower than that of competing models as"
+" sequence length increases, highlighting its advantage in processing "
+"long-sequence data."

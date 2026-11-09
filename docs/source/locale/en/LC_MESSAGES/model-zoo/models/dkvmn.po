@@ -1,0 +1,136 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/dkvmn.md:1 78b92fccca4f445f82a7c3ed7513dbea
+msgid "DKVMN"
+msgstr "DKVMN"
+
+#: ../../source/model-zoo/models/dkvmn.md:3 48b444d8812a4810ad7f242fe4022330
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/dkvmn.md 1bef7d5bd3d44176b0e7ea0fca12912d
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/dkvmn.md 4c7231f40e3b45c78d017b5b9ea52bd6
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/dkvmn.md ebbc393832234b5abd388631640d1cf3
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/dkvmn.md 5a52ff23965b4fd1ad8907f1a9d99ca3
+msgid ""
+"[Dynamic Key-Value Memory Networks for Knowledge "
+"Tracing](https://doi.org/10.1145/3038912.3052580)"
+msgstr ""
+"[Dynamic Key-Value Memory Networks for Knowledge "
+"Tracing](https://doi.org/10.1145/3038912.3052580)"
+
+#: ../../source/model-zoo/models/dkvmn.md 89a901e35915443ba1ce076f1fb04523
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/dkvmn.md 836785d505d5424cb9385070b2ece284
+msgid "Jiani Zhang, Xingjian Shi, Irwin King, Dit-Yan Yeung"
+msgstr "Jiani Zhang, Xingjian Shi, Irwin King, Dit-Yan Yeung"
+
+#: ../../source/model-zoo/models/dkvmn.md 28b5fb30e6d145ee829d2e030c330102
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/dkvmn.md 36299ec50ee2449fbde76f6b204a3077
+msgid "2017"
+msgstr "2017"
+
+#: ../../source/model-zoo/models/dkvmn.md dc9186ae637a4fe8bed75b1c94804e94
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/dkvmn.md 7e70401d76e34d1bae3b7c251585aa79
+msgid "Proceedings of the 26th International Conference on World Wide Web"
+msgstr "Proceedings of the 26th International Conference on World Wide Web"
+
+#: ../../source/model-zoo/models/dkvmn.md 1dc8e752b50b4f27b108575d5b812cde
+msgid "DOI"
+msgstr "DOI"
+
+#: ../../source/model-zoo/models/dkvmn.md c9ce6d83da0b4fd1954010b1c182a9ac
+msgid "[10.1145/3038912.3052580](https://doi.org/10.1145/3038912.3052580)"
+msgstr "[10.1145/3038912.3052580](https://doi.org/10.1145/3038912.3052580)"
+
+#: ../../source/model-zoo/models/dkvmn.md:13 31fbe9c195e248d0b2a62a325d2dca86
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/dkvmn.md:15 9af8edd722554192a1d0082f595cbd98
+msgid ""
+"Knowledge Tracing (KT) is a task of tracing evolving knowledge state of "
+"students with respect to one or more concepts as they engage in a "
+"sequence of learning activities. One important purpose of KT is to "
+"personalize the practice sequence to help students learn knowledge "
+"concepts efficiently. However, existing methods such as Bayesian "
+"Knowledge Tracing and Deep Knowledge Tracing either model knowledge state"
+" for each predefined concept separately or fail to pinpoint exactly which"
+" concepts a student is good at or unfamiliar with. To solve these "
+"problems, this work introduces a new model called Dynamic Key-Value "
+"Memory Networks (DKVMN) that can exploit the relationships between "
+"underlying concepts and directly output a student's mastery level of each"
+" concept. Unlike standard memory-augmented neural networks that "
+"facilitate a single memory matrix or two static memory matrices, our "
+"model has one static matrix called key, which stores the knowledge "
+"concepts and the other dynamic matrix called value, which stores and "
+"updates the mastery levels of corresponding concepts. Experiments show "
+"that our model consistently outperforms the state-of-the-art model in a "
+"range of KT datasets. Moreover, the DKVMN model can automatically "
+"discover underlying concepts of exercises typically performed by human "
+"annotations and depict the changing knowledge state of a student."
+msgstr ""
+"Knowledge Tracing (KT) is a task of tracing evolving knowledge state of "
+"students with respect to one or more concepts as they engage in a "
+"sequence of learning activities. One important purpose of KT is to "
+"personalize the practice sequence to help students learn knowledge "
+"concepts efficiently. However, existing methods such as Bayesian "
+"Knowledge Tracing and Deep Knowledge Tracing either model knowledge state"
+" for each predefined concept separately or fail to pinpoint exactly which"
+" concepts a student is good at or unfamiliar with. To solve these "
+"problems, this work introduces a new model called Dynamic Key-Value "
+"Memory Networks (DKVMN) that can exploit the relationships between "
+"underlying concepts and directly output a student's mastery level of each"
+" concept. Unlike standard memory-augmented neural networks that "
+"facilitate a single memory matrix or two static memory matrices, our "
+"model has one static matrix called key, which stores the knowledge "
+"concepts and the other dynamic matrix called value, which stores and "
+"updates the mastery levels of corresponding concepts. Experiments show "
+"that our model consistently outperforms the state-of-the-art model in a "
+"range of KT datasets. Moreover, the DKVMN model can automatically "
+"discover underlying concepts of exercises typically performed by human "
+"annotations and depict the changing knowledge state of a student."
+
+#: ../../source/model-zoo/models/dkvmn.md:18 419d9395bd434a86a23c90b8e97ba6b6
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/dkvmn.md:20 95429750a90143919aa6d0d176c5f452
+msgid "[jennyzhang0215/DKVMN](https://github.com/jennyzhang0215/DKVMN)"
+msgstr "[jennyzhang0215/DKVMN](https://github.com/jennyzhang0215/DKVMN)"

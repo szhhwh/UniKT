@@ -1,0 +1,137 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/saint.md:1 d5c4eb83c327447abfb55fe52cefb9ce
+msgid "SAINT"
+msgstr "SAINT"
+
+#: ../../source/model-zoo/models/saint.md:3 c19817cab51b4a11a8f73dd9e08ce46a
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/saint.md 757bda85acc449ca90f272dea37f4497
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/saint.md 561a5c8f3c0c4035ab2397393ce233dd
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/saint.md 60ece900e3ed4cd5abd37f3b69eca13d
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/saint.md 60b56d73235a499a9c3abe2ff5f4a471
+msgid ""
+"[Towards an Appropriate Query, Key, and Value Computation for Knowledge "
+"Tracing](https://doi.org/10.1145/3386527.3405945)"
+msgstr ""
+"[Towards an Appropriate Query, Key, and Value Computation for Knowledge "
+"Tracing](https://doi.org/10.1145/3386527.3405945)"
+
+#: ../../source/model-zoo/models/saint.md a373f0db54fa441880f69551ee6dc901
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/saint.md fe1f0effdb9e497c975244a0eab3e538
+msgid ""
+"Youngduck Choi, Youngnam Lee, Junghyun Cho, Jineon Baek, Byungsoo Kim, "
+"Yeongmin Cha, Dongmin Shin, Chan Bae, Jaewe Heo"
+msgstr ""
+"Youngduck Choi, Youngnam Lee, Junghyun Cho, Jineon Baek, Byungsoo Kim, "
+"Yeongmin Cha, Dongmin Shin, Chan Bae, Jaewe Heo"
+
+#: ../../source/model-zoo/models/saint.md 24f41d5642e14490ad667e59800ca857
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/saint.md d1a05516208140e1a377d06a07e711e4
+msgid "2020"
+msgstr "2020"
+
+#: ../../source/model-zoo/models/saint.md 21d45172da5c42d0ae5d405d5edab994
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/saint.md 399476b2e3464bb9886e72850bb4ef9d
+msgid "Proceedings of the Seventh ACM Conference on Learning @ Scale"
+msgstr "Proceedings of the Seventh ACM Conference on Learning @ Scale"
+
+#: ../../source/model-zoo/models/saint.md:12 4a6d154a175e484eb31125fef7ae7ad0
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/saint.md:14 9cd8a26bb49441bf9ace423e121a0df2
+#, python-format
+msgid ""
+"Knowledge tracing, the act of modeling a student's knowledge through "
+"learning activities, is an extensively studied problem in the field of "
+"computer-aided education. Although models with attention mechanism have "
+"outperformed traditional approaches such as Bayesian knowledge tracing "
+"and collaborative filtering, they share two limitations. Firstly, the "
+"models rely on shallow attention layers and fail to capture complex "
+"relations among exercises and responses over time. Secondly, different "
+"combinations of queries, keys and values for the self-attention layer for"
+" knowledge tracing were not extensively explored. Usual practice of using"
+" exercises and interactions (exercise-response pairs) as queries and "
+"keys/values respectively lacks empirical support. In this paper, we "
+"propose a novel Transformer based model for knowledge tracing, SAINT: "
+"Separated Self-AttentIve Neural Knowledge Tracing. SAINT has an encoder-"
+"decoder structure where exercise and response embedding sequence "
+"separately enter the encoder and the decoder respectively, which allows "
+"to stack attention layers multiple times. To the best of our knowledge, "
+"this is the first work to suggest an encoder-decoder model for knowledge "
+"tracing that applies deep self-attentive layers to exercises and "
+"responses separately. The empirical evaluations on a large-scale "
+"knowledge tracing dataset show that SAINT achieves the state-of-the-art "
+"performance in knowledge tracing with the improvement of AUC by 1.8% "
+"compared to the current state-of-the-art models."
+msgstr ""
+"Knowledge tracing, the act of modeling a student's knowledge through "
+"learning activities, is an extensively studied problem in the field of "
+"computer-aided education. Although models with attention mechanism have "
+"outperformed traditional approaches such as Bayesian knowledge tracing "
+"and collaborative filtering, they share two limitations. Firstly, the "
+"models rely on shallow attention layers and fail to capture complex "
+"relations among exercises and responses over time. Secondly, different "
+"combinations of queries, keys and values for the self-attention layer for"
+" knowledge tracing were not extensively explored. Usual practice of using"
+" exercises and interactions (exercise-response pairs) as queries and "
+"keys/values respectively lacks empirical support. In this paper, we "
+"propose a novel Transformer based model for knowledge tracing, SAINT: "
+"Separated Self-AttentIve Neural Knowledge Tracing. SAINT has an encoder-"
+"decoder structure where exercise and response embedding sequence "
+"separately enter the encoder and the decoder respectively, which allows "
+"to stack attention layers multiple times. To the best of our knowledge, "
+"this is the first work to suggest an encoder-decoder model for knowledge "
+"tracing that applies deep self-attentive layers to exercises and "
+"responses separately. The empirical evaluations on a large-scale "
+"knowledge tracing dataset show that SAINT achieves the state-of-the-art "
+"performance in knowledge tracing with the improvement of AUC by 1.8% "
+"compared to the current state-of-the-art models."
+
+#: ../../source/model-zoo/models/saint.md:17 fad030012e1a4fca91e293c8e967c13d
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/saint.md:19 a35ecc63659542ca9a88dae844ebf220
+msgid "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"
+msgstr "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"

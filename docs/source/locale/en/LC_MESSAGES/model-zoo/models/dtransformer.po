@@ -1,0 +1,160 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/dtransformer.md:1
+#: b22f639c062c4660b8c420a67292663b
+msgid "DTransformer"
+msgstr "DTransformer"
+
+#: ../../source/model-zoo/models/dtransformer.md:3
+#: f4af2e4551e14a6a97dd6e0acd40a7fa
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/dtransformer.md
+#: 56dffa106aea428eb6e603ae13113f15
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/dtransformer.md
+#: b4b9b01a415c4d17969a221963136b30
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/dtransformer.md
+#: be47db6c2ed740fcab6b79f8c95f1055
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/dtransformer.md
+#: 846960d607c749b485c01a2d48bbd1b9
+msgid ""
+"[Tracing Knowledge Instead of Patterns: Stable Knowledge Tracing with "
+"Diagnostic Transformer](https://doi.org/10.1145/3543507.3583255)"
+msgstr ""
+"[Tracing Knowledge Instead of Patterns: Stable Knowledge Tracing with "
+"Diagnostic Transformer](https://doi.org/10.1145/3543507.3583255)"
+
+#: ../../source/model-zoo/models/dtransformer.md
+#: 7bad7c27230a44faa5728ea6c245d78d
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/dtransformer.md
+#: b0ceb4aae16d45ddafcf947bfbc54e53
+msgid ""
+"Yu Yin, Le Dai, Zhenya Huang, Shuanghong Shen, Fei Wang, Qi Liu, Enhong "
+"Chen, Xin Li"
+msgstr ""
+"Yu Yin, Le Dai, Zhenya Huang, Shuanghong Shen, Fei Wang, Qi Liu, Enhong "
+"Chen, Xin Li"
+
+#: ../../source/model-zoo/models/dtransformer.md
+#: 2b418f26ef964a938bebd42ddc7556ff
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/dtransformer.md
+#: 2a916e85f6ea4f58a7e6c662c6faf945
+msgid "2023"
+msgstr "2023"
+
+#: ../../source/model-zoo/models/dtransformer.md
+#: 0b90dcbf43694db09a0210b1a4982d39
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/dtransformer.md
+#: f1c6e3d54d74485f823a8986a0380cea
+msgid "Proceedings of the ACM Web Conference 2023"
+msgstr "Proceedings of the ACM Web Conference 2023"
+
+#: ../../source/model-zoo/models/dtransformer.md
+#: 0eec8ab8813b4e78895c0f7a1928bc58
+msgid "DOI"
+msgstr "DOI"
+
+#: ../../source/model-zoo/models/dtransformer.md
+#: ad01fbcaca854a5b9a1d70491a391daf
+msgid "[10.1145/3543507.3583255](https://doi.org/10.1145/3543507.3583255)"
+msgstr "[10.1145/3543507.3583255](https://doi.org/10.1145/3543507.3583255)"
+
+#: ../../source/model-zoo/models/dtransformer.md:13
+#: c50fe87428f54eee8a6827129bd50343
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/dtransformer.md:15
+#: 902faf342431471a9f8a955d881d34aa
+msgid ""
+"Knowledge Tracing (KT) aims at tracing the evolution of the knowledge "
+"states along the learning process of a learner. It has become a crucial "
+"task for online learning systems to model the learning process of their "
+"users, and further provide their users a personalized learning guidance. "
+"However, recent developments in KT based on deep neural networks mostly "
+"focus on increasing the accuracy of predicting the next performance of "
+"students. We argue that current KT modeling, as well as training "
+"paradigm, can lead to models tracing patterns of learner's learning "
+"activities, instead of their evolving knowledge states. In this paper, we"
+" propose a new architecture, Diagnostic Transformer (DTransformer), along"
+" with a new training paradigm, to tackle this challenge. With "
+"DTransformer, we build the architecture from question-level to knowledge-"
+"level, explicitly diagnosing learner's knowledge proficiency from each "
+"question mastery states. We also propose a novel training algorithm based"
+" on contrastive learning that focuses on maintaining the stability of the"
+" knowledge state diagnosis. Through extensive experiments, we will show "
+"that with its understanding of knowledge state evolution, DTransformer "
+"achieves a better performance prediction accuracy and more stable "
+"knowledge state tracing results. We will also show that DTransformer is "
+"less sensitive to specific patterns with case study. We open-sourced our "
+"code and data at https://github.com/yxonic/DTransformer."
+msgstr ""
+"Knowledge Tracing (KT) aims at tracing the evolution of the knowledge "
+"states along the learning process of a learner. It has become a crucial "
+"task for online learning systems to model the learning process of their "
+"users, and further provide their users a personalized learning guidance. "
+"However, recent developments in KT based on deep neural networks mostly "
+"focus on increasing the accuracy of predicting the next performance of "
+"students. We argue that current KT modeling, as well as training "
+"paradigm, can lead to models tracing patterns of learner's learning "
+"activities, instead of their evolving knowledge states. In this paper, we"
+" propose a new architecture, Diagnostic Transformer (DTransformer), along"
+" with a new training paradigm, to tackle this challenge. With "
+"DTransformer, we build the architecture from question-level to knowledge-"
+"level, explicitly diagnosing learner's knowledge proficiency from each "
+"question mastery states. We also propose a novel training algorithm based"
+" on contrastive learning that focuses on maintaining the stability of the"
+" knowledge state diagnosis. Through extensive experiments, we will show "
+"that with its understanding of knowledge state evolution, DTransformer "
+"achieves a better performance prediction accuracy and more stable "
+"knowledge state tracing results. We will also show that DTransformer is "
+"less sensitive to specific patterns with case study. We open-sourced our "
+"code and data at https://github.com/yxonic/DTransformer."
+
+#: ../../source/model-zoo/models/dtransformer.md:18
+#: 23dd85ce57f14f56bcd07426ddcdd6a5
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/dtransformer.md:20
+#: 9a7e7d68443745e3875e0ef5ab6eec6f
+msgid "[yxonic/DTransformer](https://github.com/yxonic/DTransformer)"
+msgstr "[yxonic/DTransformer](https://github.com/yxonic/DTransformer)"

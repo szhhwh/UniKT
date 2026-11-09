@@ -1,0 +1,140 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/tfkt.md:1 af51948626e84c26a17bc5a134114a56
+msgid "TFKT"
+msgstr "TFKT"
+
+#: ../../source/model-zoo/models/tfkt.md:3 b5f41f165de146978c51860b3675249c
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/tfkt.md 5bac38e313e9439c8b1c4455a9a762d8
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/tfkt.md 44e5b56b43b14ea09730553e273f3c6c
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/tfkt.md 3cb7c95a9d2347deb63690cb28615ae3
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/tfkt.md b68507a0df174bf0bf781af93dd78ce5
+msgid ""
+"[Time-frequency domain coupling-Oriented knowledge tracing via learning "
+"behavior decoupling](https://doi.org/10.1016/j.knosys.2025.115236)"
+msgstr ""
+"[Time-frequency domain coupling-Oriented knowledge tracing via learning "
+"behavior decoupling](https://doi.org/10.1016/j.knosys.2025.115236)"
+
+#: ../../source/model-zoo/models/tfkt.md 4b7484335a1e45068658af91c6f781a4
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/tfkt.md 67030a710bbc4416a8995959b8d35e86
+msgid ""
+"Tao Huang, Gang Xue, Junjie Hu, Shengze Hu, Huali Yang, Xinjia Ou, "
+"Zhichao Zhang"
+msgstr ""
+"Tao Huang, Gang Xue, Junjie Hu, Shengze Hu, Huali Yang, Xinjia Ou, "
+"Zhichao Zhang"
+
+#: ../../source/model-zoo/models/tfkt.md c13742002aea46f4be0144c707359a49
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/tfkt.md 4cda590947b443a6b26cc41573decae7
+msgid "2026（2025 年在线发表）"
+msgstr "2026 (Published online 2025)"
+
+#: ../../source/model-zoo/models/tfkt.md 36005f33cfed4590aa6b5e638ce8cf3b
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/tfkt.md ab3958f5830e492ba68bfd50e9b1122a
+msgid "Knowledge-Based Systems, 335, 115236"
+msgstr "Knowledge-Based Systems, 335, 115236"
+
+#: ../../source/model-zoo/models/tfkt.md:12 34946e651fe943f79b19b533387ebd6f
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/tfkt.md:14 f06dcf3f7fba4bb197586694034303df
+msgid ""
+"Knowledge tracing (KT) determines students' knowledge state by analyzing "
+"their learning behaviors, serving as an important technology in the "
+"intelligent education transformation initiative. Recent KT research has "
+"focused on interpretability and the representation of intrinsic cognitive"
+" mechanisms. However, most existing methods primarily focus on temporal "
+"features derived from student interactions, ignoring the dynamic nature "
+"of knowledge state evolution. To address this issue, we propose a novel "
+"method called time-frequency domain coupling-oriented knowledge tracing "
+"via learning behavior decoupling (TFKT). This method models both the "
+"temporal dynamics and frequency-domain characteristics of students' "
+"knowledge state to capture their fine-grained evolution. Particularly, we"
+" first decouple students' learning behaviors into guessing, slipping, and"
+" normal responses, and extract biased behavioral features through a dual-"
+"channel mechanism to capture knowledge construction representation. "
+"Subsequently, a Chebyshev Kolmogorov-Arnold network combined with a gated"
+" residual network is used to model multi-scale correlations among "
+"exercises, establishing the initial knowledge state space. Finally, a "
+"causal Fourier network with learnable masks projects the knowledge state "
+"into the frequency domain, decomposing it into low, middle, and high-"
+"frequency components for joint time-frequency coupling using a monotonic "
+"attention mechanism to simulate students' knowledge state changes at a "
+"fine-grained level. Extensive experiments across four datasets validated "
+"the explainability and feasibility of the TFKT method in modeling the "
+"knowledge mastery evolution of students."
+msgstr ""
+"Knowledge tracing (KT) determines students' knowledge state by analyzing "
+"their learning behaviors, serving as an important technology in the "
+"intelligent education transformation initiative. Recent KT research has "
+"focused on interpretability and the representation of intrinsic cognitive"
+" mechanisms. However, most existing methods primarily focus on temporal "
+"features derived from student interactions, ignoring the dynamic nature "
+"of knowledge state evolution. To address this issue, we propose a novel "
+"method called time-frequency domain coupling-oriented knowledge tracing "
+"via learning behavior decoupling (TFKT). This method models both the "
+"temporal dynamics and frequency-domain characteristics of students' "
+"knowledge state to capture their fine-grained evolution. Particularly, we"
+" first decouple students' learning behaviors into guessing, slipping, and"
+" normal responses, and extract biased behavioral features through a dual-"
+"channel mechanism to capture knowledge construction representation. "
+"Subsequently, a Chebyshev Kolmogorov-Arnold network combined with a gated"
+" residual network is used to model multi-scale correlations among "
+"exercises, establishing the initial knowledge state space. Finally, a "
+"causal Fourier network with learnable masks projects the knowledge state "
+"into the frequency domain, decomposing it into low, middle, and high-"
+"frequency components for joint time-frequency coupling using a monotonic "
+"attention mechanism to simulate students' knowledge state changes at a "
+"fine-grained level. Extensive experiments across four datasets validated "
+"the explainability and feasibility of the TFKT method in modeling the "
+"knowledge mastery evolution of students."
+
+#: ../../source/model-zoo/models/tfkt.md:16 dcf98d8a88f8434ba2c82fd8affee602
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/tfkt.md:18 9de68c1b910f48deb0529ca92f73f46a
+msgid "[anonymous11111-create/TFKT/tree/master](https://github.com/anonymous11111-create/TFKT/tree/master)"
+msgstr "[anonymous11111-create/TFKT/tree/master](https://github.com/anonymous11111-create/TFKT/tree/master)"

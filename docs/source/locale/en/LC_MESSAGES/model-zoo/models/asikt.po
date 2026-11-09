@@ -1,0 +1,148 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/asikt.md:1 1f73347371284f74b3bf69a52595a4fc
+msgid "ASIKT"
+msgstr "ASIKT"
+
+#: ../../source/model-zoo/models/asikt.md:3 c308c3e3beb34cd6a22f141e7dde0051
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/asikt.md e1bd396654ef42fb87010e4f3cf4b840
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/asikt.md 0b5442f6dc9e402683ce0607fab87851
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/asikt.md d3fbddd58e7c49e1a7187cabc363ecd3
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/asikt.md 07b9561279ba4a019793723c8a9d7a9b
+msgid ""
+"[Interpretable Knowledge Tracing with Difficulty-Aware Attention and "
+"Selective State Space Model](https://doi.org/10.1145/3726302.3730012)"
+msgstr ""
+"[Interpretable Knowledge Tracing with Difficulty-Aware Attention and "
+"Selective State Space Model](https://doi.org/10.1145/3726302.3730012)"
+
+#: ../../source/model-zoo/models/asikt.md 01251a5740574ea9b79cd45a4ebf1bf8
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/asikt.md 5547430ce1da41a8bf44af76041638ec
+msgid ""
+"Yang Qin, Xinning Zhu, Xiaosheng Tang, Chunhong Zhang, Kunbao Wu, Fengjie"
+" Chang, Jianzhou Diao, Zheng Hu"
+msgstr ""
+"Yang Qin, Xinning Zhu, Xiaosheng Tang, Chunhong Zhang, Kunbao Wu, Fengjie"
+" Chang, Jianzhou Diao, Zheng Hu"
+
+#: ../../source/model-zoo/models/asikt.md daa65e9a50e441adac4892a0204dbf5d
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/asikt.md 032f03f5497443afa2a9e5b1dd3385a6
+msgid "2025"
+msgstr "2025"
+
+#: ../../source/model-zoo/models/asikt.md 4600a2dc19474dea93b2ad0a992d7a69
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/asikt.md 89ca8f47931d46d987aff5459fd57b57
+msgid ""
+"Proceedings of the 48th International ACM SIGIR Conference on Research "
+"and Development in Information Retrieval（SIGIR '25）"
+msgstr ""
+"Proceedings of the 48th International ACM SIGIR Conference on Research "
+"and Development in Information Retrieval (SIGIR '25)"
+
+#: ../../source/model-zoo/models/asikt.md:12 6cb0e482fcf34b2696fd42e6e38c0530
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/asikt.md:14 755c434c9b5a41de92e2d3475add6194
+msgid ""
+"Knowledge Tracing (KT) aims to model students' knowledge states based on "
+"their historical learning sequence, playing a critical role in online "
+"education platforms. As the performance of sequence-based KT methods "
+"continues to improve, their increasing model complexity and lack of "
+"transparency have become significant limitations. In contrast, "
+"educational theory-driven KT methods incorporate educationally meaningful"
+" features (such as question difficulty or time spent on questions) to "
+"enhance interpretability and performance. However, these models typically"
+" adopt simpler structures to reduce complexity and avoid overfitting, "
+"which limits their ability to effectively capture the sequential "
+"characteristics of learning compared to sequence-based methods. To "
+"address these limitations, this paper aims to integrate the strengths of "
+"both types of methods by proposing an Interpretable KT approach with "
+"Difficulty-Aware Attention and Selective State Space Model (ASIKT). "
+"Specifically, leveraging educational context, we design a difficulty-"
+"enhanced attention mechanism to model students' knowledge retrieval "
+"process at a fine-grained level without introducing additional "
+"parameters. Moreover, we employ selective state space model to capture "
+"the dynamic evolution of students' knowledge states based on their "
+"historical performance, ensuring both efficiency and simplicity in the "
+"model. Experimental results on four real-world datasets demonstrate that "
+"ASIKT outperforms state-of-the-art KT methods, achieving superior "
+"predictive performance. Additionally, ASIKT provides explanations for its"
+" predictions from multiple perspectives, showcasing strong "
+"interpretability. The code can be found at "
+"https://github.com/mrsser/ASIKT."
+msgstr ""
+"Knowledge Tracing (KT) aims to model students' knowledge states based on "
+"their historical learning sequence, playing a critical role in online "
+"education platforms. As the performance of sequence-based KT methods "
+"continues to improve, their increasing model complexity and lack of "
+"transparency have become significant limitations. In contrast, "
+"educational theory-driven KT methods incorporate educationally meaningful"
+" features (such as question difficulty or time spent on questions) to "
+"enhance interpretability and performance. However, these models typically"
+" adopt simpler structures to reduce complexity and avoid overfitting, "
+"which limits their ability to effectively capture the sequential "
+"characteristics of learning compared to sequence-based methods. To "
+"address these limitations, this paper aims to integrate the strengths of "
+"both types of methods by proposing an Interpretable KT approach with "
+"Difficulty-Aware Attention and Selective State Space Model (ASIKT). "
+"Specifically, leveraging educational context, we design a difficulty-"
+"enhanced attention mechanism to model students' knowledge retrieval "
+"process at a fine-grained level without introducing additional "
+"parameters. Moreover, we employ selective state space model to capture "
+"the dynamic evolution of students' knowledge states based on their "
+"historical performance, ensuring both efficiency and simplicity in the "
+"model. Experimental results on four real-world datasets demonstrate that "
+"ASIKT outperforms state-of-the-art KT methods, achieving superior "
+"predictive performance. Additionally, ASIKT provides explanations for its"
+" predictions from multiple perspectives, showcasing strong "
+"interpretability. The code can be found at "
+"https://github.com/mrsser/ASIKT."
+
+#: ../../source/model-zoo/models/asikt.md:17 a389379fff894592a97aee5bf5e5c133
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/asikt.md:19 2ef2a5ff83cc41c19ecbc58d6a72bdee
+msgid "[mrsser/ASIKT](https://github.com/mrsser/ASIKT)"
+msgstr "[mrsser/ASIKT](https://github.com/mrsser/ASIKT)"

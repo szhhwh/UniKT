@@ -1,0 +1,511 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/evaluation/case-analysis.md:1 26e2b84228964a4eb0b046be583725cf
+msgid "学生个体案例分析"
+msgstr "Individual Student Case Analysis"
+
+#: ../../source/evaluation/case-analysis.md:3 adf2fe9332a94dcaaae51462ed364a9d
+msgid ""
+"本指南介绍如何在模型训练完成后，使用 UniKT "
+"的案例分析工具（`case_analysis.py`）对单个学生的答题序列及知识状态演变进行细粒度微观诊断，通过标准的三步工作流生成知识掌握度热力图。"
+msgstr ""
+"This guide demonstrates how to perform fine-grained micro-level "
+"diagnostics on individual students' response sequences and knowledge "
+"state trajectories using UniKT's case analysis tool (`case_analysis.py`),"
+" generating mastery state heatmaps via a standardized three-step "
+"workflow."
+
+#: ../../source/evaluation/case-analysis.md:5 76544143069644ce8bec6265b8a5b885
+msgid "目标与适用场景"
+msgstr "Objectives & Use Cases"
+
+#: ../../source/evaluation/case-analysis.md:7 6ce26be1f26f4a9c9b672799bfca39a7
+msgid "诊断模型在微观层面的预测行为：模型在哪些题目上给出了高置信度的错误预测，在哪些知识点上出现了震荡。"
+msgstr ""
+"Diagnosing micro-level predictive behavior: identifying which items "
+"yielded high-confidence erroneous predictions and which concepts "
+"exhibited oscillations."
+
+#: ../../source/evaluation/case-analysis.md:8 f1a4a633dab34c0fb41da4d7f1321103
+msgid "可视化学生在整条答题时间线上针对各个知识概念的掌握概率变化轨迹。"
+msgstr ""
+"Visualizing students' mastery probability trajectories across various "
+"knowledge concepts over their full response timelines."
+
+#: ../../source/evaluation/case-analysis.md:9 941886169fd54cc0b055fe3f89896aa3
+msgid "对比不同能力水平学生（高表现、低表现、多样性抽样）的认知状态差异。"
+msgstr ""
+"Comparing cognitive state differences across students of diverse "
+"proficiency levels (high-performing, low-performing, and diverse "
+"sampling)."
+
+#: ../../source/evaluation/case-analysis.md:11 f543d4f2b13747be9083392cfcbd33c9
+msgid "前置条件"
+msgstr "Prerequisites"
+
+#: ../../source/evaluation/case-analysis.md:13 4af5e70fed7c4e5089bb4f6a9b832706
+msgid "**环境准备**：已进入 Pixi 环境（`pixi shell`）。"
+msgstr "**Environment**: Pixi environment activated (`pixi shell`)."
+
+#: ../../source/evaluation/case-analysis.md:14 6f1657e6eb6d40739f45f625bb7b3740
+msgid ""
+"**已完成模型训练**：存在至少一个已训练好的实验运行目录（包含 `run_config.yaml` 与检查点 "
+"`best_model.pth`）。例如："
+msgstr ""
+"**Trained Model Ready**: At least one trained run directory exists "
+"(containing `run_config.yaml` and checkpoint `best_model.pth`). For "
+"example:"
+
+#: ../../source/evaluation/case-analysis.md:15 89988a228b3a465fb8559e13a591dc84
+msgid "runs/normal/GIKT_assistments09_20261109-120000_fold0_bs128/\n"
+msgstr "runs/normal/GIKT_assistments09_20261109-120000_fold0_bs128/\n"
+
+#: ../../source/evaluation/case-analysis.md:19 ac856c9c4edb43c1b8a6fc13fba31d6f
+msgid "三步分析工作流"
+msgstr "Three-Step Analysis Workflow"
+
+#: ../../source/evaluation/case-analysis.md:21 9cc2b2307f334d678ade2e0d23394c2e
+msgid "案例分析包含三个依序执行的步骤："
+msgstr "Case analysis comprises three sequential steps:"
+
+#: ../../source/evaluation/case-analysis.md:23 ac639f73fbdc4a3bb2d9afa4473409ae
+msgid "**`inference` 批量推断**：加载已训练权重并遍历验证集或测试集，导出全量答题预测与学生统计指标。"
+msgstr ""
+"**`inference` Batch Inference**: Load trained weights and iterate over "
+"the validation or test set, exporting complete response predictions and "
+"student summary statistics."
+
+#: ../../source/evaluation/case-analysis.md:24 02912c97d96444158c603d7ef9c9fff4
+msgid "**`select` 策略抽样**：按照预设的多样性或极端值策略筛选代表性学生，输出候选学生列表 JSON。"
+msgstr ""
+"**`select` Strategic Sampling**: Filter representative students according"
+" to preset diversity or extreme-case strategies, outputting a candidate "
+"JSON list."
+
+#: ../../source/evaluation/case-analysis.md:25 650bbba79df64d0d878d739022353adf
+msgid "**`plot` 状态可视化**：读取筛选出的学生交互序列，绘制知识掌握状态演变热力图并保存为 PNG 图像。"
+msgstr ""
+"**`plot` State Visualization**: Read filtered student interaction "
+"sequences, plot knowledge mastery trajectory heatmaps, and save them as "
+"PNG images."
+
+#: ../../source/evaluation/case-analysis.md:27 bf81dfef306d4b5fb7116fafeb7f5440
+msgid "第一步：批量推理"
+msgstr "Step 1: Batch Inference"
+
+#: ../../source/evaluation/case-analysis.md:29 8ee69d6f51f24fc99e86ad61d8d8ddca
+msgid "加载已训练模型的检查点，遍历验证集或测试集数据进行前向推断，生成全量答题预测与学生级汇总指标："
+msgstr ""
+"Load checkpoints of a trained model, iterate through validation or test "
+"set data for forward inference, and generate complete response "
+"predictions and student-level summaries:"
+
+#: ../../source/evaluation/case-analysis.md:31 167db2eb0ce2403194a7e32fb3fb5db3
+msgid ""
+"python case_analysis.py inference \\\n"
+"  --case.run_dir "
+"runs/normal/GIKT_assistments09_20261109-120000_fold0_bs128\n"
+msgstr ""
+"python case_analysis.py inference \\\n"
+"  --case.run_dir "
+"runs/normal/GIKT_assistments09_20261109-120000_fold0_bs128\n"
+
+#: ../../source/evaluation/case-analysis.md 071c4f39598a469db8f8969b755438aa
+#: 3faec877950749878116455288f833dc
+msgid "参数项"
+msgstr "Parameter Option"
+
+#: ../../source/evaluation/case-analysis.md 632483ff970245cf91858a3c99f899d3
+#: 8302633192234b07ab0424db9c792d98 d3f5150bce2a4a59bf71907c3d35012f
+msgid "类型"
+msgstr "Type"
+
+#: ../../source/evaluation/case-analysis.md 122e06f06ffd47309d4b9a2457e7faf4
+#: 525021485a8d4b15afae20e440e3fedd a9d4156b927e4a5a929f31e1df73c0ee
+msgid "默认值"
+msgstr "Default"
+
+#: ../../source/evaluation/case-analysis.md 793f35f1a5944e40b9b712ba1bc5fdb4
+#: 870462d8acdc46db99ac420460a5e2e2 f43ea67d55e54bca8094a7198ab3251f
+msgid "说明"
+msgstr "Description"
+
+#: ../../source/evaluation/case-analysis.md 513e19ac7fda4023b421eedff83b118e
+#: f6094f6e5e634233890f4cc7c69e3edd
+msgid "`--case.run_dir`"
+msgstr "`--case.run_dir`"
+
+#: ../../source/evaluation/case-analysis.md 0088e10594784c4a9604974b04b8c8ed
+#: 02b4a39b5bb24e188f69cb7b284d41cc 131f34abd8af41ceaf7ddf8c898dca4b
+#: 23ef8266eae44313862cc0ec5c3142c7 53561b3f16db4624aab28cc331082621
+#: 988b9c694cb84ab0956a35564e2cd683 c3035b6fa609461ca10a2bf4a65329b4
+msgid "`str`"
+msgstr "`str`"
+
+#: ../../source/evaluation/case-analysis.md 80722f0d507c4a429c121b9c4ac81769
+#: a7ced1f8983f40dbab649b63fb3acac6 f4fbd28ab4ce49c893286bcc0efc3fba
+msgid "必填"
+msgstr "Required"
+
+#: ../../source/evaluation/case-analysis.md 849f7b072f6c4e0d95341a6910f3c2e2
+msgid "训练运行目录，包含 `run_config.yaml` 与检查点权重"
+msgstr "Training run directory containing `run_config.yaml` and checkpoint weights"
+
+#: ../../source/evaluation/case-analysis.md 19eccb90f16045e49c7c7facfd80f411
+msgid "`--case.checkpoint`"
+msgstr "`--case.checkpoint`"
+
+#: ../../source/evaluation/case-analysis.md c7b7f8f891f7488699b8b0112790e00a
+msgid "`best_model.pth`"
+msgstr "`best_model.pth`"
+
+#: ../../source/evaluation/case-analysis.md 1de932ca6af54b54b304d5880702dad0
+msgid "运行目录内待加载的检查点文件名"
+msgstr "Checkpoint filename to load within the run directory"
+
+#: ../../source/evaluation/case-analysis.md 0bcfdbe8e29c44459e3218b82aeac7b7
+msgid "`--case.sink`"
+msgstr "`--case.sink`"
+
+#: ../../source/evaluation/case-analysis.md 3becd6c237154d1395ee0ea599bbd086
+msgid "`dataframe`"
+msgstr "`dataframe`"
+
+#: ../../source/evaluation/case-analysis.md 66d3d0251e3a4f2980b0eaf7520044e8
+msgid "数据持久化格式插件，默认使用标准化 DataFrame 存储"
+msgstr "Data sink plugin for storage, defaults to standardized DataFrame storage"
+
+#: ../../source/evaluation/case-analysis.md:42 94402c5404604092a25cf9940a872b79
+msgid "此步骤完成后，将在 `runs/normal/<run_id>/case_analysis/` 下生成："
+msgstr ""
+"Upon completion, the following files are generated under "
+"`runs/normal/<run_id>/case_analysis/`:"
+
+#: ../../source/evaluation/case-analysis.md:43 dddbc8fcc88e4b5594a03c7f8fa86f8c
+msgid ""
+"`predictions.parquet`：逐条交互的详细预测记录，包含 "
+"`user_id`、`question_id`、`skill`、`label`、`prediction` 与 `position` 等字段。"
+msgstr ""
+"`predictions.parquet`: Detailed per-interaction prediction records "
+"including fields such as `user_id`, `question_id`, `skill`, `label`, "
+"`prediction`, and `position`."
+
+#: ../../source/evaluation/case-analysis.md:44 954c9a98060847ebb1b1a013da8ebfd4
+msgid "`user_summaries.parquet`：按学生汇总的统计特征，涵盖答题次数、正确率、错误率与平均置信度。"
+msgstr ""
+"`user_summaries.parquet`: Aggregated statistical metrics per student, "
+"covering interaction count, accuracy, error rate, and average confidence."
+
+#: ../../source/evaluation/case-analysis.md:46 d0abf5d6199d4233bbbcd686a7138260
+msgid "第二步：筛选代表性学生"
+msgstr "Step 2: Filter Representative Students"
+
+#: ../../source/evaluation/case-analysis.md:48 8b4fe036214f40fc91d5689d485e63c9
+msgid "知识追踪数据集通常包含数千至数万名学生，逐一绘图既不现实也不利于定性分析。通过 `select` 子命令根据特定分析策略筛选代表性学生子集："
+msgstr ""
+"Knowledge tracing datasets typically contain thousands to tens of "
+"thousands of students; plotting every individual is neither practical nor"
+" conducive to qualitative insights. The `select` subcommand filters "
+"representative student subsets based on specific analysis strategies:"
+
+#: ../../source/evaluation/case-analysis.md:50 3bed2a80fdff4defb1fbdb1297a99c83
+msgid ""
+"python case_analysis.py select \\\n"
+"  --case.run_dir "
+"runs/normal/GIKT_assistments09_20261109-120000_fold0_bs128 \\\n"
+"  --case.selector diverse \\\n"
+"  --case.num_users 10\n"
+msgstr ""
+"python case_analysis.py select \\\n"
+"  --case.run_dir "
+"runs/normal/GIKT_assistments09_20261109-120000_fold0_bs128 \\\n"
+"  --case.selector diverse \\\n"
+"  --case.num_users 10\n"
+
+#: ../../source/evaluation/case-analysis.md:57 ae67e5309d804429ac5395c9d1c192bf
+msgid "筛选策略 --case.selector"
+msgstr "Sampling Strategy --case.selector"
+
+#: ../../source/evaluation/case-analysis.md:59 71945eb2a3cb4e4aab917e639e31c386
+msgid ""
+"**`diverse` 多样性采样（默认）**： 将候选学生按错误率从低到高切分为极低、低、中、高、极高 5 "
+"个区间，从每个区间均匀抽取，确保抽样样本能覆盖不同认知水平的学生群体。"
+msgstr ""
+"**`diverse` Diversity Sampling (Default)**: Divides candidate students "
+"into 5 quantiles from low to high error rates (very low, low, medium, "
+"high, very high) and samples uniformly across each bucket, ensuring "
+"samples span varying cognitive proficiency levels."
+
+#: ../../source/evaluation/case-analysis.md:61 552348a14a4f4dddb2110ce8a223096d
+msgid "**`extreme` 极端案例**： 筛选错误率最高或置信度偏差最严重的极端学生，专门用于分析模型的失效模式。"
+msgstr ""
+"**`extreme` Extreme Cases**: Selects extreme students with the highest "
+"error rates or most severe confidence deviations, tailored for failure "
+"mode analysis."
+
+#: ../../source/evaluation/case-analysis.md:63 d1685f9460d74753836b6664fb17023a
+msgid "**`random` 随机抽样**： 在满足序列长度与置信度过滤门槛的学生集合中进行等概率随机采样。"
+msgstr ""
+"**`random` Uniform Random**: Performs uniform random sampling among "
+"student cohorts satisfying sequence length and confidence thresholds."
+
+#: ../../source/evaluation/case-analysis.md:66 60f7c7afd9ff4380bd5d0871ec88fbdc
+msgid "过滤参数对照"
+msgstr "Filter Parameters Reference"
+
+#: ../../source/evaluation/case-analysis.md b5fe9b5bf73b43c7ade738d64be02e71
+msgid "过滤参数"
+msgstr "Filter Parameter"
+
+#: ../../source/evaluation/case-analysis.md 43f4a1c8f07246aa9fa4db66450f6f0e
+msgid "`--case.selector`"
+msgstr "`--case.selector`"
+
+#: ../../source/evaluation/case-analysis.md 28c8c491403c4f3eadd60d3d1af8449e
+msgid "`diverse`"
+msgstr "`diverse`"
+
+#: ../../source/evaluation/case-analysis.md 14cdd9920533451da2099edd18f4eea8
+msgid "抽样算法：`diverse`, `extreme`, `random`"
+msgstr "Sampling algorithm: `diverse`, `extreme`, `random`"
+
+#: ../../source/evaluation/case-analysis.md 6c8ceebbe5b4430c93416c5287f922b9
+msgid "`--case.num_users`"
+msgstr "`--case.num_users`"
+
+#: ../../source/evaluation/case-analysis.md 78fd38583e6e4121912359cae3739abd
+#: d8fe780ea09f4b119551d1da7324f068 fcf48bf0630e41b5a27c4333b1bf0362
+msgid "`int`"
+msgstr "`int`"
+
+#: ../../source/evaluation/case-analysis.md 0bf19c97337a47888f1697549193548e
+#: 788c7586c84d4cf7a66f9f43e5d9ab68
+msgid "`20`"
+msgstr "`20`"
+
+#: ../../source/evaluation/case-analysis.md 899a714c41be48739c0c46eec6bf6318
+msgid "最多抽取的学生数量"
+msgstr "Maximum number of students to sample"
+
+#: ../../source/evaluation/case-analysis.md 8e1a858c75f9456098a6971a8422b6fb
+msgid "`--case.min_seq_len`"
+msgstr "`--case.min_seq_len`"
+
+#: ../../source/evaluation/case-analysis.md 7e6c2d3394284098b338a89224dbebb8
+msgid "学生交互序列最小长度，排除答题过少或信息不全的样本"
+msgstr ""
+"Minimum student sequence length to exclude samples with insufficient "
+"interactions"
+
+#: ../../source/evaluation/case-analysis.md b6d895f834cd4a4caaa0a27cf8e53b67
+msgid "`--case.min_error` / `--case.max_error`"
+msgstr "`--case.min_error` / `--case.max_error`"
+
+#: ../../source/evaluation/case-analysis.md 5325fa8398d342a7bfc94456b645f79c
+#: 6d916fe5878e4d7f8ea0fb0c6dba3727
+msgid "`float`"
+msgstr "`float`"
+
+#: ../../source/evaluation/case-analysis.md 086f3f8f7b7d4d15b31fc39bb6fc51fe
+msgid "`0.1` / `0.9`"
+msgstr "`0.1` / `0.9`"
+
+#: ../../source/evaluation/case-analysis.md a06c5c9d4cc14c41a5b682bc42d5efc3
+msgid "错误率过滤区间"
+msgstr "Error rate filtering interval"
+
+#: ../../source/evaluation/case-analysis.md 56832e782c9c4c5695097a7d8acbe55d
+msgid "`--case.min_confidence` / `--case.max_confidence`"
+msgstr "`--case.min_confidence` / `--case.max_confidence`"
+
+#: ../../source/evaluation/case-analysis.md 23aab08264e2417f873defd86ea78e6d
+msgid "`0.3` / `0.95`"
+msgstr "`0.3` / `0.95`"
+
+#: ../../source/evaluation/case-analysis.md 29382b210c7b4cc8bc8a791a78ae09fb
+msgid "模型平均预测置信度区间"
+msgstr "Model average prediction confidence interval"
+
+#: ../../source/evaluation/case-analysis.md:76 958599683b064376b5dcb05c3355f11b
+msgid "筛选完成后，结果保存在 `case_analysis/<selector>/selected_users.json` 中。"
+msgstr ""
+"After filtering, results are saved in "
+"`case_analysis/<selector>/selected_users.json`."
+
+#: ../../source/evaluation/case-analysis.md:78 1ea6da2d21934d2f99e2a77101c19237
+msgid "第三步：知识状态可视化"
+msgstr "Step 3: Knowledge State Visualization"
+
+#: ../../source/evaluation/case-analysis.md:80 1a8f29feee414fa7b2b79ecdda1e116b
+msgid "读取已筛选的学生列表，绘制知识概念随答题推进的状态演变热力图："
+msgstr ""
+"Read the selected student list and generate knowledge state evolution "
+"heatmaps across response timelines:"
+
+#: ../../source/evaluation/case-analysis.md:82 3b35b01f8f5d456a93cc85a1249a11ed
+msgid ""
+"python case_analysis.py plot \\\n"
+"  --case.run_dir "
+"runs/normal/GIKT_assistments09_20261109-120000_fold0_bs128 \\\n"
+"  --case.selected_users diverse\n"
+msgstr ""
+"python case_analysis.py plot \\\n"
+"  --case.run_dir "
+"runs/normal/GIKT_assistments09_20261109-120000_fold0_bs128 \\\n"
+"  --case.selected_users diverse\n"
+
+#: ../../source/evaluation/case-analysis.md 51afbb7cc175411db7819e30d4854d9a
+msgid "运行目录"
+msgstr "Run directory"
+
+#: ../../source/evaluation/case-analysis.md 950d077bc7fe44d58548f12ac2b53741
+msgid "`--case.selected_users`"
+msgstr "`--case.selected_users`"
+
+#: ../../source/evaluation/case-analysis.md ad18e3ee1bfa418ab43ddf9038343c43
+msgid "策略名称（如 `diverse`）或直接传入 `selected_users.json` 文件路径"
+msgstr "Strategy name (e.g., `diverse`) or direct path to `selected_users.json`"
+
+#: ../../source/evaluation/case-analysis.md 2ae81301dd584249bb0d1ce1b417840f
+msgid "`--case.visualizer`"
+msgstr "`--case.visualizer`"
+
+#: ../../source/evaluation/case-analysis.md 5d941f367b89464e9974b7bcaf6ecd48
+msgid "`heatmap`"
+msgstr "`heatmap`"
+
+#: ../../source/evaluation/case-analysis.md 4d4d7bfba26f421cbbc2c14214d6fda2
+msgid "可视化插件名称，默认使用知识状态热力图 `heatmap`"
+msgstr "Visualizer plugin name, defaults to knowledge state `heatmap`"
+
+#: ../../source/evaluation/case-analysis.md 7663888088254a2f8c55d3525e8ced25
+msgid "`--case.max_seq_len`"
+msgstr "`--case.max_seq_len`"
+
+#: ../../source/evaluation/case-analysis.md fd8d65af02a04e2f912b42a887e736e9
+msgid "`null`"
+msgstr "`null`"
+
+#: ../../source/evaluation/case-analysis.md b0e2e7dcb8974f9dabc0fb2e90d1c79e
+msgid "绘图序列长度截断，便于排版长序列"
+msgstr "Sequence length truncation for plotting to maintain readable layout"
+
+#: ../../source/evaluation/case-analysis.md:95 b6783f92f80640f482abcdd64fa27078
+msgid "产出物与热力图解读"
+msgstr "Artifacts and Heatmap Interpretation"
+
+#: ../../source/evaluation/case-analysis.md:97 addb944a16334d20ae50502d87143ebe
+msgid "所有生成的图表均保存在对应策略的 `figures/` 目录下："
+msgstr ""
+"All generated figures are stored under the `figures/` directory of the "
+"corresponding strategy:"
+
+#: ../../source/evaluation/case-analysis.md:99 7461d0b159034079964c7e8d18398ea1
+msgid ""
+"runs/normal/GIKT_assistments09_20261109-120000_fold0_bs128/case_analysis/"
+"\n"
+"├── predictions.parquet\n"
+"├── user_summaries.parquet\n"
+"└── diverse/\n"
+"    ├── selected_users.json\n"
+"    └── figures/\n"
+"        ├── user_128_heatmap.png\n"
+"        ├── user_342_heatmap.png\n"
+"        └── ...\n"
+msgstr ""
+"runs/normal/GIKT_assistments09_20261109-120000_fold0_bs128/case_analysis/"
+"\n"
+"├── predictions.parquet\n"
+"├── user_summaries.parquet\n"
+"└── diverse/\n"
+"    ├── selected_users.json\n"
+"    └── figures/\n"
+"        ├── user_128_heatmap.png\n"
+"        ├── user_342_heatmap.png\n"
+"        └── ...\n"
+
+#: ../../source/evaluation/case-analysis.md:111
+#: ff35d42588de41d4bb2ca0fa4e63ae50
+msgid "CIKT 在 Algebra 2005 数据集上的学生知识状态热力图。"
+msgstr "Student knowledge state heatmap for CIKT on Algebra 2005 dataset."
+
+#: ../../source/evaluation/case-analysis.md:114
+#: 994b494ddca141308d6e056d1afd0d1e
+msgid "CIKT 在 Algebra 2005 数据集上的学生知识状态轨迹。"
+msgstr "Student knowledge state trajectories for CIKT on Algebra 2005 dataset."
+
+#: ../../source/evaluation/case-analysis.md:117
+#: d0882e90b48e4e20b74f3caf5ba1b04d
+msgid "热力图各视觉要素说明"
+msgstr "Explanation of Heatmap Visual Elements"
+
+#: ../../source/evaluation/case-analysis.md:119
+#: c32b8c84ef68413786f81493ebfdbb45
+msgid "在生成的 `user_<id>_heatmap.png` 中："
+msgstr "In the generated `user_<id>_heatmap.png`:"
+
+#: ../../source/evaluation/case-analysis.md:121
+#: b80987fa773e458aac5dee7db7ec6005
+msgid "**水平横轴**：答题交互的时间步序列。每个步长标明了当前作答的题目或知识点。"
+msgstr ""
+"**Horizontal X-axis**: Sequence of response interaction timesteps. Each "
+"step indicates the current question or skill attempted."
+
+#: ../../source/evaluation/case-analysis.md:122
+#: 307eeb413a2d4c4199eebdfc441a15db
+msgid "**垂直纵轴**：数据集中相关的知识概念。"
+msgstr "**Vertical Y-axis**: Relevant knowledge concepts in the dataset."
+
+#: ../../source/evaluation/case-analysis.md:123
+#: 024f5b8f44474dfbb661f72545579605
+msgid ""
+"**颜色深浅**：代表模型预测该学生在当前时间步对特定知识点的掌握程度概率值，范围 0.0 至 "
+"1.0。颜色越深表示模型推断该学生对该概念掌握程度越高。"
+msgstr ""
+"**Color Intensity**: Represents the model's predicted mastery probability"
+" of the student on a specific concept at the current timestep, ranging "
+"from 0.0 to 1.0. Darker colors indicate higher inferred mastery."
+
+#: ../../source/evaluation/case-analysis.md:124
+#: d6a93c3295304b10a8fa94a477aaf75b
+msgid "**作答标记**："
+msgstr "**Response Markers**:"
+
+#: ../../source/evaluation/case-analysis.md:125
+#: 0b64e61b4f6d427eb039228de89f1fdf
+msgid "绿色标记：学生实际作答正确，Label 为 1。"
+msgstr "Green marker: Student answered correctly, Label = 1."
+
+#: ../../source/evaluation/case-analysis.md:126
+#: ba27246a5c414f3ebd93403464604aa2
+msgid "红色标记：学生实际作答错误，Label 为 0。"
+msgstr "Red marker: Student answered incorrectly, Label = 0."
+
+#: ../../source/evaluation/case-analysis.md:129
+#: ab9ea04a01ce4d129b53e3abe3d15e87
+msgid "通过观察连续做错某类题目时对应知识点颜色的变化，可以直观检验模型是否具备合理的“遗忘”或“负反馈修正”能力；当学生连续答对时，可以观察到知识状态的快速攀升。"
+msgstr ""
+"By observing color changes across concepts during consecutive incorrect "
+"attempts, one can visually verify whether the model exhibits plausible "
+"\"forgetting\" or \"negative feedback correction\"; conversely, rapid "
+"rises in mastery are visible when students answer consecutive questions "
+"correctly."

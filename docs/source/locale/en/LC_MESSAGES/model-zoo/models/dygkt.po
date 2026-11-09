@@ -1,0 +1,144 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/dygkt.md:1 713ff15bbdf34a4b876f8c523e9ca026
+msgid "DyGKT"
+msgstr "DyGKT"
+
+#: ../../source/model-zoo/models/dygkt.md:3 bcd244d7eddd42f2a4ac2f3b58b59609
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/dygkt.md de5e043a3968405797b2c5a9a3e539a3
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/dygkt.md 994d11198c7342e09fe367cbfac9a393
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/dygkt.md 25d95948796d4ca1a9b0ec53a763f12e
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/dygkt.md 0ac69763ccdd40eda189665d7d4f3c36
+msgid ""
+"[DyGKT: Dynamic Graph Learning for Knowledge "
+"Tracing](https://doi.org/10.1145/3637528.3671773)"
+msgstr ""
+"[DyGKT: Dynamic Graph Learning for Knowledge "
+"Tracing](https://doi.org/10.1145/3637528.3671773)"
+
+#: ../../source/model-zoo/models/dygkt.md 4736e7af575341319021a000a063da27
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/dygkt.md ac2257797238489bb1492d579292d328
+msgid "Ke Cheng, Linzhi Peng, Pengyang Wang, Junchen Ye, Leilei Sun, Bowen Du"
+msgstr "Ke Cheng, Linzhi Peng, Pengyang Wang, Junchen Ye, Leilei Sun, Bowen Du"
+
+#: ../../source/model-zoo/models/dygkt.md 7f814638d6c74ec38e76503f6f956864
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/dygkt.md 0dca750636e643168009a119d9ae25c6
+msgid "2024"
+msgstr "2024"
+
+#: ../../source/model-zoo/models/dygkt.md 2625e603e35544aca2b4a286b08257e5
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/dygkt.md 5b59832b152946eca4381de03345b1d0
+msgid ""
+"Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and "
+"Data Mining"
+msgstr ""
+"Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and "
+"Data Mining"
+
+#: ../../source/model-zoo/models/dygkt.md 22e928d1274c459f8c7ddbada7ff3ff0
+msgid "DOI"
+msgstr "DOI"
+
+#: ../../source/model-zoo/models/dygkt.md 9b9771f0d0f34bd88299a04b584a31b6
+msgid "[10.1145/3637528.3671773](https://doi.org/10.1145/3637528.3671773)"
+msgstr "[10.1145/3637528.3671773](https://doi.org/10.1145/3637528.3671773)"
+
+#: ../../source/model-zoo/models/dygkt.md:13 8a170087a67b41afafc750cc0e5e0e24
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/dygkt.md:15 deaa540db69346299f8f76bdcfbc14a3
+msgid ""
+"Knowledge Tracing aims to assess student learning states by predicting "
+"their performance in answering questions. Different from the existing "
+"research which utilizes fixed-length learning sequence to obtain the "
+"student states and regards KT as a static problem, this work is motivated"
+" by three dynamical characteristics: 1) The scales of students answering "
+"records are constantly growing; 2) The semantics of time intervals "
+"between the records vary; 3) The relationships between students, "
+"questions and concepts are evolving. The three dynamical characteristics "
+"above contain the great potential to revolutionize the existing knowledge"
+" tracing methods. Along this line, we propose a Dynamic Graph-based "
+"Knowledge Tracing model, namely DyGKT. In particular, a continuous-time "
+"dynamic question-answering graph for knowledge tracing is constructed to "
+"deal with the infinitely growing answering behaviors, and it is worth "
+"mentioning that it is the first time dynamic graph learning technology is"
+" used in this field. Then, a dual time encoder is proposed to capture "
+"long-term and short-term semantics among the different time intervals. "
+"Finally, a multiset indicator is utilized to model the evolving "
+"relationships between students, questions, and concepts via the graph "
+"structural feature. Numerous experiments are conducted on five real-world"
+" datasets, and the results demonstrate the superiority of our model. All "
+"the used resources are publicly available at "
+"https://github.com/PengLinzhi/DyGKT."
+msgstr ""
+"Knowledge Tracing aims to assess student learning states by predicting "
+"their performance in answering questions. Different from the existing "
+"research which utilizes fixed-length learning sequence to obtain the "
+"student states and regards KT as a static problem, this work is motivated"
+" by three dynamical characteristics: 1) The scales of students answering "
+"records are constantly growing; 2) The semantics of time intervals "
+"between the records vary; 3) The relationships between students, "
+"questions and concepts are evolving. The three dynamical characteristics "
+"above contain the great potential to revolutionize the existing knowledge"
+" tracing methods. Along this line, we propose a Dynamic Graph-based "
+"Knowledge Tracing model, namely DyGKT. In particular, a continuous-time "
+"dynamic question-answering graph for knowledge tracing is constructed to "
+"deal with the infinitely growing answering behaviors, and it is worth "
+"mentioning that it is the first time dynamic graph learning technology is"
+" used in this field. Then, a dual time encoder is proposed to capture "
+"long-term and short-term semantics among the different time intervals. "
+"Finally, a multiset indicator is utilized to model the evolving "
+"relationships between students, questions, and concepts via the graph "
+"structural feature. Numerous experiments are conducted on five real-world"
+" datasets, and the results demonstrate the superiority of our model. All "
+"the used resources are publicly available at "
+"https://github.com/PengLinzhi/DyGKT."
+
+#: ../../source/model-zoo/models/dygkt.md:18 8fd4ddae8a75450c857e27d95773edca
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/dygkt.md:20 b834957500014bc79976a72fd7bfd6f3
+msgid "[PengLinzhi/DyGKT](https://github.com/PengLinzhi/DyGKT)"
+msgstr "[PengLinzhi/DyGKT](https://github.com/PengLinzhi/DyGKT)"

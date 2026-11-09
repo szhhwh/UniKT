@@ -1,0 +1,148 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/lbkt.md:1 28a4c8ed4c844b3bb5661db412566640
+msgid "LBKT"
+msgstr "LBKT"
+
+#: ../../source/model-zoo/models/lbkt.md:3 b727df53c50d49b3b4ebde83e5dafb40
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/lbkt.md f3f8910d0a644b8791863af81d059362
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/lbkt.md a0df01a7113c4920a579aec80db5253d
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/lbkt.md b651f3289ac3424cbfc0f623ac6784ff
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/lbkt.md c8af48ee72a74c6faaead1d27a346bf1
+msgid ""
+"[Learning Behavior-oriented Knowledge "
+"Tracing](https://doi.org/10.1145/3580305.3599407)"
+msgstr ""
+"[Learning Behavior-oriented Knowledge "
+"Tracing](https://doi.org/10.1145/3580305.3599407)"
+
+#: ../../source/model-zoo/models/lbkt.md 7d65c626f0c6453880f91bc19840e220
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/lbkt.md cdf01f5a4b834585a7518f4d3f8f1289
+msgid ""
+"Bihan Xu, Zhenya Huang, Jiayu Liu, Shuanghong Shen, Qi Liu, Enhong Chen, "
+"Jinze Wu, Shijin Wang"
+msgstr ""
+"Bihan Xu, Zhenya Huang, Jiayu Liu, Shuanghong Shen, Qi Liu, Enhong Chen, "
+"Jinze Wu, Shijin Wang"
+
+#: ../../source/model-zoo/models/lbkt.md 59ab99bb9cb0472ba86a940f31ed0fee
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/lbkt.md 7a5950decad644b7a5bee6e5d92f309e
+msgid "2023"
+msgstr "2023"
+
+#: ../../source/model-zoo/models/lbkt.md 571ab7f5a1ae4184ae43f85c2f7c0919
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/lbkt.md 84f24a7afe2c41c9b6b545d8707a0db1
+msgid ""
+"Proceedings of the 29th ACM SIGKDD Conference on Knowledge Discovery and "
+"Data Mining"
+msgstr ""
+"Proceedings of the 29th ACM SIGKDD Conference on Knowledge Discovery and "
+"Data Mining"
+
+#: ../../source/model-zoo/models/lbkt.md:12 de7da1fc94de4442be0428ca9acdc383
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/lbkt.md:14 1bc42eed8a1c4719abd478e085fdb238
+msgid ""
+"Exploring how learners' knowledge states evolve during the learning "
+"activities is a critical task in online learning systems, which can "
+"facilitate personalized services downstream, such as course "
+"recommendation. Most of existing methods have devoted great efforts to "
+"analyzing learners' knowledge states according to their responses (i.e., "
+"right or wrong) to different questions. However, the significant effect "
+"of learners' learning behaviors (e.g., answering speed, the number of "
+"attempts) is omitted, which can reflect their knowledge acquisition "
+"deeper and ensure the reliability of the response. In this paper, we "
+"propose a Learning Behavior-oriented Knowledge Tracing (LBKT) model, with"
+" the goal of explicitly exploring the learning behavior effects on "
+"learners' knowledge states. Specifically, we first analyze and summarize "
+"several dominated learning behaviors including Speed, Attempts and Hints "
+"in the learning process. As the characteristics of different learning "
+"behaviors vary greatly, we separately estimate their various effects on "
+"learners' knowledge acquisition in a quantitative manner. Then, "
+"considering that different learning behaviors are closely dependent with "
+"each other, we assess the fused effect of multiple learning behaviors by "
+"capturing their complex dependent patterns. Finally, we integrate the "
+"forgetting factor with learners' knowledge acquisition to comprehensively"
+" update their changing knowledge states in learning. Extensive "
+"experimental results on several public datasets demonstrate that our "
+"model generates better performance prediction for learners against "
+"existing methods. Moreover, LBKT shows good interpretability in tracking "
+"learners' knowledge state by incorporating the learning behavior effects."
+" Our codes are available at https://github.com/xbh0720/LBKT."
+msgstr ""
+"Exploring how learners' knowledge states evolve during the learning "
+"activities is a critical task in online learning systems, which can "
+"facilitate personalized services downstream, such as course "
+"recommendation. Most of existing methods have devoted great efforts to "
+"analyzing learners' knowledge states according to their responses (i.e., "
+"right or wrong) to different questions. However, the significant effect "
+"of learners' learning behaviors (e.g., answering speed, the number of "
+"attempts) is omitted, which can reflect their knowledge acquisition "
+"deeper and ensure the reliability of the response. In this paper, we "
+"propose a Learning Behavior-oriented Knowledge Tracing (LBKT) model, with"
+" the goal of explicitly exploring the learning behavior effects on "
+"learners' knowledge states. Specifically, we first analyze and summarize "
+"several dominated learning behaviors including Speed, Attempts and Hints "
+"in the learning process. As the characteristics of different learning "
+"behaviors vary greatly, we separately estimate their various effects on "
+"learners' knowledge acquisition in a quantitative manner. Then, "
+"considering that different learning behaviors are closely dependent with "
+"each other, we assess the fused effect of multiple learning behaviors by "
+"capturing their complex dependent patterns. Finally, we integrate the "
+"forgetting factor with learners' knowledge acquisition to comprehensively"
+" update their changing knowledge states in learning. Extensive "
+"experimental results on several public datasets demonstrate that our "
+"model generates better performance prediction for learners against "
+"existing methods. Moreover, LBKT shows good interpretability in tracking "
+"learners' knowledge state by incorporating the learning behavior effects."
+" Our codes are available at https://github.com/xbh0720/LBKT."
+
+#: ../../source/model-zoo/models/lbkt.md:16 b855b47e0e1f42d8a5ebc220310f3a8f
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/lbkt.md:18 6291b591eae949e9a76bbb9dff3fea19
+msgid "[xbh0720/LBKT](https://github.com/xbh0720/LBKT)"
+msgstr "[xbh0720/LBKT](https://github.com/xbh0720/LBKT)"

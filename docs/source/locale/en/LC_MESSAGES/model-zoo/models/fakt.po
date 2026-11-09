@@ -1,0 +1,136 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/fakt.md:1 22dc4a877b7a4ea4a651ad3aef3fe93d
+msgid "FAKT"
+msgstr "FAKT"
+
+#: ../../source/model-zoo/models/fakt.md:3 1b4305cde21f453e887a21686789915d
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/fakt.md 2c6e8579600548e0878ce787a67ce4ab
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/fakt.md 0456ea695aca43b48beeaac529526cb7
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/fakt.md bd55a39a351446df8480db8883916400
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/fakt.md e0df232a2d69410ab03333040d037423
+msgid ""
+"[A Frequency-Aware Mixture of Heterogeneous Experts Framework for "
+"Knowledge Tracing](https://doi.org/10.1145/3774904.3792272)"
+msgstr ""
+"[A Frequency-Aware Mixture of Heterogeneous Experts Framework for "
+"Knowledge Tracing](https://doi.org/10.1145/3774904.3792272)"
+
+#: ../../source/model-zoo/models/fakt.md b8f34904dd604fe9a0c600a7305695c5
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/fakt.md ab2c899d4ffd4e19b23bf3f74ad2e2f6
+msgid "Youheng Bai, Mingliang Hou, Teng Guo, Zitao Liu, Weiqi Luo"
+msgstr "Youheng Bai, Mingliang Hou, Teng Guo, Zitao Liu, Weiqi Luo"
+
+#: ../../source/model-zoo/models/fakt.md 01452e232dca439484a3cea81e931623
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/fakt.md ece0d77bf3b348c9966a21b7eaea45c9
+msgid "2026"
+msgstr "2026"
+
+#: ../../source/model-zoo/models/fakt.md d8158a22bb3f464eaa1f51767da124b6
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/fakt.md 4a5ef42a96f84aabbaac188e2233f119
+msgid "Proceedings of the ACM Web Conference 2026"
+msgstr "Proceedings of the ACM Web Conference 2026"
+
+#: ../../source/model-zoo/models/fakt.md 6b0be1db2cfc4f32b9b02c2147a35ca8
+msgid "DOI"
+msgstr "DOI"
+
+#: ../../source/model-zoo/models/fakt.md 165bf8631c3b40e9b49ab63ab2f34497
+msgid "[10.1145/3774904.3792272](https://doi.org/10.1145/3774904.3792272)"
+msgstr "[10.1145/3774904.3792272](https://doi.org/10.1145/3774904.3792272)"
+
+#: ../../source/model-zoo/models/fakt.md:13 1640b1073b0d4ca3a4ff602368960b08
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/fakt.md:15 9aabe9e0f09c42ddae36c800689a5e7d
+msgid ""
+"Knowledge tracing (KT) aims to personalize online education on large-"
+"scale web-based platforms by modeling students' evolving knowledge states"
+" from their interaction sequences. However, most KT models rely on a "
+"single encoder architecture (e.g., self-attention or RNN), with fixed "
+"inductive biases that fails to capture the diversity of learning "
+"behaviors. Specifically, student learning unfolds across multiple "
+"timescales, and interaction sequences contain diverse frequency "
+"components ranging from short-term variations to long-term trends. Our "
+"data-driven analysis reveals that existing encoders exhibit "
+"characteristic frequency biases (e.g., self-attention tends to emphasize "
+"low-frequency patterns), highlighting the limitations of any single "
+"architecture. To address this problem, we propose FA-KT, a frequency-"
+"aware mixture of heterogeneous experts framework. FA-KT combines self-"
+"attention, Mamba, CNN, and LSTM experts, each with complementary "
+"frequency biases. A frequency-aware router analyzes each sequence's "
+"frequency characteristics and adaptively combines experts to create "
+"dynamic, personalized encoders for individual students. Across five "
+"benchmark datasets, FA-KT consistently outperforms 20 strong KT baselines"
+" in predicting future performance. Code is available at "
+"https://pykt.org/."
+msgstr ""
+"Knowledge tracing (KT) aims to personalize online education on large-"
+"scale web-based platforms by modeling students' evolving knowledge states"
+" from their interaction sequences. However, most KT models rely on a "
+"single encoder architecture (e.g., self-attention or RNN), with fixed "
+"inductive biases that fails to capture the diversity of learning "
+"behaviors. Specifically, student learning unfolds across multiple "
+"timescales, and interaction sequences contain diverse frequency "
+"components ranging from short-term variations to long-term trends. Our "
+"data-driven analysis reveals that existing encoders exhibit "
+"characteristic frequency biases (e.g., self-attention tends to emphasize "
+"low-frequency patterns), highlighting the limitations of any single "
+"architecture. To address this problem, we propose FA-KT, a frequency-"
+"aware mixture of heterogeneous experts framework. FA-KT combines self-"
+"attention, Mamba, CNN, and LSTM experts, each with complementary "
+"frequency biases. A frequency-aware router analyzes each sequence's "
+"frequency characteristics and adaptively combines experts to create "
+"dynamic, personalized encoders for individual students. Across five "
+"benchmark datasets, FA-KT consistently outperforms 20 strong KT baselines"
+" in predicting future performance. Code is available at "
+"https://pykt.org/."
+
+#: ../../source/model-zoo/models/fakt.md:18 44cdfd4280574502bbb42ce8912e6733
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/fakt.md:20 58dda3798ca641bfa668356fc892cb8f
+msgid "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"
+msgstr "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"

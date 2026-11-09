@@ -1,0 +1,693 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/developer-guides/customize-dataset.md:1
+#: 31c19aa56138465db22bce58b723727a
+msgid "自定义数据集"
+msgstr "Custom datasets"
+
+#: ../../source/developer-guides/customize-dataset.md:3
+#: 5084b6803fcd452593719a23814ce93b
+msgid "UniKT 采用标准化、强类型的数据管线，将来自不同平台的原始答题日志，统一转换成标准化 Parquet 序列与特征关系表。"
+msgstr ""
+"UniKT adopts a standardized, strongly typed data pipeline that transforms"
+" raw interaction logs from heterogeneous platforms into standardized "
+"Parquet sequences and feature relation tables."
+
+#: ../../source/developer-guides/customize-dataset.md:5
+#: 44cf602f6c134d7ebae4acce08e75ccc
+msgid ""
+"通过继承 `DataSource` 并实现数据提取、转换与加载规范，开发者可以轻松将专有或公开数据集接入到 UniKT "
+"生态中。基类通过标准模板方法驱动整个处理流水线："
+msgstr ""
+"By inheriting from `DataSource` and implementing ETL specifications, "
+"developers can easily integrate proprietary or public datasets into the "
+"UniKT ecosystem. The base class drives the pipeline via template methods:"
+
+#: ../../source/developer-guides/customize-dataset.md:7
+#: 3ee83ecf6e8847f4bc41f03b86e2d755
+msgid "**`load_src_data()`**：读取 CSV、TSV 或 JSON 等格式的原始交互文件。"
+msgstr ""
+"**`load_src_data()`**: Reads raw interaction files in CSV, TSV, or JSON "
+"formats."
+
+#: ../../source/developer-guides/customize-dataset.md:8
+#: 7b1ab2cdef904cc9a889736ea0755a8c
+msgid "**`clean_raw_data()`**：重命名列并过滤缺省值或非法交互。"
+msgstr ""
+"**`clean_raw_data()`**: Renames columns and filters out missing values or"
+" invalid interactions."
+
+#: ../../source/developer-guides/customize-dataset.md:9
+#: 9dbc2143902143a4816df548dacfd965
+msgid "**`transform_data()`**：重新映射紧凑 ID，提取技能列表，调用 `set_sequence_data()` 注册主表。"
+msgstr ""
+"**`transform_data()`**: Remaps IDs to contiguous compact integers, "
+"extracts skill lists, and invokes `set_sequence_data()` to register the "
+"master sequence table."
+
+#: ../../source/developer-guides/customize-dataset.md:10
+#: 7a1ec08a3c694e9a81e940a82bfdda6a
+msgid "**划分与序列切分**：基类自动处理样本分层抽样、K 折标签注入，并分别生成题目级与技能级时序切片。"
+msgstr ""
+"**Splitting and Sequence Slicing**: The base class automatically handles "
+"stratified sampling, K-fold label injection, and generates question-level"
+" and skill-level sequence slices."
+
+#: ../../source/developer-guides/customize-dataset.md:11
+#: c66fc56d7c20467b8d21370f672d7fd2
+msgid "**持久化落盘**：将规范化序列写入 Parquet 并自动生成 `metadata.json`。"
+msgstr ""
+"**Persistence to Disk**: Serializes normalized sequences to Parquet and "
+"automatically generates `metadata.json`."
+
+#: ../../source/developer-guides/customize-dataset.md:15
+#: b40d0d4b612a4670acef973d395dba29
+msgid "标准数据规范与列模式"
+msgstr "Standard Data Specifications and Column Schema"
+
+#: ../../source/developer-guides/customize-dataset.md:17
+#: 1c13def33ede40659b1c9de0dca8525c
+msgid "UniKT 规范化后的交互数据通过 `self.set_sequence_data` 注册，必须包含以下核心列："
+msgstr ""
+"Normalized interaction data registered via `self.set_sequence_data` must "
+"contain the following core columns:"
+
+#: ../../source/developer-guides/customize-dataset.md
+#: 21af318a128d4ff89606217d4f230d52
+msgid "字段名称"
+msgstr "Field Name"
+
+#: ../../source/developer-guides/customize-dataset.md
+#: 667e07ff02d74e6a90db1f138e3ffe2a
+msgid "数据类型"
+msgstr "Data Type"
+
+#: ../../source/developer-guides/customize-dataset.md
+#: 1001985c5ca54defbbe01677b7d003de
+msgid "描述"
+msgstr "Description"
+
+#: ../../source/developer-guides/customize-dataset.md
+#: 83ec522f0744481fa76cb133e4c4f8ec
+msgid "约束"
+msgstr "Constraints"
+
+#: ../../source/developer-guides/customize-dataset.md
+#: 1e33b545fba845919a7a7e13cd801aff
+msgid "`interaction_id`"
+msgstr "`interaction_id`"
+
+#: ../../source/developer-guides/customize-dataset.md
+#: 9039393d629242d186ccade7b25ff12b
+msgid "`Int64` / `Int32`"
+msgstr "`Int64` / `Int32`"
+
+#: ../../source/developer-guides/customize-dataset.md
+#: efc5c658d73044a98aedba2970aa6e45
+msgid "交互事件唯一主键"
+msgstr "Unique primary key for interaction event"
+
+#: ../../source/developer-guides/customize-dataset.md
+#: 2f673383393c42e68bd93a9e5de1338a
+msgid "全局唯一，自增"
+msgstr "Globally unique, auto-incrementing"
+
+#: ../../source/developer-guides/customize-dataset.md
+#: c74710d84fea4e4f9a3408ec176cf4ec
+msgid "`user`"
+msgstr "`user`"
+
+#: ../../source/developer-guides/customize-dataset.md
+#: aab5d9f8544b48de91ef505811624454 b3c55b432a2b49b2a840756447c85994
+#: d7ab6ec96fc5437db0aa849457a69926
+msgid "`Int32`"
+msgstr "`Int32`"
+
+#: ../../source/developer-guides/customize-dataset.md
+#: d489e987f22f416b9d06476b1f7326cb
+msgid "重新编号后的学生 ID"
+msgstr "Remapped student ID"
+
+#: ../../source/developer-guides/customize-dataset.md
+#: 172e7518e8234260895a596b2e1f71aa
+msgid "连续紧凑整数：`[0, num_users - 1]`"
+msgstr "Contiguous compact integers: `[0, num_users - 1]`"
+
+#: ../../source/developer-guides/customize-dataset.md
+#: 7ada74dcfa5c4b7da902f9308d77da37
+msgid "`question`"
+msgstr "`question`"
+
+#: ../../source/developer-guides/customize-dataset.md
+#: 96b1e3a221ad4488bb63fb4edc92f20e
+msgid "重新编号后的题目 ID"
+msgstr "Remapped question ID"
+
+#: ../../source/developer-guides/customize-dataset.md
+#: 5cc16ebdb90a4097acb7598b8ef94519
+msgid "连续紧凑整数：`[0, num_questions - 1]`"
+msgstr "Contiguous compact integers: `[0, num_questions - 1]`"
+
+#: ../../source/developer-guides/customize-dataset.md
+#: af48123dcac943aa9f73affd77cdd05c
+msgid "`skills`"
+msgstr "`skills`"
+
+#: ../../source/developer-guides/customize-dataset.md
+#: a0813fb2f74a463fa9aa9631b654829c
+msgid "`List(Int32)`"
+msgstr "`List(Int32)`"
+
+#: ../../source/developer-guides/customize-dataset.md
+#: 95a41aaee2d146328a7f2d59b5cd3326
+msgid "该道题目关联的知识点 ID 列表"
+msgstr "List of skill IDs associated with the question"
+
+#: ../../source/developer-guides/customize-dataset.md
+#: 0b7ed212db01417695404e9b1bcc35d3
+msgid "连续紧凑整数：`[0, num_skills - 1]`，列表非空"
+msgstr "Contiguous compact integers: `[0, num_skills - 1]`, non-empty list"
+
+#: ../../source/developer-guides/customize-dataset.md
+#: cff9528cf3534924831620297ad9eeb8
+msgid "`label`"
+msgstr "`label`"
+
+#: ../../source/developer-guides/customize-dataset.md
+#: a0fb4e27d3bb4c7f862d0837effd9aff
+msgid "作答结果标签"
+msgstr "Response correctness label"
+
+#: ../../source/developer-guides/customize-dataset.md
+#: 778cc72ff34c41a8bf09f7f5f3bf552a
+msgid "二值变量：`0` 错误或 `1` 正确"
+msgstr "Binary variable: `0` for incorrect or `1` for correct"
+
+#: ../../source/developer-guides/customize-dataset.md:27
+#: 123e1e7e6f7844f88d8fcdb20b1d2102
+msgid ""
+"此外，可携带额外特征列，例如 `timestamp` 作答时间戳、`hint_count` 提示次数与 `attempt_count` "
+"尝试次数等，切分时系统会按配置自动透传。"
+msgstr ""
+"Additionally, auxiliary feature columns such as `timestamp`, "
+"`hint_count`, and `attempt_count` can be included; the slicing pipeline "
+"automatically forwards them as configured."
+
+#: ../../source/developer-guides/customize-dataset.md:31
+#: 55f68e84c19f43a791761e7016236201
+msgid "编写数据集处理器"
+msgstr "Writing a Dataset Processor"
+
+#: ../../source/developer-guides/customize-dataset.md:33
+#: 666c3a5bbb7e4bc2bb71d133ad671fbf
+msgid ""
+"在 `utils/data_process/` 目录下创建新的数据处理器文件（例如 `my_dataset.py`）。实现继承自 "
+"`DataSource` 的数据集类，并通过 `@register_data_source(\"<dataset_name>\")` "
+"进行装饰注册。"
+msgstr ""
+"Create a new dataset processor file in `utils/data_process/` (e.g., "
+"`my_dataset.py`). Implement a dataset class inheriting from `DataSource` "
+"and register it using the decorator "
+"`@register_data_source(\"<dataset_name>\")`."
+
+#: ../../source/developer-guides/customize-dataset.md:35
+#: c9eba66a68334460aa3f20ae7fdbc45e
+msgid "完整实现代码模板"
+msgstr "Complete Implementation Code Template"
+
+#: ../../source/developer-guides/customize-dataset.md:37
+#: 53ee7f0f5c244b7bbc3f1eb529d9f76b
+#, python-brace-format
+msgid ""
+"\"\"\"自定义数据集处理器模板。\"\"\"\n"
+"\n"
+"import os\n"
+"from typing import Any\n"
+"\n"
+"import polars as pl\n"
+"from typing_extensions import override\n"
+"\n"
+"from utils.core import get_logger, register_data_source\n"
+"from utils.data_process.data_source import DataSource\n"
+"\n"
+"logger = get_logger(__name__)\n"
+"\n"
+"\n"
+"@register_data_source(\"my_dataset\")\n"
+"class MyDatasetData(DataSource):\n"
+"    \"\"\"自定义知识追踪数据集处理器。\"\"\"\n"
+"\n"
+"    def __init__(self, args: Any) -> None:\n"
+"        \"\"\"初始化数据集元信息与文件路径。\"\"\"\n"
+"        super().__init__(\n"
+"            dataset=\"my_dataset\",\n"
+"            data_base_path=args.data.data_base_path,\n"
+"            data_url=\"https://example.com/dataset/my_dataset.zip\",  # "
+"下载源 URL（可选）\n"
+"            seed=args.general.seed,\n"
+"        )\n"
+"        self.args = args\n"
+"        # 原始数据文件存放于 data/<dataset>/raw/\n"
+"        self.raw_data_path = os.path.join(self.data_folder, \"raw\", "
+"\"interactions.csv\")\n"
+"\n"
+"    @override\n"
+"    def load_src_data(self) -> None:\n"
+"        \"\"\"从 raw 目录加载原始数据。推荐使用 Polars 提高加载性能。\"\"\"\n"
+"        if not os.path.exists(self.raw_data_path):\n"
+"            raise FileNotFoundError(f\"未找到原始数据文件: {self.raw_data_path}\")"
+"\n"
+"\n"
+"        logger.info(f\"正在从 {self.raw_data_path} 加载原始数据...\")\n"
+"        self.raw_data = pl.read_csv(\n"
+"            self.raw_data_path,\n"
+"            ignore_errors=True,\n"
+"            null_values=[\"NA\", \"null\", \"\"],\n"
+"        ).lazy()\n"
+"\n"
+"    @override\n"
+"    def clean_raw_data(self) -> None:\n"
+"        \"\"\"数据清洗与标准化字段重命名。\"\"\"\n"
+"        if self.raw_data is None:\n"
+"            self.load_src_data()\n"
+"\n"
+"        logger.info(\"执行原始数据清洗与字段对齐...\")\n"
+"        data = self.raw_data.with_row_index(\"interaction_id\")\n"
+"\n"
+"        # 1. 重命名列为 UniKT 标准名称\n"
+"        data = data.rename(\n"
+"            {\n"
+"                \"student_id\": \"user\",\n"
+"                \"problem_id\": \"question\",\n"
+"                \"kc_id\": \"skill\",\n"
+"                \"is_correct\": \"label\",\n"
+"                \"submit_time\": \"timestamp\",\n"
+"            }\n"
+"        )\n"
+"\n"
+"        # 2. 过滤缺失值与异常作答（如非 0/1 的作答结果）\n"
+"        data = data.filter(\n"
+"            pl.col(\"user\").is_not_null()\n"
+"            & pl.col(\"question\").is_not_null()\n"
+"            & pl.col(\"skill\").is_not_null()\n"
+"            & pl.col(\"label\").is_in([0, 1])\n"
+"        )\n"
+"\n"
+"        # 3. 按用户与时间戳全局排序\n"
+"        data = data.sort([\"user\", \"timestamp\"])\n"
+"\n"
+"        self.cleaned_raw_data = data.collect()\n"
+"        logger.info(f\"数据清洗完成，保留有效记录数: {len(self.cleaned_raw_data)}\")\n"
+"\n"
+"    @override\n"
+"    def transform_data(self) -> None:\n"
+"        \"\"\"执行紧凑 ID 映射、知识点列表组装并交付标准序列。\"\"\"\n"
+"        logger.info(\"执行数据特征转换与 ID 重映射...\")\n"
+"        if self.cleaned_raw_data is None:\n"
+"            raise ValueError(\"必须先调用 clean_raw_data 后才能执行 "
+"transform_data\")\n"
+"\n"
+"        # 1. 建立题目 ID 映射（将原始 ID 映射到 [0, N-1]）\n"
+"        question_df = (\n"
+"            self.cleaned_raw_data.select(\"question\")\n"
+"            .unique()\n"
+"            .sort(\"question\")\n"
+"            .with_row_index(\"mapped_question\")\n"
+"        )\n"
+"        self._build_id_mapping(self.cleaned_raw_data, [\"question\"])\n"
+"        mapped_data = self.cleaned_raw_data.join(\n"
+"            question_df, on=\"question\"\n"
+"        "
+").with_columns(pl.col(\"mapped_question\").cast(pl.Int32).alias(\"question\"))"
+"\n"
+"\n"
+"        # 2. 建立知识点映射并支持多知识点格式（例如 \"1_5_9\" 或单一 KC）\n"
+"        # 提取全部唯一知识点并重编号\n"
+"        unique_skills = "
+"mapped_data.select(pl.col(\"skill\").cast(pl.Utf8)).unique()\n"
+"        self._build_id_mapping(unique_skills, [\"skill\"])\n"
+"\n"
+"        # 3. 映射学生 ID 到 [0, U-1]\n"
+"        self._build_id_mapping(mapped_data, [\"user\"])\n"
+"        mapped_data = self._apply_id_mapping(mapped_data, [\"user\"])\n"
+"\n"
+"        # 4. 构建标准 List(Int32) 类型的 skills 列\n"
+"        # 如果原始 skill 是字符串且包含分隔符，用 str.split 展开；否则直接转列表\n"
+"        mapped_data = mapped_data.with_columns(\n"
+"            "
+"self._map_interaction_skills(pl.col(\"skill\").cast(pl.Utf8).str.split(\"_\"))"
+"\n"
+"        )\n"
+"\n"
+"        # 5. 组装规范序列数据\n"
+"        sequence_data = mapped_data.select(\n"
+"            [\n"
+"                \"interaction_id\",\n"
+"                \"skills\",\n"
+"                \"user\",\n"
+"                \"question\",\n"
+"                \"label\",\n"
+"                \"timestamp\",\n"
+"            ]\n"
+"        )\n"
+"\n"
+"        # 6. 保存题目-属性关系表（可选，供图神经网络或多任务模型使用）\n"
+"        # self.relation_data = {\"q_matrix\": ...}\n"
+"\n"
+"        # 7. 提交处理后的交互表\n"
+"        self.set_sequence_data(sequence_data)\n"
+"        logger.info(\"数据转换与紧凑映射完成。\")\n"
+msgstr ""
+"\"\"\"Custom dataset processor template.\"\"\"\n"
+"\n"
+"import os\n"
+"from typing import Any\n"
+"\n"
+"import polars as pl\n"
+"from typing_extensions import override\n"
+"\n"
+"from utils.core import get_logger, register_data_source\n"
+"from utils.data_process.data_source import DataSource\n"
+"\n"
+"logger = get_logger(__name__)\n"
+"\n"
+"\n"
+"@register_data_source(\"my_dataset\")\n"
+"class MyDatasetData(DataSource):\n"
+"    \"\"\"Custom knowledge tracing dataset processor.\"\"\"\n"
+"\n"
+"    def __init__(self, args: Any) -> None:\n"
+"        \"\"\"Initialize dataset metadata and file paths.\"\"\"\n"
+"        super().__init__(\n"
+"            dataset=\"my_dataset\",\n"
+"            data_base_path=args.data.data_base_path,\n"
+"            data_url=\"https://example.com/dataset/my_dataset.zip\",  # "
+"Download URL (optional)\n"
+"            seed=args.general.seed,\n"
+"        )\n"
+"        self.args = args\n"
+"        # Raw data lives under data/<dataset>/raw/\n"
+"        self.raw_data_path = os.path.join(self.data_folder, \"raw\", "
+"\"interactions.csv\")\n"
+"\n"
+"    @override\n"
+"    def load_src_data(self) -> None:\n"
+"        \"\"\"Load raw data from the raw directory. Polars is recommended"
+" for speed.\"\"\"\n"
+"        if not os.path.exists(self.raw_data_path):\n"
+"            raise FileNotFoundError(f\"Raw data file not found: "
+"{self.raw_data_path}\")\n"
+"\n"
+"        logger.info(f\"Loading raw data from {self.raw_data_path}...\")\n"
+"        self.raw_data = pl.read_csv(\n"
+"            self.raw_data_path,\n"
+"            ignore_errors=True,\n"
+"            null_values=[\"NA\", \"null\", \"\"],\n"
+"        ).lazy()\n"
+"\n"
+"    @override\n"
+"    def clean_raw_data(self) -> None:\n"
+"        \"\"\"Clean the data and standardize field names.\"\"\"\n"
+"        if self.raw_data is None:\n"
+"            self.load_src_data()\n"
+"\n"
+"        logger.info(\"Cleaning raw data and aligning fields...\")\n"
+"        data = self.raw_data.with_row_index(\"interaction_id\")\n"
+"\n"
+"        # 1. Rename columns to UniKT's standard names\n"
+"        data = data.rename(\n"
+"            {\n"
+"                \"student_id\": \"user\",\n"
+"                \"problem_id\": \"question\",\n"
+"                \"kc_id\": \"skill\",\n"
+"                \"is_correct\": \"label\",\n"
+"                \"submit_time\": \"timestamp\",\n"
+"            }\n"
+"        )\n"
+"\n"
+"        # 2. Drop missing values and invalid responses (labels other than"
+" 0/1)\n"
+"        data = data.filter(\n"
+"            pl.col(\"user\").is_not_null()\n"
+"            & pl.col(\"question\").is_not_null()\n"
+"            & pl.col(\"skill\").is_not_null()\n"
+"            & pl.col(\"label\").is_in([0, 1])\n"
+"        )\n"
+"\n"
+"        # 3. Sort globally by user and timestamp\n"
+"        data = data.sort([\"user\", \"timestamp\"])\n"
+"\n"
+"        self.cleaned_raw_data = data.collect()\n"
+"        logger.info(f\"Cleaning complete; valid records kept: "
+"{len(self.cleaned_raw_data)}\")\n"
+"\n"
+"    @override\n"
+"    def transform_data(self) -> None:\n"
+"        \"\"\"Build compact ID mappings, assemble skill lists, and emit "
+"standard sequences.\"\"\"\n"
+"        logger.info(\"Transforming features and remapping IDs...\")\n"
+"        if self.cleaned_raw_data is None:\n"
+"            raise ValueError(\"clean_raw_data must be called before "
+"transform_data\")\n"
+"\n"
+"        # 1. Build the question ID mapping (original IDs -> [0, N-1])\n"
+"        question_df = (\n"
+"            self.cleaned_raw_data.select(\"question\")\n"
+"            .unique()\n"
+"            .sort(\"question\")\n"
+"            .with_row_index(\"mapped_question\")\n"
+"        )\n"
+"        self._build_id_mapping(self.cleaned_raw_data, [\"question\"])\n"
+"        mapped_data = self.cleaned_raw_data.join(\n"
+"            question_df, on=\"question\"\n"
+"        "
+").with_columns(pl.col(\"mapped_question\").cast(pl.Int32).alias(\"question\"))"
+"\n"
+"\n"
+"        # 2. Build the skill mapping; multi-skill formats (e.g. "
+"\"1_5_9\") are supported\n"
+"        # Collect every unique skill and renumber them\n"
+"        unique_skills = "
+"mapped_data.select(pl.col(\"skill\").cast(pl.Utf8)).unique()\n"
+"        self._build_id_mapping(unique_skills, [\"skill\"])\n"
+"\n"
+"        # 3. Map student IDs to [0, U-1]\n"
+"        self._build_id_mapping(mapped_data, [\"user\"])\n"
+"        mapped_data = self._apply_id_mapping(mapped_data, [\"user\"])\n"
+"\n"
+"        # 4. Build the standard List(Int32) skills column\n"
+"        # If raw skills are delimited strings, expand them with "
+"str.split; otherwise wrap as a list\n"
+"        mapped_data = mapped_data.with_columns(\n"
+"            "
+"self._map_interaction_skills(pl.col(\"skill\").cast(pl.Utf8).str.split(\"_\"))"
+"\n"
+"        )\n"
+"\n"
+"        # 5. Assemble standardized sequence data\n"
+"        sequence_data = mapped_data.select(\n"
+"            [\n"
+"                \"interaction_id\",\n"
+"                \"skills\",\n"
+"                \"user\",\n"
+"                \"question\",\n"
+"                \"label\",\n"
+"                \"timestamp\",\n"
+"            ]\n"
+"        )\n"
+"\n"
+"        # 6. Save the question-attribute relation table (optional; for "
+"GNN or multi-task models)\n"
+"        # self.relation_data = {\"q_matrix\": ...}\n"
+"\n"
+"        # 7. Submit the processed interaction table\n"
+"        self.set_sequence_data(sequence_data)\n"
+"        logger.info(\"Data transformation and compact mapping complete.\")"
+
+#: ../../source/developer-guides/customize-dataset.md:171
+#: fa78c3bd479f437e868b7a0dcb4a5d99
+msgid "数据切分与保存机制"
+msgstr "Data Slicing and Persistence Mechanisms"
+
+#: ../../source/developer-guides/customize-dataset.md:173
+#: 497dc45f53ce4e6cb299c48de97d392a
+msgid "`DataSource` 内部封装了强大的切分流水线，子类**无需重复实现切分与持久化逻辑**，只需在 CLI 中驱动或直接调用基类内置方法："
+msgstr ""
+"`DataSource` encapsulates a robust slicing pipeline internally; "
+"subclasses **do not need to reimplement slicing or persistence**, and can"
+" simply invoke base class methods via CLI:"
+
+#: ../../source/developer-guides/customize-dataset.md:175
+#: 4e61dc41984e4815973ca036213ccb5c
+msgid "**`add_kfold_labels(n_splits=5, test_ratio=0.2)`**："
+msgstr "**`add_kfold_labels(n_splits=5, test_ratio=0.2)`**: "
+
+#: ../../source/developer-guides/customize-dataset.md:176
+#: 3b0e7499faa448c1b3a61d6621bf3319
+msgid "划分学生维度的训练折与留出测试集（按学生划分，杜绝跨折学生信息泄露）。"
+msgstr ""
+"Partitions student-level training folds and held-out test sets "
+"(preventing cross-fold student data leakage)."
+
+#: ../../source/developer-guides/customize-dataset.md:177
+#: 951b6844a3fe47b39f88054eb889686a
+msgid "**`build_split_question_sequence_data()`**："
+msgstr "**`build_split_question_sequence_data()`**: "
+
+#: ../../source/developer-guides/customize-dataset.md:178
+#: 67fcdca4d9234d4a9406794b91dfec46
+msgid "将长交互切分成适合模型处理的固定最大长度序列，并记录题目级切分元信息。"
+msgstr ""
+"Slices long interactions into sequences matching maximum length budgets "
+"and records question-level slicing metadata."
+
+#: ../../source/developer-guides/customize-dataset.md:179
+#: dd22296b8abd410e818e6bd07a448d22
+msgid "**`build_split_skill_sequence_data()`**："
+msgstr "**`build_split_skill_sequence_data()`**: "
+
+#: ../../source/developer-guides/customize-dataset.md:180
+#: 230ae44247da4256963c9878b92801df
+msgid "当一道题目关联多个知识点时，展开知识点序列并对齐时间步切分。"
+msgstr ""
+"When a question maps to multiple skills, expands skill sequences and "
+"aligns temporal step slicing."
+
+#: ../../source/developer-guides/customize-dataset.md:181
+#: 12361238cd8c4b37a9017f11366e8146
+msgid "**`save_data()` 与 `save_metadata()`**："
+msgstr "**`save_data()` and `save_metadata()`**:"
+
+#: ../../source/developer-guides/customize-dataset.md:182
+#: 4de49dc6200b45c189bf008b6b6e8f59
+msgid ""
+"自动将切分后的序列保存为高效的 Apache Parquet 格式，并将题目总数、知识点总数、序列最大长度、切分哈希值等元数据保存为 "
+"`metadata.json`。"
+msgstr ""
+"Automatically serializes sliced sequences into efficient Apache Parquet "
+"format and saves summary metadata (counts of questions, skills, max "
+"sequence lengths, and split hashes) to `metadata.json`."
+
+#: ../../source/developer-guides/customize-dataset.md:186
+#: 164d1259ecc242f887e620a79ba6463e
+msgid "命令行执行与验证"
+msgstr "CLI Execution and Verification"
+
+#: ../../source/developer-guides/customize-dataset.md:188
+#: c132798eb2ca4b72bd45425bf68d3d0f
+msgid "通过 UniKT 的通用数据处理入口 `data_process.py` 执行流水线："
+msgstr ""
+"Execute the pipeline using UniKT's unified data processing entry point "
+"`data_process.py`:"
+
+#: ../../source/developer-guides/customize-dataset.md:190
+#: 7322c821278c42169d58326d949c1f7e
+msgid "1. 下载原始数据"
+msgstr "1\\. Download Raw Data"
+
+#: ../../source/developer-guides/customize-dataset.md:191
+#: d75b139d7cff4b2fbbee09e2b317cfbe
+msgid "python data_process.py download -d my_dataset\n"
+msgstr "python data_process.py download -d my_dataset\n"
+
+#: ../../source/developer-guides/customize-dataset.md:195
+#: 9c7916909736460c8a3c9198c3816657
+msgid "2. 执行 ETL 转换与 5 折序列生成"
+msgstr "2\\. Run ETL Transformation and 5-Fold Sequence Generation"
+
+#: ../../source/developer-guides/customize-dataset.md:196
+#: 45986fb4633a43dbaee6a1f7fe0149a1
+msgid ""
+"python data_process.py process -d my_dataset --data.kfold 5 "
+"--data.max_seq_len 200\n"
+msgstr ""
+"python data_process.py process -d my_dataset --data.kfold 5 "
+"--data.max_seq_len 200\n"
+
+#: ../../source/developer-guides/customize-dataset.md:200
+#: 6357e47e49af410cae908db89dd111e4
+msgid "如果模型需要评测窗口测试指标，可追加 `--extra windowlate`："
+msgstr ""
+"If evaluating windowed test metrics is required, append `--extra "
+"windowlate`:"
+
+#: ../../source/developer-guides/customize-dataset.md:201
+#: 70933b66711049f1821a1db5e1dd02bc
+msgid "python data_process.py process -d my_dataset --extra windowlate\n"
+msgstr "python data_process.py process -d my_dataset --extra windowlate\n"
+
+#: ../../source/developer-guides/customize-dataset.md:205
+#: 4cfc18cc510141c9a0f9bc0a2a0a05b1
+msgid "3. 查看输出目录"
+msgstr "3\\. Inspect Output Directory"
+
+#: ../../source/developer-guides/customize-dataset.md:206
+#: 610eedbf3b15404295fcc23a6f713f1d
+msgid "处理完成后，`data/my_dataset/` 目录结构如下："
+msgstr ""
+"After processing, the directory structure in `data/my_dataset/` is "
+"organized as follows:"
+
+#: ../../source/developer-guides/customize-dataset.md:207
+#: 886d69f7d1b149fa80673ee94806c43f
+msgid ""
+"data/my_dataset/\n"
+"├── raw/\n"
+"│   └── interactions.csv\n"
+"├── metadata.json                                      # 包含 num_users, "
+"num_questions, num_skills 等统计\n"
+"├── my_dataset_sequence.parquet                        # 清洗后的学生完整时序交互表\n"
+"├── my_dataset_split_question_sequence.parquet         # 题目级切分序列\n"
+"├── my_dataset_split_skill_sequence.parquet            # 知识点级切分序列\n"
+"└── my_dataset_windowlate.parquet                      # 窗口测试评估序列 (若指定 "
+"--extra windowlate)\n"
+msgstr ""
+"data/my_dataset/\n"
+"├── raw/\n"
+"│   └── interactions.csv\n"
+"├── metadata.json                                      # Global metadata "
+"snapshot\n"
+"├── my_dataset_sequence.parquet                        # Cleaned complete"
+" interaction table\n"
+"├── my_dataset_split_question_sequence.parquet         # Question-level "
+"sliced sequence table\n"
+"├── my_dataset_split_skill_sequence.parquet            # Skill-level "
+"sliced sequence table\n"
+"└── my_dataset_relation_question_skill.parquet         # Question-skill "
+"bipartite graph table\n"
+
+#: ../../source/developer-guides/customize-dataset.md:218
+#: 2eb329083f98460a8bd7564be00385ae
+msgid "4. 驱动模型训练"
+msgstr "4\\. Launch Model Training"
+
+#: ../../source/developer-guides/customize-dataset.md:219
+#: cd1445cd7841449690435267ae611327
+msgid "数据生成后，任何已注册的模型均可无缝使用该数据集："
+msgstr ""
+"Once data is generated, any registered model can seamlessly train on the "
+"dataset:"
+
+#: ../../source/developer-guides/customize-dataset.md:220
+#: 3b690622678f471c9707e668890ba5f1
+msgid "python train.py -m GIKT -d my_dataset --data.fold 0\n"
+msgstr "python train.py -m GIKT -d my_dataset --data.fold 0\n"

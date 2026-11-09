@@ -1,0 +1,904 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/datasets/catalog/assistments17.md:1
+#: 3c68bd4df8a64428b66be8c2d7481f50
+msgid "ASSISTments 2017"
+msgstr "ASSISTments 2017"
+
+#: ../../source/datasets/catalog/assistments17.md:3
+#: aeed5692fdb0440f950576ed4d2c7476
+msgid "2017 年 ASSISTments 纵向数据挖掘竞赛数据。"
+msgstr "2017 ASSISTments Longitudinal Data Mining Competition dataset."
+
+#: ../../source/datasets/catalog/assistments17.md:5
+#: 8f7afd01e60146b8b3a0d102788388f8
+msgid ""
+"数据集链接：[2017 "
+"竞赛数据页](https://sites.google.com/view/assistmentsdatamining/dataset)。须填写申请表，数据链接通过邮件发送；使用须同意数据使用条款。"
+msgstr ""
+"Dataset link: [2017 Competition Data "
+"Page](https://sites.google.com/view/assistmentsdatamining/dataset). "
+"Application required; data links sent via email; usage subject to data "
+"terms."
+
+#: ../../source/datasets/catalog/assistments17.md:7
+#: 5dc63481746f4d9385186d221e72307b
+msgid "数据参数"
+msgstr "Dataset Parameters"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 1c55fd83d1ec4eefb813337c1bdcb116
+msgid "参数"
+msgstr "Parameter"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 9b3719413d2e46499274fb4f7a357e7c
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: d2ecc84a8be3454bad2460b38a9145f6
+msgid "数据文件"
+msgstr "Data File"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 5cf79bbd82ab4e26830d307a1891f1e4
+msgid "`anonymized_full_release_competition_dataset.csv`"
+msgstr "`anonymized_full_release_competition_dataset.csv`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 519720d2feb241339e602b4a0bb132a0
+msgid "数据行"
+msgstr "Data Rows"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 6a13fc4aee19478fb2d13337daa6022e
+msgid "942,816"
+msgstr "942,816"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 8ed21637a42b458290622685293e5447
+msgid "学生 / 题目 / 技能"
+msgstr "Students / Questions / Skills"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 1bc6d78332464d8eaaa4019b0aedf5b5
+msgid "1,709 / 3,162 / 102，分别按 `studentId`、`problemId`、`skill` 去重"
+msgstr ""
+"1,709 / 3,162 / 102, deduplicated by `studentId`, `problemId`, and "
+"`skill` respectively"
+
+#: ../../source/datasets/catalog/assistments17.md:15
+#: 37a0e93e05924abfb09be1b5c3be3709
+msgid "去重时排除空值及 `NA`、`nan`、`null` 标记（不区分大小写）。"
+msgstr ""
+"Deduplication excludes null values and `NA`, `nan`, `null` markers (case-"
+"insensitive)."
+
+#: ../../source/datasets/catalog/assistments17.md
+#: ../../source/datasets/catalog/assistments17.md:17
+#: 3c25d4b123164d01a46ad3348508fc02 657758886979410eb0103caf8115f017
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/datasets/catalog/assistments17.md:19
+#: 63e2635a29f2419e85a7de7cb24833c0
+msgid ""
+"下表列出 `anonymized_full_release_competition_dataset.csv` 的全部字段。FR 指首次响应，KC "
+"指知识组件；`—` 表示字段含义未知。"
+msgstr ""
+"The table below lists all fields in "
+"`anonymized_full_release_competition_dataset.csv`. FR stands for First "
+"Response, KC stands for Knowledge Component; `—` indicates unknown field "
+"meaning."
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 1dd0caadb5c943eca6ae90b65e2128ce
+msgid "含义"
+msgstr "Meaning"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 13d524c9ad77418db65fe787ca0e053d
+msgid "`studentId`"
+msgstr "`studentId`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: ec3f8c30178343f5b0839eed7a675a04
+msgid "学生标识"
+msgstr "Student ID"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 5844ae6b4b44499a9906c1aa2375b6bb
+msgid "`MiddleSchoolId`"
+msgstr "`MiddleSchoolId`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 176cf8941b774ec5b4fba254370af20d 4fbadc87ec5642078ac6548f257ba273
+#: 6147b5f12ead4a3d90facb031720cb3e 7623c5172942401190f1fa3eb190ab54
+#: 884329337c2c40a882e67fae5f151ff0 9429523ad57b410ca290f4622ee761b6
+#: 9e5bb66b22194d5886db77115aafc1a3 a70147cbc4844446a6b4e9c0afcec141
+#: b54d5996c1584e37a360151729e967d1 f115926d92974979b1c8259fe7d162c5
+#: f187c301d63b4f38aea77232d230c62f
+msgid "—"
+msgstr "—"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 5bdaaadf5d9342758d866082e52d5b93
+msgid "`InferredGender`"
+msgstr "`InferredGender`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: bbefb0fe160e4acf9f3d7e9724913a68
+msgid "学生的推测性别，取值包括 `Male`、`Female`，部分记录为空"
+msgstr ""
+"Inferred student gender, values include `Male`, `Female`, some records "
+"null"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 0d0d8b27abd849a29f492bed917d9308
+msgid "`SY ASSISTments Usage`"
+msgstr "`SY ASSISTments Usage`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 213081e5880041cfb53abee71d4fd124
+msgid "学生使用系统的学年"
+msgstr "School year the student used the system"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 5684ff5b97f146049823f25a0b65a26c
+msgid "`AveKnow`"
+msgstr "`AveKnow`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: c37f59ab162c422482f760030bf7f450
+msgid "依据贝叶斯知识追踪模型估计的学生平均知识水平"
+msgstr ""
+"Student average knowledge level estimated by Bayesian Knowledge Tracing "
+"model"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: f4d31b39554244a9bff070edda221222
+msgid "`AveCarelessness`"
+msgstr "`AveCarelessness`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 4ab43a82601c4e0c9942f0db0d386e7f
+msgid "学生平均粗心程度的模型估计值"
+msgstr "Model-estimated average student carelessness value"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: a9645bb49f874b3d8a4c83220d98bbd2
+msgid "`AveCorrect`"
+msgstr "`AveCorrect`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 47a15facab924365a442b9adba2d2b23
+msgid "学生平均正确率"
+msgstr "Student average accuracy rate"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: a6f0416867594ab384fbc37f58017cb9
+msgid "`NumActions`"
+msgstr "`NumActions`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 3506fc747041424cad9a15da3723bd86
+msgid "学生在系统中的操作总数"
+msgstr "Total number of student actions in the system"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 6437a807955f42499c82bb84a8b1aeae
+msgid "`AveResBored`"
+msgstr "`AveResBored`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 005d58b28aef466b8e040c085bcee246
+msgid "学生平均厌烦状态估计值"
+msgstr "Student average boredom state estimate"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 082b4db1df924fd2920b75c1b2f7b410
+msgid "`AveResEngcon`"
+msgstr "`AveResEngcon`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: ba7dab681bfc4d11b8fbfbe0170087d9
+msgid "学生平均投入专注状态估计值"
+msgstr "Student average engaged concentration state estimate"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 91b75548dd86443f8cd12bb97b2c69dd
+msgid "`AveResConf`"
+msgstr "`AveResConf`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 981051cc279849de8180fa2b60d75c11
+msgid "学生平均困惑状态估计值"
+msgstr "Student average confusion state estimate"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 763fa6c56ab7471792fb87c434cff2a7
+msgid "`AveResFrust`"
+msgstr "`AveResFrust`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: fefde4dd301341499f073b7733bcc7b9
+msgid "学生平均受挫状态估计值"
+msgstr "Student average frustration state estimate"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 765f814dc22141d2a22687838cf7d484
+msgid "`AveResOfftask`"
+msgstr "`AveResOfftask`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 7ac308367f7841e9a5dc55bb1ade03be
+msgid "学生平均偏离任务状态估计值"
+msgstr "Student average off-task state estimate"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: becbbf2e4f2f487488aaa431269ffc57
+msgid "`AveResGaming`"
+msgstr "`AveResGaming`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 344249b4cbeb49ffbb47d5e3c1528959
+msgid "学生平均钻系统规则空子行为估计值"
+msgstr "Student average gaming the system behavior estimate"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: f955cea1f59e4af4872cc03a40e1f9a7
+msgid "`action_num`"
+msgstr "`action_num`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: d7833f7ffd3b4ad3962ea97c797dc270
+msgid "本文件中每行均不重复的数值"
+msgstr "Unique numeric value for each row in this file"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: f0441f1f260a45159f31f210728fd0bd
+msgid "`skill`"
+msgstr "`skill`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 3cf3dd841c8949358d8ffedd031dca18
+msgid "题目关联的技能标签"
+msgstr "Skill tag associated with the question"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 075bdfd6da554f6397dee500f59e5b9a
+msgid "`problemId`"
+msgstr "`problemId`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 124d5c52073543aa9635e9c5ab40f2b3
+msgid "题目标识"
+msgstr "Question identifier"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: fcd772cdc1074180b69cbce5f7722899
+msgid "`problemType`"
+msgstr "`problemType`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 0e9d2e510eef46c5b9786e345ca47e56
+msgid "题目类型"
+msgstr "Question type"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: d05d42ce526b437e88cde826023c8dee
+msgid "`assignmentId`"
+msgstr "`assignmentId`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: e077a53b23884cdd878f45781c73e0b1
+msgid "作业标识"
+msgstr "Assignment ID"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: ec1d20bc02b94d52b330ecbbc769a641
+msgid "`assistmentId`"
+msgstr "`assistmentId`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: ab1a20e384864a3d96e560fd9e18a37e
+msgid "Assistment 母题标识"
+msgstr "Assistment parent problem ID"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 9a0d10c949474d0b99fda69ec73f5b4a
+msgid "`startTime`"
+msgstr "`startTime`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: a2b8886205f14e0fad0b948f1e0e38cf
+msgid "题目开始时间，Unix 时间戳，单位为秒"
+msgstr "Question start time, Unix timestamp in seconds"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 2bbc7664d98c42e69bbf6aa0f745f22c
+msgid "`endTime`"
+msgstr "`endTime`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 8e0b9caace1747ed8ad684e86b1a8f22
+msgid "题目结束时间，Unix 时间戳，单位为秒"
+msgstr "Question end time, Unix timestamp in seconds"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 992a2df1f1284d149c73e35f2cdfe351
+msgid "`timeTaken`"
+msgstr "`timeTaken`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 5be82ece1f93410dbc3972266bd56721
+msgid "当前步骤所花时间"
+msgstr "Time spent on current step"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 93eeb2978e5c43c3871578bd21aef32a
+msgid "`correct`"
+msgstr "`correct`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 1755ea9d517743c189e390d48dda5909
+msgid "作答是否正确"
+msgstr "Whether response is correct"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: a19355d967e84b5b8a675181149cb933
+msgid "`original`"
+msgstr "`original`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 88773d69339049e5b01bad0cb552280b
+msgid "是否为题目而非支架题"
+msgstr "Whether it is a main question rather than a scaffolding question"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 318bd1b8e9674393834dec7658e19bb4
+msgid "`hint`"
+msgstr "`hint`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 662499134cf542eea695b41168b39514
+msgid "操作是否为提示响应"
+msgstr "Whether action is a hint response"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 80254425e23843929acee036fa4c9a5c
+msgid "`hintCount`"
+msgstr "`hintCount`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 6cb9187e7f204b6eafbadd79c0d9bc67
+msgid "截至当前的提示请求次数"
+msgstr "Count of hint requests up to the current moment"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 4d42d76054d54a40b1d92f6e337c4eb3
+msgid "`hintTotal`"
+msgstr "`hintTotal`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 93f16a7829ea480d868e5a13484737e4
+msgid "该题的提示请求总次数"
+msgstr "Total hint requests for this question"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: c4000666bb674d73b39adf837bc45a2a
+msgid "`scaffold`"
+msgstr "`scaffold`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 0a1038bc0b1a49efb00618586efab789
+msgid "是否为支架题"
+msgstr "Whether it is a scaffolding question"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 5e3b6a29122a47508f593ae9ba262aac
+msgid "`bottomHint`"
+msgstr "`bottomHint`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: be0c090b3a4741fda508aebca99545aa
+msgid "是否使用最终提示"
+msgstr "Whether the bottom-out hint was used"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 32bcb1d4206047529930cc8814640b8f
+msgid "`attemptCount`"
+msgstr "`attemptCount`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: fb570a6531d74552b062a7dd92434b36
+msgid "截至当前在系统中尝试的题目总数"
+msgstr "Total questions attempted in the system up to the current moment"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 969eef914f704554aeb8582e5f56888a
+msgid "`frIsHelpRequest`"
+msgstr "`frIsHelpRequest`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: cf42d93d40484f12896e10f5b9d59416
+msgid "首次响应是否为帮助请求"
+msgstr "Whether first response was a help request"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 65b116d49de247e2b25b0b9c6a837173
+msgid "`frPast5HelpRequest`"
+msgstr "`frPast5HelpRequest`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: bc07f790ba944b8c8bada61fa8c5e579
+msgid "最近 5 次首次响应中包含帮助请求的次数"
+msgstr "Number of help requests in the last 5 first responses"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: f17259603a444e01b8ea83b1f82d9b5e
+msgid "`frPast8HelpRequest`"
+msgstr "`frPast8HelpRequest`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: ce4930a611af4242a04bcbba3a7525f1
+msgid "最近 8 次首次响应中包含帮助请求的次数"
+msgstr "Number of help requests in the last 8 first responses"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 4a9c616dfd89403db417076379f5c141
+msgid "`stlHintUsed`"
+msgstr "`stlHintUsed`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 3fed838ad6d940c99347d712120a84af
+msgid "是否使用倒数第二级提示"
+msgstr "Whether penultimate hint was used"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 059321b5ecca4ed8980d87c7a6c8ee49
+msgid "`past8BottomOut`"
+msgstr "`past8BottomOut`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 73532b0b1afd46aca034bae1bd665ae2
+msgid "最近 8 道题中使用最终提示的题目数"
+msgstr "Number of questions using bottom-out hints in the last 8 questions"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 9541e54164ea46d3ab27811ebfa687c8
+msgid "`totalFrPercentPastWrong`"
+msgstr "`totalFrPercentPastWrong`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 1bad69962c1f4712833abfb8932e67fb
+msgid "此 KC 历史题目中的错误比例"
+msgstr "Error proportion on historical questions for this KC"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: a75b6c48c9c641e1a9ec6481a4d704f9
+msgid "`totalFrPastWrongCount`"
+msgstr "`totalFrPastWrongCount`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 01005aa75593482abb343a02e42210ac
+msgid "截至当前首次响应错误的总次数"
+msgstr "Total count of incorrect first responses up to current moment"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 947cb97ba43a4a299d44eeef8974231c
+msgid "`frPast5WrongCount`"
+msgstr "`frPast5WrongCount`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: ad95af98242041448a3014088fa46ffd
+msgid "最近 5 次首次响应中的错误次数"
+msgstr "Number of errors in the last 5 first responses"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 190005d7540d47da80efa7cd452d446c
+msgid "`frPast8WrongCount`"
+msgstr "`frPast8WrongCount`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 561d296b4e7b4dbc9bf15c5ab5eab2f3
+msgid "最近 8 次首次响应中的错误次数"
+msgstr "Number of errors in the last 8 first responses"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 410cc6a341a34e1483697478788d73ab
+msgid "`totalFrTimeOnSkill`"
+msgstr "`totalFrTimeOnSkill`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 2b116e02b7234a9689494de7bb531fbf
+msgid "所有题目中，此 KC 的首次响应时间总和"
+msgstr "Sum of first response times for this KC across all questions"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: f80fe5ae279f4983acce1bf97bf9d46d
+msgid "`timeSinceSkill`"
+msgstr "`timeSinceSkill`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: f049d9c632ee4c57a8e24e23aabb58f2
+msgid "距上次遇到当前 KC 的时间"
+msgstr "Time elapsed since last encountering current KC"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 6b88c2600ef14af8abfa4bf4d9566094
+msgid "`frWorkingInSchool`"
+msgstr "`frWorkingInSchool`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 7aad1842d04f4f1385184eef586e05de
+msgid "首次响应是否发生在上课时段，即早上 7 点至下午 3 点"
+msgstr "Whether first response occurred during school hours, i.e., 7 AM to 3 PM"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 76628cda286845e08d07364f2bc9d437
+msgid "`totalFrAttempted`"
+msgstr "`totalFrAttempted`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 7e41ec8a6c424c79b1200675836bf4a9
+msgid "截至当前在系统中尝试的首次响应总数"
+msgstr "Total count of first responses attempted in system up to current moment"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 080195a897644e009a545a9737844f4b
+msgid "`totalFrSkillOpportunities`"
+msgstr "`totalFrSkillOpportunities`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: bbc8ccc9ddcb4822b5c01c760956ef95
+msgid "截至当前此 KC 的首次响应练习机会总数"
+msgstr ""
+"Total opportunity count of first responses for this KC up to current "
+"moment"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: e9d2176d7133448dbe46e3991ba139a3
+msgid "`responseIsFillIn`"
+msgstr "`responseIsFillIn`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: fd61da71a3304791bb1b7b09fb1079ed
+msgid "是否为无选项列表的填空式响应"
+msgstr "Whether response is fill-in-the-blank without an option list"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 214c2823585644f2be03b883f2458368
+msgid "`responseIsChosen`"
+msgstr "`responseIsChosen`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: d2d9f179a56f4175b61513ea01cf7f3e
+msgid "是否从选项列表选择响应"
+msgstr "Whether response was chosen from an option list"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: f16b852710fb4a0e8fc5fb11a631b1c2
+msgid "`endsWithScaffolding`"
+msgstr "`endsWithScaffolding`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: f02a0e4003d748fbab17d3cbca1d2a64
+msgid "题目是否以支架结束"
+msgstr "Whether problem terminated with scaffolding"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 8ca4d946085c428982060feba7c32bbc
+msgid "`endsWithAutoScaffolding`"
+msgstr "`endsWithAutoScaffolding`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 747a71c404f14df4be277d3b2f8eaf1d
+msgid "题目是否以自动支架结束"
+msgstr "Whether problem terminated with automatic scaffolding"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 75d3933b0cc940a09b52a2d5c65daad4
+msgid "`frTimeTakenOnScaffolding`"
+msgstr "`frTimeTakenOnScaffolding`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 62090afc061b43fdb491c47e2897e1a1
+msgid "支架题的首次响应耗时"
+msgstr "First response duration for scaffolding question"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 922aa05b29a7471a842d80e9295e3e86
+msgid "`frTotalSkillOpportunitiesScaffolding`"
+msgstr "`frTotalSkillOpportunitiesScaffolding`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 4335667069124310b8c86db382b18f0d
+msgid "截至当前此技能的首次响应练习机会总数"
+msgstr ""
+"Total opportunity count of first responses for this skill up to current "
+"moment"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 3bdcb9a0867a47699411a2de58c973b3
+msgid "`totalFrSkillOpportunitiesByScaffolding`"
+msgstr "`totalFrSkillOpportunitiesByScaffolding`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 68cef8bbe69a48e4b2196354a38614c3
+msgid "截至当前此 KC 的首次响应支架练习机会总数"
+msgstr ""
+"Total opportunity count of first responses on scaffolding for this KC up "
+"to current moment"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: c934c75f311344d189c3942c8c208e33
+msgid "`frIsHelpRequestScaffolding`"
+msgstr "`frIsHelpRequestScaffolding`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 42f646cf1d4440e5befd811583dc221d
+msgid "支架题的首次响应是否为帮助请求"
+msgstr "Whether first response on scaffolding question was a help request"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 7fa4d27996e54f1a98973323ef3d9061
+msgid "`timeGreater5Secprev2wrong`"
+msgstr "`timeGreater5Secprev2wrong`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 66513dc50ebe47a28e94c72c7d40bb6f
+msgid "连续两次答错后的长时间停顿标志"
+msgstr "Flag for long pause following two consecutive incorrect responses"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 9800493fecf240f1852f0b946d25a731
+msgid "`sumRight`"
+msgstr "`sumRight`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: b13951e23ab348918efd24aac8626124
+msgid "`helpAccessUnder2Sec`"
+msgstr "`helpAccessUnder2Sec`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 33416e785124429b93a7b3ce7f25c06f
+msgid "使用帮助所花时间是否少于 2 秒"
+msgstr "Whether time spent using help was under 2 seconds"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: fa0f24e5cdcf4a8bb7752ff636038697
+msgid "`timeGreater10SecAndNextActionRight`"
+msgstr "`timeGreater10SecAndNextActionRight`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: dc0d14f5d534462b80dfa13b352ad475
+msgid "`consecutiveErrorsInRow`"
+msgstr "`consecutiveErrorsInRow`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: f1e6ad789dcc4627ad553903dcef7749
+msgid "所有题目中连续两次答错的总次数"
+msgstr "Total count of two consecutive incorrect responses across all questions"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: e444df37780941cc9638bebc23be86f3
+msgid "`sumTime3SDWhen3RowRight`"
+msgstr "`sumTime3SDWhen3RowRight`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: bd247bc7a2cd407a929c4c06127e8160
+msgid "`sumTimePerSkill`"
+msgstr "`sumTimePerSkill`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 575e4ab22e454f8197c172114a562df6
+msgid "`totalTimeByPercentCorrectForskill`"
+msgstr "`totalTimeByPercentCorrectForskill`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: ffa970a2d7d242199099846a1c43e183
+msgid "此 KC 的总耗时除以该 KC 的正确比例"
+msgstr "Total duration on this KC divided by correct proportion for this KC"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: a4176293cb7945ae9f44ec77bba897de
+msgid "`Prev5count`"
+msgstr "`Prev5count`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: ca0a899c6bff40029e5931e1fe6abc83
+msgid "`timeOver80`"
+msgstr "`timeOver80`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 1a25f836d4cc4e47a54d7258af09ef5e
+msgid "`manywrong`"
+msgstr "`manywrong`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: e2c0c7d5c5a34b4092f3121ecd128bf0
+msgid "`confidence(BORED)`"
+msgstr "`confidence(BORED)`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 919d46469d714e68a2b957cdf88e0340
+msgid "厌烦状态预测置信度"
+msgstr "Boredom state prediction confidence"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: c7f5f1154de849d6a2d2253e92bf92cb
+msgid "`confidence(CONCENTRATING)`"
+msgstr "`confidence(CONCENTRATING)`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: a372f4a24f414e2fb9ea30a69824222b
+msgid "专注状态预测置信度"
+msgstr "Engaged concentration state prediction confidence"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 99e77cd598144610a81ebf520a89cd12
+msgid "`confidence(CONFUSED)`"
+msgstr "`confidence(CONFUSED)`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: bbffa4843c9741f9bdd920416f2d5974
+msgid "困惑状态预测置信度"
+msgstr "Confusion state prediction confidence"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: e058f2689eee48d2b09e88123014ba8e
+msgid "`confidence(FRUSTRATED)`"
+msgstr "`confidence(FRUSTRATED)`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 836710b7f73247fdbee9a91664b8de40
+msgid "受挫状态预测置信度"
+msgstr "Frustration state prediction confidence"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: f619650d185c40059c8fb51b656570bd
+msgid "`confidence(OFF TASK)`"
+msgstr "`confidence(OFF TASK)`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 1a985a14690a4e9eb3f638714be164b8
+msgid "偏离任务状态预测置信度"
+msgstr "Off-task state prediction confidence"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 55619b1535dc4278bb19e7e65b02d830
+msgid "`confidence(GAMING)`"
+msgstr "`confidence(GAMING)`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 4308788eb4f8469e92443af12e44a567
+msgid "钻系统规则空子行为预测置信度"
+msgstr "Gaming the system behavior prediction confidence"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 4bc12bcd58914600bf031241a99f1feb
+msgid "`RES_BORED`"
+msgstr "`RES_BORED`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: d89b4c4716214acd9ca26e9f3bde4269
+msgid "重标度后的厌烦状态预测置信度"
+msgstr "Rescaled boredom state prediction confidence"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 02ea1e9ac9104102a283686fc8ed73a8
+msgid "`RES_CONCENTRATING`"
+msgstr "`RES_CONCENTRATING`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 19658618bdcb408f8b5af8ecf73d9fbc
+msgid "重标度后的专注状态预测置信度"
+msgstr "Rescaled engaged concentration state prediction confidence"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 21f66c27fa2c4e06a2a22a410517b545
+msgid "`RES_CONFUSED`"
+msgstr "`RES_CONFUSED`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 420b6302b13b497bb2f0ccd7e9945430
+msgid "重标度后的困惑状态预测置信度"
+msgstr "Rescaled confusion state prediction confidence"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 4dc24441f3064fdea68b01415890bfeb
+msgid "`RES_FRUSTRATED`"
+msgstr "`RES_FRUSTRATED`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 9c14db9d6e0d440db530b34819a5c773
+msgid "重标度后的受挫状态预测置信度"
+msgstr "Rescaled frustration state prediction confidence"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 63bd3577c0ff455f958b642f25124397
+msgid "`RES_OFFTASK`"
+msgstr "`RES_OFFTASK`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 8d741a72ba544dcf90e3ebfb8017b2fe
+msgid "重标度后的偏离任务状态预测置信度"
+msgstr "Rescaled off-task state prediction confidence"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 3011a07d67d246ff8d42648a8b2328a5
+msgid "`RES_GAMING`"
+msgstr "`RES_GAMING`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 5ef726e885d8423380069a2b353c7d45
+msgid "重标度后的钻系统规则空子行为预测置信度"
+msgstr "Rescaled gaming the system behavior prediction confidence"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 4a6045e52ff44bd09e63b99874d5f633
+msgid "`Ln-1`"
+msgstr "`Ln-1`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 566042cc19434f7dbb2faab9669cd479
+msgid "贝叶斯知识追踪模型在上一个时间步的知识估计值"
+msgstr "Bayesian Knowledge Tracing model knowledge estimate at previous time step"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: f43f2b42349f4f10a0434e85393a0cd0
+msgid "`Ln`"
+msgstr "`Ln`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: f3846e554e0e43b5bfa40f0f7f7fc96e
+msgid "贝叶斯知识追踪模型在当前时间步的知识估计值"
+msgstr "Bayesian Knowledge Tracing model knowledge estimate at current time step"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 1e474604dea145c2af7c6072084441a9
+msgid "`MCAS`"
+msgstr "`MCAS`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: ed6deb41dcd94bbe8fe1eb69abe2283d
+msgid "当年马萨诸塞州综合评估考试成绩；`-999` 表示缺失"
+msgstr ""
+"Massachusetts Comprehensive Assessment System (MCAS) score for the year; "
+"`-999` denotes missing"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: 898eef6b753c48a2901e029f6b02f88f
+msgid "`Enrolled`"
+msgstr "`Enrolled`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: b85392af705143fb8ba32d4d37138968
+msgid "`Selective`"
+msgstr "`Selective`"
+
+#: ../../source/datasets/catalog/assistments17.md
+#: b2ebeb4c0c84424c8c2c6dd747135654
+msgid "`isSTEM`"
+msgstr "`isSTEM`"

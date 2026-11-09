@@ -1,0 +1,142 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/skt.md:1 cc6ed06038f44626a06be75bd4344ccc
+msgid "SKT"
+msgstr "SKT"
+
+#: ../../source/model-zoo/models/skt.md:3 18b106ce3a41483886162562f82f4ce4
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/skt.md fcc94f94cd5e4e9d8374d922ee01fe80
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/skt.md 5dad933436fb4f91b563501613c4f8e2
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/skt.md f4f912f469904ec2b638f121b1bd7698
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/skt.md 0abc6d07db854f79a3b771842958f1ed
+msgid ""
+"[Structure-Based Knowledge Tracing: An Influence Propagation "
+"View](https://doi.org/10.1109/icdm50108.2020.00063)"
+msgstr ""
+"[Structure-Based Knowledge Tracing: An Influence Propagation "
+"View](https://doi.org/10.1109/icdm50108.2020.00063)"
+
+#: ../../source/model-zoo/models/skt.md 72969a5177cf4b97b2e7e59646902dc0
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/skt.md 8424fec283dc4247b485cf8c9e6b5cc6
+msgid ""
+"Shiwei Tong, Qi Liu, Wei Huang, Zhenya Hunag, Enhong Chen, Chuanren Liu, "
+"Haiping Ma, Shijin Wang"
+msgstr ""
+"Shiwei Tong, Qi Liu, Wei Huang, Zhenya Hunag, Enhong Chen, Chuanren Liu, "
+"Haiping Ma, Shijin Wang"
+
+#: ../../source/model-zoo/models/skt.md 644f087a4d6b4fb19471c8625a915b5c
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/skt.md 9b9b5563163a405da00ea9b148a8b7c3
+msgid "2020"
+msgstr "2020"
+
+#: ../../source/model-zoo/models/skt.md e3ff84a22fcc4d60b2b1b000ba1949c2
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/skt.md 467ce79a6c194c1bbbf882c641c71710
+msgid "2020 IEEE International Conference on Data Mining (ICDM)"
+msgstr "2020 IEEE International Conference on Data Mining (ICDM)"
+
+#: ../../source/model-zoo/models/skt.md:12 5fc9ac994542465d8d85ec324f9ae339
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/skt.md:14 e8ce5e9753c0498eaef8aa4f363afc5e
+msgid ""
+"Knowledge Tracing (KT) is a fundamental but challenging task in online "
+"education that traces learners' evolving knowledge states. Much attention"
+" has been drawn to this area and several works such as Bayesian and Deep "
+"Knowledge Tracing have been proposed. Recent works have explored the "
+"value of relations among concepts and proposed to introduce knowledge "
+"structure into KT tasks. However, the propagated influence among "
+"concepts, which has been shown to be a key factor in human learning by "
+"the educational theories, is still under-explored. In this paper, we "
+"propose a new framework called Structure-based Knowledge Tracing (SKT), "
+"which exploits the multiple relations in knowledge structure to model the"
+" influence propagation among concepts. In the SKT framework, we consider "
+"both the temporal effect on the exercising sequence and the spatial "
+"effect on the knowledge structure. We take advantages of two novel "
+"formulations in modeling the influence propagation on the knowledge "
+"structure with multiple relations. For undirected relations such as "
+"similarity relations, the synchronization propagation method is adopted, "
+"where the influence propagates bidirectionally between neighbor concepts."
+" For directed relations such as prerequisite relations, the partial "
+"propagation method is applied, where the influence can only "
+"unidirectionally propagate from a predecessor to a successor. Meanwhile, "
+"we employ the gated functions to update the states of concepts temporally"
+" and spatially. We demonstrate the effectiveness and interpretability of "
+"SKT with extensive experiments."
+msgstr ""
+"Knowledge Tracing (KT) is a fundamental but challenging task in online "
+"education that traces learners' evolving knowledge states. Much attention"
+" has been drawn to this area and several works such as Bayesian and Deep "
+"Knowledge Tracing have been proposed. Recent works have explored the "
+"value of relations among concepts and proposed to introduce knowledge "
+"structure into KT tasks. However, the propagated influence among "
+"concepts, which has been shown to be a key factor in human learning by "
+"the educational theories, is still under-explored. In this paper, we "
+"propose a new framework called Structure-based Knowledge Tracing (SKT), "
+"which exploits the multiple relations in knowledge structure to model the"
+" influence propagation among concepts. In the SKT framework, we consider "
+"both the temporal effect on the exercising sequence and the spatial "
+"effect on the knowledge structure. We take advantages of two novel "
+"formulations in modeling the influence propagation on the knowledge "
+"structure with multiple relations. For undirected relations such as "
+"similarity relations, the synchronization propagation method is adopted, "
+"where the influence propagates bidirectionally between neighbor concepts."
+" For directed relations such as prerequisite relations, the partial "
+"propagation method is applied, where the influence can only "
+"unidirectionally propagate from a predecessor to a successor. Meanwhile, "
+"we employ the gated functions to update the states of concepts temporally"
+" and spatially. We demonstrate the effectiveness and interpretability of "
+"SKT with extensive experiments."
+
+#: ../../source/model-zoo/models/skt.md:17 14e919c76f874a9582e1882036bb685d
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/skt.md:19 8bf864dd357e4ffe96326b9b7ccdb937
+msgid ""
+"[bigdata-ustc/XKT/tree/master/XKT/SKT](https://github.com/bigdata-"
+"ustc/XKT/tree/master/XKT/SKT)"
+msgstr ""
+"[bigdata-ustc/XKT/tree/master/XKT/SKT](https://github.com/bigdata-"
+"ustc/XKT/tree/master/XKT/SKT)"

@@ -1,0 +1,400 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/api/cli/case-analysis.md:1 d92f10049fb14a1b9841c8deac22c828
+msgid "case_analysis.py 命令行参考"
+msgstr "case_analysis.py Command Line Reference"
+
+#: ../../source/api/cli/case-analysis.md:3 9b6e502a67f444ca86cfca726530e17e
+msgid "`case_analysis.py` 提供了面向已训练模型的细粒度学生个案推断、代表性样本筛选以及知识状态轨迹热力图渲染管线。"
+msgstr ""
+"`case_analysis.py` provides a pipeline for fine-grained student case "
+"inference, representative sample selection, and knowledge state "
+"trajectory heatmap rendering on trained models."
+
+#: ../../source/api/cli/case-analysis.md:5 1ba6d85ec0b54f5683c9527b8b63711e
+msgid "工作流分为三个标准步骤："
+msgstr "The workflow consists of three standard steps:"
+
+#: ../../source/api/cli/case-analysis.md:7 1842e8314cfc420792c6ad51a5ef487e
+msgid ""
+"**`inference`**：全量前向推断，生成 `predictions.parquet` 与 "
+"`user_summaries.parquet`。"
+msgstr ""
+"**`inference`**: Full forward inference, generating `predictions.parquet`"
+" and `user_summaries.parquet`."
+
+#: ../../source/api/cli/case-analysis.md:8 79455d7eccc141ddb9df6262d2f7fbc9
+msgid "**`select`**：按策略筛选代表性学生，输出 `selected_users.json`。"
+msgstr ""
+"**`select`**: Select representative students by strategy, outputting "
+"`selected_users.json`."
+
+#: ../../source/api/cli/case-analysis.md:9 b315946f854c4ecb9cba1ad4084c1a8d
+msgid "**`plot`**：绘制单个学生的知识状态时序热力图，输出 PNG 图像。"
+msgstr ""
+"**`plot`**: Render sequential heatmaps of knowledge states for individual"
+" students, outputting PNG images."
+
+#: ../../source/api/cli/case-analysis.md:13 6acf0e4f6e954a63b5936eddbf3b6b25
+msgid "步骤 1：运行模型推断 (`inference`)"
+msgstr "Step 1: Run Model Inference (`inference`)"
+
+#: ../../source/api/cli/case-analysis.md:15 1a10d58da52b4db5b2a2c47b5058f468
+msgid "加载已训练模型的检查点，执行推断并将各时刻的预测概率、真实标签与掌握度状态持久化到磁盘。"
+msgstr ""
+"Load checkpoints of trained models, execute inference, and persist "
+"prediction probabilities, ground truth labels, and mastery states across "
+"all time steps to disk."
+
+#: ../../source/api/cli/case-analysis.md:17
+#: ../../source/api/cli/case-analysis.md:40
+#: ../../source/api/cli/case-analysis.md:71 42da7ed3b89c4e46ac2832985bdbdbe4
+#: 459693ef9ce24581a9afd46beb47a303 e6fa01b1ce6a44638d3784045c932dc4
+msgid "参数说明 (`--case.*`)"
+msgstr "Parameter Description (`--case.*`)"
+
+#: ../../source/api/cli/case-analysis.md 420763dede904bdd8713563c36a319a1
+#: 5acc0eb696d34996a1eab36af2b8cd7e e2246012c5394092a86b135003512905
+msgid "参数"
+msgstr "Parameter"
+
+#: ../../source/api/cli/case-analysis.md 0f003b7398d64ddc8d7e3e6d41a648db
+#: b671aa7f791440e2b08c03426ad52942 e92841225dad439dbc2881e6bfd7d27f
+msgid "类型"
+msgstr "Type"
+
+#: ../../source/api/cli/case-analysis.md 046b910813a3468786847b45d2e5b84a
+#: 8939a14ea90d4aea876f3ea8ec5ec948 a808192cec7c414cbefe9de663edad87
+msgid "默认值"
+msgstr "Default"
+
+#: ../../source/api/cli/case-analysis.md 8731ad4cccc3444192c4ae05ff7b75ca
+#: 9106470757c344d5bf2358c7cdb32212 d5f41b3ffb1d4a7087775025245ad570
+msgid "描述"
+msgstr "Description"
+
+#: ../../source/api/cli/case-analysis.md 0876f168b0c2400ea62a08544fa74167
+#: 863451945ebc4664a2efa6d3ad9c2d5a d564b75db91a4958b1700c04cb83aa25
+msgid "`--case.run_dir`"
+msgstr "`--case.run_dir`"
+
+#: ../../source/api/cli/case-analysis.md 073a6e58e0d7422d888225a017e08515
+#: 71ec24e0595b401c91e56b4c3cba5368 91e4d33f366f486da2fd9fba5443f1af
+#: 9a56a275da104ee7a036de28e0d87796 aaea4e1443254ddf992e45c1c76748c3
+#: ade62580f72b40839b581423c90c61a3 c300ddcec0904f898c546730f7651513
+#: cd035a229ac045b488601a265c4bbab6
+msgid "`str`"
+msgstr "`str`"
+
+#: ../../source/api/cli/case-analysis.md 0cf49c2c4d994387916d87b7f8ff2e97
+#: d5f3e4541da14c71927d8e63fbb6945c e0d44b3d07ae460089d6b6c5afb84fdb
+#: f9aa7be0728e4a15b8d0d308ebcd0150
+msgid "**必需**"
+msgstr "**Required**"
+
+#: ../../source/api/cli/case-analysis.md 4d15a2ec9f2445e59f304f99cf463e66
+msgid "训练实验输出目录路径，包含 `run_config.yaml` 与检查点"
+msgstr ""
+"Training experiment output directory path, containing `run_config.yaml` "
+"and checkpoints"
+
+#: ../../source/api/cli/case-analysis.md 19c99d956337488d96105bcfd7c4b221
+msgid "`--case.checkpoint`"
+msgstr "`--case.checkpoint`"
+
+#: ../../source/api/cli/case-analysis.md d2c545b091dd4fe4a3962cebeb900821
+msgid "`best_model.pth`"
+msgstr "`best_model.pth`"
+
+#: ../../source/api/cli/case-analysis.md 60cdd481ae4c4be9939a5005d78b0f0d
+msgid "加载的模型权重文件名"
+msgstr "Filename of model weights to load"
+
+#: ../../source/api/cli/case-analysis.md 09e047e0d1944ae68830afda12ba750a
+msgid "`--case.sink`"
+msgstr "`--case.sink`"
+
+#: ../../source/api/cli/case-analysis.md 3c7db01f8f334f0e99f05157ff32dcb8
+msgid "`dataframe`"
+msgstr "`dataframe`"
+
+#: ../../source/api/cli/case-analysis.md 7ad3ff9e280b4d13a87ed3a85905f9e6
+msgid "数据落盘接收器插件名称，默认为 Parquet 格式"
+msgstr "Data sink plugin name, defaults to Parquet format"
+
+#: ../../source/api/cli/case-analysis.md:25
+#: ../../source/api/cli/case-analysis.md:53
+#: ../../source/api/cli/case-analysis.md:80 4cf74140909e4df48e946cd112217a26
+#: 8d046d44ea5f46f3a86b6da0f25754aa a32f1c8e9d234438b57696025f112dfa
+msgid "示例"
+msgstr "Example"
+
+#: ../../source/api/cli/case-analysis.md:27 d71dee25c80844e582785687fb1fcbfa
+msgid ""
+"python case_analysis.py inference \\\n"
+"    --case.run_dir runs/normal/HDHKT_assistments09_20260520_fold0\n"
+msgstr ""
+"python case_analysis.py inference \\\n"
+"    --case.run_dir runs/normal/HDHKT_assistments09_20260520_fold0\n"
+
+#: ../../source/api/cli/case-analysis.md:32 0b3fd5b154ab43f98f4e8e2d214fb840
+msgid "运行后将在实验目录下生成 `case_analysis/predictions.parquet`。"
+msgstr ""
+"After running, `case_analysis/predictions.parquet` is generated in the "
+"experiment directory."
+
+#: ../../source/api/cli/case-analysis.md:36 9339250f103742259c8e2b6d6cf35798
+msgid "步骤 2：筛选代表性学生 (`select`)"
+msgstr "Step 2: Filter Representative Students (`select`)"
+
+#: ../../source/api/cli/case-analysis.md:38 bed312ccf3c74a3ea81ad499bd37d17e
+msgid "基于答题准确率、平均置信度与序列长度等统计指标，从全量学生中自动挖掘具有代表性、对比性或极端表现的案例。"
+msgstr ""
+"Automatically mine representative, contrasting, or extreme cases from all"
+" students based on statistical metrics such as accuracy, average "
+"confidence, and sequence length."
+
+#: ../../source/api/cli/case-analysis.md 5a64fba2b42a4e0b8c3fd1f12f06c33b
+#: ede6ce56afee4f469670f607d40c8a6d
+msgid "实验输出目录路径"
+msgstr "Experiment output directory path"
+
+#: ../../source/api/cli/case-analysis.md 4261b87372744026aae02683ce3ff10d
+msgid "`--case.selector`"
+msgstr "`--case.selector`"
+
+#: ../../source/api/cli/case-analysis.md 6aedb678e6ce41358a2774a03b587f27
+msgid "`diverse`"
+msgstr "`diverse`"
+
+#: ../../source/api/cli/case-analysis.md c0612cbaf5c04a878042b347307603bf
+msgid "筛选策略插件：`diverse` 多样性分层、`extreme` 两极化案例、`random` 随机抽样"
+msgstr ""
+"Selector strategy plugin: `diverse` (diversity stratification), `extreme`"
+" (polarized cases), `random` (random sampling)"
+
+#: ../../source/api/cli/case-analysis.md cb4d867a7899443ea647b4e04db2d4d3
+msgid "`--case.num_users`"
+msgstr "`--case.num_users`"
+
+#: ../../source/api/cli/case-analysis.md 3213621bbdb740be865340eb705b6f7c
+#: ea437a76ac26480b8f9a8151b94f4250
+msgid "`int`"
+msgstr "`int`"
+
+#: ../../source/api/cli/case-analysis.md 53cac0c269b448a390c9a015ec3791d8
+#: f68638e2718c4ec58acde994030d495c
+msgid "`20`"
+msgstr "`20`"
+
+#: ../../source/api/cli/case-analysis.md 345e7331b787426f9823c0743d753928
+msgid "最多挑选的学生数量"
+msgstr "Maximum number of students to select"
+
+#: ../../source/api/cli/case-analysis.md a42b5eeb4648452c87055a5b7e1733ba
+msgid "`--case.min_seq_len`"
+msgstr "`--case.min_seq_len`"
+
+#: ../../source/api/cli/case-analysis.md 6b4a773d841d442884694fab5f0922a5
+msgid "学生交互序列最小答题长度要求"
+msgstr "Minimum interaction sequence length required for students"
+
+#: ../../source/api/cli/case-analysis.md 1c83c94076ee4552a20b6978fb27d9ec
+msgid "`--case.min_error`"
+msgstr "`--case.min_error`"
+
+#: ../../source/api/cli/case-analysis.md 5678b2c269614bdc9174dff99601c077
+#: 8257a0fb7ef346c4a68fb522388567aa c79a481269af44e299f7412638edf69a
+#: eeb594c4295e41609928a1836c865d1d
+msgid "`float`"
+msgstr "`float`"
+
+#: ../../source/api/cli/case-analysis.md 5e62a975e68349c9829b802c68eb169f
+msgid "`0.1`"
+msgstr "`0.1`"
+
+#: ../../source/api/cli/case-analysis.md fc2dad60a4814ac697496a8c29cd0b1d
+msgid "学生作答错误率筛选下限"
+msgstr "Lower bound of student error rate for filtering"
+
+#: ../../source/api/cli/case-analysis.md e6d5aded58dd47f5bfa485bf8ff6d5d0
+msgid "`--case.max_error`"
+msgstr "`--case.max_error`"
+
+#: ../../source/api/cli/case-analysis.md 7201f287241a416aaf2fd43a1811bf1e
+msgid "`0.9`"
+msgstr "`0.9`"
+
+#: ../../source/api/cli/case-analysis.md 130f5ebc40a74775baa9ca53e3e65170
+msgid "学生作答错误率筛选上限"
+msgstr "Upper bound of student error rate for filtering"
+
+#: ../../source/api/cli/case-analysis.md 94fe5872f0ed44a5b5ce12f98f9a4da6
+msgid "`--case.min_confidence`"
+msgstr "`--case.min_confidence`"
+
+#: ../../source/api/cli/case-analysis.md 1e73337003894237bed4552211f63df0
+msgid "`0.3`"
+msgstr "`0.3`"
+
+#: ../../source/api/cli/case-analysis.md 9e4c5c18fb8d49358cf78ad33715cead
+msgid "模型平均预测置信度下限"
+msgstr "Lower bound of average model prediction confidence"
+
+#: ../../source/api/cli/case-analysis.md d756b93c242a40a0bbd6fd619653073b
+msgid "`--case.max_confidence`"
+msgstr "`--case.max_confidence`"
+
+#: ../../source/api/cli/case-analysis.md 888144f8e61a4358bb2d6bdc44101e5a
+msgid "`0.95`"
+msgstr "`0.95`"
+
+#: ../../source/api/cli/case-analysis.md 66906df0a8ca43ad815e8b7e9821ed77
+msgid "模型平均预测置信度上限"
+msgstr "Upper bound of average model prediction confidence"
+
+#: ../../source/api/cli/case-analysis.md:55 8eee69c40ff94a69a16f7436c8718e44
+msgid ""
+"# 采用多样性分层策略挑选 10 名典型学生\n"
+"python case_analysis.py select \\\n"
+"    --case.run_dir runs/normal/HDHKT_assistments09_20260520_fold0 \\\n"
+"    --case.selector diverse \\\n"
+"    --case.num_users 10\n"
+msgstr ""
+"# Select 10 representative students using diversity stratification "
+"strategy\n"
+"python case_analysis.py select \\\n"
+"    --case.run_dir runs/normal/HDHKT_assistments09_20260520_fold0 \\\n"
+"    --case.selector diverse \\\n"
+"    --case.num_users 10\n"
+
+#: ../../source/api/cli/case-analysis.md:63 b58c58da3b9c43168c8b6d8d8b8461e2
+msgid "筛选结果将保存为 `case_analysis/<selector>/selected_users.json`。"
+msgstr ""
+"Selection results are saved as "
+"`case_analysis/<selector>/selected_users.json`."
+
+#: ../../source/api/cli/case-analysis.md:67 82fc9e48a45b412f8019cad71e0c1535
+msgid "步骤 3：生成可视化热力图 (`plot`)"
+msgstr "Step 3: Generate Visual Heatmaps (`plot`)"
+
+#: ../../source/api/cli/case-analysis.md:69 b3e737a7e9af4e94a2e2f12090465ca8
+msgid "将筛选出的学生交互序列与知识状态演变渲染为高分辨率热力图。"
+msgstr ""
+"Render selected student interaction sequences and knowledge state "
+"evolutions into high-resolution heatmaps."
+
+#: ../../source/api/cli/case-analysis.md 3c961b64472d438ebd6366e2546a080a
+msgid "`--case.selected_users`"
+msgstr "`--case.selected_users`"
+
+#: ../../source/api/cli/case-analysis.md 15b7c8d23e6640baaf8214b1eb6874bc
+msgid "筛选器名称（如 `diverse`）或直接指定 `selected_users.json` 文件路径"
+msgstr ""
+"Selector name (e.g., `diverse`) or direct path to `selected_users.json` "
+"file"
+
+#: ../../source/api/cli/case-analysis.md 412f8d12821e4ae2816b50507f81a1cb
+msgid "`--case.visualizer`"
+msgstr "`--case.visualizer`"
+
+#: ../../source/api/cli/case-analysis.md a0bdb0b22be744958bc6aede4af9ee90
+msgid "`heatmap`"
+msgstr "`heatmap`"
+
+#: ../../source/api/cli/case-analysis.md 0eb3e87c4d624865895f8b0703e01465
+msgid "可视化器插件名称，默认为知识掌握度热力图 `heatmap`"
+msgstr "Visualizer plugin name, defaults to knowledge mastery `heatmap`"
+
+#: ../../source/api/cli/case-analysis.md 5a6b59ebd88242cea7f4a01eabc4cc00
+msgid "`--case.max_seq_len`"
+msgstr "`--case.max_seq_len`"
+
+#: ../../source/api/cli/case-analysis.md 4ef6fdbbd460406abe6265050728bf68
+msgid "`int | null`"
+msgstr "`int | null`"
+
+#: ../../source/api/cli/case-analysis.md 9eed0dc52d3c4f948bf18f57a5979327
+msgid "`None`"
+msgstr "`None`"
+
+#: ../../source/api/cli/case-analysis.md a0a906307085465ead05e21214d8681b
+msgid "热力图横轴渲染的最大时间步截断，避免超长序列过密"
+msgstr ""
+"Maximum time step truncation for heatmap horizontal axis rendering, "
+"avoiding overcrowding on ultra-long sequences"
+
+#: ../../source/api/cli/case-analysis.md:82 8d8fa30e2fc242da932d1e81fc606ce3
+msgid ""
+"python case_analysis.py plot \\\n"
+"    --case.run_dir runs/normal/HDHKT_assistments09_20260520_fold0 \\\n"
+"    --case.selected_users diverse \\\n"
+"    --case.max_seq_len 100\n"
+msgstr ""
+"python case_analysis.py plot \\\n"
+"    --case.run_dir runs/normal/HDHKT_assistments09_20260520_fold0 \\\n"
+"    --case.selected_users diverse \\\n"
+"    --case.max_seq_len 100\n"
+
+#: ../../source/api/cli/case-analysis.md:89 5f720d6d7b554febac2a710600c1da2d
+msgid "热力图图片将输出到 `case_analysis/diverse/figures/user_<user_id>_heatmap.png`。"
+msgstr ""
+"Heatmap images are output to "
+"`case_analysis/diverse/figures/user_<user_id>_heatmap.png`."
+
+#: ../../source/api/cli/case-analysis.md:93 ecf80b4db8fa41b998934b652e8336ca
+msgid "产出目录结构"
+msgstr "Output Directory Structure"
+
+#: ../../source/api/cli/case-analysis.md:95 e7a0cb91fc084d9f9603ddee285f044a
+msgid "三步分析完成后，案例分析的完整输出层次如下："
+msgstr ""
+"After completing the three-step analysis, the full output hierarchy of "
+"case analysis is as follows:"
+
+#: ../../source/api/cli/case-analysis.md:97 6d349f01b71b40469694319561afcf63
+msgid ""
+"runs/normal/HDHKT_assistments09_20261109-120000_fold0_bs128/\n"
+"└── case_analysis/\n"
+"    ├── predictions.parquet                 # 全量推断结果表\n"
+"    ├── user_summaries.parquet              # 学生层级汇总指标表\n"
+"    └── diverse/\n"
+"        ├── selected_users.json             # 被选取的学生 ID 及其指标画像\n"
+"        └── figures/                        # 各学生的热力图图像\n"
+"            ├── user_42_heatmap.png\n"
+"            ├── user_108_heatmap.png\n"
+"            └── ...\n"
+msgstr ""
+"runs/normal/HDHKT_assistments09_20261109-120000_fold0_bs128/\n"
+"└── case_analysis/\n"
+"    ├── predictions.parquet                 # Full inference prediction "
+"table\n"
+"    ├── user_summaries.parquet              # Student-level summary "
+"metrics table\n"
+"    └── diverse/\n"
+"        ├── selected_users.json             # Selected student IDs and "
+"profile metrics\n"
+"        └── figures/                        # Heatmap images for each "
+"student\n"
+"            ├── user_42_heatmap.png\n"
+"            ├── user_108_heatmap.png\n"
+"            └── ...\n"

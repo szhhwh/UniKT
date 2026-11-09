@@ -1,0 +1,126 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/dkt.md:1 770520b738e84871adc01381b10f9861
+msgid "DKT"
+msgstr "DKT"
+
+#: ../../source/model-zoo/models/dkt.md:3 ba592c89e44b42f295bdc464447eaba8
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/dkt.md 30bf092d452a45f682f9f5333924000f
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/dkt.md 0939745248224788869f499468607ae5
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/dkt.md 4b55f9b8d7e04c95a56ca361f4d6d2da
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/dkt.md c9dd19aaf42b40ef9b821c49aa1893e0
+msgid "[Deep Knowledge Tracing](https://doi.org/10.48550/arxiv.1506.05908)"
+msgstr "[Deep Knowledge Tracing](https://doi.org/10.48550/arxiv.1506.05908)"
+
+#: ../../source/model-zoo/models/dkt.md ae5397d5cecf4f7d9e6995df677264c2
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/dkt.md b15738b333034dc7a06f850c93790b0b
+msgid ""
+"Chris Piech, Jonathan Bassen, Jonathan Huang, Surya Ganguli, Mehran "
+"Sahami, Leonidas Guibas, Jascha Sohl-Dickstein"
+msgstr ""
+"Chris Piech, Jonathan Bassen, Jonathan Huang, Surya Ganguli, Mehran "
+"Sahami, Leonidas Guibas, Jascha Sohl-Dickstein"
+
+#: ../../source/model-zoo/models/dkt.md fae72fa7cb844e76814320ce1941738a
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/dkt.md 8874a80ff7ee45369cdb25739332aff4
+msgid "2015"
+msgstr "2015"
+
+#: ../../source/model-zoo/models/dkt.md dd8172b1de714140a0aae09eda4c7410
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/dkt.md 82f9d0a8db5846c8920f6a277bc46fd2
+msgid "Advances in Neural Information Processing Systems"
+msgstr "Advances in Neural Information Processing Systems"
+
+#: ../../source/model-zoo/models/dkt.md 808950468f214495ba4eb7d6be6385a7
+msgid "DOI"
+msgstr "DOI"
+
+#: ../../source/model-zoo/models/dkt.md 4892f5e7e8264e18a80b0478c1a74b6c
+msgid "[10.48550/arXiv.1506.05908](https://doi.org/10.48550/arXiv.1506.05908)"
+msgstr "[10.48550/arXiv.1506.05908](https://doi.org/10.48550/arXiv.1506.05908)"
+
+#: ../../source/model-zoo/models/dkt.md:13 c875b76f84544dd6b875753aa26a12c9
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/dkt.md:15 bc57e21c099b48f6ae486d00b14dc7d9
+msgid ""
+"Knowledge tracing---where a machine models the knowledge of a student as "
+"they interact with coursework---is a well established problem in computer"
+" supported education. Though effectively modeling student knowledge would"
+" have high educational impact, the task has many inherent challenges. In "
+"this paper we explore the utility of using Recurrent Neural Networks "
+"(RNNs) to model student learning. The RNN family of models have important"
+" advantages over previous methods in that they do not require the "
+"explicit encoding of human domain knowledge, and can capture more complex"
+" representations of student knowledge. Using neural networks results in "
+"substantial improvements in prediction performance on a range of "
+"knowledge tracing datasets. Moreover the learned model can be used for "
+"intelligent curriculum design and allows straightforward interpretation "
+"and discovery of structure in student tasks. These results suggest a "
+"promising new line of research for knowledge tracing and an exemplary "
+"application task for RNNs."
+msgstr ""
+"Knowledge tracing---where a machine models the knowledge of a student as "
+"they interact with coursework---is a well established problem in computer"
+" supported education. Though effectively modeling student knowledge would"
+" have high educational impact, the task has many inherent challenges. In "
+"this paper we explore the utility of using Recurrent Neural Networks "
+"(RNNs) to model student learning. The RNN family of models have important"
+" advantages over previous methods in that they do not require the "
+"explicit encoding of human domain knowledge, and can capture more complex"
+" representations of student knowledge. Using neural networks results in "
+"substantial improvements in prediction performance on a range of "
+"knowledge tracing datasets. Moreover the learned model can be used for "
+"intelligent curriculum design and allows straightforward interpretation "
+"and discovery of structure in student tasks. These results suggest a "
+"promising new line of research for knowledge tracing and an exemplary "
+"application task for RNNs."
+
+#: ../../source/model-zoo/models/dkt.md:18 3912f87d79c842c18ff688c4780efe88
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/dkt.md:20 f9973992e10b4a3cb2b611b8aa6407d5
+msgid "[chrispiech/DeepKnowledgeTracing](https://github.com/chrispiech/DeepKnowledgeTracing)"
+msgstr "[chrispiech/DeepKnowledgeTracing](https://github.com/chrispiech/DeepKnowledgeTracing)"

@@ -1,0 +1,150 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/abkt.md:1 709d6222c2614c2d895742a875a2e160
+msgid "ABKT"
+msgstr "ABKT"
+
+#: ../../source/model-zoo/models/abkt.md:3 219cc5c537a94dd2a8a852970cf3e967
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/abkt.md 415391419c6d4093bb98bbe292d69153
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/abkt.md acd1df33845c41759e2c0d4c4c2cfe75
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/abkt.md 1ad25e28853a4a109bd678a6121259ec
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/abkt.md a24e5fa5db9c43e8a093819a2fea57aa
+msgid ""
+"[Ability Boosted Knowledge "
+"Tracing](https://doi.org/10.1016/j.ins.2022.02.044)"
+msgstr ""
+"[Ability Boosted Knowledge "
+"Tracing](https://doi.org/10.1016/j.ins.2022.02.044)"
+
+#: ../../source/model-zoo/models/abkt.md 579a4567c7a441319fb9edfc8805b5e3
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/abkt.md 48e407d510ec45b18ef71645e4079034
+msgid ""
+"Sannyuya Liu, Jianwei Yu, Qing Li, Ruxia Liang, Yunhan Zhang, Xiaoxuan "
+"Shen, Jianwen Sun"
+msgstr ""
+"Sannyuya Liu, Jianwei Yu, Qing Li, Ruxia Liang, Yunhan Zhang, Xiaoxuan "
+"Shen, Jianwen Sun"
+
+#: ../../source/model-zoo/models/abkt.md f6a1614cd1ac4532afd58ca047caef39
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/abkt.md a0c515d3cd0044a9b59c76ea88cee398
+msgid "2022"
+msgstr "2022"
+
+#: ../../source/model-zoo/models/abkt.md 663035bda24d4f97a27854c3c0f8aac1
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/abkt.md b999296794b84c4cb04b6d717d4aab16
+msgid "Information Sciences"
+msgstr "Information Sciences"
+
+#: ../../source/model-zoo/models/abkt.md 91876515b67442f6ac9b67e3667a93c7
+msgid "DOI"
+msgstr "DOI"
+
+#: ../../source/model-zoo/models/abkt.md e2e639b9eed948e8a42873f66f1ca944
+msgid "[10.1016/j.ins.2022.02.044](https://doi.org/10.1016/j.ins.2022.02.044)"
+msgstr "[10.1016/j.ins.2022.02.044](https://doi.org/10.1016/j.ins.2022.02.044)"
+
+#: ../../source/model-zoo/models/abkt.md:13 70c3c9a01b2944d08b5dd7eb354ad9eb
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/abkt.md:15 48855088549b490184efb83587296820
+msgid ""
+"Knowledge tracing (KT) has become an increasingly relevant problem in "
+"intelligent education services, which estimates and traces the degree of "
+"learner's mastery of concepts based on students' responses to learning "
+"resources. The existing mainstream KT models, only attribute learners' "
+"feedback to the degree of knowledge mastery and leave the influence of "
+"mental ability factors out of consideration. Although ability is an "
+"essential component of the problem-solving process, these knowledge-"
+"centered models cause a contradiction between data fitting and "
+"rationalization of the model decision-making process, making it difficult"
+" to achieve high precision and readability simultaneously. In this paper,"
+" an innovative KT model, ability boosted knowledge tracing (ABKT) is "
+"proposed, which introduces the ability factor into learning feedback "
+"attribution to enable the model to analyze the learning process from two "
+"perspectives, knowledge and ability, simultaneously. Based on "
+"constructive learning theory, continuous matrix factorization (CMF) model"
+" is proposed to simulate the knowledge internalization process, following"
+" the initiative growth and stationarity principles. In addition, the "
+"linear graph latent ability (LGLA) model is proposed to construct learner"
+" and item latent ability features, from graph-structured learner "
+"interaction data. Then, the knowledge and ability dual-tracing framework "
+"is constructed to integrate the knowledge and ability modules. "
+"Experimental results on four public databases indicate that the proposed "
+"methods perform better than state-of-the-art knowledge tracing algorithms"
+" in terms of prediction accuracy in quantitative assessments, displaying "
+"some advantages in model interpretability and intelligibility."
+msgstr ""
+"Knowledge tracing (KT) has become an increasingly relevant problem in "
+"intelligent education services, which estimates and traces the degree of "
+"learner's mastery of concepts based on students' responses to learning "
+"resources. The existing mainstream KT models, only attribute learners' "
+"feedback to the degree of knowledge mastery and leave the influence of "
+"mental ability factors out of consideration. Although ability is an "
+"essential component of the problem-solving process, these knowledge-"
+"centered models cause a contradiction between data fitting and "
+"rationalization of the model decision-making process, making it difficult"
+" to achieve high precision and readability simultaneously. In this paper,"
+" an innovative KT model, ability boosted knowledge tracing (ABKT) is "
+"proposed, which introduces the ability factor into learning feedback "
+"attribution to enable the model to analyze the learning process from two "
+"perspectives, knowledge and ability, simultaneously. Based on "
+"constructive learning theory, continuous matrix factorization (CMF) model"
+" is proposed to simulate the knowledge internalization process, following"
+" the initiative growth and stationarity principles. In addition, the "
+"linear graph latent ability (LGLA) model is proposed to construct learner"
+" and item latent ability features, from graph-structured learner "
+"interaction data. Then, the knowledge and ability dual-tracing framework "
+"is constructed to integrate the knowledge and ability modules. "
+"Experimental results on four public databases indicate that the proposed "
+"methods perform better than state-of-the-art knowledge tracing algorithms"
+" in terms of prediction accuracy in quantitative assessments, displaying "
+"some advantages in model interpretability and intelligibility."
+
+#: ../../source/model-zoo/models/abkt.md:18 cbc32d75259e4e2393161c5725f2658b
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/abkt.md:20 26b83e2071c9485e8f08d7dc0f5115c2
+msgid "[ccnu-mathits/ABKT](https://github.com/ccnu-mathits/ABKT)"
+msgstr "[ccnu-mathits/ABKT](https://github.com/ccnu-mathits/ABKT)"

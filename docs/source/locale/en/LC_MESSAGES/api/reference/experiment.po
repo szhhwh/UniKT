@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: UniKT \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-15 18:10+0800\n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -19,14 +19,707 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.18.0\n"
 
-#: ../../source/api/reference/experiment.md:1 91ac2ad91f714f39b975bc4a6f81b8cd
+#: ../../source/api/reference/experiment.md:1 d5ff5d9725b14393bd01eb8290e898e0
 msgid "实验工具"
 msgstr "Experiment tools"
 
-#: ../../source/api/reference/experiment.md:3 73ae67b8313b4c3cb97c5056845363d6
-#, fuzzy
+#: ../../source/api/reference/experiment.md:3 b56bbb4c16374deda1d43102c803ad22
 msgid "Optuna 超参搜索、案例分析与可视化。"
-msgstr ""
-"Ablation study framework, Optuna hyperparameter search, case analysis, "
-"and visualization."
+msgstr "Optuna hyperparameter search, case analysis, and visualization."
 
+#: 9eafdeb8a44e4ab28c8dd85586bf0961 of utils.optuna_utils.tuner:1
+msgid "Optuna tuner wrapper and utility tools."
+msgstr "Optuna tuner wrapper and utility tools."
+
+#: 51039befbaa9495685f99811e097e20c 92438fbb94f04edba0e8eace00534ca1
+#: b693e0834c5d4cb88c4b0a9cec42dd37 cccf8df477bc4b47a8fa727cee293543 of
+#: utils.optuna_utils.config.HyperparameterSpace:1
+#: utils.optuna_utils.config.OptunaConfig:1
+#: utils.optuna_utils.trainer.TrainerObjectiveWrapper:1
+#: utils.optuna_utils.tuner.OptunaTuner:1
+msgid "基类：:py:class:`object`"
+msgstr "Bases: :py:class:`object`"
+
+#: db065eac5f314a0994e06cbc2fe2230b of utils.optuna_utils.tuner.OptunaTuner:1
+msgid "Optuna hyperparameter search engine."
+msgstr "Optuna hyperparameter search engine."
+
+#: ../../source/api/reference/experiment.md 0c150e2225d64cd29c452bf69157501a
+#: 2e735b29796f494986bc79fcb82c4428 2ea6451a94c14c9685a8df617e8cf793
+#: 2ec246234ef340349624a523b04cfb6f 35c0af5b26934632a1dd4c70c1f22c76
+#: 50225a43cb2b4d2c9dfa449744bbfb4e 5b2ac678522f47fb9eaddb2d52c31af2
+#: 5dfca5c19b034790973b1fcb86e8de67 79337402b197440583235b3ef5447b82
+#: 82d0b98af12d464dabe9ec686ee2a858 898b0be7c79c49c78b8e81c74e61221a
+#: 8e699304796d464b98a792df126b1209 8e834c00648444a79a798af6de03abab
+#: a9e64f98cd1449b68f5000ce0ab0de47 acda9534ba7a408d8f45694d0fe4deca
+#: c2d810b4c8e24a96a23c5d96f5a924f1 d1c41093f1f544b99b30e099af2783dd
+#: db049b68ae854af79df8d83cd0ea87a4 dc7db8ac1a3e43c6baf669128b13f20d
+#: e3efee5375934589948ee7141a9f8d41 e63624f890af44f7abecfa43934f60f2
+#: ee5ebbae1167432b839fda49dc7f51ea f4462ee96bac4f09a172a8cdec21703e of
+#: utils.case_analysis.base_analyzer.BaseCaseAnalyzer.on_device
+#: utils.case_analysis.visualizers.heatmap_visualizer.HeatmapVisualizer.plot_user
+#: utils.case_analysis.visualizers.heatmap_visualizer.HeatmapVisualizer.plot_user_heatmap
+#: utils.optuna_utils.trainer.TrainerObjectiveWrapper
+msgid "参数"
+msgstr "Parameter"
+
+#: 9bae6650d71f45839b3182787345e6a1 of
+#: utils.optuna_utils.tuner.OptunaTuner.get_dataframe:1
+msgid "Get the trials dataframe (requires pandas)."
+msgstr "Get the trials dataframe (requires pandas)."
+
+#: ../../source/api/reference/experiment.md 1327860ae43e418989d99a6cb580c5e6
+#: 3e2a93c15a1a44d5b342339c8c2f8c82 6168d3b535cb496e82ebeccc9bf5e793
+#: 62ba0a221dec48898b764e7593a4e289 65f31e356eae4c018c33d61d40f00af0
+#: 6acfc5116efc44e390fe2bddf2f8dcff 7105e5665b6740948483ba9152ae1b61
+#: 745d645a315e4ad98f15c62a8136f1e8 7ba5e5b9cc1d49f39c77bca4abfaccac
+#: a61c79c9a3dc405d9371fd7c64810ad3 c322609aa2154ca48eaf49fc202a6fad
+#: cc3f6ddbcee84232a5ea6b249de923ae dbb63bfe6d174b7da7c79ec39bae215f
+msgid "返回"
+msgstr "Returns"
+
+#: 8aae106541f744db8a7f6bf4dbd8368c of
+#: utils.optuna_utils.tuner.OptunaTuner.get_dataframe:3
+msgid "DataFrame of trial results, or None if unavailable."
+msgstr "DataFrame of trial results, or None if unavailable."
+
+#: ../../source/api/reference/experiment.md 0727d3cccf6f438b93645b1198a37092
+#: 0ad3dc0155924436a89b8488ff9754eb 1645f95657604c9890596c9408e89404
+#: 291ec87b5be44837868cfeaa4f10c579 2ab400a59f46409698b44d0661d074c2
+#: 39b9466fd50647faa2681885ba6e4957 3de23fcd3cb24fef9aa890ec9f70cf5b
+#: 4103caefb0224cbd8d9f156f109f246f 410433784384400d914832a90610327d
+#: 5916cf76b07443ecb8e5e3358826b5ea 6f6896fd901f47468b446e2b0d2b544c
+#: 87edce996042498397ed16a8adcadbfe 8ef2fcacf51b4c368e1a1d47b55bd1c5
+#: 9285d9dd28144dbdb80464ff8a26956c 93cd07d2e91d4c6bb8245a761dcb50da
+#: a6418d38289a478abb60f8da2f923cfe ad097f100130408aa825016a15cb68f7
+#: b49ef2d600ef4e05b874347056bb584d c1feee77c54c4bb8b46c0f8679b72958
+#: dfef735391944b9fbf75505009000111 eea6296373934eeeaa3e6735736fac88
+#: f5fc75086c994251a81034c532744688 f753f446f81e4c29960fab6bbea51d3c of
+#: utils.case_analysis.base_analyzer.BaseCaseAnalyzer.on_device
+#: utils.case_analysis.base_analyzer.BaseCaseAnalyzer.run_inference
+#: utils.case_analysis.visualizers.heatmap_visualizer.HeatmapVisualizer.plot_user
+#: utils.case_analysis.visualizers.heatmap_visualizer.HeatmapVisualizer.plot_user_heatmap
+#: utils.optuna_utils.config.HyperparameterSpace.validate
+#: utils.optuna_utils.tuner.OptunaTuner.print_summary
+msgid "返回类型"
+msgstr "Return type"
+
+#: 3e46331756154a378956c9ab23932968 of
+#: utils.optuna_utils.tuner.OptunaTuner.print_summary:1
+msgid "Print a summary of the search results."
+msgstr "Print a summary of the search results."
+
+#: 04ff1d5ae1c044d0a456334be3410874 of
+#: utils.optuna_utils.tuner.OptunaTuner.search:1
+msgid "Execute the hyperparameter search."
+msgstr "Execute the hyperparameter search."
+
+#: daa4a7c3f35548c6b2188e293c121c2b of
+#: utils.optuna_utils.tuner.OptunaTuner.search:3
+msgid "Dictionary of the best found parameters."
+msgstr "Dictionary of the best found parameters."
+
+#: 185faf10f89446e68495ce9c311ecd51 of utils.optuna_utils.trainer:1
+msgid "Trainer integration with Optuna objective functions."
+msgstr "Trainer integration with Optuna objective functions."
+
+#: 5e9183101de54bdf931d736ac0d39f37 of
+#: utils.optuna_utils.trainer.TrainerObjectiveWrapper:1
+msgid "Wrapper integrating a Trainer into an Optuna objective function."
+msgstr "Wrapper integrating a Trainer into an Optuna objective function."
+
+#: 2f7450be21124fa2bbba031b39f8ee3f of utils.optuna_utils.config:1
+msgid "Optuna configuration and parameter space utilities."
+msgstr "Optuna configuration and parameter space utilities."
+
+#: 7a1d2589b9374dd5ab1c341edc71c586 of
+#: utils.optuna_utils.config.HyperparameterSpace:1
+msgid "Definition of a single hyperparameter search space."
+msgstr "Definition of a single hyperparameter search space."
+
+#: 9fab30b1064d439aa5aebab7b010f32f of
+#: utils.optuna_utils.config.HyperparameterSpace.suggest:1
+msgid "Sample a parameter value from the Optuna trial."
+msgstr "Sample a parameter value from the Optuna trial."
+
+#: cbeda6a92c3f429d9ff60c9573129c3c of
+#: utils.optuna_utils.config.HyperparameterSpace.suggest:3
+msgid "Optuna trial object."
+msgstr "Optuna trial object."
+
+#: bc1928bee8914df0adf8b2ea4dfb4e58 of
+#: utils.optuna_utils.config.HyperparameterSpace.suggest:5
+msgid "The sampled parameter value."
+msgstr "The sampled parameter value."
+
+#: a0d40ea1d37d42b1ae77b56ae187757e of
+#: utils.optuna_utils.config.HyperparameterSpace.validate:1
+msgid "Validate the parameter space configuration completeness."
+msgstr "Validate the parameter space configuration completeness."
+
+#: 83e85a85ce5042edab10fa0a00805c19 of utils.optuna_utils.config.OptunaConfig:1
+msgid "Optuna search configuration."
+msgstr "Optuna search configuration."
+
+#: 4f60d61dbe234a869b64264b1f3268b6 of
+#: utils.optuna_utils.config.OptunaConfig.get_pruner:1
+msgid "Create a pruner based on the configuration."
+msgstr "Create a pruner based on the configuration."
+
+#: 54e3f0f01a1f496f9caa5010788211f3 of
+#: utils.optuna_utils.config.OptunaConfig.get_pruner:3
+msgid "An Optuna BasePruner instance, or None if no pruner is configured."
+msgstr "An Optuna BasePruner instance, or None if no pruner is configured."
+
+#: ../../source/api/reference/experiment.md 8088d204ae6f44f3afeda77f581cd676
+#: 945aa2a80df245a1ac5672bce8441959 bf5809272b944cb186ab3fa5ed1c8ffe
+#: e4de52ba290744cdb0acb945d1f9eb42
+msgid "抛出"
+msgstr "Raises"
+
+#: 12a7f68cdea1422d8498dec15cfa53ac of
+#: utils.optuna_utils.config.OptunaConfig.get_pruner:5
+msgid "If the pruner name is not recognised."
+msgstr "If the pruner name is not recognised."
+
+#: 978f4899f40c4f6faaff62f6b838488c of
+#: utils.optuna_utils.config.OptunaConfig.get_sampler:1
+msgid "Create a sampler based on the configuration."
+msgstr "Create a sampler based on the configuration."
+
+#: 660a4f436bf940be99a41c396de79263 of
+#: utils.optuna_utils.config.OptunaConfig.get_sampler:3
+msgid "An Optuna BaseSampler instance."
+msgstr "An Optuna BaseSampler instance."
+
+#: 06d1a2aed86b46ea853dfa767e7ff02b of
+#: utils.optuna_utils.config.OptunaConfig.get_sampler:5
+msgid "If the sampler name is not recognised."
+msgstr "If the sampler name is not recognised."
+
+#: d1cb40e273cc4c9d9e83c2f92f9e4c5d of
+#: utils.optuna_utils.config.direction_for_metric:1
+msgid "Return the Optuna optimisation direction for a given metric name."
+msgstr "Return the Optuna optimisation direction for a given metric name."
+
+#: 056850d004144bf2a3d9c3c7c821f16d of
+#: utils.optuna_utils.config.direction_for_metric:3
+msgid "Name of the metric (e.g. 'auc', 'acc', 'rmse', 'loss')."
+msgstr "Name of the metric (e.g. 'auc', 'acc', 'rmse', 'loss')."
+
+#: 8649ba71c7eb47f1a9621dc39cd934b9 of
+#: utils.optuna_utils.config.direction_for_metric:5
+msgid "'maximize' or 'minimize'."
+msgstr "'maximize' or 'minimize'."
+
+#: 7682ce47651748f9b1facf84d1a355ce of
+#: utils.optuna_utils.config.direction_for_metric:7
+msgid "If the metric name is not recognised."
+msgstr "If the metric name is not recognised."
+
+#: 2ef8aa52b5474462945c5b5fbac95fc0 of
+#: utils.optuna_utils.config.load_optuna_config:1
+msgid "Load an :class:`OptunaConfig` from a yaml file."
+msgstr "Load an :class:`OptunaConfig` from a yaml file."
+
+#: edfa3e1aff874fcdadebf840b7d100c4 of
+#: utils.optuna_utils.config.load_optuna_config:3
+msgid ""
+"The yaml is parsed with PyYAML into a dict and passed to the "
+"``OptunaConfig`` constructor (so methods like ``get_sampler`` are "
+"preserved and unknown keys fail loudly)."
+msgstr ""
+"The yaml is parsed with PyYAML into a dict and passed to the "
+"``OptunaConfig`` constructor (so methods like ``get_sampler`` are "
+"preserved and unknown keys fail loudly)."
+
+#: 7a888daf448b4f30b88a8e9c5a428d1b of
+#: utils.optuna_utils.config.load_optuna_config:7
+msgid "Path to the yaml configuration file."
+msgstr "Path to the yaml configuration file."
+
+#: 887fe062b8c94b349e2415f592b69fb6 of
+#: utils.optuna_utils.config.load_optuna_config:9
+msgid "An OptunaConfig instance."
+msgstr "An OptunaConfig instance."
+
+#: 8621bc080a1e4a39b5704319359126e2 of
+#: utils.optuna_utils.config.param_spaces_from_model_config:1
+msgid "Derive the optuna search space from a ModelConfig's field metadata."
+msgstr "Derive the optuna search space from a ModelConfig's field metadata."
+
+#: 360b4ef254bc474db78386f967ec05ce of
+#: utils.optuna_utils.config.param_spaces_from_model_config:3
+#, python-brace-format
+msgid ""
+"Each searchable field carries an ``\"optuna\"`` metadata dict "
+"(``{\"type\": \"int\"|\"float\"|\"categorical\", \"low\", \"high\", "
+"\"log\", \"step\", \"choices\"}``). The field default becomes the "
+"enqueued-trial default when it lies within the space; otherwise it is "
+"omitted (default=None)."
+msgstr ""
+"Each searchable field carries an ``\"optuna\"`` metadata dict "
+"(``{\"type\": \"int\"|\"float\"|\"categorical\", \"low\", \"high\", "
+"\"log\", \"step\", \"choices\"}``). The field default becomes the "
+"enqueued-trial default when it lies within the space; otherwise it is "
+"omitted (default=None)."
+
+#: 3032b867d10b46b9a87a6fd900def932 of
+#: utils.optuna_utils.config.param_spaces_from_model_config:8
+msgid "Registered model name."
+msgstr "Registered model name."
+
+#: 98854f886b5b4dd2962a123b41830f16 of
+#: utils.optuna_utils.config.param_spaces_from_model_config:10
+msgid ""
+"A list of :class:`HyperparameterSpace` (one per field with optuna "
+"metadata)."
+msgstr ""
+"A list of :class:`HyperparameterSpace` (one per field with optuna "
+"metadata)."
+
+#: 1b4c7befb33f4e5ba084fa0b964c28a4 of
+#: utils.optuna_utils.config.param_spaces_from_model_config:12
+msgid "If no ModelConfig is registered for ``model_name``."
+msgstr "If no ModelConfig is registered for ``model_name``."
+
+#: 277b7c6753694be0a6862d502f7d5dd7 of utils.optuna_utils.callback:1
+msgid "Callbacks integrating Optuna with the training loop."
+msgstr "Callbacks integrating Optuna with the training loop."
+
+#: 0f637095c6644dbabd2663024d8bec54 9e65df7ff3d34554aeb8cf736734d7b7 of
+#: utils.optuna_utils.callback.MultiMetricTracker:1
+#: utils.optuna_utils.callback.OptunaTrialCallback:1
+msgid "基类：:py:class:`~utils.training.callbacks.Callback`"
+msgstr "Bases: :py:class:`~utils.training.callbacks.Callback`"
+
+#: 911b636a767846ef9483c4630cc8fea2 of
+#: utils.optuna_utils.callback.MultiMetricTracker:1
+msgid "Track each objective's own best value across validation epochs."
+msgstr "Track each objective's own best value across validation epochs."
+
+#: 11f6d829b3bc449cbc93abaec3f38f55 of
+#: utils.optuna_utils.callback.MultiMetricTracker:3
+msgid ""
+"Multi-objective search cannot use EarlyStopping's single best-epoch "
+"snapshot: every objective read from that snapshot is tied to the "
+"monitored metric's best epoch, flattening the Pareto front. This tracker "
+"records each metric's independent best so each objective reflects its own"
+" optimum."
+msgstr ""
+"Multi-objective search cannot use EarlyStopping's single best-epoch "
+"snapshot: every objective read from that snapshot is tied to the "
+"monitored metric's best epoch, flattening the Pareto front. This tracker "
+"records each metric's independent best so each objective reflects its own"
+" optimum."
+
+#: 5176c0dbe58b49ccb2ff129fd4e95fe8 of
+#: utils.optuna_utils.callback.MultiMetricTracker:8
+msgid ""
+"Like :class:`OptunaTrialCallback`, it resets per stage "
+"(``on_train_begin``) so multi-stage trainers expose the final stage's "
+"per-metric best."
+msgstr ""
+"Like :class:`OptunaTrialCallback`, it resets per stage "
+"(``on_train_begin``) so multi-stage trainers expose the final stage's "
+"per-metric best."
+
+#: 68c5e3f5b7074a6ea69361883ac2775b of
+#: utils.optuna_utils.callback.MultiMetricTracker.on_phase_end:1
+msgid "Update each metric's best at the end of the validation phase."
+msgstr "Update each metric's best at the end of the validation phase."
+
+#: 138772e3ebc04b2f887449bb88e55aaf ea874e90a2f84886a7b741f456bb4132 of
+#: utils.optuna_utils.callback.MultiMetricTracker.on_phase_end:3
+#: utils.optuna_utils.callback.OptunaTrialCallback.on_phase_end:5
+msgid "Current epoch number."
+msgstr "Current epoch number."
+
+#: 3883c64e34c144cea242d893c1aa5cc0 9424b3a3dd15424a8bf2e11c04ee9651 of
+#: utils.optuna_utils.callback.MultiMetricTracker.on_phase_end:4
+#: utils.optuna_utils.callback.OptunaTrialCallback.on_phase_end:6
+msgid "Phase name ('train' or 'val')."
+msgstr "Phase name ('train' or 'val')."
+
+#: cb339165d64c44aabdab2c664001c45b db7baa8e77614a159c291a2e097df5fc of
+#: utils.optuna_utils.callback.MultiMetricTracker.on_phase_end:5
+#: utils.optuna_utils.callback.OptunaTrialCallback.on_phase_end:7
+msgid "Current loss value."
+msgstr "Current loss value."
+
+#: 95b135259a974cb295870d97176e1771 e84476a99c1f45efae90c0e2d9366ca3 of
+#: utils.optuna_utils.callback.MultiMetricTracker.on_phase_end:6
+#: utils.optuna_utils.callback.OptunaTrialCallback.on_phase_end:8
+msgid "Dictionary of current metrics."
+msgstr "Dictionary of current metrics."
+
+#: a0069692cd2c405c8dc2824c25d970a2 aa3ded838b684df38c17400651f251f9
+#: cd60ddcfeceb43f0bce4bbcbe6b7d8a3 ff1f87d551bd46b8acb412e75f412bd6 of
+#: utils.optuna_utils.callback.MultiMetricTracker.on_phase_end:7
+#: utils.optuna_utils.callback.MultiMetricTracker.on_train_begin:4
+#: utils.optuna_utils.callback.OptunaTrialCallback.on_phase_end:9
+#: utils.optuna_utils.callback.OptunaTrialCallback.on_train_begin:9
+msgid "Additional keyword arguments passed by the callback manager."
+msgstr "Additional keyword arguments passed by the callback manager."
+
+#: 41e5e3432be047c2ad881b33a75dbecc of
+#: utils.optuna_utils.callback.MultiMetricTracker.on_train_begin:1
+msgid "Reset per-stage best values."
+msgstr "Reset per-stage best values."
+
+#: 67e3f002f5b2422184777b4fd9edf5e5 d7ab86dc9b2449819faa9da464ecf970 of
+#: utils.optuna_utils.callback.MultiMetricTracker.on_train_begin:3
+#: utils.optuna_utils.callback.OptunaTrialCallback.on_train_begin:8
+msgid "Total number of epochs in this stage."
+msgstr "Total number of epochs in this stage."
+
+#: a55d86e403b243268d8316b9e0e16a68 of
+#: utils.optuna_utils.callback.OptunaTrialCallback:1
+msgid "Report validation metrics to an Optuna trial and track the best value."
+msgstr "Report validation metrics to an Optuna trial and track the best value."
+
+#: faa4f5f3976c42e3a0e634ed7846fc4a of
+#: utils.optuna_utils.callback.OptunaTrialCallback:3
+msgid ""
+"Supports pruning: sets the ``pruned`` flag and lets the training loop end"
+" gracefully via ``should_stop`` (preserving resource cleanup in "
+"``on_train_end`` / ``_finish``). The caller is expected to raise "
+"``TrialPruned`` after ``run()`` returns."
+msgstr ""
+"Supports pruning: sets the ``pruned`` flag and lets the training loop end"
+" gracefully via ``should_stop`` (preserving resource cleanup in "
+"``on_train_end`` / ``_finish``). The caller is expected to raise "
+"``TrialPruned`` after ``run()`` returns."
+
+#: f6e2fb1c96404a4c9d2b2993dc89cd37 of
+#: utils.optuna_utils.callback.OptunaTrialCallback:8
+msgid ""
+"Multi-stage safe: ``on_train_begin`` fires once per stage, so the per-"
+"stage best/stop state is reset between stages while ``pruned`` stays "
+"sticky (once any stage is pruned the whole trial is pruned). "
+"``trial.report`` uses a monotonic counter rather than the per-stage "
+"epoch, which restarts at 0 each stage and would otherwise make the step "
+"regress across stages."
+msgstr ""
+"Multi-stage safe: ``on_train_begin`` fires once per stage, so the per-"
+"stage best/stop state is reset between stages while ``pruned`` stays "
+"sticky (once any stage is pruned the whole trial is pruned). "
+"``trial.report`` uses a monotonic counter rather than the per-stage "
+"epoch, which restarts at 0 each stage and would otherwise make the step "
+"regress across stages."
+
+#: 681a6cfaece34347a4824a0e6c1a9103 of
+#: utils.optuna_utils.callback.OptunaTrialCallback.on_phase_end:1
+msgid "Handle end-of-phase events: report validation metrics to Optuna."
+msgstr "Handle end-of-phase events: report validation metrics to Optuna."
+
+#: 956e0a45f4df4f3a8132de922f89fd8e of
+#: utils.optuna_utils.callback.OptunaTrialCallback.on_phase_end:3
+msgid "Reports the metric value to the trial and checks for pruning."
+msgstr "Reports the metric value to the trial and checks for pruning."
+
+#: 268060dd7f6143dd9b49541b85e38331 of
+#: utils.optuna_utils.callback.OptunaTrialCallback.on_train_begin:1
+msgid "Reset per-stage pruning state."
+msgstr "Reset per-stage pruning state."
+
+#: e34242b7b4a94af2849ac998782b8ce1 of
+#: utils.optuna_utils.callback.OptunaTrialCallback.on_train_begin:3
+msgid ""
+"``on_train_begin`` fires once per stage in multi-stage trainers, so this "
+"isolates each stage's best/stop tracking while leaving the sticky "
+"``pruned`` untouched. For single-stage trainers this is a single no-op "
+"reset of the constructor defaults."
+msgstr ""
+"``on_train_begin`` fires once per stage in multi-stage trainers, so this "
+"isolates each stage's best/stop tracking while leaving the sticky "
+"``pruned`` untouched. For single-stage trainers this is a single no-op "
+"reset of the constructor defaults."
+
+#: 7ebfbd382bde4929a8d331e119a07037 of
+#: utils.optuna_utils.callback.OptunaTrialCallback.should_stop:1
+msgid "Check whether the current stage should stop due to pruning."
+msgstr "Check whether the current stage should stop due to pruning."
+
+#: 7f3564996eae46989c0c01dc27bc75ad of
+#: utils.optuna_utils.callback.OptunaTrialCallback.should_stop:3
+msgid "True if the current stage has been pruned."
+msgstr "True if the current stage has been pruned."
+
+#: 3da077be3cf948748af75117ae905c7e of utils.case_analysis.base_analyzer:1
+msgid "Base analyzer class for case analysis."
+msgstr "Base analyzer class for case analysis."
+
+#: bd4043031b9442f7b1a8225f3aba25e6 of utils.case_analysis.base_analyzer:3
+msgid ""
+"Minimal inference-only lifecycle: the analyzer is built from an archived "
+"RunConfig plus a trained checkpoint, runs forward passes without an "
+"optimizer or training loop, and hands extracted case data to an "
+"injectable :class:`~utils.case_analysis.interfaces.CaseDataSink`."
+msgstr ""
+"Minimal inference-only lifecycle: the analyzer is built from an archived "
+"RunConfig plus a trained checkpoint, runs forward passes without an "
+"optimizer or training loop, and hands extracted case data to an "
+"injectable :class:`~utils.case_analysis.interfaces.CaseDataSink`."
+
+#: de0956ce72c34994ad3496c43c809acf of utils.case_analysis.base_analyzer:8
+msgid ""
+"Unlike the training path it does not subclass :class:`BaseTrainer`; "
+"shared tensor/device helpers come from "
+":class:`~utils.training.inference_ops.InferenceOpsMixin`."
+msgstr ""
+"Unlike the training path it does not subclass :class:`BaseTrainer`; "
+"shared tensor/device helpers come from "
+":class:`~utils.training.inference_ops.InferenceOpsMixin`."
+
+#: 273a7a92f2d24c76a5287d2b72f3c21b of
+#: utils.case_analysis.base_analyzer.BaseCaseAnalyzer:1
+msgid ""
+"基类：:py:class:`~utils.training.inference_ops.InferenceOpsMixin`, "
+":py:class:`~abc.ABC`"
+msgstr ""
+"Bases: :py:class:`~utils.training.inference_ops.InferenceOpsMixin`, "
+":py:class:`~abc.ABC`"
+
+#: 9ebd958bbbfc4b47971c20fc9c75ef11 of
+#: utils.case_analysis.base_analyzer.BaseCaseAnalyzer:1
+msgid "Base class for case analysis with inference-only capabilities."
+msgstr "Base class for case analysis with inference-only capabilities."
+
+#: 5ac0fdcd35fb40cbbf2eb831e6c75c2d of
+#: utils.case_analysis.base_analyzer.BaseCaseAnalyzer:3
+msgid "Constructed in one template step, mirroring ``BaseTrainer``::"
+msgstr "Constructed in one template step, mirroring ``BaseTrainer``::"
+
+#: 9c08ba44059d4aaa8bd219d7982ba416 of
+#: utils.case_analysis.base_analyzer.BaseCaseAnalyzer:5
+msgid ""
+"analyzer = MyAnalyzer(rc, data_src, checkpoint_path, sink=...)\n"
+"result = analyzer.run_inference()"
+msgstr ""
+"analyzer = MyAnalyzer(rc, data_src, checkpoint_path, sink=...)\n"
+"result = analyzer.run_inference()"
+
+#: 78ceb9746f1c430b88255ecf2400fbe2 of
+#: utils.case_analysis.base_analyzer.BaseCaseAnalyzer:8
+msgid "Subclasses implement:"
+msgstr "Subclasses implement:"
+
+#: 6dfae762c0e144cdbb8ce8bfaac4c78e of
+#: utils.case_analysis.base_analyzer.BaseCaseAnalyzer:10
+msgid ""
+":meth:`build_components`: assemble the model and inference dataset from "
+"``rc`` + ``data_src`` (model-specific tensors may be stored on ``self`` "
+"here)."
+msgstr ""
+":meth:`build_components`: assemble the model and inference dataset from "
+"``rc`` + ``data_src`` (model-specific tensors may be stored on ``self`` "
+"here)."
+
+#: 49ed7e9f12054ebd8c822f5a4731da53 of
+#: utils.case_analysis.base_analyzer.BaseCaseAnalyzer:13
+msgid ""
+":meth:`forward_pass`: model forward pass (``y_hat`` / ``y_label`` / "
+"``y_predict`` contract)."
+msgstr ""
+":meth:`forward_pass`: model forward pass (``y_hat`` / ``y_label`` / "
+"``y_predict`` contract)."
+
+#: bd8fc41220aa47c982904f7e08cbc731 of
+#: utils.case_analysis.base_analyzer.BaseCaseAnalyzer:15
+msgid ""
+":meth:`extract_case_data`: interpret batch outputs into the sink's key "
+"contract."
+msgstr ""
+":meth:`extract_case_data`: interpret batch outputs into the sink's key "
+"contract."
+
+#: 19d60f3789e14bb084c926749e06fec7 of
+#: utils.case_analysis.base_analyzer.BaseCaseAnalyzer.build_components:1
+msgid "Assemble the model and inference data."
+msgstr "Assemble the model and inference data."
+
+#: 0a07af5f030644a18eaa4b36def78bc7 of
+#: utils.case_analysis.base_analyzer.BaseCaseAnalyzer.build_components:3
+msgid "RunConfig instance."
+msgstr "RunConfig instance."
+
+#: 8cb0df08bc7340bda3ec41375752865d of
+#: utils.case_analysis.base_analyzer.BaseCaseAnalyzer.build_components:4
+msgid "Data source."
+msgstr "Data source."
+
+#: e0668dcf28184374a29ff79494dc92e7 of
+#: utils.case_analysis.base_analyzer.BaseCaseAnalyzer.build_components:6
+msgid ""
+"RuntimeComponents with at least ``model`` and ``val_data`` (a Dataset or "
+"ready DataLoader) set. Model-specific tensors (graphs, matrices) may be "
+"stored on ``self`` here; move them to the device in :meth:`on_device` "
+"instead."
+msgstr ""
+"RuntimeComponents with at least ``model`` and ``val_data`` (a Dataset or "
+"ready DataLoader) set. Model-specific tensors (graphs, matrices) may be "
+"stored on ``self`` here; move them to the device in :meth:`on_device` "
+"instead."
+
+#: ef6bd14fa4fa46099b5c49ca8bbf5748 of
+#: utils.case_analysis.base_analyzer.BaseCaseAnalyzer.extract_case_data:1
+msgid "Extract model-specific data from batch outputs."
+msgstr "Extract model-specific data from batch outputs."
+
+#: 92c9167d1bcc47f7a69517fe93b774c7 of
+#: utils.case_analysis.base_analyzer.BaseCaseAnalyzer.extract_case_data:3
+msgid ""
+"The returned dict feeds the sink. For the default :class:`DataFrameSink` "
+"it must contain parallel lists keyed by ``user_ids`` / ``question_ids`` /"
+" ``labels`` / ``predictions``, optionally ``skills`` / ``logits`` / "
+"``mask`` / ``knowledge_states`` plus any extra keys to pass through."
+msgstr ""
+"The returned dict feeds the sink. For the default :class:`DataFrameSink` "
+"it must contain parallel lists keyed by ``user_ids`` / ``question_ids`` /"
+" ``labels`` / ``predictions``, optionally ``skills`` / ``logits`` / "
+"``mask`` / ``knowledge_states`` plus any extra keys to pass through."
+
+#: e7ee0f7e7f244e72a9687e383d1a7fb2 of
+#: utils.case_analysis.base_analyzer.BaseCaseAnalyzer.extract_case_data:9
+msgid "Raw batch data from the DataLoader."
+msgstr "Raw batch data from the DataLoader."
+
+#: 36a4193f60384d6db26f552bac00b6a5 of
+#: utils.case_analysis.base_analyzer.BaseCaseAnalyzer.extract_case_data:10
+msgid "Output dict from forward_pass."
+msgstr "Output dict from forward_pass."
+
+#: 6becac43644c4c7ca261ecd1b8160cf1 of
+#: utils.case_analysis.base_analyzer.BaseCaseAnalyzer.extract_case_data:12
+msgid "Dict with extracted per-batch data."
+msgstr "Dict with extracted per-batch data."
+
+#: 0870e2bcf0ea4fc0bc046dc239baf49e of
+#: utils.case_analysis.base_analyzer.BaseCaseAnalyzer.forward_pass:1
+msgid "Perform a forward pass for a single batch."
+msgstr "Perform a forward pass for a single batch."
+
+#: 99c310e8031f4ebfa83e488fb15e2d66 of
+#: utils.case_analysis.base_analyzer.BaseCaseAnalyzer.forward_pass:3
+msgid "A batch of data from the DataLoader."
+msgstr "A batch of data from the DataLoader."
+
+#: c5d2f0a9379a48b38e953fe4a5db7ecc of
+#: utils.case_analysis.base_analyzer.BaseCaseAnalyzer.forward_pass:5
+msgid ""
+"Dict containing at least ``\"y_hat\"``, ``\"y_label\"``, "
+"``\"y_predict\"``."
+msgstr ""
+"Dict containing at least ``\"y_hat\"``, ``\"y_label\"``, "
+"``\"y_predict\"``."
+
+#: b3fc231f53e64cfdba77d37334db2e8a of
+#: utils.case_analysis.base_analyzer.BaseCaseAnalyzer.on_device:1
+msgid "Hook: move extra model-specific tensors to ``device``."
+msgstr "Hook: move extra model-specific tensors to ``device``."
+
+#: f001ea3476f245cbb7deb5f6d9a9557c of
+#: utils.case_analysis.base_analyzer.BaseCaseAnalyzer.on_device:3
+msgid ""
+"Called during build once the device is resolved, after "
+":meth:`build_components`. The default implementation does nothing."
+msgstr ""
+"Called during build once the device is resolved, after "
+":meth:`build_components`. The default implementation does nothing."
+
+#: bda6e51b8607493a8f1f23d15e97e01e of
+#: utils.case_analysis.base_analyzer.BaseCaseAnalyzer.run_inference:1
+msgid "Run inference over the configured data and collect results."
+msgstr "Run inference over the configured data and collect results."
+
+#: dd5e0495204b45bdab64d5512bf5a66d of utils.case_analysis.user_metrics:1
+msgid "Per-user metric computation for case analysis results."
+msgstr "Per-user metric computation for case analysis results."
+
+#: ab8477939d334da2b39a7de4652ca63c of
+#: utils.case_analysis.user_metrics.compute_user_metrics:1
+msgid "Compute diagnostic metrics per user from canonical case results."
+msgstr "Compute diagnostic metrics per user from canonical case results."
+
+#: 2b4b961b0bfe4ea09559b2dcad01b90d of
+#: utils.case_analysis.user_metrics.compute_user_metrics:3
+msgid ""
+"Case analysis DataFrame with at least ``user_id``, ``label`` and "
+"``prediction`` columns (one row per attempt)."
+msgstr ""
+"Case analysis DataFrame with at least ``user_id``, ``label`` and "
+"``prediction`` columns (one row per attempt)."
+
+#: 17397de93d324d8d9bf2064ae2dd3d18 of
+#: utils.case_analysis.user_metrics.compute_user_metrics:6
+msgid ""
+"``num_attempts``, ``correct_rate``, ``predicted_correct_rate``, "
+"``accuracy``, ``auc``, ``avg_confidence``, ``error_rate``, "
+"``calibration_error``."
+msgstr ""
+"``num_attempts``, ``correct_rate``, ``predicted_correct_rate``, "
+"``accuracy``, ``auc``, ``avg_confidence``, ``error_rate``, "
+"``calibration_error``."
+
+#: 172836a49af74edbb92a0dae6c30c3ea of
+#: utils.case_analysis.visualizers.heatmap_visualizer:1
+msgid "Knowledge state heatmap visualization for case analysis."
+msgstr "Knowledge state heatmap visualization for case analysis."
+
+#: 7913adbc4c514b73b5c7d26c8f135df5 of
+#: utils.case_analysis.visualizers.heatmap_visualizer:3
+msgid ""
+"Generates heatmap visualizations showing per-skill knowledge state "
+"changes over a student's answer sequence, styled after the reference "
+"design."
+msgstr ""
+"Generates heatmap visualizations showing per-skill knowledge state "
+"changes over a student's answer sequence, styled after the reference "
+"design."
+
+#: 3d99858711bf4d058af7ff31aaa8e014 of
+#: utils.case_analysis.visualizers.heatmap_visualizer.HeatmapVisualizer:1
+msgid "基类：:py:class:`~utils.case_analysis.interfaces.CaseVisualizer`"
+msgstr "Bases: :py:class:`~utils.case_analysis.interfaces.CaseVisualizer`"
+
+#: b4c7c795ee75452e8d8e4fc4afd7ca21 of
+#: utils.case_analysis.visualizers.heatmap_visualizer.HeatmapVisualizer:1
+msgid "Generates knowledge state heatmap visualizations for case analysis."
+msgstr "Generates knowledge state heatmap visualizations for case analysis."
+
+#: efc80ca716884bf58f1bf093f3b4fd31 of
+#: utils.case_analysis.visualizers.heatmap_visualizer.HeatmapVisualizer:3
+msgid ""
+"Creates a visual representation of a student's answer sequence showing: -"
+" Top row: question label (q0, q1, ...) for each time step - Second row: "
+"skill label (c0, c1, ...) for each time step - Third row: correctness "
+"marker (✓/✗) for each time step - Main body: heatmap where each row is a "
+"skill's knowledge state over time (colour encodes mastery level, "
+"green=high, red=low)"
+msgstr ""
+"Creates a visual representation of a student's answer sequence showing: -"
+" Top row: question label (q0, q1, ...) for each time step - Second row: "
+"skill label (c0, c1, ...) for each time step - Third row: correctness "
+"marker (✓/✗) for each time step - Main body: heatmap where each row is a "
+"skill's knowledge state over time (colour encodes mastery level, "
+"green=high, red=low)"
+
+#: 7e24e50709474e1d8124b00ca201611d of
+#: utils.case_analysis.visualizers.heatmap_visualizer.HeatmapVisualizer:9
+msgid ""
+"Requires the predictions DataFrame to contain a 'knowledge_state' column "
+"(list of floats per row, one value per skill)."
+msgstr ""
+"Requires the predictions DataFrame to contain a 'knowledge_state' column "
+"(list of floats per row, one value per skill)."
+
+#: 81e97a2f403b4d2a941accf66a48a459 of
+#: utils.case_analysis.visualizers.heatmap_visualizer.HeatmapVisualizer.plot_user:1
+msgid "Plot a knowledge state heatmap for one user (plugin entrypoint)."
+msgstr "Plot a knowledge state heatmap for one user (plugin entrypoint)."
+
+#: a7f8ca73721f4aa78022c16d70e927e3 of
+#: utils.case_analysis.visualizers.heatmap_visualizer.HeatmapVisualizer.plot_user_heatmap:1
+msgid "Plot a knowledge state heatmap for a single user."
+msgstr "Plot a knowledge state heatmap for a single user."

@@ -1,0 +1,143 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/hdhkt.md:1 6b58855d9ac74e03b4f3be0f721f5030
+msgid "HDHKT"
+msgstr "HDHKT"
+
+#: ../../source/model-zoo/models/hdhkt.md:3 3574b3dd1d7246e68b078c1deabac751
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/hdhkt.md 611ef3dda8cb40c79ab41b63992ef71d
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/hdhkt.md eb34d809a989480db0f44d7a49f86b3c
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/hdhkt.md 4acf605488ce4d94a25cb12fb5d7b942
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/hdhkt.md e4a4728b5e3b462db6b1a0f8d2906a94
+msgid ""
+"[HDHKT: Heterogeneous graph and difficulty-aware hypergraph fusion for "
+"knowledge tracing](https://doi.org/10.1016/j.patcog.2026.115226)"
+msgstr ""
+"[HDHKT: Heterogeneous graph and difficulty-aware hypergraph fusion for "
+"knowledge tracing](https://doi.org/10.1016/j.patcog.2026.115226)"
+
+#: ../../source/model-zoo/models/hdhkt.md 83f24e1e4f234bee99b553294b138476
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/hdhkt.md b63fa09f8a5b407e847a2e12bec84bcf
+msgid "Hao Wang, Xianglian Peng, Weigang Lu, Jing Qin, Shugang Zhang"
+msgstr "Hao Wang, Xianglian Peng, Weigang Lu, Jing Qin, Shugang Zhang"
+
+#: ../../source/model-zoo/models/hdhkt.md d8d0a916dbb646e5b0aa25489c7d1892
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/hdhkt.md 310d00b8f62049cba4d1f856c2558fb6
+msgid "2027（2026 年在线发表）"
+msgstr "2027 (Published online 2026)"
+
+#: ../../source/model-zoo/models/hdhkt.md a598c31a67664b46b9a576d8932fec04
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/hdhkt.md 40f0ab7b2f4f48198d648b683e3e272b
+msgid "Pattern Recognition，卷 183，文章编号 115226"
+msgstr "Pattern Recognition, Vol. 183, Article 115226"
+
+#: ../../source/model-zoo/models/hdhkt.md f62afbc0476448d589fef9332536f88e
+msgid "DOI"
+msgstr "DOI"
+
+#: ../../source/model-zoo/models/hdhkt.md ad88e336adc7475590be38b29d1960f7
+msgid "[10.1016/j.patcog.2026.115226](https://doi.org/10.1016/j.patcog.2026.115226)"
+msgstr "[10.1016/j.patcog.2026.115226](https://doi.org/10.1016/j.patcog.2026.115226)"
+
+#: ../../source/model-zoo/models/hdhkt.md:13 21dccf58f208497cbe2b45a97ffdf818
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/hdhkt.md:15 d7e7a104274b40beb060c1239c91cce8
+#, python-format
+msgid ""
+"Accurate knowledge tracing (KT) for predicting students’ future "
+"performance is critical for personalized learning and intelligent "
+"educational systems. Recent approaches extend sequential modeling with "
+"graph structures to capture structural dependencies in learning "
+"processes, yielding promising results. However, existing methods still "
+"suffer from insufficient modeling of heterogeneous educational entities "
+"and relations as well as limited capacity for higher-order structure "
+"modeling. To address these challenges, we propose Heterogeneous graph and"
+" Difficulty-aware Hypergraph fusion for Knowledge Tracing (HDHKT). "
+"Specifically, we construct a heterogeneous graph to model diverse "
+"relations among questions, concepts, and auxiliary entities, including "
+"templates and assignments. To capture higher-order structures, we "
+"introduce a difficulty-aware weighted hypergraph over questions. "
+"Furthermore, we design a Mixture-of-Experts (MoE)-based dynamic fusion "
+"mechanism to adaptively integrate representations from different "
+"structural views. Experiments on ASSISTments 2009, ASSISTments 2012, and "
+"EdNet show that HDHKT achieves state-of-the-art performance, with AUC "
+"improvements of up to 2.75% and ACC gains of up to 1.76% over strong "
+"baselines, while maintaining competitive performance across datasets. "
+"Ablation studies examine the contribution of each component, and "
+"qualitative analyses further demonstrate its interpretability and "
+"effectiveness in tracking knowledge state dynamics. The code for HDHKT is"
+" available at https://github.com/szhhwh/HDHKT."
+msgstr ""
+"Accurate knowledge tracing (KT) for predicting students’ future "
+"performance is critical for personalized learning and intelligent "
+"educational systems. Recent approaches extend sequential modeling with "
+"graph structures to capture structural dependencies in learning "
+"processes, yielding promising results. However, existing methods still "
+"suffer from insufficient modeling of heterogeneous educational entities "
+"and relations as well as limited capacity for higher-order structure "
+"modeling. To address these challenges, we propose Heterogeneous graph and"
+" Difficulty-aware Hypergraph fusion for Knowledge Tracing (HDHKT). "
+"Specifically, we construct a heterogeneous graph to model diverse "
+"relations among questions, concepts, and auxiliary entities, including "
+"templates and assignments. To capture higher-order structures, we "
+"introduce a difficulty-aware weighted hypergraph over questions. "
+"Furthermore, we design a Mixture-of-Experts (MoE)-based dynamic fusion "
+"mechanism to adaptively integrate representations from different "
+"structural views. Experiments on ASSISTments 2009, ASSISTments 2012, and "
+"EdNet show that HDHKT achieves state-of-the-art performance, with AUC "
+"improvements of up to 2.75% and ACC gains of up to 1.76% over strong "
+"baselines, while maintaining competitive performance across datasets. "
+"Ablation studies examine the contribution of each component, and "
+"qualitative analyses further demonstrate its interpretability and "
+"effectiveness in tracking knowledge state dynamics. The code for HDHKT is"
+" available at https://github.com/szhhwh/HDHKT."
+
+#: ../../source/model-zoo/models/hdhkt.md:17 abaecdbde3ca483c9c7f904de90ffc0e
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/hdhkt.md:19 870c19c074134319916ff58421a6b6e8
+msgid "[szhhwh/HDHKT](https://github.com/szhhwh/HDHKT)"
+msgstr "[szhhwh/HDHKT](https://github.com/szhhwh/HDHKT)"

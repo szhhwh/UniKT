@@ -1,0 +1,75 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:07+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/user-guides/index.md:5 53ba1bd1eb8e49ababd41b27d4f74006
+msgid "用户指南"
+msgstr "User Guides"
+
+#: ../../source/user-guides/index.md:7 28cbccf5c99d429caea5149aaf2b399f
+msgid "按实验任务查找命令、参数说明与预期输出。"
+msgstr ""
+"Find commands, parameter descriptions, and expected outputs by "
+"experimental task."
+
+#: ../../source/user-guides/index.md:9 f0ca690e15014ebda9c7a2875c7d1a8c
+msgid "[数据处理管线](data-pipeline.md)：下载、清洗、划分数据，了解输出文件与字段。"
+msgstr ""
+"[Data Pipeline](data-pipeline.md): Download, clean, and partition data; "
+"inspect output files and schemas."
+
+#: ../../source/user-guides/index.md:10 6a932796e38d4d9aa1a3aca5ec4b8214
+msgid "[模型训练](training.md)：配置单折训练、早停与断点续训。"
+msgstr ""
+"[Model Training](training.md): Configure single-fold training, early "
+"stopping, and checkpoint resumption."
+
+#: ../../source/user-guides/index.md:11 2bdcfc9713ab439585aab63fae88798a
+msgid "[超参数搜索](hyperparameter-search.md)：配置 Optuna 搜索，导出最优参数与试验数据库。"
+msgstr ""
+"[Hyperparameter Search](hyperparameter-search.md): Configure Optuna "
+"searches, exporting optimal parameters and study databases."
+
+#: ../../source/user-guides/index.md:12 ea70734f3bf44e20af3af7bfd265b10a
+msgid "[学生个体案例分析](../evaluation/case-analysis.md)：执行推理、学生筛选与知识状态可视化。"
+msgstr ""
+"[Individual Student Case Analysis](../evaluation/case-analysis.md): Run "
+"inference, filter student cohorts, and visualize knowledge states."
+
+#: ../../source/user-guides/index.md:13 28b360dbb8cf4791b8e254e69545a278
+msgid "[效率评测](../evaluation/efficiency.md)：评测延迟、吞吐量、显存与编译性能。"
+msgstr ""
+"[Efficiency Benchmarking](../evaluation/efficiency.md): Benchmark "
+"latency, throughput, memory footprints, and compilation gains."
+
+#: ../../source/user-guides/index.md:14 32a764561440443e86d9b3d65979105a
+msgid "[实验追踪与配置归档](experiment-tracking.md)：配置 SwanLab，查看运行配置与元数据。"
+msgstr ""
+"[Experiment Tracking & Archiving](experiment-tracking.md): Configure "
+"SwanLab tracking, inspecting run configurations and metadata."
+
+#: ../../source/user-guides/index.md:15 d7cc270383c24931b49b66812a6cf7ae
+msgid "[Web 实验平台](web-platform.md)：提交任务，查看日志和硬件监控。"
+msgstr ""
+"[Web Platform](web-platform.md): Submit jobs, monitor live logs, and "
+"track hardware usage."
+
+#~ msgid "[数据处理管线](../datasets/data-pipeline.md)：下载、清洗、划分数据，了解输出文件与字段。"
+#~ msgstr ""

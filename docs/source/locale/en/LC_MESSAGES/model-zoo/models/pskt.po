@@ -1,0 +1,150 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/pskt.md:1 3b8943f8a21d4882a4e4c5579070fcc0
+msgid "PSKT"
+msgstr "PSKT"
+
+#: ../../source/model-zoo/models/pskt.md:3 13c9d63c92114635aed1c05701a2a9aa
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/pskt.md a6cfecf0f586427ab5290dacc8124baa
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/pskt.md e3e7b058cc1f4e7ca287400380716fe9
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/pskt.md ebc73caed551405fadcc9f3e744f5ec9
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/pskt.md 2532c1b3dbdc47e6b262c618a85eec2f
+msgid ""
+"[Remembering Is Not Applying: Interpretable Knowledge Tracing for "
+"Problem-solving Processes](https://doi.org/10.1145/3664647.3681049)"
+msgstr ""
+"[Remembering Is Not Applying: Interpretable Knowledge Tracing for "
+"Problem-solving Processes](https://doi.org/10.1145/3664647.3681049)"
+
+#: ../../source/model-zoo/models/pskt.md 19952bdf71954102a39d6b28983a7adb
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/pskt.md 803fc0eb10f844ff9bbb15084257a3d1
+msgid ""
+"Tao Huang, Xinjia Ou, Huali Yang, Shengze Hu, Jing Geng, Junjie Hu, "
+"Zhuoran Xu"
+msgstr ""
+"Tao Huang, Xinjia Ou, Huali Yang, Shengze Hu, Jing Geng, Junjie Hu, "
+"Zhuoran Xu"
+
+#: ../../source/model-zoo/models/pskt.md 5b329f2013924e8a84e115d67cb1ac81
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/pskt.md 822a70f9aebb4328be0f83f7d8c08f10
+msgid "2024"
+msgstr "2024"
+
+#: ../../source/model-zoo/models/pskt.md bed9f5f325b847369daa211538dc59da
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/pskt.md 0473788051f54320963ec311a0d126ae
+msgid ""
+"Proceedings of the 32nd ACM International Conference on Multimedia（ACM MM"
+" 2024）"
+msgstr ""
+"Proceedings of the 32nd ACM International Conference on Multimedia (ACM "
+"MM 2024)"
+
+#: ../../source/model-zoo/models/pskt.md:12 ffc5e56e149a4033a9db1147de490a4a
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/pskt.md:14 41580a8da16e432d9d775645a0c06d38
+msgid ""
+"Knowledge Tracing (KT) is a critical service in distance education, "
+"predicting students' future performance based on their responses to "
+"learning resources. The reasonable assessment of the knowledge state, "
+"along with accurate response prediction, is crucial for KT. However, "
+"existing KT methods prioritize fitting results and overlook attention to "
+"the problem-solving process. They equate the knowledge students memorize "
+"before problem-solving with the knowledge that can be acquired or applied"
+" during problem-solving, leading to dramatic fluctuations in knowledge "
+"states between mastery and non-mastery, with low interpretability. This "
+"paper explores knowledge transformation in problem-solving and proposes "
+"an interpretable model, Problem-solving Knowledge Tracing (PSKT). "
+"Specifically, we first present a knowledge-centered problem "
+"representation that enhances its expression by adjusting problem "
+"variability. Then, we meticulously designed a Sequential Neural Network "
+"(SNN) with three stages: (1) Before problem-solving, we model students' "
+"personalized problem space and simulate their acquisition of problem-"
+"related knowledge through a gating mechanism. (2) During problem-solving,"
+" we evaluate knowledge application and calculate response with a four-"
+"parameter IRT. (3) After problem-solving, we quantify student knowledge "
+"internalization and forgetting using an incremental indicator. The SNN, "
+"inspired by problem-solving and constructivist learning theories, is an "
+"interpretable model that attributes learner performance to subjective "
+"problems (difficulty, discrimination), objective knowledge (knowledge "
+"acquisition and application), and behavior (guessing and slipping). "
+"Experimental results show PSKT's advantages in prediction accuracy, "
+"reasonable knowledge state assessment, and learning process explanation. "
+"The code is available at https://github.com/Oia-10/PSKT."
+msgstr ""
+"Knowledge Tracing (KT) is a critical service in distance education, "
+"predicting students' future performance based on their responses to "
+"learning resources. The reasonable assessment of the knowledge state, "
+"along with accurate response prediction, is crucial for KT. However, "
+"existing KT methods prioritize fitting results and overlook attention to "
+"the problem-solving process. They equate the knowledge students memorize "
+"before problem-solving with the knowledge that can be acquired or applied"
+" during problem-solving, leading to dramatic fluctuations in knowledge "
+"states between mastery and non-mastery, with low interpretability. This "
+"paper explores knowledge transformation in problem-solving and proposes "
+"an interpretable model, Problem-solving Knowledge Tracing (PSKT). "
+"Specifically, we first present a knowledge-centered problem "
+"representation that enhances its expression by adjusting problem "
+"variability. Then, we meticulously designed a Sequential Neural Network "
+"(SNN) with three stages: (1) Before problem-solving, we model students' "
+"personalized problem space and simulate their acquisition of problem-"
+"related knowledge through a gating mechanism. (2) During problem-solving,"
+" we evaluate knowledge application and calculate response with a four-"
+"parameter IRT. (3) After problem-solving, we quantify student knowledge "
+"internalization and forgetting using an incremental indicator. The SNN, "
+"inspired by problem-solving and constructivist learning theories, is an "
+"interpretable model that attributes learner performance to subjective "
+"problems (difficulty, discrimination), objective knowledge (knowledge "
+"acquisition and application), and behavior (guessing and slipping). "
+"Experimental results show PSKT's advantages in prediction accuracy, "
+"reasonable knowledge state assessment, and learning process explanation. "
+"The code is available at https://github.com/Oia-10/PSKT."
+
+#: ../../source/model-zoo/models/pskt.md:17 04e29c1ecdc94257bc4923a534bac3bf
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/pskt.md:19 a44b576640dc4f778d4cbd1126a1e22b
+msgid "[Oia-10/PSKT](https://github.com/Oia-10/PSKT)"
+msgstr "[Oia-10/PSKT](https://github.com/Oia-10/PSKT)"

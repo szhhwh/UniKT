@@ -1,0 +1,521 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/user-guides/experiment-tracking.md:1
+#: 0d85a36071474a579293a659a94074a6
+msgid "实验追踪与配置归档"
+msgstr "Experiment Tracking and Configuration Archiving"
+
+#: ../../source/user-guides/experiment-tracking.md:3
+#: a5b60f17e5a240d0890fe82bdd984121
+msgid ""
+"本指南介绍 UniKT 的实验追踪与元数据无损归档体系，包括如何配置 SwanLab "
+"云端及本地看板、如何使用飞书通知接收训练预警，以及如何利用生成的 `run_config.yaml` 与 `run_metadata.yaml` "
+"实现实验的严格可复现。"
+msgstr ""
+"This guide introduces UniKT's experiment tracking and lossless metadata "
+"archiving system, detailing how to configure SwanLab cloud and local "
+"dashboards, set up Feishu/Lark alerts, and leverage `run_config.yaml` and"
+" `run_metadata.yaml` for strict experiment reproducibility."
+
+#: ../../source/user-guides/experiment-tracking.md:5
+#: 61e14f632f5a4ff18932eec4a0b68293
+msgid "目标与适用场景"
+msgstr "Objectives & Use Cases"
+
+#: ../../source/user-guides/experiment-tracking.md:7
+#: 3fef66bfdb7b4e889510ab5a3147a0e6
+msgid "实时监控模型训练过程中的训练损失、验证损失以及各项验证性能指标。"
+msgstr ""
+"Monitor training loss, validation loss, and validation metrics in real "
+"time throughout training."
+
+#: ../../source/user-guides/experiment-tracking.md:8
+#: 9626d8d32afe4bec9ea44e85db1f2376
+msgid "跟踪硬件资源消耗情况（GPU 显存占用、利用率）。"
+msgstr "Track hardware resource consumption (GPU memory allocation, utilization)."
+
+#: ../../source/user-guides/experiment-tracking.md:9
+#: fd72d06e52dd4c31984ad0ab2082cb4a
+msgid "配置离线/局域网私有化部署模式或直接关闭云端上报。"
+msgstr ""
+"Configure offline/LAN private deployments or completely disable cloud "
+"telemetry."
+
+#: ../../source/user-guides/experiment-tracking.md:10
+#: 94fb40645fc84840960ceb8887e46ed3
+msgid "保证每一次实验的配置完全自包含、可追溯并可一键复现。"
+msgstr ""
+"Ensure every experiment configuration is fully self-contained, auditable,"
+" and reproducible with a single command."
+
+#: ../../source/user-guides/experiment-tracking.md:12
+#: 548ecedd36e047b18e11665f00eb0133
+msgid "前置条件"
+msgstr "Prerequisites"
+
+#: ../../source/user-guides/experiment-tracking.md:14
+#: 66f3b55165a4413b9a1166fd73600594
+msgid "**环境准备**：已进入 Pixi 环境（SwanLab 依赖已内置安装）。"
+msgstr ""
+"**Environment**: Pixi environment activated (SwanLab dependencies pre-"
+"installed)."
+
+#: ../../source/user-guides/experiment-tracking.md:15
+#: 21a2b06616b6417c9bd48197cb27d021
+msgid "**环境变量文件**：在仓库根目录下基于 `.env.example` 复制生成 `.env` 文件："
+msgstr ""
+"**Environment Variables File**: Copy `.env.example` in the repository "
+"root to create `.env`:"
+
+#: ../../source/user-guides/experiment-tracking.md:16
+#: 9c8f8a043d8448a99b3612a80b4cd7b7
+msgid "cp .env.example .env\n"
+msgstr "cp .env.example .env\n"
+
+#: ../../source/user-guides/experiment-tracking.md:20
+#: d656d9b0abfd49388d2264650d751ced
+msgid "SwanLab 实验追踪配置"
+msgstr "SwanLab Experiment Tracking Configuration"
+
+#: ../../source/user-guides/experiment-tracking.md:22
+#: f2a6136779d74f178dcb2b438e01274a
+msgid ""
+"UniKT 默认集成 [SwanLab](https://swanlab.cn/) 作为轻量级、开箱即用的实验追踪看板（同时兼容 Weights "
+"& Biases）。"
+msgstr ""
+"UniKT integrates [SwanLab](https://swanlab.cn/) by default as an out-of-"
+"the-box experiment dashboard (also compatible with Weights & Biases)."
+
+#: ../../source/user-guides/experiment-tracking.md:24
+#: 9f65a69006fd499b93a8a06d585a7f2a
+msgid "1. 云端追踪模式"
+msgstr "1\\. Cloud Tracking Mode"
+
+#: ../../source/user-guides/experiment-tracking.md:26
+#: b3a6b1ac4d144de697253124ace82062
+msgid "在 `.env` 文件中填入你的凭据信息："
+msgstr "Fill in your credentials in `.env`:"
+
+#: ../../source/user-guides/experiment-tracking.md:28
+#: b0b3a29e840543218dcd2d828ede9277
+msgid ""
+"# .env 文件配置\n"
+"SWANLAB_MODE=cloud\n"
+"SWANLAB_API_KEY=your_swanlab_api_key_here\n"
+"KT_SWANLAB_WORKSPACE=your_workspace_name\n"
+"KT_SWANLAB_PROJECT=UniKT\n"
+"\n"
+"# 可选：飞书/Lark 实验通知机器人 Webhook\n"
+"LARK_WEBHOOK_URL=https://open.feishu.cn/open-apis/bot/v2/hook/xxxxxx\n"
+"LARK_SECRET=your_lark_secret_if_any\n"
+msgstr ""
+"# .env configuration\n"
+"SWANLAB_MODE=cloud\n"
+"SWANLAB_API_KEY=your_swanlab_api_key_here\n"
+"KT_SWANLAB_WORKSPACE=your_workspace_name\n"
+"KT_SWANLAB_PROJECT=UniKT\n"
+"\n"
+"# Optional: Feishu/Lark training alert bot Webhook\n"
+"LARK_WEBHOOK_URL=https://open.feishu.cn/open-apis/bot/v2/hook/xxxxxx\n"
+"LARK_SECRET=your_lark_secret_if_any\n"
+
+#: ../../source/user-guides/experiment-tracking.md:40
+#: 41fcee7095e346b4a88a1cb67f33e6f6
+msgid "首次使用时，也可以在终端运行一键登录："
+msgstr "When using SwanLab for the first time, you can also log in via terminal:"
+
+#: ../../source/user-guides/experiment-tracking.md:41
+#: 4af62961c0ba4447b215853a04fec7dd
+msgid "swanlab login\n"
+msgstr "swanlab login\n"
+
+#: ../../source/user-guides/experiment-tracking.md:45
+#: 972c74473cf146089742d264800615b7
+msgid "启动训练后，控制台将输出 SwanLab 实验看板链接："
+msgstr ""
+"Upon launching training, the console outputs the SwanLab experiment "
+"dashboard URL:"
+
+#: ../../source/user-guides/experiment-tracking.md:46
+#: 7b96c544158440a6b2919a2dd0ffa879
+msgid ""
+"swanlab: Tracking run: https://swanlab.cn/@my-workspace/UniKT-"
+"Experiments/runs/run-20261109_120000\n"
+msgstr ""
+"swanlab: Tracking run: https://swanlab.cn/@my-workspace/UniKT-"
+"Experiments/runs/run-20261109_120000\n"
+
+#: ../../source/user-guides/experiment-tracking.md:50
+#: 6c4a5f00dcec4b0db58a7ecb5e59a2b1
+msgid "2. 本地离线模式"
+msgstr "2\\. Local Offline Mode"
+
+#: ../../source/user-guides/experiment-tracking.md:52
+#: f6cf3ca065e948948cd97ccc91bb4f84
+msgid "在无外网连接的集群服务器或保密计算环境中，可切换为本地模式。训练数据将仅保存在本机的 `swanlog/` 目录下，不向外网发送任何数据："
+msgstr ""
+"In offline cluster environments or air-gapped systems, switch to local "
+"mode. Metrics are recorded only in the local `swanlog/` directory, with "
+"no data sent over the network:"
+
+#: ../../source/user-guides/experiment-tracking.md:54
+#: a448d029922947dfb196ac1e435ebd6b
+msgid ""
+"# 在 .env 中修改\n"
+"SWANLAB_MODE=local\n"
+msgstr ""
+"# Modify in .env\n"
+"SWANLAB_MODE=local\n"
+
+#: ../../source/user-guides/experiment-tracking.md:59
+#: ac369db346ff40fbbf8e375782f863d1
+msgid "启动本地看板服务查看历史实验："
+msgstr "Launch the local dashboard server to view experiment histories:"
+
+#: ../../source/user-guides/experiment-tracking.md:60
+#: 6a2ffb551e304943b56b9f07d2f83f98
+msgid "swanlab watch swanlog\n"
+msgstr "swanlab watch swanlog\n"
+
+#: ../../source/user-guides/experiment-tracking.md:63
+#: f9f435e2e6b94460a4b7dde2af446664
+msgid "在浏览器中打开 `http://localhost:5092` 即可浏览本地所有训练曲线。"
+msgstr ""
+"Open `http://localhost:5092` in a browser to explore all local training "
+"curves."
+
+#: ../../source/user-guides/experiment-tracking.md:65
+#: b068ff94fc3d4c799971be38be0a3fd8
+msgid "3. 完全禁用云端追踪"
+msgstr "3\\. Completely Disable Cloud Telemetry"
+
+#: ../../source/user-guides/experiment-tracking.md:67
+#: 35ba1451fc964b3691ba38b749788573
+msgid ""
+"如果仅需要本地控制台输出与 CSV 文件记录，可以在命令行中通过 `--general.cloud_tracking false` "
+"完全关闭指标上报器："
+msgstr ""
+"If you only require console outputs and CSV logs, disable cloud tracking "
+"via `--general.cloud_tracking false` on the CLI:"
+
+#: ../../source/user-guides/experiment-tracking.md:69
+#: d77888e92643457da36a6147287887c1
+msgid "python train.py -m GIKT -d assistments09 --general.cloud_tracking false\n"
+msgstr "python train.py -m GIKT -d assistments09 --general.cloud_tracking false\n"
+
+#: ../../source/user-guides/experiment-tracking.md:73
+#: deda9ebacf8e4f0881646031906a6dab
+msgid "4. 切换为 Weights & Biases"
+msgstr "4\\. Switch to Weights & Biases"
+
+#: ../../source/user-guides/experiment-tracking.md:75
+#: d519e35463794306bad5a2cac46e1f7e
+msgid "若团队习惯使用 W&B，可通过环境变量轻松切换："
+msgstr ""
+"If your team prefers W&B, switch tracking backends via environment "
+"variables:"
+
+#: ../../source/user-guides/experiment-tracking.md:77
+#: 93b5ce8faae244c5b656ca7fa4fc52e9
+msgid ""
+"# 在 .env 中配置\n"
+"KT_TRACKING_BACKEND=wandb\n"
+"KT_WANDB_PROJECT=UniKT\n"
+"KT_WANDB_ENTITY=your_team\n"
+msgstr ""
+"# Configure in .env\n"
+"KT_TRACKING_BACKEND=wandb\n"
+"KT_WANDB_PROJECT=UniKT\n"
+"KT_WANDB_ENTITY=your_team\n"
+
+#: ../../source/user-guides/experiment-tracking.md:84
+#: a517ffad70c3406693d688d4f16be5da
+msgid "追踪指标命名规范"
+msgstr "Tracked Metric Naming Conventions"
+
+#: ../../source/user-guides/experiment-tracking.md:86
+#: 1407ff2d8b4d4ae386f492a05eb31a87
+msgid "UniKT 自动记录各阶段指标，并在看板中采用层级分明的前缀规范："
+msgstr ""
+"UniKT records metrics across all training phases using hierarchical "
+"prefix conventions:"
+
+#: ../../source/user-guides/experiment-tracking.md
+#: b484903121054ad6b69784876d1ffe68
+msgid "命名空间"
+msgstr "Namespace"
+
+#: ../../source/user-guides/experiment-tracking.md
+#: c53ccec02f2d4e1598aa13b3b26f22c6
+msgid "指标名称示例"
+msgstr "Example Metric Name"
+
+#: ../../source/user-guides/experiment-tracking.md
+#: 5271536b9d7c49d5994074cca0505712
+msgid "说明"
+msgstr "Description"
+
+#: ../../source/user-guides/experiment-tracking.md
+#: 374143d7ffa746d9a8fab38da2cc21da
+msgid "**训练阶段**"
+msgstr "**Training Phase**"
+
+#: ../../source/user-guides/experiment-tracking.md
+#: fc02ddf8e5504b76ab0640c35e38e6a0
+msgid "`Train/loss`<br/>`Train/lr`"
+msgstr "`Train/loss`<br/>`Train/lr`"
+
+#: ../../source/user-guides/experiment-tracking.md
+#: 6b6245bd59434abcbfd707cf1714dd5c
+msgid "每个 Epoch 结束时的平均训练损失与当前优化器学习率"
+msgstr "Average training loss and current optimizer learning rate at epoch end"
+
+#: ../../source/user-guides/experiment-tracking.md
+#: eb151b190c9c475e8e82f24199e7cf78
+msgid "**验证阶段**"
+msgstr "**Validation Phase**"
+
+#: ../../source/user-guides/experiment-tracking.md
+#: a1c5ff526e2743e88ffd6f8b61f5906e
+msgid "`Val/auc`<br/>`Val/acc`<br/>`Val/rmse`<br/>`Val/loss`"
+msgstr "`Val/auc`<br/>`Val/acc`<br/>`Val/rmse`<br/>`Val/loss`"
+
+#: ../../source/user-guides/experiment-tracking.md
+#: cf9d1ea7f6544b8d989e1718f3432b7e
+msgid "用于早停决策与超参数评估的验证集指标"
+msgstr "Validation metrics used for early stopping and hyperparameter assessment"
+
+#: ../../source/user-guides/experiment-tracking.md
+#: 3c937578dfbc4b13b0e1ca94e0cc86cf
+msgid "**多阶段提升模型**"
+msgstr "**Multi-Stage Boosted Models**"
+
+#: ../../source/user-guides/experiment-tracking.md
+#: 8b4fc5a392cd471d95bf8e7e21432763
+msgid "`STAGE1/Val/auc`<br/>`STAGE2/Val/auc`"
+msgstr "`STAGE1/Val/auc`<br/>`STAGE2/Val/auc`"
+
+#: ../../source/user-guides/experiment-tracking.md
+#: b2c06bf79fa6417e9ac956dd07521386
+msgid "针对 ABKT 等多阶段训练模型的专属分阶段指标"
+msgstr "Stage-specific metrics for multi-stage models like ABKT"
+
+#: ../../source/user-guides/experiment-tracking.md
+#: 83ee7b4bbe0148729c357845ccb0af61
+msgid "**测试阶段**"
+msgstr "**Test Phase**"
+
+#: ../../source/user-guides/experiment-tracking.md
+#: d31d2ec440ba47b5b1968d8b91f19cdb
+msgid "`Test/auc`<br/>`Test/acc`<br/>`Test/rmse`"
+msgstr "`Test/auc`<br/>`Test/acc`<br/>`Test/rmse`"
+
+#: ../../source/user-guides/experiment-tracking.md
+#: dcdfbad4329f430282af0d7ae54290a8
+msgid "最终使用最佳模型权重在独立测试集上评测的指标"
+msgstr "Final evaluation metrics on the held-out test set using best weights"
+
+#: ../../source/user-guides/experiment-tracking.md
+#: a6000f9801114580a4bc278480b72b0f
+msgid "**早停决策轨迹**"
+msgstr "**Early Stopping Trajectory**"
+
+#: ../../source/user-guides/experiment-tracking.md
+#: 67fe61bba85b455c90b5965ea40db4be
+msgid "`EarlyStopping/best_score`<br/>`EarlyStopping/wait_epochs`"
+msgstr "`EarlyStopping/best_score`<br/>`EarlyStopping/wait_epochs`"
+
+#: ../../source/user-guides/experiment-tracking.md
+#: 14f0030873a941cc8551bd0a05328305
+msgid "当前累计的最优指标值与已连续未提升的 Epoch 计数器"
+msgstr "Cumulative best metric value and consecutive un-improved epoch counter"
+
+#: ../../source/user-guides/experiment-tracking.md:97
+#: 3368b0b01ba541558f23c439e3a80d78
+msgid ""
+"为了兼顾网络吞吐与训练效率，UniKT "
+"默认采用异步指标上报器（`METRIC_LOGGING_ASYNC=1`），在独立的后台线程中提交网络请求，不阻塞 GPU 反向传播与前向计算。"
+msgstr ""
+"To balance network throughput and training efficiency, UniKT defaults to "
+"asynchronous logging (`METRIC_LOGGING_ASYNC=1`), dispatching requests on "
+"a background thread without stalling GPU execution."
+
+#: ../../source/user-guides/experiment-tracking.md:100
+#: 7595f9f709a1495a945f4e96e5336eb3
+msgid "实验归档产物"
+msgstr "Experiment Archive Artifacts"
+
+#: ../../source/user-guides/experiment-tracking.md:102
+#: 390b011949e349198f923fab547f2e6d
+msgid "任何一次训练（无论是常规训练、超参数搜索还是多折评估）结束时，都会在指定的 `runs/` 目录下落盘一套自包含的归档文件。"
+msgstr ""
+"Whenever training terminates (regular runs, hyperparameter sweeps, or "
+"K-fold evaluations), a self-contained archive is written to `runs/`."
+
+#: ../../source/user-guides/experiment-tracking.md:104
+#: 23f210b2cb2044ef9d354ed4b7379a21
+msgid ""
+"runs/normal/GIKT_assistments09_20261109-120000_fold0_bs128/\n"
+"├── run_config.yaml         # 完整的静态配置快照\n"
+"├── run_metadata.yaml       # 动态运行时元数据\n"
+"├── metrics_train.csv       # 训练集指标历史\n"
+"├── metrics_val.csv         # 验证集指标历史\n"
+"├── metrics_test.csv        # 测试集最终指标\n"
+"├── best_model.pth          # 最优模型权重\n"
+"└── run.log                 # 完整控制台日志\n"
+msgstr ""
+"runs/normal/GIKT_assistments09_20261109-120000_fold0_bs128/\n"
+"├── run_config.yaml         # Complete static configuration snapshot\n"
+"├── run_metadata.yaml       # Dynamic runtime metadata\n"
+"├── metrics_train.csv       # Training metric history\n"
+"├── metrics_val.csv         # Validation metric history\n"
+"├── metrics_test.csv        # Test set final metrics\n"
+"├── best_model.pth          # Best model weights\n"
+"└── run.log                 # Complete console log\n"
+
+#: ../../source/user-guides/experiment-tracking.md:115
+#: a5ec6cff9ca5481f9663479f9ebaaf5d
+msgid "1. `run_config.yaml`：无损复现配置"
+msgstr "1\\. `run_config.yaml`: Lossless Reproduction Config"
+
+#: ../../source/user-guides/experiment-tracking.md:117
+#: 3d31dd26a3d74a59b0746156c280c6a1
+msgid "该文件保存了本次运行的所有输入参数（类型安全的 dataclass 树序列化），排除了任何运行时易变对象："
+msgstr ""
+"Stores all input parameters serialized from the type-safe dataclass tree,"
+" excluding runtime volatile state:"
+
+#: ../../source/user-guides/experiment-tracking.md:119
+#: 8ae9830fcc684eac938232359c832aad
+msgid ""
+"general:\n"
+"  device: cuda:0\n"
+"  seed: 42\n"
+"  deterministic: true\n"
+"  cloud_tracking: true\n"
+"compile:\n"
+"  compile: false\n"
+"early_stopping:\n"
+"  monitor: auc\n"
+"  mode: max\n"
+"  patience: 10\n"
+"experiment:\n"
+"  model_name: GIKT\n"
+"data:\n"
+"  dataset: assistments09\n"
+"  fold: 0\n"
+"  kfold: 5\n"
+"  max_seq_len: 200\n"
+"model:\n"
+"  epochs: 100\n"
+"  batch_size: 128\n"
+"  learning_rate: 0.001\n"
+"  hidden_dim: 100\n"
+msgstr ""
+"general:\n"
+"  device: cuda:0\n"
+"  seed: 42\n"
+"  deterministic: true\n"
+"  cloud_tracking: true\n"
+"compile:\n"
+"  compile: false\n"
+"early_stopping:\n"
+"  monitor: auc\n"
+"  mode: max\n"
+"  patience: 10\n"
+"experiment:\n"
+"  model_name: GIKT\n"
+"data:\n"
+"  dataset: assistments09\n"
+"  fold: 0\n"
+"  kfold: 5\n"
+"  max_seq_len: 200\n"
+"model:\n"
+"  epochs: 100\n"
+"  batch_size: 128\n"
+"  learning_rate: 0.001\n"
+"  hidden_dim: 100\n"
+
+#: ../../source/user-guides/experiment-tracking.md:145
+#: 16e734675bf945ce83d64729e7916e7a
+msgid "你可以随时将此文件直接喂给 `train.py` 来 100% 精确复现实验："
+msgstr ""
+"You can pass this file directly back to `train.py` to reproduce the "
+"experiment 100% identically:"
+
+#: ../../source/user-guides/experiment-tracking.md:146
+#: 2e812155b16d4c36b7640cdc96743950
+msgid ""
+"python train.py --config "
+"runs/normal/GIKT_assistments09_20261109-120000_fold0_bs128/run_config.yaml"
+"\n"
+msgstr ""
+"python train.py --config "
+"runs/normal/GIKT_assistments09_20261109-120000_fold0_bs128/run_config.yaml"
+"\n"
+
+#: ../../source/user-guides/experiment-tracking.md:150
+#: ee1fd5316c87482eaf10079ae928479d
+msgid "2. `run_metadata.yaml`：运行时环境特征"
+msgstr "2\\. `run_metadata.yaml`: Runtime Environment Characteristics"
+
+#: ../../source/user-guides/experiment-tracking.md:152
+#: bfd0177da49340288d150072e18b19d4
+msgid "为了防止“环境差异导致不可复现”，UniKT 还会生成一份元数据辅助文件，忠实记录本次训练在硬件和网络层面的真实属性："
+msgstr ""
+"To prevent environment discrepancy from hindering reproducibility, UniKT "
+"generates a metadata companion recording physical hardware and "
+"environment attributes:"
+
+#: ../../source/user-guides/experiment-tracking.md:154
+#: 6aa2058cebb74fa7a3751cf235cd7400
+msgid ""
+"execution:\n"
+"  start_time: '2026-11-09T12:00:00'\n"
+"  duration_seconds: 142.5\n"
+"environment:\n"
+"  pytorch_version: 2.10.0\n"
+"  cuda_available: true\n"
+"  cuda_device_name: NVIDIA GeForce RTX 4090\n"
+"model_summary:\n"
+"  total_parameters: 412850\n"
+"  trainable_parameters: 412850\n"
+"  optimizer: AdamW\n"
+msgstr ""
+"execution:\n"
+"  start_time: '2026-11-09T12:00:00'\n"
+"  duration_seconds: 142.5\n"
+"environment:\n"
+"  pytorch_version: 2.10.0\n"
+"  cuda_available: true\n"
+"  cuda_device_name: NVIDIA GeForce RTX 4090\n"
+"model_summary:\n"
+"  total_parameters: 412850\n"
+"  trainable_parameters: 412850\n"
+"  optimizer: AdamW\n"
+
+#: ../../source/user-guides/experiment-tracking.md:168
+#: 677de5ca05ea4e2ebaa5a0402cebbfd6
+msgid "该机制保证了学术研究与工程协作中的可追溯性与严谨性。"
+msgstr ""
+"This mechanism ensures traceability and rigor in academic research and "
+"engineering collaboration."

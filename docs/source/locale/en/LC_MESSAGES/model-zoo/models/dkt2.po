@@ -1,0 +1,140 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/dkt2.md:1 17870f286d654d79bb0361406ebb7a9c
+msgid "DKT2"
+msgstr "DKT2"
+
+#: ../../source/model-zoo/models/dkt2.md:3 74ba1377b34842deaf035f1b8791ab44
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/dkt2.md 39940b9af8ad47a391cf1c6f5b36c343
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/dkt2.md 8c3ff596487f42b2abab53212ab0c003
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/dkt2.md ecba5c36e122403eb354e1f6ccd44f08
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/dkt2.md fdb92da16362496aa91b7d1e69e8e29a
+msgid ""
+"[Revisiting Applicable and Comprehensive Knowledge Tracing in Large-Scale"
+" Data](https://doi.org/10.1007/978-3-032-06109-6_14)"
+msgstr ""
+"[Revisiting Applicable and Comprehensive Knowledge Tracing in Large-Scale"
+" Data](https://doi.org/10.1007/978-3-032-06109-6_14)"
+
+#: ../../source/model-zoo/models/dkt2.md ee8fd22837714f51958ab07efa9d5f27
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/dkt2.md 6ee7266f5b544270acced511ba1f71ca
+msgid "Yiyun Zhou, Wenkang Han, Jingyuan Chen"
+msgstr "Yiyun Zhou, Wenkang Han, Jingyuan Chen"
+
+#: ../../source/model-zoo/models/dkt2.md 0cf3654dde38489eb89b329fbdcbe718
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/dkt2.md 1a073b3964c5453e96a772432b1f5650
+msgid "2025"
+msgstr "2025"
+
+#: ../../source/model-zoo/models/dkt2.md 0f3cac144b4045d2956f994e57cb5446
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/dkt2.md 05565280ac694f55acb79b5df5d8d1e2
+msgid "Machine Learning and Knowledge Discovery in Databases. Research Track"
+msgstr "Machine Learning and Knowledge Discovery in Databases. Research Track"
+
+#: ../../source/model-zoo/models/dkt2.md 1d3acbfcb0344bfebf1ad4e94c16b619
+msgid "DOI"
+msgstr "DOI"
+
+#: ../../source/model-zoo/models/dkt2.md e94afe8744524a1699919aa2e794ee95
+msgid "[10.1007/978-3-032-06109-6_14](https://doi.org/10.1007/978-3-032-06109-6_14)"
+msgstr "[10.1007/978-3-032-06109-6_14](https://doi.org/10.1007/978-3-032-06109-6_14)"
+
+#: ../../source/model-zoo/models/dkt2.md:13 346e81cff53944a0bbe9af922451002d
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/dkt2.md:15 1ca746f8018b4bf499ae5b607dbd92a0
+msgid ""
+"Knowledge Tracing (KT) is a fundamental component of Intelligent Tutoring"
+" Systems (ITS), enabling the modeling of students' knowledge states to "
+"predict future performance. The introduction of Deep Knowledge Tracing "
+"(DKT), the first deep learning-based KT (DLKT) model, has brought "
+"significant advantages in terms of applicability and comprehensiveness. "
+"However, recent DLKT models, such as Attentive Knowledge Tracing (AKT), "
+"have often prioritized predictive performance at the expense of these "
+"benefits. While deep sequential models like DKT have shown potential, "
+"they face challenges related to parallel computing, storage decision "
+"modification, and limited storage capacity. To address these limitations,"
+" we propose DKT2, a novel KT model that leverages the recently developed "
+"xLSTM architecture. DKT2 enhances applicable input representation using "
+"the Rasch model and incorporates Item Response Theory (IRT) for output "
+"interpretability, allowing for the decomposition of learned knowledge "
+"into familiar and unfamiliar knowledge. By integrating this knowledge "
+"with predicted questions, DKT2 generates comprehensive knowledge states. "
+"Extensive experiments conducted across three large-scale datasets "
+"demonstrate that DKT2 consistently outperforms 18 baseline models in "
+"various prediction tasks, underscoring its potential for real-world "
+"educational applications. This work bridges the gap between theoretical "
+"advancements and practical implementation in KT. Our code, datasets and "
+"Appendix are fully available at https://github.com/zyy-2001/DKT2."
+msgstr ""
+"Knowledge Tracing (KT) is a fundamental component of Intelligent Tutoring"
+" Systems (ITS), enabling the modeling of students' knowledge states to "
+"predict future performance. The introduction of Deep Knowledge Tracing "
+"(DKT), the first deep learning-based KT (DLKT) model, has brought "
+"significant advantages in terms of applicability and comprehensiveness. "
+"However, recent DLKT models, such as Attentive Knowledge Tracing (AKT), "
+"have often prioritized predictive performance at the expense of these "
+"benefits. While deep sequential models like DKT have shown potential, "
+"they face challenges related to parallel computing, storage decision "
+"modification, and limited storage capacity. To address these limitations,"
+" we propose DKT2, a novel KT model that leverages the recently developed "
+"xLSTM architecture. DKT2 enhances applicable input representation using "
+"the Rasch model and incorporates Item Response Theory (IRT) for output "
+"interpretability, allowing for the decomposition of learned knowledge "
+"into familiar and unfamiliar knowledge. By integrating this knowledge "
+"with predicted questions, DKT2 generates comprehensive knowledge states. "
+"Extensive experiments conducted across three large-scale datasets "
+"demonstrate that DKT2 consistently outperforms 18 baseline models in "
+"various prediction tasks, underscoring its potential for real-world "
+"educational applications. This work bridges the gap between theoretical "
+"advancements and practical implementation in KT. Our code, datasets and "
+"Appendix are fully available at https://github.com/zyy-2001/DKT2."
+
+#: ../../source/model-zoo/models/dkt2.md:18 fca9f09feed04d9f9b4a57d560072eb5
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/dkt2.md:20 f5c7cc03ca6440e087eb1fce1ef78ce2
+msgid "[zyy-2001/DKT2](https://github.com/zyy-2001/DKT2)"
+msgstr "[zyy-2001/DKT2](https://github.com/zyy-2001/DKT2)"

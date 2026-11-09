@@ -1,0 +1,14 @@
+{% extends "!page.html" %}
+{% block content %}
+<div class="unikt-document unikt-{{ unikt_page_kind|default('guide') }}">
+  {% if pagename != master_doc %}
+  <nav class="unikt-breadcrumbs" aria-label="{{ '当前位置' if language.startswith('zh') else 'Breadcrumb' }}">
+    <a href="{{ pathto(master_doc) }}">UniKT</a>
+    {% for parent in parents %}
+    <span aria-hidden="true">/</span><a href="{{ parent.link }}">{{ parent.title|striptags }}</a>
+    {% endfor %}
+  </nav>
+  {% endif %}
+  {{ super() }}
+</div>
+{% endblock %}

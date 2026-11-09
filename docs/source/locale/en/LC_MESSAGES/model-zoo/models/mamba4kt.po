@@ -1,0 +1,124 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/mamba4kt.md:1 08634cb75c20463eb21cf40e58eb10bb
+msgid "Mamba4KT"
+msgstr "Mamba4KT"
+
+#: ../../source/model-zoo/models/mamba4kt.md:3 c66a04c711b54293b1af57cb675e0bd8
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/mamba4kt.md 0c25a5cd1aba44638a1f3e80db11dd84
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/mamba4kt.md ce3d69a636fe48dba8d73472d95dbd9e
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/mamba4kt.md 263fb969f486486ba29f4265263ec632
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/mamba4kt.md fa02128666844138845be82e07da3c80
+msgid ""
+"[Mamba4KT: An Efficient and Effective Mamba-based Knowledge Tracing "
+"Model](https://doi.org/10.48550/arXiv.2405.16542)"
+msgstr ""
+"[Mamba4KT: An Efficient and Effective Mamba-based Knowledge Tracing "
+"Model](https://doi.org/10.48550/arXiv.2405.16542)"
+
+#: ../../source/model-zoo/models/mamba4kt.md aceaaee023124bb6a5b8a31a454bc925
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/mamba4kt.md 2f73e589444546a1aa13bc3aa2d064ab
+msgid "Yang Cao, Wei Zhang"
+msgstr "Yang Cao, Wei Zhang"
+
+#: ../../source/model-zoo/models/mamba4kt.md 9db16d0f2b5f41c7880374c148c37f6b
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/mamba4kt.md 43500dcf624046ce8d572f893535f97d
+msgid "2024"
+msgstr "2024"
+
+#: ../../source/model-zoo/models/mamba4kt.md e5de0da871e440998287fca442e0b40a
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/mamba4kt.md 1387403d1de34718a7ca1d75c7a2a003
+msgid "arXiv 预印本"
+msgstr "arXiv preprint"
+
+#: ../../source/model-zoo/models/mamba4kt.md:12
+#: df48c53b891b42ccb9829190b85e1e9c
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/mamba4kt.md:14
+#: d88cdf793901420aa11b10ea723dd427
+msgid ""
+"Knowledge tracing (KT) enhances student learning by leveraging past "
+"performance to predict future performance. Current research utilizes "
+"models based on attention mechanisms and recurrent neural network "
+"structures to capture long-term dependencies and correlations between "
+"exercises, aiming to improve model accuracy. Due to the growing amount of"
+" data in smart education scenarios, this poses a challenge in terms of "
+"time and space consumption for knowledge tracing models. However, "
+"existing research often overlooks the efficiency of model training and "
+"inference and the constraints of training resources. Recognizing the "
+"significance of prioritizing model efficiency and resource usage in "
+"knowledge tracing, we introduce Mamba4KT. This novel model is the first "
+"to explore enhanced efficiency and resource utilization in knowledge "
+"tracing. We also examine the interpretability of the Mamba structure both"
+" sequence-level and exercise-level to enhance model interpretability. "
+"Experimental findings across three public datasets demonstrate that "
+"Mamba4KT achieves comparable prediction accuracy to state-of-the-art "
+"models while significantly improving training and inference efficiency "
+"and resource utilization. As educational data continues to grow, our work"
+" suggests a promising research direction for knowledge tracing that "
+"improves model prediction accuracy, model efficiency, resource "
+"utilization, and interpretability simultaneously."
+msgstr ""
+"Knowledge tracing (KT) enhances student learning by leveraging past "
+"performance to predict future performance. Current research utilizes "
+"models based on attention mechanisms and recurrent neural network "
+"structures to capture long-term dependencies and correlations between "
+"exercises, aiming to improve model accuracy. Due to the growing amount of"
+" data in smart education scenarios, this poses a challenge in terms of "
+"time and space consumption for knowledge tracing models. However, "
+"existing research often overlooks the efficiency of model training and "
+"inference and the constraints of training resources. Recognizing the "
+"significance of prioritizing model efficiency and resource usage in "
+"knowledge tracing, we introduce Mamba4KT. This novel model is the first "
+"to explore enhanced efficiency and resource utilization in knowledge "
+"tracing. We also examine the interpretability of the Mamba structure both"
+" sequence-level and exercise-level to enhance model interpretability. "
+"Experimental findings across three public datasets demonstrate that "
+"Mamba4KT achieves comparable prediction accuracy to state-of-the-art "
+"models while significantly improving training and inference efficiency "
+"and resource utilization. As educational data continues to grow, our work"
+" suggests a promising research direction for knowledge tracing that "
+"improves model prediction accuracy, model efficiency, resource "
+"utilization, and interpretability simultaneously."

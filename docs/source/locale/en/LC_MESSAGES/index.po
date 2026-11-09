@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: UniKT \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-15 18:10+0800\n"
+"POT-Creation-Date: 2026-11-09 23:49+0800\n"
 "PO-Revision-Date: 2026-07-12 15:25+0800\n"
 "Last-Translator: UniKT Team\n"
 "Language: en\n"
@@ -19,108 +19,203 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.18.0\n"
 
-#: ../../source/index.md:41
-msgid "目录"
-msgstr "Table of Contents"
+#: ../../source/index.md:92
+msgid "开始使用"
+msgstr "Getting Started"
 
-#: ../../source/index.md:1 3b9f009ab5c0410592791920f7d04ab4
+#: ../../source/index.md:100
+msgid "研究资源"
+msgstr "Research Resources"
+
+#: ../../source/index.md:109
+msgid "评测"
+msgstr "Evaluation"
+
+#: ../../source/index.md:117
+msgid "用户指南"
+msgstr "User Guides"
+
+#: ../../source/index.md:125
+msgid "开发与参考"
+msgstr "Development & Reference"
+
+#: ../../source/index.md:5 e676d00a630f49a8ba606e418edbb65f
 msgid "UniKT"
 msgstr "UniKT"
 
-#: ../../source/index.md:3 d351ac9e91ae491b964294176291c013
-msgid "**统一知识追踪实验框架** —— 内置 35 个知识追踪模型（GNN、注意力、Mamba 等），覆盖训练、评估、超参数搜索与案例分析全流程。"
+#: ../../source/index.md:8 21d876a8caf945aa83f97c21113e0c0e
+msgid ""
+"知识追踪，即 Knowledge Tracing，根据学生的历史作答序列估计其知识状态，并预测下一道题能否答对。UniKT "
+"在统一的数据管线、学生级交叉验证划分与指标口径下训练和评测知识追踪模型，使不同模型的结果可以公平对比、完整复现。"
 msgstr ""
-"**A unified knowledge tracing experiment framework** — 35 built-in "
-"knowledge tracing models (GNN, attention, Mamba, etc.), covering the full "
-"workflow of training, evaluation, hyperparameter search, and case analysis."
+"Knowledge tracing (KT) estimates students' knowledge states from their "
+"historical response sequences and predicts whether they will answer the "
+"next question correctly. UniKT trains and evaluates knowledge tracing "
+"models under a unified data pipeline, student-level cross-validation "
+"splits, and standardized metric definitions, enabling fair comparison and"
+" complete reproducibility across different models."
 
-#: ../../source/index.md:5 122f55bf7b254204ba99e76f64610499
-msgid "快速导航"
-msgstr "Quick navigation"
+#: ../../source/index.md:12 f33e38ce71f94e90a418c8093b7b304c
+msgid "[快速上手](getting-started/quick-start.md)"
+msgstr "[Quick Start](getting-started/quick-start.md)"
 
-#: ../../source/index.md:8 6f83f97912cd4538887b99564d0f1cea
-msgid "[快速上手](getting-started/quick-start.md) —— 安装与第一次训练"
+#: ../../source/index.md:14 eaf221235ea843d9927993ee8a7262c9
+msgid "[模型库](model-zoo/index.md)"
+msgstr "[Model Zoo](model-zoo/index.md)"
+
+#: ../../source/index.md:16 95ad3c5b91dc467299f8386ca4e6ce1f
+msgid "[GitHub](https://github.com/szhhwh/UniKT)"
+msgstr "[GitHub](https://github.com/szhhwh/UniKT)"
+
+#: ../../source/index.md:65 45241e804bb14b13a199b2bea082d21d
+msgid "**64** 个模型实现"
+msgstr "**64** Model Implementations"
+
+#: ../../source/index.md:66 f1ebabeda2e94ca28e2863de4305a06b
+msgid "**14** 个公开数据集"
+msgstr "**14** Public Datasets"
+
+#: ../../source/index.md:67 d24ab737fe214c4fb75e0f105b4d2e1e
+msgid "**1.5 亿+** 条学习交互"
+msgstr "**150M+** Learning Interactions"
+
+#: ../../source/index.md:68 57ddf425f57645e891c45566ed16c0a8
+msgid "**120 万+** 名学生"
+msgstr "**1.2M+** Students"
+
+#: ../../source/index.md:71 0906b5e005ab43a4bce751d251ea787c
+msgid "文档导航"
+msgstr "Documentation Navigation"
+
+#: ../../source/index.md:74 a184ae5bbf674bac8d38f1ce5b610421
+msgid "[快速开始](getting-started/index.md) 配置 Pixi 环境，完成第一次数据处理与训练。"
 msgstr ""
-"[Quick start](getting-started/quick-start.md) — Installation and your "
-"first training run"
+"[Quick Start](getting-started/index.md) Configure the Pixi environment "
+"and complete your first data processing and training run."
 
-#: ../../source/index.md:9 b27209a9390f44cabf1e6a4023255dc0
-msgid "[模型基准](model-zoo.md) —— 各模型在标准数据集上的性能对比"
+#: ../../source/index.md:76 f8cc08f4aef54133bc555f8af9139718
+msgid "[模型库](model-zoo/index.md) 按模型查阅论文、作者实现与接入说明。"
 msgstr ""
-"[Model zoo](model-zoo.md) — Performance comparison of models on standard "
-"datasets"
+"[Model Zoo](model-zoo/index.md) Browse papers, author implementations, "
+"and integration notes by model."
 
-#: ../../source/index.md:10 2c32aa06f6084abcb816ad31656a35eb
-msgid "[框架数据流](advanced/data-flow.md) —— 端到端架构详解"
+#: ../../source/index.md:78 ead3630a18c04adbb48366d420ffe490
+msgid "[数据集](datasets/index.md) 查阅数据来源、规模、字段与处理流程。"
 msgstr ""
-"[Framework data flow](advanced/data-flow.md) — End-to-end architecture "
-"walkthrough"
+"[Datasets](datasets/index.md) Explore data sources, scales, schemas, and "
+"processing pipelines."
 
-#: ../../source/index.md:15 3c4294459a6048869cbb02fc1166c279
-msgid "多模型支持"
-msgstr "Multi-model support"
+#: ../../source/index.md:80 df8bb6d962d94e47aedec676514e2f3b
+msgid "[评测](evaluation/index.md) 基准排行榜、交叉验证协议、独立测试、案例分析与效率评测。"
+msgstr ""
+"[Evaluation](evaluation/index.md) Benchmark leaderboard, cross-validation"
+" protocol, standalone testing, case analysis, and efficiency "
+"benchmarking."
 
-#: ../../source/index.md:16 75c044ea34654fa6af531883f3c2d8ba
-msgid "35 个内置知识追踪模型（GNN、注意力、Mamba）"
-msgstr "35 built-in knowledge tracing models (GNN, attention, Mamba)"
+#: ../../source/index.md:82 ccba6e3dea29426bb5cefaeb3871d2df
+msgid "[用户指南](user-guides/index.md) 训练、超参数搜索、实验追踪与 Web 平台。"
+msgstr ""
+"[User Guides](user-guides/index.md) Training, hyperparameter search, "
+"experiment tracking, and Web platform."
 
-#: ../../source/index.md:17 53d91bacf4b74e45a5984b9118397477
-msgid "装饰器注册 + 静态发现懒加载"
-msgstr "Decorator registration + static discovery with lazy loading"
+#: ../../source/index.md:84 216c92ea9d3e4e58a7370738a70e128d
+msgid "[开发者指南](developer-guides/index.md) 接入新模型、新数据集、多阶段训练与回调。"
+msgstr ""
+"[Developer Guides](developer-guides/index.md) Adding new models, custom "
+"datasets, multi-stage training, and callbacks."
 
-#: ../../source/index.md:18 bbce8bae79c046509a0a7451191ef51e
-msgid "统一的训练器 API"
-msgstr "Unified trainer API"
+#: ../../source/index.md:86 619cba720bc242778949a74e8b65da21
+msgid "[API 参考](api/index.md) 命令行参数与 Python 接口。"
+msgstr ""
+"[API Reference](api/index.md) Command-line arguments and Python "
+"interfaces."
 
-#: ../../source/index.md:21 e23cefc046da4a92bcc11cfb03659114
-msgid "实验管理"
-msgstr "Experiment management"
+#: ../../source/index.md:88 bdcaaf9d71ad4063894acb4ff43d1938
+msgid "[更新日志](changelog.md) 框架与文档的版本变更。"
+msgstr "[Changelog](changelog.md) Framework and documentation release notes."
 
-#: ../../source/index.md:22 44ad8b83e91c4f7182901901f282d80e
-msgid "K 折交叉验证"
-msgstr "K-fold cross validation"
+#~ msgid "目录"
+#~ msgstr "Table of Contents"
 
-#: ../../source/index.md:23 90f0b9d63fc54ef8904144ef4eebfde1
-msgid "基于 Optuna 的超参数搜索"
-msgstr "Optuna-based hyperparameter search"
+#~ msgid "**统一知识追踪实验框架** —— 内置 35 个知识追踪模型（GNN、注意力、Mamba 等），覆盖训练、评估、超参数搜索与案例分析全流程。"
+#~ msgstr ""
+#~ "**A unified knowledge tracing experiment "
+#~ "framework** — 35 built-in knowledge "
+#~ "tracing models (GNN, attention, Mamba, "
+#~ "etc.), covering the full workflow of "
+#~ "training, evaluation, hyperparameter search, "
+#~ "and case analysis."
 
-#: ../../source/index.md:24 509717bb687d4d49b060267fa0ccb981
-msgid "SwanLab 实验追踪"
-msgstr "SwanLab experiment tracking"
+#~ msgid "快速导航"
+#~ msgstr "Quick navigation"
 
-#: ../../source/index.md:27 a4fea3e327844a418d1c1a325427bc0e
-msgid "数据处理"
-msgstr "Data processing"
+#~ msgid "[模型基准](model-zoo.md) —— 各模型在标准数据集上的性能对比"
+#~ msgstr ""
+#~ "[Model zoo](model-zoo.md) — Performance "
+#~ "comparison of models on standard "
+#~ "datasets"
 
-#: ../../source/index.md:28 dd6080ca6ec1491c84eb6d998460fa30
-msgid "11 个支持的数据集"
-msgstr "11 supported datasets"
+#~ msgid "[框架数据流](advanced/data-flow.md) —— 端到端架构详解"
+#~ msgstr ""
+#~ "[Framework data flow](advanced/data-flow.md) —"
+#~ " End-to-end architecture walkthrough"
 
-#: ../../source/index.md:29 e545a2c46b15459a82e58634c8cf9181
-msgid "自动下载与预处理"
-msgstr "Automatic download and preprocessing"
+#~ msgid "多模型支持"
+#~ msgstr "Multi-model support"
 
-#: ../../source/index.md:30 64fbf090fc794b4eb45dda9e7960ddc9
-msgid "可配置的采样策略"
-msgstr "Configurable sampling strategies"
+#~ msgid "35 个内置知识追踪模型（GNN、注意力、Mamba）"
+#~ msgstr "35 built-in knowledge tracing models (GNN, attention, Mamba)"
 
-#: ../../source/index.md:31 2b9da722d9b04b1f99a2b248677dd29d
-msgid "标准化 Parquet 输出"
-msgstr "Standardized Parquet output"
+#~ msgid "装饰器注册 + 静态发现懒加载"
+#~ msgstr "Decorator registration + static discovery with lazy loading"
 
-#: ../../source/index.md:34 729f1041fea04cf5a59146dee4655741
-msgid "案例分析"
-msgstr "Case analysis"
+#~ msgid "统一的训练器 API"
+#~ msgstr "Unified trainer API"
 
-#: ../../source/index.md:35 9d5191c007534d029c1de25862e74e9e
-msgid "模型推理与预测"
-msgstr "Model inference and prediction"
+#~ msgid "实验管理"
+#~ msgstr "Experiment management"
 
-#: ../../source/index.md:36 a02e7b85ffca4411b4bbde7b39e7d657
-msgid "按策略选择学生"
-msgstr "Strategy-based student selection"
+#~ msgid "K 折交叉验证"
+#~ msgstr "K-fold cross validation"
 
-#: ../../source/index.md:37 8590fb9f5b75482f9be5ce5e8d350355
-msgid "知识状态热力图"
-msgstr "Knowledge state heatmaps"
+#~ msgid "基于 Optuna 的超参数搜索"
+#~ msgstr "Optuna-based hyperparameter search"
 
+#~ msgid "SwanLab 实验追踪"
+#~ msgstr "SwanLab experiment tracking"
+
+#~ msgid "数据处理"
+#~ msgstr "Data processing"
+
+#~ msgid "11 个支持的数据集"
+#~ msgstr "11 supported datasets"
+
+#~ msgid "自动下载与预处理"
+#~ msgstr "Automatic download and preprocessing"
+
+#~ msgid "可配置的采样策略"
+#~ msgstr "Configurable sampling strategies"
+
+#~ msgid "标准化 Parquet 输出"
+#~ msgstr "Standardized Parquet output"
+
+#~ msgid "案例分析"
+#~ msgstr "Case analysis"
+
+#~ msgid "模型推理与预测"
+#~ msgstr "Model inference and prediction"
+
+#~ msgid "按策略选择学生"
+#~ msgstr "Strategy-based student selection"
+
+#~ msgid "知识状态热力图"
+#~ msgstr "Knowledge state heatmaps"
+
+#~ msgid "快速上手"
+#~ msgstr "Quick start"
+
+#~ msgid "模型库"
+#~ msgstr "Model Zoo"
+
+#~ msgid "GitHub"
+#~ msgstr "GitHub"

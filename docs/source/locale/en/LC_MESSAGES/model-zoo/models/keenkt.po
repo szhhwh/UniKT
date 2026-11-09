@@ -1,0 +1,126 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/keenkt.md:1 4a9fa8ffb8644db9ae7837a53f4e7d71
+msgid "KeenKT"
+msgstr "KeenKT"
+
+#: ../../source/model-zoo/models/keenkt.md:3 d0321881bc8b43b18a40a84349f8b727
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/keenkt.md d4c26ad8b42c432aaf3f69acbf03a23e
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/keenkt.md 0afb0b5aa5be4c7fb1959b1102556318
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/keenkt.md 26899796edc2405ba85825e1882835d3
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/keenkt.md ffa5ec61a20a42d5a38e311bc300c043
+msgid ""
+"[KeenKT: Knowledge Mastery-State Disambiguation for Knowledge "
+"Tracing](https://doi.org/10.1609/aaai.v40i23.39004)"
+msgstr ""
+"[KeenKT: Knowledge Mastery-State Disambiguation for Knowledge "
+"Tracing](https://doi.org/10.1609/aaai.v40i23.39004)"
+
+#: ../../source/model-zoo/models/keenkt.md 249200127f22431982406adb1cdb5715
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/keenkt.md f09f4d31e0e445b2a2147d6a394f2d67
+msgid ""
+"Zhifei Li, Lifan Chen, Jiali Yi, Xiaoju Hou, Yue Zhao, Wenxin Huang, Miao"
+" Zhang, Kui Xiao, Bing Yang"
+msgstr ""
+"Zhifei Li, Lifan Chen, Jiali Yi, Xiaoju Hou, Yue Zhao, Wenxin Huang, Miao"
+" Zhang, Kui Xiao, Bing Yang"
+
+#: ../../source/model-zoo/models/keenkt.md 9ab3ae13dd9843ba939ffa39b811f1c5
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/keenkt.md 4618cb82b32c4538877d16ae60312352
+msgid "2026"
+msgstr "2026"
+
+#: ../../source/model-zoo/models/keenkt.md 2421b26534c048e0a524934e8d80034a
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/keenkt.md 323a320f3887493d8e619013b46f047a
+msgid "Proceedings of the AAAI Conference on Artificial Intelligence, 40(23)"
+msgstr "Proceedings of the AAAI Conference on Artificial Intelligence, 40(23)"
+
+#: ../../source/model-zoo/models/keenkt.md:12 084b354ffc214d52b5917d9308acb168
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/keenkt.md:14 32cf5b20a3fd439da1675ff8437e152e
+msgid ""
+"Knowledge Tracing (KT) aims to dynamically model a student’s mastery of "
+"knowledge concepts based on their historical learning interactions. Most "
+"current methods rely on single-point estimates, which cannot distinguish "
+"true ability from outburst or carelessness, creating ambiguity in judging"
+" mastery. To address this issue, we propose a Knowledge Mastery-State "
+"Disambiguation for Knowledge Tracing model (KeenKT), which represents a "
+"student’s knowledge state at each interaction using a Normal-Inverse-"
+"Gaussian (NIG) distribution, thereby capturing the fluctuations in "
+"student learning behaviors. Furthermore, we design an NIG-distance-based "
+"attention mechanism to model the dynamic evolution of the knowledge "
+"state. In addition, we introduce a diffusion-based denoising "
+"reconstruction loss and a distributional contrastive learning loss to "
+"enhance the model’s robustness. Extensive experiments on six public "
+"datasets demonstrate that KeenKT outperforms state-of-the-art KT models "
+"in terms of prediction accuracy and sensitivity to behavioral "
+"fluctuations. The proposed method yields the maximum AUC improvement of "
+"5.85% and the maximum ACC improvement of 6.89%."
+msgstr ""
+"Knowledge Tracing (KT) aims to dynamically model a student’s mastery of "
+"knowledge concepts based on their historical learning interactions. Most "
+"current methods rely on single-point estimates, which cannot distinguish "
+"true ability from outburst or carelessness, creating ambiguity in judging"
+" mastery. To address this issue, we propose a Knowledge Mastery-State "
+"Disambiguation for Knowledge Tracing model (KeenKT), which represents a "
+"student’s knowledge state at each interaction using a Normal-Inverse-"
+"Gaussian (NIG) distribution, thereby capturing the fluctuations in "
+"student learning behaviors. Furthermore, we design an NIG-distance-based "
+"attention mechanism to model the dynamic evolution of the knowledge "
+"state. In addition, we introduce a diffusion-based denoising "
+"reconstruction loss and a distributional contrastive learning loss to "
+"enhance the model’s robustness. Extensive experiments on six public "
+"datasets demonstrate that KeenKT outperforms state-of-the-art KT models "
+"in terms of prediction accuracy and sensitivity to behavioral "
+"fluctuations. The proposed method yields the maximum AUC improvement of "
+"5.85% and the maximum ACC improvement of 6.89%."
+
+#: ../../source/model-zoo/models/keenkt.md:17 3dcc535f44684f38926f04b4461ca111
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/keenkt.md:19 9f95487d055948a4b934bcbf514c8511
+msgid "[HubuKG/KeenKT](https://github.com/HubuKG/KeenKT)"
+msgstr "[HubuKG/KeenKT](https://github.com/HubuKG/KeenKT)"

@@ -1,0 +1,134 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/folibikt.md:1 68a717a50b644f6ab89fd89bf6023fac
+msgid "FoLibiKT"
+msgstr "FoLibiKT"
+
+#: ../../source/model-zoo/models/folibikt.md:3 343fe5bfa50345ccbb7d77d872d7aa56
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/folibikt.md 8565cc41f40b4c919e9a4f1e1e012643
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/folibikt.md 58da72b19182484bbe2b00de5cb20710
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/folibikt.md 21bcc408c0004a16afd31a1c7f3343e8
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/folibikt.md 2c47db0722124c72a1a9c7c4895eb87c
+msgid ""
+"[Forgetting-aware Linear Bias for Attentive Knowledge "
+"Tracing](https://doi.org/10.1145/3583780.3615191)"
+msgstr ""
+"[Forgetting-aware Linear Bias for Attentive Knowledge "
+"Tracing](https://doi.org/10.1145/3583780.3615191)"
+
+#: ../../source/model-zoo/models/folibikt.md ac50a781767c45e8abdf1f0730b3cbe6
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/folibikt.md c1cb205ae7834ef295413fe6ca9740f3
+msgid "Yoonjin Im, Eunseong Choi, Heejin Kook, Jongwuk Lee"
+msgstr "Yoonjin Im, Eunseong Choi, Heejin Kook, Jongwuk Lee"
+
+#: ../../source/model-zoo/models/folibikt.md ba104ffb323a4376b6cac9923be4eac3
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/folibikt.md 828ff92fa62d4f8abdb9604b22a96357
+msgid "2023"
+msgstr "2023"
+
+#: ../../source/model-zoo/models/folibikt.md b9177196a3bc4a3585b8bc6d9118994d
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/folibikt.md 0c99fd51038d4da59320a3b77b0cd7a4
+msgid ""
+"Proceedings of the 32nd ACM International Conference on Information and "
+"Knowledge Management（CIKM 2023）"
+msgstr ""
+"Proceedings of the 32nd ACM International Conference on Information and "
+"Knowledge Management (CIKM 2023)"
+
+#: ../../source/model-zoo/models/folibikt.md:12
+#: 063b70ef3e904a56a237d6c98f9d8ec8
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/folibikt.md:14
+#: 3af22361622b4e20940007da6a4cd2e0
+#, python-format
+msgid ""
+"Knowledge Tracing (KT) aims to track proficiency based on a question-"
+"solving history, allowing us to offer a streamlined curriculum. Recent "
+"studies actively utilize attention-based mechanisms to capture the "
+"correlation between questions and combine it with the learner's "
+"characteristics for responses. However, our empirical study shows that "
+"existing attention-based KT models neglect the learner's forgetting "
+"behavior, especially as the interaction history becomes longer. This "
+"problem arises from the bias that overprioritizes the correlation of "
+"questions while inadvertently ignoring the impact of forgetting behavior."
+" This paper proposes a simple-yet-effective solution, namely Forgetting-"
+"aware Linear Bias (FoLiBi), to reflect forgetting behavior as a linear "
+"bias. Despite its simplicity, FoLiBi is readily equipped with existing "
+"attentive KT models by effectively decomposing question correlations with"
+" forgetting behavior. FoLiBi plugged with several KT models yields a "
+"consistent improvement of up to 2.58% in AUC over state-of-the-art KT "
+"models on four benchmark datasets."
+msgstr ""
+"Knowledge Tracing (KT) aims to track proficiency based on a question-"
+"solving history, allowing us to offer a streamlined curriculum. Recent "
+"studies actively utilize attention-based mechanisms to capture the "
+"correlation between questions and combine it with the learner's "
+"characteristics for responses. However, our empirical study shows that "
+"existing attention-based KT models neglect the learner's forgetting "
+"behavior, especially as the interaction history becomes longer. This "
+"problem arises from the bias that overprioritizes the correlation of "
+"questions while inadvertently ignoring the impact of forgetting behavior."
+" This paper proposes a simple-yet-effective solution, namely Forgetting-"
+"aware Linear Bias (FoLiBi), to reflect forgetting behavior as a linear "
+"bias. Despite its simplicity, FoLiBi is readily equipped with existing "
+"attentive KT models by effectively decomposing question correlations with"
+" forgetting behavior. FoLiBi plugged with several KT models yields a "
+"consistent improvement of up to 2.58% in AUC over state-of-the-art KT "
+"models on four benchmark datasets."
+
+#: ../../source/model-zoo/models/folibikt.md:17
+#: c89d415d5d2845808d06701271d87695
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/folibikt.md:19
+#: 2983149ba5064bb49f6ef393a4018924
+msgid "[skewondr/FoLiBi](https://github.com/skewondr/FoLiBi)"
+msgstr "[skewondr/FoLiBi](https://github.com/skewondr/FoLiBi)"
+
+#: ../../source/model-zoo/models/folibikt.md:20
+#: 50c356dcbbaf4f34ac68b44f68cf096c
+msgid "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"
+msgstr "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"

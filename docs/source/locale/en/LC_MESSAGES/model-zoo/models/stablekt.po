@@ -1,0 +1,134 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/stablekt.md:1 fc3d69b34c66417e82546912f90c603e
+msgid "StableKT"
+msgstr "StableKT"
+
+#: ../../source/model-zoo/models/stablekt.md:3 d441d669f8264f48bc9bb8f75bce34dc
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/stablekt.md 564cf50320b24b6fa0cb709d35b8f45f
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/stablekt.md ef22a76faaba44a4a68ad0e12a36f129
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/stablekt.md 1aef7bd01f16497f8bb54f743d0a97e4
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/stablekt.md 2f8c022ccd9f4335b69e90d32886e3e2
+msgid ""
+"[Enhancing Length Generalization for Attention Based Knowledge Tracing "
+"Models with Linear Biases](https://doi.org/10.24963/ijcai.2024/654)"
+msgstr ""
+"[Enhancing Length Generalization for Attention Based Knowledge Tracing "
+"Models with Linear Biases](https://doi.org/10.24963/ijcai.2024/654)"
+
+#: ../../source/model-zoo/models/stablekt.md f615336c158c42918c0cfc5db2134ff3
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/stablekt.md 63892b0cb3974a96b34ab7287a86c9fe
+msgid ""
+"Xueyi Li, Youheng Bai, Teng Guo, Zitao Liu, Yaying Huang, Xiangyu Zhao, "
+"Feng Xia, Weiqi Luo, Jian Weng"
+msgstr ""
+"Xueyi Li, Youheng Bai, Teng Guo, Zitao Liu, Yaying Huang, Xiangyu Zhao, "
+"Feng Xia, Weiqi Luo, Jian Weng"
+
+#: ../../source/model-zoo/models/stablekt.md c2581735146a4d5b87448f1be0abe09e
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/stablekt.md 513e0f952b6e4f66bea1fc315d41874e
+msgid "2024"
+msgstr "2024"
+
+#: ../../source/model-zoo/models/stablekt.md fbd0e6a1d519467483c04a5ded3a2405
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/stablekt.md 4d01422e9c544ecb8458a08bb303d249
+msgid ""
+"Proceedings of the Thirty-ThirdInternational Joint Conference on "
+"Artificial Intelligence"
+msgstr ""
+"Proceedings of the Thirty-ThirdInternational Joint Conference on "
+"Artificial Intelligence"
+
+#: ../../source/model-zoo/models/stablekt.md:12
+#: b0fde545aa5046998263fc72334d8957
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/stablekt.md:14
+#: ef73711b8d85418083ff1b04d0270b49
+msgid ""
+"Knowledge tracing (KT) is the task of predicting students' future "
+"performance based on their historical learning interaction data. With the"
+" rapid advancement of attention mechanisms, many attention based KT "
+"models are developed. However, existing attention based KT models exhibit"
+" performance drops as the number of student interactions increases beyond"
+" the number of interactions on which the KT models are trained. We refer "
+"to this as the length generalization of KT model. In this paper, we "
+"propose stableKT to enhance length generalization that is able to learn "
+"from short sequences and maintain high prediction performance when "
+"generalizing on long sequences. Furthermore, we design a multi-head "
+"aggregation module to capture the complex relationships between questions"
+" and the corresponding knowledge components (KCs) by combining dot-"
+"product attention and hyperbolic attention. Experimental results on three"
+" public educational datasets show that our model exhibits robust "
+"capability of length generalization and outperforms all baseline models "
+"in terms of AUC. To encourage reproducible research, we make our data and"
+" code publicly available at https://pykt.org."
+msgstr ""
+"Knowledge tracing (KT) is the task of predicting students' future "
+"performance based on their historical learning interaction data. With the"
+" rapid advancement of attention mechanisms, many attention based KT "
+"models are developed. However, existing attention based KT models exhibit"
+" performance drops as the number of student interactions increases beyond"
+" the number of interactions on which the KT models are trained. We refer "
+"to this as the length generalization of KT model. In this paper, we "
+"propose stableKT to enhance length generalization that is able to learn "
+"from short sequences and maintain high prediction performance when "
+"generalizing on long sequences. Furthermore, we design a multi-head "
+"aggregation module to capture the complex relationships between questions"
+" and the corresponding knowledge components (KCs) by combining dot-"
+"product attention and hyperbolic attention. Experimental results on three"
+" public educational datasets show that our model exhibits robust "
+"capability of length generalization and outperforms all baseline models "
+"in terms of AUC. To encourage reproducible research, we make our data and"
+" code publicly available at https://pykt.org."
+
+#: ../../source/model-zoo/models/stablekt.md:17
+#: 5e8c7a7dfdc94c4197ab1b65393b41c0
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/stablekt.md:19
+#: 47c53b3497874aa5b33fd14c599e7ab9
+msgid "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"
+msgstr "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"

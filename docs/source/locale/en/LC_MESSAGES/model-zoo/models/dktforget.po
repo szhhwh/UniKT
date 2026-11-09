@@ -1,0 +1,146 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/dktforget.md:1
+#: 525f161ce24a46ffac93493de2a5d400
+msgid "DKTForget"
+msgstr "DKTForget"
+
+#: ../../source/model-zoo/models/dktforget.md:3
+#: 10152fa7b27443e087c8de61290e8078
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/dktforget.md 206e66a2cc4c4554bfe8729f79ca5ec8
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/dktforget.md d060c29c53ee4d0381d849cf37bab873
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/dktforget.md 11663f512d0f4807b6087d414b5f4cab
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/dktforget.md f46bb65c85194219922f1f2c383b0e8d
+msgid ""
+"[Augmenting Knowledge Tracing by Considering Forgetting "
+"Behavior](https://doi.org/10.1145/3308558.3313565)"
+msgstr ""
+"[Augmenting Knowledge Tracing by Considering Forgetting "
+"Behavior](https://doi.org/10.1145/3308558.3313565)"
+
+#: ../../source/model-zoo/models/dktforget.md fec5c9be32914e778ba2c2eeed546e04
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/dktforget.md 3ad5cada738e48828439c59c8bdc0000
+msgid ""
+"Koki Nagatani, Qian Zhang, Masahiro Sato, Yan-Ying Chen, Francine Chen, "
+"Tomoko Ohkuma"
+msgstr ""
+"Koki Nagatani, Qian Zhang, Masahiro Sato, Yan-Ying Chen, Francine Chen, "
+"Tomoko Ohkuma"
+
+#: ../../source/model-zoo/models/dktforget.md a6ce93db627449c589a12ae10e322e8a
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/dktforget.md 92a99de0b73f49ae91a7a3c64fefb28b
+msgid "2019"
+msgstr "2019"
+
+#: ../../source/model-zoo/models/dktforget.md 7b004959141840aaaa838ae6a75472fc
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/dktforget.md dcf53e101b0e45b2b763a1efb3127b22
+msgid "The World Wide Web Conference"
+msgstr "The World Wide Web Conference"
+
+#: ../../source/model-zoo/models/dktforget.md 884b01add81440849925a3e41a1baf10
+msgid "DOI"
+msgstr "DOI"
+
+#: ../../source/model-zoo/models/dktforget.md ab130935080742fe95b307383c2cf067
+msgid "[10.1145/3308558.3313565](https://doi.org/10.1145/3308558.3313565)"
+msgstr "[10.1145/3308558.3313565](https://doi.org/10.1145/3308558.3313565)"
+
+#: ../../source/model-zoo/models/dktforget.md:13
+#: 744b8e80808146418b9c9bd69c755a48
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/dktforget.md:15
+#: 5cf9de5c0d784caf8b061c09c38914e4
+msgid ""
+"Computer-aided education systems are now seeking to provide each student "
+"with personalized materials based on a student's individual knowledge. To"
+" provide suitable learning materials, tracing each student's knowledge "
+"over a period of time is important. However, predicting each student's "
+"knowledge is difficult because students tend to forget. The forgetting "
+"behavior is mainly because of two reasons: the lag time from the previous"
+" interaction, and the number of past trials on a question. Although there"
+" are a few studies that consider forgetting while modeling a student's "
+"knowledge, some models consider only partial information about "
+"forgetting, whereas others consider multiple features about forgetting, "
+"ignoring a student's learning sequence. In this paper, we focus on "
+"modeling and predicting a student's knowledge by considering their "
+"forgetting behavior. We extend the deep knowledge tracing model [17], "
+"which is a state-of-the-art sequential model for knowledge tracing, to "
+"consider forgetting by incorporating multiple types of information "
+"related to forgetting. Experiments on knowledge tracing datasets show "
+"that our proposed model improves the predictive performance as compared "
+"to baselines. Moreover, we also examine that the combination of multiple "
+"types of information that affect the behavior of forgetting results in "
+"performance improvement."
+msgstr ""
+"Computer-aided education systems are now seeking to provide each student "
+"with personalized materials based on a student's individual knowledge. To"
+" provide suitable learning materials, tracing each student's knowledge "
+"over a period of time is important. However, predicting each student's "
+"knowledge is difficult because students tend to forget. The forgetting "
+"behavior is mainly because of two reasons: the lag time from the previous"
+" interaction, and the number of past trials on a question. Although there"
+" are a few studies that consider forgetting while modeling a student's "
+"knowledge, some models consider only partial information about "
+"forgetting, whereas others consider multiple features about forgetting, "
+"ignoring a student's learning sequence. In this paper, we focus on "
+"modeling and predicting a student's knowledge by considering their "
+"forgetting behavior. We extend the deep knowledge tracing model [17], "
+"which is a state-of-the-art sequential model for knowledge tracing, to "
+"consider forgetting by incorporating multiple types of information "
+"related to forgetting. Experiments on knowledge tracing datasets show "
+"that our proposed model improves the predictive performance as compared "
+"to baselines. Moreover, we also examine that the combination of multiple "
+"types of information that affect the behavior of forgetting results in "
+"performance improvement."
+
+#: ../../source/model-zoo/models/dktforget.md:18
+#: 58213204211644c6b912d52b7e6fc056
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/dktforget.md:20
+#: 3e2c3bcd82f74bb49626cbab1cb89557
+msgid "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"
+msgstr "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: UniKT \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-12 15:25+0800\n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -19,6 +19,53 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.18.0\n"
 
-#: ../../source/api/cli/index.md:1 32ef0517bfa3442fbbb6c9e62aaffe93
-msgid "CLI API"
-msgstr "CLI API"
+#: ../../source/api/cli/index.md:5 96f90d3f0e714d37ac0abaf63e533733
+msgid "CLI 命令参考"
+msgstr "CLI Command Reference"
+
+#: ../../source/api/cli/index.md:7 2b215f3627964590aa6b5fa8ff2bb1e7
+msgid "按任务查找命令的参数、示例与输出文件。"
+msgstr "Find command arguments, examples, and output files by task."
+
+#: ../../source/api/cli/index.md:9 48f8bc450bf94904986c4748081607aa
+msgid "[命令行速查表](cheatsheet.md)：查找常用参数、命名空间与帮助命令。"
+msgstr ""
+"[Command Line Cheatsheet](cheatsheet.md): Look up common parameters, "
+"namespaces, and help commands."
+
+#: ../../source/api/cli/index.md:10 9e1f9b5eadb14512bbeed9ad99d3c586
+msgid "[模型训练](train.md)：使用 `train.py` 启动单折训练。"
+msgstr "[Model Training](train.md): Start single-fold training using `train.py`."
+
+#: ../../source/api/cli/index.md:11 416a9a9ecf614a06a38bfee140ccea63
+msgid "[数据处理](data-process.md)：使用 `data_process.py` 下载、清洗与划分数据。"
+msgstr ""
+"[Data Processing](data-process.md): Download, clean, and split data using"
+" `data_process.py`."
+
+#: ../../source/api/cli/index.md:12 8a26005053cc4801b473c4c24e31daa7
+msgid "[超参数搜索](optuna.md)：使用 `optuna_search.py` 配置并运行搜索。"
+msgstr ""
+"[Hyperparameter Search](optuna.md): Configure and run search using "
+"`optuna_search.py`."
+
+#: ../../source/api/cli/index.md:13 2f4e0e39590a4df4ada8795953ccac3a
+msgid "[案例分析](case-analysis.md)：使用 `case_analysis.py` 推理、筛选学生并绘制热力图。"
+msgstr ""
+"[Case Analysis](case-analysis.md): Run inference, filter students, and "
+"plot heatmaps using `case_analysis.py`."
+
+#: ../../source/api/cli/index.md:14 ea39488cf09e448db8096d9954fe91f2
+msgid "[能效评测](efficiency.md)：使用 `efficiency.py` 比较延迟、吞吐量、显存与编译效果。"
+msgstr ""
+"[Efficiency Evaluation](efficiency.md): Compare latency, throughput, GPU "
+"memory, and compilation benefits using `efficiency.py`."
+
+#: ../../source/api/cli/index.md:15 10a533fd95c54792bcbe472a513d0a7b
+msgid "[多折训练](run-kfold.md)：使用 `scripts/run_kfold.sh` 运行交叉验证并汇总指标。"
+msgstr ""
+"[Multi-Fold Training](run-kfold.md): Run cross-validation and aggregate "
+"metrics using `scripts/run_kfold.sh`."
+
+#~ msgid "CLI API"
+#~ msgstr "CLI API"

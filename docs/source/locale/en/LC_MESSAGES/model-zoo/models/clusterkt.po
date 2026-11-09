@@ -1,0 +1,152 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/clusterkt.md:1
+#: 098bc3b93d69411fb0dd9b7c54f799b8
+msgid "ClusterKT"
+msgstr "ClusterKT"
+
+#: ../../source/model-zoo/models/clusterkt.md:3
+#: b89b5529d0a5462ab2de622726d56b77
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/clusterkt.md 7a2d9203a43148e399c1289ba0a62fd8
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/clusterkt.md 5fd69e08fc804982847235a7e0ac2297
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/clusterkt.md b61ccc7124224c849c87f54ab989593f
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/clusterkt.md c34d8970418a48fb8fbf12a41836f3a4
+msgid ""
+"[Cluster-Driven Knowledge Tracing: Joint Learning-Forgetting Effects "
+"Modeling via State "
+"Dependency](https://doi.org/10.1016/j.eswa.2025.128619)"
+msgstr ""
+"[Cluster-Driven Knowledge Tracing: Joint Learning-Forgetting Effects "
+"Modeling via State "
+"Dependency](https://doi.org/10.1016/j.eswa.2025.128619)"
+
+#: ../../source/model-zoo/models/clusterkt.md c94f70c3d91c48458faf60acf7730cda
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/clusterkt.md e8b8cae1fc614ad18395337709be83dc
+msgid "Huazheng Luo, Zhichang Zhang, Lingyun Cui, Huiming Hu, Bichen Yu"
+msgstr "Huazheng Luo, Zhichang Zhang, Lingyun Cui, Huiming Hu, Bichen Yu"
+
+#: ../../source/model-zoo/models/clusterkt.md 019da5b5df624325936b08c580c5aaf5
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/clusterkt.md 1fb4b99d8da84c539de3522781509c2a
+msgid "2025"
+msgstr "2025"
+
+#: ../../source/model-zoo/models/clusterkt.md 189c2e466f45477bb4cc1612d5ab9fad
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/clusterkt.md c1af115b38e6418ea82dc70a22fea077
+msgid "Expert Systems with Applications"
+msgstr "Expert Systems with Applications"
+
+#: ../../source/model-zoo/models/clusterkt.md 92e6c1bbbced4d2ba33fa2823a56bc22
+msgid "DOI"
+msgstr "DOI"
+
+#: ../../source/model-zoo/models/clusterkt.md bfc6668a9e024c34a3acebac9940205d
+msgid "[10.1016/j.eswa.2025.128619](https://doi.org/10.1016/j.eswa.2025.128619)"
+msgstr "[10.1016/j.eswa.2025.128619](https://doi.org/10.1016/j.eswa.2025.128619)"
+
+#: ../../source/model-zoo/models/clusterkt.md:13
+#: a8d3d2219ea940f9902c8bef72569a29
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/clusterkt.md:15
+#: 190dc7ea1a22404b81fbbe7fbc4e1c3d
+msgid ""
+"Knowledge tracing (KT) is a crucial technique in intelligent tutoring "
+"systems, which involves the analyses of learners' interactions with "
+"educational contents to trace their knowledge states. This state-tracing "
+"capacity helps to identify learners' individual learning needs and "
+"deliver personalized guidance. In practice, learners' knowledge states "
+"demonstrate continuous evolution driven by the dynamic interplay between "
+"knowledge acquisition and decay throughout long-term learning process. "
+"Most existing KT methods assess these learning and forgetting effects by "
+"leveraging learners' proficiency of individual knowledge concepts in "
+"isolation, leading to scattered and redundant state estimation results. "
+"In this paper, we propose a cluster-driven knowledge tracing (ClusterKT) "
+"model, which aims to jointly estimate the learning-forgetting effects "
+"based on the latent dependencies of knowledge states. Specifically, we "
+"introduce a k-means inspired clustering algorithm that can easily "
+"categorizes high-correlation exercises and performances into same "
+"clusters. Given the inherent state dependency, these well-separated "
+"clusters facilitate (1) the assessment of current learning gains drawing "
+"on their previous performances in related exercises, and (2) the "
+"quantification of knowledge decay over time by calculating three "
+"essential forgetting factors. Extensive experimental evaluations across "
+"four widely used datasets demonstrate that ClusterKT achieves enhanced "
+"predictive accuracy and heightened interpretability over current KT "
+"approaches. The source code is publicly accessible at "
+"https://github.com/Lzhenghua/ClusterKT."
+msgstr ""
+"Knowledge tracing (KT) is a crucial technique in intelligent tutoring "
+"systems, which involves the analyses of learners' interactions with "
+"educational contents to trace their knowledge states. This state-tracing "
+"capacity helps to identify learners' individual learning needs and "
+"deliver personalized guidance. In practice, learners' knowledge states "
+"demonstrate continuous evolution driven by the dynamic interplay between "
+"knowledge acquisition and decay throughout long-term learning process. "
+"Most existing KT methods assess these learning and forgetting effects by "
+"leveraging learners' proficiency of individual knowledge concepts in "
+"isolation, leading to scattered and redundant state estimation results. "
+"In this paper, we propose a cluster-driven knowledge tracing (ClusterKT) "
+"model, which aims to jointly estimate the learning-forgetting effects "
+"based on the latent dependencies of knowledge states. Specifically, we "
+"introduce a k-means inspired clustering algorithm that can easily "
+"categorizes high-correlation exercises and performances into same "
+"clusters. Given the inherent state dependency, these well-separated "
+"clusters facilitate (1) the assessment of current learning gains drawing "
+"on their previous performances in related exercises, and (2) the "
+"quantification of knowledge decay over time by calculating three "
+"essential forgetting factors. Extensive experimental evaluations across "
+"four widely used datasets demonstrate that ClusterKT achieves enhanced "
+"predictive accuracy and heightened interpretability over current KT "
+"approaches. The source code is publicly accessible at "
+"https://github.com/Lzhenghua/ClusterKT."
+
+#: ../../source/model-zoo/models/clusterkt.md:18
+#: e3b79e3e0f4e435784223eb308c93762
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/clusterkt.md:20
+#: f5acb04a1255486ca4e8560b4c4a3e48
+msgid "[Lzhenghua/ClusterKT](https://github.com/Lzhenghua/ClusterKT)"
+msgstr "[Lzhenghua/ClusterKT](https://github.com/Lzhenghua/ClusterKT)"

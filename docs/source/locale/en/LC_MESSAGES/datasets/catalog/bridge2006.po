@@ -1,0 +1,293 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/datasets/catalog/bridge2006.md:1
+#: aac18c5a82ee45edbdd9a568a5a6f70e
+msgid "Bridge to Algebra 2006–2007"
+msgstr "Bridge to Algebra 2006–2007"
+
+#: ../../source/datasets/catalog/bridge2006.md:3
+#: 983ba1c8e8f8407ab2ca586a1089313d
+msgid "KDD Cup 2010 教育数据挖掘竞赛的开发数据集，记录代数辅导系统中的学生解题步骤。"
+msgstr ""
+"Development dataset from the KDD Cup 2010 Educational Data Mining "
+"Challenge, recording student problem-solving steps in an algebra tutoring"
+" system."
+
+#: ../../source/datasets/catalog/bridge2006.md:5
+#: 6a4bc3ad514a486aa3b54ea3d4ffed45
+msgid ""
+"数据集链接：[KDD Cup 2010 "
+"数据下载页](https://pslcdatashop.web.cmu.edu/KDDCup/downloads.jsp)，下载需要登录。"
+msgstr ""
+"Dataset link: [KDD Cup 2010 Data Download "
+"Page](https://pslcdatashop.web.cmu.edu/KDDCup/downloads.jsp); login "
+"required for download."
+
+#: ../../source/datasets/catalog/bridge2006.md:7
+#: 38596dcc5f0d463f9765eafd8486d803
+msgid "数据参数"
+msgstr "Dataset Parameters"
+
+#: ../../source/datasets/catalog/bridge2006.md af68cd233cee441693b0049f41a396fb
+msgid "参数"
+msgstr "Parameter"
+
+#: ../../source/datasets/catalog/bridge2006.md 82ed8a5dcb2844c4882b84c128c47b89
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/datasets/catalog/bridge2006.md 5889fe7df7034ec3bda0e876269b9821
+msgid "数据文件"
+msgstr "Data File"
+
+#: ../../source/datasets/catalog/bridge2006.md eeaaf2f1265545008c38bbbc70ae2bed
+msgid "`bridge_to_algebra_2006_2007_train.txt`"
+msgstr "`bridge_to_algebra_2006_2007_train.txt`"
+
+#: ../../source/datasets/catalog/bridge2006.md a0f82f715efd4af686912df2dfcfc608
+msgid "步骤记录"
+msgstr "Step Records"
+
+#: ../../source/datasets/catalog/bridge2006.md 64848026ba8a4716b102b525166b1ad3
+msgid "3,679,199 行"
+msgstr "3,679,199 rows"
+
+#: ../../source/datasets/catalog/bridge2006.md 23826b7fab654d86b6b26b20d76bdfd7
+msgid "学生 / 题目名称 / 知识组件"
+msgstr "Students / Problem Names / Knowledge Components"
+
+#: ../../source/datasets/catalog/bridge2006.md 196eba24419847babf79e0f18c9fa19a
+msgid ""
+"1,146 / 19,355 / 493，分别按 `Anon Student Id`、`Problem Name` 和 "
+"`KC(SubSkills)` 去重"
+msgstr ""
+"1,146 / 19,355 / 493, deduplicated by `Anon Student Id`, `Problem Name`, "
+"and `KC(SubSkills)` respectively"
+
+#: ../../source/datasets/catalog/bridge2006.md ae9bde33da524058808ed6e24e4ed2f4
+msgid "缺失知识组件的行数"
+msgstr "Rows with Missing Knowledge Components"
+
+#: ../../source/datasets/catalog/bridge2006.md 4f743bf778a642a3959ef423821461c1
+msgid "1,861,723"
+msgstr "1,861,723"
+
+#: ../../source/datasets/catalog/bridge2006.md:16
+#: 6ee5f6473e3b4abfae11bd8fa315d49f
+msgid "去重时排除空值及 `NA`、`nan`、`null` 标记（不区分大小写）；知识组件按 `~~` 拆分，统计范围仅为训练文件。"
+msgstr ""
+"Deduplication excludes null values and `NA`, `nan`, `null` markers (case-"
+"insensitive); knowledge components are split by `~~`, statistical scope "
+"is training files only."
+
+#: ../../source/datasets/catalog/bridge2006.md:18
+#: 9e7589a2d9a5414bafd05833f9e7fd32
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/datasets/catalog/bridge2006.md:20
+#: 14520b8089ad4f3095138fc1d145eb8c
+msgid ""
+"竞赛数据为制表符分隔格式，每行对应一个解题步骤。以下是字段说明；该数据集使用 `SubSkills` 认知模型。详见 [DataShop "
+"数据格式说明](https://pslcdatashop.web.cmu.edu/KDDCup/rules_data_format.jsp)。"
+msgstr ""
+"Competition data is in tab-delimited format, where each row corresponds "
+"to a problem-solving step. Below are field descriptions; this dataset "
+"uses the `SubSkills` cognitive model. See [DataShop Data Format "
+"Specifications](https://pslcdatashop.web.cmu.edu/KDDCup/rules_data_format.jsp)"
+" for details."
+
+#: ../../source/datasets/catalog/bridge2006.md b12b9700d05c479fa5d01bb88fbd029a
+msgid "字段名称"
+msgstr "Field Name"
+
+#: ../../source/datasets/catalog/bridge2006.md f49b8e640c3c4ee4aae1576c3051b1b3
+msgid "字段语义说明"
+msgstr "Field Semantic Description"
+
+#: ../../source/datasets/catalog/bridge2006.md 0591460853aa48b098655cd2d51c62ae
+msgid "`Row`"
+msgstr "`Row`"
+
+#: ../../source/datasets/catalog/bridge2006.md 227b2b430dd04eddaee8ac70031ca3c4
+msgid "数据行的物理递增序号"
+msgstr "Physical auto-increment sequence number of the data row"
+
+#: ../../source/datasets/catalog/bridge2006.md 9d417750ee6e412481be6c074675c644
+msgid "`Anon Student Id`"
+msgstr "`Anon Student Id`"
+
+#: ../../source/datasets/catalog/bridge2006.md 9f27e0c189fc4f60a40cf71ee1f5f12a
+msgid "全局匿名的学生唯一标识符"
+msgstr "Globally anonymized unique student identifier"
+
+#: ../../source/datasets/catalog/bridge2006.md 0acb74d67940474598accdf2405c135d
+msgid "`Problem Hierarchy`"
+msgstr "`Problem Hierarchy`"
+
+#: ../../source/datasets/catalog/bridge2006.md f0423a8cf9cf4266885af1fa1c18e9a9
+msgid "课程单元与章节层级目录（用于组织题目上下文）"
+msgstr ""
+"Curriculum unit and section hierarchy directory (for organizing problem "
+"context)"
+
+#: ../../source/datasets/catalog/bridge2006.md ed959e247bd241dabba720e9d03b974a
+msgid "`Problem Name`"
+msgstr "`Problem Name`"
+
+#: ../../source/datasets/catalog/bridge2006.md ebdc6ba4966a4fb7b6ec7264418abad7
+msgid "完整的母题名称"
+msgstr "Full parent problem name"
+
+#: ../../source/datasets/catalog/bridge2006.md c549a518266342e09605caafedc4bbad
+msgid "`Problem View`"
+msgstr "`Problem View`"
+
+#: ../../source/datasets/catalog/bridge2006.md 421a045be96a495e96b488ac36bf19de
+msgid "该学生第几次看到该题目（用于区分重做与复习）"
+msgstr ""
+"Number of times the student has seen this problem (used to distinguish "
+"redo and review)"
+
+#: ../../source/datasets/catalog/bridge2006.md 75d48819527847c5bb8bf9025d9c9aa5
+msgid "`Step Name`"
+msgstr "`Step Name`"
+
+#: ../../source/datasets/catalog/bridge2006.md 6c45ef022aea4baf9d1ab1b4d9c4ba84
+msgid "母题内部具体的解题步骤标识符"
+msgstr "Specific problem-solving step identifier within the parent problem"
+
+#: ../../source/datasets/catalog/bridge2006.md c46f4f8a4e3e4a37befc0cba9a6ad508
+msgid "`Step Start Time`"
+msgstr "`Step Start Time`"
+
+#: ../../source/datasets/catalog/bridge2006.md 0b336c78db6049dca58abb961f46dd3b
+msgid "步骤开始时间，可为空"
+msgstr "Step start time, can be null"
+
+#: ../../source/datasets/catalog/bridge2006.md ce4169bcdbb849ab87ad67c91e63f2c5
+msgid "`First Transaction Time`"
+msgstr "`First Transaction Time`"
+
+#: ../../source/datasets/catalog/bridge2006.md 54f2735004b44d82acbcd4a0c7dbe6ae
+msgid "学生的首次操作（提交答案或请求提示）时间戳"
+msgstr ""
+"Timestamp of the student's first action (submitting answer or requesting "
+"hint)"
+
+#: ../../source/datasets/catalog/bridge2006.md 59fd2d8b79a342239e8f6ea66b1df9e9
+msgid "`Correct Transaction Time`"
+msgstr "`Correct Transaction Time`"
+
+#: ../../source/datasets/catalog/bridge2006.md 7c766a92dd4b45c68c6f6cb29641f10b
+msgid "学生最终正确完成该步骤的时间戳（若未做对可为空）"
+msgstr ""
+"Timestamp when the student finally completed the step correctly (can be "
+"null if not solved)"
+
+#: ../../source/datasets/catalog/bridge2006.md c7486351094046b3af97c54159b13bd4
+msgid "`Step End Time`"
+msgstr "`Step End Time`"
+
+#: ../../source/datasets/catalog/bridge2006.md 3c14ec0511184a169c53ea46027e2e14
+msgid "该步骤最后一次操作的时间"
+msgstr "Time of the last action on this step"
+
+#: ../../source/datasets/catalog/bridge2006.md 80c07238ac5647c8b11192108ebf25b6
+msgid "`Step Duration (sec)`"
+msgstr "`Step Duration (sec)`"
+
+#: ../../source/datasets/catalog/bridge2006.md 39c6169a2d204603aa45fd9ffc7db653
+msgid "分配至该步骤的各次操作时长之和，单位为秒；步骤开始时间缺失时可为空"
+msgstr ""
+"Sum of action durations assigned to this step in seconds; can be null if "
+"step start time is missing"
+
+#: ../../source/datasets/catalog/bridge2006.md 42ab633f0ea1410b9d9215a9104d34dc
+msgid "`Correct Step Duration (sec)`"
+msgstr "`Correct Step Duration (sec)`"
+
+#: ../../source/datasets/catalog/bridge2006.md 2f42dd2dfb7d4d4396183a00960ff3eb
+msgid "首次尝试正确时的步骤耗时（秒）"
+msgstr "Step duration when first attempt is correct (seconds)"
+
+#: ../../source/datasets/catalog/bridge2006.md 053a50d67e064d67b17bf2c491625f58
+msgid "`Error Step Duration (sec)`"
+msgstr "`Error Step Duration (sec)`"
+
+#: ../../source/datasets/catalog/bridge2006.md 9c80aa8138a54b7ea6e28be3a09d6dc4
+msgid "首次尝试错误或请求提示时的步骤耗时（秒）"
+msgstr "Step duration when first attempt is incorrect or requests a hint (seconds)"
+
+#: ../../source/datasets/catalog/bridge2006.md 5e280bf38c4f4a5c87c03497f7c68e9c
+msgid "`Correct First Attempt`"
+msgstr "`Correct First Attempt`"
+
+#: ../../source/datasets/catalog/bridge2006.md 0c8dc47dd4b34c1690ec24eb421b3aa0
+msgid "**核心标签**：首次尝试是否正确（1=首次做对，0=发生错误或查看提示）"
+msgstr ""
+"**Core Label**: Whether first attempt is correct (1=correct on first "
+"attempt, 0=error or hint requested)"
+
+#: ../../source/datasets/catalog/bridge2006.md b9159d3ef7c548f98c71e86d5d5278fe
+msgid "`Incorrects`"
+msgstr "`Incorrects`"
+
+#: ../../source/datasets/catalog/bridge2006.md 95993cd49d2d4e16b3a8a8c4bd80e09d
+msgid "在该步骤上的错误作答次数计数"
+msgstr "Count of incorrect answer attempts on this step"
+
+#: ../../source/datasets/catalog/bridge2006.md 3077dafed4a84ba88786d46a0a2b0a76
+msgid "`Hints`"
+msgstr "`Hints`"
+
+#: ../../source/datasets/catalog/bridge2006.md ea1740b15c584bc8a101fbdc442f6fb8
+msgid "在该步骤上请求提示的次数计数"
+msgstr "Count of hint requests on this step"
+
+#: ../../source/datasets/catalog/bridge2006.md e041545b71d84184bf4c106ee7e0c18b
+msgid "`Corrects`"
+msgstr "`Corrects`"
+
+#: ../../source/datasets/catalog/bridge2006.md 851a5d2e13b6468c99e93117dbfd47fc
+msgid "在该步骤上的正确作答次数计数"
+msgstr "Count of correct answer attempts on this step"
+
+#: ../../source/datasets/catalog/bridge2006.md 19815a133ca04e238d649acf0bae74b0
+msgid "`KC(SubSkills)`"
+msgstr "`KC(SubSkills)`"
+
+#: ../../source/datasets/catalog/bridge2006.md 8bdbf6ee98ee41ba9cc9d2544d377904
+msgid "认知模型标注的知识组件（技能名称），多技能时用 `~~` 分隔"
+msgstr ""
+"Knowledge component (skill name) annotated by cognitive model, multiple "
+"skills separated by `~~`"
+
+#: ../../source/datasets/catalog/bridge2006.md f05cf14330bb4400ae838150362c626c
+msgid "`Opportunity(SubSkills)`"
+msgstr "`Opportunity(SubSkills)`"
+
+#: ../../source/datasets/catalog/bridge2006.md bdca154991cb497e967cc9258c2eacf8
+msgid "该学生练习该知识组件的累计机会次数"
+msgstr ""
+"Cumulative opportunity count for the student practicing this knowledge "
+"component"

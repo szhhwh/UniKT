@@ -1,0 +1,132 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/diskt.md:1 93d13fc119ee48ea920850eb59bfb811
+msgid "DisKT"
+msgstr "DisKT"
+
+#: ../../source/model-zoo/models/diskt.md:3 c8cbbbf4c2c945edaa2e4b43e6a89973
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/diskt.md ed3ddb66225a4989a6790e603aeffacb
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/diskt.md 191e43306c864ea6ab854bb48cbaf6a4
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/diskt.md fbb1e3d229964c339a105b27d24c3340
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/diskt.md 22e92b072fb94f1c96aa205ba968821f
+msgid ""
+"[Disentangled Knowledge Tracing for Alleviating Cognitive "
+"Bias](https://doi.org/10.1145/3696410.3714607)"
+msgstr ""
+"[Disentangled Knowledge Tracing for Alleviating Cognitive "
+"Bias](https://doi.org/10.1145/3696410.3714607)"
+
+#: ../../source/model-zoo/models/diskt.md f9329d4b58044d3a9deb4804cf7ba7af
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/diskt.md 1618955da82a41d18b41695645352d5d
+msgid "Yiyun Zhou, Zheqi Lv, Shengyu Zhang, Jingyuan Chen"
+msgstr "Yiyun Zhou, Zheqi Lv, Shengyu Zhang, Jingyuan Chen"
+
+#: ../../source/model-zoo/models/diskt.md 08af0ac745b14f7091b4aa8aa6bc2fce
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/diskt.md 2c435b9cdc8a4e2e8fc0f73c618d34ab
+msgid "2025"
+msgstr "2025"
+
+#: ../../source/model-zoo/models/diskt.md 6830d00f9a0f4c938212b33c63a9d232
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/diskt.md bc4ffb2e9b0948ac82a0cb27696ae9c3
+msgid "Proceedings of the ACM Web Conference 2025（WWW '25）"
+msgstr "Proceedings of the ACM Web Conference 2025 (WWW '25)"
+
+#: ../../source/model-zoo/models/diskt.md:12 10070dd3d7f04541968e73acba9bc1d5
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/diskt.md:14 d309acc9b60647b7b7ba90f0f95539b6
+msgid ""
+"In the realm of Intelligent Tutoring System (ITS), the accurate "
+"assessment of students' knowledge states through Knowledge Tracing (KT) "
+"is crucial for personalized learning. However, due to data bias, i.e., "
+"the unbalanced distribution of question groups ( e.g., concepts), "
+"conventional KT models are plagued by cognitive bias, which tends to "
+"result in cognitive underload for overperformers and cognitive overload "
+"for underperformers. More seriously, this bias is amplified with the "
+"exercise recommendations by ITS. After delving into the causal relations "
+"in the KT models, we identify the main cause as the confounder effect of "
+"students' historical correct rate distribution over question groups on "
+"the student representation and prediction score. Towards this end, we "
+"propose a Disentangled Knowledge Tracing (DisKT) model, which separately "
+"models students' familiar and unfamiliar abilities based on causal "
+"effects and eliminates the impact of the confounder in student "
+"representation within the model. Additionally, to shield the "
+"contradictory psychology ( e.g., guessing and mistaking) in the students'"
+" biased data, DisKT introduces a contradiction attention mechanism. "
+"Furthermore, DisKT enhances the interpretability of the model predictions"
+" by integrating a variant of Item Response Theory. Experimental results "
+"on 11 benchmarks and 3 synthesized datasets with different bias strengths"
+" demonstrate that DisKT significantly alleviates cognitive bias and "
+"outperforms 16 baselines in evaluation accuracy."
+msgstr ""
+"In the realm of Intelligent Tutoring System (ITS), the accurate "
+"assessment of students' knowledge states through Knowledge Tracing (KT) "
+"is crucial for personalized learning. However, due to data bias, i.e., "
+"the unbalanced distribution of question groups ( e.g., concepts), "
+"conventional KT models are plagued by cognitive bias, which tends to "
+"result in cognitive underload for overperformers and cognitive overload "
+"for underperformers. More seriously, this bias is amplified with the "
+"exercise recommendations by ITS. After delving into the causal relations "
+"in the KT models, we identify the main cause as the confounder effect of "
+"students' historical correct rate distribution over question groups on "
+"the student representation and prediction score. Towards this end, we "
+"propose a Disentangled Knowledge Tracing (DisKT) model, which separately "
+"models students' familiar and unfamiliar abilities based on causal "
+"effects and eliminates the impact of the confounder in student "
+"representation within the model. Additionally, to shield the "
+"contradictory psychology ( e.g., guessing and mistaking) in the students'"
+" biased data, DisKT introduces a contradiction attention mechanism. "
+"Furthermore, DisKT enhances the interpretability of the model predictions"
+" by integrating a variant of Item Response Theory. Experimental results "
+"on 11 benchmarks and 3 synthesized datasets with different bias strengths"
+" demonstrate that DisKT significantly alleviates cognitive bias and "
+"outperforms 16 baselines in evaluation accuracy."
+
+#: ../../source/model-zoo/models/diskt.md:17 812643e0403c4c3baf6e52535ba3a6bf
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/diskt.md:19 f1026ecb5005454580251e307d4c382c
+msgid "[zyy-2001/DisKT](https://github.com/zyy-2001/DisKT)"
+msgstr "[zyy-2001/DisKT](https://github.com/zyy-2001/DisKT)"

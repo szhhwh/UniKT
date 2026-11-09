@@ -1,0 +1,360 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/api/cli/optuna.md:1 1123e4ec19494a55b24140d89404d81e
+msgid "optuna_search.py 命令行参考"
+msgstr "optuna_search.py Command Line Reference"
+
+#: ../../source/api/cli/optuna.md:3 c8c61976c5434bb78e2a23fbd3872a33
+msgid ""
+"`optuna_search.py` 基于 [Optuna](https://optuna.org/) "
+"提供了高度自动化、即插即用的超参数寻优系统。UniKT 从模型的 `ModelConfig` "
+"中自动推断搜索空间，支持单目标优化、多目标联合优化与断点恢复。"
+msgstr ""
+"`optuna_search.py` provides a highly automated, plug-and-play "
+"hyperparameter optimization system based on "
+"[Optuna](https://optuna.org/). UniKT automatically infers the search "
+"space from the model's `ModelConfig`, supporting single-objective "
+"optimization, multi-objective joint optimization, and checkpoint "
+"resuming."
+
+#: ../../source/api/cli/optuna.md:5 e202294afc7d4ee7b6247b3a3009075f
+msgid "基本语法"
+msgstr "Basic Syntax"
+
+#: ../../source/api/cli/optuna.md:7 4bc540d1b9a646da80ff194afa1472f9
+msgid "python optuna_search.py -m <ModelName> -d <DatasetName> [OPTIONS]\n"
+msgstr "python optuna_search.py -m <ModelName> -d <DatasetName> [OPTIONS]\n"
+
+#: ../../source/api/cli/optuna.md:13 181f87db17194f368b21f3fd58bb79c9
+msgid "专属参数：`--optuna_search.*`"
+msgstr "Dedicated Parameters: `--optuna_search.*`"
+
+#: ../../source/api/cli/optuna.md:15 ee6181bb59364c1aaf5a61092b392775
+msgid "调优器特有的控制参数全部收敛在 `--optuna_search.*` 命名空间下："
+msgstr ""
+"Control parameters specific to the tuner are all consolidated under the "
+"`--optuna_search.*` namespace:"
+
+#: ../../source/api/cli/optuna.md 040c9238d84f48a5943a335919b91267
+msgid "参数"
+msgstr "Parameter"
+
+#: ../../source/api/cli/optuna.md 777ee4f6213a4818a6f169a93118cdbf
+msgid "类型"
+msgstr "Type"
+
+#: ../../source/api/cli/optuna.md 0db7aa133cce4a6cb6688c32096a6a93
+msgid "默认值"
+msgstr "Default"
+
+#: ../../source/api/cli/optuna.md 10ba76c68e5b49d99e912c814cbba12b
+msgid "说明与取值"
+msgstr "Description and Values"
+
+#: ../../source/api/cli/optuna.md 6ad55328b6494967b749baf4c0db4632
+msgid "`--optuna_search.optuna_config`"
+msgstr "`--optuna_search.optuna_config`"
+
+#: ../../source/api/cli/optuna.md 1055d399539844a2828ad3498dd74138
+#: 74c714134cce4c60a282dc4a10ce5fdf
+msgid "`str`"
+msgstr "`str`"
+
+#: ../../source/api/cli/optuna.md 92f73947b0e94ca0bfbe5b66c229f699
+msgid "`./configs/optuna/optuna_config.yaml`"
+msgstr "`./configs/optuna/optuna_config.yaml`"
+
+#: ../../source/api/cli/optuna.md f348b3605aed4e77867a7f2888e2d397
+msgid "Optuna 框架配置文件路径（指定试验总数 `n_trials`、采样器 `sampler`、剪枝器 `pruner` 等）"
+msgstr ""
+"Optuna framework configuration file path (specifies total trials "
+"`n_trials`, sampler `sampler`, pruner `pruner`, etc.)"
+
+#: ../../source/api/cli/optuna.md 187d55ce05834727adea12d333729879
+msgid "`--optuna_search.metric`"
+msgstr "`--optuna_search.metric`"
+
+#: ../../source/api/cli/optuna.md a2090366a50f470fb6f4d238c3180230
+msgid "`auc`"
+msgstr "`auc`"
+
+#: ../../source/api/cli/optuna.md 26aad8bc4f6c4b81a7c93ec6234e4bee
+msgid ""
+"优化目标指标。可选值包括 `auc`, `acc`, `rmse`, `loss`, `auprc`。支持逗号分隔以启用**多目标联合寻优**（如"
+" `auc,rmse`）"
+msgstr ""
+"Optimization objective metric. Available values include `auc`, `acc`, "
+"`rmse`, `loss`, `auprc`. Comma separation is supported to enable **multi-"
+"objective joint optimization** (e.g., `auc,rmse`)"
+
+#: ../../source/api/cli/optuna.md 263b624914fd48ef81cb66fb8d124569
+msgid "`--optuna_search.resume`"
+msgstr "`--optuna_search.resume`"
+
+#: ../../source/api/cli/optuna.md 2daba45de2494dd29e39fc5dc61ed697
+#: 9424068e9ecc4774bcfb3f07d571c355
+msgid "`str | null`"
+msgstr "`str | null`"
+
+#: ../../source/api/cli/optuna.md 60630bfc0338470faf95dcce12acaca6
+#: 99fb727670724242865b1991bd817326
+msgid "`None`"
+msgstr "`None`"
+
+#: ../../source/api/cli/optuna.md d255fb5305ad4949b78c2a3b87732c74
+msgid "断点续寻目录。指定先前运行的目录（例如 `runs/hyperparam_search/...`），将复用其中的 `study.db` 继续采样"
+msgstr ""
+"Directory for resuming search. Specifying a previous run directory (e.g.,"
+" `runs/hyperparam_search/...`) reuses its `study.db` to continue sampling"
+
+#: ../../source/api/cli/optuna.md ed8c1e20d0fd4dcd9b252f1322aa250a
+msgid "`--optuna_search.keep_trial_artifacts`"
+msgstr "`--optuna_search.keep_trial_artifacts`"
+
+#: ../../source/api/cli/optuna.md 443ac88dc8914b849e34b0d0a7cac724
+msgid "`bool`"
+msgstr "`bool`"
+
+#: ../../source/api/cli/optuna.md c278111fb25f4d0694ec36c6e5e1c907
+msgid "`False`"
+msgstr "`False`"
+
+#: ../../source/api/cli/optuna.md 9e59f2cc21804247b5d43f6cd5471db5
+msgid "是否保留每个 trial 的 SwanLab 追踪、权重检查点与测试集推断（默认关闭以节省大量显存与磁盘 I/O）"
+msgstr ""
+"Whether to retain SwanLab tracking, weight checkpoints, and test set "
+"inference for each trial (disabled by default to save significant GPU "
+"memory and disk I/O)"
+
+#: ../../source/api/cli/optuna.md 21450957e4824dbd8f7535e5d9243733
+msgid "`--optuna_search.output_dir`"
+msgstr "`--optuna_search.output_dir`"
+
+#: ../../source/api/cli/optuna.md bc59ed5069ad4a0c9bfb103fa1c13798
+msgid "固定产物输出路径（用于 Web 平台或外部调度系统确定性定位 `study.db`）"
+msgstr ""
+"Fixed artifact output path (used by Web platforms or external schedulers "
+"to deterministically locate `study.db`)"
+
+#: ../../source/api/cli/optuna.md:27 462920c1e33046eaa918de27902943d7
+msgid "搜索空间自动推断机制"
+msgstr "Automatic Search Space Inference Mechanism"
+
+#: ../../source/api/cli/optuna.md:29 19d03ed5261549feb1589f619e8fa085
+#, python-brace-format
+msgid ""
+"UniKT 无需手写冗长的 Optuna 建议代码。在编写模型的 `ModelConfig` 时，通过字段元数据声明 "
+"`metadata={\"optuna\": {...}}`，系统便会自动解析为 Optuna 搜索空间："
+msgstr ""
+"UniKT eliminates the need to hand-write verbose Optuna suggestion code. "
+"When writing a model's `ModelConfig`, simply declare field metadata "
+"`metadata={\"optuna\": {...}}`, and the system automatically parses it "
+"into an Optuna search space:"
+
+#: ../../source/api/cli/optuna.md:31 de62e28772b74e7ab2343675f3f27a75
+#, python-brace-format
+msgid ""
+"@register_model_config(\"GIKT\")\n"
+"class GIKTConfig(ModelConfig):\n"
+"    # 整数范围采样\n"
+"    n_hop: int = field(\n"
+"        default=3,\n"
+"        metadata={\"optuna\": {\"type\": \"int\", \"low\": 1, \"high\": "
+"5}},\n"
+"    )\n"
+"    # 对数尺度浮点采样\n"
+"    learning_rate: float = field(\n"
+"        default=1e-3,\n"
+"        metadata={\"optuna\": {\"type\": \"float\", \"low\": 1e-4, "
+"\"high\": 1e-2, \"log\": True}},\n"
+"    )\n"
+"    # 离散类别采样\n"
+"    batch_size: int = field(\n"
+"        default=128,\n"
+"        metadata={\"optuna\": {\"type\": \"categorical\", \"choices\": "
+"[64, 128, 256]}},\n"
+"    )\n"
+msgstr ""
+"@register_model_config(\"GIKT\")\n"
+"class GIKTConfig(ModelConfig):\n"
+"    # Integer range sampling\n"
+"    n_hop: int = field(\n"
+"        default=3,\n"
+"        metadata={\"optuna\": {\"type\": \"int\", \"low\": 1, \"high\": "
+"5}},\n"
+"    )\n"
+"    # Log-scale float sampling\n"
+"    learning_rate: float = field(\n"
+"        default=1e-3,\n"
+"        metadata={\"optuna\": {\"type\": \"float\", \"low\": 1e-4, "
+"\"high\": 1e-2, \"log\": True}},\n"
+"    )\n"
+"    # Categorical sampling\n"
+"    batch_size: int = field(\n"
+"        default=128,\n"
+"        metadata={\"optuna\": {\"type\": \"categorical\", \"choices\": "
+"[64, 128, 256]}},\n"
+"    )\n"
+
+#: ../../source/api/cli/optuna.md:51 d975adbf69da44d38a3a34e609108b36
+msgid "支持的 `type` 包括："
+msgstr "Supported `type` values include:"
+
+#: ../../source/api/cli/optuna.md:52 e5360cbd19824d918dd5f9c39428910a
+msgid "`int`：支持 `low`, `high`, `step`, `log`"
+msgstr "`int`: Supports `low`, `high`, `step`, `log`"
+
+#: ../../source/api/cli/optuna.md:53 12a185e6eb9b4f31b7867805c5bc3c50
+msgid "`float`：支持 `low`, `high`, `step`, `log`"
+msgstr "`float`: Supports `low`, `high`, `step`, `log`"
+
+#: ../../source/api/cli/optuna.md:54 9aebadb2a1b740cc975670f922463d4b
+msgid "`categorical`：支持 `choices` 列表"
+msgstr "`categorical`: Supports `choices` list"
+
+#: ../../source/api/cli/optuna.md:58 89451e63bb6d4909b611e864e312180c
+msgid "常用命令示例"
+msgstr "Common Command Examples"
+
+#: ../../source/api/cli/optuna.md:60 33c36994e32a4c5a85b0ad1aa4486f5d
+msgid "1. 基础单目标搜索"
+msgstr "1\\. Basic Single-Objective Search"
+
+#: ../../source/api/cli/optuna.md:61 e580b7e275654b2b8308f83396efa45e
+msgid "python optuna_search.py -m GIKT -d assistments09 --data.fold 0\n"
+msgstr "python optuna_search.py -m GIKT -d assistments09 --data.fold 0\n"
+
+#: ../../source/api/cli/optuna.md:65 38ec6f6fcf24439aaf2a8c8d22e461e6
+msgid "2. 多目标联合优化"
+msgstr "2\\. Multi-Objective Joint Optimization"
+
+#: ../../source/api/cli/optuna.md:66 25028f6b4d8540c08cda4e319165f429
+msgid ""
+"同时最大化 `auc` 并最小化 `rmse`（多目标时建议在 `optuna_config.yaml` 中配置 `sampler: "
+"nsgaii`）："
+msgstr ""
+"Simultaneously maximize `auc` and minimize `rmse` (for multi-objective "
+"search, setting `sampler: nsgaii` in `optuna_config.yaml` is "
+"recommended):"
+
+#: ../../source/api/cli/optuna.md:67 da95122cf6c24d0ab3bfe84e73761d53
+msgid ""
+"python optuna_search.py -m AKT -d assistments09 --optuna_search.metric "
+"auc,rmse\n"
+msgstr ""
+"python optuna_search.py -m AKT -d assistments09 --optuna_search.metric "
+"auc,rmse\n"
+
+#: ../../source/api/cli/optuna.md:71 7bbb822af82f4e4eaf0f424d4c1c919f
+msgid "3. 从中断的搜索中恢复"
+msgstr "3\\. Resume from Interrupted Search"
+
+#: ../../source/api/cli/optuna.md:72 8e426ed7d145488fa72cc6ec239244ad
+msgid ""
+"python optuna_search.py -m GIKT -d assistments09 \\\n"
+"    --optuna_search.resume "
+"runs/hyperparam_search/GIKT_assist09_20260520_n_trials50\n"
+msgstr ""
+"python optuna_search.py -m GIKT -d assistments09 \\\n"
+"    --optuna_search.resume "
+"runs/hyperparam_search/GIKT_assist09_20260520_n_trials50\n"
+
+#: ../../source/api/cli/optuna.md:77 a25acf2767ea4b31bc9fef70cac3d382
+msgid "4. 覆盖单次 Trial 的训练轮数"
+msgstr "4\\. Override Training Epochs per Trial"
+
+#: ../../source/api/cli/optuna.md:78 9de9d8b612c94231b2242407789e1cc1
+msgid "可以在命令行中直接覆盖训练参数，加快搜索速度："
+msgstr ""
+"You can directly override training parameters on the command line to "
+"accelerate search speed:"
+
+#: ../../source/api/cli/optuna.md:79 e4c107c644c94b54a59d29d8e315ee55
+msgid ""
+"python optuna_search.py -m DKT -d assistments09 --model.epochs 30 "
+"--early_stopping.patience 5\n"
+msgstr ""
+"python optuna_search.py -m DKT -d assistments09 --model.epochs 30 "
+"--early_stopping.patience 5\n"
+
+#: ../../source/api/cli/optuna.md:85 1052fada84374a5fb22cef9a81d9abb4
+msgid "产出物与最佳参数复现"
+msgstr "Artifacts and Best Parameter Reproduction"
+
+#: ../../source/api/cli/optuna.md:87 97c0960870674e299f460cd3c00eca9b
+msgid "搜索完成后，实验目录下将生成以下核心工件："
+msgstr ""
+"After search completes, the following core artifacts are generated in the"
+" experiment directory:"
+
+#: ../../source/api/cli/optuna.md:89 b4eb0d6061204cb89addeb9cd837019d
+msgid ""
+"runs/hyperparam_search/GIKT_assistments09_20261109-120000_n_trials100/\n"
+"├── study.db                        # SQLite 数据库，保存所有 Trial 的参数与评估历史\n"
+"├── best_run_config.yaml            # 自动生成的最佳超参数完整复现配置文件\n"
+"├── best_params.yaml                # 最佳超参数扁平键值对\n"
+"├── trials_history_gikt.csv         # 包含所有 Trial 的超参数与指标表格\n"
+"├── optuna_config.yaml              # 本次搜索使用的超参数空间配置\n"
+"├── param_importances.yaml          # 各超参数对目标指标的重要度评估\n"
+"├── search_history.yaml             # 试验迭代历史轨迹\n"
+"└── run.log                         # 搜索控制台日志\n"
+msgstr ""
+"runs/hyperparam_search/GIKT_assistments09_20261109-120000_n_trials100/\n"
+"├── study.db                        # SQLite database storing parameters "
+"and evaluation history for all trials\n"
+"├── best_run_config.yaml            # Automatically generated full "
+"configuration file for reproducing best hyperparameters\n"
+"├── best_params.yaml                # Flat key-value pairs of best "
+"hyperparameters\n"
+"├── trials_history_gikt.csv         # Table of hyperparameters and "
+"metrics across all trials\n"
+"├── optuna_config.yaml              # Hyperparameter search space "
+"configuration used for this run\n"
+"├── param_importances.yaml          # Evaluated importance of each "
+"hyperparameter on target metrics\n"
+"├── search_history.yaml             # Trial iteration historical "
+"trajectory\n"
+"└── run.log                         # Search console log\n"
+
+#: ../../source/api/cli/optuna.md:101 0c700cb2d1ff4844962ecdc78a6b3f21
+msgid "一键复现最佳超参数模型"
+msgstr "One-Click Reproduction of Best Hyperparameter Model"
+
+#: ../../source/api/cli/optuna.md:103 db82d15b85a242a48e40d90dbd0f25bf
+msgid ""
+"搜索程序会自动去除搜索时的性能压制项（自动恢复 SwanLab 跟踪、检查点保存与测试集评估），生成标准干净的 "
+"`best_run_config.yaml`。只需一行命令即可使用最佳超参训练正式模型："
+msgstr ""
+"The search process automatically strips search-time performance "
+"suppressions (restoring SwanLab tracking, checkpoint saving, and test set"
+" evaluation) to produce a clean, standard `best_run_config.yaml`. Train "
+"the production model with best hyperparameters in a single command:"
+
+#: ../../source/api/cli/optuna.md:105 ba8f16cc8ded4b05a7fef74e7d60e3e8
+msgid ""
+"python train.py --config "
+"runs/hyperparam_search/GIKT_assistments09_20261109-120000_n_trials100/best_run_config.yaml"
+"\n"
+msgstr ""
+"python train.py --config "
+"runs/hyperparam_search/GIKT_assistments09_20261109-120000_n_trials100/best_run_config.yaml"
+"\n"

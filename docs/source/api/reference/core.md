@@ -29,11 +29,6 @@
 ```
 
 ```{eval-rst}
-.. automodule:: utils.hyperparam_manager
-   :members:
-```
-
-```{eval-rst}
 .. automodule:: utils.progress
    :members:
 ```
