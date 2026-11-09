@@ -1,0 +1,134 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/mockt.md:1 4d713ccae25147dda2359371738bbcd0
+msgid "MocKT"
+msgstr "MocKT"
+
+#: ../../source/model-zoo/models/mockt.md:3 f636d151bc714f12b81fed4f54b02d2d
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/mockt.md 9d65865050704938a3082d400d117ae3
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/mockt.md a1fafb398f9949b79259cc235b9de196
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/mockt.md 7a4d5e42f43b468593bcdbda91a4b0dd
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/mockt.md 029ee43d1add45d590dbbc88d16c31c5
+msgid ""
+"[MoC-KT: Mixture of Convolutions for Knowledge "
+"Tracing](https://doi.org/10.1145/3847658)"
+msgstr ""
+"[MoC-KT: Mixture of Convolutions for Knowledge "
+"Tracing](https://doi.org/10.1145/3847658)"
+
+#: ../../source/model-zoo/models/mockt.md fb53c775a39e429a80b28d932ac35cf2
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/mockt.md a47176cf36a441c4aa074e6771e66788
+msgid "Mingliang Hou, Zitao Liu, Renqiang Luo, Jiliang Tang, Weiqi Luo, Feng Xia"
+msgstr "Mingliang Hou, Zitao Liu, Renqiang Luo, Jiliang Tang, Weiqi Luo, Feng Xia"
+
+#: ../../source/model-zoo/models/mockt.md 2ea1cac5197d4dd686f4193d08e51390
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/mockt.md 41d8308dcfce4958ab7ee461e714587e
+msgid "2026"
+msgstr "2026"
+
+#: ../../source/model-zoo/models/mockt.md ebff86108ac04307975a23fcb16a25f4
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/mockt.md a251f08433944023b5c09b9aa225c031
+msgid "ACM Transactions on Information Systems"
+msgstr "ACM Transactions on Information Systems"
+
+#: ../../source/model-zoo/models/mockt.md:12 1c5cddb8e1094ba698db696b35d3c87f
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/mockt.md:14 3bfa0dde6649443e8ece5b48ec6a2825
+msgid ""
+"Knowledge tracing (KT) aims to predict learners’ mastery levels of "
+"knowledge components (KCs) or test items based on their interaction "
+"records with educational content. Despite significant advancements in KT "
+"models, such as RNN-based sequence models and Transformer-based attention"
+" models, a critical limitation persists: the inability to account for the"
+" heterogeneity in learners’ cognitive behavior data. This limitation "
+"leads to the “cognitive mirage” phenomenon, where seemingly similar "
+"historical interaction sequences result in divergent future outcomes, "
+"hindering prediction accuracy. To address this challenge, we propose a "
+"novel framework, mixture of convolutions for KT (MoC-KT). The framework "
+"introduces multi-scale causal convolutional kernels and adaptive "
+"segmentation to disentangle learners’ long-term stable progression from "
+"short-term fluctuations, such as guessing or fatigue. Additionally, the "
+"Kerple-enhanced attention mechanism incorporates a distance-sensitive "
+"decay function to prioritize local dependencies while suppressing "
+"irrelevant distant interactions. This mechanism effectively balances "
+"attention between capturing local short-term fluctuations and preserving "
+"global long-term progression, thereby mitigating the cognitive mirage "
+"problem caused by learner data heterogeneity. Experimental results on "
+"four real-world datasets show that MoC-KT consistently outperforms 26 "
+"state-of-the-art KT models, offering higher predictive accuracy and more "
+"robust handling of complex learning data. The source code of MoC-KT is "
+"available at https://pykt.org/ ."
+msgstr ""
+"Knowledge tracing (KT) aims to predict learners’ mastery levels of "
+"knowledge components (KCs) or test items based on their interaction "
+"records with educational content. Despite significant advancements in KT "
+"models, such as RNN-based sequence models and Transformer-based attention"
+" models, a critical limitation persists: the inability to account for the"
+" heterogeneity in learners’ cognitive behavior data. This limitation "
+"leads to the “cognitive mirage” phenomenon, where seemingly similar "
+"historical interaction sequences result in divergent future outcomes, "
+"hindering prediction accuracy. To address this challenge, we propose a "
+"novel framework, mixture of convolutions for KT (MoC-KT). The framework "
+"introduces multi-scale causal convolutional kernels and adaptive "
+"segmentation to disentangle learners’ long-term stable progression from "
+"short-term fluctuations, such as guessing or fatigue. Additionally, the "
+"Kerple-enhanced attention mechanism incorporates a distance-sensitive "
+"decay function to prioritize local dependencies while suppressing "
+"irrelevant distant interactions. This mechanism effectively balances "
+"attention between capturing local short-term fluctuations and preserving "
+"global long-term progression, thereby mitigating the cognitive mirage "
+"problem caused by learner data heterogeneity. Experimental results on "
+"four real-world datasets show that MoC-KT consistently outperforms 26 "
+"state-of-the-art KT models, offering higher predictive accuracy and more "
+"robust handling of complex learning data. The source code of MoC-KT is "
+"available at https://pykt.org/ ."
+
+#: ../../source/model-zoo/models/mockt.md:17 bd104013c2094d53983e425a0937e641
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/mockt.md:19 8be23db2a3e64a7ca915562b51762404
+msgid "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"
+msgstr "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"

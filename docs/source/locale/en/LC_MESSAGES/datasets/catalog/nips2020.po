@@ -1,0 +1,371 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/datasets/catalog/nips2020.md:1 46554445a51d46f79528dea2fcc66694
+msgid "NeurIPS 2020 Task 3/4"
+msgstr "NeurIPS 2020 Task 3/4"
+
+#: ../../source/datasets/catalog/nips2020.md:3 db5a4ad356094becbfc92119351f1d3f
+msgid ""
+"NeurIPS 2020 Education Challenge Task 3/4 是 Eedi 平台 2018 年 9 月至 2020 年 5 "
+"月中小学数学诊断性选择题的作答数据，包含 948 道题与 4,918 名学生。"
+msgstr ""
+"NeurIPS 2020 Education Challenge Task 3/4 contains diagnostic multiple-"
+"choice mathematics response data collected on the Eedi platform between "
+"September 2018 and May 2020, covering 948 questions and 4,918 students."
+
+#: ../../source/datasets/catalog/nips2020.md:5 931a4d76a2c741fb9273ec7c8bc03d3c
+msgid "数据集链接"
+msgstr "Dataset Link"
+
+#: ../../source/datasets/catalog/nips2020.md:7 4dd41977a12b46e38fac443fe878309a
+msgid ""
+"官方竞赛页：[NeurIPS 2020 Education "
+"Challenge](https://competitions.codalab.org/competitions/25449)"
+msgstr ""
+"Official challenge page: [NeurIPS 2020 Education "
+"Challenge](https://competitions.codalab.org/competitions/25449)"
+
+#: ../../source/datasets/catalog/nips2020.md:8 ea24c592a27d4a79b008fe10023bcb8b
+msgid ""
+"数据下载：[data.zip](https://dqanonymousdata.blob.core.windows.net/neurips-"
+"public/data.zip)"
+msgstr ""
+"Data download: [data.zip](https://dqanonymousdata.blob.core.windows.net"
+"/neurips-public/data.zip)"
+
+#: ../../source/datasets/catalog/nips2020.md:10
+#: 286f2d803d7643f58c3650295f35e854
+msgid "数据规模"
+msgstr "Data Scale"
+
+#: ../../source/datasets/catalog/nips2020.md d4d19a5d93354b098cbd5d549ce652c7
+msgid "指标"
+msgstr "Metrics"
+
+#: ../../source/datasets/catalog/nips2020.md 58d755482af045229e5555a2ba404531
+msgid "数值"
+msgstr "Value"
+
+#: ../../source/datasets/catalog/nips2020.md fd76ff65271d4445b63fa85e7dd25847
+msgid "口径"
+msgstr "Criteria"
+
+#: ../../source/datasets/catalog/nips2020.md 4c58fe3eb3114ea99da1bbbeb1727e3f
+msgid "Task 3/4 训练作答记录"
+msgstr "Task 3/4 Training Response Records"
+
+#: ../../source/datasets/catalog/nips2020.md 1af3f0538f1f4955853941aa77c2845b
+msgid "1,382,727"
+msgstr "1,382,727"
+
+#: ../../source/datasets/catalog/nips2020.md c6767fe932e049518acb487e05773b30
+msgid "官方 `data.zip` 中 `train_data/train_task_3_4.csv` 的数据行数"
+msgstr ""
+"Number of data rows in `train_data/train_task_3_4.csv` from official "
+"`data.zip`"
+
+#: ../../source/datasets/catalog/nips2020.md 9eee51b1261d42ffaef4d04186fc4c15
+msgid "Task 3/4 训练学生数"
+msgstr "Task 3/4 Training Student Count"
+
+#: ../../source/datasets/catalog/nips2020.md 2d5189401c9d47b1a27fd827c41684f0
+msgid "4,918"
+msgstr "4,918"
+
+#: ../../source/datasets/catalog/nips2020.md c877451125f6455d94e6fa11f234be5b
+msgid "同一文件 `UserId` 去重计数"
+msgstr "Unique `UserId` count from the same file"
+
+#: ../../source/datasets/catalog/nips2020.md d454753533224c5e8c397e1dd687c419
+msgid "Task 3/4 题目数"
+msgstr "Task 3/4 Question Count"
+
+#: ../../source/datasets/catalog/nips2020.md 8023898c1cbe443b97e3230ec369776c
+msgid "948"
+msgstr "948"
+
+#: ../../source/datasets/catalog/nips2020.md dd26181c301b4b95bdfb094a508c6db5
+msgid "同一文件 `QuestionId` 去重计数"
+msgstr "Unique `QuestionId` count from the same file"
+
+#: ../../source/datasets/catalog/nips2020.md:18
+#: e22b687528c342158e6408f268e36a13
+msgid "本页仅统计 Task 3/4 训练文件，不合并 Task 1/2 数据。"
+msgstr ""
+"This page reports statistics for Task 3/4 training files only, without "
+"merging Task 1/2 data."
+
+#: ../../source/datasets/catalog/nips2020.md:20
+#: 9273d4b1dbe64cbf80c92f87bf41cf08
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/datasets/catalog/nips2020.md:22
+#: eb0c103ab2664a37b48799ebe2a08b3e
+msgid "以下字段与官方 `data.zip` 中对应 CSV 的表头一致。"
+msgstr ""
+"The following fields match the table headers of corresponding CSVs in "
+"official `data.zip`."
+
+#: ../../source/datasets/catalog/nips2020.md:24
+#: dae8c9a27d2145d7a05baab310165779
+msgid "作答日志（`train_data/train_task_3_4.csv`）"
+msgstr "Response Logs (`train_data/train_task_3_4.csv`)"
+
+#: ../../source/datasets/catalog/nips2020.md 2207a9d521504ba29a4e342f232ea4b6
+#: 2caaea56e57f4e3890fe8488abf77b20 48319d2a854242798111f9702ffc50a2
+#: 527587ee23e7431eac0f28262a04a1fb d7f17a5f55c44fc8bb6c64af2ce70ec8
+msgid "字段名称"
+msgstr "Field Name"
+
+#: ../../source/datasets/catalog/nips2020.md 273bb5faa84f45078cfb308ac0b73aad
+#: 457dc0ccab774b288127106554194896 75b3ffaf9dee437d9963221dad3f8455
+#: a32232e12916456980619f4ec4821a46 bcacf2e9fb8041ba9576dd7b3856d125
+msgid "数据类型"
+msgstr "Data Type"
+
+#: ../../source/datasets/catalog/nips2020.md 04a373338f914a5196c9a4d50bc70540
+#: 0fcd3a12c0ab46f8a5b5a13762205ec6 2f9fed03c5594d259a7822abe87c628c
+#: 9b5c96e8d1fa4ddbbe239540aeab8fd0 cd962359d2e8452fa51e861f81abaa74
+msgid "说明"
+msgstr "Description"
+
+#: ../../source/datasets/catalog/nips2020.md 27d20f5568704884b24078a0bce4b7e8
+#: 4f2b8d79585f429caceef711172ba21e
+msgid "`QuestionId`"
+msgstr "`QuestionId`"
+
+#: ../../source/datasets/catalog/nips2020.md 15dc5ab4375b423ab313a1b8f7c5a1c1
+#: 4dfc181a9503449e8f984ca25105871c 4eba4092dfcd43238f2fa26d7c09043d
+#: 6b9343226f19483298ae05c790051565 95d6462595694f8aab5e1b9ffaa397b3
+#: a02e67d6a89b44baae0c5770b97e2764 a5ae612949624be783f8717bcb1e4c90
+#: ada64f09acd7409aaae8d845c7cbe05d c02637727e964252be030fa1b4493650
+#: c6616e27bb8c4d21999581a0d83c13bd c7382d0e9591477784c125802c401afc
+#: d24ff45d56b6407a9c60df7723bf39f8 d4720538306044d2a0730a6ec8e3d6f1
+#: dfcce3ec247e493099371ec7c1199930 eae5f33faddf4838a8cf59f3568a370d
+#: f7f693d8ad464c49aa9871afdbfc7c69 fc5655d575f945a4bc07df846de5ac19
+msgid "Integer"
+msgstr "Integer"
+
+#: ../../source/datasets/catalog/nips2020.md 3829d1d6f8f941f29a43f2111af38bf9
+#: fa10acc741d84a319f545cfd1a7dd3df
+msgid "题目编号"
+msgstr "Question ID"
+
+#: ../../source/datasets/catalog/nips2020.md 4cc4f116394540869f10138fb0b19173
+#: de1e9c4bf6634bf2a75cc2db2733be34
+msgid "`UserId`"
+msgstr "`UserId`"
+
+#: ../../source/datasets/catalog/nips2020.md 21965d22187e40ecae58a3d9cac6f72c
+#: 4f90bd037d6b42f3b95e66bc235f6448
+msgid "学生编号"
+msgstr "Student ID"
+
+#: ../../source/datasets/catalog/nips2020.md 49225de38ffa4015ac23ef75186e0fa7
+#: 725b2de34afa4bcca1a5cc7bf73438cf
+msgid "`AnswerId`"
+msgstr "`AnswerId`"
+
+#: ../../source/datasets/catalog/nips2020.md 7e22f7c0aff844ba89471a43e61eb109
+msgid "答题事件编号，用于关联答题元数据"
+msgstr "Response event ID, used to join response metadata"
+
+#: ../../source/datasets/catalog/nips2020.md ad7700a254034bada555525294ed5233
+msgid "`IsCorrect`"
+msgstr "`IsCorrect`"
+
+#: ../../source/datasets/catalog/nips2020.md 8b135a8296d2458d898d552798a2c88f
+msgid "是否答对，1 为正确，0 为错误"
+msgstr "Whether correct, 1 for correct, 0 for incorrect"
+
+#: ../../source/datasets/catalog/nips2020.md fb2a1adde7434af6ae2ac8059d1432d2
+msgid "`CorrectAnswer`"
+msgstr "`CorrectAnswer`"
+
+#: ../../source/datasets/catalog/nips2020.md ce2601d4e0cc49ad9cfe1ec615019782
+msgid "标准答案选项编号，取值 1 至 4"
+msgstr "Standard answer option ID, values 1 to 4"
+
+#: ../../source/datasets/catalog/nips2020.md 58edb6f6b3244e8d88ecd648cae373a8
+msgid "`AnswerValue`"
+msgstr "`AnswerValue`"
+
+#: ../../source/datasets/catalog/nips2020.md 37235f900d4d402292f57016963268e5
+msgid "学生选择的选项编号，取值 1 至 4"
+msgstr "Option ID selected by student, values 1 to 4"
+
+#: ../../source/datasets/catalog/nips2020.md:35
+#: 79ddf341c08d4f6f8ae2f20f57555611
+msgid "答题元数据（`metadata/answer_metadata_task_3_4.csv`）"
+msgstr "Response Metadata (`metadata/answer_metadata_task_3_4.csv`)"
+
+#: ../../source/datasets/catalog/nips2020.md 79fbae321ea04a66a927cebba8f70ea2
+msgid "答题事件编号"
+msgstr "Response event ID"
+
+#: ../../source/datasets/catalog/nips2020.md 1a6a043a7592416bbb23cb2235feaf69
+msgid "`DateAnswered`"
+msgstr "`DateAnswered`"
+
+#: ../../source/datasets/catalog/nips2020.md e830385529a34824b39f99e645d2af53
+msgid "Datetime"
+msgstr "Datetime"
+
+#: ../../source/datasets/catalog/nips2020.md 51d2dcfb5da742b0a46aab7eaa5906b6
+msgid "作答时间，精确到分钟"
+msgstr "Response time, accurate to minute"
+
+#: ../../source/datasets/catalog/nips2020.md 4d93a0158ca04c0b98002b30dbf4c924
+msgid "`Confidence`"
+msgstr "`Confidence`"
+
+#: ../../source/datasets/catalog/nips2020.md 23f26c4f16d948869e72c31765669935
+msgid "学生自评信心百分比，0 表示随机猜测，100 表示完全确定"
+msgstr ""
+"Student self-reported confidence percentage, 0 indicates random guess, "
+"100 indicates fully certain"
+
+#: ../../source/datasets/catalog/nips2020.md e94c8552c4f943cbb74ce6bcfb765940
+msgid "`GroupId`"
+msgstr "`GroupId`"
+
+#: ../../source/datasets/catalog/nips2020.md c2194894555445a4a300ae61a0636ce6
+msgid "教学班级组编号"
+msgstr "Teaching class group ID"
+
+#: ../../source/datasets/catalog/nips2020.md a9fea3aefca64801b1786d72e796da9b
+msgid "`QuizId`"
+msgstr "`QuizId`"
+
+#: ../../source/datasets/catalog/nips2020.md 800683fa0d124fe2bc7fac6bf56f7c86
+msgid "测验卷编号"
+msgstr "Quiz paper ID"
+
+#: ../../source/datasets/catalog/nips2020.md f28002b543f64f0b9443c98955942a7b
+msgid "`SchemeOfWorkId`"
+msgstr "`SchemeOfWorkId`"
+
+#: ../../source/datasets/catalog/nips2020.md ffe74fcc64534eefbb437b5bee69ea0e
+msgid "教学计划编号"
+msgstr "Teaching scheme ID"
+
+#: ../../source/datasets/catalog/nips2020.md:46
+#: 0ce492072f234a2eb02a1abe5e82686b
+msgid "题目元数据（`metadata/question_metadata_task_3_4.csv`）"
+msgstr "Question Metadata (`metadata/question_metadata_task_3_4.csv`)"
+
+#: ../../source/datasets/catalog/nips2020.md 0fdc45e0e0c547058eae799fb8ce0993
+#: d299c6c3ba5c4829a3c91911348b497a
+msgid "`SubjectId`"
+msgstr "`SubjectId`"
+
+#: ../../source/datasets/catalog/nips2020.md f83f8cde3a864c7f8eb7b5a09dcaaa8a
+msgid "List[Integer]"
+msgstr "List[Integer]"
+
+#: ../../source/datasets/catalog/nips2020.md d40548dc17514ec5996e17fb3d5d7980
+msgid "与题目关联的知识主题编号列表"
+msgstr "List of knowledge subject IDs associated with the question"
+
+#: ../../source/datasets/catalog/nips2020.md:53
+#: 64d6db46071d448699870353acbf3ddb
+msgid "题目对应的图片位于发布包的 `data/images/` 目录。"
+msgstr ""
+"Images corresponding to questions are located in the `data/images/` "
+"directory of the release package."
+
+#: ../../source/datasets/catalog/nips2020.md:55
+#: 92f77598c01543a7b7e8fc5331466832
+msgid "学生元数据（`metadata/student_metadata_task_3_4.csv`）"
+msgstr "Student Metadata (`metadata/student_metadata_task_3_4.csv`)"
+
+#: ../../source/datasets/catalog/nips2020.md 30f0c00969424b049d329963442ae221
+msgid "`Gender`"
+msgstr "`Gender`"
+
+#: ../../source/datasets/catalog/nips2020.md 376ec6feaca74387b079eb78b0cb4a20
+msgid "性别，0 为未指定，1 为女性，2 为男性，3 为其他"
+msgstr "Gender, 0 for unspecified, 1 for female, 2 for male, 3 for other"
+
+#: ../../source/datasets/catalog/nips2020.md 091871b9b8a84f1b82412f4b20fc17e8
+msgid "`DateOfBirth`"
+msgstr "`DateOfBirth`"
+
+#: ../../source/datasets/catalog/nips2020.md 9d03ddef9c9146bf86d858306bb8b977
+msgid "Date"
+msgstr "Date"
+
+#: ../../source/datasets/catalog/nips2020.md 5b6be0d4db5d498e8b068f3dc20b6477
+msgid "出生日期，取当月第一天"
+msgstr "Date of birth, set to first day of birth month"
+
+#: ../../source/datasets/catalog/nips2020.md 437c0b6d53164fda9a00dddcb4e481a4
+msgid "`PremiumPupil`"
+msgstr "`PremiumPupil`"
+
+#: ../../source/datasets/catalog/nips2020.md 94590c00a2474f81b05e67cf906749b6
+msgid "Boolean"
+msgstr "Boolean"
+
+#: ../../source/datasets/catalog/nips2020.md dbd37b639ef54f6c93bcdcc4fe254b4f
+msgid "是否因经济困难符合免费校餐或学生津贴资格"
+msgstr ""
+"Whether eligible for free school meals or pupil premium due to economic "
+"disadvantage"
+
+#: ../../source/datasets/catalog/nips2020.md:64
+#: 32c904fc78a0419aa70f2379ed824e45
+msgid "知识主题树（`metadata/subject_metadata.csv`）"
+msgstr "Knowledge Subject Tree (`metadata/subject_metadata.csv`)"
+
+#: ../../source/datasets/catalog/nips2020.md 2b09577934754f0e80f671b8aa9ee960
+msgid "知识主题编号"
+msgstr "Knowledge subject ID"
+
+#: ../../source/datasets/catalog/nips2020.md e0bdfd879fe14f4997eb45ec3c374d8b
+msgid "`Name`"
+msgstr "`Name`"
+
+#: ../../source/datasets/catalog/nips2020.md c742a827ccb44ae5aafc78bcd07756ea
+msgid "String"
+msgstr "String"
+
+#: ../../source/datasets/catalog/nips2020.md 9c8700e8182141ed90acfe20fce5192c
+msgid "知识主题名称"
+msgstr "Knowledge subject name"
+
+#: ../../source/datasets/catalog/nips2020.md 792a79a60cdb439c9adf660450877820
+msgid "`ParentId`"
+msgstr "`ParentId`"
+
+#: ../../source/datasets/catalog/nips2020.md 46ed6ea7a9ad461a8037df1e80656eba
+msgid "父级主题编号"
+msgstr "Parent subject ID"
+
+#: ../../source/datasets/catalog/nips2020.md 6484df268b324a3985c1604b7725bdec
+msgid "`Level`"
+msgstr "`Level`"
+
+#: ../../source/datasets/catalog/nips2020.md de37b5dee65448ac9dfa16806ea4aa60
+msgid "主题层级"
+msgstr "Subject tier level"

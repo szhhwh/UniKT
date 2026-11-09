@@ -1,0 +1,55 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/developer-guides/index.md:5 c8cbd3a14f9c4f0b9c9bbb6da1e1f75a
+msgid "开发者指南"
+msgstr "Developer Guides"
+
+#: ../../source/developer-guides/index.md:7 6e3854666f334779816f827066c8f555
+msgid "通过统一的注册、配置与训练接口，扩展模型、数据源和训练流程。"
+msgstr ""
+"Extend models, data sources, and training workflows through unified "
+"registration, configuration, and training interfaces."
+
+#: ../../source/developer-guides/index.md:9 2c3b04d8515c42ee9746058ed380834f
+msgid "[自定义模型](customize-model.md)：实现模型、数据准备与训练器，声明配置并注册。"
+msgstr ""
+"[Custom Models](customize-model.md): Implement models, data preparation, "
+"and trainers, declaring configs and registering them."
+
+#: ../../source/developer-guides/index.md:10 62ea77cafe384a7fa23e0c26ea097245
+msgid "[多阶段训练](multi-stage-training.md)：组织训练阶段，管理组件构建、状态传递与联合推断。"
+msgstr ""
+"[Multi-Stage Training](multi-stage-training.md): Organize training "
+"stages, managing component building, state passing, and joint inference."
+
+#: ../../source/developer-guides/index.md:11 76f8eb20133e4ec0b737ba3d4611cd14
+msgid "[自定义数据集](customize-dataset.md)：接入数据源，完成实体映射、序列切分与交叉验证数据准备。"
+msgstr ""
+"[Custom Datasets](customize-dataset.md): Integrate data sources, "
+"completing entity mapping, sequence slicing, and cross-validation data "
+"preparation."
+
+#: ../../source/developer-guides/index.md:12 d4727d7b16ef405a8729f5b8abd8520b
+msgid "[回调与损失](customize-callback.md)：扩展训练生命周期，接入周期性更新与自定义损失。"
+msgstr ""
+"[Callbacks & Losses](customize-callback.md): Extend the training "
+"lifecycle, integrating periodic updates and custom loss functions."

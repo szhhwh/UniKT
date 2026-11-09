@@ -3,7 +3,9 @@
 import os
 import sys
 
+from docutils import nodes
 from sphinx.ext.autodoc.mock import _MockObject
+from sphinx.transforms import SphinxTransform
 
 
 # Mock the __or__ and __ror__ methods of _MockObject to
@@ -23,6 +25,7 @@ project_copyright = "2025-%Y, UniKT Team"
 locale_dirs = ["locale/"]
 gettext_compact = False
 gettext_uuid = True
+gettext_additional_targets = {"literal-block"}
 
 # Let sphinx find the modules to document
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
@@ -39,7 +42,7 @@ extensions = [
 
 source_suffix = ".md"
 
-myst_enable_extensions = ["colon_fence"]
+myst_enable_extensions = ["colon_fence", "dollarmath"]
 
 # autodoc
 autodoc_mock_imports = [
@@ -60,6 +63,10 @@ autodoc_mock_imports = [
     "rich",
     "tqdm",
     "pyarrow",
+    "jsonargparse",
+    "dotenv",
+    "yaml",
+    "psutil",
 ]
 autodoc_default_options = {"members": True, "show-inheritance": True}
 autodoc_typehints = "description"
@@ -89,10 +96,110 @@ linkcheck_ignore = [
 ]
 
 html_theme = "furo"
-
+html_title = "UniKT 文档"
+html_favicon = "_static/favicon.svg"
+templates_path = ["_templates"]
 html_static_path = ["_static"]
-html_css_files = ["arena.css"]
+html_css_files = ["unikt.css", "arena.css"]
+html_theme_options = {
+    "light_css_variables": {
+        "color-brand-primary": "#4338ca",
+        "color-brand-content": "#4338ca",
+        "color-brand-visited": "#5546a3",
+        "color-foreground-primary": "#202b40",
+        "color-foreground-secondary": "#526078",
+        "color-foreground-muted": "#617087",
+        "color-background-primary": "#ffffff",
+        "color-background-secondary": "#f6f7fb",
+        "color-background-hover": "#eceef8",
+        "color-background-border": "#e0e5ef",
+        "color-admonition-background": "#f6f7fb",
+        "unikt-accent": "#087f78",
+        "unikt-brand-soft": "#eeedfc",
+    },
+    "dark_css_variables": {
+        "color-brand-primary": "#b3adff",
+        "color-brand-content": "#b3adff",
+        "color-brand-visited": "#c7b4ee",
+        "color-foreground-primary": "#e1e7f1",
+        "color-foreground-secondary": "#adb9ce",
+        "color-foreground-muted": "#9aa9c1",
+        "color-background-primary": "#141923",
+        "color-background-secondary": "#1a202e",
+        "color-background-hover": "#272f43",
+        "color-background-border": "#343d52",
+        "color-admonition-background": "#1a202e",
+        "unikt-accent": "#71d6c5",
+        "unikt-brand-soft": "#282541",
+    },
+}
+pygments_style = "friendly"
+pygments_dark_style = "native"
 
 mermaid_version = "11"
 
 exclude_patterns = ["_build", "Thumbs.db", "**/.DS_Store"]
+
+
+def _page_context(app, pagename, _template, context, _doctree):
+    section = pagename.split("/")[0]
+    if pagename == "index":
+        page_kind = "home"
+    elif pagename in {"model-zoo/index", "datasets/index"}:
+        page_kind = "catalog"
+    elif pagename.endswith("/index"):
+        page_kind = "landing"
+    elif section == "model-zoo":
+        page_kind = "model"
+    elif section == "datasets":
+        page_kind = "dataset"
+    elif section == "api":
+        page_kind = "api"
+    else:
+        page_kind = "guide"
+    context["unikt_page_kind"] = page_kind
+
+
+def _config_inited(app, config):
+    if (
+        config.language
+        and config.language.startswith("en")
+        and (not config.html_title or config.html_title == "UniKT 文档")
+    ):
+        config.html_title = "UniKT Documentation"
+
+
+def setup(app):
+    """Register the docs build hooks and the table-cell i18n transform."""
+    app.connect("config-inited", _config_inited)
+    app.connect("html-page-context", _page_context)
+    app.connect("doctree-read", _mark_table_cell_sources)
+    app.add_transform(_TableCellSourceTransform)
+
+
+def _mark_table_cell_sources(_app, doctree):
+    # MyST table cells carry no source, so Sphinx skips them when extracting
+    # gettext messages. Tag them with the document source to make them translatable.
+    source = doctree["source"]
+    for entry in doctree.findall(nodes.entry):
+        for paragraph in entry.findall(nodes.paragraph):
+            if paragraph.source is None:
+                paragraph.source = source
+
+
+class _TableCellSourceTransform(SphinxTransform):
+    """Re-tag MyST table cells after the doctree is unpickled.
+
+    ``source`` is not preserved by the doctree pickle, so the gettext extractor
+    sees the cells only during the initial read; the i18n transform needs them
+    tagged again before it runs.
+    """
+
+    default_priority = 10
+
+    def apply(self, **_kwargs):
+        source = self.document["source"]
+        for entry in self.document.findall(nodes.entry):
+            for paragraph in entry.findall(nodes.paragraph):
+                if paragraph.source is None:
+                    paragraph.source = source

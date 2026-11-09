@@ -1,0 +1,134 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/dktplus.md:1 f184568ca3704430863b47a035c36144
+msgid "DKTPlus"
+msgstr "DKTPlus"
+
+#: ../../source/model-zoo/models/dktplus.md:3 af3a3e7f76884bd88145aea55ea0bb3f
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/dktplus.md 27e88f8d058744c0bf51d7cf9b956a63
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/dktplus.md d75b8520339a474db62ec0899b675ac3
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/dktplus.md 9ccb46876e9f4c3facb2ceecf8b3c702
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/dktplus.md 4a036a0967e549baba254895225327c7
+msgid ""
+"[Addressing Two Problems in Deep Knowledge Tracing via Prediction-"
+"Consistent Regularization](https://doi.org/10.1145/3231644.3231647)"
+msgstr ""
+"[Addressing Two Problems in Deep Knowledge Tracing via Prediction-"
+"Consistent Regularization](https://doi.org/10.1145/3231644.3231647)"
+
+#: ../../source/model-zoo/models/dktplus.md a90c3a1facfc4dfd8ddb95d8f19a78bf
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/dktplus.md 22605b0fd4284620a3a15472ad6546aa
+msgid "Chun-Kit Yeung, Dit-Yan Yeung"
+msgstr "Chun-Kit Yeung, Dit-Yan Yeung"
+
+#: ../../source/model-zoo/models/dktplus.md 423615fca64d40a8aa5486616d2a975d
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/dktplus.md 93685d1434a8483cb55e789fa9fd3e7f
+msgid "2018"
+msgstr "2018"
+
+#: ../../source/model-zoo/models/dktplus.md d0f33950f0c543f699ba695c5cc5c202
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/dktplus.md 414fe296da384c57864fcd50e7c79519
+msgid "Proceedings of the Fifth Annual ACM Conference on Learning at Scale"
+msgstr "Proceedings of the Fifth Annual ACM Conference on Learning at Scale"
+
+#: ../../source/model-zoo/models/dktplus.md 69090eade2a44d01b466171174ef00df
+msgid "DOI"
+msgstr "DOI"
+
+#: ../../source/model-zoo/models/dktplus.md 160428cc4d6343769738045c7c9a8101
+msgid "[10.1145/3231644.3231647](https://doi.org/10.1145/3231644.3231647)"
+msgstr "[10.1145/3231644.3231647](https://doi.org/10.1145/3231644.3231647)"
+
+#: ../../source/model-zoo/models/dktplus.md:13 c1811883cd9841aeb741aacba15a57a0
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/dktplus.md:15 281867ae21a7464c88b55c4585bfddcf
+msgid ""
+"Knowledge tracing is one of the key research areas for empowering "
+"personalized education. It is a task to model students' mastery level of "
+"a knowledge component (KC) based on their historical learning "
+"trajectories. In recent years, a recurrent neural network model called "
+"deep knowledge tracing (DKT) has been proposed to handle the knowledge "
+"tracing task and literature has shown that DKT generally outperforms "
+"traditional methods. However, through our extensive experimentation, we "
+"have noticed two major problems in the DKT model. The first problem is "
+"that the model fails to reconstruct the observed input. As a result, even"
+" when a student performs well on a KC, the prediction of that KC's "
+"mastery level decreases instead, and vice versa. Second, the predicted "
+"performance for KCs across time-steps is not consistent. This is "
+"undesirable and unreasonable because student's performance is expected to"
+" transit gradually over time. To address these problems, we introduce "
+"regularization terms that correspond to reconstruction and waviness to "
+"the loss function of the original DKT model to enhance the consistency in"
+" prediction. Experiments show that the regularized loss function "
+"effectively alleviates the two problems without degrading the original "
+"task of DKT."
+msgstr ""
+"Knowledge tracing is one of the key research areas for empowering "
+"personalized education. It is a task to model students' mastery level of "
+"a knowledge component (KC) based on their historical learning "
+"trajectories. In recent years, a recurrent neural network model called "
+"deep knowledge tracing (DKT) has been proposed to handle the knowledge "
+"tracing task and literature has shown that DKT generally outperforms "
+"traditional methods. However, through our extensive experimentation, we "
+"have noticed two major problems in the DKT model. The first problem is "
+"that the model fails to reconstruct the observed input. As a result, even"
+" when a student performs well on a KC, the prediction of that KC's "
+"mastery level decreases instead, and vice versa. Second, the predicted "
+"performance for KCs across time-steps is not consistent. This is "
+"undesirable and unreasonable because student's performance is expected to"
+" transit gradually over time. To address these problems, we introduce "
+"regularization terms that correspond to reconstruction and waviness to "
+"the loss function of the original DKT model to enhance the consistency in"
+" prediction. Experiments show that the regularized loss function "
+"effectively alleviates the two problems without degrading the original "
+"task of DKT."
+
+#: ../../source/model-zoo/models/dktplus.md:18 bb06853b763346f8b4a9a4ac2634f2a0
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/dktplus.md:20 1aae2aefb6174d6b9b8e4713f029295b
+msgid "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"
+msgstr "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"

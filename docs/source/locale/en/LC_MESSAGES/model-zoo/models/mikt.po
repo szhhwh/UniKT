@@ -1,0 +1,140 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/mikt.md:1 7e0d7eaa83e44edab8da5c36e3eb029e
+msgid "MIKT"
+msgstr "MIKT"
+
+#: ../../source/model-zoo/models/mikt.md:3 a0759d745fa74a42b64090869130139a
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/mikt.md f448c992fc9b485ca8e0a094182ffe32
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/mikt.md 2fc899e0e6424b82b4984548624b6e75
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/mikt.md 673c5f1500c345cfa1a7fed5508c3554
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/mikt.md c9f1d627605e4a04849cbbcd2add8ebc
+msgid ""
+"[Interpretable Knowledge Tracing with Multiscale State "
+"Representation](https://doi.org/10.1145/3589334.3645373)"
+msgstr ""
+"[Interpretable Knowledge Tracing with Multiscale State "
+"Representation](https://doi.org/10.1145/3589334.3645373)"
+
+#: ../../source/model-zoo/models/mikt.md 9f382459bab2496fb1fe1cff9535c6d1
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/mikt.md ffa03ae94ab04253a2c4e83587a743de
+msgid "Jianwen Sun, Fenghua Yu, Qian Wan, Qing Li, Sannyuya Liu, Xiaoxuan Shen"
+msgstr "Jianwen Sun, Fenghua Yu, Qian Wan, Qing Li, Sannyuya Liu, Xiaoxuan Shen"
+
+#: ../../source/model-zoo/models/mikt.md a0710702b8aa4dd2a7f100c6036065b1
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/mikt.md 336151268bc344b6a0ef461211df375b
+msgid "2024"
+msgstr "2024"
+
+#: ../../source/model-zoo/models/mikt.md 96e9882b6bb647b990819c7ec9ac35b7
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/mikt.md 8228264d0f92413bba7793a1e4abc0d7
+msgid "Proceedings of the ACM Web Conference 2024"
+msgstr "Proceedings of the ACM Web Conference 2024"
+
+#: ../../source/model-zoo/models/mikt.md:12 f6a17e42be804ee48ca4cd203db7f056
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/mikt.md:14 4c66a2f7c49249cf86eedd447e50d333
+msgid ""
+"Knowledge Tracing (KT) is vital for education, continuously monitoring "
+"students' knowledge states (mastery of knowledge) as they interact with "
+"online education materials. Despite significant advancements in deep "
+"learning-based KT models, existing approaches often struggle to strike "
+"the right balance in granularity, leading to either overly coarse or "
+"excessively fine tracing and representation of students' knowledge "
+"states, thereby limiting their performance. Additionally, achieving a "
+"high-performing model while ensuring interpretability presents a "
+"challenge. Therefore, in this paper, we propose a novel approach called "
+"Multiscale-state-based Interpretable Knowledge Tracing (MIKT). "
+"Specifically, MIKT traces students' knowledge states on two scales: a "
+"coarse-grained representation to trace students' domain knowledge state, "
+"and a fine-grained representation to monitor their conceptual knowledge "
+"state. Furthermore, the classical psychological measurement model, IRT "
+"(Item Response Theory), is introduced to explain the prediction process "
+"of MIKT, enhancing its interpretability without sacrificing performance. "
+"Additionally, we extended the Rasch representation method to effectively "
+"handle scenarios where questions are associated with multiple concepts, "
+"making it more applicable to real-world situations. We extensively "
+"compared MIKT with 20 state-of-the-art KT models on four widely-used "
+"public datasets. Experimental results demonstrate that MIKT outperforms "
+"other models while maintaining its interpretability. Moreover, "
+"experimental observations have revealed that our proposed extended Rasch "
+"representation method not only benefits MIKT but also significantly "
+"improves the performance of other KT baseline models. The code can be "
+"found at https://github.com/lilstrawberry/MIKT."
+msgstr ""
+"Knowledge Tracing (KT) is vital for education, continuously monitoring "
+"students' knowledge states (mastery of knowledge) as they interact with "
+"online education materials. Despite significant advancements in deep "
+"learning-based KT models, existing approaches often struggle to strike "
+"the right balance in granularity, leading to either overly coarse or "
+"excessively fine tracing and representation of students' knowledge "
+"states, thereby limiting their performance. Additionally, achieving a "
+"high-performing model while ensuring interpretability presents a "
+"challenge. Therefore, in this paper, we propose a novel approach called "
+"Multiscale-state-based Interpretable Knowledge Tracing (MIKT). "
+"Specifically, MIKT traces students' knowledge states on two scales: a "
+"coarse-grained representation to trace students' domain knowledge state, "
+"and a fine-grained representation to monitor their conceptual knowledge "
+"state. Furthermore, the classical psychological measurement model, IRT "
+"(Item Response Theory), is introduced to explain the prediction process "
+"of MIKT, enhancing its interpretability without sacrificing performance. "
+"Additionally, we extended the Rasch representation method to effectively "
+"handle scenarios where questions are associated with multiple concepts, "
+"making it more applicable to real-world situations. We extensively "
+"compared MIKT with 20 state-of-the-art KT models on four widely-used "
+"public datasets. Experimental results demonstrate that MIKT outperforms "
+"other models while maintaining its interpretability. Moreover, "
+"experimental observations have revealed that our proposed extended Rasch "
+"representation method not only benefits MIKT but also significantly "
+"improves the performance of other KT baseline models. The code can be "
+"found at https://github.com/lilstrawberry/MIKT."
+
+#: ../../source/model-zoo/models/mikt.md:17 73534d8400ae4fef8d571f7a95411f60
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/mikt.md:19 bdc918f8ba384ba488b4a83442bff76f
+msgid "[lilstrawberry/MIKT](https://github.com/lilstrawberry/MIKT)"
+msgstr "[lilstrawberry/MIKT](https://github.com/lilstrawberry/MIKT)"

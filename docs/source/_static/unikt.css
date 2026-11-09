@@ -1,0 +1,166 @@
+/* Brand values follow Furo's light/dark selection, including manual overrides. */
+body {
+  --unikt-ink: var(--color-foreground-primary);
+  --unikt-muted: var(--color-foreground-secondary);
+  --unikt-border: var(--color-background-border);
+  --unikt-surface: var(--color-background-secondary);
+  --unikt-brand: var(--color-brand-content);
+  --sd-color-primary: var(--unikt-brand);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+article { line-height: 1.7; }
+article p, article ul, article ol { margin-top: .7rem; margin-bottom: 1rem; }
+article li + li { margin-top: .35rem; }
+article h1, article h2, article h3, article h4 { line-height: 1.4; scroll-margin-top: 1.5rem; }
+article h1 { color: var(--unikt-brand); font-weight: 600; margin: .65rem 0 1.4rem; overflow-wrap: anywhere; }
+article h2 { font-weight: 500; margin-top: 2.2rem; margin-bottom: 1rem; }
+article h3 { font-weight: 500; margin-top: 1.8rem; }
+article h4 { font-weight: 600; }
+article a { text-underline-offset: .2em; text-decoration-thickness: 1px; }
+article a:hover { text-decoration: underline; }
+article hr { border: 0; border-top: 1px solid var(--unikt-border); margin: 2rem 0; }
+article blockquote { border-left: 3px solid var(--unikt-border); color: var(--unikt-muted); margin: 1.5rem 0; padding: .1rem 1.2rem; overflow-wrap: anywhere; }
+article code.literal { background: var(--unikt-surface); border: 0; border-radius: 3px; padding: .15em .3em; overflow-wrap: anywhere; }
+a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visible, [tabindex="0"]:focus-visible { outline: 2px solid var(--unikt-brand); outline-offset: 3px; }
+
+.sidebar-drawer { border-right: 1px solid var(--unikt-border); }
+.sidebar-sticky { padding-top: 1.5rem; }
+a.sidebar-brand.unikt-brand { display: flex; flex-direction: row; align-items: center; gap: .7rem; padding: 0 1.25rem; color: var(--unikt-brand); text-decoration: none; }
+.unikt-mark { width: 2.5rem; height: 2.5rem; flex: none; }
+.unikt-wordmark { color: var(--unikt-ink); font-size: 1.85rem; font-weight: 700; line-height: 1.2; letter-spacing: -.04em; }
+.unikt-brand-links { margin: .8rem 1.25rem 1rem; }
+.unikt-brand-links a { color: var(--unikt-muted); text-decoration: none; }
+.sidebar-search-container { margin: 0 1rem 1.25rem; border: 1px solid var(--unikt-border); border-radius: 4px; background: var(--color-background-primary); }
+.sidebar-search-container:focus-within { outline: 2px solid var(--unikt-brand); outline-offset: 2px; }
+.sidebar-search { border: 0; padding: .65rem .8rem .65rem 2.1rem; }
+.sidebar-search-container::before { left: .8rem; }
+.unikt-navigation { padding: 0 .5rem 1rem; }
+.unikt-navigation .caption { padding: .85rem .75rem .3rem; margin: .35rem 0 0; color: var(--color-foreground-muted); font-weight: 600; }
+/* The second selector outranks Furo's separate colour for top-level links. */
+.unikt-navigation .reference,
+.unikt-navigation .toctree-l1 > a.reference { border-radius: 3px; color: var(--unikt-muted); }
+.unikt-navigation .current > a.reference { background: var(--unikt-brand-soft); color: var(--unikt-brand); }
+.unikt-navigation .reference:hover { background: var(--color-background-hover); color: var(--unikt-ink); }
+
+.content { padding-top: 1.5rem; }
+.unikt-document { min-width: 0; }
+.unikt-breadcrumbs { display: flex; flex-wrap: wrap; gap: .35rem .65rem; padding-right: 4rem; margin: .2rem 0 1.5rem; line-height: 1.6; color: var(--color-foreground-muted); }
+.unikt-breadcrumbs a { color: var(--unikt-muted); text-decoration: none; }
+.content-icon-container { padding-top: .2rem; }
+.toc-title { font-weight: 600; color: var(--unikt-muted); }
+.toc-tree { line-height: 1.65; }
+.toc-tree a { padding-top: .3rem; padding-bottom: .3rem; }
+.mobile-header { border-bottom: 1px solid var(--unikt-border); background: var(--color-background-primary); }
+.mobile-header .brand { font-weight: 600; }
+.mobile-header .brand::before { content: ""; display: inline-block; width: 1.1rem; height: 1.1rem; margin-right: .5rem; vertical-align: -.15rem; background: url("favicon.svg") center / contain no-repeat; }
+
+/* Home: answer sequence → knowledge state → prediction, styled from the brand palette. */
+.unikt-home h1 { font-size: 2.5em; letter-spacing: -.02em; margin-bottom: .9rem; }
+.unikt-home-lead p { max-width: 40em; margin: 0 0 1.4rem; color: var(--unikt-muted); font-size: 1.1em; line-height: 1.75; }
+.unikt-home-actions { display: flex; flex-wrap: wrap; gap: .6rem; margin-bottom: 2.2rem; }
+.unikt-home-actions p { margin: 0; }
+.unikt-home-actions a { display: inline-block; border-radius: 4px; padding: .45rem 1.1rem; font-weight: 500; text-decoration: none; color: var(--sd-color-primary); border: 1px solid var(--sd-color-primary); }
+.unikt-home-actions a:hover { background: var(--sd-color-primary); color: var(--sd-color-primary-text); }
+.unikt-home-actions p:first-of-type a { background: var(--sd-color-primary); color: var(--sd-color-primary-text); }
+.unikt-home-actions p:first-of-type a:hover { opacity: .9; }
+.unikt-home-figure { margin: 0 0 2rem; padding: 1.25rem 0; border-block: 1px solid var(--unikt-border); }
+.unikt-home-figure svg { display: block; width: 100%; max-width: 680px; height: auto; margin-inline: auto; }
+.unikt-home-figure text { font-family: var(--font-stack--monospace); font-size: 14px; fill: var(--unikt-muted); }
+.unikt-home-figure .unikt-fig-label text { text-anchor: middle; }
+.unikt-home-figure .unikt-fig-axis { stroke: var(--unikt-border); stroke-width: 2; }
+.unikt-home-figure .unikt-fig-correct { fill: var(--unikt-brand); }
+.unikt-home-figure .unikt-fig-wrong { fill: var(--color-background-primary); stroke: var(--unikt-brand); stroke-width: 2; }
+.unikt-home-figure .unikt-fig-arrow { fill: none; stroke: var(--unikt-muted); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.unikt-home-figure .unikt-fig-state rect { fill: var(--unikt-brand); }
+.unikt-home-figure .unikt-fig-next { fill: var(--color-background-primary); stroke: var(--unikt-accent); stroke-width: 2; stroke-dasharray: 4 3; }
+.unikt-home-figure .unikt-fig-mark { fill: var(--unikt-accent); text-anchor: middle; font-weight: 600; }
+.unikt-home-figure .unikt-fig-track { fill: var(--unikt-surface); stroke: var(--unikt-border); }
+.unikt-home-figure .unikt-fig-value { fill: var(--unikt-accent); }
+.unikt-home-figure .unikt-fig-number { fill: var(--unikt-ink); }
+.unikt-home-stats ul, .unikt-home-nav ul { margin: 0; padding: 0; list-style: none; }
+.unikt-home-stats ul { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-bottom: 1rem; }
+.unikt-home-stats li { margin: 0; padding: .1rem 1rem; border-left: 2px solid var(--unikt-border); color: var(--unikt-muted); line-height: 1.5; text-wrap: balance; }
+.unikt-home-stats li:first-child { border-left-color: var(--unikt-brand); }
+.unikt-home-stats strong { display: block; color: var(--unikt-ink); font-size: 1.3em; font-weight: 600; font-variant-numeric: tabular-nums; }
+.unikt-home-nav ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 2rem; }
+.unikt-home-nav li { margin: 0; padding: .85rem 0; border-top: 1px solid var(--unikt-border); color: var(--unikt-muted); line-height: 1.6; }
+.unikt-home-nav li a { display: block; margin-bottom: .2rem; color: var(--unikt-ink); font-weight: 600; text-decoration: none; }
+.unikt-home-nav li a::after { content: " →"; color: var(--unikt-brand); }
+.unikt-home-nav li a:hover { color: var(--unikt-brand); text-decoration: none; }
+
+/* Only catalogs need more than the theme's normal reading width. */
+.main:has(.unikt-catalog) .content { width: 100%; max-width: 68rem; margin-inline: auto; }
+.main:has(.unikt-catalog) .toc-drawer { display: none; }
+
+/* Furo's full-width wrappers include padding; contain it inside the article. */
+article[role="main"] .table-wrapper.container { padding: 0; margin: 1.25rem 0; }
+article table.docutils { width: 100%; border-radius: 0; box-shadow: none; }
+article table.docutils th { background: var(--unikt-surface); color: var(--unikt-ink); font-weight: 600; text-align: left; }
+article table.docutils th, article table.docutils td { box-sizing: border-box; border: 0; padding: .8rem 1rem; line-height: 1.7; }
+article table.docutils td > p, article table.docutils th > p { margin: 0; }
+article table.docutils tbody tr:nth-child(even) { background: var(--unikt-surface); }
+.unikt-catalog-intro { color: var(--unikt-muted); }
+.unikt-catalog-table table { table-layout: fixed; }
+.unikt-catalog-table th:first-child { width: 40%; }
+.unikt-catalog-table th:last-child { width: 60%; }
+.unikt-catalog-table table:has(th:nth-child(3)) th:first-child { width: 16%; }
+.unikt-catalog-table table:has(th:nth-child(3)) th:nth-child(2) { width: 59%; }
+.unikt-catalog-table table:has(th:nth-child(3)) th:last-child { width: 25%; }
+.unikt-catalog-table td { overflow-wrap: anywhere; }
+.unikt-catalog-table td:first-child a { font-weight: 600; color: var(--unikt-ink); }
+.unikt-catalog-table td:nth-child(2) a { color: var(--unikt-muted); }
+.unikt-model table.docutils td:first-child { width: 8rem; min-width: 7rem; color: var(--unikt-muted); }
+
+article div[class*="highlight-"] { margin: 1.25rem 0; }
+article .highlight { min-width: 0; border-radius: 4px; }
+article .highlight pre { padding: 1rem 1.1rem; line-height: 1.7; }
+button.copybtn { top: .5rem; right: .5rem; border: 0; border-radius: 3px; background: var(--color-background-primary); color: var(--unikt-muted); }
+article .admonition { margin: 1.5rem 0; padding: .9rem 1.1rem; border-radius: 0 4px 4px 0; box-shadow: none; }
+/* Furo tints each typed title at class-level specificity; flatten it so the left rule carries the color. */
+article .admonition > .admonition-title { margin: 0 0 .6rem; padding: 0 0 0 1.5rem; background: none !important; font-weight: 600; }
+article .admonition > .admonition-title::before { left: 0; }
+article dl.py > dt.sig { background: var(--unikt-surface); border: 0; border-left: 2px solid var(--unikt-brand); padding: .65rem .85rem; margin-inline: 0; text-indent: 0; line-height: 1.8; overflow-wrap: anywhere; }
+article dl.py > dd { margin-left: 1.2rem; }
+article figure { margin: 1.5rem 0; }
+article figure img { max-width: 100%; height: auto; }
+article figcaption { color: var(--unikt-muted); }
+
+/* Keep the remaining content grids inside the same text edges. */
+article .sd-container-fluid { padding-inline: .5rem; }
+.sd-card { box-shadow: none !important; border-color: var(--unikt-border); border-radius: 4px; background: var(--color-background-primary); }
+
+/* Specifications table inside tab-set */
+.sd-tab-content { padding: 1.1rem 1.25rem; }
+.sd-tab-content table.docutils { border: 1px solid var(--unikt-border); border-radius: 4px; }
+.sd-tab-content table.docutils td:first-child,
+.sd-tab-content table.docutils th:first-child { width: 7.5rem; min-width: 6.5rem; white-space: nowrap; font-weight: 600; color: var(--unikt-muted); }
+.sd-tab-content div[class*="highlight-"] { margin-top: .5rem; margin-bottom: .25rem; }
+.related-pages { margin-top: 2.5rem; gap: 1rem; }
+.related-pages a { padding: .5rem 0; }
+.bottom-of-page { color: var(--color-foreground-muted); padding-top: 1.5rem; }
+
+@media (min-width: 82em) {
+  .main:has(.unikt-catalog) { flex: 1; min-width: 0; }
+}
+@media (max-width: 48em) {
+  .content { padding-top: 1rem; }
+  article { line-height: 1.8; }
+  .unikt-breadcrumbs { margin-bottom: 1.2rem; }
+  .unikt-catalog-table table { min-width: 43rem; }
+  article[role="main"] .table-wrapper.container { overscroll-behavior-x: contain; }
+  article table.docutils th, article table.docutils td { padding: .65rem .8rem; }
+  .unikt-home h1 { font-size: 2em; }
+  .unikt-home-stats ul { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 1rem; }
+  .unikt-home-nav ul { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+}
+@media print {
+  .unikt-brand-links { display: none; }
+  article[role="main"] .table-wrapper.container { overflow: visible; }
+  .unikt-catalog-table table { min-width: 0; table-layout: auto; }
+  figure { break-inside: avoid; }
+}

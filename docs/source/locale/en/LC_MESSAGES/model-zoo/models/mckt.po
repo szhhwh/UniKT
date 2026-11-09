@@ -1,0 +1,128 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/mckt.md:1 ab4cd08a13b242c6af44a84e863bf97d
+msgid "MCKT"
+msgstr "MCKT"
+
+#: ../../source/model-zoo/models/mckt.md:3 2b4851e25b884a968e892e74555dd274
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/mckt.md bb4c5257664742aeb39b8b3d96d80064
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/mckt.md 5269860ed483464da992c58a63c59750
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/mckt.md 1e03f60b9a8e4c28a600995ca07ecdc1
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/mckt.md c23dfa85ec144c46a4ac883a88539799
+msgid ""
+"[Multi-level Contrastive Learning for Knowledge "
+"Tracing](https://doi.org/10.1145/3759920)"
+msgstr ""
+"[Multi-level Contrastive Learning for Knowledge "
+"Tracing](https://doi.org/10.1145/3759920)"
+
+#: ../../source/model-zoo/models/mckt.md 9a503d446f40484bbb7c09ad6ff144c0
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/mckt.md ad6d4b7e768a41ecbc97dddd9f3493ac
+msgid "Xiaoxuan Shen, Fenghua Yu, Qian Wan, Ruxia Liang, Jianwen Sun"
+msgstr "Xiaoxuan Shen, Fenghua Yu, Qian Wan, Ruxia Liang, Jianwen Sun"
+
+#: ../../source/model-zoo/models/mckt.md e4bf53b944f947f99b6ab6da0ac1856a
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/mckt.md 209f4e8a95304a10ac230c87ec5af6c9
+msgid "2025"
+msgstr "2025"
+
+#: ../../source/model-zoo/models/mckt.md 886b4f9616dd4524bc7dabc525698378
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/mckt.md 3b80493fcb0343f08d1e9f48132775b6
+msgid "ACM Transactions on Knowledge Discovery from Data"
+msgstr "ACM Transactions on Knowledge Discovery from Data"
+
+#: ../../source/model-zoo/models/mckt.md:12 2a792f3dbe6e47bc8e39d876eb205521
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/mckt.md:14 9ef0765bcd7e433496c9cdb0e07e4c06
+msgid ""
+"Knowledge Tracing (KT) is the task of predicting students’ future "
+"performance based on their past interactions with educational resources. "
+"A key aspect of KT is representation learning, which aims to capture "
+"meaningful features from students’ learning behaviors to improve "
+"prediction performance. Recently, contrastive learning methods have shown"
+" great promise in representation learning. As a result, KT models based "
+"on contrastive learning have been introduced to enhance representation "
+"learning for KT. However, these models have posed several challenges. "
+"Firstly, most of these models adopt the contrastive learning approach "
+"used in other fields, which involves data augmentation followed by "
+"contrastive learning, yet effectively applying data augmentation in KT "
+"remains an open challenge. Secondly, these models typically apply "
+"contrastive learning to only one of the fundamental components of KT: "
+"questions, interactions, or knowledge states, thereby limiting their "
+"overall performance. To address these issues, this article proposes a "
+"Multi-level Contrastive learning model for Knowledge Tracing (MCKT). MCKT"
+" (The code can be found at https://github.com/lilstrawberry/MCKT .) does "
+"not rely on data augmentation strategies; instead, it deeply integrates "
+"domain knowledge and performs contrastive learning at three levels: "
+"questions, interactions, and knowledge states. Experimental results on "
+"four publicly available datasets, compared against a total of 20 state-"
+"of-the-art KT models, demonstrate that MCKT consistently outperforms "
+"other models. Subsequent experiments further validate the effectiveness "
+"of the multi-level contrastive learning approach."
+msgstr ""
+"Knowledge Tracing (KT) is the task of predicting students’ future "
+"performance based on their past interactions with educational resources. "
+"A key aspect of KT is representation learning, which aims to capture "
+"meaningful features from students’ learning behaviors to improve "
+"prediction performance. Recently, contrastive learning methods have shown"
+" great promise in representation learning. As a result, KT models based "
+"on contrastive learning have been introduced to enhance representation "
+"learning for KT. However, these models have posed several challenges. "
+"Firstly, most of these models adopt the contrastive learning approach "
+"used in other fields, which involves data augmentation followed by "
+"contrastive learning, yet effectively applying data augmentation in KT "
+"remains an open challenge. Secondly, these models typically apply "
+"contrastive learning to only one of the fundamental components of KT: "
+"questions, interactions, or knowledge states, thereby limiting their "
+"overall performance. To address these issues, this article proposes a "
+"Multi-level Contrastive learning model for Knowledge Tracing (MCKT). MCKT"
+" (The code can be found at https://github.com/lilstrawberry/MCKT .) does "
+"not rely on data augmentation strategies; instead, it deeply integrates "
+"domain knowledge and performs contrastive learning at three levels: "
+"questions, interactions, and knowledge states. Experimental results on "
+"four publicly available datasets, compared against a total of 20 state-"
+"of-the-art KT models, demonstrate that MCKT consistently outperforms "
+"other models. Subsequent experiments further validate the effectiveness "
+"of the multi-level contrastive learning approach."

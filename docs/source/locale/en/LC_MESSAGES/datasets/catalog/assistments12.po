@@ -1,0 +1,484 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/datasets/catalog/assistments12.md:1
+#: b1bb907729ea429c91f6cb1ae7ff81e6
+msgid "ASSISTments 2012"
+msgstr "ASSISTments 2012"
+
+#: ../../source/datasets/catalog/assistments12.md:3
+#: 2800617fe40e46a7b9fbb96cfebd05f0
+msgid "2012—2013 学年的学校数据，包含情感状态预测信息。"
+msgstr ""
+"School dataset from the 2012–2013 school year, containing affective state"
+" prediction information."
+
+#: ../../source/datasets/catalog/assistments12.md:5
+#: 173ba282553b4e4dabf3c84739349fb6
+msgid ""
+"数据集链接：[2012—2013 "
+"官方数据页](https://sites.google.com/site/assistmentsdata/datasets/2012-13"
+"-school-data-with-affect)。"
+msgstr ""
+"Dataset link: [2012–2013 Official Data "
+"Page](https://sites.google.com/site/assistmentsdata/datasets/2012-13"
+"-school-data-with-affect)."
+
+#: ../../source/datasets/catalog/assistments12.md:7
+#: f48899572b3f4ce39d17e475a928c861
+msgid "数据参数"
+msgstr "Dataset Parameters"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: ee8b7ba00db148cf97029cad115d2337
+msgid "参数"
+msgstr "Parameter"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 4b843af60a724da58783d8e8bff88d50
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: eb67f2dd7d5b44dfbcf4b18a03add269
+msgid "数据文件"
+msgstr "Data File"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 01218bc53f23486486e5252bfebb8938
+msgid "`2012-2013-data-with-predictions-4-final.csv`"
+msgstr "`2012-2013-data-with-predictions-4-final.csv`"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 124a29fa97714f20a1346a88eb9da853
+msgid "数据行 / 不重复作答日志"
+msgstr "Data Rows / Unique Response Logs"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 1db567821f1044d1a12ff37a9a22ba62
+msgid "6,123,270 / 6,123,270，按 `problem_log_id` 去重"
+msgstr "6,123,270 / 6,123,270, deduplicated by `problem_log_id`"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: a14e3212aaa84350bb85d3a03a9f6f2e
+msgid "学生 / 题目 / 技能"
+msgstr "Students / Questions / Skills"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 77b012119a4b44a4984feff32d4cb7d3
+msgid "46,674 / 179,999 / 265，分别按 `user_id`、`problem_id`、非空 `skill_id` 去重"
+msgstr ""
+"46,674 / 179,999 / 265, deduplicated by `user_id`, `problem_id`, and non-"
+"null `skill_id` respectively"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 5997c8938b40499295596a97cd96bd9b
+msgid "缺失技能的行数"
+msgstr "Rows with Missing Skills"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 1b03798bf5fc4f37acffc6b607fd8563
+msgid "3,411,457"
+msgstr "3,411,457"
+
+#: ../../source/datasets/catalog/assistments12.md:16
+#: ead8320516f04dad877b1a6d5d75d6e1
+msgid "去重时排除空值及 `NA`、`nan`、`null` 标记（不区分大小写）。"
+msgstr ""
+"Deduplication excludes null values and `NA`, `nan`, `null` markers (case-"
+"insensitive)."
+
+#: ../../source/datasets/catalog/assistments12.md:18
+#: 8b0d13cfeb5840bb94addd72ed3e2cb2
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 209786f3ae1d4caba35bada9b2eb0b00
+msgid "字段名称"
+msgstr "Field Name"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 7523a9f32acb434180c4bf4246327103
+msgid "字段语义说明"
+msgstr "Field Semantic Description"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 3d7c212a7c7e43cab12ac23529f6b8e7
+msgid "`problem_log_id`"
+msgstr "`problem_log_id`"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: f8fa16e5fc644a0da3e8087647119304
+msgid "答题交互日志的主键自增 ID"
+msgstr "Primary key auto-increment ID of the response interaction log"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 2c2a079f577949ceaf1bd67a4ae316fa
+msgid "`skill`"
+msgstr "`skill`"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: f487c52f07a947b29f6e62748a3bdde1
+msgid "知识组件（技能）英文名称"
+msgstr "English name of the knowledge component (skill)"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 89117d3d54094099a0997b34e478e7eb
+msgid "`problem_id`"
+msgstr "`problem_id`"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: d3ed17b8c3d54a47aae18ff01551950f
+msgid "题目编号"
+msgstr "Question ID"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 6aa324b5f2e647bc80ebdae0be662d52
+msgid "`user_id`"
+msgstr "`user_id`"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 56f2246f1f8841bd9fd50ba52d80de2f
+msgid "匿名学生编号"
+msgstr "Anonymous student ID"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: cbf993b94c4740f888eb5c4e798f46a5
+msgid "`assignment_id`"
+msgstr "`assignment_id`"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 6b88e9b1bc4746c1b98e8f5de021a14f
+msgid "作业编号"
+msgstr "Assignment ID"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 3dc559d694cc413f822769ed17773561
+msgid "`assistment_id`"
+msgstr "`assistment_id`"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: eba0f32447624a2b8e0a9229a9c76872
+msgid "母题编号"
+msgstr "Parent problem ID"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: d359d704a282446b8aa63af4eea30241
+msgid "`start_time`"
+msgstr "`start_time`"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 735e7e1a13064fe69806b9604857996c
+msgid "学生打开题目的起始系统时间戳"
+msgstr "Initial system timestamp when student opened the question"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 06e11b9a4d3f4c3dbbb9a2e467716594
+msgid "`end_time`"
+msgstr "`end_time`"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 277d929744ae4724b59a3e2aeacdb178
+msgid "学生提交或离开题目的结束时间戳"
+msgstr "End timestamp when student submitted or left the question"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: d5994f0d46ef459aad590340367ed853
+msgid "`problem_type`"
+msgstr "`problem_type`"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 6e21adb039de4cbbb85135965861ca0d
+msgid "题目题型（选择、代数式、数值等）"
+msgstr "Question type (multiple choice, algebra expression, numeric, etc.)"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 96dfdff1810e479c8baeedb3be6f6e6b
+msgid "`original`"
+msgstr "`original`"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 6171713fecc44af09304f6c913245bce
+msgid "是否为主干母题（1 为主干题，0 为支架辅助题）"
+msgstr ""
+"Whether it is a main parent question (1 for main question, 0 for "
+"scaffolding auxiliary question)"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 0c9607073005414caeaba0ae1932801e
+msgid "`correct`"
+msgstr "`correct`"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 53487891cfac48f8be51afff66582ca1
+msgid "作答得分；可能包含部分得分，1 表示首次正确"
+msgstr ""
+"Response score; may include partial credit, 1 indicates correct on first "
+"attempt"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 616885d51a724a138679c0977c792199
+msgid "`bottom_hint`"
+msgstr "`bottom_hint`"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 5d30ae61bd314ce283de2504c62afae6
+msgid "是否触发到底部答案解析提示"
+msgstr "Whether bottom-out hint providing answer explanation was triggered"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 20532a7084ac47aca589ba9652901d42
+msgid "`hint_count`"
+msgstr "`hint_count`"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: ff4d0ee6dfff4e75b30244113f3ab239
+msgid "请求提示次数"
+msgstr "Number of hint requests"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 2a9e513e4cb34381a518214c89586ce9
+msgid "`actions`"
+msgstr "`actions`"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 9b4e85cea79c42aa9503ad2674f615cf
+msgid "该题目内发生的完整动作行为文本串"
+msgstr "Complete text string of action behaviors occurring within the question"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 9e0ff487cd604c82b2c0210dba46d456
+msgid "`attempt_count`"
+msgstr "`attempt_count`"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 4907deb8b8584c4d965df09755a54d63
+msgid "答案提交尝试次数"
+msgstr "Number of answer submission attempts"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: cb8c34f00b97414a9b57d57355e67dde
+msgid "`ms_first_response`"
+msgstr "`ms_first_response`"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 13187d4a667645d48bb92e31e566db69
+msgid "首答响应耗时（毫秒）"
+msgstr "First response latency (milliseconds)"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: f70ae40939df47b7a02f9ccf1e532aad
+msgid "`tutor_mode`"
+msgstr "`tutor_mode`"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 4fbf9e91e4864a81b521d7077f29b595
+msgid "辅导系统运行模式"
+msgstr "Tutoring system operation mode"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: f9a5aeaac7a546268b5497db09d8e830
+msgid "`sequence_id`"
+msgstr "`sequence_id`"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 829cb4c93fc1462b97e30bdb12a5ffde
+msgid "练习序列单元编号"
+msgstr "Practice sequence unit ID"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 51919c9db8bf4efc901e7bd3ed679802
+msgid "`student_class_id`"
+msgstr "`student_class_id`"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: bd4b812b74f24188983cd7a264cc2497
+msgid "班级编号"
+msgstr "Class ID"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 9c799f1c9d7d44f2b064be0a2f0ec593
+msgid "`position`"
+msgstr "`position`"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 38271b8af48e4e71b35eca04219a0f45
+msgid "作业在班级作业页面中的位置"
+msgstr "Position of assignment on the class assignment page"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 079e729f02f54edbbaadf52ccb6ac661
+msgid "`type`"
+msgstr "`type`"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 36be48b408d64d2e8e7f6550dd17c0d8
+msgid "题目呈现方式（线性呈现或随机抽取）"
+msgstr "Question presentation format (linear presentation or random selection)"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 702af27e13e6489ea81e84ad9dc3c222
+msgid "`base_sequence_id`"
+msgstr "`base_sequence_id`"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: db3727294fc94e6cba3f205b49c9b515
+msgid "基础序列编号"
+msgstr "Base sequence ID"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: cb7d485a81b044739811a69aec9ecc51
+msgid "`skill_id`"
+msgstr "`skill_id`"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 98d60ef53e8b42f19c55cfd02b7af224
+msgid "知识组件（技能）数字编号"
+msgstr "Numeric ID of knowledge component (skill)"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 07f08fe8ce8d4589a0466b40db8bf199
+msgid "`teacher_id`"
+msgstr "`teacher_id`"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 2da51aa3ef3e44e8b9b91a4c36ecf9e1
+msgid "教师编号"
+msgstr "Teacher ID"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: e30f2497f5054721b1030baccef12fd1
+msgid "`school_id`"
+msgstr "`school_id`"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 9409fba889d84a3895d9d2b18751eb26
+msgid "学校编号"
+msgstr "School ID"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: b74c83c27e49452380b14c89750c7777
+msgid "`overlap_time`"
+msgstr "`overlap_time`"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 47ced3a1b7874808a172697788af417b
+msgid "重叠时间，单位为毫秒"
+msgstr "Overlap time in milliseconds"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 3e3d4c0e09d245e7bf370ce652d56e69
+msgid "`template_id`"
+msgstr "`template_id`"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 299668649f384f7b8459db87cb1dc123
+msgid "参数化题目模板编号"
+msgstr "Parameterized question template ID"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 1d62423e474f4e25a363af9384e6de81
+msgid "`answer_id`"
+msgstr "`answer_id`"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 02290149cb744a589472ca4d24509509
+msgid "选项代号"
+msgstr "Option code"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 651f4607993c471ca3a0f6fa46e68a57
+msgid "`answer_text`"
+msgstr "`answer_text`"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 46e5fc45084d4ecab01f070720e33f1b
+msgid "提交的具体文本"
+msgstr "Submitted answer text"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: a6df0b1094fc48fca2d1a7aa57242a03
+msgid "`first_action`"
+msgstr "`first_action`"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: ba11de7e934d469dbf02df8ea712043a
+msgid "首次交互类型，包括尝试作答和请求提示"
+msgstr "First interaction type, including answer attempt and hint request"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 7535f322d74947828568e9b8ee7a3742
+msgid "`problemlogid`"
+msgstr "`problemlogid`"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: eadcd5aa2180401d8e95f7352dc69b8c
+msgid "对应交互事件的副本索引标识符"
+msgstr "Replica index identifier of corresponding interaction event"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 9143e1fe85bb4e6dbea7d50bd9d1f29c
+msgid "`Average_confidence(FRUSTRATED)`"
+msgstr "`Average_confidence(FRUSTRATED)`"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 2df3d5e07e934d84b497dbfaa021f901
+msgid "**挫败感**：情感检测模型输出的学生处于受挫状态的置信概率"
+msgstr ""
+"**Frustration**: Confidence probability output by affect detection model "
+"indicating student is in a frustrated state"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 276db0363ccc4422871e54bdf72f17ff
+msgid "`Average_confidence(CONFUSED)`"
+msgstr "`Average_confidence(CONFUSED)`"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 563c9f4d678d449e8d5989da0e8fb06e
+msgid "**困惑感**：情感检测模型输出的学生处于困惑状态的置信概率"
+msgstr ""
+"**Confusion**: Confidence probability output by affect detection model "
+"indicating student is in a confused state"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 6fa633a4289545fd8c5c1eb07fd5fccf
+msgid "`Average_confidence(CONCENTRATING)`"
+msgstr "`Average_confidence(CONCENTRATING)`"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 4e36006d722746638673560008272d21
+msgid "**专注度**：学生高度聚焦投入解题的置信概率"
+msgstr ""
+"**Engaged Concentration**: Confidence probability indicating student is "
+"highly focused and engaged in solving problems"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 7a165aa39fb3417dbec79bf27c74b8bc
+msgid "`Average_confidence(BORED)`"
+msgstr "`Average_confidence(BORED)`"
+
+#: ../../source/datasets/catalog/assistments12.md
+#: 0e4501ef29f741d08ce4b5b603b7e486
+msgid "**厌烦感**：学生走神、厌学或倦怠状态的置信概率"
+msgstr ""
+"**Boredom**: Confidence probability indicating student is in a "
+"distracted, disengaged, or fatigued state"

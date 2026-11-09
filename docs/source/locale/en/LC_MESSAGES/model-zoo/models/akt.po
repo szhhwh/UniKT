@@ -1,0 +1,146 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/akt.md:1 eab61b6209e0449ea0f24af40f03cd86
+msgid "AKT"
+msgstr "AKT"
+
+#: ../../source/model-zoo/models/akt.md:3 3ff0b74f4218423199aa2d9614630eef
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/akt.md bbda148f6110490ba39049615088e816
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/akt.md 0db054e4a7644618b3bca315c2f935c5
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/akt.md 666e49aca3cf42ef96cbe9b7fdfbaef5
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/akt.md ff272663350c40799a5a8f5cd4e467f3
+msgid ""
+"[Context-Aware Attentive Knowledge "
+"Tracing](https://doi.org/10.1145/3394486.3403282)"
+msgstr ""
+"[Context-Aware Attentive Knowledge "
+"Tracing](https://doi.org/10.1145/3394486.3403282)"
+
+#: ../../source/model-zoo/models/akt.md 1d210a7c7b4043abaf94c7d236547f0d
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/akt.md 46b8751377524901b45583128b1ba948
+msgid "Aritra Ghosh, Neil Heffernan, Andrew S. Lan"
+msgstr "Aritra Ghosh, Neil Heffernan, Andrew S. Lan"
+
+#: ../../source/model-zoo/models/akt.md ee8c83531d6241dfbd433c0959557152
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/akt.md 62bc554a490243659751ceed07669328
+msgid "2020"
+msgstr "2020"
+
+#: ../../source/model-zoo/models/akt.md f43f7d4f239944fab8f730d66d6ced56
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/akt.md f0d5396b60194e9e9697e08aabd4aa76
+msgid ""
+"Proceedings of the 26th ACM SIGKDD International Conference on Knowledge "
+"Discovery \\& Data Mining"
+msgstr ""
+"Proceedings of the 26th ACM SIGKDD International Conference on Knowledge "
+"Discovery \\& Data Mining"
+
+#: ../../source/model-zoo/models/akt.md 943238204ec241c2bc10b2b0c6eb6618
+msgid "DOI"
+msgstr "DOI"
+
+#: ../../source/model-zoo/models/akt.md 79d8e2104df342ce9db725a616404cdf
+msgid "[10.1145/3394486.3403282](https://doi.org/10.1145/3394486.3403282)"
+msgstr "[10.1145/3394486.3403282](https://doi.org/10.1145/3394486.3403282)"
+
+#: ../../source/model-zoo/models/akt.md:13 01de627a13cd48809593118a8f96b5bc
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/akt.md:15 310e35d78cfc4f61a30387dbe00f2fd1
+msgid ""
+"Knowledge tracing (KT) refers to the problem of predicting future learner"
+" performance given their past performance in educational applications. "
+"Recent developments in KT using flexible deep neural network-based models"
+" excel at this task. However, these models often offer limited "
+"interpretability, thus making them insufficient for personalized "
+"learning, which requires using interpretable feedback and actionable "
+"recommendations to help learners achieve better learning outcomes. In "
+"this paper, we propose attentive knowledge tracing (AKT), which couples "
+"flexible attention-based neural network models with a series of novel, "
+"interpretable model components inspired by cognitive and psychometric "
+"models. AKT uses a novel monotonic attention mechanism that relates a "
+"learner's future responses to assessment questions to their past "
+"responses; attention weights are computed using exponential decay and a "
+"context-aware relative distance measure, in addition to the similarity "
+"between questions. Moreover, we use the Rasch model to regularize the "
+"concept and question embeddings; these embeddings are able to capture "
+"individual differences among questions on the same concept without using "
+"an excessive number of parameters. We conduct experiments on several "
+"real-world benchmark datasets and show that AKT outperforms existing KT "
+"methods (by up to $6\\%$ in AUC in some cases) on predicting future "
+"learner responses. We also conduct several case studies and show that AKT"
+" exhibits excellent interpretability and thus has potential for automated"
+" feedback and personalization in real-world educational settings."
+msgstr ""
+"Knowledge tracing (KT) refers to the problem of predicting future learner"
+" performance given their past performance in educational applications. "
+"Recent developments in KT using flexible deep neural network-based models"
+" excel at this task. However, these models often offer limited "
+"interpretability, thus making them insufficient for personalized "
+"learning, which requires using interpretable feedback and actionable "
+"recommendations to help learners achieve better learning outcomes. In "
+"this paper, we propose attentive knowledge tracing (AKT), which couples "
+"flexible attention-based neural network models with a series of novel, "
+"interpretable model components inspired by cognitive and psychometric "
+"models. AKT uses a novel monotonic attention mechanism that relates a "
+"learner's future responses to assessment questions to their past "
+"responses; attention weights are computed using exponential decay and a "
+"context-aware relative distance measure, in addition to the similarity "
+"between questions. Moreover, we use the Rasch model to regularize the "
+"concept and question embeddings; these embeddings are able to capture "
+"individual differences among questions on the same concept without using "
+"an excessive number of parameters. We conduct experiments on several "
+"real-world benchmark datasets and show that AKT outperforms existing KT "
+"methods (by up to $6\\%$ in AUC in some cases) on predicting future "
+"learner responses. We also conduct several case studies and show that AKT"
+" exhibits excellent interpretability and thus has potential for automated"
+" feedback and personalization in real-world educational settings."
+
+#: ../../source/model-zoo/models/akt.md:18 4fcc54854b69475ab5a88d10ae1ddeb8
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/akt.md:20 a8fdb1080be54352ad3acbc1df3bd7d5
+msgid "[arghosh/AKT](https://github.com/arghosh/AKT)"
+msgstr "[arghosh/AKT](https://github.com/arghosh/AKT)"

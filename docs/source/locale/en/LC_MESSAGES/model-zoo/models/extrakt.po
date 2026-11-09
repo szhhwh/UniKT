@@ -1,0 +1,136 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/extrakt.md:1 21bdce8ec75c4783a10595110ce0c596
+msgid "extraKT"
+msgstr "extraKT"
+
+#: ../../source/model-zoo/models/extrakt.md:3 cfa9c98cd8634746b68ee3fe84a24ced
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/extrakt.md 91875624e5074ba69b5e7c8293d36991
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/extrakt.md b13638d6e42c45d78ae28a8a0f393efe
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/extrakt.md 7df5b7086160479e9ece75a277b081d1
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/extrakt.md f2d37af4d8c14c3a866831f60eafd784
+msgid ""
+"[Extending Context Window of Attention Based Knowledge Tracing Models via"
+" Length Extrapolation](https://doi.org/10.3233/faia240651)"
+msgstr ""
+"[Extending Context Window of Attention Based Knowledge Tracing Models via"
+" Length Extrapolation](https://doi.org/10.3233/faia240651)"
+
+#: ../../source/model-zoo/models/extrakt.md ac67969495f54adcab1a1f737c6bfa1c
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/extrakt.md e033116c2e8d4b0aabd36f457ee6367f
+msgid ""
+"Xueyi Li, Youheng Bai, Teng Guo, Ying Zheng, Mingliang Hou, Bojun Zhan, "
+"Yaying Huang, Zitao Liu, Boyu Gao, Weiqi Luo"
+msgstr ""
+"Xueyi Li, Youheng Bai, Teng Guo, Ying Zheng, Mingliang Hou, Bojun Zhan, "
+"Yaying Huang, Zitao Liu, Boyu Gao, Weiqi Luo"
+
+#: ../../source/model-zoo/models/extrakt.md d6455c3a1fa642adb1dd7b7f6cd45c6d
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/extrakt.md 31394be08e894523ae093e7590866c67
+msgid "2024"
+msgstr "2024"
+
+#: ../../source/model-zoo/models/extrakt.md 6b310b7ff1e44954929ca059543978bb
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/extrakt.md 953743980199475597b7ace6fa3a2374
+msgid "Frontiers in Artificial Intelligence and Applications"
+msgstr "Frontiers in Artificial Intelligence and Applications"
+
+#: ../../source/model-zoo/models/extrakt.md:12 b15f93d2a0f740d48fb1fc3b6415893e
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/extrakt.md:14 320371572a634881ba2ddb2f2f242aac
+msgid ""
+"Knowledge tracing (KT) is a prediction task that aims to predict "
+"students’ future performance based on their past learning data. The rapid"
+" progress in attention mechanisms has led to the emergence of various "
+"high-performing attention based KT models. However, in online or "
+"personalized education settings, students’ varying learning paths result "
+"in different lengths of student interaction sequences, which poses a "
+"significant challenge for attention based KT models as their context "
+"window sizes are fixed during both training and prediction stages. We "
+"refer to this as the length extrapolation of KT model. In this paper, we "
+"propose extraKT to facilitate better extrapolation that learn from "
+"student interactions with a short context window and continue to perform "
+"well across various longer context window sizes at prediction stage. "
+"Specifically, we negatively bias attention scores with linearly "
+"decreasing penalties that are proportional to query-key distance, which "
+"efficiently represents short-term forgetting characteristics of student "
+"knowledge states. We conduct comprehensive and rigorous experiments on "
+"three real-world educational datasets. The results show that our extraKT "
+"model exhibits robust length extrapolation capability and outperforms "
+"state-of-the-art baseline models in terms of AUC and accuracy. To "
+"encourage reproducible research, we merge our data and code to the "
+"publicly available pyKT benchmark at https://github.com/pykt-team/pykt-"
+"toolkit."
+msgstr ""
+"Knowledge tracing (KT) is a prediction task that aims to predict "
+"students’ future performance based on their past learning data. The rapid"
+" progress in attention mechanisms has led to the emergence of various "
+"high-performing attention based KT models. However, in online or "
+"personalized education settings, students’ varying learning paths result "
+"in different lengths of student interaction sequences, which poses a "
+"significant challenge for attention based KT models as their context "
+"window sizes are fixed during both training and prediction stages. We "
+"refer to this as the length extrapolation of KT model. In this paper, we "
+"propose extraKT to facilitate better extrapolation that learn from "
+"student interactions with a short context window and continue to perform "
+"well across various longer context window sizes at prediction stage. "
+"Specifically, we negatively bias attention scores with linearly "
+"decreasing penalties that are proportional to query-key distance, which "
+"efficiently represents short-term forgetting characteristics of student "
+"knowledge states. We conduct comprehensive and rigorous experiments on "
+"three real-world educational datasets. The results show that our extraKT "
+"model exhibits robust length extrapolation capability and outperforms "
+"state-of-the-art baseline models in terms of AUC and accuracy. To "
+"encourage reproducible research, we merge our data and code to the "
+"publicly available pyKT benchmark at https://github.com/pykt-team/pykt-"
+"toolkit."
+
+#: ../../source/model-zoo/models/extrakt.md:17 7ead63fbc0ce4314bcae6aab8a037b8d
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/extrakt.md:19 1cc47ce386924890a9c1122d3a15845d
+msgid "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"
+msgstr "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"

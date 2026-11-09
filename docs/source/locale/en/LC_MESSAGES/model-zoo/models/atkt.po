@@ -1,0 +1,142 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/atkt.md:1 b8f1999543cd441d88137719d14aa585
+msgid "ATKT"
+msgstr "ATKT"
+
+#: ../../source/model-zoo/models/atkt.md:3 480002ea574b4d848f5f86e3c30ad415
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/atkt.md 5ede9d9c5e5f426ead7f76d29a6f38b4
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/atkt.md 32d01414959b4451b3d2c6245ed00f69
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/atkt.md 37ccc87cd9684416a05ba535551de844
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/atkt.md d2c0b26928ef41bd9c7939cc93c7f841
+msgid ""
+"[Enhancing Knowledge Tracing via Adversarial "
+"Training](https://doi.org/10.1145/3474085.3475554)"
+msgstr ""
+"[Enhancing Knowledge Tracing via Adversarial "
+"Training](https://doi.org/10.1145/3474085.3475554)"
+
+#: ../../source/model-zoo/models/atkt.md ee0cb183c23540db8942eddcd1081c9b
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/atkt.md b205e9e99c734c7c816da91a64fece85
+msgid "Xiaopeng Guo, Zhijie Huang, Jie Gao, Mingyu Shang, Maojing Shu, Jun Sun"
+msgstr "Xiaopeng Guo, Zhijie Huang, Jie Gao, Mingyu Shang, Maojing Shu, Jun Sun"
+
+#: ../../source/model-zoo/models/atkt.md a51fe272467148a7b5d63ec27a16724a
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/atkt.md ca0c9677ef4c48ab816eef55c981f84e
+msgid "2021"
+msgstr "2021"
+
+#: ../../source/model-zoo/models/atkt.md 662c301c00104991b8a6a7eaf8a6dfec
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/atkt.md 42bf5f55e507437794dd8127495c1f58
+msgid "Proceedings of the 29th ACM International Conference on Multimedia"
+msgstr "Proceedings of the 29th ACM International Conference on Multimedia"
+
+#: ../../source/model-zoo/models/atkt.md 7f19cc6377b04787967bfabe7f941e5e
+msgid "DOI"
+msgstr "DOI"
+
+#: ../../source/model-zoo/models/atkt.md ff93bd1f280344d48645923295c584ce
+msgid "[10.1145/3474085.3475554](https://doi.org/10.1145/3474085.3475554)"
+msgstr "[10.1145/3474085.3475554](https://doi.org/10.1145/3474085.3475554)"
+
+#: ../../source/model-zoo/models/atkt.md:13 ee24f6ec31914beb82530f9fed81959d
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/atkt.md:15 e80d0c2941694d4481e75eeeed9c48d6
+msgid ""
+"We study the problem of knowledge tracing (KT) where the goal is to trace"
+" the students' knowledge mastery over time so as to make predictions on "
+"their future performance. Owing to the good representation capacity of "
+"deep neural networks (DNNs), recent advances on KT have increasingly "
+"concentrated on exploring DNNs to improve the performance of KT. However,"
+" we empirically reveal that the DNNs based KT models may run the risk of "
+"overfitting, especially on small datasets, leading to limited "
+"generalization. In this paper, by leveraging the current advances in "
+"adversarial training (AT), we propose an efficient AT based KT method "
+"(ATKT) to enhance KT model's generalization and thus push the limit of "
+"KT. Specifically, we first construct adversarial perturbations and add "
+"them on the original interaction embeddings as adversarial examples. The "
+"original and adversarial examples are further used to jointly train the "
+"KT model, forcing it is not only to be robust to the adversarial "
+"examples, but also to enhance the generalization over the original ones. "
+"To better implement AT, we then present an efficient attentive-LSTM model"
+" as KT backbone, where the key is a proposed knowledge hidden state "
+"attention module that adaptively aggregates information from previous "
+"knowledge hidden states while simultaneously highlighting the importance "
+"of current knowledge hidden state to make a more accurate prediction. "
+"Extensive experiments on four public benchmark datasets demonstrate that "
+"our ATKT achieves new state-of-the-art performance. Code is available at:"
+" https://github.com/xiaopengguo/ATKT."
+msgstr ""
+"We study the problem of knowledge tracing (KT) where the goal is to trace"
+" the students' knowledge mastery over time so as to make predictions on "
+"their future performance. Owing to the good representation capacity of "
+"deep neural networks (DNNs), recent advances on KT have increasingly "
+"concentrated on exploring DNNs to improve the performance of KT. However,"
+" we empirically reveal that the DNNs based KT models may run the risk of "
+"overfitting, especially on small datasets, leading to limited "
+"generalization. In this paper, by leveraging the current advances in "
+"adversarial training (AT), we propose an efficient AT based KT method "
+"(ATKT) to enhance KT model's generalization and thus push the limit of "
+"KT. Specifically, we first construct adversarial perturbations and add "
+"them on the original interaction embeddings as adversarial examples. The "
+"original and adversarial examples are further used to jointly train the "
+"KT model, forcing it is not only to be robust to the adversarial "
+"examples, but also to enhance the generalization over the original ones. "
+"To better implement AT, we then present an efficient attentive-LSTM model"
+" as KT backbone, where the key is a proposed knowledge hidden state "
+"attention module that adaptively aggregates information from previous "
+"knowledge hidden states while simultaneously highlighting the importance "
+"of current knowledge hidden state to make a more accurate prediction. "
+"Extensive experiments on four public benchmark datasets demonstrate that "
+"our ATKT achieves new state-of-the-art performance. Code is available at:"
+" https://github.com/xiaopengguo/ATKT."
+
+#: ../../source/model-zoo/models/atkt.md:18 2bc0153e4faa41fb8d45a78baa7b5496
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/atkt.md:20 34b06ba9c7b7476d9e554ad7a20e3ad0
+msgid "[xiaopengguo/ATKT](https://github.com/xiaopengguo/ATKT)"
+msgstr "[xiaopengguo/ATKT](https://github.com/xiaopengguo/ATKT)"

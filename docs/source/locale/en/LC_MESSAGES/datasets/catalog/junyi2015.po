@@ -1,0 +1,432 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/datasets/catalog/junyi2015.md:1
+#: 536b18e8ba294a38abaaca09ba939651
+msgid "Junyi 2015"
+msgstr "Junyi 2015"
+
+#: ../../source/datasets/catalog/junyi2015.md:3
+#: bb7638b80f9848a091c92366c7795103
+msgid "Junyi 2015 是均一教育平台（Junyi Academy）2012 年 10 月至 2015 年 1 月的 K-12 数学练习日志。"
+msgstr ""
+"Junyi 2015 comprises K-12 mathematics exercise logs from Junyi Academy "
+"collected between October 2012 and January 2015."
+
+#: ../../source/datasets/catalog/junyi2015.md:5
+#: c107af02de2c40b0b00d6b6a13b6bbbc
+msgid "数据集链接"
+msgstr "Dataset Link"
+
+#: ../../source/datasets/catalog/junyi2015.md:7
+#: fa0bb0016bdb4f1298411958dd349f49
+msgid ""
+"官方入口：[PSLC DataShop "
+"#1198](https://pslcdatashop.web.cmu.edu/DatasetInfo?datasetId=1198)"
+msgstr ""
+"Official portal: [PSLC DataShop "
+"#1198](https://pslcdatashop.web.cmu.edu/DatasetInfo?datasetId=1198)"
+
+#: ../../source/datasets/catalog/junyi2015.md:8
+#: 63a66a63e40542dd8da95e8ddc5f321c
+msgid ""
+"DataShop 文件页：[Files "
+"#1198](https://pslcdatashop.web.cmu.edu/Files?datasetId=1198)"
+msgstr ""
+"DataShop files page: [Files "
+"#1198](https://pslcdatashop.web.cmu.edu/Files?datasetId=1198)"
+
+#: ../../source/datasets/catalog/junyi2015.md:10
+#: 59dc295d7d6f4e14a61b8fd6953b69b8
+msgid "数据规模"
+msgstr "Data Scale"
+
+#: ../../source/datasets/catalog/junyi2015.md:12
+#: 1b369b0ec324442b840f6003271c9022
+msgid "下表统计与下方字段均来自 `junyi_ProblemLog_original.csv` 与 `junyi_Exercise_table.csv`。"
+msgstr ""
+"The statistics in the table below and fields listed come from "
+"`junyi_ProblemLog_original.csv` and `junyi_Exercise_table.csv`."
+
+#: ../../source/datasets/catalog/junyi2015.md 659ea032b4314835b87d989c4bd6801a
+msgid "指标"
+msgstr "Metrics"
+
+#: ../../source/datasets/catalog/junyi2015.md 4756295c93194eb0a049d28bee805fc2
+msgid "数值"
+msgstr "Value"
+
+#: ../../source/datasets/catalog/junyi2015.md 40dbc09740ff402bbd33ded46ca645b5
+msgid "口径"
+msgstr "Criteria"
+
+#: ../../source/datasets/catalog/junyi2015.md 5b1e344b2673471d8f0b33c47f506268
+msgid "练习日志记录"
+msgstr "Exercise Log Records"
+
+#: ../../source/datasets/catalog/junyi2015.md 4e0b45d544804e5890d81500672f2647
+msgid "25,925,992"
+msgstr "25,925,992"
+
+#: ../../source/datasets/catalog/junyi2015.md d23e11152d814c09bfe691bd1d504722
+msgid "`junyi_ProblemLog_original.csv` 数据行数"
+msgstr "Number of data rows in `junyi_ProblemLog_original.csv`"
+
+#: ../../source/datasets/catalog/junyi2015.md 9042ace01a6b472499a22ad5898e37f7
+msgid "学生数"
+msgstr "Student Count"
+
+#: ../../source/datasets/catalog/junyi2015.md 79224a24ea5c42c7b27b7dfb802a3532
+msgid "247,606"
+msgstr "247,606"
+
+#: ../../source/datasets/catalog/junyi2015.md ac7d7a502bcf409f90f29b487a795b29
+msgid "日志中 `user_id` 去重计数"
+msgstr "Unique count of `user_id` in logs"
+
+#: ../../source/datasets/catalog/junyi2015.md 7768fe2f37124ef4b0c274c2ed465bd8
+msgid "练习条目数"
+msgstr "Exercise Item Count"
+
+#: ../../source/datasets/catalog/junyi2015.md 141f915fa0fb4240b4ef13cd3568d02a
+msgid "722"
+msgstr "722"
+
+#: ../../source/datasets/catalog/junyi2015.md a8959a33de91472cba3d9e406ff3358e
+msgid "日志中 `exercise` 去重计数"
+msgstr "Unique count of `exercise` in logs"
+
+#: ../../source/datasets/catalog/junyi2015.md cde2411b6a59441ea9221adc6e885ad5
+msgid "练习元数据条目数"
+msgstr "Exercise Metadata Item Count"
+
+#: ../../source/datasets/catalog/junyi2015.md 2fd0b49149984707af4264e07d2a4dd9
+msgid "837"
+msgstr "837"
+
+#: ../../source/datasets/catalog/junyi2015.md 7037357401134eb6aaf8d0763568fcbd
+msgid "`junyi_Exercise_table.csv` 数据行数"
+msgstr "Number of data rows in `junyi_Exercise_table.csv`"
+
+#: ../../source/datasets/catalog/junyi2015.md 0d776eb1bfa848ff87a7227857880fe1
+msgid "日志时间范围"
+msgstr "Log Time Range"
+
+#: ../../source/datasets/catalog/junyi2015.md 685d3dfd68a2468c89238ad878354b86
+msgid "2012-10-12 至 2015-01-11"
+msgstr "2012-10-12 to 2015-01-11"
+
+#: ../../source/datasets/catalog/junyi2015.md 8e75cbc4e0ac4d51b175928ba06e3225
+msgid "日志中 `time_done` 微秒时间戳换算"
+msgstr "Converted from `time_done` microsecond timestamps in logs"
+
+#: ../../source/datasets/catalog/junyi2015.md:22
+#: db14323e88c44409bd19815da39f1bdb
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/datasets/catalog/junyi2015.md:24
+#: c0cf2c07323843cd8775a7d42a08138d
+msgid "练习日志（`junyi_ProblemLog_original.csv`，2012-10-12 至 2015-01-11）"
+msgstr "Exercise Logs (`junyi_ProblemLog_original.csv`, 2012-10-12 to 2015-01-11)"
+
+#: ../../source/datasets/catalog/junyi2015.md 642b164199a7402188699044bf9ca448
+#: 8fb0af63c1c14b8cb080561c37cad3be
+msgid "字段名称"
+msgstr "Field Name"
+
+#: ../../source/datasets/catalog/junyi2015.md 2301ad0e97df4af4b3431fef43bff1e4
+#: d1ea3de00e624cc4b4ce45cff29e10aa
+msgid "数据类型"
+msgstr "Data Type"
+
+#: ../../source/datasets/catalog/junyi2015.md 359185cdb524403d97023131aa8aa381
+#: bf63e3c18be34bc998d7fdf9e62d3bf6
+msgid "说明"
+msgstr "Description"
+
+#: ../../source/datasets/catalog/junyi2015.md 470196a843a24057a013ff9cfce54cfe
+msgid "`user_id`"
+msgstr "`user_id`"
+
+#: ../../source/datasets/catalog/junyi2015.md 036e10aed2354908a8d336031982209f
+#: 0b0da509ee1b4d99b231cdd4955ce94a 16ca438bece74f8db8b09724fc527c2e
+#: 72bd8099caeb474d9b066150661c6a36 9dc4377e5ebd46fbaed07231f2676da7
+#: b17bd07e03b5481a87d9d200ced0bd51 bafa26748afa49ae9bab8d0e65208af3
+#: cc77c90680bb43a59270c909e2306b68
+msgid "Integer"
+msgstr "Integer"
+
+#: ../../source/datasets/catalog/junyi2015.md 2bb64142178241f28a8ab7589674e7f8
+msgid "学生编号"
+msgstr "Student ID"
+
+#: ../../source/datasets/catalog/junyi2015.md fe89626f11794552a30f1d680e087a1f
+msgid "`exercise`"
+msgstr "`exercise`"
+
+#: ../../source/datasets/catalog/junyi2015.md 06bd8f13797048b792f82876d3d9ae6e
+#: 4e2ddbc268f940419d17fc127b1e75d1 4eae4df37225462c99dcc3ea02fb02d8
+#: 5d471396e0ed414cb24968a191790ca0 84d978e1fa824d5894f068dce1df840a
+#: 88740d3390114f7bb88d35e80cb687a8 96308d94942c4f1093a0412ac3f21a16
+#: bec7e4fb7b4e4685a3f2409aa1aaed0e dc0e46d9fed648c38ec0ac8c86770eb1
+#: efc9b3b5498b418f90703dd681d39d72
+msgid "String"
+msgstr "String"
+
+#: ../../source/datasets/catalog/junyi2015.md 674542b0d6d24c43a1272c8e53aab5e6
+msgid "练习名称，与练习元数据表的 `name` 对应"
+msgstr "Exercise name, corresponding to `name` in exercise metadata table"
+
+#: ../../source/datasets/catalog/junyi2015.md 41d88b97b7cd4f98bbd6dc7d4c31f35b
+msgid "`problem_type`"
+msgstr "`problem_type`"
+
+#: ../../source/datasets/catalog/junyi2015.md d77bcd19a6af4b1ab9c95f2eed7cf570
+msgid "题目模板标识；部分练习记录当次遇到的模板，其余取值为 `0`"
+msgstr ""
+"Question template identifier; some exercises record encountered template,"
+" others take value `0`"
+
+#: ../../source/datasets/catalog/junyi2015.md 97b350b548df4dfabab1785082c46c82
+msgid "`problem_number`"
+msgstr "`problem_number`"
+
+#: ../../source/datasets/catalog/junyi2015.md 986e57ecfa2040bca3ee8fbe67ccd208
+msgid "该学生第几次练习该练习"
+msgstr "Number of times the student has practiced this exercise"
+
+#: ../../source/datasets/catalog/junyi2015.md fd38acd73e8b4d8c99743e4c663b7921
+msgid "`topic_mode`"
+msgstr "`topic_mode`"
+
+#: ../../source/datasets/catalog/junyi2015.md 20abdddf81ca4de08e29803093b43d9b
+#: 2c0164a3c07841edb30fbe7bc7843f9c 7994ae9f29cb42ab8add0280499cb680
+#: 84c7bd922b534c1ea9111226facb007f 8d581660946644358aa5a263b6f47651
+#: 9d6be9653265407480cdcf90a1377031 abbfc34de1cf41ae9981a0a4018ce5e2
+msgid "Boolean"
+msgstr "Boolean"
+
+#: ../../source/datasets/catalog/junyi2015.md 95a0e2fc245a48b0be71eb78717970a1
+msgid "是否通过课程主题入口进入练习；该功能已关闭"
+msgstr "Whether exercise was accessed via course topic portal; feature deprecated"
+
+#: ../../source/datasets/catalog/junyi2015.md 62921f231c234f6a8bdb5549049b6d51
+msgid "`suggested`"
+msgstr "`suggested`"
+
+#: ../../source/datasets/catalog/junyi2015.md 2dc0cc65b8514564ae39d4b5ba4ce70c
+msgid "是否由系统依据知识图谱先修关系推荐"
+msgstr ""
+"Whether recommended by system based on knowledge graph prerequisite "
+"relations"
+
+#: ../../source/datasets/catalog/junyi2015.md 98ee5ab7c66e452eafcc6746682d3569
+msgid "`review_mode`"
+msgstr "`review_mode`"
+
+#: ../../source/datasets/catalog/junyi2015.md dab67875f64743d58384c3290bcc78d6
+msgid "是否在获得熟练度后进行复习"
+msgstr "Whether review was conducted after achieving proficiency"
+
+#: ../../source/datasets/catalog/junyi2015.md 3ac95ad3a7024a1cb74d3c92ac1de8ed
+msgid "`time_done`"
+msgstr "`time_done`"
+
+#: ../../source/datasets/catalog/junyi2015.md be1244ca1f0c4d9c8aea7352659195ae
+msgid "练习完成时间，Unix 微秒时间戳"
+msgstr "Exercise completion time, Unix microsecond timestamp"
+
+#: ../../source/datasets/catalog/junyi2015.md 1a5645a5c7fc4cdb9719298a45e59877
+msgid "`time_taken`"
+msgstr "`time_taken`"
+
+#: ../../source/datasets/catalog/junyi2015.md c907c638bdc544599c2b2705c05cebce
+msgid "该次练习总耗时，单位秒"
+msgstr "Total duration of this exercise session in seconds"
+
+#: ../../source/datasets/catalog/junyi2015.md 3156eecb208342ce95b1a6fdaa246ae2
+msgid "`time_taken_attempts`"
+msgstr "`time_taken_attempts`"
+
+#: ../../source/datasets/catalog/junyi2015.md 4c3c8d55b6e54ed291ec33a1e5bf4aca
+msgid "各次作答尝试的耗时，单位秒，以 `&` 分隔"
+msgstr "Duration of each answer attempt in seconds, separated by `&`"
+
+#: ../../source/datasets/catalog/junyi2015.md 66bab3878c33407c9882353927f31733
+msgid "`correct`"
+msgstr "`correct`"
+
+#: ../../source/datasets/catalog/junyi2015.md a4607e9bc9384e05b1e69f810f534c77
+msgid "首次作答是否正确；若请求过提示则为 `false`"
+msgstr "Whether first response was correct; `false` if hints were requested"
+
+#: ../../source/datasets/catalog/junyi2015.md 93f3b7aa4dad4e6fbaeb41befa2b7bf0
+msgid "`count_attempts`"
+msgstr "`count_attempts`"
+
+#: ../../source/datasets/catalog/junyi2015.md bb669bbe7cd044cfa64ebdffff5c170c
+msgid "作答尝试次数"
+msgstr "Number of answer attempts"
+
+#: ../../source/datasets/catalog/junyi2015.md 02a85f1503bc4229b349e8526ff3b185
+msgid "`hint_used`"
+msgstr "`hint_used`"
+
+#: ../../source/datasets/catalog/junyi2015.md 127ea578422d4a458c7b482a940ef540
+msgid "是否请求提示"
+msgstr "Whether hints were requested"
+
+#: ../../source/datasets/catalog/junyi2015.md 0d5deb8995af44728b3dff07ff58776c
+msgid "`count_hints`"
+msgstr "`count_hints`"
+
+#: ../../source/datasets/catalog/junyi2015.md f7a8f99bd83041eba3c3b6e10a9ab1f1
+msgid "请求提示次数"
+msgstr "Number of hint requests"
+
+#: ../../source/datasets/catalog/junyi2015.md bf3279574abb42e1ae60d0c9c5bc5b30
+msgid "`hint_time_taken_list`"
+msgstr "`hint_time_taken_list`"
+
+#: ../../source/datasets/catalog/junyi2015.md 24d37e9d865641689dd8be0c9d2f9921
+msgid "每次提示的耗时，单位秒，以 `&` 分隔；未请求提示时为空"
+msgstr ""
+"Duration of each hint in seconds, separated by `&`; null if no hints "
+"requested"
+
+#: ../../source/datasets/catalog/junyi2015.md 89e21efb5577480db3644236505890b8
+msgid "`earned_proficiency`"
+msgstr "`earned_proficiency`"
+
+#: ../../source/datasets/catalog/junyi2015.md 945691404e9c498e8a756595c63e43fa
+msgid "是否达到熟练度"
+msgstr "Whether proficiency was attained"
+
+#: ../../source/datasets/catalog/junyi2015.md b2fbf01caaad43ae9d6b3eae4b6be65f
+msgid "`points_earned`"
+msgstr "`points_earned`"
+
+#: ../../source/datasets/catalog/junyi2015.md 3f693cdf682a4ff0a8f6a6e2169decc0
+msgid "本次练习获得的积分"
+msgstr "Points earned in this exercise session"
+
+#: ../../source/datasets/catalog/junyi2015.md:46
+#: e28743b48fff499ab0993db5a1a2496b
+msgid "练习元数据（`junyi_Exercise_table.csv`）"
+msgstr "Exercise Metadata (`junyi_Exercise_table.csv`)"
+
+#: ../../source/datasets/catalog/junyi2015.md 60bf825616f74c62ad5b1974494b27bf
+msgid "`name`"
+msgstr "`name`"
+
+#: ../../source/datasets/catalog/junyi2015.md 28d4bd9ba32a42f286847c6702239bad
+msgid "练习名称，同时作为练习唯一标识"
+msgstr "Exercise name, also serving as unique exercise identifier"
+
+#: ../../source/datasets/catalog/junyi2015.md 1de72142571f48389067d4f4b6b2f56f
+msgid "`live`"
+msgstr "`live`"
+
+#: ../../source/datasets/catalog/junyi2015.md 51531f911b7245e084b761f9d0d62a38
+msgid "该练习是否可访问"
+msgstr "Whether this exercise is accessible"
+
+#: ../../source/datasets/catalog/junyi2015.md 470e4a42a47c4abb813a14bc5628aaaa
+msgid "`prerequisites`"
+msgstr "`prerequisites`"
+
+#: ../../source/datasets/catalog/junyi2015.md 2d6cafbe3baa4da6a711c95d005bdddd
+msgid "先修练习名称，可为空"
+msgstr "Prerequisite exercise name, can be null"
+
+#: ../../source/datasets/catalog/junyi2015.md db0e613a7cd84aec83b98a49e6674743
+msgid "`h_position`"
+msgstr "`h_position`"
+
+#: ../../source/datasets/catalog/junyi2015.md 22da9b31469d4a36b0ee1ee89e81ba6a
+#: 970b779eecdd426da292a7f3235d6a95
+msgid "Float"
+msgstr "Float"
+
+#: ../../source/datasets/catalog/junyi2015.md b3bec757f724484a99c04dcf61a0b549
+msgid "知识图谱中的横坐标"
+msgstr "Horizontal coordinate in knowledge graph"
+
+#: ../../source/datasets/catalog/junyi2015.md 2fcc6e0d2d9c45dcb444a9137dd713e4
+msgid "`v_position`"
+msgstr "`v_position`"
+
+#: ../../source/datasets/catalog/junyi2015.md b11bd4204f6d48a89b2f771e83409ddd
+msgid "知识图谱中的纵坐标"
+msgstr "Vertical coordinate in knowledge graph"
+
+#: ../../source/datasets/catalog/junyi2015.md c900de2577cc41caac7e9a33fea4a8a4
+msgid "`creation_date`"
+msgstr "`creation_date`"
+
+#: ../../source/datasets/catalog/junyi2015.md 8450c6a57bea479c992907a48ea17f9b
+msgid "Datetime"
+msgstr "Datetime"
+
+#: ../../source/datasets/catalog/junyi2015.md 8ddf4567e6264f088e02ec0de77be83d
+msgid "练习创建时间"
+msgstr "Exercise creation time"
+
+#: ../../source/datasets/catalog/junyi2015.md 384af3388e034d2db8be467649797409
+msgid "`seconds_per_fast_problem`"
+msgstr "`seconds_per_fast_problem`"
+
+#: ../../source/datasets/catalog/junyi2015.md bee33feb90f44de1a44835c154011aa4
+msgid "判定“快速完成”的阈值，单位秒"
+msgstr "Threshold for determining \"fast completion\" in seconds"
+
+#: ../../source/datasets/catalog/junyi2015.md a631bede81e24646856b69a04950a55a
+msgid "`pretty_display_name`"
+msgstr "`pretty_display_name`"
+
+#: ../../source/datasets/catalog/junyi2015.md 338d29f61af1452696f72f207885811e
+msgid "知识图谱中显示的中文名称"
+msgstr "Chinese display name in knowledge graph"
+
+#: ../../source/datasets/catalog/junyi2015.md b134291ab0974d01a204510f7a0a64e3
+msgid "`short_display_name`"
+msgstr "`short_display_name`"
+
+#: ../../source/datasets/catalog/junyi2015.md d614925a1e5b408db9dee24e3acd28b1
+msgid "中文简称"
+msgstr "Chinese short name"
+
+#: ../../source/datasets/catalog/junyi2015.md 288d94d44cc64663a51452ea5ad79dcd
+msgid "`topic`"
+msgstr "`topic`"
+
+#: ../../source/datasets/catalog/junyi2015.md 2db27231eb684d59a7b1fc64d9824959
+msgid "所属主题"
+msgstr "Parent topic"
+
+#: ../../source/datasets/catalog/junyi2015.md 01e7a69afc9b4e6da04583691430b682
+msgid "`area`"
+msgstr "`area`"
+
+#: ../../source/datasets/catalog/junyi2015.md 250674da5c2049ae8667bf586a06ce0f
+msgid "所属领域"
+msgstr "Parent domain"

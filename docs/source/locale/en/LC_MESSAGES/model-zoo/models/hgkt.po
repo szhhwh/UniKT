@@ -1,0 +1,126 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/hgkt.md:1 382079abb2204a969e8b23055d42b4ae
+msgid "HGKT"
+msgstr "HGKT"
+
+#: ../../source/model-zoo/models/hgkt.md:3 a13558ec66204be2b71cfdbb400d1090
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/hgkt.md c0e565f14a1741caa724d3f3ae078808
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/hgkt.md c5e71ce69ce24586b2ecf91324dffc44
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/hgkt.md 8f14b153d41042d2a0618e760c141f65
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/hgkt.md 5081726233754d8f9865953bc4ed5171
+msgid ""
+"[Hypergraph-Driven High-Order Knowledge Tracing with a Dual-Gated Dynamic"
+" Mechanism](https://doi.org/10.3390/app15158617)"
+msgstr ""
+"[Hypergraph-Driven High-Order Knowledge Tracing with a Dual-Gated Dynamic"
+" Mechanism](https://doi.org/10.3390/app15158617)"
+
+#: ../../source/model-zoo/models/hgkt.md c98439fd204a4affaa440d42667f583f
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/hgkt.md 26c186650e42400bbebf4d5d59b02e26
+msgid "Fanglan Ma, Changsheng Zhu, Peng Lei"
+msgstr "Fanglan Ma, Changsheng Zhu, Peng Lei"
+
+#: ../../source/model-zoo/models/hgkt.md 23a8093bb1cf4b9d9eaf09d538732151
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/hgkt.md 69e3faea801a40f195f7d2450b46a055
+msgid "2025"
+msgstr "2025"
+
+#: ../../source/model-zoo/models/hgkt.md 6528061e447e4ecaa3ee422d2f0b0e62
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/hgkt.md 671b2af3790c40a18956c4f7c269ee63
+msgid "Applied Sciences, 15(15), 8617"
+msgstr "Applied Sciences, 15(15), 8617"
+
+#: ../../source/model-zoo/models/hgkt.md:12 c23fca17c2574eca9768c7797b09cc09
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/hgkt.md:14 9c9d27a27c9a4833a18226460b10f114
+msgid ""
+"Knowledge tracing (KT), a core educational data mining task, models "
+"students’ evolving knowledge states to predict future learning. In online"
+" education systems, the exercises are numerous, but they are typically "
+"associated with only a few concepts. However, existing models rarely "
+"integrate exercise information with high-order exercise–concept "
+"correlations, focusing solely on optimizing models’ final predictive "
+"performance. To address these limitations, we propose the Hypergraph-"
+"Driven High-Order Knowledge Tracing with a Dual-Gated Dynamic Mechanism "
+"(HGKT), a novel framework that (1) captures correlations between "
+"exercises and concepts through a two-layer hypergraph convolution; (2) "
+"integrates hypergraph-driven exercise embedding and temporal features "
+"(answer time and interval time) to characterize learning behavioral "
+"dynamics; and (3) designs a learning layer and a forgetting layer, with "
+"the dual-gating mechanism dynamically balancing their impacts on the "
+"knowledge state. Experiments on three public datasets demonstrate that "
+"the proposed HGKT model achieves superior predictive performance compared"
+" to all baselines. On the longest interaction sequence dataset, "
+"ASSISChall, HGKT improves prediction AUC by least 1.8%. On the biggest "
+"interaction records dataset, EdNet-KT1, it maintains a state-of-the-art "
+"AUC of 0.78372. Visualization analyses confirm its interpretability in "
+"tracing knowledge state evolution. These results validate HGKT’s "
+"effectiveness in modeling high-order exercise–concept correlations while "
+"ensuring practical adaptability in real-world online education platforms."
+msgstr ""
+"Knowledge tracing (KT), a core educational data mining task, models "
+"students’ evolving knowledge states to predict future learning. In online"
+" education systems, the exercises are numerous, but they are typically "
+"associated with only a few concepts. However, existing models rarely "
+"integrate exercise information with high-order exercise–concept "
+"correlations, focusing solely on optimizing models’ final predictive "
+"performance. To address these limitations, we propose the Hypergraph-"
+"Driven High-Order Knowledge Tracing with a Dual-Gated Dynamic Mechanism "
+"(HGKT), a novel framework that (1) captures correlations between "
+"exercises and concepts through a two-layer hypergraph convolution; (2) "
+"integrates hypergraph-driven exercise embedding and temporal features "
+"(answer time and interval time) to characterize learning behavioral "
+"dynamics; and (3) designs a learning layer and a forgetting layer, with "
+"the dual-gating mechanism dynamically balancing their impacts on the "
+"knowledge state. Experiments on three public datasets demonstrate that "
+"the proposed HGKT model achieves superior predictive performance compared"
+" to all baselines. On the longest interaction sequence dataset, "
+"ASSISChall, HGKT improves prediction AUC by least 1.8%. On the biggest "
+"interaction records dataset, EdNet-KT1, it maintains a state-of-the-art "
+"AUC of 0.78372. Visualization analyses confirm its interpretability in "
+"tracing knowledge state evolution. These results validate HGKT’s "
+"effectiveness in modeling high-order exercise–concept correlations while "
+"ensuring practical adaptability in real-world online education platforms."

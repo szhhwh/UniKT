@@ -1,0 +1,139 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/qikt.md:1 df25de3f9f7244bc8a60f8eea9df2b72
+msgid "QIKT"
+msgstr "QIKT"
+
+#: ../../source/model-zoo/models/qikt.md:3 2159bed18d954136a458f3f21c38b936
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/qikt.md d01740bfb6724fdab0381c85bdec164a
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/qikt.md b72f3dba355e4ea19706f3a7d18f0485
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/qikt.md 3887d6a3b4484ceca2f4f26ad08c30a5
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/qikt.md b5fe6fa91d664183920d29ce3fd01e73
+msgid ""
+"[Improving Interpretability of Deep Sequential Knowledge Tracing Models "
+"with Question-centric Cognitive "
+"Representations](https://doi.org/10.1609/aaai.v37i12.26661)"
+msgstr ""
+"[Improving Interpretability of Deep Sequential Knowledge Tracing Models "
+"with Question-centric Cognitive "
+"Representations](https://doi.org/10.1609/aaai.v37i12.26661)"
+
+#: ../../source/model-zoo/models/qikt.md c902c55d661c43b6930cd87836b9186a
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/qikt.md 83b8a327b10d4390875cfad96025f299
+msgid "Jiahao Chen, Zitao Liu, Shuyan Huang, Qiongqiong Liu, Weiqi Luo"
+msgstr "Jiahao Chen, Zitao Liu, Shuyan Huang, Qiongqiong Liu, Weiqi Luo"
+
+#: ../../source/model-zoo/models/qikt.md af583314105940c19550c82f5c48af09
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/qikt.md 4ce2bafc5456462a8757f8e63abdc0f3
+msgid "2023"
+msgstr "2023"
+
+#: ../../source/model-zoo/models/qikt.md 7fab3a4bda5a4d368cdba69bab651b67
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/qikt.md a401e129b87a456fa7aade284ff3fd4f
+msgid "Proceedings of the AAAI Conference on Artificial Intelligence"
+msgstr "Proceedings of the AAAI Conference on Artificial Intelligence"
+
+#: ../../source/model-zoo/models/qikt.md:12 714080fa677c4464a19966743f1990da
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/qikt.md:14 2641855922fd463885fa81dc1238a7c4
+#, python-brace-format
+msgid ""
+"Knowledge tracing (KT) is a crucial technique to predict students' future"
+" performance by observing their historical learning processes. Due to the"
+" powerful representation ability of deep neural networks, remarkable "
+"progress has been made by using deep learning techniques to solve the KT "
+"problem. The majority of existing approaches rely on the "
+"\\emph{homogeneous question} assumption that questions have equivalent "
+"contributions if they share the same set of knowledge components. "
+"Unfortunately, this assumption is inaccurate in real-world educational "
+"scenarios. Furthermore, it is very challenging to interpret the "
+"prediction results from the existing deep learning based KT models. "
+"Therefore, in this paper, we present QIKT, a question-centric "
+"interpretable KT model to address the above challenges. The proposed QIKT"
+" approach explicitly models students' knowledge state variations at a "
+"fine-grained level with question-sensitive cognitive representations that"
+" are jointly learned from a question-centric knowledge acquisition module"
+" and a question-centric problem solving module. Meanwhile, the QIKT "
+"utilizes an item response theory based prediction layer to generate "
+"interpretable prediction results. The proposed QIKT model is evaluated on"
+" three public real-world educational datasets. The results demonstrate "
+"that our approach is superior on the KT prediction task, and it "
+"outperforms a wide range of deep learning based KT models in terms of "
+"prediction accuracy with better model interpretability. To encourage "
+"reproducible results, we have provided all the datasets and code at "
+"\\url{https://pykt.org/}."
+msgstr ""
+"Knowledge tracing (KT) is a crucial technique to predict students' future"
+" performance by observing their historical learning processes. Due to the"
+" powerful representation ability of deep neural networks, remarkable "
+"progress has been made by using deep learning techniques to solve the KT "
+"problem. The majority of existing approaches rely on the "
+"\\emph{homogeneous question} assumption that questions have equivalent "
+"contributions if they share the same set of knowledge components. "
+"Unfortunately, this assumption is inaccurate in real-world educational "
+"scenarios. Furthermore, it is very challenging to interpret the "
+"prediction results from the existing deep learning based KT models. "
+"Therefore, in this paper, we present QIKT, a question-centric "
+"interpretable KT model to address the above challenges. The proposed QIKT"
+" approach explicitly models students' knowledge state variations at a "
+"fine-grained level with question-sensitive cognitive representations that"
+" are jointly learned from a question-centric knowledge acquisition module"
+" and a question-centric problem solving module. Meanwhile, the QIKT "
+"utilizes an item response theory based prediction layer to generate "
+"interpretable prediction results. The proposed QIKT model is evaluated on"
+" three public real-world educational datasets. The results demonstrate "
+"that our approach is superior on the KT prediction task, and it "
+"outperforms a wide range of deep learning based KT models in terms of "
+"prediction accuracy with better model interpretability. To encourage "
+"reproducible results, we have provided all the datasets and code at "
+"\\url{https://pykt.org/}."
+
+#: ../../source/model-zoo/models/qikt.md:17 d4bb7b377b9a4bf3907daf622090469b
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/qikt.md:19 6b48cceac1814743bd3b7cdddbb7f990
+msgid "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"
+msgstr "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"

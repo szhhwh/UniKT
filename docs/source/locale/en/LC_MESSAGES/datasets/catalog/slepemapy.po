@@ -1,0 +1,320 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/datasets/catalog/slepemapy.md:1
+#: e3deabfb26064fbf946f6dce783a1a73
+msgid "Slepemapy"
+msgstr "Slepemapy"
+
+#: ../../source/datasets/catalog/slepemapy.md:3
+#: 44e77330768742fda859afbbd0dedd62
+msgid ""
+"Slepemapy 是 Masaryk 大学自适应学习研究组在 slepemapy.cz 上收集的地理事实练习数据，首个公开静态快照截至 2015"
+" 年 5 月 21 日。"
+msgstr ""
+"Slepemapy is a geographic fact practice dataset collected by the Adaptive"
+" Learning Research Group at Masaryk University on slepemapy.cz, with the "
+"initial public static snapshot up to May 21, 2015."
+
+#: ../../source/datasets/catalog/slepemapy.md:5
+#: 0a68bdaa4df94a769b6e3a242171de31
+msgid "数据集链接"
+msgstr "Dataset Link"
+
+#: ../../source/datasets/catalog/slepemapy.md:7
+#: 2057d79c2c524b109f59e9c26fc88d93
+msgid ""
+"官方数据目录：[Adaptive Learning Data - "
+"Slepemapy](https://www.fi.muni.cz/adaptivelearning/data/slepemapy/)"
+msgstr ""
+"Official data catalog: [Adaptive Learning Data - "
+"Slepemapy](https://www.fi.muni.cz/adaptivelearning/data/slepemapy/)"
+
+#: ../../source/datasets/catalog/slepemapy.md:8
+#: f949f047e11f471585a49682f4d8ea2c
+msgid "快照下载：[2015-05-21.zip](https://www.fi.muni.cz/adaptivelearning/data/slepemapy/2015-05-21.zip)"
+msgstr ""
+"Snapshot download: "
+"[2015-05-21.zip](https://www.fi.muni.cz/adaptivelearning/data/slepemapy/2015-05-21.zip)"
+
+#: ../../source/datasets/catalog/slepemapy.md:10
+#: f13711dfab064d9fa75d940c7c136b25
+msgid "数据规模"
+msgstr "Data Scale"
+
+#: ../../source/datasets/catalog/slepemapy.md 2d0c24a1009d4e9a8a56aa52f4fbb62d
+msgid "指标"
+msgstr "Metrics"
+
+#: ../../source/datasets/catalog/slepemapy.md 22cda5fbc2ef46299de8fb57b518cc36
+msgid "数值"
+msgstr "Value"
+
+#: ../../source/datasets/catalog/slepemapy.md 1a85c848bea74c6db422ee5256b24e60
+msgid "口径"
+msgstr "Criteria"
+
+#: ../../source/datasets/catalog/slepemapy.md a4819f72df024fdf8436cf37f74d73b3
+msgid "学生数"
+msgstr "Student Count"
+
+#: ../../source/datasets/catalog/slepemapy.md c37e6f8dd78e4ebc9cff3001848f3f26
+msgid "91,331"
+msgstr "91,331"
+
+#: ../../source/datasets/catalog/slepemapy.md e1857cdc30884598b64ce3ecb02394e8
+msgid "官方发布包说明：2015-05-21 静态快照"
+msgstr "Official Release Notes: 2015-05-21 Static Snapshot"
+
+#: ../../source/datasets/catalog/slepemapy.md 7e5da78eb10b4551ad97d4d1931c4c2e
+msgid "地理条目数"
+msgstr "Geographic Item Count"
+
+#: ../../source/datasets/catalog/slepemapy.md 397323718a324aaa9e14cf85cafc8737
+msgid "1,459"
+msgstr "1,459"
+
+#: ../../source/datasets/catalog/slepemapy.md 8d77edeeb859465580b4bdc2e111836b
+#: b86e1bb4593042a6b2dd59154143869c
+msgid "同上"
+msgstr "Same as above"
+
+#: ../../source/datasets/catalog/slepemapy.md 0fd431d94d0e4798a9e09f1bd5b36ec5
+msgid "作答记录数"
+msgstr "Response Record Count"
+
+#: ../../source/datasets/catalog/slepemapy.md 96e2a6acb79a4437bb78e0f0e9066379
+msgid "10,087,306"
+msgstr "10,087,306"
+
+#: ../../source/datasets/catalog/slepemapy.md:18
+#: a024cd4c21034775a46e38df0a05d880
+msgid ""
+"官方数据目录另提供 `2015-ab-random-parts.zip` 与 `2016-ab-target-"
+"difficulty.zip`，属于不同实验版本，统计口径与上述数字不同，不可混用。"
+msgstr ""
+"The official data directory also provides `2015-ab-random-parts.zip` and "
+"`2016-ab-target-difficulty.zip` from different experimental setups; "
+"statistical criteria differ and should not be mixed."
+
+#: ../../source/datasets/catalog/slepemapy.md:20
+#: 6ea6b6c1f25541fda7ed8fb5486c73c7
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/datasets/catalog/slepemapy.md:22
+#: 4fb55cdc2d5a40cd94c943fdc7625144
+msgid "发布包包含 `answer.csv`、`place.csv`、`place_type.csv` 三个分号分隔文件。"
+msgstr ""
+"The release package contains three semicolon-delimited files: "
+"`answer.csv`, `place.csv`, and `place_type.csv`."
+
+#: ../../source/datasets/catalog/slepemapy.md:24
+#: 17d0afca22314b7cbaec17b5f6cfa982
+msgid "作答记录（`answer.csv`）"
+msgstr "Response Records (`answer.csv`)"
+
+#: ../../source/datasets/catalog/slepemapy.md 015194cb7a13493699ce364f642e46a5
+#: 0af3219ae7d94e6abec9cb69c1f54ddd 88781a5e850e4bd48efa8e79c28ecff4
+msgid "字段名称"
+msgstr "Field Name"
+
+#: ../../source/datasets/catalog/slepemapy.md 15308929e95e426ba70b772a2a5edc4a
+#: 8f962723e14f4976b188ae7760b72f14 c483c25abe93409a9c879480aee6802b
+msgid "数据类型"
+msgstr "Data Type"
+
+#: ../../source/datasets/catalog/slepemapy.md 96d9b87ff9344722af47f0c92e894848
+#: a48f5f543a4943bbbbd6c8336a9e44af fd237d8d4fe644d5ae8ccb96735f9e0f
+msgid "说明"
+msgstr "Description"
+
+#: ../../source/datasets/catalog/slepemapy.md 197c2eb2b6e5480d827dd6675b33a9b9
+#: 34f210efd3c74c7f9ebd046a376aada3 783cb7eeb3bd4d8196da88b2896bc0ee
+msgid "`id`"
+msgstr "`id`"
+
+#: ../../source/datasets/catalog/slepemapy.md 0ff515af0fb744708c6b5fe332867439
+#: 105795007ace425b8c2a34dd53de4148 2e978753f4a641da8cd3b3bd35cc19be
+#: 3e802a412de04990ba06c534bbd53099 5eecefb5332049b68de42ad4dd67e7a6
+#: 7579d86e42134fd7ab4d801c77f22d4b a0a9032b8a4b4b86b53991e7f09435fe
+#: bae04797d3194ec0b790be29d7d0f5d7 bf4f4c200f8144fa9dd2e694cf38844a
+#: d9f57d12a7c74840b828de7e8b6795ed dbb7bb6b0dec40ad8c4791094dea88f5
+#: f6656400bfed49aca3a6a21703387eb9
+msgid "Integer"
+msgstr "Integer"
+
+#: ../../source/datasets/catalog/slepemapy.md a9df06e088454c6ca305fb01f4d840b3
+msgid "作答记录编号"
+msgstr "Response record ID"
+
+#: ../../source/datasets/catalog/slepemapy.md 85c462d817994546889244246a99c4b2
+msgid "`user`"
+msgstr "`user`"
+
+#: ../../source/datasets/catalog/slepemapy.md 02bb4842c19644c283c58bb2372e8d31
+msgid "学生编号"
+msgstr "Student ID"
+
+#: ../../source/datasets/catalog/slepemapy.md 7a9a428e78354cb9b6d3b3cf895c2b66
+msgid "`place_asked`"
+msgstr "`place_asked`"
+
+#: ../../source/datasets/catalog/slepemapy.md 2b307c7bb5fc44a1b35eab7bc4bb9553
+msgid "被提问的地理条目编号"
+msgstr "Queried geographic item ID"
+
+#: ../../source/datasets/catalog/slepemapy.md c1b4b98fbac54cdf9ea494a18abb6a7c
+msgid "`place_answered`"
+msgstr "`place_answered`"
+
+#: ../../source/datasets/catalog/slepemapy.md 7443523c8bd840e69fa63b370fac7740
+msgid "学生回答的地理条目编号；回答“不知道”时为空"
+msgstr "Student-answered geographic item ID; null when answering \"don't know\""
+
+#: ../../source/datasets/catalog/slepemapy.md 9c51d2d0fd9a4a4c8dd2d007decfcee7
+#: de267dff70644b2f9874239b9346cfd7
+msgid "`type`"
+msgstr "`type`"
+
+#: ../../source/datasets/catalog/slepemapy.md 00eb2c4b77224876853bbe64e7b1e918
+msgid "题型，1 为在地图上指出给定地点，2 为为高亮地点选择名称"
+msgstr ""
+"Question type: 1 for locating a given place on map, 2 for naming a "
+"highlighted place"
+
+#: ../../source/datasets/catalog/slepemapy.md 5327f706ff4542f586e385db47f8f6c7
+msgid "`inserted`"
+msgstr "`inserted`"
+
+#: ../../source/datasets/catalog/slepemapy.md 0f9ebe5bf9b94ebfa3f380fa5e98d4df
+msgid "Datetime"
+msgstr "Datetime"
+
+#: ../../source/datasets/catalog/slepemapy.md f8bbc58ee0a64814bfb402e13081d014
+msgid "作答记录写入系统的时间"
+msgstr "Time response record was written into system"
+
+#: ../../source/datasets/catalog/slepemapy.md b0c40821947c4d46a79852d2f2c01431
+msgid "`response_time`"
+msgstr "`response_time`"
+
+#: ../../source/datasets/catalog/slepemapy.md cb7d17b0e68d489ebb2db420e4a6131b
+msgid "作答耗时，单位毫秒"
+msgstr "Response duration in milliseconds"
+
+#: ../../source/datasets/catalog/slepemapy.md 6838a5e12aed41a58ad88ffc549b0be4
+msgid "`place_map`"
+msgstr "`place_map`"
+
+#: ../../source/datasets/catalog/slepemapy.md 004d1f50b79c4e99bcf1e998e20ee0d8
+msgid "题目所用地图对应的地理条目编号"
+msgstr "Geographic item ID corresponding to map used in question"
+
+#: ../../source/datasets/catalog/slepemapy.md 6f50480d1f17451881e0d9b35c905097
+msgid "`language`"
+msgstr "`language`"
+
+#: ../../source/datasets/catalog/slepemapy.md f930c5325b244968812de84bc8259956
+msgid "界面语言，0 为捷克语，1 为英语，2 为西班牙语"
+msgstr "Interface language: 0 for Czech, 1 for English, 2 for Spanish"
+
+#: ../../source/datasets/catalog/slepemapy.md 7ffe138ac6904ff58598342aab76c3b5
+msgid "`options`"
+msgstr "`options`"
+
+#: ../../source/datasets/catalog/slepemapy.md 094b3dd4682b49a8a553cb53585e83fb
+#: 38e2ce59c1774747af15220dbe2411a8 89d3e99cd006451fb31a1be0041d453e
+#: ae5e8dd18c2b4282a02f4801df461b92 b41d584547b742feac4711119e160bca
+#: c85f1fb0a1e74be581233eb3549699d7
+msgid "String"
+msgstr "String"
+
+#: ../../source/datasets/catalog/slepemapy.md 91e470c5567a4f889f74cc46aa0b1b37
+msgid "候选项的地理条目编号列表，包含被提问条目"
+msgstr "List of candidate geographic item IDs, including queried item"
+
+#: ../../source/datasets/catalog/slepemapy.md d88b85b5450441da80f49a07c8f5f42b
+msgid "`ip_country`"
+msgstr "`ip_country`"
+
+#: ../../source/datasets/catalog/slepemapy.md 5845bc6981ac4c2196a929a5c9f6493e
+msgid "客户端 IP 所在国家"
+msgstr "Client IP country"
+
+#: ../../source/datasets/catalog/slepemapy.md 029f1961f0ea4be3b76e74ed4a25d2b8
+msgid "`ip_id`"
+msgstr "`ip_id`"
+
+#: ../../source/datasets/catalog/slepemapy.md 0b1d41f46ece4f32b0e768d5e9850536
+msgid "匿名 IP 标识"
+msgstr "Anonymized IP identifier"
+
+#: ../../source/datasets/catalog/slepemapy.md:41
+#: 5fa7b0e4a28344f49c3c80c3b9bb82ec
+msgid "地理条目（`place.csv`）"
+msgstr "Geographic Items (`place.csv`)"
+
+#: ../../source/datasets/catalog/slepemapy.md 7463bbd6e82646a9a62226452f857503
+msgid "地理条目编号"
+msgstr "Geographic item ID"
+
+#: ../../source/datasets/catalog/slepemapy.md cd8c0fe22c714563b695234abe81b1fb
+msgid "`code`"
+msgstr "`code`"
+
+#: ../../source/datasets/catalog/slepemapy.md 05d378f42aed4c87a6e2932da857761d
+msgid "地理条目代码，尽可能使用 ISO 3166-1 alpha-2"
+msgstr "Geographic item code, using ISO 3166-1 alpha-2 where possible"
+
+#: ../../source/datasets/catalog/slepemapy.md 7213d7efaf894543b01ba68442379c99
+#: 9cd47fe1105f4170b2bc5dd88df6bb07
+msgid "`name`"
+msgstr "`name`"
+
+#: ../../source/datasets/catalog/slepemapy.md f53eb6edd2664d6aaec60d2e1ffe559b
+msgid "地理条目名称"
+msgstr "Geographic item name"
+
+#: ../../source/datasets/catalog/slepemapy.md 00b9ef457e6244e89181e9975a4e94f8
+msgid "类型编号，对应 `place_type.csv` 的 `id`"
+msgstr "Type ID, corresponding to `id` in `place_type.csv`"
+
+#: ../../source/datasets/catalog/slepemapy.md 90d3d7fb03584898a932cdb19826d10c
+msgid "`maps`"
+msgstr "`maps`"
+
+#: ../../source/datasets/catalog/slepemapy.md 2db87ed175ae4ec0af8ab207349d41c7
+msgid "出现该条目的地图编号列表"
+msgstr "List of map IDs where this item appears"
+
+#: ../../source/datasets/catalog/slepemapy.md:51
+#: 97b66b56e73340449d72dde06814cbe2
+msgid "地理条目类型（`place_type.csv`）"
+msgstr "Geographic Item Types (`place_type.csv`)"
+
+#: ../../source/datasets/catalog/slepemapy.md 82d9603c338f4a6ca58be2b1888251cc
+msgid "类型编号"
+msgstr "Type ID"
+
+#: ../../source/datasets/catalog/slepemapy.md dd293f0f3b3e4701ade3c51811e70f32
+msgid "类型名称，如 country、city、continent"
+msgstr "Type name, e.g., country, city, continent"

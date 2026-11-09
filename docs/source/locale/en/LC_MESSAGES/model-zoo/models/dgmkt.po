@@ -1,0 +1,122 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/dgmkt.md:1 855963d4792248e8837cf04febf74dae
+msgid "DGMKT"
+msgstr "DGMKT"
+
+#: ../../source/model-zoo/models/dgmkt.md:3 f34965611a7f4b09a16bb412aefa8b32
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/dgmkt.md 329d7e213ab345f194ac7ff80fe42295
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/dgmkt.md 5cfc3747997a400eb0b18bc3329d2196
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/dgmkt.md 70491c91c29c4a9abd80ebeb0c53562a
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/dgmkt.md de19efd81afc49099c6c7b40758134ae
+msgid ""
+"[Leveraging Student Profiles and the Mamba Framework to Enhance Knowledge"
+" Tracing](https://doi.org/10.1007/978-3-032-06109-6_12)"
+msgstr ""
+"[Leveraging Student Profiles and the Mamba Framework to Enhance Knowledge"
+" Tracing](https://doi.org/10.1007/978-3-032-06109-6_12)"
+
+#: ../../source/model-zoo/models/dgmkt.md 11c975771e4e47a3ad334c13c2af491e
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/dgmkt.md 3dddfa110a0c435b9e8bc09226782a83
+msgid ""
+"Mingxing Shao, Tiancheng Zhang, Minghe Yu, Zhenghao Liu, Yifang Yin, "
+"Hengyu Liu, Ge Yu"
+msgstr ""
+"Mingxing Shao, Tiancheng Zhang, Minghe Yu, Zhenghao Liu, Yifang Yin, "
+"Hengyu Liu, Ge Yu"
+
+#: ../../source/model-zoo/models/dgmkt.md ea77d53dd8184c4b8886d4e4b21aa77a
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/dgmkt.md 88eb96c60cf34a649cd37079a20e59da
+msgid "2025"
+msgstr "2025"
+
+#: ../../source/model-zoo/models/dgmkt.md ec89b800831e4bfabb5cde16cf204d01
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/dgmkt.md 19e14d7ee0da4c81b3caf02f083e43bb
+msgid "ECML PKDD 2025（Lecture Notes in Computer Science, 16019, pp. 201–218）"
+msgstr "ECML PKDD 2025 (Lecture Notes in Computer Science, 16019, pp. 201–218)"
+
+#: ../../source/model-zoo/models/dgmkt.md:12 b5a47ab32e9a4d27a30ebf8626807ecf
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/dgmkt.md:14 4a04e62aa47f4aa3a8362a715a83b09d
+msgid ""
+"Knowledge tracing (KT) predicts students' knowledge mastery based on "
+"their interaction history to forecast future performance. Although "
+"current KT methods have achieved good results, because of the lacking of "
+"students' information, these methods can only make sequence-level "
+"inference, assuming that students are independent and homogeneous. "
+"Additionally, due to the typically long student sequences in KT tasks, "
+"mainstream RNN-based student state modeling methods suffer from long-"
+"sequence forgetting, while attention-based models require manually set "
+"bias functions. To address these issues, this paper proposes a Dual-Graph"
+" Mamba framework for Knowledge Tracing (DGMKT), which models student "
+"profiles based on students' interaction sequence through a Dual-Graph "
+"Student-Profile Aware Module (DGSPM). Meanwhile, we model student mastery"
+" states based on Mamba, avoiding the long-sequence forgetting problem in "
+"RNN-based models and the need for bias functions in attention-based "
+"models for KT tasks. To the best of our knowledge, this is the first "
+"application of the Mamba architecture in KT tasks. We evaluate DGMKT on "
+"four datasets and compare it with ten baselines to demonstrate its "
+"superiority. Furthermore, we showcase its broad adaptability by "
+"integrating DGSPM with various KT models."
+msgstr ""
+"Knowledge tracing (KT) predicts students' knowledge mastery based on "
+"their interaction history to forecast future performance. Although "
+"current KT methods have achieved good results, because of the lacking of "
+"students' information, these methods can only make sequence-level "
+"inference, assuming that students are independent and homogeneous. "
+"Additionally, due to the typically long student sequences in KT tasks, "
+"mainstream RNN-based student state modeling methods suffer from long-"
+"sequence forgetting, while attention-based models require manually set "
+"bias functions. To address these issues, this paper proposes a Dual-Graph"
+" Mamba framework for Knowledge Tracing (DGMKT), which models student "
+"profiles based on students' interaction sequence through a Dual-Graph "
+"Student-Profile Aware Module (DGSPM). Meanwhile, we model student mastery"
+" states based on Mamba, avoiding the long-sequence forgetting problem in "
+"RNN-based models and the need for bias functions in attention-based "
+"models for KT tasks. To the best of our knowledge, this is the first "
+"application of the Mamba architecture in KT tasks. We evaluate DGMKT on "
+"four datasets and compare it with ten baselines to demonstrate its "
+"superiority. Furthermore, we showcase its broad adaptability by "
+"integrating DGSPM with various KT models."

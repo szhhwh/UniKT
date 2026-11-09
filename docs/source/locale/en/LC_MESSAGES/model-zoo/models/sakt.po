@@ -1,0 +1,133 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/sakt.md:1 546eac36927344df88675cce4a5a37ca
+msgid "SAKT"
+msgstr "SAKT"
+
+#: ../../source/model-zoo/models/sakt.md:3 ed04660ce0d24b988736002879058f7e
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/sakt.md 32426ef1bc804ecf92df1885b0417b4c
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/sakt.md 9f8f931dc9434368b74878b54988db67
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/sakt.md a0995a7d9d474960a7fc215702396227
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/sakt.md 12902bf0c6bc4d5696938916433a2923
+msgid ""
+"[A Self-Attentive model for Knowledge "
+"Tracing](https://doi.org/10.48550/arxiv.1907.06837)"
+msgstr ""
+"[A Self-Attentive model for Knowledge "
+"Tracing](https://doi.org/10.48550/arxiv.1907.06837)"
+
+#: ../../source/model-zoo/models/sakt.md aeeeebdebe934606864666ebb547a765
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/sakt.md cad8aff3a12349bd8643272fd8273c3f
+msgid "Shalini Pandey, George Karypis"
+msgstr "Shalini Pandey, George Karypis"
+
+#: ../../source/model-zoo/models/sakt.md 1d797c81c9d141c786ca512e3b006324
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/sakt.md 5e9467bda9d04de0a86a2def6d55a66f
+msgid "2019"
+msgstr "2019"
+
+#: ../../source/model-zoo/models/sakt.md 361313f6542746d4a7e0083ec72b8aed
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/sakt.md 7aaba0c5d00944319465476e3e2e1508
+msgid "arXiv (Cornell University)"
+msgstr "arXiv (Cornell University)"
+
+#: ../../source/model-zoo/models/sakt.md:12 8b351bea91ac4f1d86eb360c203d8f7d
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/sakt.md:14 09b60ba889084aa986075f50b103f17a
+#, python-brace-format, python-format
+msgid ""
+"Knowledge tracing is the task of modeling each student's mastery of "
+"knowledge concepts (KCs) as (s)he engages with a sequence of learning "
+"activities. Each student's knowledge is modeled by estimating the "
+"performance of the student on the learning activities. It is an important"
+" research area for providing a personalized learning platform to "
+"students. In recent years, methods based on Recurrent Neural Networks "
+"(RNN) such as Deep Knowledge Tracing (DKT) and Dynamic Key-Value Memory "
+"Network (DKVMN) outperformed all the traditional methods because of their"
+" ability to capture complex representation of human learning. However, "
+"these methods face the issue of not generalizing well while dealing with "
+"sparse data which is the case with real-world data as students interact "
+"with few KCs. In order to address this issue, we develop an approach that"
+" identifies the KCs from the student's past activities that are "
+"\\textit{relevant} to the given KC and predicts his/her mastery based on "
+"the relatively few KCs that it picked. Since predictions are made based "
+"on relatively few past activities, it handles the data sparsity problem "
+"better than the methods based on RNN. For identifying the relevance "
+"between the KCs, we propose a self-attention based approach, Self "
+"Attentive Knowledge Tracing (SAKT). Extensive experimentation on a "
+"variety of real-world dataset shows that our model outperforms the state-"
+"of-the-art models for knowledge tracing, improving AUC by 4.43% on "
+"average."
+msgstr ""
+"Knowledge tracing is the task of modeling each student's mastery of "
+"knowledge concepts (KCs) as (s)he engages with a sequence of learning "
+"activities. Each student's knowledge is modeled by estimating the "
+"performance of the student on the learning activities. It is an important"
+" research area for providing a personalized learning platform to "
+"students. In recent years, methods based on Recurrent Neural Networks "
+"(RNN) such as Deep Knowledge Tracing (DKT) and Dynamic Key-Value Memory "
+"Network (DKVMN) outperformed all the traditional methods because of their"
+" ability to capture complex representation of human learning. However, "
+"these methods face the issue of not generalizing well while dealing with "
+"sparse data which is the case with real-world data as students interact "
+"with few KCs. In order to address this issue, we develop an approach that"
+" identifies the KCs from the student's past activities that are "
+"\\textit{relevant} to the given KC and predicts his/her mastery based on "
+"the relatively few KCs that it picked. Since predictions are made based "
+"on relatively few past activities, it handles the data sparsity problem "
+"better than the methods based on RNN. For identifying the relevance "
+"between the KCs, we propose a self-attention based approach, Self "
+"Attentive Knowledge Tracing (SAKT). Extensive experimentation on a "
+"variety of real-world dataset shows that our model outperforms the state-"
+"of-the-art models for knowledge tracing, improving AUC by 4.43% on "
+"average."
+
+#: ../../source/model-zoo/models/sakt.md:17 7035cfab22c9400e832fb91d32a463bb
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/sakt.md:19 ab8d991f47a343da857221376f398b24
+msgid "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"
+msgstr "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"

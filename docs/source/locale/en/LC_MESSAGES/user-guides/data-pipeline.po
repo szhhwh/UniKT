@@ -1,0 +1,577 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/user-guides/data-pipeline.md:1 0693275f86c741abb33fbef0b480442a
+msgid "数据处理管线"
+msgstr "Data Processing Pipeline"
+
+#: ../../source/user-guides/data-pipeline.md:3 b760f9ee67d843cb9541937d30cced09
+msgid ""
+"UniKT 提供了一套高吞吐、强类型、抗数据泄露的数据处理管线，通过统一入口 `data_process.py` "
+"完成原始数据的下载、格式转换、特征工程与 K 折划分。"
+msgstr ""
+"UniKT provides a high-throughput, strongly typed, leak-free data "
+"processing pipeline driving raw data downloading, ETL transformations, "
+"feature engineering, and K-fold partitioning through `data_process.py`."
+
+#: ../../source/user-guides/data-pipeline.md:7 300242a93b104b06bc99e18d4cbc4485
+msgid "工作流与执行命令"
+msgstr "Workflow and Execution Commands"
+
+#: ../../source/user-guides/data-pipeline.md:9 691f225c400a422bba71398d9cc1937f
+msgid "数据预处理分为两个主要阶段：**下载阶段 `download`** 与 **处理阶段 `process`**。完整的数据处理包含五个步骤："
+msgstr ""
+"Data preprocessing consists of two main stages: **downloading "
+"(`download`)** and **processing (`process`)**. The complete workflow "
+"encompasses five steps:"
+
+#: ../../source/user-guides/data-pipeline.md:11
+#: 195618c55663464989b26b679d272ae5
+msgid ""
+"**拉取原始数据**：通过 `data_process.py download` 从官方镜像或 CDN 下载原始压缩包，解压到 "
+"`data/<dataset>/raw/`。"
+msgstr ""
+"**Pull Raw Data**: Download raw archives from official sources or CDN "
+"mirrors via `data_process.py download`, extracting to "
+"`data/<dataset>/raw/`."
+
+#: ../../source/user-guides/data-pipeline.md:12
+#: 323bdc15efe74396a663dd33ad82596e
+msgid ""
+"**清洗与 ID 映射**：通过 `data_process.py process` 使用 Polars "
+"过滤缺省值并为学生、题目与知识点重新分配紧凑自增编号。"
+msgstr ""
+"**Clean & ID Mapping**: Use Polars in `data_process.py process` to filter"
+" missing values and assign compact contiguous integer IDs to students, "
+"questions, and skills."
+
+#: ../../source/user-guides/data-pipeline.md:13
+#: 6997a33664284b7aa3504d08a32b3b3f
+msgid "**零泄露划分**：按学生总体答题量与正答率分层划分为 5 折，并独立保留 Held-out 测试集。"
+msgstr ""
+"**Zero-Leakage Splitting**: Stratifies all students into 5 folds based on"
+" total interactions and accuracy, holding out an isolated test set."
+
+#: ../../source/user-guides/data-pipeline.md:14
+#: e7a37aab375c49d2afeee1301259f612
+msgid "**序列截断与展开**：根据配置的序列长度限制进行滑窗切分或截断。"
+msgstr ""
+"**Sequence Slicing & Expansion**: Slices or truncates sequences according"
+" to maximum length budgets."
+
+#: ../../source/user-guides/data-pipeline.md:15
+#: faf01786400946b99e5892275736cd54
+msgid "**规范化落盘**：统一导出标准化 Parquet 数据表与 `metadata.json` 数据集统计元信息。"
+msgstr ""
+"**Standardized Export**: Serializes normalized Parquet tables and dataset"
+" summary statistics in `metadata.json`."
+
+#: ../../source/user-guides/data-pipeline.md:17
+#: de872759d3394dff997557f59b4d7d6b
+msgid "1. 下载原始数据"
+msgstr "1\\. Download Raw Data"
+
+#: ../../source/user-guides/data-pipeline.md:19
+#: 0f3eecd63ab54af6b315658fee9c30d8
+msgid ""
+"# 下载指定数据集，自动解压至 data/<dataset>/raw/\n"
+"python data_process.py download -d assistments09\n"
+"\n"
+"# 强制重新下载，覆盖本地已有 raw 缓存\n"
+"python data_process.py download -d assistments09 --force true\n"
+"\n"
+"# 指定并发下载线程数\n"
+"python data_process.py download -d assistments09 --num_threads 8\n"
+msgstr ""
+"# Download the specified dataset and extract it to data/<dataset>/raw/\n"
+"python data_process.py download -d assistments09\n"
+"\n"
+"# Force a fresh download that overwrites the local raw cache\n"
+"python data_process.py download -d assistments09 --force true\n"
+"\n"
+"# Set the number of concurrent download threads\n"
+"python data_process.py download -d assistments09 --num_threads 8"
+
+#: ../../source/user-guides/data-pipeline.md:30
+#: 651afba024b14f14a2815a79c4bf9179
+msgid "2. 执行预处理流水线"
+msgstr "2\\. Run Preprocessing Pipeline"
+
+#: ../../source/user-guides/data-pipeline.md:32
+#: f790c5e1807547bfb64a921798b39db7
+msgid ""
+"# 使用默认配置进行处理，采用 5 折交叉验证与默认序列长度范围\n"
+"python data_process.py process -d assistments09\n"
+"\n"
+"# 自定义序列长度与折数\n"
+"python data_process.py process -d assistments09 \\\n"
+"    --data.min_seq_len 5 \\\n"
+"    --data.max_seq_len 150 \\\n"
+"    --data.kfold 5 \\\n"
+"    --data.test_ratio 0.2\n"
+"\n"
+"# 启用 windowlate 滑窗特征增强\n"
+"python data_process.py process -d assistments09 --extra windowlate\n"
+msgstr ""
+"# Run preprocessing with default settings (5-fold cross-validation and "
+"default length range)\n"
+"python data_process.py process -d assistments09\n"
+"\n"
+"# Custom sequence length bounds and fold count\n"
+"python data_process.py process -d assistments09 \\\n"
+"    --data.min_seq_len 5 \\\n"
+"    --data.max_seq_len 150 \\\n"
+"    --data.kfold 5 \\\n"
+"    --data.test_ratio 0.2\n"
+"\n"
+"# Enable windowlate sliding window feature augmentation\n"
+"python data_process.py process -d assistments09 --extra windowlate\n"
+
+#: ../../source/user-guides/data-pipeline.md:49
+#: f8f597da59374c9e87cf074e48a8f82b
+msgid "产物目录与文件结构"
+msgstr "Artifact Directory and File Structure"
+
+#: ../../source/user-guides/data-pipeline.md:51
+#: 7c7834ff59ed4d2eaa50d5182154eb27
+msgid "预处理完成后，数据集目录（以 `data/assistments09/` 为例）包含以下标准文件："
+msgstr ""
+"Following preprocessing, dataset directories (e.g., "
+"`data/assistments09/`) contain the following standardized files:"
+
+#: ../../source/user-guides/data-pipeline.md:53
+#: ffedf62cf4774c9dafb1b0734960db32
+msgid ""
+"data/assistments09/\n"
+"├── raw/                                                # 下载并解压的原始 "
+"CSV/TXT 文件\n"
+"├── assistments09_sequence.parquet                      # 全局清洗后的学生交互完整时序表"
+"\n"
+"├── assistments09_split_question_sequence.parquet       # 题目级切片序列表 (供 "
+"QuestionModelData 读取)\n"
+"├── assistments09_split_skill_sequence.parquet          # 技能级切片序列表 (供 "
+"SkillModelData 读取)\n"
+"├── assistments09_relation_question_skill.parquet       # 题目-技能关联二部图关系表\n"
+"├── assistments09_relation_question_assignment.parquet  # (可选) 题目-作业集合关联表"
+"\n"
+"├── assistments09_relation_question_template.parquet    # (可选) 题目-模板关联表\n"
+"└── metadata.json                                       # 数据集元数据与文件哈希快照\n"
+msgstr ""
+"data/assistments09/\n"
+"├── raw/                                                # Downloaded raw "
+"CSV/TXT files\n"
+"├── assistments09_sequence.parquet                      # Master cleaned "
+"chronological interaction table\n"
+"├── assistments09_split_question_sequence.parquet       # Question-level "
+"sliced sequence table (for QuestionModelData)\n"
+"├── assistments09_split_skill_sequence.parquet          # Skill-level "
+"sliced sequence table (for SkillModelData)\n"
+"├── assistments09_relation_question_skill.parquet       # Question-skill "
+"bipartite graph table\n"
+"├── assistments09_relation_question_assignment.parquet  # (Optional) "
+"Question-assignment mapping table\n"
+"├── assistments09_relation_question_template.parquet    # (Optional) "
+"Question-template mapping table\n"
+"└── metadata.json                                       # Dataset "
+"metadata and file checksum snapshot\n"
+
+#: ../../source/user-guides/data-pipeline.md:67
+#: 77cc1fe84ef44360b0e2a9c69fe0bbb2
+msgid "核心输出文件详解"
+msgstr "Core Output Files Explained"
+
+#: ../../source/user-guides/data-pipeline.md:69
+#: d405471345334b8996aac3f614349dc5
+msgid "1. 全局交互表"
+msgstr "1\\. Master Interaction Table"
+
+#: ../../source/user-guides/data-pipeline.md:71
+#: 1af5b3d29b9e42c0afaf06bf5ce10b0c
+msgid "记录学生按时间严格排序的完整作答历史，是生成切片序列的源头。"
+msgstr ""
+"Records complete chronological interaction histories of students; serves "
+"as the foundation for sequence slicing."
+
+#: ../../source/user-guides/data-pipeline.md 1696c7fb6e3349a59ed9f6f4b729700e
+#: 7bac5ef5923b4b07bfc087c0877d7337 e9efcfaf5933499f95ab4a342e0a8092
+msgid "字段名称"
+msgstr "Field Name"
+
+#: ../../source/user-guides/data-pipeline.md 07335e9c2c3a4571a9e1733f9d87ff28
+#: 7616b564acbf4116a19c633d1047d5a6 c04bea2914434c25b5965b85e16c0146
+msgid "类型"
+msgstr "Type"
+
+#: ../../source/user-guides/data-pipeline.md 38783ca1ff78412e81b8c4dd3678a71b
+#: c79475cf8d1c484a870a2ab4d7834f70 e611ca8215164edcbef3434762ab38b7
+msgid "含义说明"
+msgstr "Field Description"
+
+#: ../../source/user-guides/data-pipeline.md f0b168ec33ac4538bf02b9f279832faa
+msgid "`interaction_id`"
+msgstr "`interaction_id`"
+
+#: ../../source/user-guides/data-pipeline.md 1ba3a0caf41e4e67b9102af86a9c1f72
+#: 27021af5a6114abfb16c0a5fd039399e 5fcedb9db70443f3a5b314240b821986
+#: 8509a0a4dbe348d2bc2e07f7a8a9eb5c 9a6133e4cb7b46b1b36bb6abbc816212
+#: d49d5c99f8f44a62b63248fe7822941a e54b9dbd1a89412094f37970c2ff02aa
+msgid "`Int64`"
+msgstr "`Int64`"
+
+#: ../../source/user-guides/data-pipeline.md c26dd7c5da044f2ca8796efdc095ab9d
+msgid "全局唯一的交互事件 ID"
+msgstr "Globally unique interaction event ID"
+
+#: ../../source/user-guides/data-pipeline.md 6b0aeec7fa224a528cd0621d7f3131c0
+msgid "`user`"
+msgstr "`user`"
+
+#: ../../source/user-guides/data-pipeline.md 35bfb53875f842b5bfcb91cbd842d3c3
+#: 6eedb20d079e491f841b506364374627 9c24b5f13b754445a6064d0f091c6a60
+#: ab55844beed94177b39221a98a6c3807 afdba8d16e8f49cb89c1172d98c526da
+#: c71982c858d8477787cf093a05746deb d466882a6a0b4adb9eab904f65d1443f
+msgid "`Int32`"
+msgstr "`Int32`"
+
+#: ../../source/user-guides/data-pipeline.md ebf9a59a45814f04901d8654013fc969
+msgid "重新映射后的学生 ID，取值范围 `[0, num_users - 1]`"
+msgstr "Remapped student ID in range `[0, num_users - 1]`"
+
+#: ../../source/user-guides/data-pipeline.md 1a2b203f95f6494ea450796afc60de52
+#: 8f22d8f9ff92498f8caadf9fefa18e89
+msgid "`question`"
+msgstr "`question`"
+
+#: ../../source/user-guides/data-pipeline.md 677de57eb03d46d9b62067170ba3b3c1
+msgid "重新映射后的题目 ID，取值范围 `[0, num_questions - 1]`"
+msgstr "Remapped question ID in range `[0, num_questions - 1]`"
+
+#: ../../source/user-guides/data-pipeline.md 62ae4848825f4a4cbd1498cfe281c0d4
+msgid "`skills`"
+msgstr "`skills`"
+
+#: ../../source/user-guides/data-pipeline.md 219a71fa69074f82aa603f27aab161ce
+msgid "`List(Int32)`"
+msgstr "`List(Int32)`"
+
+#: ../../source/user-guides/data-pipeline.md 4fe3618d1a3c4b828d3233d77543d63a
+msgid "该题目关联的技能 ID 列表（支持单题关联多技能）"
+msgstr "List of associated skill IDs (supports multi-skill mappings)"
+
+#: ../../source/user-guides/data-pipeline.md 2151427f95f448d2b6ff23b0572c1dc5
+msgid "`label`"
+msgstr "`label`"
+
+#: ../../source/user-guides/data-pipeline.md 6c553ec96d0e4f3380c526e69a1aa759
+msgid "作答结果：`1` 表示正确，`0` 表示错误"
+msgstr "Response outcome: `1` for correct, `0` for incorrect"
+
+#: ../../source/user-guides/data-pipeline.md a52d4abd22b5416a902fb02cc329f039
+msgid "`timestamp`"
+msgstr "`timestamp`"
+
+#: ../../source/user-guides/data-pipeline.md fc705d0c96a544af9fb61279f3f09603
+msgid "毫秒级相对时间戳（以该数据集最早事件时间为基准点 `0`）"
+msgstr ""
+"Relative millisecond timestamp (calibrated from baseline `0` at earliest "
+"event)"
+
+#: ../../source/user-guides/data-pipeline.md 0df3d2333c034b298e78bc378134739c
+#: f076cb4f92244846bf39c694871d8404
+msgid "`fold`"
+msgstr "`fold`"
+
+#: ../../source/user-guides/data-pipeline.md 1be087047ef54b57bb2308fd4f277608
+msgid "数据划分归属：`-1` 代表留出测试集，`0` 到 `K-1` 代表交叉验证折"
+msgstr ""
+"Partition assignment: `-1` for held-out test set, `0` to `K-1` for cross-"
+"validation folds"
+
+#: ../../source/user-guides/data-pipeline.md 498541ac26f34c2c841bdd1a6fd50737
+msgid "`attempt_count`"
+msgstr "`attempt_count`"
+
+#: ../../source/user-guides/data-pipeline.md 8d75d972048c4b2f8963d1c2bffa290f
+msgid "尝试作答次数（若原数据集无此特征则设为 `1`）"
+msgstr "Number of attempts (set to `1` if unavailable)"
+
+#: ../../source/user-guides/data-pipeline.md ce573f389d92477c90e0079459b30bd6
+msgid "`hint_count`"
+msgstr "`hint_count`"
+
+#: ../../source/user-guides/data-pipeline.md 38968fa94a63476981966db3a60934af
+msgid "索取提示次数（若原数据集无此特征则设为 `0`）"
+msgstr "Number of hints requested (set to `0` if unavailable)"
+
+#: ../../source/user-guides/data-pipeline.md 41ec511d155e462c884e60408dff7e43
+msgid "`ms_first_response`"
+msgstr "`ms_first_response`"
+
+#: ../../source/user-guides/data-pipeline.md c64025e901c34646a0cd9931338c9aa5
+msgid "首次作答耗时（毫秒）"
+msgstr "First response duration (milliseconds)"
+
+#: ../../source/user-guides/data-pipeline.md:86
+#: 9f0628761fa24a0bba407b3e4f64ec51
+msgid "2. 切片序列数据"
+msgstr "2\\. Sliced Sequence Data"
+
+#: ../../source/user-guides/data-pipeline.md:88
+#: 5c2965ea586644a78f4ed8cbbf904365
+msgid ""
+"深度学习知识追踪模型通常无法直接处理极长的不规则序列（如数千步交互）。UniKT 会根据 `max_seq_len` "
+"将每个长序列切分为固定预算的子序列："
+msgstr ""
+"Deep Knowledge Tracing models typically cannot process arbitrarily long "
+"ragged sequences. UniKT slices lengthy histories into sub-sequences "
+"within `max_seq_len` budgets:"
+
+#: ../../source/user-guides/data-pipeline.md:90
+#: c0cb20b0611a446cb3a95c2e52f78f4d
+#, python-brace-format
+msgid ""
+"**`{dataset}_split_question_sequence.parquet`**：用于题目级模型（如 "
+"SimpleKTQ、AKT、DKT 等面向题目的实现）。一行对应一次题目交互，`skills` 保留为 `List(Int32)`。"
+msgstr ""
+"**`{dataset}_split_question_sequence.parquet`**: For question-level "
+"models (e.g., SimpleKTQ, AKT, item-centric DKT). Each row corresponds to "
+"a question attempt, preserving `skills` as `List(Int32)`."
+
+#: ../../source/user-guides/data-pipeline.md:91
+#: 8a4cb187702f40119592acac89db302b
+#, python-brace-format
+msgid ""
+"**`{dataset}_split_skill_sequence.parquet`**：用于技能级模型（如 DKT、DKVMN、GKT "
+"等面向技能概念的模型）。若一道题关联多个技能，管线会在此表中展开为多行，并将 `skill` 投影为单值 `Int32`。"
+msgstr ""
+"**`{dataset}_split_skill_sequence.parquet`**: For skill-level models "
+"(e.g., DKT, DKVMN, GKT). Multi-skill questions are expanded into multiple"
+" rows with `skill` projected to scalar `Int32`."
+
+#: ../../source/user-guides/data-pipeline.md:93
+#: 0b542ddeb29e4409899238c9379b98d6
+msgid "切片表特有字段："
+msgstr "Fields Unique to Sliced Tables:"
+
+#: ../../source/user-guides/data-pipeline.md 319be935a1494ad79d11a68be537282b
+msgid "`sequence_id`"
+msgstr "`sequence_id`"
+
+#: ../../source/user-guides/data-pipeline.md b1480c5113504ad895828bb22b87cc8a
+msgid "切片子序列的全局唯一标识符"
+msgstr "Globally unique sliced sequence identifier"
+
+#: ../../source/user-guides/data-pipeline.md 09f951adfd4e4e5ea97218e0550027b0
+msgid "`seq_pos`"
+msgstr "`seq_pos`"
+
+#: ../../source/user-guides/data-pipeline.md 0bc9b638e82647269e72903f34705a77
+msgid "该交互在当前子序列中的相对索引，从 `0` 到 `split_len - 1`"
+msgstr ""
+"Relative interaction index within current slice, from `0` to `split_len -"
+" 1`"
+
+#: ../../source/user-guides/data-pipeline.md a40ecfbde8c949a7be03da34202dc074
+msgid "继承自对应学生的 `fold` 标签，确保切片后划分依然严谨对齐"
+msgstr "Inherited `fold` label from student, ensuring leak-free partitioning"
+
+#: ../../source/user-guides/data-pipeline.md:101
+#: 8d99e6093313454bad39ebef92539cc6
+msgid "3. 实体关系表"
+msgstr "3\\. Entity Relation Tables"
+
+#: ../../source/user-guides/data-pipeline.md:103
+#: 1ec4fbc6d81e4de9a93814d2636611a0
+msgid "用于构建图神经网络拓扑结构（如 GIKT, SGKT, HDHKT）或 Q 矩阵。最核心的关系表为 `question_skill`："
+msgstr ""
+"Used for constructing GNN graph topologies (e.g., GIKT, SGKT, HDHKT) or "
+"Q-matrices. The primary relation table is `question_skill`:"
+
+#: ../../source/user-guides/data-pipeline.md 0686209617994e24b41b8e212532f822
+msgid "题目标识"
+msgstr "Question identifier"
+
+#: ../../source/user-guides/data-pipeline.md 91a26de03f1248e0979a2d036ef1f1a7
+msgid "`skill`"
+msgstr "`skill`"
+
+#: ../../source/user-guides/data-pipeline.md cdb229580b85493a98d8739fd37df739
+msgid "关联的技能概念标识"
+msgstr "Associated skill concept identifier"
+
+#: ../../source/user-guides/data-pipeline.md:112
+#: 0f81f4f5b8ca4c05910454555a826547
+msgid "序列截断与展开策略"
+msgstr "Sequence Truncation and Expansion Strategies"
+
+#: ../../source/user-guides/data-pipeline.md:114
+#: 3ed0c34aa64c4288a15f57cfa537be92
+msgid ""
+"知识追踪领域的一大经典技术难点在于：**多技能题目在转换为技能序列时，截断应发生在 KC 展开前还是展开后？** UniKT 通过 "
+"`--data.truncation_stage` 提供了显式控制："
+msgstr ""
+"A classic technical nuance in knowledge tracing is: **should multi-skill "
+"items be truncated before or after skill expansion?** UniKT provides "
+"explicit control via `--data.truncation_stage`:"
+
+#: ../../source/user-guides/data-pipeline.md:116
+#: 2f51c963070848bab726b21a2a6e005c
+msgid "**`post_expansion`（默认，推荐）**："
+msgstr "**`post_expansion` (Default, Recommended)**:"
+
+#: ../../source/user-guides/data-pipeline.md:117
+#: 0ef3104dcde44eb8a1c953f2b3522816
+msgid "先对单次题目的多个技能进行行展开，然后再按 `max_seq_len` 进行切块截断。"
+msgstr ""
+"Expands multi-skill questions into separate rows first, then truncates "
+"blocks by `max_seq_len`."
+
+#: ../../source/user-guides/data-pipeline.md:118
+#: 49f8cbf9cf01443b9020462178a13aa2
+msgid ""
+"**特点**：保证每个子序列中的技能行数绝对不超过 "
+"`max_seq_len`，张量对齐简单；但在极少数情况下，同一道题关联的多个技能可能会被边界切开在两个相邻子序列中。"
+msgstr ""
+"**Characteristics**: Guarantees skill row count in each sub-sequence "
+"never exceeds `max_seq_len`, simplifying tensor padding; rarely, skills "
+"belonging to one question might split across slice boundaries."
+
+#: ../../source/user-guides/data-pipeline.md:119
+#: 755f3772a17b42da87849e669c5a575c
+msgid "**`pre_expansion`**："
+msgstr "**`pre_expansion`**:"
+
+#: ../../source/user-guides/data-pipeline.md:120
+#: 7dfd5d0d50364264911f5f39d4d00caa
+msgid "先对题目的交互事件进行截断切块（每块最多 `max_seq_len` 次答题），再在块内展开技能。"
+msgstr ""
+"Truncates question interaction events into chunks first (at most "
+"`max_seq_len` attempts per chunk), then expands skills within each chunk."
+
+#: ../../source/user-guides/data-pipeline.md:121
+#: aa1bc7ce67d9437381f952be5abb1b6a
+msgid ""
+"**特点**：保证同一道题的所有技能永远处于同一个子序列内；展开后的实际行数可能略大于 `max_seq_len`，框架运行时会自动根据 "
+"`metadata.json` 中记录的真实最大长度动态适配张量。"
+msgstr ""
+"**Characteristics**: Ensures all skills of a question remain in the same "
+"sub-sequence; expanded row counts may slightly exceed `max_seq_len`, "
+"which the framework dynamically accommodates via the actual maximum "
+"length in `metadata.json`."
+
+#: ../../source/user-guides/data-pipeline.md:125
+#: 3ee26e65d126472f8e6fbecf3aae7db4
+msgid "数据集采样策略"
+msgstr "Dataset Sampling Strategies"
+
+#: ../../source/user-guides/data-pipeline.md:127
+#: f601aad0697f4e7c97c29a35c54f93e6
+msgid "对于超大规模数据集（如 EdNet 或 Junyi），UniKT 提供了内置采样逻辑，在不破坏统计分布的前提下加速原型开发："
+msgstr ""
+"For ultra-large datasets (such as EdNet or Junyi), UniKT provides built-"
+"in sampling to accelerate prototyping without perturbing statistical "
+"distributions:"
+
+#: ../../source/user-guides/data-pipeline.md:129
+#: fe13313db9e348e391ccf4f431fe1607
+msgid ""
+"# 1. 绝对数量采样：随机抽取 1,000 名学生及其全部答题历史\n"
+"python data_process.py process -d junyi2015 --data.sample_size 1000 "
+"--data.sample_strategy random\n"
+"\n"
+"# 2. 比例采样：抽取 10% 的学生\n"
+"python data_process.py process -d ednet_kt1 --data.sample_ratio 0.1\n"
+"\n"
+"# 3. 分层采样：按作答量与答对率分箱保持分布一致性\n"
+"python data_process.py process -d junyi2015 \\\n"
+"    --data.sample_size 5000 \\\n"
+"    --data.sample_strategy stratified \\\n"
+"    --data.sample_attempts_bins [20, 100, 500] \\\n"
+"    --data.sample_correct_bins [0.3, 0.7]\n"
+msgstr ""
+"# 1. Absolute count sampling: randomly draw 1,000 students and their full"
+" interaction histories\n"
+"python data_process.py process -d junyi2015 --data.sample_size 1000 "
+"--data.sample_strategy random\n"
+"\n"
+"# 2. Ratio sampling: draw 10% of students\n"
+"python data_process.py process -d ednet_kt1 --data.sample_ratio 0.1\n"
+"\n"
+"# 3. Stratified sampling: bin by attempts and accuracy to preserve "
+"distributions\n"
+"python data_process.py process -d junyi2015 \\\n"
+"    --data.sample_size 5000 \\\n"
+"    --data.sample_strategy stratified \\\n"
+"    --data.sample_attempts_bins [20, 100, 500] \\\n"
+"    --data.sample_correct_bins [0.3, 0.7]\n"
+
+#: ../../source/user-guides/data-pipeline.md:146
+#: 1436ea8fa9954ef58d812edccd9adb03
+msgid "元数据快照"
+msgstr "Metadata Snapshot"
+
+#: ../../source/user-guides/data-pipeline.md:148
+#: 64919b6cfa0343438f7a27b8a643981d
+msgid ""
+"每次运行 `process` 后，框架自动在数据集根目录下写入 `metadata.json`。模型训练时将自动读取该文件，用于初始化 "
+"Embedding 层的词表大小及 DataLoader 的 Padding 上限："
+msgstr ""
+"After each `process` run, the framework writes `metadata.json` to the "
+"dataset root. Model training reads this file automatically to initialize "
+"Embedding vocabulary sizes and DataLoader padding bounds:"
+
+#: ../../source/user-guides/data-pipeline.md:150
+#: 4f4add7e831b479cacd46a138c4edaf5
+#, python-brace-format
+msgid ""
+"{\n"
+"    \"dataset\": \"assistments09\",\n"
+"    \"num_users\": 3852,\n"
+"    \"num_questions\": 17702,\n"
+"    \"num_skills\": 123,\n"
+"    \"min_seq_len\": 3,\n"
+"    \"max_question_seq_len\": 200,\n"
+"    \"max_skill_seq_len\": 200,\n"
+"    \"truncation_stage\": \"post_expansion\",\n"
+"    \"kfold_n_splits\": 5,\n"
+"    \"test_ratio\": 0.2,\n"
+"    \"random_seed\": 42,\n"
+"    \"sequence_data_md5\": \"e307060db821a897bf188dfc821bd4a0\",\n"
+"    \"relation_question_skill_md5\": \"c6d52e345bcf8edcb48f1b98ea785a4a\""
+"\n"
+"}\n"
+msgstr ""
+"{\n"
+"    \"dataset\": \"assistments09\",\n"
+"    \"num_users\": 3852,\n"
+"    \"num_questions\": 17702,\n"
+"    \"num_skills\": 123,\n"
+"    \"min_seq_len\": 3,\n"
+"    \"max_question_seq_len\": 200,\n"
+"    \"max_skill_seq_len\": 200,\n"
+"    \"truncation_stage\": \"post_expansion\",\n"
+"    \"kfold_n_splits\": 5,\n"
+"    \"test_ratio\": 0.2,\n"
+"    \"random_seed\": 42,\n"
+"    \"sequence_data_md5\": \"e307060db821a897bf188dfc821bd4a0\",\n"
+"    \"relation_question_skill_md5\": \"c6d52e345bcf8edcb48f1b98ea785a4a\""
+"\n"
+"}\n"

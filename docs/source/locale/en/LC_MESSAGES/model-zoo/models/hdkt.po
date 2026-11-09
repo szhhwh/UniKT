@@ -1,0 +1,154 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/hdkt.md:1 15f2fd30ddb0428e9dac4fdb35abe6a0
+msgid "HDKT"
+msgstr "HDKT"
+
+#: ../../source/model-zoo/models/hdkt.md:3 ff60fd3fd98d4cdfb35149e407d243be
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/hdkt.md 21341ec77c364571bdff45117719ee98
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/hdkt.md 3588593410e94fca8de7e8eeceb8aad7
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/hdkt.md 7b1b0a4974144024bd6573d91cff37e4
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/hdkt.md 3ec545255dca4c27b7c9e7e998da86c0
+msgid ""
+"[HD-KT: Advancing Robust Knowledge Tracing via Anomalous Learning "
+"Interaction Detection](https://doi.org/10.1145/3589334.3645718)"
+msgstr ""
+"[HD-KT: Advancing Robust Knowledge Tracing via Anomalous Learning "
+"Interaction Detection](https://doi.org/10.1145/3589334.3645718)"
+
+#: ../../source/model-zoo/models/hdkt.md dd5cca611fbb471198b8ac01430eeac4
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/hdkt.md ec94e1883edb46f18c67d937a4687946
+msgid ""
+"Haiping Ma, Yong Yang, Chuan Qin, Xiaoshan Yu, Shangshang Yang, Xingyi "
+"Zhang, Hengshu Zhu"
+msgstr ""
+"Haiping Ma, Yong Yang, Chuan Qin, Xiaoshan Yu, Shangshang Yang, Xingyi "
+"Zhang, Hengshu Zhu"
+
+#: ../../source/model-zoo/models/hdkt.md d4775641300c4bbb9dfe1aa05f3c0207
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/hdkt.md a5cfc6f77793439fb42098974c4b8def
+msgid "2024"
+msgstr "2024"
+
+#: ../../source/model-zoo/models/hdkt.md fb68260a159c42ae8c627d6dd6622c4c
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/hdkt.md 095d6e005f40436699bc70420da524a1
+msgid "Proceedings of the ACM Web Conference 2024"
+msgstr "Proceedings of the ACM Web Conference 2024"
+
+#: ../../source/model-zoo/models/hdkt.md e65248ed696a49ee8c602a16169588e6
+msgid "DOI"
+msgstr "DOI"
+
+#: ../../source/model-zoo/models/hdkt.md e0e5d8ff8dc6408182151a81c415adb5
+msgid "[10.1145/3589334.3645718](https://doi.org/10.1145/3589334.3645718)"
+msgstr "[10.1145/3589334.3645718](https://doi.org/10.1145/3589334.3645718)"
+
+#: ../../source/model-zoo/models/hdkt.md:13 dcc2b2f1455743b6b7fa049012f61e34
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/hdkt.md:15 5a6368e62f1a431f96861a3752ce86a7
+msgid ""
+"Knowledge tracing (KT) is a crucial task in online learning, aimed at "
+"tracing and predicting each student's knowledge states throughout their "
+"learning process. Over the past decade, it has garnered widespread "
+"attention due to it provides the potential for more tailored and adaptive"
+" online learning experiences. Although most current KT methodologies "
+"emphasize optimizing network structures to enhance predictive accuracy "
+"for future student performance, they often neglect anomalous interactions"
+" in students' learning processes, which may arise from low data quality "
+"(i.e., inferior question quality) and abnormal student behaviors (i.e., "
+"guessing and mistakes). To this end, in this paper, we propose a novel "
+"framework, termed HD-KT, designed to enhance the robustness of existing "
+"KT methodologies with Hybrid learning interactions Denoising approach. "
+"Specifically, we introduce two detectors for anomalous learning "
+"interactions, namely knowledge state-guided anomaly detector and student "
+"profile-guided anomaly detector. In the first detection module, we design"
+" a sequential autoencoder to identify anomalous learning interactions by "
+"detecting atypical student knowledge states. In the second module, we "
+"incorporate an attention mechanism by modeling a student's long-term "
+"profile to capture irregular interactions. Extensive experiments on four "
+"real-world benchmark datasets have decisively shown our HD-KT markedly "
+"boosts the robustness of numerous prevailing KT models, consequently "
+"increasing the accuracy of future student performance predictions. "
+"Additionally, our case studies highlight the versatility of HD-KT in "
+"addressing diverse downstream tasks, such as exercise quality analysis "
+"and learning behavior-based student clustering."
+msgstr ""
+"Knowledge tracing (KT) is a crucial task in online learning, aimed at "
+"tracing and predicting each student's knowledge states throughout their "
+"learning process. Over the past decade, it has garnered widespread "
+"attention due to it provides the potential for more tailored and adaptive"
+" online learning experiences. Although most current KT methodologies "
+"emphasize optimizing network structures to enhance predictive accuracy "
+"for future student performance, they often neglect anomalous interactions"
+" in students' learning processes, which may arise from low data quality "
+"(i.e., inferior question quality) and abnormal student behaviors (i.e., "
+"guessing and mistakes). To this end, in this paper, we propose a novel "
+"framework, termed HD-KT, designed to enhance the robustness of existing "
+"KT methodologies with Hybrid learning interactions Denoising approach. "
+"Specifically, we introduce two detectors for anomalous learning "
+"interactions, namely knowledge state-guided anomaly detector and student "
+"profile-guided anomaly detector. In the first detection module, we design"
+" a sequential autoencoder to identify anomalous learning interactions by "
+"detecting atypical student knowledge states. In the second module, we "
+"incorporate an attention mechanism by modeling a student's long-term "
+"profile to capture irregular interactions. Extensive experiments on four "
+"real-world benchmark datasets have decisively shown our HD-KT markedly "
+"boosts the robustness of numerous prevailing KT models, consequently "
+"increasing the accuracy of future student performance predictions. "
+"Additionally, our case studies highlight the versatility of HD-KT in "
+"addressing diverse downstream tasks, such as exercise quality analysis "
+"and learning behavior-based student clustering."
+
+#: ../../source/model-zoo/models/hdkt.md:18 40dd68f9ebc142e1a1a6c6ecda4c95a6
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/hdkt.md:20 d5a6ef241f984dcebe6138ecbb967be6
+msgid ""
+"[BIMK/Intelligent-Education/tree/main/HD-KT](https://github.com/BIMK"
+"/Intelligent-Education/tree/main/HD-KT)"
+msgstr ""
+"[BIMK/Intelligent-Education/tree/main/HD-KT](https://github.com/BIMK"
+"/Intelligent-Education/tree/main/HD-KT)"

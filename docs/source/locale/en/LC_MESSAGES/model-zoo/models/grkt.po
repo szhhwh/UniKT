@@ -1,0 +1,150 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/grkt.md:1 a9790a3505ea4dac983f7ea55acc916a
+msgid "GRKT"
+msgstr "GRKT"
+
+#: ../../source/model-zoo/models/grkt.md:3 60df1a3eccea420b8c470b14eb7bb98b
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/grkt.md 7974e5bc02fa441481bcffcfafbde9d6
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/grkt.md 9b11fa23e570400a81ed31dae924dad5
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/grkt.md 510d290d7a0b41608fa8874fbee79805
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/grkt.md b8ac5a06f86043ac91ea64d1bd1b9470
+msgid ""
+"[Leveraging Pedagogical Theories to Understand Student Learning Process "
+"with Graph-Based Reasonable Knowledge "
+"Tracing](https://doi.org/10.1145/3637528.3671853)"
+msgstr ""
+"[Leveraging Pedagogical Theories to Understand Student Learning Process "
+"with Graph-Based Reasonable Knowledge "
+"Tracing](https://doi.org/10.1145/3637528.3671853)"
+
+#: ../../source/model-zoo/models/grkt.md 914c4ffe97684b4db07e7faf9e11bda8
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/grkt.md b929028e5c9840ae90d0582e22abe4a2
+msgid "Jiajun Cui, Hong Qian, Bo Jiang, Wei Zhang"
+msgstr "Jiajun Cui, Hong Qian, Bo Jiang, Wei Zhang"
+
+#: ../../source/model-zoo/models/grkt.md af862f97eddc493d9d79897719195177
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/grkt.md 04bde71f9339496497a59aebcdc5fe23
+msgid "2024"
+msgstr "2024"
+
+#: ../../source/model-zoo/models/grkt.md 3076b8883bec4144a1bfa42961d47827
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/grkt.md 85290ce80afe43a491ed2f8449b35ab2
+msgid ""
+"Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and "
+"Data Mining"
+msgstr ""
+"Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and "
+"Data Mining"
+
+#: ../../source/model-zoo/models/grkt.md 4cec3908e7d7478f8146cb2c63b0a377
+msgid "DOI"
+msgstr "DOI"
+
+#: ../../source/model-zoo/models/grkt.md 3f552644705342809d4d5e2fe44afd97
+msgid "[10.1145/3637528.3671853](https://doi.org/10.1145/3637528.3671853)"
+msgstr "[10.1145/3637528.3671853](https://doi.org/10.1145/3637528.3671853)"
+
+#: ../../source/model-zoo/models/grkt.md:13 c3efee37f02e4169838f3d1a9f07c954
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/grkt.md:15 e08c1684dcfd4c379fe91d34887c955e
+msgid ""
+"Knowledge tracing (KT) is a crucial task in intelligent education, "
+"focusing on predicting students' performance on given questions to trace "
+"their evolving knowledge. The advancement of deep learning in this field "
+"has led to deep-learning knowledge tracing (DLKT) models that prioritize "
+"high predictive accuracy. However, many existing DLKT methods overlook "
+"the fundamental goal of tracking students' dynamical knowledge mastery. "
+"These models do not explicitly model knowledge mastery tracing processes "
+"or yield unreasonable results that educators find difficulty to "
+"comprehend and apply in real teaching scenarios. In response, our "
+"research conducts a preliminary analysis of mainstream KT approaches to "
+"highlight and explain such unreasonableness. We introduce GRKT, a graph-"
+"based reasonable knowledge tracing method to address these issues. By "
+"leveraging graph neural networks, our approach delves into the mutual "
+"influences of knowledge concepts, offering a more accurate representation"
+" of how the knowledge mastery evolves throughout the learning process. "
+"Additionally, we propose a fine-grained and psychological three-stage "
+"modeling process as knowledge retrieval, memory strengthening, and "
+"knowledge learning/forgetting, to conduct a more reasonable knowledge "
+"tracing process. Comprehensive experiments demonstrate that GRKT "
+"outperforms eleven baselines across three datasets, not only enhancing "
+"predictive accuracy but also generating more reasonable knowledge tracing"
+" results. This makes our model a promising advancement for practical "
+"implementation in educational settings. The source code is available at "
+"https://github.com/JJCui96/GRKT."
+msgstr ""
+"Knowledge tracing (KT) is a crucial task in intelligent education, "
+"focusing on predicting students' performance on given questions to trace "
+"their evolving knowledge. The advancement of deep learning in this field "
+"has led to deep-learning knowledge tracing (DLKT) models that prioritize "
+"high predictive accuracy. However, many existing DLKT methods overlook "
+"the fundamental goal of tracking students' dynamical knowledge mastery. "
+"These models do not explicitly model knowledge mastery tracing processes "
+"or yield unreasonable results that educators find difficulty to "
+"comprehend and apply in real teaching scenarios. In response, our "
+"research conducts a preliminary analysis of mainstream KT approaches to "
+"highlight and explain such unreasonableness. We introduce GRKT, a graph-"
+"based reasonable knowledge tracing method to address these issues. By "
+"leveraging graph neural networks, our approach delves into the mutual "
+"influences of knowledge concepts, offering a more accurate representation"
+" of how the knowledge mastery evolves throughout the learning process. "
+"Additionally, we propose a fine-grained and psychological three-stage "
+"modeling process as knowledge retrieval, memory strengthening, and "
+"knowledge learning/forgetting, to conduct a more reasonable knowledge "
+"tracing process. Comprehensive experiments demonstrate that GRKT "
+"outperforms eleven baselines across three datasets, not only enhancing "
+"predictive accuracy but also generating more reasonable knowledge tracing"
+" results. This makes our model a promising advancement for practical "
+"implementation in educational settings. The source code is available at "
+"https://github.com/JJCui96/GRKT."
+
+#: ../../source/model-zoo/models/grkt.md:18 50aecb400c5e4573b03d5f14ca9e2263
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/grkt.md:20 4585c502cca741fe9566e464575b1d0c
+msgid "[JJCui96/GRKT](https://github.com/JJCui96/GRKT)"
+msgstr "[JJCui96/GRKT](https://github.com/JJCui96/GRKT)"

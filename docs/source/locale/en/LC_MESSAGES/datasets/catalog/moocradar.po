@@ -1,0 +1,365 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/datasets/catalog/moocradar.md:1
+#: 048d7f8d0e2143f9816b684a39ce826a
+msgid "MOOC-Radar"
+msgstr "MOOC-Radar"
+
+#: ../../source/datasets/catalog/moocradar.md:3
+#: 1e5106a94a874762a9cec8b3e14361af
+msgid "MOOC-Radar 是清华大学知识工程实验室基于学堂在线（XuetangX）MOOC 练习数据构建的细粒度知识概念与认知标签数据集。"
+msgstr ""
+"MOOC-Radar is a fine-grained knowledge concept and cognitive tag dataset "
+"built by Tsinghua University KEG based on XuetangX MOOC exercise logs."
+
+#: ../../source/datasets/catalog/moocradar.md:5
+#: 4cf3f648370748a58c3fa7f9ec1b0c03
+msgid "数据集链接"
+msgstr "Dataset Link"
+
+#: ../../source/datasets/catalog/moocradar.md:7
+#: 694c48523c1c4fa6acb08c54f6c8a3d0
+msgid "官方仓库：[THU-KEG/MOOC-Radar](https://github.com/THU-KEG/MOOC-Radar)"
+msgstr ""
+"Official repository: [THU-KEG/MOOC-Radar](https://github.com/THU-KEG"
+"/MOOC-Radar)"
+
+#: ../../source/datasets/catalog/moocradar.md:8
+#: 14fe4b0f79be4256a0626b252cbc5b4b
+msgid "数据下载：[MoocRadar_Raw](https://bhpan.buaa.edu.cn/link/AAE5A458AFE444474EBEC928F98986E5B8)"
+msgstr ""
+"Data download: "
+"[MoocRadar_Raw](https://bhpan.buaa.edu.cn/link/AAE5A458AFE444474EBEC928F98986E5B8)"
+
+#: ../../source/datasets/catalog/moocradar.md:10
+#: 832b9852e93545819ea411ff6007e611
+msgid "数据规模"
+msgstr "Data Scale"
+
+#: ../../source/datasets/catalog/moocradar.md:12
+#: d3344f95a8f74bdea9db11ab484c3b5e
+msgid "官方 README 整体数据"
+msgstr "Official README Overall Data"
+
+#: ../../source/datasets/catalog/moocradar.md 1683b33a22174232965b7392f0f9a70f
+#: 1ed34ab5e54a4fc6982be1a65fe56396
+msgid "指标"
+msgstr "Metrics"
+
+#: ../../source/datasets/catalog/moocradar.md 7f23aa701d3d411f93a47f929ed32055
+#: f4a32fe7f37e408cb310d9e6d82dfa44
+msgid "数值"
+msgstr "Value"
+
+#: ../../source/datasets/catalog/moocradar.md b57f6585301c491cb73541accbe2a8f3
+#: e524e02e871942149ed1ebb950f3281e
+msgid "口径"
+msgstr "Criteria"
+
+#: ../../source/datasets/catalog/moocradar.md cc97e69edc3d44ffae1bd1ec5d3e06a7
+msgid "练习题"
+msgstr "Exercise Questions"
+
+#: ../../source/datasets/catalog/moocradar.md 5ba3818693ff4ccd9611603d9dab10b7
+#: feb5160bdd2c49809da88d0468324e52
+msgid "2,513"
+msgstr "2,513"
+
+#: ../../source/datasets/catalog/moocradar.md 609f0f498dde45738a90296898065d39
+msgid "官方 README 初始版本整体口径"
+msgstr "Initial version overall criteria from official README"
+
+#: ../../source/datasets/catalog/moocradar.md f35cad8c538046cab86b0174eb6aa419
+msgid "学生数"
+msgstr "Student Count"
+
+#: ../../source/datasets/catalog/moocradar.md 60e27fe12150400c915b7e815e05c557
+msgid "14,226"
+msgstr "14,226"
+
+#: ../../source/datasets/catalog/moocradar.md 1c70d74806924ac895ec571fc2124c05
+#: ae178de515ca49a2b824f2ddc8424a46
+msgid "官方 README 整体口径"
+msgstr "Overall criteria from official README"
+
+#: ../../source/datasets/catalog/moocradar.md d8c3d3006cdc45e8ad47be97349f73d2
+msgid "行为记录"
+msgstr "Behavior Records"
+
+#: ../../source/datasets/catalog/moocradar.md 7617b53855734bd28e45b768ef98e55c
+msgid "超过 1,200 万"
+msgstr "Over 12 million"
+
+#: ../../source/datasets/catalog/moocradar.md 032b50cacbc54deea20ca5942bcddaad
+msgid "官方 README 整体口径，并非下方细粒度序列文件的作答行数"
+msgstr ""
+"Overall criteria from official README, not response row count of fine-"
+"grained sequence files below"
+
+#: ../../source/datasets/catalog/moocradar.md 35fe546df3134ae9b61517ba0d43fca4
+msgid "细粒度知识概念"
+msgstr "Fine-Grained Knowledge Concepts"
+
+#: ../../source/datasets/catalog/moocradar.md 3ff7ced37b0d4b1aaa405871c38dc749
+msgid "5,600"
+msgstr "5,600"
+
+#: ../../source/datasets/catalog/moocradar.md:21
+#: 3ca0c909ed554162a23b724daa059c0d
+msgid ""
+"官方 README 的 News 标注练习题数量已扩展到 9,384 道。发布包按 Coarse、Middle、Fine "
+"三种粒度提供，本页字段对应细粒度文件。"
+msgstr ""
+"The News section in the official README notes that exercise questions "
+"expanded to 9,384. The release package provides Coarse, Middle, and Fine "
+"granularities; fields on this page correspond to fine-grained files."
+
+#: ../../source/datasets/catalog/moocradar.md:23
+#: 53a0c09d827540ec81ca15281ebaaab2
+msgid "细粒度文件统计"
+msgstr "Fine-Grained File Statistics"
+
+#: ../../source/datasets/catalog/moocradar.md 850a1e5febca449197869d147a50060c
+msgid "`problem.json` 题目对象"
+msgstr "`problem.json` Question Objects"
+
+#: ../../source/datasets/catalog/moocradar.md a79a97fe75b743119bf729d0f216bdad
+msgid "9,383"
+msgstr "9,383"
+
+#: ../../source/datasets/catalog/moocradar.md 4f5d3bd94cb645009bf1dd8804e24819
+msgid "文件行数与 `problem_id` 去重计数均为 9,383"
+msgstr "Both file row count and unique `problem_id` count are 9,383"
+
+#: ../../source/datasets/catalog/moocradar.md 4e5308a0196e416980909c0a5aeeba4c
+msgid "`student-problem-fine.json` 学生序列"
+msgstr "`student-problem-fine.json` Student Sequences"
+
+#: ../../source/datasets/catalog/moocradar.md 09c520053a7a4c439f5d547e28b1ece1
+msgid "14,224"
+msgstr "14,224"
+
+#: ../../source/datasets/catalog/moocradar.md ee4d428119cd494abcce3e59a14a904f
+msgid "序列对象数"
+msgstr "Sequence Object Count"
+
+#: ../../source/datasets/catalog/moocradar.md dd2d8966609945609054234de035229f
+msgid "序列事件"
+msgstr "Sequence Events"
+
+#: ../../source/datasets/catalog/moocradar.md 9841f18b572145119bf001e3706d212d
+msgid "898,933"
+msgstr "898,933"
+
+#: ../../source/datasets/catalog/moocradar.md 4146ed89036444c99f0331f740fd6452
+msgid "所有 `seq` 数组元素总数"
+msgstr "Total elements across all `seq` arrays"
+
+#: ../../source/datasets/catalog/moocradar.md d37b6d755ffe49cdbf1e03611e713047
+msgid "序列涉及题目"
+msgstr "Questions Covered in Sequences"
+
+#: ../../source/datasets/catalog/moocradar.md 07495cc6b26742bf9ef10d976114d665
+msgid "`seq` 中 `problem_id` 去重计数"
+msgstr "Unique `problem_id` count in `seq`"
+
+#: ../../source/datasets/catalog/moocradar.md:32
+#: 8ee397df0ff442949b987eb32460654a
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/datasets/catalog/moocradar.md:34
+#: 2f5bbcaf2e4e4a3eb0b843bc61ea7b23
+msgid "题目元数据（`problem.json`）"
+msgstr "Question Metadata (`problem.json`)"
+
+#: ../../source/datasets/catalog/moocradar.md:36
+#: f358d4d92e02451b951048f9b89d0077
+msgid "该文件为 JSON Lines 格式，每行一个题目对象。"
+msgstr "This file is in JSON Lines format, with one question object per line."
+
+#: ../../source/datasets/catalog/moocradar.md 3627706fd9d24bf4971f85ce3873c53f
+#: a88fcda75e9b4a2f821d1b0df3cd0e52
+msgid "字段名称"
+msgstr "Field Name"
+
+#: ../../source/datasets/catalog/moocradar.md 03a2580feb7a4b51923fa62de4210eb1
+#: b33712e38f014d85894a5c2b1f8f8221
+msgid "数据类型"
+msgstr "Data Type"
+
+#: ../../source/datasets/catalog/moocradar.md c9b3754c73c34eb7963c01df55fa08e5
+#: de6edefde71e4a23bf49d88b039c6dd9
+msgid "说明"
+msgstr "Description"
+
+#: ../../source/datasets/catalog/moocradar.md aaa1371ed48141cdb673df3924822eb3
+#: f4cf2e9bc3984cf29bf8b148e45980a1
+msgid "`problem_id`"
+msgstr "`problem_id`"
+
+#: ../../source/datasets/catalog/moocradar.md 0f276f14c47c4c0fa6fdcb085822bb1c
+#: 2989c8f93ee54c619cec23d0c2b9bbb5 3c0190ff039f4171a96332e07ca501e6
+#: 6e1f0944651644e9830bd9cc5bf106c2 7093d8dd0b4e48359db46889f8ebc61c
+#: ad95dbc4955049b2a8ba5837791f9c9b cd6d4545e9254ff1a421124954293397
+msgid "String"
+msgstr "String"
+
+#: ../../source/datasets/catalog/moocradar.md 5c714c484e97477ea723a7789f0e8ebd
+#, python-brace-format
+msgid "题目唯一标识，格式为 `Pm_{integer}`"
+msgstr "Unique question identifier, format `Pm_{integer}`"
+
+#: ../../source/datasets/catalog/moocradar.md 08e3d944d438400c9d01e92c63444ca8
+msgid "`exercise_id`"
+msgstr "`exercise_id`"
+
+#: ../../source/datasets/catalog/moocradar.md 74c9234a1495443d9aaa87161ce9e54a
+#, python-brace-format
+msgid "所属练习集合编号，格式为 `Ex_{integer}`"
+msgstr "Parent exercise set ID, format `Ex_{integer}`"
+
+#: ../../source/datasets/catalog/moocradar.md 473302863505409c898c71149676a582
+msgid "`course_id`"
+msgstr "`course_id`"
+
+#: ../../source/datasets/catalog/moocradar.md b351ae514a5245d5bbb7528e7c511be7
+#, python-brace-format
+msgid "所属课程编号，格式为 `C_{integer}`"
+msgstr "Parent course ID, format `C_{integer}`"
+
+#: ../../source/datasets/catalog/moocradar.md 1c27d5f34db64d5cbc448f2a869e3fad
+msgid "`detail`"
+msgstr "`detail`"
+
+#: ../../source/datasets/catalog/moocradar.md 1d4f446a127c462a8f56d7059a1f4653
+msgid "题目详情，内容为字符串化的字典，含题干、选项、答案、题型、位置与语言等键"
+msgstr ""
+"Question details, formatted as a stringified dictionary containing stem, "
+"options, answer, question type, position, and language keys"
+
+#: ../../source/datasets/catalog/moocradar.md 69f5ab02cf684f1dbed4671f672fe612
+msgid "`knowledge_type`"
+msgstr "`knowledge_type`"
+
+#: ../../source/datasets/catalog/moocradar.md 4cce7d54c1fc4faea9212450f0dbf5d9
+#: 7c414098d94c4a77aeafc10db813b079 b815bce6fc4d45e5aea502094f103799
+#: f801c7b2fdb142e696d68ee9b298b394
+msgid "Integer"
+msgstr "Integer"
+
+#: ../../source/datasets/catalog/moocradar.md 3b640cacae3243a09a562ba39c8473a2
+msgid "知识分类代码"
+msgstr "Knowledge classification code"
+
+#: ../../source/datasets/catalog/moocradar.md eb7e6eb5cd1e4eb4904493e078aa8acd
+msgid "`cognitive_dimension`"
+msgstr "`cognitive_dimension`"
+
+#: ../../source/datasets/catalog/moocradar.md c4b839d8c97e4cf58f0762cc81e74d66
+msgid "布鲁姆认知维度代码"
+msgstr "Bloom's cognitive taxonomy dimension code"
+
+#: ../../source/datasets/catalog/moocradar.md b391bd093a4642dda053af3db2c22ce3
+msgid "`concepts`"
+msgstr "`concepts`"
+
+#: ../../source/datasets/catalog/moocradar.md 260d61fc93c448a68c2fee5f9c477d3b
+msgid "List[String]"
+msgstr "List[String]"
+
+#: ../../source/datasets/catalog/moocradar.md 5c112f4b2ae346c1a0cc48c7b82df2d8
+msgid "专家标注的知识概念列表"
+msgstr "List of expert-annotated knowledge concepts"
+
+#: ../../source/datasets/catalog/moocradar.md:48
+#: 03c8be4fc4474d7e81ce2bd70333052b
+msgid "学生行为序列（`student-problem-fine.json`）"
+msgstr "Student Behavior Sequences (`student-problem-fine.json`)"
+
+#: ../../source/datasets/catalog/moocradar.md:50
+#: e98d89cffeeb4494a3c2872abecc012c
+msgid "该文件为列表，每个元素表示一名学生的行为序列，序列位于 `seq` 数组；数组元素字段如下。"
+msgstr ""
+"This file is a list where each element represents a student's behavior "
+"sequence located in the `seq` array; array element fields are as follows."
+
+#: ../../source/datasets/catalog/moocradar.md b7150cf22fd146808028e88e0c92a4b0
+msgid "`user_id`"
+msgstr "`user_id`"
+
+#: ../../source/datasets/catalog/moocradar.md e24d4e320ec84692a5a09c4e04f0999b
+#, python-brace-format
+msgid "学生唯一标识，格式为 `U_{integer}`"
+msgstr "Unique student identifier, format `U_{integer}`"
+
+#: ../../source/datasets/catalog/moocradar.md a3ca5c19dd7c42bbb9afca18c7af0c89
+msgid "`log_id`"
+msgstr "`log_id`"
+
+#: ../../source/datasets/catalog/moocradar.md 701e16db665747fda978dc3276e1a9b7
+msgid "做题日志标识"
+msgstr "Problem-solving log identifier"
+
+#: ../../source/datasets/catalog/moocradar.md d7f9321b88d847dca6e2e11ae6da5173
+msgid "题目唯一标识"
+msgstr "Unique question identifier"
+
+#: ../../source/datasets/catalog/moocradar.md a4bfe16eec79418ca08947a93829bd8e
+msgid "`is_correct`"
+msgstr "`is_correct`"
+
+#: ../../source/datasets/catalog/moocradar.md 25d34507721447dcabc801c91017bed6
+msgid "是否答对，1 为正确，0 为错误"
+msgstr "Whether correct, 1 for correct, 0 for incorrect"
+
+#: ../../source/datasets/catalog/moocradar.md 11e0a4cffd974f6ca4e5ad7ebe3add16
+msgid "`attempts`"
+msgstr "`attempts`"
+
+#: ../../source/datasets/catalog/moocradar.md 7dee0250663945bc8847291d43422f9c
+msgid "作答尝试次数"
+msgstr "Number of answer attempts"
+
+#: ../../source/datasets/catalog/moocradar.md 4d99fb1cbfe0406495514915ad544f91
+msgid "`score`"
+msgstr "`score`"
+
+#: ../../source/datasets/catalog/moocradar.md aed2494a250548979ff7e29729c372c1
+msgid "Float"
+msgstr "Float"
+
+#: ../../source/datasets/catalog/moocradar.md 2531fb46f10846afbf87b89682a96be3
+msgid "题目得分率，可为空"
+msgstr "Question score rate, can be null"
+
+#: ../../source/datasets/catalog/moocradar.md f1bcccbe2f824e94a740417738d71201
+msgid "`submit_time`"
+msgstr "`submit_time`"
+
+#: ../../source/datasets/catalog/moocradar.md bb8dde786cda41408e8c3f9ab5073f38
+msgid "Datetime"
+msgstr "Datetime"
+
+#: ../../source/datasets/catalog/moocradar.md c68f1691a53b46d7b12d6430aa2fd5cf
+msgid "作答提交时间"
+msgstr "Response submission time"

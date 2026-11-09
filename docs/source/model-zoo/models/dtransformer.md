@@ -1,0 +1,20 @@
+# DTransformer
+
+## 论文信息
+
+| 字段 | 内容 |
+| --- | --- |
+| 题目 | [Tracing Knowledge Instead of Patterns: Stable Knowledge Tracing with Diagnostic Transformer](https://doi.org/10.1145/3543507.3583255) |
+| 作者 | Yu Yin, Le Dai, Zhenya Huang, Shuanghong Shen, Fei Wang, Qi Liu, Enhong Chen, Xin Li |
+| 发表年份 | 2023 |
+| 发表刊物或会议 | Proceedings of the ACM Web Conference 2023 |
+| DOI | [10.1145/3543507.3583255](https://doi.org/10.1145/3543507.3583255) |
+
+## 原文摘要
+
+> Knowledge Tracing (KT) aims at tracing the evolution of the knowledge states along the learning process of a learner. It has become a crucial task for online learning systems to model the learning process of their users, and further provide their users a personalized learning guidance. However, recent developments in KT based on deep neural networks mostly focus on increasing the accuracy of predicting the next performance of students. We argue that current KT modeling, as well as training paradigm, can lead to models tracing patterns of learner's learning activities, instead of their evolving knowledge states. In this paper, we propose a new architecture, Diagnostic Transformer (DTransformer), along with a new training paradigm, to tackle this challenge. With DTransformer, we build the architecture from question-level to knowledge-level, explicitly diagnosing learner's knowledge proficiency from each question mastery states. We also propose a novel training algorithm based on contrastive learning that focuses on maintaining the stability of the knowledge state diagnosis. Through extensive experiments, we will show that with its understanding of knowledge state evolution, DTransformer achieves a better performance prediction accuracy and more stable knowledge state tracing results. We will also show that DTransformer is less sensitive to specific patterns with case study. We open-sourced our code and data at https://github.com/yxonic/DTransformer.
+
+
+## 代码仓库
+
+[yxonic/DTransformer](https://github.com/yxonic/DTransformer)

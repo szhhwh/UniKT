@@ -1,0 +1,130 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/cl4kt.md:1 36e74b4358b745708c2643f932146244
+msgid "CL4KT"
+msgstr "CL4KT"
+
+#: ../../source/model-zoo/models/cl4kt.md:3 f37427ba288c4ae7b816c25643d75777
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/cl4kt.md f052ee092de24ac3a3a4476b5575c715
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/cl4kt.md 903d2ecb59eb4c7190fb45da7716a62b
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/cl4kt.md 272d8c2edb2b4984bbfaf57ed7832576
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/cl4kt.md e86999688e144e05bb0724bae07a9731
+msgid ""
+"[Contrastive Learning for Knowledge "
+"Tracing](https://doi.org/10.1145/3485447.3512105)"
+msgstr ""
+"[Contrastive Learning for Knowledge "
+"Tracing](https://doi.org/10.1145/3485447.3512105)"
+
+#: ../../source/model-zoo/models/cl4kt.md 4cf2bc86dbd44a3d9b05c0b18ebc446d
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/cl4kt.md 3c3d8a088b62497793b5138341e5dcd9
+msgid "Wonsung Lee, Jaeyoon Chun, Youngmin Lee, Kyoungsoo Park, Sungrae Park"
+msgstr "Wonsung Lee, Jaeyoon Chun, Youngmin Lee, Kyoungsoo Park, Sungrae Park"
+
+#: ../../source/model-zoo/models/cl4kt.md f4a59c554f544376a106a25f43db8290
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/cl4kt.md f08becab7f074b61be685b9edaf01e6f
+msgid "2022"
+msgstr "2022"
+
+#: ../../source/model-zoo/models/cl4kt.md f6209064643542bdbce5c92dc2a71417
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/cl4kt.md 2927219e5f4740f68ab99132af47ee75
+msgid "Proceedings of the ACM Web Conference 2022"
+msgstr "Proceedings of the ACM Web Conference 2022"
+
+#: ../../source/model-zoo/models/cl4kt.md 15002569ee6d49ac83090f028edcdf82
+msgid "DOI"
+msgstr "DOI"
+
+#: ../../source/model-zoo/models/cl4kt.md 9de76fa6b7aa49cba427ceb903b635d1
+msgid "[10.1145/3485447.3512105](https://doi.org/10.1145/3485447.3512105)"
+msgstr "[10.1145/3485447.3512105](https://doi.org/10.1145/3485447.3512105)"
+
+#: ../../source/model-zoo/models/cl4kt.md:13 1a753f3a7b7446778661d436e566c9f0
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/cl4kt.md:15 39dec52544124ad2a912e641d1132b5f
+msgid ""
+"Knowledge tracing is the task of understanding student's knowledge "
+"acquisition processes by estimating whether to solve the next question "
+"correctly or not. Most deep learning-based methods tackle this problem by"
+" identifying hidden representations of knowledge states from learning "
+"histories. However, due to the sparse interactions between students and "
+"questions, the hidden representations can be easily over-fitted and often"
+" fail to capture student's knowledge states accurately. This paper "
+"introduces a contrastive learning framework for knowledge tracing that "
+"reveals semantically similar or dissimilar examples of a learning history"
+" and stimulates to learn their relationships. To deal with the complexity"
+" of knowledge acquisition during learning, we carefully design the "
+"components of contrastive learning, such as architectures, data "
+"augmentation methods, and hard negatives, taking into account pedagogical"
+" rationales. Our extensive experiments on six benchmarks show "
+"statistically significant improvements from the previous methods. Further"
+" analysis shows how our methods contribute to improving knowledge tracing"
+" performances."
+msgstr ""
+"Knowledge tracing is the task of understanding student's knowledge "
+"acquisition processes by estimating whether to solve the next question "
+"correctly or not. Most deep learning-based methods tackle this problem by"
+" identifying hidden representations of knowledge states from learning "
+"histories. However, due to the sparse interactions between students and "
+"questions, the hidden representations can be easily over-fitted and often"
+" fail to capture student's knowledge states accurately. This paper "
+"introduces a contrastive learning framework for knowledge tracing that "
+"reveals semantically similar or dissimilar examples of a learning history"
+" and stimulates to learn their relationships. To deal with the complexity"
+" of knowledge acquisition during learning, we carefully design the "
+"components of contrastive learning, such as architectures, data "
+"augmentation methods, and hard negatives, taking into account pedagogical"
+" rationales. Our extensive experiments on six benchmarks show "
+"statistically significant improvements from the previous methods. Further"
+" analysis shows how our methods contribute to improving knowledge tracing"
+" performances."
+
+#: ../../source/model-zoo/models/cl4kt.md:18 9b6e3102e3eb470d80775a29ebca03a7
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/cl4kt.md:20 e62966e3e2ea48ec9e7f5f10924cdbb5
+msgid "[UpstageAI/cl4kt](https://github.com/UpstageAI/cl4kt)"
+msgstr "[UpstageAI/cl4kt](https://github.com/UpstageAI/cl4kt)"

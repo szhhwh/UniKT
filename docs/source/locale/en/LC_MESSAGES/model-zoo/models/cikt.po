@@ -1,0 +1,134 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/cikt.md:1 d0724d1739f24d6c9a998c2b68e13d62
+msgid "CIKT"
+msgstr "CIKT"
+
+#: ../../source/model-zoo/models/cikt.md:3 4a4154f70e0d4901949d2ffd5bc30b94
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/cikt.md 2e49436956dd42e9a69e71e136bbc370
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/cikt.md 14774c29c97d4055b035fd7eb7f487b1
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/cikt.md 45b47fed4e6744baab6c70a5fb2a730d
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/cikt.md bd064ad034d14cc794b386261091cfef
+msgid ""
+"[Disentangling Response Sequences with Causal Invariance for Knowledge "
+"Tracing](https://doi.org/10.1016/j.engappai.2025.113380)"
+msgstr ""
+"[Disentangling Response Sequences with Causal Invariance for Knowledge "
+"Tracing](https://doi.org/10.1016/j.engappai.2025.113380)"
+
+#: ../../source/model-zoo/models/cikt.md 8c6c4303b12649db8efcd98b6e676641
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/cikt.md 476552103f9a446f83345348b3b5c7eb
+msgid ""
+"Shengze Hu, Junjie Hu, Huali Yang, Jing Geng, Xinjia Ou, Zhuoran Xu, Han "
+"Wang, Tao Huang"
+msgstr ""
+"Shengze Hu, Junjie Hu, Huali Yang, Jing Geng, Xinjia Ou, Zhuoran Xu, Han "
+"Wang, Tao Huang"
+
+#: ../../source/model-zoo/models/cikt.md 55da0397b1c440ee8e57ed844f34209a
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/cikt.md cc0c1dda9a4743528b5915561daf7ff1
+msgid "2026（2025 年在线发表）"
+msgstr "2026 (Published online 2025)"
+
+#: ../../source/model-zoo/models/cikt.md 6ddc09ead17f492f94c8d6e88aef145f
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/cikt.md 9c87445df8e14fd5acf9df62a069dbc3
+msgid "Engineering Applications of Artificial Intelligence, 165, 113380"
+msgstr "Engineering Applications of Artificial Intelligence, 165, 113380"
+
+#: ../../source/model-zoo/models/cikt.md:12 d4deaddca42049a4bad9f82b4504789e
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/cikt.md:14 575785b128ab416a98b82f4d527bdc52
+msgid ""
+"To support personalized learning applications, Knowledge Tracing (KT) "
+"predicts students' future performance by analyzing their historical "
+"interactions with questions. Despite advancements in neural network "
+"designs and integrated educational principles, existing KT methods often "
+"overlook data selection biases, leading to spurious correlations between "
+"future performance and response sequences. To address this, we propose a "
+"novel KT method based on Causal Invariance (CIKT), which robustly "
+"identifies causal relationships in response sequences. From a causal "
+"perspective, we develop a structural causal model for KT, guiding the "
+"design of CIKT's four modules: a response sequence encoder, an attention-"
+"based causal identifier, a sequence causal intervener, and a future "
+"response predictor. The encoder extracts representations of future "
+"questions and response units. The causal identifier uses question-concept"
+" graphs and combines knowledge and temporal associations to estimate "
+"causal and trivial scores for each future question, effectively "
+"disentangling sequences into causal and trivial subsequences. Grounded in"
+" causal invariance, the intervener applies intervention operations to "
+"remove, replace, and invert elements within trivial subsequences, "
+"generating diverse sequences. The predictor then assigns the same "
+"performance prediction task to these intervened sequences to discover "
+"invariant causal relationships. Additionally, a question difficulty "
+"prediction task for trivial subsequences is introduced to prevent "
+"prediction shortcuts, reflecting group mastery levels. Extensive "
+"experiments on real-world datasets demonstrate CIKT's superiority and "
+"good interpretability."
+msgstr ""
+"To support personalized learning applications, Knowledge Tracing (KT) "
+"predicts students' future performance by analyzing their historical "
+"interactions with questions. Despite advancements in neural network "
+"designs and integrated educational principles, existing KT methods often "
+"overlook data selection biases, leading to spurious correlations between "
+"future performance and response sequences. To address this, we propose a "
+"novel KT method based on Causal Invariance (CIKT), which robustly "
+"identifies causal relationships in response sequences. From a causal "
+"perspective, we develop a structural causal model for KT, guiding the "
+"design of CIKT's four modules: a response sequence encoder, an attention-"
+"based causal identifier, a sequence causal intervener, and a future "
+"response predictor. The encoder extracts representations of future "
+"questions and response units. The causal identifier uses question-concept"
+" graphs and combines knowledge and temporal associations to estimate "
+"causal and trivial scores for each future question, effectively "
+"disentangling sequences into causal and trivial subsequences. Grounded in"
+" causal invariance, the intervener applies intervention operations to "
+"remove, replace, and invert elements within trivial subsequences, "
+"generating diverse sequences. The predictor then assigns the same "
+"performance prediction task to these intervened sequences to discover "
+"invariant causal relationships. Additionally, a question difficulty "
+"prediction task for trivial subsequences is introduced to prevent "
+"prediction shortcuts, reflecting group mastery levels. Extensive "
+"experiments on real-world datasets demonstrate CIKT's superiority and "
+"good interpretability."

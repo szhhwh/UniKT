@@ -1,0 +1,136 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/skvmn.md:1 01420da8d9a34a7e800052b341dcab6e
+msgid "SKVMN"
+msgstr "SKVMN"
+
+#: ../../source/model-zoo/models/skvmn.md:3 be40e358f44d40f5b3d8f25fb4600503
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/skvmn.md abab3762a41d452b86880b1f3735b579
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/skvmn.md 9a3f78698960445d8bb5ecedb1ff94b2
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/skvmn.md 39de9dea2f574683b4f6204314b6bb61
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/skvmn.md f6df0699142b4ef3b8d139d567fc3053
+msgid ""
+"[Knowledge Tracing with Sequential Key-Value Memory "
+"Networks](https://doi.org/10.1145/3331184.3331195)"
+msgstr ""
+"[Knowledge Tracing with Sequential Key-Value Memory "
+"Networks](https://doi.org/10.1145/3331184.3331195)"
+
+#: ../../source/model-zoo/models/skvmn.md f05b68b914124461a4d10ee6a1106a42
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/skvmn.md e845dd51d3494ffb9cb49711a57d65ed
+msgid "Ghodai Abdelrahman, Qing Wang"
+msgstr "Ghodai Abdelrahman, Qing Wang"
+
+#: ../../source/model-zoo/models/skvmn.md f8fd86474a92432690d96af18f7ca872
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/skvmn.md 2d7d507b0af34310a1e8994d6e3ab133
+msgid "2019"
+msgstr "2019"
+
+#: ../../source/model-zoo/models/skvmn.md 201bdf6630ae4c258e0ac07c5ccd4dbd
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/skvmn.md 95d8a39627db42f3bba3a044ff883e8b
+msgid ""
+"Proceedings of the 42nd International ACM SIGIR Conference on Research "
+"and Development in Information Retrieval"
+msgstr ""
+"Proceedings of the 42nd International ACM SIGIR Conference on Research "
+"and Development in Information Retrieval"
+
+#: ../../source/model-zoo/models/skvmn.md:12 9a462e46253942f58dca25847dd1fe59
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/skvmn.md:14 3cc1cc41568c45bc9ab78d8dece5ebcf
+msgid ""
+"Can machines trace human knowledge like humans? Knowledge tracing (KT) is"
+" a fundamental task in a wide range of applications in education, such as"
+" massive open online courses (MOOCs), intelligent tutoring systems, "
+"educational games, and learning management systems. It models dynamics in"
+" a student's knowledge states in relation to different learning concepts "
+"through their interactions with learning activities. Recently, several "
+"attempts have been made to use deep learning models for tackling the KT "
+"problem. Although these deep learning models have shown promising "
+"results, they have limitations: either lack the ability to go deeper to "
+"trace how specific concepts in a knowledge state are mastered by a "
+"student, or fail to capture long-term dependencies in an exercise "
+"sequence. In this paper, we address these limitations by proposing a "
+"novel deep learning model for knowledge tracing, namely Sequential Key-"
+"Value Memory Networks (SKVMN). This model unifies the strengths of "
+"recurrent modelling capacity and memory capacity of the existing deep "
+"learning KT models for modelling student learning. We have extensively "
+"evaluated our proposed model on five benchmark datasets. The experimental"
+" results show that (1) SKVMN outperforms the state-of-the-art KT models "
+"on all datasets, (2) SKVMN can better discover the correlation between "
+"latent concepts and questions, and (3) SKVMN can trace the knowledge "
+"state of students dynamics, and a leverage sequential dependencies in an "
+"exercise sequence for improved predication accuracy."
+msgstr ""
+"Can machines trace human knowledge like humans? Knowledge tracing (KT) is"
+" a fundamental task in a wide range of applications in education, such as"
+" massive open online courses (MOOCs), intelligent tutoring systems, "
+"educational games, and learning management systems. It models dynamics in"
+" a student's knowledge states in relation to different learning concepts "
+"through their interactions with learning activities. Recently, several "
+"attempts have been made to use deep learning models for tackling the KT "
+"problem. Although these deep learning models have shown promising "
+"results, they have limitations: either lack the ability to go deeper to "
+"trace how specific concepts in a knowledge state are mastered by a "
+"student, or fail to capture long-term dependencies in an exercise "
+"sequence. In this paper, we address these limitations by proposing a "
+"novel deep learning model for knowledge tracing, namely Sequential Key-"
+"Value Memory Networks (SKVMN). This model unifies the strengths of "
+"recurrent modelling capacity and memory capacity of the existing deep "
+"learning KT models for modelling student learning. We have extensively "
+"evaluated our proposed model on five benchmark datasets. The experimental"
+" results show that (1) SKVMN outperforms the state-of-the-art KT models "
+"on all datasets, (2) SKVMN can better discover the correlation between "
+"latent concepts and questions, and (3) SKVMN can trace the knowledge "
+"state of students dynamics, and a leverage sequential dependencies in an "
+"exercise sequence for improved predication accuracy."
+
+#: ../../source/model-zoo/models/skvmn.md:17 8f016d7bed034ced86b7312fb1c2a64e
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/skvmn.md:19 04c8ea10132541d7b59576992db789f5
+msgid "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"
+msgstr "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"

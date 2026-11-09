@@ -1,0 +1,484 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/user-guides/training.md:1 cedf907486904aa5b65e203214b9a7e7
+msgid "模型训练"
+msgstr "Model Training"
+
+#: ../../source/user-guides/training.md:3 a5633543929f4cc8ab452440755e34c9
+msgid ""
+"本指南介绍如何在 UniKT "
+"中启动知识追踪模型的训练流程，包括单折快速实验、训练过程控制（参数配置、早停策略与断点续训），以及运行产物的结构与日志输出。"
+msgstr ""
+"This guide details how to launch training pipelines for knowledge tracing"
+" models in UniKT, covering single-fold fast experiments, training "
+"controls (parameter configuration, early stopping, checkpoint "
+"resumption), artifact structures, and logging outputs."
+
+#: ../../source/user-guides/training.md:7 0afe730c6363457094eb8d49656342ae
+msgid "单折快速训练"
+msgstr "Single-Fold Fast Training"
+
+#: ../../source/user-guides/training.md:9 9021375d5d624fcd8a3d0d7de1216387
+msgid "在算法研发与代码调试阶段，通常指定单一折（如第 0 折）进行快速试验。"
+msgstr ""
+"During algorithm prototyping and debugging, it is common to specify a "
+"single fold (e.g., fold 0) for rapid experimentation."
+
+#: ../../source/user-guides/training.md:11 5fed446286b34cd683a3c7a7b116a767
+msgid "启动训练命令"
+msgstr "Launch Training Command"
+
+#: ../../source/user-guides/training.md:13 2be1cd0beb36445a82cf65b95f789a49
+msgid "使用 `train.py` 启动训练，通过 `-m` 指定模型名称，`-d` 指定数据集："
+msgstr ""
+"Launch training using `train.py`, specifying model name with `-m` and "
+"dataset with `-d`:"
+
+#: ../../source/user-guides/training.md:15 2c125784f7f141af8a6e4af74c3e4b0f
+msgid "python train.py -m GIKT -d assistments09 --data.fold 0\n"
+msgstr "python train.py -m GIKT -d assistments09 --data.fold 0\n"
+
+#: ../../source/user-guides/training.md:19 6fa64a8836df41bea773ab47b6ccaec6
+msgid ""
+"上述命令将以 `assistments09` 数据集的第 0 折作为测试集、第 4 折作为验证集启动 GIKT 模型的训练。UniKT "
+"采用分层反射式 CLI 体系，所有参数结构与代码中的配置类树严格对齐。"
+msgstr ""
+"The command above starts GIKT model training using fold 0 of "
+"`assistments09` as test set and fold 4 as validation set. UniKT employs a"
+" hierarchical reflective CLI system strictly aligned with configuration "
+"dataclass trees in code."
+
+#: ../../source/user-guides/training.md:21 dce8b5ab7ff14c209d9a70bef20051ac
+msgid "核心参数配置"
+msgstr "Core Parameter Configuration"
+
+#: ../../source/user-guides/training.md:23 9a8182d26a464909a5b7476a6d980b6e
+msgid "常用训练参数可以通过分层命名空间传入："
+msgstr ""
+"Frequently used training parameters can be passed via hierarchical "
+"namespaces:"
+
+#: ../../source/user-guides/training.md:25 b2102340b1ce42f0bc444b063bfa36bc
+msgid ""
+"python train.py -m GIKT -d assistments09 \\\n"
+"  --data.fold 0 \\\n"
+"  --model.epochs 100 \\\n"
+"  --model.batch_size 128 \\\n"
+"  --model.learning_rate 0.001 \\\n"
+"  --model.weight_decay 1e-5 \\\n"
+"  --general.device cuda:0 \\\n"
+"  --general.seed 42 \\\n"
+"  --general.deterministic true\n"
+msgstr ""
+"python train.py -m GIKT -d assistments09 \\\n"
+"  --data.fold 0 \\\n"
+"  --model.epochs 100 \\\n"
+"  --model.batch_size 128 \\\n"
+"  --model.learning_rate 0.001 \\\n"
+"  --model.weight_decay 1e-5 \\\n"
+"  --general.device cuda:0 \\\n"
+"  --general.seed 42 \\\n"
+"  --general.deterministic true\n"
+
+#: ../../source/user-guides/training.md 95aca4829e204f6f9e0314d2c7600f39
+msgid "参数项"
+msgstr "Parameter Option"
+
+#: ../../source/user-guides/training.md ../../source/user-guides/training.md:50
+#: 9b3f6814621d43f5bfe63a74852a884a b06a1bdc23f147bf9c7aeb773a6e0649
+msgid "类型"
+msgstr "Type"
+
+#: ../../source/user-guides/training.md ../../source/user-guides/training.md:50
+#: 0cbcafb916c44086a4641d1084c6869c b0262f55d90e4176a712a693532d637d
+msgid "默认值"
+msgstr "Default"
+
+#: ../../source/user-guides/training.md ../../source/user-guides/training.md:50
+#: 4c36f80a33e34e81a24d60c4ab7bcc97 7b9eadd23b734f20bcf086ba71701b0a
+msgid "说明"
+msgstr "Description"
+
+#: ../../source/user-guides/training.md c116fb1f237e4d12b24c6e5cb1f58959
+msgid "`-m, --experiment.model_name`"
+msgstr "`-m, --experiment.model_name`"
+
+#: ../../source/user-guides/training.md ../../source/user-guides/training.md:50
+#: 57ef2548f5894c80abfed7a87f281de4 5a072b42462d45f88478326dcd36faaf
+#: 66c87466b6414b80a997a2e08f93f27f 8a34e6fa6482440dbb91b36c17f042e8
+#: fcb2165bc4114f70abbbddcb855ddeaa
+msgid "`str`"
+msgstr "`str`"
+
+#: ../../source/user-guides/training.md 8dfb28266beb4b4aa63b04c0a7f1f267
+#: a13912cdf3954a488f13d755c88ceb1e
+msgid "必填"
+msgstr "Required"
+
+#: ../../source/user-guides/training.md 9306459dc43c452c985171dfdd8390ea
+msgid "模型名称（如 `GIKT`, `DKT`, `AKT`, `Mamba4KT`）"
+msgstr "Model name (e.g., `GIKT`, `DKT`, `AKT`, `Mamba4KT`)"
+
+#: ../../source/user-guides/training.md c636c1f1ea2e487ab7bacd28166244c8
+msgid "`-d, --data.dataset`"
+msgstr "`-d, --data.dataset`"
+
+#: ../../source/user-guides/training.md 30bd6011ff6a4888b06813ecf5446074
+msgid "数据集名称（如 `assistments09`, `ednet_kt1`）"
+msgstr "Dataset name (e.g., `assistments09`, `ednet_kt1`)"
+
+#: ../../source/user-guides/training.md 7267242f6f304446a3e5b6d8631120b7
+msgid "`--data.fold`"
+msgstr "`--data.fold`"
+
+#: ../../source/user-guides/training.md ../../source/user-guides/training.md:50
+#: 0dd37529891e4adfa4b87dc9eb967df8 3f4cad82f8b64da5bfbade6d4736d30e
+#: 93e53df1731248089519e91935d13e83 f0e57f39d7084c71ab2dc8ad718bd8c8
+#: f3d5c1e397064338a20910e2b2a41ed9
+msgid "`int`"
+msgstr "`int`"
+
+#: ../../source/user-guides/training.md 490bc0b4d57f47719fb5a9fc01e7852b
+msgid "`0`"
+msgstr "`0`"
+
+#: ../../source/user-guides/training.md 3a7a74a2377a4160b37634efc3334a66
+msgid "当前交叉验证折索引（`0` 到 `kfold - 1`）"
+msgstr "Current cross-validation fold index (`0` to `kfold - 1`)"
+
+#: ../../source/user-guides/training.md 390f7aba27f5485aa6732d289f883c9b
+msgid "`--model.epochs`"
+msgstr "`--model.epochs`"
+
+#: ../../source/user-guides/training.md 0d5892ad61714127a22891f266c08b41
+#: 0d8b9174f92a4216be849c82611dc354 43f4fc0078fb4afaa471ab2bda89bb77
+#: e8e072be843746d9ba83083d2f47b530
+msgid "模型定义"
+msgstr "Model Definition"
+
+#: ../../source/user-guides/training.md 18b0259ef6154685ba069913dfd8a0a3
+msgid "训练总轮数"
+msgstr "Total training epochs"
+
+#: ../../source/user-guides/training.md 6a2f642b12df4406a67d0350dae894c1
+msgid "`--model.batch_size`"
+msgstr "`--model.batch_size`"
+
+#: ../../source/user-guides/training.md c270f7e071a44abbac1d20bf9b7b6262
+msgid "批次大小"
+msgstr "Batch size"
+
+#: ../../source/user-guides/training.md 1d598ff2b7bb48ccb09f9e7df72c29bf
+msgid "`--model.learning_rate`"
+msgstr "`--model.learning_rate`"
+
+#: ../../source/user-guides/training.md ../../source/user-guides/training.md:50
+#: 4935f4b0b6924232921527f06e7a8f64 a4784bd957f6476488f868cfc93bc759
+#: bf85978ac893407c8bf8ae749169e2b5
+msgid "`float`"
+msgstr "`float`"
+
+#: ../../source/user-guides/training.md adaa2dce3e6647a1ab9474fbe234e984
+msgid "优化器初始学习率"
+msgstr "Optimizer initial learning rate"
+
+#: ../../source/user-guides/training.md ea37a05a4edb4fc8b2cc6144b342fbf7
+msgid "`--model.weight_decay`"
+msgstr "`--model.weight_decay`"
+
+#: ../../source/user-guides/training.md d91fc6f89b7b4945beb309153c82760f
+msgid "权重衰减系数（L2 正则化）"
+msgstr "Weight decay coefficient (L2 regularization)"
+
+#: ../../source/user-guides/training.md f230931c907e45e0ae026061317f9c1d
+msgid "`--general.device`"
+msgstr "`--general.device`"
+
+#: ../../source/user-guides/training.md 84eb9882893c415b9b5e2c72d92cc722
+msgid "自动检测"
+msgstr "Auto-detected"
+
+#: ../../source/user-guides/training.md 79b7fd9d52434831a6379a7d2260b397
+msgid "计算设备，可指定 `cuda`, `cuda:0`, `cpu` 等"
+msgstr "Compute device, e.g., `cuda`, `cuda:0`, `cpu`"
+
+#: ../../source/user-guides/training.md f98950a378354a7bb306293d8bef88b1
+msgid "`--general.seed`"
+msgstr "`--general.seed`"
+
+#: ../../source/user-guides/training.md e48e3b4cf2704f0ea0129180acd7de0c
+msgid "`42`"
+msgstr "`42`"
+
+#: ../../source/user-guides/training.md 4c6606494ee04e298ff45ac7326ec1c1
+msgid "全局随机种子（同步设置 Python、NumPy、PyTorch 及 CUDA 种子）"
+msgstr ""
+"Global random seed (synchronously sets Python, NumPy, PyTorch, and CUDA "
+"seeds)"
+
+#: ../../source/user-guides/training.md 4100be358f5c49df9a83826a01d676a2
+msgid "`--general.deterministic`"
+msgstr "`--general.deterministic`"
+
+#: ../../source/user-guides/training.md cf7567708c7c4bf7a62a304d944a291b
+msgid "`bool`"
+msgstr "`bool`"
+
+#: ../../source/user-guides/training.md db73fd661ebe460e87239be97ce81d58
+msgid "`true`"
+msgstr "`true`"
+
+#: ../../source/user-guides/training.md c67221f8f43644b3bf41a89e7deb239b
+msgid "是否启用 PyTorch 确定性算法（确保实验结果可精确复现）"
+msgstr ""
+"Whether to enable PyTorch deterministic algorithms (ensures exact "
+"reproducibility)"
+
+#: ../../source/user-guides/training.md:51 6eaa5f5f41d5444ca6ff118d281e3684
+msgid ""
+"查看特定模型的专属超参数 如需查看特定模型独有的超参数（例如 GIKT 的 `--model.agg_type` 或 "
+"`--model.gcn_layers`），可以在命令末尾加入 `-h` 查看该模型的反射参数帮助："
+msgstr ""
+"Inspect Model-Specific Hyperparameters: To inspect hyperparameters unique"
+" to a model (such as `--model.agg_type` or `--model.gcn_layers` for "
+"GIKT), append `-h` to view reflected parameter help:"
+
+#: ../../source/user-guides/training.md:53 a0501aad2f164fa088700928293686c3
+msgid "python train.py -m GIKT -h\n"
+msgstr "python train.py -m GIKT -h\n"
+
+#: ../../source/user-guides/training.md:59 45f54ed8ed404a4ebf5b5169a230e749
+msgid "训练过程控制与早停机制"
+msgstr "Training Process Control and Early Stopping"
+
+#: ../../source/user-guides/training.md:61 b6409738bef24af4a1e3a53b5bae9953
+msgid "早停机制"
+msgstr "Early stopping mechanism"
+
+#: ../../source/user-guides/training.md:63 a561d12c7b6e465e8fb58bb00c4d269b
+msgid "UniKT 内置了基于验证集指标监控的早停机制，在指标不再提升时提前终止训练，避免算力浪费并自动保留最佳模型权重："
+msgstr ""
+"UniKT includes built-in early stopping based on validation metrics, "
+"terminating training when metrics cease improving to save compute and "
+"retain optimal checkpoints:"
+
+#: ../../source/user-guides/training.md:65 5409a99b831e403db6a02b7209f26f24
+msgid ""
+"python train.py -m GIKT -d assistments09 \\\n"
+"  --data.fold 0 \\\n"
+"  --early_stopping.patience 10 \\\n"
+"  --early_stopping.monitor auc \\\n"
+"  --early_stopping.mode max \\\n"
+"  --early_stopping.min_delta 0.0005\n"
+msgstr ""
+"python train.py -m GIKT -d assistments09 \\\n"
+"  --data.fold 0 \\\n"
+"  --early_stopping.patience 10 \\\n"
+"  --early_stopping.monitor auc \\\n"
+"  --early_stopping.mode max \\\n"
+"  --early_stopping.min_delta 0.0005\n"
+
+#: ../../source/user-guides/training.md:50 bf43d35e3abd4ef5b160bdf589c20722
+msgid "早停参数"
+msgstr "Early Stopping Parameter"
+
+#: ../../source/user-guides/training.md:50 870144c053f447448bbaafaf09178279
+msgid "`--early_stopping.patience`"
+msgstr "`--early_stopping.patience`"
+
+#: ../../source/user-guides/training.md:50 3ccc5bd5891c4f1094d532ba06ac0eb4
+msgid "`10`"
+msgstr "`10`"
+
+#: ../../source/user-guides/training.md:50 6713966bcaa04778981fa9da4e454d51
+msgid "容忍指标未提升的连续 Epoch 轮数。设为 `0` 时禁用早停"
+msgstr ""
+"Consecutive epochs tolerated without metric improvement. Set to `0` to "
+"disable early stopping"
+
+#: ../../source/user-guides/training.md:50 6573b0bb506d41f6b530516b8b150a4d
+msgid "`--early_stopping.monitor`"
+msgstr "`--early_stopping.monitor`"
+
+#: ../../source/user-guides/training.md:50 b585d33d7a674f7fb2d773ebe38486f6
+msgid "`auc`"
+msgstr "`auc`"
+
+#: ../../source/user-guides/training.md:50 6b6c666f52f448ef9435c73bb2956e40
+msgid "监控的目标指标，支持 `auc`, `acc`, `rmse`, `loss`"
+msgstr "Target metric monitored, supporting `auc`, `acc`, `rmse`, `loss`"
+
+#: ../../source/user-guides/training.md:50 d57c94a87e764f8a9d16693f2fde90ce
+msgid "`--early_stopping.mode`"
+msgstr "`--early_stopping.mode`"
+
+#: ../../source/user-guides/training.md:50 ba513ec2e7fe40c9a5adbfb4b07345b0
+msgid "`max`"
+msgstr "`max`"
+
+#: ../../source/user-guides/training.md:50 680939e0eb504c83b020e1a50b5e3055
+msgid "优化方向：`max`（指标越大越好，如 AUC、ACC）或 `min`（指标越小越好，如 RMSE、Loss）"
+msgstr ""
+"Optimization direction: `max` (higher is better, e.g., AUC, ACC) or `min`"
+" (lower is better, e.g., RMSE, Loss)"
+
+#: ../../source/user-guides/training.md:50 d05bf8512f444680b790d7ca5d93b3d6
+msgid "`--early_stopping.min_delta`"
+msgstr "`--early_stopping.min_delta`"
+
+#: ../../source/user-guides/training.md:50 09585eefaf06499ca475007229e7ee62
+msgid "`0.0`"
+msgstr "`0.0`"
+
+#: ../../source/user-guides/training.md:50 4ff4582c813040feb56c9195fbda9fba
+msgid "判定为有效提升的最小变化绝对阈值"
+msgstr "Minimum absolute change threshold considered an improvement"
+
+#: ../../source/user-guides/training.md:81 ac7e125bc99048fab17b367d7d45c88e
+msgid "当早停触发时，训练循环将打印提示，且保存在磁盘上的 `best_model.pth` 始终对应监控指标表现最优的那一轮权重。"
+msgstr ""
+"When early stopping triggers, the training loop logs an alert; "
+"`best_model.pth` saved on disk strictly retains the weights from the "
+"highest-performing epoch."
+
+#: ../../source/user-guides/training.md:83 3f82223bbacc4cd699aeceb7f3d0339c
+msgid "检查点恢复与断点续训"
+msgstr "Checkpoint Resumption and Fine-tuning"
+
+#: ../../source/user-guides/training.md:85 72b30d3d96334fa08baa1a8e47d6d375
+msgid "如果训练被意外中断，或者希望在保存的检查点基础上继续微调，可以使用 `--general.checkpoint_path` 参数："
+msgstr ""
+"If training was interrupted or you wish to fine-tune from a saved "
+"checkpoint, use `--general.checkpoint_path`:"
+
+#: ../../source/user-guides/training.md:87 45a0a6d8da504fcf847dc9a5758db2c9
+msgid ""
+"# 1. 确保在初始训练时保存了最后一轮状态（默认已开启）\n"
+"python train.py -m GIKT -d assistments09 \\\n"
+"  --general.save_last_checkpoint true\n"
+"\n"
+"# 2. 从指定检查点恢复模型权重并继续训练\n"
+"python train.py -m GIKT -d assistments09 \\\n"
+"  --general.checkpoint_path "
+"runs/normal/GIKT_assistments09_20261109-120000_fold0_bs128/best_model.pth"
+"\n"
+msgstr ""
+"# 1. Ensure saving the last epoch state during initial training (enabled "
+"by default)\n"
+"python train.py -m GIKT -d assistments09 \\\n"
+"  --general.save_last_checkpoint true\n"
+"\n"
+"# 2. Resume weights from checkpoint and continue training\n"
+"python train.py -m GIKT -d assistments09 \\\n"
+"  --general.checkpoint_path "
+"runs/normal/GIKT_assistments09_20261109-120000_fold0_bs128/best_model.pth"
+"\n"
+
+#: ../../source/user-guides/training.md:99 8b414e6c9c914c34a483f688d4f2d57d
+msgid "产物结构与日志输出"
+msgstr "Artifact Structure and Log Outputs"
+
+#: ../../source/user-guides/training.md:101 5598cc4025184a67be2c14df943ae09b
+msgid "终端训练日志输出"
+msgstr "Terminal Training Log Output"
+
+#: ../../source/user-guides/training.md:103 c9b70f6987d94cfaa29111c895cd04b2
+msgid "训练启动后，终端将输出进度日志与指标汇总："
+msgstr ""
+"Upon startup, the terminal outputs real-time training progress logs and "
+"metric summaries:"
+
+#: ../../source/user-guides/training.md:105 990e225dcfbf4782aa4c40aac2103cd4
+msgid ""
+"2026-11-09 12:00:00 INFO     __main__: Experiment directory: "
+"runs/normal/GIKT_assistments09_20261109-120000_fold0_bs128\n"
+"2026-11-09 12:00:00 INFO     utils.training.base_trainer: Model: GIKT  "
+"Dataset: assistments09  Fold: 0\n"
+"2026-11-09 12:00:01 INFO     utils.training.base_trainer: Trainer built "
+"successfully (Parameters: 412,850, Device: cuda:0)\n"
+"2026-11-09 12:00:01 INFO     utils.training.base_trainer: Epoch 1/150\n"
+"Epoch 1/150 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:05 • Train"
+" Loss: 0.5421\n"
+"2026-11-09 12:00:06 INFO     utils.training.base_trainer: Epoch 1/150 "
+"took 5.21s (train 4.89s, val 0.32s)\n"
+"2026-11-09 12:00:06 INFO     utils.training.checkpoint: Best validation "
+"AUC improved (0.0000 -> 0.7241). Checkpoint saved to "
+"runs/normal/GIKT_assistments09_20261109-120000_fold0_bs128/best_model.pth"
+"\n"
+"...\n"
+"2026-11-09 12:03:15 INFO     utils.training.callbacks: Early stopping "
+"triggered at epoch 35. Best epoch: 25 (AUC: 0.7682)\n"
+"2026-11-09 12:03:16 INFO     utils.training.base_trainer: Test metrics: "
+"AUC=0.7654, ACC=0.7312, RMSE=0.4182\n"
+msgstr ""
+"2026-11-09 12:00:00 INFO     __main__: Experiment directory: "
+"runs/normal/GIKT_assistments09_20261109-120000_fold0_bs128\n"
+"2026-11-09 12:00:00 INFO     utils.training.base_trainer: Model: GIKT  "
+"Dataset: assistments09  Fold: 0\n"
+"2026-11-09 12:00:01 INFO     utils.training.base_trainer: Trainer built "
+"successfully (Parameters: 412,850, Device: cuda:0)\n"
+"2026-11-09 12:00:01 INFO     utils.training.base_trainer: Epoch 1/150\n"
+"Epoch 1/150 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:05 • Train"
+" Loss: 0.5421\n"
+"2026-11-09 12:00:06 INFO     utils.training.base_trainer: Epoch 1/150 "
+"took 5.21s (train 4.89s, val 0.32s)\n"
+"2026-11-09 12:00:06 INFO     utils.training.checkpoint: Best validation "
+"AUC improved (0.0000 -> 0.7241). Checkpoint saved to "
+"runs/normal/GIKT_assistments09_20261109-120000_fold0_bs128/best_model.pth"
+"\n"
+"...\n"
+"2026-11-09 12:03:15 INFO     utils.training.callbacks: Early stopping "
+"triggered at epoch 35. Best epoch: 25 (AUC: 0.7682)\n"
+"2026-11-09 12:03:16 INFO     utils.training.base_trainer: Test metrics: "
+"AUC=0.7654, ACC=0.7312, RMSE=0.4182\n"
+
+#: ../../source/user-guides/training.md:118 c057d3f705324929885b77455498bd68
+msgid "运行产物结构"
+msgstr "Run Artifact Structure"
+
+#: ../../source/user-guides/training.md:120 709c3312e57446aa9fa289db100eb2d1
+msgid "每次训练会在 `runs/normal/<run_id>/` 目录下生成完整的实验归档文件："
+msgstr ""
+"Each training run generates a comprehensive experiment archive under "
+"`runs/normal/<run_id>/`:"
+
+#: ../../source/user-guides/training.md:122 f56f27726e594898ae99903905cc8116
+msgid ""
+"runs/normal/GIKT_assistments09_20261109-120000_fold0_bs128/\n"
+"├── best_model.pth          # 验证集监控指标最优时的模型权重\n"
+"├── last_checkpoint.pth     # 最后一轮训练完成后的权重（若启用）\n"
+"├── run_config.yaml         # 类型完整的配置归档（支持无损重跑与配置复现）\n"
+"├── run_metadata.yaml       # 运行元数据（包含参数量、硬件环境、PyTorch 版本等）\n"
+"├── metrics_train.csv       # 训练集各轮次 Loss 与评价指标记录\n"
+"├── metrics_val.csv         # 验证集各轮次指标记录\n"
+"├── metrics_test.csv        # 测试集最终评价指标记录\n"
+"├── run.log                 # 完整控制台日志记录\n"
+"└── evaluate/               # 若运行了 evaluate.py，生成的独立评估日志目录\n"
+msgstr ""
+"runs/normal/GIKT_assistments09_20261109-120000_fold0_bs128/\n"
+"├── run_config.yaml         # Complete static configuration snapshot\n"
+"├── run_metadata.yaml       # Dynamic runtime metadata\n"
+"├── metrics_train.csv       # Training metric history\n"
+"├── metrics_val.csv         # Validation metric history\n"
+"├── metrics_test.csv        # Test set final metrics\n"
+"├── best_model.pth          # Best model weights\n"
+"└── run.log                 # Complete console log\n"

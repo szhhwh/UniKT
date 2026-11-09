@@ -1,0 +1,341 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/datasets/catalog/algebra2005.md:1
+#: 07dc4557e2054c65958fe34f348f7413
+msgid "Algebra I 2005–2006"
+msgstr "Algebra I 2005–2006"
+
+#: ../../source/datasets/catalog/algebra2005.md:3
+#: 82d8bb4c54f1457fbb22fdff3ca422f8
+msgid "KDD Cup 2010 教育数据挖掘竞赛的开发数据集，记录代数辅导系统中的学生解题步骤。"
+msgstr ""
+"Development dataset from the KDD Cup 2010 Educational Data Mining "
+"Challenge, recording student problem-solving steps in an algebra tutoring"
+" system."
+
+#: ../../source/datasets/catalog/algebra2005.md:5
+#: aff74c3c957c400dba2872cef51ad63d
+msgid ""
+"数据集链接：[KDD Cup 2010 "
+"数据下载页](https://pslcdatashop.web.cmu.edu/KDDCup/downloads.jsp)，下载需要登录。"
+msgstr ""
+"Dataset link: [KDD Cup 2010 Data Download "
+"Page](https://pslcdatashop.web.cmu.edu/KDDCup/downloads.jsp); login "
+"required for download."
+
+#: ../../source/datasets/catalog/algebra2005.md:7
+#: 0fd24a6223c34374852c79c48b1f1795
+msgid "数据参数"
+msgstr "Dataset Parameters"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: 88ef1727c60b447dbb64ee4b0dc4ead6
+msgid "参数"
+msgstr "Parameter"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: 5618d8e158564b118bba64331997c38c
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: 1f2c8a09fb6349bc95dd7c3a9ab933a5
+msgid "数据文件"
+msgstr "Data File"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: cf58e4def3cf4b038d115417c5f3c8a6
+msgid "`algebra_2005_2006_train.txt`"
+msgstr "`algebra_2005_2006_train.txt`"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: f9325435ecc340f7ada5767055c6effc
+msgid "步骤记录"
+msgstr "Step Records"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: a9853ab58f1843c49cbc1839ced4c567
+msgid "809,694 行"
+msgstr "809,694 rows"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: 6a0f4e11143e4e90ac61c527e3343c41
+msgid "学生 / 题目名称 / 知识组件"
+msgstr "Students / Problem Names / Knowledge Components"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: 2eb194a1cf9f411089d9dc97ec06ecdc
+msgid "574 / 1,084 / 112，分别按 `Anon Student Id`、`Problem Name` 和 `KC(Default)` 去重"
+msgstr ""
+"574 / 1,084 / 112, deduplicated by `Anon Student Id`, `Problem Name`, and"
+" `KC(Default)` respectively"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: 198b0c2576f74143b5f0a90907b910b9
+msgid "缺失知识组件的行数"
+msgstr "Rows with Missing Knowledge Components"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: 76cf6f7820914cf290df3c38200340aa
+msgid "202,669"
+msgstr "202,669"
+
+#: ../../source/datasets/catalog/algebra2005.md:16
+#: d41a8ca00c0147dcba4434c7a8b4c6ca
+msgid "去重时排除空值及 `NA`、`nan`、`null` 标记（不区分大小写）；知识组件按 `~~` 拆分，统计范围仅为训练文件。"
+msgstr ""
+"Deduplication excludes null values and `NA`, `nan`, `null` markers (case-"
+"insensitive); knowledge components are split by `~~`, statistical scope "
+"is training files only."
+
+#: ../../source/datasets/catalog/algebra2005.md:18
+#: 27db11c53d0b4914930f3fd18e94535a
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/datasets/catalog/algebra2005.md:20
+#: 81509cf9ffc94c9ca5685d5019e5164a
+msgid ""
+"竞赛数据为制表符分隔格式，每行对应一个解题步骤。以下是字段说明；该数据集使用 `Default` 认知模型。详见 [DataShop "
+"数据格式说明](https://pslcdatashop.web.cmu.edu/KDDCup/rules_data_format.jsp)。"
+msgstr ""
+"Competition data is in tab-delimited format, where each row corresponds "
+"to a problem-solving step. Below are field descriptions; this dataset "
+"uses the `Default` cognitive model. See [DataShop Data Format "
+"Specifications](https://pslcdatashop.web.cmu.edu/KDDCup/rules_data_format.jsp)"
+" for details."
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: 85a31e4a8d4c4a3ab652b612d679e2db
+msgid "字段名称"
+msgstr "Field Name"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: 70b3238e44f6482ba542dc3db69909c1
+msgid "字段语义说明"
+msgstr "Field Semantic Description"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: dfbf77c0595249fbb19d9ea90c40516c
+msgid "`Row`"
+msgstr "`Row`"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: b05a05b8021844a58be7028ac8c728d5
+msgid "数据行的物理递增序号"
+msgstr "Physical auto-increment sequence number of the data row"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: 17005d01fd164203be37f2804a2dc311
+msgid "`Anon Student Id`"
+msgstr "`Anon Student Id`"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: 866759ad36c94dcaa97e3aaf6faecc09
+msgid "全局匿名的学生唯一标识符"
+msgstr "Globally anonymized unique student identifier"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: 4b7b31eaf4954b8ca970f4a4c928d015
+msgid "`Problem Hierarchy`"
+msgstr "`Problem Hierarchy`"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: cbf8a09261aa4725b9a633f6e925893f
+msgid "课程单元与章节层级目录（用于组织题目上下文）"
+msgstr ""
+"Curriculum unit and section hierarchy directory (for organizing problem "
+"context)"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: b73af73d2b444b518bea654dc69985f1
+msgid "`Problem Name`"
+msgstr "`Problem Name`"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: 6a84da3a2ee24645b3bc4ac12be8ddf9
+msgid "完整的母题名称"
+msgstr "Full parent problem name"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: 9c9ffd2db6cc4ca7b672a678975c3b8f
+msgid "`Problem View`"
+msgstr "`Problem View`"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: 97c272965d254fdbb65ce5364f600c85
+msgid "该学生第几次看到该题目（用于区分重做与复习）"
+msgstr ""
+"Number of times the student has seen this problem (used to distinguish "
+"redo and review)"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: c6d216da37af4289b498f799781bec82
+msgid "`Step Name`"
+msgstr "`Step Name`"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: a35211d437464fce9716bc7ca2710769
+msgid "母题内部具体的解题步骤标识符"
+msgstr "Specific problem-solving step identifier within the parent problem"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: 0e30f488f26243f3a36199fe26a39e98
+msgid "`Step Start Time`"
+msgstr "`Step Start Time`"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: daf846a08d984c68adf59409d02b4d72
+msgid "步骤开始时间，可为空"
+msgstr "Step start time, can be null"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: 8d6a389c74cf4b9ab5717e3905538ff0
+msgid "`First Transaction Time`"
+msgstr "`First Transaction Time`"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: 601861bca5b54845a68a001e4a0e9892
+msgid "学生的首次操作（提交答案或请求提示）时间戳"
+msgstr ""
+"Timestamp of the student's first action (submitting answer or requesting "
+"hint)"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: 6de2a7b912914ccba9e2e33b7e85276a
+msgid "`Correct Transaction Time`"
+msgstr "`Correct Transaction Time`"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: 9531959856004a40a180bfc2d61f1c81
+msgid "学生最终正确完成该步骤的时间戳（若未做对可为空）"
+msgstr ""
+"Timestamp when the student finally completed the step correctly (can be "
+"null if not solved)"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: 28bf0ae72ef041d1bf177aebb5c6268f
+msgid "`Step End Time`"
+msgstr "`Step End Time`"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: f1f227965a424ff983ac6375e77d8798
+msgid "该步骤最后一次操作的时间"
+msgstr "Time of the last action on this step"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: cfe30d2dbd6342ca8358a05dabd89cbf
+msgid "`Step Duration (sec)`"
+msgstr "`Step Duration (sec)`"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: e9a9e12cdf2a4ab9a2a97efcf4048e00
+msgid "分配至该步骤的各次操作时长之和，单位为秒；步骤开始时间缺失时可为空"
+msgstr ""
+"Sum of action durations assigned to this step in seconds; can be null if "
+"step start time is missing"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: c7b411ef41214d279276b6f85143ac0c
+msgid "`Correct Step Duration (sec)`"
+msgstr "`Correct Step Duration (sec)`"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: e59bdcb699214ef3a071d1f0b9b9f518
+msgid "首次尝试正确时的步骤耗时（秒）"
+msgstr "Step duration when first attempt is correct (seconds)"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: 9e16d8dbc10d40a0ba6082eb3470f03e
+msgid "`Error Step Duration (sec)`"
+msgstr "`Error Step Duration (sec)`"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: 48aa7079d25e4064a62be53b4de02771
+msgid "首次尝试错误或请求提示时的步骤耗时（秒）"
+msgstr "Step duration when first attempt is incorrect or requests a hint (seconds)"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: d28077e03d9a4842994aa49e994e7c91
+msgid "`Correct First Attempt`"
+msgstr "`Correct First Attempt`"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: 1c72fa03535b4997a3b91154322ec480
+msgid "**核心标签**：首次尝试是否正确（1=首次做对，0=发生错误或查看提示）"
+msgstr ""
+"**Core Label**: Whether first attempt is correct (1=correct on first "
+"attempt, 0=error or hint requested)"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: 12d5a8ea3ea24160b43aa8f891b0d3f8
+msgid "`Incorrects`"
+msgstr "`Incorrects`"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: 3eed0ecef00b4ed88cbc193737a125c6
+msgid "在该步骤上的错误作答次数计数"
+msgstr "Count of incorrect answer attempts on this step"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: 8fcd594abbc14750bfeb83f4e87a0842
+msgid "`Hints`"
+msgstr "`Hints`"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: b03f9b5d1c79439f9136504ad3f49347
+msgid "在该步骤上请求提示的次数计数"
+msgstr "Count of hint requests on this step"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: 85570c11f38043eb8d970c4523acd00e
+msgid "`Corrects`"
+msgstr "`Corrects`"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: df7d417e211e4c0d91965bb605543cc4
+msgid "在该步骤上的正确作答次数计数"
+msgstr "Count of correct answer attempts on this step"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: e195e76a034d489b9bede2ac0ecbb763
+msgid "`KC(Default)`"
+msgstr "`KC(Default)`"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: a1d7a349381249368acb4005b21d5abf
+msgid "认知模型标注的知识组件（技能名称），多技能时用 `~~` 分隔"
+msgstr ""
+"Knowledge component (skill name) annotated by cognitive model, multiple "
+"skills separated by `~~`"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: e2e09022eb9045dcb82b8e02e7cc07b3
+msgid "`Opportunity(Default)`"
+msgstr "`Opportunity(Default)`"
+
+#: ../../source/datasets/catalog/algebra2005.md
+#: 0ce7d56b949f429394f83a95fc5a4922
+msgid "该学生练习该知识组件的累计机会次数"
+msgstr ""
+"Cumulative opportunity count for the student practicing this knowledge "
+"component"

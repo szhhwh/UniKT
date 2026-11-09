@@ -1,0 +1,132 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/sgkt.md:1 eb87bbf05602495cb44866a2e0eb782d
+msgid "SGKT"
+msgstr "SGKT"
+
+#: ../../source/model-zoo/models/sgkt.md:3 beb5a2d4993444b39965c57e400019b0
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/sgkt.md ac34c8db7ae743b0a754d70eb8c40759
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/sgkt.md ca852b3a66ff449195e120f39483fbab
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/sgkt.md afbadcd5fa0f48619488596c4f1a2c0f
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/sgkt.md 481ae7cf12054b1a9daa41210e887fa2
+msgid ""
+"[SGKT: Session graph-based knowledge tracing for student performance "
+"prediction](https://doi.org/10.1016/j.eswa.2022.117681)"
+msgstr ""
+"[SGKT: Session graph-based knowledge tracing for student performance "
+"prediction](https://doi.org/10.1016/j.eswa.2022.117681)"
+
+#: ../../source/model-zoo/models/sgkt.md da5b38d1dbde47d0859a3c4037150267
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/sgkt.md 873b415170484536a2d1517afa2ebc2f
+msgid "Zhengyang Wu, Li Huang, Qionghao Huang, Changqin Huang, Yong Tang"
+msgstr "Zhengyang Wu, Li Huang, Qionghao Huang, Changqin Huang, Yong Tang"
+
+#: ../../source/model-zoo/models/sgkt.md 2354e53b8e3a4ec7aefd4b80ab2ccf2c
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/sgkt.md bc5c62bfa3e1471eb7bc3e857c58883c
+msgid "2022"
+msgstr "2022"
+
+#: ../../source/model-zoo/models/sgkt.md 442af711ba384cd995f21adb6cf7b84c
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/sgkt.md 8b0f54d9f08b4bd38afcf1b70b4dd5f5
+msgid "Expert Systems with Applications"
+msgstr "Expert Systems with Applications"
+
+#: ../../source/model-zoo/models/sgkt.md:12 7be0e35c0f7045b4916201d7ac7bbff6
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/sgkt.md:14 da3f21c8c6974d6e8a98adccf4eb518b
+msgid ""
+"Knowledge tracing is a modeling method of students' knowledge mastery. "
+"The deep knowledge tracing (DKT) model uses long short-term memory (LSTM)"
+" to process the sequence data of students exercises. However, the LSTM-"
+"based model pays more attention to the short-term response status of "
+"students while ignoring the long-term learning process. Moreover, "
+"existing graph-based knowledge tracing models focus on the static "
+"relationship between exercises and skills, ignoring the dynamic graphs "
+"formed by students exercises in a session. In this work, we propose a "
+"novel knowledge tracing model which is based on an exercise session "
+"graph, named session graph based knowledge tracing (SGKT). The session "
+"graph is used to model the students' answering process. In addition, a "
+"relationship graph is used to model the relationship between exercises "
+"and skills. Then we use gated graph neural networks to obtain the "
+"students' knowledge state from the session graph and use graph "
+"convolutional networks to obtain the embedding representations of "
+"exercises and skills in the relationship graph. Next, through the "
+"interaction mechanism, multiple interaction states composed of knowledge "
+"states and embedding representations are obtained. The attention "
+"mechanism is used to find the focus from these states and make "
+"predictions. Experiments are conducted on three publicly available "
+"datasets and the results show that our approach has advantages over some "
+"existing baseline methods."
+msgstr ""
+"Knowledge tracing is a modeling method of students' knowledge mastery. "
+"The deep knowledge tracing (DKT) model uses long short-term memory (LSTM)"
+" to process the sequence data of students exercises. However, the LSTM-"
+"based model pays more attention to the short-term response status of "
+"students while ignoring the long-term learning process. Moreover, "
+"existing graph-based knowledge tracing models focus on the static "
+"relationship between exercises and skills, ignoring the dynamic graphs "
+"formed by students exercises in a session. In this work, we propose a "
+"novel knowledge tracing model which is based on an exercise session "
+"graph, named session graph based knowledge tracing (SGKT). The session "
+"graph is used to model the students' answering process. In addition, a "
+"relationship graph is used to model the relationship between exercises "
+"and skills. Then we use gated graph neural networks to obtain the "
+"students' knowledge state from the session graph and use graph "
+"convolutional networks to obtain the embedding representations of "
+"exercises and skills in the relationship graph. Next, through the "
+"interaction mechanism, multiple interaction states composed of knowledge "
+"states and embedding representations are obtained. The attention "
+"mechanism is used to find the focus from these states and make "
+"predictions. Experiments are conducted on three publicly available "
+"datasets and the results show that our approach has advantages over some "
+"existing baseline methods."
+
+#: ../../source/model-zoo/models/sgkt.md:17 cf2b9bd2873d45c7bc507262dd1184d4
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/sgkt.md:19 117ae7a4dec443d2bfb66363444f0a10
+msgid "[CCNUZFW/SGKT](https://github.com/CCNUZFW/SGKT)"
+msgstr "[CCNUZFW/SGKT](https://github.com/CCNUZFW/SGKT)"

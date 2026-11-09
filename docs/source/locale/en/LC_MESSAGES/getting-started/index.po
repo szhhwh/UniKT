@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: UniKT \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-15 18:10+0800\n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -19,73 +19,94 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.18.0\n"
 
-#: ../../source/getting-started/index.md:1 86556b5900354c619d385edff84db1b4
-msgid "快速上手"
-msgstr "Getting started"
+#: ../../source/getting-started/index.md:5 bf73dfb5639c4b24a466ac0a1f7f3369
+msgid "快速开始"
+msgstr "Quick Start"
 
-#: ../../source/getting-started/index.md:3 384c31a11fcb4a2ba93b5d4b9c68857f
-msgid "UniKT 是一个基于 PyTorch 和 PyTorch Geometric 构建的统一知识追踪研究实验框架。"
+#: ../../source/getting-started/index.md:7 8ace34b3f3e54fb3a2bfed24db3d435c
+msgid "准备环境与数据，完成第一次知识追踪实验。"
 msgstr ""
-"UniKT is a unified research and experimentation framework for knowledge "
-"tracing, built on PyTorch and PyTorch Geometric."
+"Prepare the environment and data, then run your first knowledge tracing "
+"experiment."
 
-#: ../../source/getting-started/index.md:5 449bd1cbeb524142ac1025a090a37bd7
-msgid "什么是知识追踪"
-msgstr "What is knowledge tracing"
-
-#: ../../source/getting-started/index.md:7 fb1cea63edf24eacb09f865f9c986233
-msgid "知识追踪是对学习者的知识状态随时间进行建模的任务，基于其历史交互数据（回答的题目、练习的技能以及正确性结果）。其目标是预测学习者在未来题目上的表现，从而实现个性化学习。"
+#: ../../source/getting-started/index.md:9 81ddfb75be154ec48e660c66a7c8919b
+msgid "[环境安装与配置](installation.md)：通过 Pixi 配置 GPU、CPU、Mamba、xLSTM 或 Web 环境。"
 msgstr ""
-"Knowledge tracing is the task of modeling a learner's knowledge state "
-"over time based on their historical interaction data (questions answered,"
-" skills practiced, and correctness outcomes). Its goal is to predict the "
-"learner's future performance on questions, enabling personalized "
-"learning."
+"[Installation & Configuration](installation.md): Configure GPU, CPU, "
+"Mamba, xLSTM, or Web environments via Pixi."
 
-#: ../../source/getting-started/index.md:9 0624dce780924bf1b343d4424bac2c79
-msgid "UniKT 提供的功能"
-msgstr "What UniKT provides"
-
-#: ../../source/getting-started/index.md:11 28e66c2891de4da4a6ed49f5b29f3a71
-msgid "UniKT 提供从数据到评估的完整流程："
-msgstr "UniKT covers the complete pipeline from data to evaluation:"
-
-#: ../../source/getting-started/index.md:13 c941ac4fb0024335ad3501cd8510ab54
-msgid "**统一 API**：使用相同的 CLI 和训练器 API 训练任何模型"
-msgstr "**Unified API**: train any model with the same CLI and trainer API"
-
-#: ../../source/getting-started/index.md:14 3c1b8b23fe9348f99a823fc9b3d9bd4e
-msgid ""
-"**35 "
-"个内置模型**：覆盖图神经网络（GKT、GIKT、SGKT、DyGKT、HDHKT）和序列/注意力架构（DKT、AKT、SimpleKT）等方向"
+#: ../../source/getting-started/index.md:10 0b33f904fbbb4bee99d6835b0f9e06bc
+msgid "[快速上手](quick-start.md)：以 ASSISTments 2009 和 DKT 为例，完成数据处理、训练与评估。"
 msgstr ""
-"**35 built-in models**: covering graph neural networks (GKT, GIKT, SGKT, "
-"DyGKT, HDHKT) and sequential/attention architectures (DKT, AKT, "
-"SimpleKT), among others"
+"[Quick Start](quick-start.md): Walk through data processing, training, "
+"and evaluation using ASSISTments 2009 and DKT."
 
-#: ../../source/getting-started/index.md:15 43a6b5f9cae94775832d84ff2c2365ea
-msgid ""
-"**11 "
-"个支持的数据集**：ASSISTments（2009/2012/2015/2017）、Algebra（2005/2006）、Bridge2006"
-"、EdNet-KT1、Junyi、NIPS2020_T34、Slepemapy"
-msgstr ""
-"**11 supported datasets**: ASSISTments (2009/2012/2015/2017), Algebra "
-"(2005/2006), Bridge2006, EdNet-KT1, Junyi, NIPS2020_T34, and Slepemapy"
+#~ msgid "快速上手"
+#~ msgstr "Getting started"
 
-#: ../../source/getting-started/index.md:16 9a521099367640d490bbbc6212e6d5c9
-msgid "**实验管理**：K 折交叉验证、超参数搜索（Optuna）"
-msgstr ""
-"**Experiment management**: K-fold cross validation, hyperparameter search"
-" (Optuna)"
+#~ msgid "UniKT 是一个基于 PyTorch 和 PyTorch Geometric 构建的统一知识追踪研究实验框架。"
+#~ msgstr ""
+#~ "UniKT is a unified research and "
+#~ "experimentation framework for knowledge "
+#~ "tracing, built on PyTorch and PyTorch"
+#~ " Geometric."
 
-#: ../../source/getting-started/index.md:18 164c40375eb34a01a0b2e98c930dd764
-msgid "框架设计"
-msgstr "Framework design"
+#~ msgid "什么是知识追踪"
+#~ msgstr "What is knowledge tracing"
 
-#: ../../source/getting-started/index.md:20 8fb76d235b8e416d8b7b5f1b111e3543
-msgid "UniKT 通过装饰器自动发现模型、训练器、数据源和配置——只需在代码中添加一行装饰器，无需手动编辑注册文件。"
-msgstr ""
-"UniKT auto-discovers models, trainers, data sources, and configurations "
-"via decorators — just add a single decorator line in your code, with no "
-"need to manually edit registration files."
+#~ msgid "知识追踪是对学习者的知识状态随时间进行建模的任务，基于其历史交互数据（回答的题目、练习的技能以及正确性结果）。其目标是预测学习者在未来题目上的表现，从而实现个性化学习。"
+#~ msgstr ""
+#~ "Knowledge tracing is the task of "
+#~ "modeling a learner's knowledge state "
+#~ "over time based on their historical "
+#~ "interaction data (questions answered, skills"
+#~ " practiced, and correctness outcomes). Its"
+#~ " goal is to predict the learner's "
+#~ "future performance on questions, enabling "
+#~ "personalized learning."
 
+#~ msgid "UniKT 提供的功能"
+#~ msgstr "What UniKT provides"
+
+#~ msgid "UniKT 提供从数据到评估的完整流程："
+#~ msgstr "UniKT covers the complete pipeline from data to evaluation:"
+
+#~ msgid "**统一 API**：使用相同的 CLI 和训练器 API 训练任何模型"
+#~ msgstr "**Unified API**: train any model with the same CLI and trainer API"
+
+#~ msgid ""
+#~ "**35 "
+#~ "个内置模型**：覆盖图神经网络（GKT、GIKT、SGKT、DyGKT、HDHKT）和序列/注意力架构（DKT、AKT、SimpleKT）等方向"
+#~ msgstr ""
+#~ "**35 built-in models**: covering graph"
+#~ " neural networks (GKT, GIKT, SGKT, "
+#~ "DyGKT, HDHKT) and sequential/attention "
+#~ "architectures (DKT, AKT, SimpleKT), among "
+#~ "others"
+
+#~ msgid ""
+#~ "**11 "
+#~ "个支持的数据集**：ASSISTments（2009/2012/2015/2017）、Algebra（2005/2006）、Bridge2006"
+#~ "、EdNet-KT1、Junyi、NIPS2020_T34、Slepemapy"
+#~ msgstr ""
+#~ "**11 supported datasets**: ASSISTments "
+#~ "(2009/2012/2015/2017), Algebra (2005/2006), "
+#~ "Bridge2006, EdNet-KT1, Junyi, NIPS2020_T34,"
+#~ " and Slepemapy"
+
+#~ msgid "**实验管理**：K 折交叉验证、超参数搜索（Optuna）"
+#~ msgstr ""
+#~ "**Experiment management**: K-fold cross "
+#~ "validation, hyperparameter search (Optuna)"
+
+#~ msgid "框架设计"
+#~ msgstr "Framework design"
+
+#~ msgid "UniKT 通过装饰器自动发现模型、训练器、数据源和配置——只需在代码中添加一行装饰器，无需手动编辑注册文件。"
+#~ msgstr ""
+#~ "UniKT auto-discovers models, trainers, "
+#~ "data sources, and configurations via "
+#~ "decorators — just add a single "
+#~ "decorator line in your code, with "
+#~ "no need to manually edit registration"
+#~ " files."

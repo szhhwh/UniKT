@@ -1,0 +1,266 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/datasets/catalog/ednet.md:1 d75c9095c0584fcea3284b41ffb0b3c2
+msgid "EdNet-KT1"
+msgstr "EdNet-KT1"
+
+#: ../../source/datasets/catalog/ednet.md:3 ca9e052bdd7b4875a4a18ccec80f0f62
+msgid "EdNet 是韩国人工智能辅导平台 Santa 收集的英语 TOEIC 学习交互数据集，此处收录其专注单题作答记录的 KT1 层。"
+msgstr ""
+"EdNet is an English TOEIC learning interaction dataset collected by the "
+"South Korean AI tutoring platform Santa, featuring its KT1 level focused "
+"on single-question response records."
+
+#: ../../source/datasets/catalog/ednet.md:5 d73a5f7ee4554883a9e63cc33c0c8380
+msgid "数据集链接"
+msgstr "Dataset Link"
+
+#: ../../source/datasets/catalog/ednet.md:7 da736c3eb5364ddc86bb982c301953bf
+msgid "官方仓库：[riiid/ednet](https://github.com/riiid/ednet)"
+msgstr "Official repository: [riiid/ednet](https://github.com/riiid/ednet)"
+
+#: ../../source/datasets/catalog/ednet.md:8 5aba221985074bf3a54aab6f17150b8f
+msgid ""
+"数据下载：[EdNet-KT1](http://bit.ly/ednet_kt1)、[EdNet-Contents](http://bit.ly"
+"/ednet-content)"
+msgstr ""
+"Data download: [EdNet-KT1](http://bit.ly/ednet_kt1), [EdNet-"
+"Contents](http://bit.ly/ednet-content)"
+
+#: ../../source/datasets/catalog/ednet.md:10 f179078c6f264930851d3fa449c78e50
+msgid "数据规模"
+msgstr "Data Scale"
+
+#: ../../source/datasets/catalog/ednet.md 07ea35bb395247e2a89a648d97972506
+msgid "指标"
+msgstr "Metrics"
+
+#: ../../source/datasets/catalog/ednet.md 4eee5c0daca34a3798e3b6e3f54c4931
+msgid "规模"
+msgstr "Scale"
+
+#: ../../source/datasets/catalog/ednet.md
+#: ../../source/datasets/catalog/ednet.md:19 1c54604d69c1494b9bda66f74f36a2a6
+#: 747cd9b5292a4923b9e1d4eed5de429c a30d5d841a374417ba119f01c75c9c58
+msgid "说明"
+msgstr "Description"
+
+#: ../../source/datasets/catalog/ednet.md 54a165921ba84854ad14a663d6f29233
+msgid "学生数"
+msgstr "Student Count"
+
+#: ../../source/datasets/catalog/ednet.md a07349d414d74b6cba16eeb48c0a71ca
+msgid "784,309"
+msgstr "784,309"
+
+#: ../../source/datasets/catalog/ednet.md 90c5ee2155b144798d34c6187e9baa7c
+msgid "KT1 目录下独立学生数据文件总数，每名学生一个 CSV"
+msgstr ""
+"Total number of individual student data files under KT1 directory, one "
+"CSV per student"
+
+#: ../../source/datasets/catalog/ednet.md a521fbbd4496410bb1dab0a398e12855
+msgid "题目数"
+msgstr "Question Count"
+
+#: ../../source/datasets/catalog/ednet.md 623e1382e3494442a61d756916985ce7
+msgid "13,169"
+msgstr "13,169"
+
+#: ../../source/datasets/catalog/ednet.md 685dac6768ca4bccb5cf4f87729b0984
+msgid "`EdNet-Contents/questions.csv` 收录的有效题目总数"
+msgstr ""
+"Total number of valid questions contained in `EdNet-"
+"Contents/questions.csv`"
+
+#: ../../source/datasets/catalog/ednet.md 000dc07bee814e978dfa48fbb9ae1b8e
+msgid "题目知识标签数"
+msgstr "Question Knowledge Tag Count"
+
+#: ../../source/datasets/catalog/ednet.md 789de3c54fa242819178d0c3eab43c48
+msgid "189"
+msgstr "189"
+
+#: ../../source/datasets/catalog/ednet.md b86b0e1d448e49198b104e061800b58a
+msgid "题目关联的专家标注知识点标签类型数"
+msgstr "Number of expert-annotated knowledge tag types associated with questions"
+
+#: ../../source/datasets/catalog/ednet.md e74e63dfe7d2474f99435b995d54e0d5
+msgid "答题交互总数"
+msgstr "Total Response Interactions"
+
+#: ../../source/datasets/catalog/ednet.md 5473b7ca6bf84a88a433e56c0724b7d1
+msgid "95,294,926"
+msgstr "95,294,926"
+
+#: ../../source/datasets/catalog/ednet.md 2583d1fcd48e4b36917d6f4de25bcb60
+msgid "全量 KT1 学生日志记录的单题作答交互总数"
+msgstr ""
+"Total number of single-question response interactions recorded across all"
+" KT1 student logs"
+
+#: ../../source/datasets/catalog/ednet.md:20 cb974fa89ec446569aecd2ecb48c0c15
+msgid "EdNet 数据集定义了 KT1 至 KT4 四个交互层级。UniKT 专注于知识追踪任务，收录并处理其核心做题层 KT1。"
+msgstr ""
+"The EdNet dataset defines four interaction levels from KT1 to KT4. UniKT "
+"focuses on knowledge tracing, collecting and processing its core problem-"
+"solving level KT1."
+
+#: ../../source/datasets/catalog/ednet.md:23 49fe5c64ec874774b96e3717c05818e5
+msgid "字段说明"
+msgstr "Field Descriptions"
+
+#: ../../source/datasets/catalog/ednet.md:25 35954001d8d74315bd4fad0081561bf6
+#, python-brace-format
+msgid "学生作答日志 `KT1/u{user_id}.csv`"
+msgstr "Student Response Logs `KT1/u{user_id}.csv`"
+
+#: ../../source/datasets/catalog/ednet.md:19 6a4cb0d6b88e4bcbb86149d77d858567
+#: f531289d08064191820be8c02ed06e5c
+msgid "字段名称"
+msgstr "Field Name"
+
+#: ../../source/datasets/catalog/ednet.md:19 910a48391eb5428da90a018dcd75e4d3
+#: e870690f4934480098f901bec96ef72b
+msgid "数据类型"
+msgstr "Data Type"
+
+#: ../../source/datasets/catalog/ednet.md:19 3e0717d8e09b43a2bd64cf69fe114c88
+msgid "`timestamp`"
+msgstr "`timestamp`"
+
+#: ../../source/datasets/catalog/ednet.md:19 1a766e7067534200ba1d643242259626
+#: 5ab5d77e0f1e41ee841d4873665a9529 7ebf5ad7e97342d6a0622a7dceada703
+#: c416f4e9c3344d678298d9bba29e6b44
+msgid "Integer"
+msgstr "Integer"
+
+#: ../../source/datasets/catalog/ednet.md:19 77e1ff3729f74043b52c6ac27e6baa74
+msgid "题目下发时间，Unix 毫秒时间戳，经过官方固定时间偏移处理"
+msgstr ""
+"Question presentation time, Unix millisecond timestamp with official "
+"fixed time offset applied"
+
+#: ../../source/datasets/catalog/ednet.md:19 6486f6c532d44530a04760dec16ff12a
+msgid "`solving_id`"
+msgstr "`solving_id`"
+
+#: ../../source/datasets/catalog/ednet.md:19 a18bc24b0cd54376adb753379ea959f6
+msgid "学习会话编号，对应一次题组作答，从 1 开始递增"
+msgstr ""
+"Study session ID corresponding to a question bundle response, "
+"incrementing from 1"
+
+#: ../../source/datasets/catalog/ednet.md:19 66a1665c9b5c4e0e8eebc9d63172004d
+#: f42b1f61e87c41ba9751ece9ebcc3935
+msgid "`question_id`"
+msgstr "`question_id`"
+
+#: ../../source/datasets/catalog/ednet.md:19 360fb35614c84eec8ade23aab519804a
+#: a3e496c1d9274edfb4561463da8f800c af761030e773490d847382c49cb86040
+#: bcefc344ea024c6082d0b0fc8b57fd03 c215bad9a61b4c7d81b4e4c9e349d54b
+msgid "String"
+msgstr "String"
+
+#: ../../source/datasets/catalog/ednet.md:19 56d193ee12784cd8b67edce3d3419c9c
+#: e508961287584f91aca9a6cd54c036f0
+msgid "题目编号，格式如 `q1`"
+msgstr "Question ID, format like `q1`"
+
+#: ../../source/datasets/catalog/ednet.md:19 f159dc7a8c43424b8e93c64f39092340
+msgid "`user_answer`"
+msgstr "`user_answer`"
+
+#: ../../source/datasets/catalog/ednet.md:19 0db514d9165a4b65935a12bae76a5e9e
+#: 6ab7576f38f442d7a382e44247aabea2
+msgid "Char"
+msgstr "Char"
+
+#: ../../source/datasets/catalog/ednet.md:19 61fa8a8424f146e18d8ecc417e85343a
+msgid "学生提交的答案选项，取值 a 至 d"
+msgstr "Answer option submitted by student, values from a to d"
+
+#: ../../source/datasets/catalog/ednet.md:19 78637ca27674409d927cad44de591728
+msgid "`elapsed_time`"
+msgstr "`elapsed_time`"
+
+#: ../../source/datasets/catalog/ednet.md:19 b6da537320c14c6caa75a9db5e1d1dbc
+msgid "Float"
+msgstr "Float"
+
+#: ../../source/datasets/catalog/ednet.md:19 3769afd266cf4588b985cea7660b9e1c
+msgid "该题作答耗时，单位为毫秒"
+msgstr "Response duration for the question in milliseconds"
+
+#: ../../source/datasets/catalog/ednet.md:35 93d199442a51445da955fa6a5b9e976e
+msgid "题目元数据 `EdNet-Contents/questions.csv`"
+msgstr "Question Metadata `EdNet-Contents/questions.csv`"
+
+#: ../../source/datasets/catalog/ednet.md:19 abda72bca01a400aae6f1134d67a35af
+msgid "`bundle_id`"
+msgstr "`bundle_id`"
+
+#: ../../source/datasets/catalog/ednet.md:19 00c8e0b2813a4690972b1d0f1c792c32
+msgid "题组编号，格式如 `b1`，一个题组包含 1 至 5 道题"
+msgstr "Question bundle ID, format like `b1`, containing 1 to 5 questions"
+
+#: ../../source/datasets/catalog/ednet.md:19 042cd7199dd840cc8fccc4e04ac95d74
+msgid "`explanation_id`"
+msgstr "`explanation_id`"
+
+#: ../../source/datasets/catalog/ednet.md:19 9d14388cefdc4c25bb0b3a8f213122d4
+msgid "解析文本资源编号，格式如 `e1`，数值通常与题组编号一致"
+msgstr ""
+"Explanation text resource ID, format like `e1`, value typically "
+"consistent with bundle ID"
+
+#: ../../source/datasets/catalog/ednet.md:19 081d6ca7f33a4773bfbada8dc1c80193
+msgid "`correct_answer`"
+msgstr "`correct_answer`"
+
+#: ../../source/datasets/catalog/ednet.md:19 03d90cd255cc4a09ace07259357dc5c4
+msgid "标准答案选项，取值 a 至 d"
+msgstr "Standard correct answer option, values from a to d"
+
+#: ../../source/datasets/catalog/ednet.md:19 b075f9e759cd44f89b4f5ea547109954
+msgid "`part`"
+msgstr "`part`"
+
+#: ../../source/datasets/catalog/ednet.md:19 7c6f6b39c6574ede83a5535a6906abf5
+msgid "TOEIC 测试部分，取值为 1 至 7"
+msgstr "TOEIC test section, values from 1 to 7"
+
+#: ../../source/datasets/catalog/ednet.md:19 6caee449f8354d8987fb4b5550b298b5
+msgid "`tags`"
+msgstr "`tags`"
+
+#: ../../source/datasets/catalog/ednet.md:19 6b55d91af8f145cabd166e908a103862
+msgid "专家标注的知识标签编号，多个标签以分号分隔"
+msgstr "Expert-annotated knowledge tag IDs, multiple tags separated by semicolons"
+
+#: ../../source/datasets/catalog/ednet.md:19 3a61e4afc2bf4870972624fd9973360b
+msgid "`deployed_at`"
+msgstr "`deployed_at`"
+
+#: ../../source/datasets/catalog/ednet.md:19 3d86c38e2ef943ff806399ba0aba19b0
+msgid "题目上线时间，Unix 毫秒时间戳"
+msgstr "Question publication time, Unix millisecond timestamp"

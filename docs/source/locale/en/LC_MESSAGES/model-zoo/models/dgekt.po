@@ -1,0 +1,134 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/dgekt.md:1 f76d95c257e44816a9d640eb0280daaf
+msgid "DGEKT"
+msgstr "DGEKT"
+
+#: ../../source/model-zoo/models/dgekt.md:3 d9819b4b55c44cfdbff42c9cffc579ce
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/dgekt.md 3c3e97146ff54ac3a14e60d4505aa486
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/dgekt.md c6899f94eb834e078707dbd18903d92f
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/dgekt.md c080879a7b9d48e9a44b6a6710d10696
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/dgekt.md 6506e9108e544742be33804184dcce50
+msgid ""
+"[DGEKT: A Dual Graph Ensemble Learning Method for Knowledge "
+"Tracing](https://doi.org/10.1145/3638350)"
+msgstr ""
+"[DGEKT: A Dual Graph Ensemble Learning Method for Knowledge "
+"Tracing](https://doi.org/10.1145/3638350)"
+
+#: ../../source/model-zoo/models/dgekt.md 1a43047afdde45e2af78d8af1f928861
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/dgekt.md a0b6ac438b164b9a9aa6fcc28366ff67
+msgid ""
+"Chaoran Cui, Yumo Yao, Chunyun Zhang, Hebo Ma, Yuling Ma, Zhaochun Ren, "
+"Chen Zhang, James Ko"
+msgstr ""
+"Chaoran Cui, Yumo Yao, Chunyun Zhang, Hebo Ma, Yuling Ma, Zhaochun Ren, "
+"Chen Zhang, James Ko"
+
+#: ../../source/model-zoo/models/dgekt.md 2a05d15c7c79455dba7c1b266f49386a
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/dgekt.md 516546796eb24fe39c090a45fe3d6fb0
+msgid "2024"
+msgstr "2024"
+
+#: ../../source/model-zoo/models/dgekt.md 08797875586f47139bdd156c3c2fb506
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/dgekt.md 3b296d674a3140c6a5e169aa72c783e5
+msgid "ACM Transactions on Information Systems, 42(3)"
+msgstr "ACM Transactions on Information Systems, 42(3)"
+
+#: ../../source/model-zoo/models/dgekt.md:12 c5b0a1fd5e7b40a396fe422c58590eb2
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/dgekt.md:14 120f3d67e5394a22a7fa262966852ca5
+msgid ""
+"Knowledge tracing aims to trace students' evolving knowledge states by "
+"predicting their future performance on concept-related exercises. "
+"Recently, some graph-based models have been developed to incorporate the "
+"relationships between exercises to improve knowledge tracing, but only a "
+"single type of relationship information is generally explored. In this "
+"article, we present a novel Dual Graph Ensemble learning method for "
+"Knowledge Tracing (DGEKT), which establishes a dual graph structure of "
+"students' learning interactions to capture the heterogeneous exercise--"
+"concept associations and interaction transitions by hypergraph modeling "
+"and directed graph modeling, respectively. To combine the dual graph "
+"models, we introduce the technique of online knowledge distillation. This"
+" choice arises from the observation that, while the knowledge tracing "
+"model is designed to predict students' responses to the exercises related"
+" to different concepts, it is optimized merely with respect to the "
+"prediction accuracy on a single exercise at each step. With online "
+"knowledge distillation, the dual graph models are adaptively combined to "
+"form a stronger ensemble teacher model, which provides its predictions on"
+" all exercises as extra supervision for better modeling ability. In the "
+"experiments, we compare DGEKT against eight knowledge tracing baselines "
+"on three benchmark datasets, and the results demonstrate that DGEKT "
+"achieves state-of-the-art performance."
+msgstr ""
+"Knowledge tracing aims to trace students' evolving knowledge states by "
+"predicting their future performance on concept-related exercises. "
+"Recently, some graph-based models have been developed to incorporate the "
+"relationships between exercises to improve knowledge tracing, but only a "
+"single type of relationship information is generally explored. In this "
+"article, we present a novel Dual Graph Ensemble learning method for "
+"Knowledge Tracing (DGEKT), which establishes a dual graph structure of "
+"students' learning interactions to capture the heterogeneous exercise--"
+"concept associations and interaction transitions by hypergraph modeling "
+"and directed graph modeling, respectively. To combine the dual graph "
+"models, we introduce the technique of online knowledge distillation. This"
+" choice arises from the observation that, while the knowledge tracing "
+"model is designed to predict students' responses to the exercises related"
+" to different concepts, it is optimized merely with respect to the "
+"prediction accuracy on a single exercise at each step. With online "
+"knowledge distillation, the dual graph models are adaptively combined to "
+"form a stronger ensemble teacher model, which provides its predictions on"
+" all exercises as extra supervision for better modeling ability. In the "
+"experiments, we compare DGEKT against eight knowledge tracing baselines "
+"on three benchmark datasets, and the results demonstrate that DGEKT "
+"achieves state-of-the-art performance."
+
+#: ../../source/model-zoo/models/dgekt.md:16 0d961c80ddc7444ba50203f870ea5e39
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/dgekt.md:18 ac337022e48141519263a4cb98e2d226
+msgid "[Yumo216/DGEKT](https://github.com/Yumo216/DGEKT)"
+msgstr "[Yumo216/DGEKT](https://github.com/Yumo216/DGEKT)"

@@ -1,0 +1,142 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/gikt.md:1 3ac3ab2687ed4952a8988dc89eb85a3f
+msgid "GIKT"
+msgstr "GIKT"
+
+#: ../../source/model-zoo/models/gikt.md:3 c321078ad60b4484b985626d07e8355d
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/gikt.md 5ea51581d2b148a0b1cc9f4b88140f28
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/gikt.md cd4cad1ddc17419cac12b43d5cbe9db6
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/gikt.md 89ba815ea10049b3a60f0643d1535499
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/gikt.md 5e4784c53b8847f6adc4d7c88788076c
+msgid ""
+"[GIKT: A Graph-Based Interaction Model for Knowledge "
+"Tracing](https://doi.org/10.1007/978-3-030-67658-2_18)"
+msgstr ""
+"[GIKT: A Graph-Based Interaction Model for Knowledge "
+"Tracing](https://doi.org/10.1007/978-3-030-67658-2_18)"
+
+#: ../../source/model-zoo/models/gikt.md 8da9759b0e2d47d98f95ce5c027945dc
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/gikt.md 5f81c3a0542e42bd9b9b20f0002dfb76
+msgid ""
+"Yang Yang, Jian Shen, Yanru Qu, Yunfei Liu, Kerong Wang, Yaoming Zhu, "
+"Weinan Zhang, Yong Yu"
+msgstr ""
+"Yang Yang, Jian Shen, Yanru Qu, Yunfei Liu, Kerong Wang, Yaoming Zhu, "
+"Weinan Zhang, Yong Yu"
+
+#: ../../source/model-zoo/models/gikt.md 619fdcd55c2846baa3a9842ef213fad1
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/gikt.md bdc0993225b045538d76b543ac6d655f
+msgid "2021"
+msgstr "2021"
+
+#: ../../source/model-zoo/models/gikt.md b202d255036a4480b80ad1352b895276
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/gikt.md f529396be71b445195c8749e7eae917f
+msgid "Machine Learning and Knowledge Discovery in Databases"
+msgstr "Machine Learning and Knowledge Discovery in Databases"
+
+#: ../../source/model-zoo/models/gikt.md df6c6cd25910494dbee70aedc1992d3f
+msgid "DOI"
+msgstr "DOI"
+
+#: ../../source/model-zoo/models/gikt.md aae083e9342d4805aec2a710f08850b8
+msgid "[10.1007/978-3-030-67658-2_18](https://doi.org/10.1007/978-3-030-67658-2_18)"
+msgstr "[10.1007/978-3-030-67658-2_18](https://doi.org/10.1007/978-3-030-67658-2_18)"
+
+#: ../../source/model-zoo/models/gikt.md:13 217bf9c338934606a8c2c663fc2ebf35
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/gikt.md:15 d8c709fde58348a98791d40499a92c15
+msgid ""
+"With the rapid development in online education, knowledge tracing (KT) "
+"has become a fundamental problem which traces students' knowledge status "
+"and predicts their performance on new questions. Questions are often "
+"numerous in online education systems, and are always associated with much"
+" fewer skills. However, the previous literature fails to involve question"
+" information together with high-order question-skill correlations, which "
+"is mostly limited by data sparsity and multi-skill problems. From the "
+"model perspective, previous models can hardly capture the long-term "
+"dependency of student exercise history, and cannot model the interactions"
+" between student-questions, and student-skills in a consistent way. In "
+"this paper, we propose a Graph-based Interaction model for Knowledge "
+"Tracing (GIKT) to tackle the above problems. More specifically, GIKT "
+"utilizes graph convolutional network (GCN) to substantially incorporate "
+"question-skill correlations via embedding propagation. Besides, "
+"considering that relevant questions are usually scattered throughout the "
+"exercise history, and that question and skill are just different "
+"instantiations of knowledge, GIKT generalizes the degree of students' "
+"master of the question to the interactions between the student's current "
+"state, the student's history states, the target question, and related "
+"skills. Experiments on three datasets demonstrate that GIKT achieves the "
+"new state-of-the-art performance, with 2%--6% absolute AUC improvement."
+msgstr ""
+"With the rapid development in online education, knowledge tracing (KT) "
+"has become a fundamental problem which traces students' knowledge status "
+"and predicts their performance on new questions. Questions are often "
+"numerous in online education systems, and are always associated with much"
+" fewer skills. However, the previous literature fails to involve question"
+" information together with high-order question-skill correlations, which "
+"is mostly limited by data sparsity and multi-skill problems. From the "
+"model perspective, previous models can hardly capture the long-term "
+"dependency of student exercise history, and cannot model the interactions"
+" between student-questions, and student-skills in a consistent way. In "
+"this paper, we propose a Graph-based Interaction model for Knowledge "
+"Tracing (GIKT) to tackle the above problems. More specifically, GIKT "
+"utilizes graph convolutional network (GCN) to substantially incorporate "
+"question-skill correlations via embedding propagation. Besides, "
+"considering that relevant questions are usually scattered throughout the "
+"exercise history, and that question and skill are just different "
+"instantiations of knowledge, GIKT generalizes the degree of students' "
+"master of the question to the interactions between the student's current "
+"state, the student's history states, the target question, and related "
+"skills. Experiments on three datasets demonstrate that GIKT achieves the "
+"new state-of-the-art performance, with 2%--6% absolute AUC improvement."
+
+#: ../../source/model-zoo/models/gikt.md:18 747c94e298b94066add85e22d3df6df7
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/gikt.md:20 e03588c394014ade8eda3eba01501e8b
+msgid "[ApexEDM/GIKT](https://github.com/ApexEDM/GIKT)"
+msgstr "[ApexEDM/GIKT](https://github.com/ApexEDM/GIKT)"

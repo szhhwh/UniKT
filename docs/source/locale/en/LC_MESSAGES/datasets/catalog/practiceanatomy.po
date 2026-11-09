@@ -1,0 +1,358 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/datasets/catalog/practiceanatomy.md:1
+#: 32919b18c0f5496a92e50dd742a3930f
+msgid "Practice Anatomy"
+msgstr "Practice Anatomy"
+
+#: ../../source/datasets/catalog/practiceanatomy.md:3
+#: c28660ddd8ed4237a290e459e94ccb66
+msgid ""
+"Practice Anatomy 是 Masaryk 大学自适应学习研究组在 practiceanatomy.com "
+"上收集的人体解剖学术语练习数据，静态快照覆盖 2015 年 11 月 16 日至 2017 年 1 月 3 日。"
+msgstr ""
+"Practice Anatomy is a human anatomy terminology practice dataset "
+"collected by the Adaptive Learning Research Group at Masaryk University "
+"on practiceanatomy.com, with a static snapshot covering November 16, 2015"
+" to January 3, 2017."
+
+#: ../../source/datasets/catalog/practiceanatomy.md:5
+#: 0128a3ab176044979c6a43111df4ffff
+msgid "数据集链接"
+msgstr "Dataset Link"
+
+#: ../../source/datasets/catalog/practiceanatomy.md:7
+#: cdf528f67d5b42aead6b6cccbe479371
+msgid "官方入口：[Practice Anatomy Data](http://data.practiceanatomy.com/)"
+msgstr "Official portal: [Practice Anatomy Data](http://data.practiceanatomy.com/)"
+
+#: ../../source/datasets/catalog/practiceanatomy.md:8
+#: 331e82cc570647509ff8531af76955ea
+msgid "在线系统：[practiceanatomy.com](https://practiceanatomy.com/)"
+msgstr "Online system: [practiceanatomy.com](https://practiceanatomy.com/)"
+
+#: ../../source/datasets/catalog/practiceanatomy.md:10
+#: 07ca2ca2df7f491695dbe08f5b4d8595
+msgid "数据规模"
+msgstr "Data Scale"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: 90ef884ae26c4eaf864974635d443574
+msgid "指标"
+msgstr "Metrics"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: d6c3efdb819d41e2af5bf3b2b1206135
+msgid "数值"
+msgstr "Value"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: 62e3ea8a91794976b8b890b1dabf5af4
+msgid "口径"
+msgstr "Criteria"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: 7e046132f0b14197bd75ba5b7ae2738d
+msgid "学生数"
+msgstr "Student Count"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: 722a7f8d325e40aaa709dea7f9e9e688
+msgid "18,563"
+msgstr "18,563"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: 1170fa95cb564313815bec55b69425f3 ac1f02fc803b4c5abac49220733b51e2
+#: fa8a7f47f7df48949bf085f4da8ff7c8
+msgid "官方数据说明"
+msgstr "Official Data Description"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: fa12839db47f41fbb9e0be1dee4cf99d
+msgid "解剖条目数"
+msgstr "Anatomical Item Count"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: d63eac924ce346ac91441b97dc8e12fb
+msgid "2,894"
+msgstr "2,894"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: c8fa17514eae4b338069f2db98d93a11
+msgid "作答记录数"
+msgstr "Response Record Count"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: cf55476fba93464c9d9db1362913f494
+msgid "1,182,065"
+msgstr "1,182,065"
+
+#: ../../source/datasets/catalog/practiceanatomy.md:18
+#: 511b2468c28c445e9043ced6b736ff78
+msgid "数据集仅包含免费内容的交互记录，付费内容交互已排除。系统提供捷克语与英语界面，约 84% 的用户来自捷克，11% 来自斯洛伐克。"
+msgstr ""
+"The dataset contains interaction records for free content only; paid "
+"interactions are excluded. The system offers Czech and English "
+"interfaces; approximately 84% of users are from the Czech Republic, and "
+"11% from Slovakia."
+
+#: ../../source/datasets/catalog/practiceanatomy.md:20
+#: e679838ff0a3412dac75e7362f3961b9
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/datasets/catalog/practiceanatomy.md:22
+#: 28d1a21120af42dba5c5f9342e5636bd
+msgid "发布包包含一个逗号分隔的 `answers.csv`，共 19 个字段。"
+msgstr ""
+"The release package contains a comma-separated `answers.csv` with 19 "
+"fields in total."
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: 908d0d6c614f4c09b4ca3a4eb5b2058d
+msgid "字段名称"
+msgstr "Field Name"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: bb8565f30aa34f5f8b31961fd6cab77b
+msgid "数据类型"
+msgstr "Data Type"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: 80e028d702ca4ec3b629e0dc9f730adf
+msgid "说明"
+msgstr "Description"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: 9557b40e057d451ab5b2e7fdb45e0f8d
+msgid "`id`"
+msgstr "`id`"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: 1adafebcc1674bebb30460f063a52794 286b6d933d4e48e6aaeb13eca53c9951
+#: 59315a25e0a441fea049fea8e596d020 62efb90230bd499a83e0f9013ba362c0
+#: 70c69143ffc5477aa9f3bee68f8e3625 9bbe96819b094aaab743732a8dd7c994
+#: d950aa8bea5143d9b0b9526cb8d02d57
+msgid "Integer"
+msgstr "Integer"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: 0e75121c02714ab1bcd156f3c6c042bb
+msgid "作答记录编号"
+msgstr "Response record ID"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: 3f4730014ef6482e994edbfd7dce8745
+msgid "`user`"
+msgstr "`user`"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: 085e341d647049b2b9c3bb888a314ab7
+msgid "学生编号"
+msgstr "Student ID"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: b817c7b3de7b4224b38f6ad711cd09b5
+msgid "`item_asked`"
+msgstr "`item_asked`"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: fac60af44bd349b7a81946f6d829c0b9
+msgid "被提问的解剖条目编号"
+msgstr "Queried anatomical item ID"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: 7acd73bed29d4565b193d891d6f6f995
+msgid "`term_name_asked`"
+msgstr "`term_name_asked`"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: 3c035dba6a5d45eca5401f1f2da0540b 3ca0686ea74d434596315267dde80a62
+#: 55017e8ca5674830899ef7f2dd8d0e44 725b5fb11218461bab14504462cf0eef
+#: 83bfc59301f34eb287ed9bc20588987f 98052a83b29241fbb27ca929e3b0b1d9
+#: b07a7738683a409b8bac643384ec6cf6 b09a710de00549b88c9020ab89668089
+#: bf6b9e78a3b24797acb57742740b8803 c888d8fba74d442b84f870a6fddc7736
+#: d0eebe60ae754cd49c5072748bae994d
+msgid "String"
+msgstr "String"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: e300d311c2794ff2a93b59384afc9dfc
+msgid "被提问的解剖条目名称"
+msgstr "Queried anatomical item name"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: 85d1498cbb1848e4914358e9c7058f59
+msgid "`item_answered`"
+msgstr "`item_answered`"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: 5c874745c03a40a39674160ef52c7689
+msgid "学生回答的解剖条目编号；回答“不知道”时为空"
+msgstr "Student-answered anatomical item ID; null when answering \"don't know\""
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: f889fd8afe87497ab83863f93be55467
+msgid "`term_name_answered`"
+msgstr "`term_name_answered`"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: 8a414e6bc24042f78c66ef0d61aa3731
+msgid "学生回答的解剖条目名称"
+msgstr "Student-answered anatomical item name"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: b9ae10269d5b4f8abf8d726751565ab7
+msgid "`context_name`"
+msgstr "`context_name`"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: 18b3b8c9876c4a019ce954c74844d191
+msgid "图像或上下文名称"
+msgstr "Image or context name"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: a11b2f962a0f400785a37571a7d96c5d
+msgid "`type`"
+msgstr "`type`"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: 342015b24a03423d8d59280731a1ad45
+msgid "作答方向，`t2d` 为看词定位，`d2t` 为看图选词"
+msgstr ""
+"Response direction: `t2d` (term-to-diagram location), `d2t` (diagram-to-"
+"term selection)"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: 9be6abcf8600448496121f2fb272d494
+msgid "`options`"
+msgstr "`options`"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: d41dfe8afa634accb8e73dc75716a8c2
+msgid "选项数量，包含被提问条目"
+msgstr "Number of options, including queried item"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: a79f2ddd2b2c4693a5ff4289e99e03b1
+msgid "`time`"
+msgstr "`time`"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: 79fb4cf64eb9449490cfdcb9ce74daff
+msgid "Datetime"
+msgstr "Datetime"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: 29742cbe4f9d4e74aa60d5219336799f
+msgid "作答记录写入系统的时间"
+msgstr "Time response record was written into system"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: c329c2ed156b4a379b2b05753a1c4339
+msgid "`response_time`"
+msgstr "`response_time`"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: 61390fa503f54145bada65de84a2b8f5
+msgid "作答耗时，单位毫秒"
+msgstr "Response duration in milliseconds"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: 8560272d314447a4a78ee490bcc51c97
+msgid "`ip_country`"
+msgstr "`ip_country`"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: 8ed280f1151c4144a57a0cbbe6f2fa6b
+msgid "客户端 IP 所在国家"
+msgstr "Client IP country"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: fa276ec5cdd847a1b921f80fcbed3672
+msgid "`ip_id`"
+msgstr "`ip_id`"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: 9904c918c8524beca5453b7361b2c615
+msgid "匿名 IP 标识"
+msgstr "Anonymized IP identifier"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: 01638d7a81a04de989cc3fee47f24627
+msgid "`lang`"
+msgstr "`lang`"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: 5fdea7e9e641478fa72dbd5c664cebc1
+msgid "术语语言，取值 `cs`、`la (cs)`、`en`、`la (en)`"
+msgstr "Terminology language, values `cs`, `la (cs)`, `en`, `la (en)`"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: c4d8ce54dd2b4cfa900d438a40d25e1c
+msgid "`locations_asked`"
+msgstr "`locations_asked`"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: 6cdf099cfc8b45ca94921117ebd04430
+msgid "被提问条目的身体位置，JSON"
+msgstr "Body position of queried item, JSON"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: 484a4ff4e7854bd39d1bb9e35ec735bd
+msgid "`systems_asked`"
+msgstr "`systems_asked`"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: c7497cf2e9c443089c6b44ee236e75ae
+msgid "被提问条目所属器官系统，JSON"
+msgstr "Organ system of queried item, JSON"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: b9b6e4b42cca4bcdbf15091a643ff67c
+msgid "`locations_answered`"
+msgstr "`locations_answered`"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: 271b9665ad144acfa111cc63335f79f4
+msgid "回答条目的身体位置，JSON"
+msgstr "Body position of answered item, JSON"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: bd50964bdba3401b8a4b86159061b61b
+msgid "`systems_anwered`"
+msgstr "`systems_anwered`"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: 81dc72d4802744bea18fa681d71e552c
+msgid "回答条目所属器官系统，JSON"
+msgstr "Organ system of answered item, JSON"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: fa90183f59b74322b0c943c5329ea6a0
+msgid "`practice_filter`"
+msgstr "`practice_filter`"
+
+#: ../../source/datasets/catalog/practiceanatomy.md
+#: b1275edcff3a43088e46090922947aaa
+msgid "用户使用的练习过滤器，JSON"
+msgstr "Practice filter used by user, JSON"

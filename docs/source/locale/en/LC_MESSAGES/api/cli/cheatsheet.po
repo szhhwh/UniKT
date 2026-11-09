@@ -1,0 +1,651 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/api/cli/cheatsheet.md:1 6114d7a7be974581ad8a540d60520012
+msgid "命令行速查表"
+msgstr "Command Line Cheatsheet"
+
+#: ../../source/api/cli/cheatsheet.md:3 09d43215590648098bff2db55d82eaa2
+msgid ""
+"UniKT 基于 [jsonargparse](https://jsonargparse.readthedocs.io/) "
+"构建了类型安全、分层解耦的命令行解析系统。所有 CLI 参数直接映射到强类型的 Dataclass（`RunConfig` "
+"树），具备自动类型转换、合法性校验与层次化命名空间。"
+msgstr ""
+"UniKT builds a type-safe, hierarchically decoupled command line parsing "
+"system based on [jsonargparse](https://jsonargparse.readthedocs.io/). All"
+" CLI parameters map directly to strongly typed dataclasses (`RunConfig` "
+"tree), featuring automatic type casting, validity checks, and "
+"hierarchical namespaces."
+
+#: ../../source/api/cli/cheatsheet.md:7 5baf70d28f324eb1ab0433687f53b256
+msgid "核心参数与简写"
+msgstr "Core Parameters and Shorthands"
+
+#: ../../source/api/cli/cheatsheet.md:9 e2b44cd7efd844d9b41f2d2adabc616a
+msgid "在所有主入口（`train.py`、`optuna_search.py` 等）中，为了提升输入效率，仅有两个高频参数保留单字母短标志："
+msgstr ""
+"Across all main entry points (`train.py`, `optuna_search.py`, etc.), to "
+"maximize input efficiency, only two high-frequency parameters retain "
+"single-letter short flags:"
+
+#: ../../source/api/cli/cheatsheet.md e5c30205884e458a9612d1bb20b8e856
+msgid "短参数"
+msgstr "Short Flag"
+
+#: ../../source/api/cli/cheatsheet.md ab1aebaa7af44651ae0c0e6acdf934fc
+msgid "完整层级参数"
+msgstr "Full Hierarchical Parameter"
+
+#: ../../source/api/cli/cheatsheet.md 1abbc4683ed447668cedb9fd4987a9cf
+#: 271ad1c3b84445f7a13aa27da296e7d9 51c8a0fe0316494daa0700de1b670b10
+#: aab1eeea93f4493c9ac8ccf9aa9ea217 bab2193365f7455b964c64460bbf93e5
+#: eab8f176efb14de2880769f37036203a
+msgid "类型"
+msgstr "Type"
+
+#: ../../source/api/cli/cheatsheet.md 194f38defd5c43bea709a6dfabda1255
+msgid "说明"
+msgstr "Description"
+
+#: ../../source/api/cli/cheatsheet.md b9a0edcc69cd46de92e84abae0275410
+msgid "示例"
+msgstr "Example"
+
+#: ../../source/api/cli/cheatsheet.md 84935341976c4a348d6ec32f186fe482
+msgid "`-m`"
+msgstr "`-m`"
+
+#: ../../source/api/cli/cheatsheet.md c40a6669759c46ae8e0fa52730cdaf3f
+msgid "`--experiment.model_name`"
+msgstr "`--experiment.model_name`"
+
+#: ../../source/api/cli/cheatsheet.md 0fc340b40e1a41079e4fd805dd5fd422
+#: 66c53c20266d487b8e24751a9123e9f1 911a136c4e7e4f0289e5542bd35f35ba
+#: e191bf98a4dd49b4b8008a979f7356fd
+msgid "`str`"
+msgstr "`str`"
+
+#: ../../source/api/cli/cheatsheet.md 42241d528ce1478786372163e90d945c
+msgid "注册的模型名称（严格大小写敏感）"
+msgstr "Registered model name (strictly case-sensitive)"
+
+#: ../../source/api/cli/cheatsheet.md 3ac8029ba90f4eb59d273f7a497ef2be
+msgid "`-m DKT` 或 `-m GIKT`"
+msgstr "`-m DKT` or `-m GIKT`"
+
+#: ../../source/api/cli/cheatsheet.md 6fb631249ea34bc89f66826fd8b2fe76
+msgid "`-d`"
+msgstr "`-d`"
+
+#: ../../source/api/cli/cheatsheet.md f12ffbfe35784625baec0460a2e9a94a
+msgid "`--data.dataset`"
+msgstr "`--data.dataset`"
+
+#: ../../source/api/cli/cheatsheet.md 5a17b8369c6d4a89a45a9195491fe403
+msgid "注册的数据集名称"
+msgstr "Registered dataset name"
+
+#: ../../source/api/cli/cheatsheet.md ec7a0ce5a49e4e0b9609cb245611417b
+msgid "`-d assistments09` 或 `-d ednet_kt1`"
+msgstr "`-d assistments09` or `-d ednet_kt1`"
+
+#: ../../source/api/cli/cheatsheet.md:18 b986b5e9b21940d2818da1249632f7b4
+msgid "分层参数速查表"
+msgstr "Hierarchical Parameter Cheatsheet"
+
+#: ../../source/api/cli/cheatsheet.md:20 328717adee234e4a8e03dfe146844752
+msgid "UniKT 的参数按关注点划分到顶层命名空间中。使用 `--<节点>.<字段>` 语法传递参数："
+msgstr ""
+"UniKT's parameters are partitioned into top-level namespaces by concerns."
+" Pass parameters using the `--<node>.<field>` syntax:"
+
+#: ../../source/api/cli/cheatsheet.md:22 c9ab9839b1b14eb486ea183ac1fd8b7b
+msgid "1. 通用运行时参数 (`--general.*`)"
+msgstr "1\\. General Runtime Parameters (`--general.*`)"
+
+#: ../../source/api/cli/cheatsheet.md:24 655e0d4ffb73499dabf52166b20cf6b1
+msgid "控制设备分配、随机种子、实验工件与追踪平台："
+msgstr ""
+"Control device assignment, random seeds, experiment artifacts, and "
+"tracking platforms:"
+
+#: ../../source/api/cli/cheatsheet.md 01342d471b1f4a448118e17f9c39e9ac
+#: 28bbf5acbc9c4b9ea6edf2667077f213 439fc72b7e39486aaa6814cfa202ecb3
+#: 65a3bf99191e444f840ca82bfb7d2789 91da4a508b8a486fb89e87e312da5cee
+msgid "参数"
+msgstr "Parameter"
+
+#: ../../source/api/cli/cheatsheet.md 125855833fc14836878afec89e1777c8
+#: 19e4f5fc5aab471f905e8abc1e63e745 644efa0caa544da4b8a0747554aaa822
+#: 7d7897283f5847ff9aa099d2f362ef3f b6afd8bca5014d1e9455cd213617e43c
+msgid "默认值"
+msgstr "Default"
+
+#: ../../source/api/cli/cheatsheet.md 08f6aa0bd29643e8b54400c5762614e3
+#: 22cd63da950f4f80a838ee94104937f1 9b55a21c9fa44fc892c8938933bf66a3
+#: b116cff7137b4326bb40cf7e78c318fd c2d2f94e9c3245a393529f230cb32a2b
+msgid "作用与说明"
+msgstr "Function and Description"
+
+#: ../../source/api/cli/cheatsheet.md 47659fd18f23417aad908ef0c1b9d93a
+msgid "`--general.device`"
+msgstr "`--general.device`"
+
+#: ../../source/api/cli/cheatsheet.md 3e2582cb104f4bafae9932e719e0fa42
+msgid "`null` (自动检测)"
+msgstr "`null` (auto-detect)"
+
+#: ../../source/api/cli/cheatsheet.md 9b2852a83279433f8474b1edcedc7a5e
+msgid "指定执行硬件：`cuda`, `cuda:0`, `cpu` 等"
+msgstr "Specify execution hardware: `cuda`, `cuda:0`, `cpu`, etc."
+
+#: ../../source/api/cli/cheatsheet.md 8bceb4f5ed7244cd814d00b039c8d204
+msgid "`--general.seed`"
+msgstr "`--general.seed`"
+
+#: ../../source/api/cli/cheatsheet.md 10d42c6727fb4e438b2956a04b42540b
+#: 6a59e0ba7b344df188ad25accd3d5cda a0d73cd3246f46899a103351fc8d5890
+#: bb685ab2d3834798b4ec8b91117710a4 bb712e6af4394758a55671dec7121da0
+#: bccbd7039ebd41afba7bb515f8097d99 cafc1fe98d34420ea44739be4c71c345
+#: dac26320b29d47babacd16e743274b61 eb9c3e352c8b44ec8933a83d5368fb87
+msgid "`int`"
+msgstr "`int`"
+
+#: ../../source/api/cli/cheatsheet.md f0adcc8b388841d39beee410572a014f
+msgid "`42`"
+msgstr "`42`"
+
+#: ../../source/api/cli/cheatsheet.md abba0becbbbd43a08de7cd31923c169f
+msgid "全局随机种子（同步设置 Python、NumPy、PyTorch 及 CUDA）"
+msgstr "Global random seed (synchronously sets Python, NumPy, PyTorch, and CUDA)"
+
+#: ../../source/api/cli/cheatsheet.md 30baa91f4b8048eb9671dab7dd27b877
+msgid "`--general.deterministic`"
+msgstr "`--general.deterministic`"
+
+#: ../../source/api/cli/cheatsheet.md 6e902c12bbe944a89344fe6e9f56adcd
+#: 936e879e33e84529ac6be37afa2c808b b381c20228b64ac1b7a982efff85d1b4
+#: e33149ba4979433e84a50143592a5386 e8c9364c05ea4ea4af584f905a7f0eba
+msgid "`bool`"
+msgstr "`bool`"
+
+#: ../../source/api/cli/cheatsheet.md 441acf6e280847ef995e8e14b8fbd2c4
+#: f539d0352689497085c7b58160372b27
+msgid "`true`"
+msgstr "`true`"
+
+#: ../../source/api/cli/cheatsheet.md 650760a237454e26b38ec409805758fb
+msgid "是否启用确定性算法，确保结果可复现"
+msgstr "Whether to enable deterministic algorithms to ensure reproducible results"
+
+#: ../../source/api/cli/cheatsheet.md 17364317e4ba4cbda9a2fa11b03e993f
+msgid "`--general.cloud_tracking`"
+msgstr "`--general.cloud_tracking`"
+
+#: ../../source/api/cli/cheatsheet.md f50b42b65cf64de2ac2ee026ff6a6931
+msgid "是否启用云端追踪（SwanLab / W&B）"
+msgstr "Whether to enable cloud tracking (SwanLab / W&B)"
+
+#: ../../source/api/cli/cheatsheet.md f5bcbb03805f44ca8f7833c360123046
+msgid "`--general.skip_test`"
+msgstr "`--general.skip_test`"
+
+#: ../../source/api/cli/cheatsheet.md 09d19688de0e4da0813dd0e0e9fb4b63
+#: 61feef4aafb745e6811e66e5dcbf357e ce40053888974160a5ea83d7a64d498a
+msgid "`false`"
+msgstr "`false`"
+
+#: ../../source/api/cli/cheatsheet.md 50dea8b431274c1ebc9ccec31c71b279
+msgid "训练完成后是否跳过留出测试集的最终评估"
+msgstr ""
+"Whether to skip final evaluation on held-out test set after training "
+"completes"
+
+#: ../../source/api/cli/cheatsheet.md 5d3c3af12161406881670b0c3d20f306
+msgid "`--general.checkpoint_path`"
+msgstr "`--general.checkpoint_path`"
+
+#: ../../source/api/cli/cheatsheet.md 24d9c58568f345f1848b87e98243d3f3
+#: 9d0cf33b785343b0977081105acdb425 d6734cdd6b174bb2872dfd04d5c58985
+msgid "`null`"
+msgstr "`null`"
+
+#: ../../source/api/cli/cheatsheet.md 6eb0b2db45d0443f9715542f3bc45adc
+msgid "从指定检查点断点恢复训练（加载模型与优化器）"
+msgstr "Resume training from specified checkpoint (loads model and optimizer)"
+
+#: ../../source/api/cli/cheatsheet.md e81a5b8437a14daa98b37bb7ed6e40ea
+msgid "`--general.log_batch_metrics`"
+msgstr "`--general.log_batch_metrics`"
+
+#: ../../source/api/cli/cheatsheet.md 9218fa167a7540dc8fcb648ca782a87b
+msgid "是否将每个 batch 的 loss 输出到 `batch_metrics_<phase>.csv`"
+msgstr "Whether to output per-batch loss to `batch_metrics_<phase>.csv`"
+
+#: ../../source/api/cli/cheatsheet.md:36 b10f9edb0dd84d748db91318f1a93010
+msgid "2. 数据与交叉验证参数 (`--data.*`)"
+msgstr "2\\. Data and Cross-Validation Parameters (`--data.*`)"
+
+#: ../../source/api/cli/cheatsheet.md:38 8ab0c1d38685456aa7eb53b87a88825a
+msgid "控制序列切片、折数选择及截断策略："
+msgstr "Control sequence slicing, fold selection, and truncation policies:"
+
+#: ../../source/api/cli/cheatsheet.md d6e6b48bbb0c43a6882508cbdf81379f
+msgid "`--data.fold`"
+msgstr "`--data.fold`"
+
+#: ../../source/api/cli/cheatsheet.md cb805b9e03a24d34866e4c73024e1580
+msgid "`0`"
+msgstr "`0`"
+
+#: ../../source/api/cli/cheatsheet.md b2ada5ca64b647c68c6562d91855fce4
+msgid "当前交叉验证选择的验证折（索引从 `0` 到 `kfold - 1`）"
+msgstr ""
+"Validation fold selected for current cross-validation (index from `0` to "
+"`kfold - 1`)"
+
+#: ../../source/api/cli/cheatsheet.md 664acd8defc24ef89e70aca6d4c2e70f
+msgid "`--data.kfold`"
+msgstr "`--data.kfold`"
+
+#: ../../source/api/cli/cheatsheet.md 2b0300e9be154394ab9c709161c849ea
+msgid "`5`"
+msgstr "`5`"
+
+#: ../../source/api/cli/cheatsheet.md eba867e405a04107a025563b06859a6c
+msgid "交叉验证的总折数（>= 2 生效）"
+msgstr "Total number of cross-validation folds (takes effect when >= 2)"
+
+#: ../../source/api/cli/cheatsheet.md cfbcb09ea691435394ccac1a8867727e
+msgid "`--data.test_ratio`"
+msgstr "`--data.test_ratio`"
+
+#: ../../source/api/cli/cheatsheet.md 47141e9ccb2e4c0399c0dd60e88d592e
+#: 6c3c16607a07404291271de35c901742 747ea6b28d3e4dd2991cdca92dc6b338
+#: a5d0f2b6ae6c4ebd83029b4e7b92edf9 c6c4783aabb342f4b97b60eda9becb8b
+msgid "`float`"
+msgstr "`float`"
+
+#: ../../source/api/cli/cheatsheet.md 4596f682f7764b28b0c064f7178e8be6
+msgid "`0.2`"
+msgstr "`0.2`"
+
+#: ../../source/api/cli/cheatsheet.md 0f0710220b7b4ccaad63ee12359ee028
+msgid "留出测试集占全部用户的比例"
+msgstr "Proportion of total users held out for the test set"
+
+#: ../../source/api/cli/cheatsheet.md c83f635b68054c8d8d625de791b04433
+msgid "`--data.min_seq_len`"
+msgstr "`--data.min_seq_len`"
+
+#: ../../source/api/cli/cheatsheet.md 602c3ea491f44951bb8325ce2406de42
+msgid "`3`"
+msgstr "`3`"
+
+#: ../../source/api/cli/cheatsheet.md b60d536273c64ddd8e2513aa1f5ea020
+msgid "过滤短于该交互长度的学生序列"
+msgstr "Filter out student sequences shorter than this interaction length"
+
+#: ../../source/api/cli/cheatsheet.md 4fddfb62249c45b9ab2b93a2760707e7
+msgid "`--data.max_seq_len`"
+msgstr "`--data.max_seq_len`"
+
+#: ../../source/api/cli/cheatsheet.md b1d87a671a3347d6962cb22b46b3ab88
+msgid "`200`"
+msgstr "`200`"
+
+#: ../../source/api/cli/cheatsheet.md dccd60e25ef54e5c8ad81eed55e8fca5
+msgid "序列切分的最大截断预算"
+msgstr "Maximum truncation budget for sequence splitting"
+
+#: ../../source/api/cli/cheatsheet.md a7c339b1525147b7a7de1f7a21b96630
+msgid "`--data.truncation_stage`"
+msgstr "`--data.truncation_stage`"
+
+#: ../../source/api/cli/cheatsheet.md 0d9945ff35fa493b9d9c1d0e5a5ce443
+#: 69898d4fa16a4cbaa8fba4855063adc0 c07a253ac33f4e95a1b41ab87594a781
+#: da1a5224eded48aca59e4a92501bde2f
+msgid "`choice`"
+msgstr "`choice`"
+
+#: ../../source/api/cli/cheatsheet.md 27a816b8f58d456f8d005953847b87e3
+msgid "`post_expansion`"
+msgstr "`post_expansion`"
+
+#: ../../source/api/cli/cheatsheet.md 8fd8fc5efbb24e08b28ffd367aff74c7
+msgid "KC 展开截断阶段：`pre_expansion` 或 `post_expansion`"
+msgstr "KC expansion truncation phase: `pre_expansion` or `post_expansion`"
+
+#: ../../source/api/cli/cheatsheet.md 07a7e440c3b948ce98ad7806706a9415
+msgid "`--data.sample_size`"
+msgstr "`--data.sample_size`"
+
+#: ../../source/api/cli/cheatsheet.md ec3a8af71bfe435282176624f71d4d5d
+msgid "绝对采样用户数（用于轻量化快速冒烟测试）"
+msgstr "Absolute sampled user count (for lightweight fast smoke testing)"
+
+#: ../../source/api/cli/cheatsheet.md 8e111ffdf0cc40b1900de39f9f77c924
+msgid "`--data.sample_ratio`"
+msgstr "`--data.sample_ratio`"
+
+#: ../../source/api/cli/cheatsheet.md 1bdac354b8e949d1b6f2e43adacb639b
+msgid "采样用户比例（0.0 ~ 1.0）"
+msgstr "Sampled user ratio (0.0 ~ 1.0)"
+
+#: ../../source/api/cli/cheatsheet.md:51 dba400d760904741b4337879351de486
+msgid "3. 早停策略参数 (`--early_stopping.*`)"
+msgstr "3\\. Early Stopping Policy Parameters (`--early_stopping.*`)"
+
+#: ../../source/api/cli/cheatsheet.md:53 b8472108648e494cad35a6050130b267
+msgid "监控验证集指标并在性能停滞时提早终止训练："
+msgstr ""
+"Monitor validation set metrics and terminate training early when "
+"performance stagnates:"
+
+#: ../../source/api/cli/cheatsheet.md cdba5cc5b8944f40aaf6d54fd3da2a6f
+msgid "`--early_stopping.monitor`"
+msgstr "`--early_stopping.monitor`"
+
+#: ../../source/api/cli/cheatsheet.md cddc9ade76694e0fb92cfa729dd2a4e5
+msgid "`auc`"
+msgstr "`auc`"
+
+#: ../../source/api/cli/cheatsheet.md 3d48d3e6f1354c41b72e660ddde05902
+msgid "监控目标指标：`auc`, `acc`, `rmse`, `loss`, `auprc`"
+msgstr "Target metric to monitor: `auc`, `acc`, `rmse`, `loss`, `auprc`"
+
+#: ../../source/api/cli/cheatsheet.md d4a50a2a8f444b01a64de699690ead28
+msgid "`--early_stopping.mode`"
+msgstr "`--early_stopping.mode`"
+
+#: ../../source/api/cli/cheatsheet.md bc7fb3c77f22468bb9fb736b4d26f018
+msgid "`max`"
+msgstr "`max`"
+
+#: ../../source/api/cli/cheatsheet.md 1bf85e4c8f0b468e854f2c362c48d43c
+msgid "优化方向：`max`（适合 auc/acc）或 `min`（适合 loss/rmse）"
+msgstr "Optimization direction: `max` (for auc/acc) or `min` (for loss/rmse)"
+
+#: ../../source/api/cli/cheatsheet.md 437e8f22a7344f2f967b2df4473abeec
+msgid "`--early_stopping.patience`"
+msgstr "`--early_stopping.patience`"
+
+#: ../../source/api/cli/cheatsheet.md 13344897bcc84761817c8339a03c36d5
+msgid "`10`"
+msgstr "`10`"
+
+#: ../../source/api/cli/cheatsheet.md 9ce1bf53bc0d496080da8e2d435c7229
+msgid "容忍指标无改善的轮次数"
+msgstr "Number of epochs tolerated without metric improvement"
+
+#: ../../source/api/cli/cheatsheet.md a1abdd1f2675443c8626fc3d6642cb1e
+msgid "`--early_stopping.min_delta`"
+msgstr "`--early_stopping.min_delta`"
+
+#: ../../source/api/cli/cheatsheet.md 13255fbce8a04b1db7212f882340b75e
+#: 588b98da93a9473b976dc8c93c914d83
+msgid "`0.0`"
+msgstr "`0.0`"
+
+#: ../../source/api/cli/cheatsheet.md e71ff778c14f4dfcaaeed9fce75bd636
+msgid "判定为“有效改善”的最小绝对差值阈值"
+msgstr "Minimum absolute difference threshold to qualify as a valid improvement"
+
+#: ../../source/api/cli/cheatsheet.md:62 9d470a5d72da40d5995b0711274e60a5
+msgid "4. 模型基础与超参数 (`--model.*`)"
+msgstr "4\\. Model Base and Hyperparameters (`--model.*`)"
+
+#: ../../source/api/cli/cheatsheet.md:64 d4b3ddabefa549b29f3da827e9ee6857
+msgid "基础参数（所有模型通用接口契约）："
+msgstr "Base parameters (common interface contract for all models):"
+
+#: ../../source/api/cli/cheatsheet.md 7be00740e00c4a5c8a7ac1e97a46f742
+msgid "`--model.epochs`"
+msgstr "`--model.epochs`"
+
+#: ../../source/api/cli/cheatsheet.md 54a90def3a95425d8d8a4183ba48177a
+msgid "各模型预设 (通常 100~200)"
+msgstr "Model-specific default (typically 100~200)"
+
+#: ../../source/api/cli/cheatsheet.md 61b8ef23ab254b939bb389239dfb9c42
+msgid "训练轮次上限"
+msgstr "Maximum training epochs"
+
+#: ../../source/api/cli/cheatsheet.md dba2758dcc0d42849596fec336085492
+msgid "`--model.batch_size`"
+msgstr "`--model.batch_size`"
+
+#: ../../source/api/cli/cheatsheet.md df8530ee82a14cd6a1be772d85566148
+msgid "各模型预设 (通常 64~256)"
+msgstr "Model-specific default (typically 64~256)"
+
+#: ../../source/api/cli/cheatsheet.md 10f625e9257e4c5683a65812e4e0356a
+msgid "批处理大小"
+msgstr "Batch size"
+
+#: ../../source/api/cli/cheatsheet.md c951e3098e4c458784e0faadc2f85d34
+msgid "`--model.learning_rate`"
+msgstr "`--model.learning_rate`"
+
+#: ../../source/api/cli/cheatsheet.md a1dfef91ac084bc2ac826ac8d0da47bc
+msgid "各模型预设 (通常 1e-3~1e-4)"
+msgstr "Model-specific default (typically 1e-3~1e-4)"
+
+#: ../../source/api/cli/cheatsheet.md 61bd7f1dc5644fefa3180b6653572216
+msgid "优化器初始学习率"
+msgstr "Optimizer initial learning rate"
+
+#: ../../source/api/cli/cheatsheet.md eb558208ce0d48dcb2d8c5bd9851933b
+msgid "`--model.weight_decay`"
+msgstr "`--model.weight_decay`"
+
+#: ../../source/api/cli/cheatsheet.md 42bed2bce9c44cc598b2b9134af89e75
+msgid "优化器 L2 正则化权重衰减系数"
+msgstr "Optimizer L2 regularization weight decay coefficient"
+
+#: ../../source/api/cli/cheatsheet.md:73 d2bd77e147d44e3d81229375e4002bdc
+msgid "模型特定参数（根据 `-m` 动态绑定）："
+msgstr "Model-specific parameters (dynamically bound according to `-m`):"
+
+#: ../../source/api/cli/cheatsheet.md:74 92fd10318f994a2ea725f47eb53403d7
+msgid "DKT / AKT / GIKT: `--model.hidden_dim 256`、`--model.dropout 0.2`"
+msgstr "DKT / AKT / GIKT: `--model.hidden_dim 256`, `--model.dropout 0.2`"
+
+#: ../../source/api/cli/cheatsheet.md:75 2b97265099654b1bbbefb0a9c8de3a49
+msgid "Mamba4KT: `--model.d_state 16`、`--model.d_conv 4`"
+msgstr "Mamba4KT: `--model.d_state 16`, `--model.d_conv 4`"
+
+#: ../../source/api/cli/cheatsheet.md:76 b677926e9df448da838be0ca7b5394f3
+msgid "GIKT: `--model.agg_type mean`、`--model.num_hops 2`"
+msgstr "GIKT: `--model.agg_type mean`, `--model.num_hops 2`"
+
+#: ../../source/api/cli/cheatsheet.md:78 c1feef5d78834f80ab05129e4c1e1fe7
+msgid "5. 图编译加速参数 (`--compile.*`)"
+msgstr "5\\. Graph Compilation Acceleration Parameters (`--compile.*`)"
+
+#: ../../source/api/cli/cheatsheet.md:80 1bfcc39d6e8243558ce4b1bd0b4d2d08
+msgid "封装 PyTorch 2.0+ `torch.compile` 能力："
+msgstr "Encapsulates PyTorch 2.0+ `torch.compile` capabilities:"
+
+#: ../../source/api/cli/cheatsheet.md e3f7de8e243b425b98ecfe74149368e7
+msgid "`--compile.compile`"
+msgstr "`--compile.compile`"
+
+#: ../../source/api/cli/cheatsheet.md e94e389d777f4dd9bc05be058789217c
+msgid "是否开启 Inductor JIT 编译"
+msgstr "Whether to enable Inductor JIT compilation"
+
+#: ../../source/api/cli/cheatsheet.md cd3f85e0c3c640678cc20e05a385be13
+msgid "`--compile.compile_mode`"
+msgstr "`--compile.compile_mode`"
+
+#: ../../source/api/cli/cheatsheet.md 4615cb591e804af1bbb7ff01d035626f
+msgid "`default`"
+msgstr "`default`"
+
+#: ../../source/api/cli/cheatsheet.md 85777dc5b31d4c2f9e12236d35596615
+msgid "编译模式：`default`, `reduce-overhead`, `max-autotune`"
+msgstr "Compilation mode: `default`, `reduce-overhead`, `max-autotune`"
+
+#: ../../source/api/cli/cheatsheet.md:89 5b8464b58dad4842a28a83b2eecaddda
+msgid "帮助文档与反射查看"
+msgstr "Help Documentation and Reflection Inspection"
+
+#: ../../source/api/cli/cheatsheet.md:91 aa521571cbe54d36a7e5f3ffd47e8cb3
+msgid "1. 查看通用框架帮助"
+msgstr "1\\. View General Framework Help"
+
+#: ../../source/api/cli/cheatsheet.md:93 ae75755882b646ec8a281c6ce4016c6e
+msgid "运行 `python train.py -h` 可查看框架层面的全局配置项："
+msgstr ""
+"Run `python train.py -h` to inspect framework-level global configuration "
+"options:"
+
+#: ../../source/api/cli/cheatsheet.md:95 167fcc36b99a413a8b0e75c5fd1911cc
+msgid "python train.py -h\n"
+msgstr "python train.py -h\n"
+
+#: ../../source/api/cli/cheatsheet.md:99 4e632c22721d41b98843bc96b1003b81
+msgid "2. 查看特定模型的全部参数"
+msgstr "2\\. View All Parameters of a Specific Model"
+
+#: ../../source/api/cli/cheatsheet.md:101 ce05d9e932154c2b94221afcdf81e542
+msgid ""
+"当你指定了 `-m <模型名>` 后，jsonargparse 会自动解析该模型的专用 `ModelConfig` 类并将其参数动态挂载在 "
+"`--model.*` 命名空间下："
+msgstr ""
+"When you specify `-m <ModelName>`, jsonargparse automatically inspects "
+"the model's dedicated `ModelConfig` class and mounts its parameters "
+"dynamically under the `--model.*` namespace:"
+
+#: ../../source/api/cli/cheatsheet.md:103 c264f013b59a4f9c88dab6ef91d3b470
+msgid ""
+"# 查看包含 GIKT 特定超参数的完整帮助文档\n"
+"python train.py -m GIKT -h\n"
+"\n"
+"# 查看包含 Mamba4KT 专用参数的完整帮助\n"
+"python train.py -m Mamba4KT -h\n"
+msgstr ""
+"# View full help documentation including GIKT-specific hyperparameters\n"
+"python train.py -m GIKT -h\n"
+"\n"
+"# View full help including Mamba4KT-specific parameters\n"
+"python train.py -m Mamba4KT -h\n"
+
+#: ../../source/api/cli/cheatsheet.md:111 900ccaa188f44d15a8a9d092ce1fd77e
+msgid "3. 打印解析后的配置快照 (`--print_config`)"
+msgstr "3\\. Print Parsed Configuration Snapshot (`--print_config`)"
+
+#: ../../source/api/cli/cheatsheet.md:113 ec655b6479604565b27fb14510f7b91c
+msgid "在实际启动前，若想确认所有默认值与覆盖项合并后的全量 YAML："
+msgstr ""
+"Before actual execution, to confirm the full YAML resulting from merging "
+"all defaults and overrides:"
+
+#: ../../source/api/cli/cheatsheet.md:115 8d2edd4456824a38879f90e97b89a571
+msgid ""
+"python train.py -m DKT -d assistments09 --data.fold 1 --model.batch_size "
+"64 --print_config\n"
+msgstr ""
+"python train.py -m DKT -d assistments09 --data.fold 1 --model.batch_size "
+"64 --print_config\n"
+
+#: ../../source/api/cli/cheatsheet.md:121 aa7b5750958c4968b28f1b37f7c3a0f0
+msgid "配置文件支持 (`--config`)"
+msgstr "Configuration File Support (`--config`)"
+
+#: ../../source/api/cli/cheatsheet.md:123 326cfb54c7204906af1f2d24e53df46c
+msgid "UniKT 支持通过 YAML 配置文件进行批量化配置管理："
+msgstr ""
+"UniKT supports batch configuration management via YAML configuration "
+"files:"
+
+#: ../../source/api/cli/cheatsheet.md:125 0c4a978033354ecdbfa670fbefe2ed4c
+msgid "python train.py --config configs/my_experiment.yaml\n"
+msgstr "python train.py --config configs/my_experiment.yaml\n"
+
+#: ../../source/api/cli/cheatsheet.md:129 736c497824d741b7a4d0005a7e46e923
+msgid "CLI 参数的优先级高于配置文件。例如：在载入 YAML 的同时临时修改学习率和设备："
+msgstr ""
+"CLI arguments take precedence over configuration files. For example, "
+"temporarily modifying learning rate and device while loading a YAML file:"
+
+#: ../../source/api/cli/cheatsheet.md:131 a93fb6593b174a708e62cd12a38cb78f
+msgid ""
+"python train.py --config configs/my_experiment.yaml --model.learning_rate"
+" 0.0005 --general.device cuda:1\n"
+msgstr ""
+"python train.py --config configs/my_experiment.yaml --model.learning_rate"
+" 0.0005 --general.device cuda:1\n"
+
+#: ../../source/api/cli/cheatsheet.md:137 5e8fd7c59f0e4fe98c4b02abd9cc4f03
+msgid "常用典型命令速查"
+msgstr "Common Typical Command Cheatsheet"
+
+#: ../../source/api/cli/cheatsheet.md:139 7b957659331e45508d5bea8865f4408f
+msgid ""
+"# 1. 基础 GPU 训练（指定 Fold 0）\n"
+"python train.py -m DKT -d assistments09 --data.fold 0\n"
+"\n"
+"# 2. 指定显卡并调整批大小与学习率\n"
+"python train.py -m AKT -d assistments09 --general.device cuda:1 "
+"--model.batch_size 64 --model.learning_rate 1e-4\n"
+"\n"
+"# 3. 离线调试（无云端同步，关闭测试评估，采样 500 个学生）\n"
+"python train.py -m DKT -d assistments09 --general.cloud_tracking false "
+"--general.skip_test true --data.sample_size 500\n"
+"\n"
+"# 4. 修改早停策略（监控验证集 loss，容忍 15 个 epoch）\n"
+"python train.py -m GIKT -d assistments09 --early_stopping.monitor loss "
+"--early_stopping.mode min --early_stopping.patience 15\n"
+"\n"
+"# 5. 独立评估某个实验运行目录\n"
+"python evaluate.py --evaluate.run_dir "
+"runs/normal/DKT_assistments09_20261109-133000_fold0_bs128\n"
+"\n"
+"# 6. 使用 PyTorch Inductor 图编译加速训练\n"
+"python train.py -m SimpleKT -d assistments09 --compile.compile true "
+"--compile.compile_mode default\n"
+msgstr ""
+"# 1. Basic GPU training (specifying Fold 0)\n"
+"python train.py -m DKT -d assistments09 --data.fold 0\n"
+"\n"
+"# 2. Specify GPU device and adjust batch size and learning rate\n"
+"python train.py -m AKT -d assistments09 --general.device cuda:1 "
+"--model.batch_size 64 --model.learning_rate 1e-4\n"
+"\n"
+"# 3. Offline debugging (disable cloud tracking, skip test evaluation, "
+"sample 500 students)\n"
+"python train.py -m DKT -d assistments09 --general.cloud_tracking false "
+"--general.skip_test true --data.sample_size 500\n"
+"\n"
+"# 4. Modify early stopping policy (monitor validation loss, patience 15 "
+"epochs)\n"
+"python train.py -m GIKT -d assistments09 --early_stopping.monitor loss "
+"--early_stopping.mode min --early_stopping.patience 15\n"
+"\n"
+"# 5. Standalone evaluation of an experiment run directory\n"
+"python evaluate.py --evaluate.run_dir "
+"runs/normal/DKT_assistments09_20261109-133000_fold0_bs128\n"
+"\n"
+"# 6. Accelerate training using PyTorch Inductor graph compilation\n"
+"python train.py -m SimpleKT -d assistments09 --compile.compile true "
+"--compile.compile_mode default\n"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: UniKT \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-13 16:04+0800\n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -19,13 +19,2871 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.18.0\n"
 
-#: ../../source/api/reference/training.md:1 aad971a3208d48c1849e2198ca0bf71b
+#: ../../source/api/reference/training.md:1 aa8f81be71c7443a91f6c9036c92fc2a
 msgid "训练基础设施"
 msgstr "Training infrastructure"
 
-#: ../../source/api/reference/training.md:3 c134a87114f8482b8c522e9bff6ddd25
-msgid "训练器基类与多阶段训练器、指标累积、回调、检查点、指标记录后端。"
+#: ../../source/api/reference/training.md:3 615b66cad5494f20b90be1a543303991
+msgid "训练器基类与多阶段训练器、运行时组件容器、指标累积、回调、检查点、指标记录后端。"
 msgstr ""
-"Trainer base class and multi-stage trainer, metric accumulation, "
-"callbacks, checkpoints, and metric logging backends."
+"Trainer base classes and multi-stage trainers, runtime component "
+"containers, metric accumulation, callbacks, checkpoints, and metric "
+"logging backends."
 
+#: 2ed1de4b1796424fb973febabce9a145 of utils.training.base_trainer:1
+msgid "Base trainer module."
+msgstr "Base trainer module."
+
+#: b89bc52a19e44a2081e2d1d9fa559620 of utils.training.base_trainer:3
+msgid ""
+"Provides the core trainer functionality including device management, data"
+" loading, training loops, callbacks, checkpointing, and metric logging."
+msgstr ""
+"Provides the core trainer functionality including device management, data"
+" loading, training loops, callbacks, checkpointing, and metric logging."
+
+#: af14e4afc07645299d5c2bd1abc730fe of
+#: utils.training.base_trainer.BaseTrainer:1
+msgid ""
+"基类：:py:class:`~utils.training.inference_ops.InferenceOpsMixin`, "
+":py:class:`~abc.ABC`"
+msgstr ""
+"Bases: :py:class:`~utils.training.inference_ops.InferenceOpsMixin`, "
+":py:class:`~abc.ABC`"
+
+#: 1ca9e1767d154c1b93f808e2b6a11a08 of
+#: utils.training.base_trainer.BaseTrainer:1
+msgid "Abstract base class for trainers."
+msgstr "Abstract base class for trainers."
+
+#: f0760fd536ed4861bf2da16d92da746d of
+#: utils.training.base_trainer.BaseTrainer:3
+msgid "A single-stage trainer is constructed in one step::"
+msgstr "A single-stage trainer is constructed in one step::"
+
+#: 5a064352fbfc4e759db73f90c273143d of
+#: utils.training.base_trainer.BaseTrainer:5
+msgid ""
+"trainer = MyTrainer(rc, data_src, exp_manager)\n"
+"trainer.run()"
+msgstr ""
+"trainer = MyTrainer(rc, data_src, exp_manager)\n"
+"trainer.run()"
+
+#: 3208e031ea054df0907a3b947fe16d52 of
+#: utils.training.base_trainer.BaseTrainer:8
+msgid ""
+"The constructor wires everything: it calls :meth:`build_components` to "
+"let the subclass assemble the model/optimizer/data from ``rc`` + "
+"``data_src``, reads :meth:`build_callbacks` for any extra callbacks, then"
+" runs :meth:`build` to finalize device, loaders, early stopping, logging "
+"and checkpointing."
+msgstr ""
+"The constructor wires everything: it calls :meth:`build_components` to "
+"let the subclass assemble the model/optimizer/data from ``rc`` + "
+"``data_src``, reads :meth:`build_callbacks` for any extra callbacks, then"
+" runs :meth:`build` to finalize device, loaders, early stopping, logging "
+"and checkpointing."
+
+#: f3980fb0ef304d93a8b879d95c0f2b96 of
+#: utils.training.base_trainer.BaseTrainer:14
+msgid "Subclasses implement:"
+msgstr "Subclasses implement:"
+
+#: 076c88c25fa64ce6b9b24d509c024e42 of
+#: utils.training.base_trainer.BaseTrainer:16
+msgid ""
+":meth:`build_components`: Return a :class:`RuntimeComponents` holding the"
+" model, optimizer, loss, scheduler, and train/val/test data built from "
+"``rc`` + ``data_src``. Scalar knobs are read from ``rc`` directly, never "
+"stored on the components."
+msgstr ""
+":meth:`build_components`: Return a :class:`RuntimeComponents` holding the"
+" model, optimizer, loss, scheduler, and train/val/test data built from "
+"``rc`` + ``data_src``. Scalar knobs are read from ``rc`` directly, never "
+"stored on the components."
+
+#: 46a8295529a4470b8e355b4c02d0857d of
+#: utils.training.base_trainer.BaseTrainer:20
+msgid ":meth:`build_callbacks`: Return extra callbacks (default ``[]``)."
+msgstr ":meth:`build_callbacks`: Return extra callbacks (default ``[]``)."
+
+#: 08c8c50cf09140baabfdd0cc18e9038a of
+#: utils.training.base_trainer.BaseTrainer:21
+msgid ":meth:`forward_pass`: Model forward pass for one batch."
+msgstr ":meth:`forward_pass`: Model forward pass for one batch."
+
+#: 76cda8a4037d42c09760aad181f8182b of
+#: utils.training.base_trainer.BaseTrainer:22
+msgid ""
+":meth:`_compute_loss`: Training loss (default ``self.loss(y_hat, "
+"y_label)``); auxiliary terms added here are excluded from val/test loss, "
+"which always goes through :meth:`_compute_eval_loss`."
+msgstr ""
+":meth:`_compute_loss`: Training loss (default ``self.loss(y_hat, "
+"y_label)``); auxiliary terms added here are excluded from val/test loss, "
+"which always goes through :meth:`_compute_eval_loss`."
+
+#: ../../source/api/reference/training.md 033cc4efd1204a2c986c072c37f65c8b
+#: 053a12da94964fcdb8b5af8b86fb43c6 086c90049ec745a1a4438b2694e80d4c
+#: 0c2613602b374eb6bc9d987867e95d54 0c77fbb39fa7459f906c9c85226b8d0e
+#: 0d8aa81227b9426ca3af5a892114f085 1107120295d348a7a805823a19ff3e01
+#: 118d097a6fee4baf8705ea7d7b894ff0 11ffa6aa267043eab08d3137ee1c5e05
+#: 126a3d26e756426a89798a221757a226 1864c9a2d1c9412d80c2db0882971ba7
+#: 19313e65af8649048f0f89f679c71810 1bf5ddef142c4525896a2a2f2f669f45
+#: 1d25abfff9f54146917817b2abc00924 1d4f65a2587a48f58b6dec0954a1370c
+#: 1e060c636a5d4dae92c1dff917a9412f 1ed3249fc9fc417c9e4cdf1059103b02
+#: 1f0f832078dc49ac9a91ff7c2478ca25 1f7793aeb0624c539a4a311226522572
+#: 21051f9f0fe24201bcedf6ab0145a23d 2129da74118d497ab94521e63a7b8997
+#: 22cff626427b41d39c84eb3ae2cef9e6 2410007fb87343c5a73566f76838f9a5
+#: 2458c081ced045d2aef9d4f0b45762f3 2552ef0c1f554bc2be39e63e71fe30ef
+#: 28f56278344c4e018db69ff6fb3e4619 298de523698c4c54a242cb6a1b82caa4
+#: 2fb743dceb9a4089aa8577a771cedbd1 34e041674c554441910cbedd38023d79
+#: 35b54ee1264a455290ab169ee9ecdae8 366c0d0602804232b01f549262314e24
+#: 3a8f0a6eef0f4af0b283afa435d2f58b 3ad18257992e49d9aab82e495a5deb1c
+#: 3dd5130c36394dc2b263921a1cb8249a 3e67a5a19afe4be885173536b16e6ef4
+#: 424671a068be4337a3bc09b4b55edbb7 44cde995f89f4c6fa6421938b5b8770c
+#: 4606c8d4a77f4c0fac95436be308305b 4834ab58f0b54ab2b6d167538e50a775
+#: 49afff00ffe84733920c40af03060d94 4a2ec09c0bc14a3080499e295b34f4a2
+#: 510618481eec4a2688fd28abd0e54a32 51e382054d5947fdb81d51671264846d
+#: 535ee8882af8459e9137fed29b0b509f 584f007a80694a65b638bfa8c816d874
+#: 58f76a97404248799fb21ce4368b8585 5928cc8c3ac04eb5ada833d7fd854a3c
+#: 5a5b068674134cc59fa5f953f71869d9 5b30de418953417a9c96b116efb5fe56
+#: 5fb5e08ac9bd41f587bb8e4fd61fc033 65be107f83cf4db48048af82a9b1c955
+#: 669dad9c63334baeaf34abc6f772a9e8 691830a551344554bc0bb89a421e6ed0
+#: 6f500a429e0846de8e18ae3adf028acf 72a281d5464b4fc68150c710bdf00572
+#: 7334114c233946fd9db0e5c929dd5593 73d2084ef0794e07824f1f12cc02454c
+#: 74a86e0977db40cab05fa07322f682d2 785178b0629e4481ad01c7baf10df614
+#: 788632d5300449b6ac6c5c6a85ca182c 7dbafd4e263d4448be962c088e3f02b3
+#: 81aacb9e938b42b0bdd584899ecb2bd2 827b57c94af6476c93478b89d6d1bf99
+#: 8b0d708af9b04d86a446f6bb017cee9f 8f7a3519ef3641618d29cc282eee54e3
+#: 902b47092d904099916d5c8deddd7ab9 90d96c4a20134777999041b36bef37d5
+#: 941f985e49454769bf58275b9172378d 9974b02955994bf38873bf2b5f6e0c64
+#: 997fdc23d1be41f6abb03a7bb301b1e5 9d6c9e09edd9479baae0a1ba44f14b2e
+#: 9e97642f92254478acd40f9f0e26a4df 9fd8afcf2822425ab2cba971f38d22cb
+#: a1b79006022a4ed3960fb2f7f4bef31a a2d6d00c569d423cb32fa4bba5db397d
+#: a5ce8494a6f94c31a72d0327d7c2afd5 ace39ef3bfdd4bb8b1937b694eb97183
+#: ad230caddcd6457db78255ada861228c afaad6d1decb49659f63489c5650440e
+#: b37819bc1045472e9a083006b21ceea9 b38fc7f04da64c418a3bd47f87e50a31
+#: b58c3e5e4e1f4e25827fced004c93184 b5d4d2ece25a46de89d44a2c86b77bee
+#: b63bc764cda5438d8f64515a3e8ec383 b7d5d37d85a4423f9e03e757f8d31ceb
+#: b91e3de13d484d3db7d29f3c1ddbb448 bc3a54274f0e4cb4bd5df5509f8bea9d
+#: c24278450d5f45d79e544a6b642d7f73 c757578d52714cc09f03946806ae321e
+#: cbe94b79a99c4ffcb1b2033edd3aefa8 cf0eafb4c4e14b1fa0e881d2f118a6d6
+#: d1446aa151864442aa989195c40ae805 d2be31159e5c4d6b941b7d8b9dbe00d2
+#: d2ef38eadc444fe5b30cf6dfcf1a22c4 d53ed1184159489c93158c8aa7790912
+#: d5a7d51873fa4d9ca94112596da652b0 d81b6a69e5dd40d9a93c49b6c6f957f5
+#: dc8fa508c41c42b2a1eb248178f1d87b dcce377ba6d941629be1ce035ca0aeea
+#: de5acea2f366466ba0cc28a244baab69 dede2656f5704750a65d96338aed7c36
+#: df511fd591f848f7b389bed3c3724207 e02edf07390949068388867935d1cdd0
+#: e0d19669ac564f259c5d520548c12a8a e2b9004f4374415092ac771aa08ef51d
+#: e51d12bf8a8f4b8eb5c1211d415296be e64d50a0916a4b10b30628d64f396b90
+#: e78adf3548be455b8450da5cd86c4589 e8e25a36d6ec44afa7fa3a3655e99b18
+#: ee4d5c1c41b8430c9c6b1751dcbd151f ef2f89a9c0dc4959b711084d73848f21
+#: f66f19d55de44a30ba3dce62103ecd7d f81c1e5799d4444381da99894435968d
+#: f9faf38e505e4f15a94055ec47785185 fbfc2ff0c8c24b8a9e076b2c060af6a5 of
+#: utils.training.base_trainer.BaseTrainer.add_callback
+#: utils.training.base_trainer.BaseTrainer.build_components
+#: utils.training.base_trainer.BaseTrainer.compute_train_step
+#: utils.training.callbacks.FunctionCallback.on_batch_begin
+#: utils.training.callbacks.FunctionCallback.on_batch_end
+#: utils.training.callbacks.FunctionCallback.on_epoch_begin
+#: utils.training.callbacks.FunctionCallback.on_epoch_end
+#: utils.training.callbacks.FunctionCallback.on_phase_begin
+#: utils.training.callbacks.FunctionCallback.on_phase_end
+#: utils.training.callbacks.FunctionCallback.on_train_begin
+#: utils.training.callbacks.FunctionCallback.on_train_end
+#: utils.training.checkpoint.CheckpointManager.read_model_state_dict
+#: utils.training.metric_logger.AsyncMetricLoggerProxy.init_run
+#: utils.training.metric_logger.AsyncMetricLoggerProxy.log_batch
+#: utils.training.metric_logger.AsyncMetricLoggerProxy.log_early_stopping
+#: utils.training.metric_logger.AsyncMetricLoggerProxy.log_final
+#: utils.training.metric_logger.AsyncMetricLoggerProxy.log_metrics
+#: utils.training.metric_logger.AsyncMetricLoggerProxy.log_timing
+#: utils.training.metric_logger.LocalMetricLogger.init_run
+#: utils.training.metric_logger.LocalMetricLogger.log_timing
+#: utils.training.metric_logger.MetricLogger.log_timing
+#: utils.training.metric_logger.MetricLoggerComposite.init_run
+#: utils.training.metric_logger.MetricLoggerComposite.log_batch
+#: utils.training.metric_logger.MetricLoggerComposite.log_early_stopping
+#: utils.training.metric_logger.MetricLoggerComposite.log_final
+#: utils.training.metric_logger.MetricLoggerComposite.log_metrics
+#: utils.training.metric_logger.MetricLoggerComposite.log_timing
+#: utils.training.metric_logger.SwanLabMetricLogger.log_batch
+#: utils.training.metric_logger.SwanLabMetricLogger.log_timing
+#: utils.training.metric_logger.WandbMetricLogger.log_batch
+#: utils.training.metric_logger.WandbMetricLogger.log_timing
+#: utils.training.metrics.base.Metric.compute
+#: utils.training.runtime_components.RuntimeComponents
+msgid "参数"
+msgstr "Parameter"
+
+#: b2828e55f9824fcd96c05f7fcfb0c1fb of
+#: utils.training.base_trainer.BaseTrainer.add_callback:1
+msgid "Append a callback to the active run after construction."
+msgstr "Append a callback to the active run after construction."
+
+#: c4b60bef7f4e41b297420487be347c4b of
+#: utils.training.base_trainer.BaseTrainer.add_callback:3
+msgid ""
+"Single-stage trainers already have a live callback list (built in "
+":meth:`build`). Multi-stage trainers build their per-stage callback "
+"manager lazily from ``_custom_callbacks`` — registering there ensures the"
+" callback runs in every stage."
+msgstr ""
+"Single-stage trainers already have a live callback list (built in "
+":meth:`build`). Multi-stage trainers build their per-stage callback "
+"manager lazily from ``_custom_callbacks`` — registering there ensures the"
+" callback runs in every stage."
+
+#: ../../source/api/reference/training.md 04525add21c6476fa8e7536519b7ecaf
+#: 051e1703cbfa4c6db77804fd61a7ca64 0a315dbcea334f57a8a93ebeb184755f
+#: 0bfdfa2a06a64d0f9d8c19c5dc58fd5c 0c220ed6914447a6815a9a6b9c06d56c
+#: 0c61adecdb924073a1b50bd7d1a673ac 0dfdb2ab73694d81a9b4623df1b21a12
+#: 122e31cceef64b5ca5b4afa71ebf6cd4 19cc6f5ee9c24c3793f7b8dbe680a609
+#: 1b7daee7aa7d4682b1cee42c542fce11 1c5504063f8a462da243e1492dd441cd
+#: 1dc86ef4efa3490f81f9c6959da959eb 218c63afb3b542bd86f78d7677cc3962
+#: 234b2e2899e54167ac7bf9b397029209 23526586ffa043978aafc17ec7f5077f
+#: 2733925664f54ed8b26c919560687ec6 28e4810f02a94c31bb188c7259454163
+#: 29fa1d59ebbf43cdb5c97664ace90710 2b285d3003564c828c1757802e559659
+#: 2c78ad9289334dcab85fe96086bc01eb 2d526eabc3c7465badd4a60831b0b4f9
+#: 2dca7f786ac34651a6edc1a4e3f4ac09 2ebd7b3229564d63ba065a85a4fa46bd
+#: 33c4047fa8cd412dac2da5afb67118e7 34710ca23ebc42c59eb53581418984f0
+#: 3a2d31c56a164d1f89c410dc1133f4b1 3b56145785a2492e91a39ef5b04dc2b4
+#: 3b8427edffef47b1a54d1f04c35d71db 3f39c6a485c044b9af6dc2e7073c2667
+#: 3faf43e840d54d65adda99fb5e3a8bd7 40534a7a097b42aea4ded7f3b0789991
+#: 42628d77e73a46a399c8c2e19f145b10 42fc9b7996014e85a1ce81a58ef83f67
+#: 441ec08e49764a82a45e4e789e39bc3a 46c137a56e2b4bed8742eeeaafe57adc
+#: 4720ad95c1e3435b80e0e8cadb39f685 4974e3df309c45c8929c4d1db1c7af29
+#: 4fba2c031bd44669a40f1de1cdeeca63 51628718f9cf4df3905446237c2dac43
+#: 5b433a9067644906bdb453e7ec01c97a 64bc880166ba4f4fb1b614b70413272f
+#: 65a83d05c79a4fdbbacf64c1b02b5602 65e0520df3f54c398fdf0adeade5f7f1
+#: 678fa618aa624412a50fa946b0dc3214 67e46924efb94c078c66c04b26f55c4e
+#: 6868b58fd31540838ad5dd08e9f9b597 6f13c7d9129245178f68a36e1222ba12
+#: 73074361632b4c5ba8408186e784c5ed 7473b0eb4d4744939429ba11745f7a9d
+#: 74f8106263b44090b2d12b77aeacafc3 75413cdb063649ca86cb5ff851245621
+#: 766ef3ff2c2642d18b80b904280a8344 77f7bd118e4c4a37b3ca8deece2fa3f3
+#: 7ea5324019db4b71ad1c993302af5fbe 801e1c6a92b34b7c94894ce8a2159e66
+#: 81092144176e43cab1aa3311266eb786 81a09435fba84d12a35ba9de2bdefb6d
+#: 825c40494dd046d48cea652b02ad05d8 8321d7d59fd847bb8181cfbef223b7a9
+#: 83a167f4ce154e54853640526b44ccda 8646c47a11b84cbc9777f85499196801
+#: 8832baa60a1e4d4c8e3a86a730bef677 8afbf4de540c4c90ae3e0a7bb6199654
+#: 8b5841ab6a54479981e2adc6db73e461 9108fee051a24264bdf8da50fd68fba1
+#: 917cc4afe8434d1ca3af955fb539d789 920cd88677e54942ae848b7682c15bf9
+#: 95021366563942c994bbf14efddfcad7 95022d3616a04df292d1d3e4638d4391
+#: 985bebc91bae4140bdd65d9ece6f3dc5 999da4675f304116a377ba2b1504df9d
+#: 9a2bed63835f4d3e96faec4aaf7a37f8 9b3d8e2a6e23433495a924cc855c2f1f
+#: 9c11572bf9fd47efac0f92608a285f6d 9f8616346a094b3996281469e4f6bf23
+#: a400e7b4776c4dc89e54451d6d821110 a4aa43cebf3e4c32808163a28d711789
+#: a50169db86994af8b1444309497c1b1a a6b1add5462a417e81a84335a5284d52
+#: a6cb98ec402249769ac44a285bfdbf9e a7b8e3f040c44a1cbb4e6b0f570de6ff
+#: a8541dfa66724a2e96205d5ca657140b af56498e78ad4bb5bfe86f873c3ff674
+#: b07773c1d4f748ad914168616bd2d456 b1cd58c41cbe4c63a66da0ea8ad7e77d
+#: b357d5a1c28647c69ae4ba8cac5b395e b80f66e83dce4f49b749d6390de9139a
+#: baf34719888548a1af8db139408a477e bc165797a7bd4fae90d2494db3530ece
+#: be3e963955db4116a862b56253716aaf c0fa90aa674d45fa8962ceb7c7f222a3
+#: c1d36a9b537344a8bedc7e20873d7939 c1d43b3e92864b7aba9e078e13f9d49a
+#: c1db961173ce428582e7d26096df4a93 c345ae9b09ca4c1fabae896dd8734169
+#: c962b866d03345cc84dd1f2c0e11d65d cae5d129d9f9476daf76af623373d5ec
+#: d31eb15af6a54d51bba1bbed83df6d16 d42233b9c0c246368080a4f4cf2b894d
+#: d82bfbf862204c50b7b9f2fc7f355cd1 d8453b367033405ba4de0ffbd72c454f
+#: db4a06cb74414f3aabbf52c0ff31af01 de4e479ad8a24d6ea336bf14c95c0440
+#: de787a22e2d745758a8d4e52ac1557e0 de7dc4c830cb4d1ba7d436ee3811d056
+#: e0bf8e9c1cdb413484ab0c12d034962d e2a77c07f55f4b62b23a345a2d0c0345
+#: e3e8cf2156574a91b9efb191ff887c50 e51e44b223a244758afca1f7bea9c7ea
+#: eafe9756e852491c9d09c0aea9db23c3 eb65ddd35ebf441faadeb50ae6aed69e
+#: ed7e1dd568624b24a8e33ee3a07b7ca6 ee3f4b60c53047d0bb42b6182a28a760
+#: ee97508f30a749b880a16a2ec99c4405 f8f09918927745aa8bd5a3c594b2b577
+#: fb7f9e64c3984af9b67fc34a69f4271d fed30ad6b3df45479f533f5bdc3972ca
+#: ffe1b6d82ba3424581d42f01f274313a of
+#: utils.training.base_trainer.BaseTrainer.add_callback
+#: utils.training.base_trainer.BaseTrainer.build_callbacks
+#: utils.training.base_trainer.BaseTrainer.build_components
+#: utils.training.base_trainer.BaseTrainer.compute_train_step
+#: utils.training.base_trainer.BaseTrainer.release
+#: utils.training.base_trainer.BaseTrainer.run
+#: utils.training.callbacks.Callback.close
+#: utils.training.callbacks.CallbackManager.close
+#: utils.training.callbacks.FunctionCallback.on_batch_begin
+#: utils.training.callbacks.FunctionCallback.on_batch_end
+#: utils.training.callbacks.FunctionCallback.on_epoch_begin
+#: utils.training.callbacks.FunctionCallback.on_epoch_end
+#: utils.training.callbacks.FunctionCallback.on_phase_begin
+#: utils.training.callbacks.FunctionCallback.on_phase_end
+#: utils.training.callbacks.FunctionCallback.on_train_begin
+#: utils.training.callbacks.FunctionCallback.on_train_end
+#: utils.training.callbacks.ProgressCallback.close
+#: utils.training.checkpoint.CheckpointManager.close
+#: utils.training.checkpoint.CheckpointManager.flush
+#: utils.training.checkpoint.CheckpointManager.read_model_state_dict
+#: utils.training.metric_logger.AsyncMetricLoggerProxy.close
+#: utils.training.metric_logger.AsyncMetricLoggerProxy.finish
+#: utils.training.metric_logger.AsyncMetricLoggerProxy.flush
+#: utils.training.metric_logger.AsyncMetricLoggerProxy.init_run
+#: utils.training.metric_logger.AsyncMetricLoggerProxy.log_batch
+#: utils.training.metric_logger.AsyncMetricLoggerProxy.log_early_stopping
+#: utils.training.metric_logger.AsyncMetricLoggerProxy.log_final
+#: utils.training.metric_logger.AsyncMetricLoggerProxy.log_metrics
+#: utils.training.metric_logger.AsyncMetricLoggerProxy.log_timing
+#: utils.training.metric_logger.LocalMetricLogger.finish
+#: utils.training.metric_logger.LocalMetricLogger.init_run
+#: utils.training.metric_logger.LocalMetricLogger.log_timing
+#: utils.training.metric_logger.MetricLogger.finish
+#: utils.training.metric_logger.MetricLogger.log_timing
+#: utils.training.metric_logger.MetricLoggerComposite.finish
+#: utils.training.metric_logger.MetricLoggerComposite.init_run
+#: utils.training.metric_logger.MetricLoggerComposite.log_batch
+#: utils.training.metric_logger.MetricLoggerComposite.log_early_stopping
+#: utils.training.metric_logger.MetricLoggerComposite.log_final
+#: utils.training.metric_logger.MetricLoggerComposite.log_metrics
+#: utils.training.metric_logger.MetricLoggerComposite.log_timing
+#: utils.training.metric_logger.SwanLabMetricLogger.finish
+#: utils.training.metric_logger.SwanLabMetricLogger.log_batch
+#: utils.training.metric_logger.SwanLabMetricLogger.log_timing
+#: utils.training.metric_logger.WandbMetricLogger.finish
+#: utils.training.metric_logger.WandbMetricLogger.log_batch
+#: utils.training.metric_logger.WandbMetricLogger.log_timing
+#: utils.training.metrics.base.Metric.compute
+msgid "返回类型"
+msgstr "Return type"
+
+#: 1b557239a3b04863b3f8cb8bd915526c of
+#: utils.training.base_trainer.BaseTrainer.build:1
+msgid "Finalize the trainer: device, loaders, early stopping, logging."
+msgstr "Finalize the trainer: device, loaders, early stopping, logging."
+
+#: c442b92d6b1645f4a147f8afd24c23df of
+#: utils.training.base_trainer.BaseTrainer.build:3
+msgid ""
+"Reads scalar configuration from ``self.run_config`` and runtime objects "
+"from ``self._components`` / ``self._exp_manager``."
+msgstr ""
+"Reads scalar configuration from ``self.run_config`` and runtime objects "
+"from ``self._components`` / ``self._exp_manager``."
+
+#: ../../source/api/reference/training.md 01f05134467d4b9aa6bc91cd298d3900
+#: 0304d25d3fea4f11936304fc37ccf1a6 0cbd841ef48c4006b022ace1b98d4491
+#: 2282ac4a4b744fdba0dd2e14eae5c4ed 23e2d89d5df747eeb9a6858fba51a4b3
+#: 3d1d07aefe2246eda6994a12d1f57e00 4634afe0025a4904b6b32898e2fa364a
+#: 4762bc25d04b40b884d94b19f495331c 4ef0d2300d4842238d9b166827c1589c
+#: 5af07640779a4fb4859559e8370fa3fc 5d9c3f58ea2c4813b7d19750f7f9457e
+#: 7887aae2937140d1b90cc946277219bd 8d3c35da785d4df0b3300a493a2a20c5
+#: 9192e81238f44b5f8226c55ea252cd28 99c3ca24f7a34e4fa6c81e443bccef44
+#: c2e6b51ac8134f0588abc6f1b908be45 c5ff34333a6f48428a4018b43358b080
+#: fb3824c3f45043f2a2c1ff05bdbb538d fb9bb700db81410d8f38996abd177729
+msgid "返回"
+msgstr "Returns"
+
+#: 4143f408bd17474c856345fc420bb311 e099fd4114424bed8ff6e0607a869fdf of
+#: utils.training.base_trainer.BaseTrainer.build:6
+#: utils.training.multi_trainer.MultiTrainer.build:7
+msgid "Self for method chaining."
+msgstr "Self for method chaining."
+
+#: 1e7e5e5842ff48538c817048173bb7d7 of
+#: utils.training.base_trainer.BaseTrainer.build_callbacks:1
+msgid "Return extra callbacks for this run (default: none)."
+msgstr "Return extra callbacks for this run (default: none)."
+
+#: d88f270bf5c44ed18114187abe9b3954 of
+#: utils.training.base_trainer.BaseTrainer.build_components:1
+msgid "Assemble the model/optimizer/data for this run."
+msgstr "Assemble the model/optimizer/data for this run."
+
+#: 2b9de547e2a14a1e9745380c4b07a669 of
+#: utils.training.base_trainer.BaseTrainer.build_components:3
+msgid ""
+"Single-stage trainers override this to return a populated "
+":class:`RuntimeComponents`. The default returns an empty holder and is "
+"only meant for subclasses that manage their own lifecycle (e.g. multi-"
+"stage trainers that build per stage, and inference analyzers)."
+msgstr ""
+"Single-stage trainers override this to return a populated "
+":class:`RuntimeComponents`. The default returns an empty holder and is "
+"only meant for subclasses that manage their own lifecycle (e.g. multi-"
+"stage trainers that build per stage, and inference analyzers)."
+
+#: 7727ecbe7dc848daafe8f1d7f7da7d18 of
+#: utils.training.base_trainer.BaseTrainer.compute_train_step:1
+msgid "Execute one training step's pure computation."
+msgstr "Execute one training step's pure computation."
+
+#: 7f4bdcbc3dc0462483ea343dc534af1c of
+#: utils.training.base_trainer.BaseTrainer.compute_train_step:3
+msgid ""
+"``zero_grad -> forward_pass -> _compute_loss -> backward -> clip -> "
+"step``. Shared by the training loop (:meth:`_run_train_batch`) and the "
+"efficiency benchmark, so the two never drift apart. Excludes the metrics "
+"accumulator and ``loss.item()`` so callers (the benchmark) can measure "
+"throughput cleanly. Returns ``(output, loss_tensor)``."
+msgstr ""
+"``zero_grad -> forward_pass -> _compute_loss -> backward -> clip -> "
+"step``. Shared by the training loop (:meth:`_run_train_batch`) and the "
+"efficiency benchmark, so the two never drift apart. Excludes the metrics "
+"accumulator and ``loss.item()`` so callers (the benchmark) can measure "
+"throughput cleanly. Returns ``(output, loss_tensor)``."
+
+#: fc0d41e00a7748468ef7c92b2b88e1ab of
+#: utils.training.base_trainer.BaseTrainer.evaluate:1
+msgid "Run evaluation on the test set and return metrics."
+msgstr "Run evaluation on the test set and return metrics."
+
+#: e827ab2eb624400798a331308f47f6fc of
+#: utils.training.base_trainer.BaseTrainer.evaluate:3
+msgid "Call ``load_weights()`` first to load trained weights."
+msgstr "Call ``load_weights()`` first to load trained weights."
+
+#: 64c1e25ff99a4ad8ae06d750e87c0577 of
+#: utils.training.base_trainer.BaseTrainer.evaluate:5
+msgid ""
+"Dictionary with metric names and values (auc, acc, rmse). Empty dict if "
+"test data is not available."
+msgstr ""
+"Dictionary with metric names and values (auc, acc, rmse). Empty dict if "
+"test data is not available."
+
+#: 8878403e67f34852879a9e8086d345b3 of
+#: utils.training.base_trainer.BaseTrainer.forward_pass:1
+msgid "Perform a forward pass for a single batch."
+msgstr "Perform a forward pass for a single batch."
+
+#: fcb7f16917a144fbbf974453566ecd28 of
+#: utils.training.base_trainer.BaseTrainer.forward_pass:3
+msgid "A batch of data from the DataLoader."
+msgstr "A batch of data from the DataLoader."
+
+#: bce07416eeb94734a0b0929367182e05 f544c226880d421799943325b99ac1d5 of
+#: utils.training.base_trainer.BaseTrainer.forward_pass:5
+#: utils.training.base_trainer.BaseTrainer.test_forward_pass:8
+msgid ""
+"Dict containing at least ``\"y_hat\"``, ``\"y_label\"``, "
+"``\"y_predict\"``."
+msgstr ""
+"Dict containing at least ``\"y_hat\"``, ``\"y_label\"``, "
+"``\"y_predict\"``."
+
+#: 7a2e4de212194ef5b435fe5673a9917b edde9a6ef9a840cf90b5d37d616930fd of
+#: utils.training.base_trainer.BaseTrainer.load_weights:1
+#: utils.training.checkpoint.CheckpointManager.load_weights:1
+msgid "Load model weights from a checkpoint file."
+msgstr "Load model weights from a checkpoint file."
+
+#: 5a2d74bd5cb84af2979233917aa54678 of
+#: utils.training.base_trainer.BaseTrainer.load_weights:3
+msgid ""
+"Handles both plain state_dict files (``best_model.pth``) and full "
+"checkpoint files (``last_checkpoint.pth``).  Delegates to "
+":meth:`CheckpointManager.load_weights`."
+msgstr ""
+"Handles both plain state_dict files (``best_model.pth``) and full "
+"checkpoint files (``last_checkpoint.pth``).  Delegates to "
+":meth:`CheckpointManager.load_weights`."
+
+#: 08989973ac504e2c978b8f625a0f9f8d 33e4eac7a26644bca2e43facce6a5aaf
+#: 807910d86990481192b3e7ad2e3d7514 of
+#: utils.training.base_trainer.BaseTrainer.load_weights:7
+#: utils.training.checkpoint.CheckpointManager.load_checkpoint:3
+#: utils.training.checkpoint.CheckpointManager.load_weights:7
+msgid "Path to the checkpoint file."
+msgstr "Path to the checkpoint file."
+
+#: ../../source/api/reference/training.md 0db8f1207443455db3ca52843cc9a140
+#: 39e85ff72c054614866ab49698904d0d 73c5990f3bf54e63bb159ece58cd97df
+#: a0bf4d1382904c42ade116152b96e5ab
+msgid "抛出"
+msgstr "Raises"
+
+#: 08a876e256c941e78ec1d44519687a96 7d3126e360d945a4b15dfb77c87ae3a1 of
+#: utils.training.base_trainer.BaseTrainer.load_weights:9
+#: utils.training.checkpoint.CheckpointManager.load_checkpoint:12
+msgid "If the checkpoint file does not exist."
+msgstr "If the checkpoint file does not exist."
+
+#: 3cf0667152ca4e439d676d0749295349 of
+#: utils.training.base_trainer.BaseTrainer.release:1
+msgid "Shut down DataLoader workers and drop the loader references."
+msgstr "Shut down DataLoader workers and drop the loader references."
+
+#: 0a8c4a07164a42c7a283821a4f3de5b9 of
+#: utils.training.base_trainer.BaseTrainer.release:3
+msgid ""
+"Persistent workers keep their pipe file descriptors open until the owning"
+" DataLoader is garbage-collected; a run that exits through an exception "
+"(e.g. a pruned trial) can delay that collection indefinitely, so multi-"
+"run processes call this between runs to release the workers "
+"deterministically."
+msgstr ""
+"Persistent workers keep their pipe file descriptors open until the owning"
+" DataLoader is garbage-collected; a run that exits through an exception "
+"(e.g. a pruned trial) can delay that collection indefinitely, so multi-"
+"run processes call this between runs to release the workers "
+"deterministically."
+
+#: b6ba7734c6cf43c0b35da6fe518952fe of
+#: utils.training.base_trainer.BaseTrainer.run:1
+msgid "Run the full training loop."
+msgstr "Run the full training loop."
+
+#: 910f049eae5246bd9db003ba99a3af9e of
+#: utils.training.base_trainer.BaseTrainer.run:3
+msgid ""
+"Initializes metric logging, runs the training loop, and finalizes logging"
+" and checkpoints."
+msgstr ""
+"Initializes metric logging, runs the training loop, and finalizes logging"
+" and checkpoints."
+
+#: 4b9593ddac5041c5a9bde34657a8968f of
+#: utils.training.base_trainer.BaseTrainer.test_forward_pass:1
+msgid "Perform a forward pass for test data."
+msgstr "Perform a forward pass for test data."
+
+#: fb09d41625ee4a42b9bfa9a083bb5340 of
+#: utils.training.base_trainer.BaseTrainer.test_forward_pass:3
+msgid ""
+"Defaults to :meth:`forward_pass`; override for test-specific logic (e.g. "
+"multi-stage where test uses a specific sub-model)."
+msgstr ""
+"Defaults to :meth:`forward_pass`; override for test-specific logic (e.g. "
+"multi-stage where test uses a specific sub-model)."
+
+#: c955a4c0c464432bb54016c319c91bff of
+#: utils.training.base_trainer.BaseTrainer.test_forward_pass:6
+msgid "A batch of test data from the DataLoader."
+msgstr "A batch of test data from the DataLoader."
+
+#: 6964fccb77ff4192bb7fa560303b77a7 69b06c11508c4b9287d75cad67086c50
+#: 7db789dd2bb84c3991e9aa9748907a19 9ead2e16512f4597be5d86ce20be978a
+#: c286eeb291214ab29517c2f439b67a77 c8078284968942dcaec9f2792383c953
+#: c9273e33d76e4c938d03832dc24ef63f d3c959ebd5bc43f2876b911d35ee609e of
+#: utils.training.base_trainer.StageResult:1
+#: utils.training.callbacks.CallbackManager:1
+#: utils.training.checkpoint.CheckpointManager:1
+#: utils.training.metrics.accumulator.MetricsAccumulator:1
+#: utils.training.metrics.base.MetricContext:1
+#: utils.training.multi_trainer.StageComponents:1
+#: utils.training.multi_trainer.StageConfig:1
+#: utils.training.runtime_components.RuntimeComponents:1
+msgid "基类：:py:class:`object`"
+msgstr "Bases: :py:class:`object`"
+
+#: 8c15747a96a347888aa3890a18bf4359 of
+#: utils.training.base_trainer.StageResult:1
+msgid "Result of a single training stage."
+msgstr "Result of a single training stage."
+
+#: 47b581ec68a24c9ca630aebade5da907 of
+#: utils.training.base_trainer.StageResult:5
+msgid "Stage name (``None`` for single-stage training)."
+msgstr "Stage name (``None`` for single-stage training)."
+
+#: 009e7ff3daaf4a2387ce2625a764862f 05d217d6ba7f424984e09a3c2e6008f8
+#: 1b9dd868355640de8817d81c5cda11e6 24bddcffc75f4496b2ab9448db9ffdef
+#: 2703e9b76ce3499a89a16d355962409b 3b266f52858d4e0aa1bdd98e60ad97ad
+#: 4a23004b58f04b028346b3f61eb8d8bf 54d8df9fc3d448e7928f33ce32b8733b
+#: 5658f624b1e24124bfb0a63225ddbbb0 59de4fe6350d4c8a8d1a8c90e07d40a7
+#: 6058a34ecc9943ae9ac1c9e8604d05ea 6228d52c9bd14d9dac3863b8addd7dfc
+#: 6ed3473e256f4306a5bf01202a2d5c61 84a9337d4aed45269265bf142211de96
+#: 8b306d209610418d9cbb5a91ef8113ba 8f00ac7133834934b18a601d6f3e900a
+#: 986025f0fedf4430b7154e6668a168a2 9b899148e6174c9babd10fb2d5d83a66
+#: a4d686e7abed48938ef684c6580b1fc0 a90ff5c4bd3a4d3cb57eeffc03b5a38c
+#: b1dea2f6145546678bea3ef12134aee3 c86415fc2f5546529bdcf623aa293b29
+#: d8bd15148fc44de381198aa4b5780cf1 d91ec9be9eed4c1280636981ccde906f
+#: e9d87cbe836341529ac39a589b55daf2 ee0e4fbd43db4b62a9e706ece2b23827
+#: f402d0deb0404eb197214db791b39566 f6ade523145d4272b72fbe4ff9f383f6
+#: fb676ec9d10a4b6ebd76a3e2e0bddf16 of utils.training.base_trainer.StageResult
+#: utils.training.metrics.base.Metric utils.training.metrics.base.MetricContext
+#: utils.training.multi_trainer.StageComponents
+#: utils.training.multi_trainer.StageConfig
+msgid "type"
+msgstr "type"
+
+#: 24f9916857874545976d4c2cafcf4dc8 56681c9a9403414f9866da9b642b2d40
+#: f3824e8fe8004cd1a16a4e3f9b247da7 of
+#: utils.training.base_trainer.StageResult:7
+#: utils.training.multi_trainer.StageComponents:75
+#: utils.training.multi_trainer.StageComponents:82
+msgid "str | None"
+msgstr "str | None"
+
+#: 4f06ffe5c2fa47b1b8121fbcfe9d23f8 of
+#: utils.training.base_trainer.StageResult:11
+msgid "Best monitored metric value on the validation set."
+msgstr "Best monitored metric value on the validation set."
+
+#: 40c618896f73453a95c16f0fdcece939 a676c339586142bfb8ff974c4f5f0116
+#: d14a34db1e724ae28ab8bfa618e868d0 of
+#: utils.training.base_trainer.StageResult:13
+#: utils.training.metrics.base.Metric:39
+#: utils.training.multi_trainer.StageComponents:67
+msgid "float | None"
+msgstr "float | None"
+
+#: 2a6f9899085d4dbfa190040bf2e9c806 of
+#: utils.training.base_trainer.StageResult:17
+msgid "Epoch (0-indexed) at which the best metric was achieved."
+msgstr "Epoch (0-indexed) at which the best metric was achieved."
+
+#: 0c9cdc0a05d645fe84be9179bace6f2e 4ab3565f70a94a44be30cc490fae50fb of
+#: utils.training.base_trainer.StageResult:19
+#: utils.training.base_trainer.StageResult:25
+msgid "int | None"
+msgstr "int | None"
+
+#: e6ca5ceefba947fcaa41d726b7b827af of
+#: utils.training.base_trainer.StageResult:23
+msgid "Last epoch actually trained in this stage."
+msgstr "Last epoch actually trained in this stage."
+
+#: 6f59159cea494038a5ffedc2c45d43a4 of
+#: utils.training.base_trainer.StageResult:29
+msgid ""
+"Name of the monitored metric (e.g. ``\"auc\"``, ``\"acc\"``, "
+"``\"rmse\"``)."
+msgstr ""
+"Name of the monitored metric (e.g. ``\"auc\"``, ``\"acc\"``, "
+"``\"rmse\"``)."
+
+#: 20930ff431d9426cbece9d930aa9681a 93faff57cf1a49fbadfdb63a2c56f79c
+#: c19d649d7dff473f96236efed89b4b9d d7460590ef254b59aa1af34c67a867e3
+#: db32d50ff39744689f632eccd4f0cbfd of
+#: utils.training.base_trainer.StageResult:32
+#: utils.training.metrics.base.Metric:18 utils.training.metrics.base.Metric:25
+#: utils.training.metrics.base.MetricContext:13
+#: utils.training.multi_trainer.StageConfig:13
+msgid "str"
+msgstr "str"
+
+#: 63277a11be6e42fc908cd9992f073780 of utils.training.multi_trainer:1
+msgid "Multi-stage trainer module."
+msgstr "Multi-stage trainer module."
+
+#: c692a5006f874714aafaed3b13f10dca of utils.training.multi_trainer:3
+msgid ""
+"Provides sequential multi-stage training on top of :class:`BaseTrainer`: "
+"each stage has its own model / optimizer / loss / data / early stopping "
+"configuration, and stages communicate via hooks."
+msgstr ""
+"Provides sequential multi-stage training on top of :class:`BaseTrainer`: "
+"each stage has its own model / optimizer / loss / data / early stopping "
+"configuration, and stages communicate via hooks."
+
+#: 5590361afbbf435da2d79871b9a970a3 of utils.training.multi_trainer:7
+msgid "Construction is a single step, like the single-stage trainer::"
+msgstr "Construction is a single step, like the single-stage trainer::"
+
+#: 59a1dcddf650497dbf896eaf307bf66e of utils.training.multi_trainer:9
+msgid ""
+"trainer = ABKTTrainer(rc, data_src, exp_manager)\n"
+"trainer.run()"
+msgstr ""
+"trainer = ABKTTrainer(rc, data_src, exp_manager)\n"
+"trainer.run()"
+
+#: 6145e6e7539143628beb25eae216ad05 of utils.training.multi_trainer:12
+msgid ""
+"Unlike :class:`BaseTrainer`, infrastructure is built without a single "
+"``build_components`` — per-stage components are returned lazily by "
+":meth:`build_stages` and attached via :meth:`_apply_stage`."
+msgstr ""
+"Unlike :class:`BaseTrainer`, infrastructure is built without a single "
+"``build_components`` — per-stage components are returned lazily by "
+":meth:`build_stages` and attached via :meth:`_apply_stage`."
+
+#: 4398c773c40749c9b42932e5e4336af5 9a69cae81f114c6a9d21d97d484494c0
+#: c79f71e40bfc49929311ea087170a8f6 of
+#: utils.training.checkpoint.CheckpointManager:9
+#: utils.training.metrics.accumulator.MetricsAccumulator:7
+#: utils.training.multi_trainer:17
+msgid "示例"
+msgstr "Example"
+
+#: dba8b94b0ccd4aad9002f935c94509b0 of
+#: utils.training.multi_trainer.MultiTrainer:1
+msgid "基类：:py:class:`~utils.training.base_trainer.BaseTrainer`"
+msgstr "Bases: :py:class:`~utils.training.base_trainer.BaseTrainer`"
+
+#: 7b5265ac3b9b43d2a661a4723d622e6a of
+#: utils.training.multi_trainer.MultiTrainer:1
+msgid "Multi-stage trainer."
+msgstr "Multi-stage trainer."
+
+#: 8be15e3431e4476b943dcb1fd996ea2b of
+#: utils.training.multi_trainer.MultiTrainer:3
+msgid "Subclasses must implement:"
+msgstr "Subclasses must implement:"
+
+#: 1d6539c6fe0a4ba2965bdfd5b6bfa712 of
+#: utils.training.multi_trainer.MultiTrainer:5
+msgid ":meth:`build_stages`: Return the ordered list of stages."
+msgstr ":meth:`build_stages`: Return the ordered list of stages."
+
+#: 97ae6088790948bc830d52c75f36c6d8 of
+#: utils.training.multi_trainer.MultiTrainer:6
+msgid ""
+":meth:`forward_pass`: ``forward_pass(batch_data)``, distinguishing the "
+"current stage via ``self._current_stage``."
+msgstr ""
+":meth:`forward_pass`: ``forward_pass(batch_data)``, distinguishing the "
+"current stage via ``self._current_stage``."
+
+#: ffa5441496b14016aacee7c55fc9fbbe of
+#: utils.training.multi_trainer.MultiTrainer:8
+msgid "Optional overrides:"
+msgstr "Optional overrides:"
+
+#: 0c0f58569c9b490f94e75f710f253203 of
+#: utils.training.multi_trainer.MultiTrainer:10
+msgid ":meth:`on_stage_begin`: Preparation before a stage (default no-op)."
+msgstr ":meth:`on_stage_begin`: Preparation before a stage (default no-op)."
+
+#: 2bb27a6e5e6243dc934aa2dcbff846b6 of
+#: utils.training.multi_trainer.MultiTrainer:11
+msgid ""
+":meth:`on_stage_complete`: Post-stage processing (default no-op), often "
+"used to pass data to the next stage."
+msgstr ""
+":meth:`on_stage_complete`: Post-stage processing (default no-op), often "
+"used to pass data to the next stage."
+
+#: f7e64f287be04f079940fe31f619afd0 of
+#: utils.training.multi_trainer.MultiTrainer:12
+msgid ""
+":meth:`_compute_loss`: Custom training loss (defaults to "
+"``self.loss(y_hat, y_label)``); auxiliary terms here do not enter "
+"val/test loss, which uses :meth:`_compute_eval_loss`."
+msgstr ""
+":meth:`_compute_loss`: Custom training loss (defaults to "
+"``self.loss(y_hat, y_label)``); auxiliary terms here do not enter "
+"val/test loss, which uses :meth:`_compute_eval_loss`."
+
+#: 65756702d7c441fc8cfee21a10f1868f of
+#: utils.training.multi_trainer.MultiTrainer:14
+msgid ""
+"The constructor builds cross-stage infrastructure only (device, logging, "
+"checkpoints); per-stage model/optimizer/data are assembled lazily by each"
+" stage's builder."
+msgstr ""
+"The constructor builds cross-stage infrastructure only (device, logging, "
+"checkpoints); per-stage model/optimizer/data are assembled lazily by each"
+" stage's builder."
+
+#: 14433728523d49728fbef62f0cf63fd6 of
+#: utils.training.multi_trainer.MultiTrainer.build:1
+msgid "Build cross-stage infrastructure (device, logging, checkpoints)."
+msgstr "Build cross-stage infrastructure (device, logging, checkpoints)."
+
+#: a71207bc3aa34a279f7fcba70683b62f of
+#: utils.training.multi_trainer.MultiTrainer.build:3
+msgid ""
+"Unlike :meth:`BaseTrainer.build`, this does **not** configure model / "
+"data / optimizer (they change per stage). It only initializes cross-stage"
+" shared facilities."
+msgstr ""
+"Unlike :meth:`BaseTrainer.build`, this does **not** configure model / "
+"data / optimizer (they change per stage). It only initializes cross-stage"
+" shared facilities."
+
+#: bb9b20f015904bbc8de649ea68c17c4b of
+#: utils.training.multi_trainer.MultiTrainer.build_stages:1
+msgid "Return the ordered list of stages (must be implemented by subclasses)."
+msgstr "Return the ordered list of stages (must be implemented by subclasses)."
+
+#: c99c8c48606043f593ac9f1547cb2b18 of
+#: utils.training.multi_trainer.MultiTrainer.build_stages:3
+msgid "List of StageConfig objects defining the training pipeline."
+msgstr "List of StageConfig objects defining the training pipeline."
+
+#: 0a05401b780f41ae853d16ce9267f8f2 of
+#: utils.training.multi_trainer.MultiTrainer.build_stages:5
+msgid "Must be overridden by subclasses."
+msgstr "Must be overridden by subclasses."
+
+#: 178149f813014511a18fcd3e98d6cfbd of
+#: utils.training.multi_trainer.MultiTrainer.on_stage_begin:1
+msgid "Hook called before a stage starts (optional override)."
+msgstr "Hook called before a stage starts (optional override)."
+
+#: 224e9d3de83d420db535fd34487a8b0f of
+#: utils.training.multi_trainer.MultiTrainer.on_stage_begin:3
+msgid "Name of the stage about to begin."
+msgstr "Name of the stage about to begin."
+
+#: 91bbff46c7b84e3ab0b4d157c03b414c of
+#: utils.training.multi_trainer.MultiTrainer.on_stage_complete:1
+msgid "Hook called after a stage completes (optional override)."
+msgstr "Hook called after a stage completes (optional override)."
+
+#: a6f74022c1fb48aabb1fc9ad960b1d51 of
+#: utils.training.multi_trainer.MultiTrainer.on_stage_complete:3
+msgid ""
+"Invoked after the best model of the stage has been loaded back into "
+"``self.model``. Commonly used to prepare data for the next stage (e.g. "
+"computing boosting residuals)."
+msgstr ""
+"Invoked after the best model of the stage has been loaded back into "
+"``self.model``. Commonly used to prepare data for the next stage (e.g. "
+"computing boosting residuals)."
+
+#: cfcb7a34373b4543a3230d7b883deedd of
+#: utils.training.multi_trainer.MultiTrainer.on_stage_complete:7
+msgid "Name of the stage that just completed."
+msgstr "Name of the stage that just completed."
+
+#: db9f9438821d437ea84b94591cfa8126 of
+#: utils.training.multi_trainer.MultiTrainer.on_stage_complete:8
+msgid ":class:`StageResult` for the completed stage."
+msgstr ":class:`StageResult` for the completed stage."
+
+#: a6d6f21de8af4f719c63ad2369f9c309 of
+#: utils.training.multi_trainer.StageComponents:1
+msgid "Pre-built components for a single training stage."
+msgstr "Pre-built components for a single training stage."
+
+#: b0b6835308a74b8c9a688148fa360555 of
+#: utils.training.multi_trainer.StageComponents:3
+msgid ""
+"Returned by a stage builder (``StageConfig.build``). Describes the model,"
+" optimizer, loss, data, epochs, and early stopping configuration for one "
+"stage."
+msgstr ""
+"Returned by a stage builder (``StageConfig.build``). Describes the model,"
+" optimizer, loss, data, epochs, and early stopping configuration for one "
+"stage."
+
+#: ab6b98b3a25c46dcb3fae34c3cf5584b of
+#: utils.training.multi_trainer.StageComponents:9
+msgid "PyTorch model for this stage."
+msgstr "PyTorch model for this stage."
+
+#: a1c76ccc55c54cfd8e53162cb46394ed f7b345370ade4a2d8e096eaded5d30aa of
+#: utils.training.multi_trainer.StageComponents:11
+#: utils.training.multi_trainer.StageComponents:23
+msgid "torch.nn.Module"
+msgstr "torch.nn.Module"
+
+#: bebe905041184ae6afba81ddb3b44073 of
+#: utils.training.multi_trainer.StageComponents:15
+msgid "Optimizer for this stage."
+msgstr "Optimizer for this stage."
+
+#: 7ff18d7293a945da9f5044203bcf41cb of
+#: utils.training.multi_trainer.StageComponents:17
+msgid "torch.optim.Optimizer"
+msgstr "torch.optim.Optimizer"
+
+#: f85940b7ce7d4022b4ceb0c054643ab0 of
+#: utils.training.multi_trainer.StageComponents:21
+msgid "Loss function for this stage."
+msgstr "Loss function for this stage."
+
+#: 9c6df1aefc1d4bddb4ec4552e5434557 of
+#: utils.training.multi_trainer.StageComponents:27
+msgid "Training data (DataLoader or Dataset)."
+msgstr "Training data (DataLoader or Dataset)."
+
+#: 854ca7d5d1344104bce777f4be2642bc of
+#: utils.training.multi_trainer.StageComponents:29
+msgid "Any"
+msgstr "Any"
+
+#: d497cb8b5930465ea862764884dc9769 of
+#: utils.training.multi_trainer.StageComponents:33
+msgid "Validation data (optional)."
+msgstr "Validation data (optional)."
+
+#: 5d019d6242e8455a9b9426fb56515819 6cfc42a6d6584b618b39074103643f72
+#: d9176c5265e64ea9abe7142958e6bbaf of
+#: utils.training.multi_trainer.StageComponents:35
+#: utils.training.multi_trainer.StageComponents:42
+#: utils.training.multi_trainer.StageComponents:54
+msgid "Any | None"
+msgstr "Any | None"
+
+#: 96cb8ff6ea1b4b308bdb90b28d75750d of
+#: utils.training.multi_trainer.StageComponents:39
+msgid ""
+"Test data (optional; multi-stage typically uses the final stage's "
+"validation as the test proxy)."
+msgstr ""
+"Test data (optional; multi-stage typically uses the final stage's "
+"validation as the test proxy)."
+
+#: 4b98cd3acfdc4a7590307fcdae104cfc of
+#: utils.training.multi_trainer.StageComponents:46
+msgid "Number of training epochs for this stage."
+msgstr "Number of training epochs for this stage."
+
+#: cc57c8723a454521b35fde03e87f7be0 of
+#: utils.training.multi_trainer.StageComponents:48
+msgid "int"
+msgstr "int"
+
+#: 469c40ab967b4f8db1f0d9297b85eb57 a776350ebcb84d8bac80fe4cbea1ddc7
+#: c5ee2c52f86b4202af7c45e46a8a099d of
+#: utils.training.checkpoint.CheckpointManager.load_checkpoint:6
+#: utils.training.checkpoint.CheckpointManager.save_checkpoint:6
+#: utils.training.multi_trainer.StageComponents:52
+msgid "Learning rate scheduler (optional)."
+msgstr "Learning rate scheduler (optional)."
+
+#: 2245f942dd30426ebc66b118bc65428f of
+#: utils.training.multi_trainer.StageComponents:58
+msgid ""
+"Early stopping configuration — passes the config object, not a "
+"constructed instance (optional)."
+msgstr ""
+"Early stopping configuration — passes the config object, not a "
+"constructed instance (optional)."
+
+#: 0893f3d11f7242ea9898c9a93518ba1a of
+#: utils.training.multi_trainer.StageComponents:61
+msgid "utils.config.run_config.EarlyStoppingConfig | None"
+msgstr "utils.config.run_config.EarlyStoppingConfig | None"
+
+#: ab165473aab048b9ae9eb22d32239869 of
+#: utils.training.multi_trainer.StageComponents:65
+msgid "Maximum gradient norm for clipping (optional)."
+msgstr "Maximum gradient norm for clipping (optional)."
+
+#: f325ce04226743abad2c369c3f4d78b6 of
+#: utils.training.multi_trainer.StageComponents:71
+msgid ""
+"Metric to monitor for best model saving (optional). Defaults to the early"
+" stopping monitor; set explicitly to decouple checkpoint saving from "
+"early stopping."
+msgstr ""
+"Metric to monitor for best model saving (optional). Defaults to the early"
+" stopping monitor; set explicitly to decouple checkpoint saving from "
+"early stopping."
+
+#: 8f8585aaa71b4b7d8260d5fdbecc15a1 of
+#: utils.training.multi_trainer.StageComponents:79
+msgid ""
+"Direction for the checkpoint monitor, ``\"max\"`` or ``\"min\"`` "
+"(optional)."
+msgstr ""
+"Direction for the checkpoint monitor, ``\"max\"`` or ``\"min\"`` "
+"(optional)."
+
+#: a3d0168d9300482aa3ed1c4e93ef9072 of
+#: utils.training.multi_trainer.StageConfig:1
+msgid "Declaration of a training stage: name + lazy builder."
+msgstr "Declaration of a training stage: name + lazy builder."
+
+#: 90a363e3a08c4f15a8a32591b12fda92 of
+#: utils.training.multi_trainer.StageConfig:3
+msgid ""
+"``build`` is a zero-argument callable invoked just before the stage "
+"starts training. This allows the builder to depend on data that is only "
+"determined after the previous stage completes (e.g. boosting residuals)."
+msgstr ""
+"``build`` is a zero-argument callable invoked just before the stage "
+"starts training. This allows the builder to depend on data that is only "
+"determined after the previous stage completes (e.g. boosting residuals)."
+
+#: f2bc8e2994cf41e78976a539bc2b77d2 of
+#: utils.training.multi_trainer.StageConfig:10
+msgid ""
+"Stage name (used for log prefixes, checkpoint filenames, and metric "
+"series)."
+msgstr ""
+"Stage name (used for log prefixes, checkpoint filenames, and metric "
+"series)."
+
+#: b76416a3a6fb43619b635b3142981ab6 of
+#: utils.training.multi_trainer.StageConfig:17
+msgid "Zero-argument callable returning :class:`StageComponents`."
+msgstr "Zero-argument callable returning :class:`StageComponents`."
+
+#: 0cdf256f41a74445982bcb16063fa9b9 of
+#: utils.training.multi_trainer.StageConfig:19
+msgid "collections.abc.Callable[[], utils.training.multi_trainer.StageComponents]"
+msgstr "collections.abc.Callable[[], utils.training.multi_trainer.StageComponents]"
+
+#: 184ebb2cd7924d26b366c57e4ffe1388 of utils.training.runtime_components:1
+msgid "Runtime instance holder built per run."
+msgstr "Runtime instance holder built per run."
+
+#: 879b38165d994d558e80b07d7f593715 of utils.training.runtime_components:3
+msgid ""
+"Scalar configuration lives in :class:`~utils.config.run_config.RunConfig`"
+" and is read directly off ``self.run_config``; only the non-serializable "
+"runtime objects (model, optimizer, data, collators) a trainer constructs "
+"from ``rc`` + ``data_src`` are held here."
+msgstr ""
+"Scalar configuration lives in :class:`~utils.config.run_config.RunConfig`"
+" and is read directly off ``self.run_config``; only the non-serializable "
+"runtime objects (model, optimizer, data, collators) a trainer constructs "
+"from ``rc`` + ``data_src`` are held here."
+
+#: 3675f6b93c9c43cf98dc2bbe1695bc2b of
+#: utils.training.runtime_components.RuntimeComponents:1
+msgid "Per-run runtime objects returned by :meth:`BaseTrainer.build_components`."
+msgstr "Per-run runtime objects returned by :meth:`BaseTrainer.build_components`."
+
+#: 7a9ef2d7ffb144f78d6dd86318a6b531 of
+#: utils.training.runtime_components.RuntimeComponents:3
+msgid ""
+"Scalar knobs (epochs, batch_size, device, early-stopping, compile, "
+"logging flags) are intentionally absent — read them from "
+"``self.run_config`` so the config tree stays the single source of truth."
+msgstr ""
+"Scalar knobs (epochs, batch_size, device, early-stopping, compile, "
+"logging flags) are intentionally absent — read them from "
+"``self.run_config`` so the config tree stays the single source of truth."
+
+#: 9bc83397ebe8406bb1a438aa23dd8f31 of utils.training.metrics:1
+msgid "Metrics package: pluggable, auto-discovered evaluation metrics."
+msgstr "Metrics package: pluggable, auto-discovered evaluation metrics."
+
+#: 9231c3845af944c1a7e38ca5cf55f1ff of utils.training.metrics:3
+msgid ""
+"Each metric lives in its own module under this package and registers via "
+"``@register_metric(\"name\")``. Importing this package triggers static "
+"discovery (component modules are scanned without being imported; a metric"
+" module is imported lazily only when its value is first requested), "
+"mirroring the efficiency-stages pattern. Add a metric by dropping a "
+"decorated class into this directory — no manual registration elsewhere."
+msgstr ""
+"Each metric lives in its own module under this package and registers via "
+"``@register_metric(\"name\")``. Importing this package triggers static "
+"discovery (component modules are scanned without being imported; a metric"
+" module is imported lazily only when its value is first requested), "
+"mirroring the efficiency-stages pattern. Add a metric by dropping a "
+"decorated class into this directory — no manual registration elsewhere."
+
+#: 80b21352449846f190309ddd1985cf74 of utils.training.metrics:10
+msgid "Example::"
+msgstr "Example::"
+
+#: e0c83882eec54961a264be6506e80f0e of utils.training.metrics:12
+msgid ""
+"# utils/training/metrics/ndcg.py\n"
+"@register_metric(\"ndcg\")\n"
+"class NDCGMetric(Metric):\n"
+"    def compute(self, ctx):\n"
+"        ..."
+msgstr ""
+"# utils/training/metrics/ndcg.py\n"
+"@register_metric(\"ndcg\")\n"
+"class NDCGMetric(Metric):\n"
+"    def compute(self, ctx):\n"
+"        ..."
+
+#: 0c4671dc171e4d77ab6f8a56bc55da80 4f625c61525e4b54a252e78a6cd105d8
+#: cccbffe26c4e4b88ac3f5f8a3def35f1 of utils.training.callbacks.Callback:1
+#: utils.training.metric_logger.MetricLogger:1
+#: utils.training.metrics.base.Metric:1
+msgid "基类：:py:class:`~abc.ABC`"
+msgstr "Bases: :py:class:`~abc.ABC`"
+
+#: 767d3d38466841b499dbf56f4adf62bf of utils.training.metrics.base.Metric:1
+msgid "A pluggable evaluation metric (template-method style)."
+msgstr "A pluggable evaluation metric (template-method style)."
+
+#: eba865ee02f04817a107177b0c03cccf of utils.training.metrics.base.Metric:3
+msgid ""
+"Subclasses declare their data needs as class attributes and implement "
+":meth:`score` — a pure function over already-validated data. The base "
+":meth:`compute` then uniformly handles:"
+msgstr ""
+"Subclasses declare their data needs as class attributes and implement "
+":meth:`score` — a pure function over already-validated data. The base "
+":meth:`compute` then uniformly handles:"
+
+#: 722f295f415f4a368cee3bb26936498b of utils.training.metrics.base.Metric:7
+msgid "train/val vs test/group branching (``ctx.groups``),"
+msgstr "train/val vs test/group branching (``ctx.groups``),"
+
+#: 745c6f6bc7234b9db2f127dd0b8bfc3a of utils.training.metrics.base.Metric:8
+msgid ""
+"data-sufficiency gating: empty input, single-class ``y_label`` (when "
+"``requires_two_classes``), sklearn ``ValueError``, or a non-finite result"
+" all cause the key to be **omitted** (never a fake 0.0 / nan),"
+msgstr ""
+"data-sufficiency gating: empty input, single-class ``y_label`` (when "
+"``requires_two_classes``), sklearn ``ValueError``, or a non-finite result"
+" all cause the key to be **omitted** (never a fake 0.0 / nan),"
+
+#: 257f87ca63b94b6e9aeda0e8ae34a1f0 of utils.training.metrics.base.Metric:11
+msgid "optional binarisation of the prediction via ``threshold``,"
+msgstr "optional binarisation of the prediction via ``threshold``,"
+
+#: cafa1e9e44a2429eaaff174b66118138 of utils.training.metrics.base.Metric:12
+#, python-brace-format
+msgid "key naming (``name`` in train/val, ``{fusion}_{name}`` in test/group)."
+msgstr "key naming (``name`` in train/val, ``{fusion}_{name}`` in test/group)."
+
+#: efd702eb4b6f4d89986436849afd793b of utils.training.metrics.base.Metric:16
+msgid "Metric key in train/val mode (and suffix in test/group mode)."
+msgstr "Metric key in train/val mode (and suffix in test/group mode)."
+
+#: df83c11ccf6d4faf82ff5fedebf209d1 of utils.training.metrics.base.Metric:22
+msgid ""
+"``MetricContext`` field used as the prediction in train/val mode "
+"(``\"y_pred\"`` / ``\"y_score\"`` / ``\"y_prob\"``)."
+msgstr ""
+"``MetricContext`` field used as the prediction in train/val mode "
+"(``\"y_pred\"`` / ``\"y_score\"`` / ``\"y_prob\"``)."
+
+#: a8862a8319104dda90cecde64aad1554 of utils.training.metrics.base.Metric:29
+msgid ""
+"Skip when ``y_label`` has <2 unique values (ranking/agreement metrics are"
+" undefined on a single class)."
+msgstr ""
+"Skip when ``y_label`` has <2 unique values (ranking/agreement metrics are"
+" undefined on a single class)."
+
+#: cb740f723dbb4b028c1dbd996dc5c589 of utils.training.metrics.base.Metric:32
+msgid "bool"
+msgstr "bool"
+
+#: 47b32a2652814b93922abf2e7e7966c4 of utils.training.metrics.base.Metric:36
+msgid ""
+"If set, binarise the prediction as ``(pred >= threshold)`` before scoring"
+" (classification metrics)."
+msgstr ""
+"If set, binarise the prediction as ``(pred >= threshold)`` before scoring"
+" (classification metrics)."
+
+#: 58a0d9759c10482090247f520fa11365 of
+#: utils.training.metrics.base.Metric.compute:1
+msgid "Compute metric values for the context (template method)."
+msgstr "Compute metric values for the context (template method)."
+
+#: 8b667942d59b43c49b265afa0b42efe1 of
+#: utils.training.metrics.base.Metric.score:1
+msgid "Compute the metric over already-validated data."
+msgstr "Compute the metric over already-validated data."
+
+#: 08b88b60c79d4404864a4f8f7799d865 of
+#: utils.training.metrics.base.Metric.score:3
+msgid "Ground-truth labels (non-empty; >=2 classes when required)."
+msgstr "Ground-truth labels (non-empty; >=2 classes when required)."
+
+#: c29300feda8245b691a3a9670835ce71 of
+#: utils.training.metrics.base.Metric.score:4
+#, python-brace-format
+msgid ""
+"Prediction (``ctx.{source}`` in train/val, fused group score in "
+"test/group; already binarised when ``threshold`` set)."
+msgstr ""
+"Prediction (``ctx.{source}`` in train/val, fused group score in "
+"test/group; already binarised when ``threshold`` set)."
+
+#: 4d4c86b10a6d4dfa951f5826c53bedf8 of
+#: utils.training.metrics.base.Metric.score:7
+msgid "The metric value. Non-finite results are dropped by the base class."
+msgstr "The metric value. Non-finite results are dropped by the base class."
+
+#: ccd7a0f370214ca5b0a20a84484c9286 of
+#: utils.training.metrics.base.MetricContext:1
+msgid "Inputs for metric computation, abstracting train/val vs test/group."
+msgstr "Inputs for metric computation, abstracting train/val vs test/group."
+
+#: 342f3d7dc6ba425cbcd961cc8f3115bd of
+#: utils.training.metrics.base.MetricContext:3
+msgid ""
+"In train/val mode the per-instance raw fields (``y_pred``/``y_score``/ "
+"``y_prob``) are populated and ``groups`` is ``None``. In test/group mode "
+"``groups`` maps each fusion name to ``(group_label, group_score)`` and "
+"``y_label`` holds the per-group label (float64); the raw per-instance "
+"fields are ``None``."
+msgstr ""
+"In train/val mode the per-instance raw fields (``y_pred``/``y_score``/ "
+"``y_prob``) are populated and ``groups`` is ``None``. In test/group mode "
+"``groups`` maps each fusion name to ``(group_label, group_score)`` and "
+"``y_label`` holds the per-group label (float64); the raw per-instance "
+"fields are ``None``."
+
+#: 148ec721f0e84493a6c10535cd222eb7 of
+#: utils.training.metrics.base.MetricContext:11
+msgid "Phase name (``\"train\"`` / ``\"val\"`` / ``\"test\"``)."
+msgstr "Phase name (``\"train\"`` / ``\"val\"`` / ``\"test\"``)."
+
+#: c3628d210d084532ab00dfc328442f3c of
+#: utils.training.metrics.base.MetricContext:17
+msgid ""
+"Ground-truth labels — per-group (float64) in test/group mode, otherwise "
+"raw per-instance."
+msgstr ""
+"Ground-truth labels — per-group (float64) in test/group mode, otherwise "
+"raw per-instance."
+
+#: 030702aeddbf41d0927ae520d72ee5c7 400f310ca52d437fbfe765a22bc254f2
+#: 409cb8ba1b1743f5a45713baa10963f0 dba62ce5438a41828c25a9fc1aaa8f70 of
+#: utils.training.metrics.base.MetricContext:20
+#: utils.training.metrics.base.MetricContext:26
+#: utils.training.metrics.base.MetricContext:32
+#: utils.training.metrics.base.MetricContext:38
+msgid "numpy.ndarray"
+msgstr "numpy.ndarray"
+
+#: c53c756ab2994672ba1005856154c3f7 of
+#: utils.training.metrics.base.MetricContext:24
+msgid "Binary predictions (train/val only)."
+msgstr "Binary predictions (train/val only)."
+
+#: f82f056cdab44ac8a118bebe051309cf of
+#: utils.training.metrics.base.MetricContext:30
+msgid "Ranking scores (train/val only)."
+msgstr "Ranking scores (train/val only)."
+
+#: 3b0748da16334036876397ec9f521c35 of
+#: utils.training.metrics.base.MetricContext:36
+msgid "Predicted probabilities (train/val only)."
+msgstr "Predicted probabilities (train/val only)."
+
+#: 8ca6a5138fd84240817d053392e3699c of
+#: utils.training.metrics.base.MetricContext:42
+#, python-brace-format
+msgid "``{fusion: (group_label, group_score)}`` (test/group only)."
+msgstr "``{fusion: (group_label, group_score)}`` (test/group only)."
+
+#: 753dd0737f22449d91605be57eafd02c of
+#: utils.training.metrics.base.MetricContext:44
+msgid "dict[str, tuple[numpy.ndarray, numpy.ndarray]] | None"
+msgstr "dict[str, tuple[numpy.ndarray, numpy.ndarray]] | None"
+
+#: 0e344737aff94a98892be61bf3fbc3de of
+#: utils.training.metrics.accumulator.MetricsAccumulator:1
+msgid "Accumulator for batch-level predictions and epoch-level metrics."
+msgstr "Accumulator for batch-level predictions and epoch-level metrics."
+
+#: 5350b955ea874d6cbd31555bf7a1fca6 of
+#: utils.training.metrics.accumulator.MetricsAccumulator:3
+msgid ""
+"Collects batch outputs across an epoch, then computes all registered "
+"metrics. Test phase with ``group_id`` produces per-fusion metrics."
+msgstr ""
+"Collects batch outputs across an epoch, then computes all registered "
+"metrics. Test phase with ``group_id`` produces per-fusion metrics."
+
+#: e73f24fc41444efa8ce59dd9f8f36ed7 of
+#: utils.training.metrics.accumulator.MetricsAccumulator.compute:1
+msgid "Compute epoch-level metrics for the given phase."
+msgstr "Compute epoch-level metrics for the given phase."
+
+#: 7d5ef2a2ea61478c8d9c596f71555b23 of
+#: utils.training.metrics.accumulator.MetricsAccumulator.compute:3
+msgid "Phase name, e.g. ``\"train\"``, ``\"val\"``, or ``\"test\"``."
+msgstr "Phase name, e.g. ``\"train\"``, ``\"val\"``, or ``\"test\"``."
+
+#: c650f332c96049ca8747417f4fa34fa4 of
+#: utils.training.metrics.accumulator.MetricsAccumulator.compute:5
+msgid ""
+"Dictionary mapping metric names to values. Empty dict if no data has been"
+" accumulated for the given phase."
+msgstr ""
+"Dictionary mapping metric names to values. Empty dict if no data has been"
+" accumulated for the given phase."
+
+#: a9d11176b6574ac3ac0145b605113122 of
+#: utils.training.metrics.accumulator.MetricsAccumulator.reset:1
+msgid "Reset accumulators for a given phase."
+msgstr "Reset accumulators for a given phase."
+
+#: 18c3343803e74cceb32fe795d58ae4ee 37c888ed9e33408a9ad735a395980273
+#: 386c44718b784ee6904fedb1c035bf60 4335ec4efd964f9fa68c3686798d81ff
+#: bd1cdb92e07b4c9c8cb289c5115bebb5 fef4a481da4f4999b1c4a84b26ca2425 of
+#: utils.training.callbacks.Callback.on_batch_begin:5
+#: utils.training.callbacks.Callback.on_batch_end:5
+#: utils.training.callbacks.Callback.on_phase_begin:4
+#: utils.training.callbacks.Callback.on_phase_end:4
+#: utils.training.metrics.accumulator.MetricsAccumulator.reset:3
+#: utils.training.metrics.accumulator.MetricsAccumulator.update:3
+msgid "Phase name, e.g. ``\"train\"`` or ``\"val\"``."
+msgstr "Phase name, e.g. ``\"train\"`` or ``\"val\"``."
+
+#: b24e7a5fab4348fbb5c34852d116bdcd of
+#: utils.training.metrics.accumulator.MetricsAccumulator.update:1
+msgid "Update accumulators with a batch of model outputs."
+msgstr "Update accumulators with a batch of model outputs."
+
+#: dc3fe94784bd48fb821d9e404b8a6c7b of
+#: utils.training.metrics.accumulator.MetricsAccumulator.update:4
+msgid ""
+"Dict containing ``\"y_label\"``, ``\"y_predict\"``, ``\"y_score\"``, "
+"``\"y_prob\"`` tensors and optional ``\"group_id\"``."
+msgstr ""
+"Dict containing ``\"y_label\"``, ``\"y_predict\"``, ``\"y_score\"``, "
+"``\"y_prob\"`` tensors and optional ``\"group_id\"``."
+
+#: b296c3b3a9074cb09a9d4e094baced20 of utils.training.callbacks:1
+msgid "Training callback system."
+msgstr "Training callback system."
+
+#: 8e0d59bbe6fb4b3d8bae1c113814f17a of utils.training.callbacks:3
+msgid ""
+"Provides a callback mechanism for the training process, including early "
+"stopping, checkpointing, memory management, and test evaluation."
+msgstr ""
+"Provides a callback mechanism for the training process, including early "
+"stopping, checkpointing, memory management, and test evaluation."
+
+#: 478ff027b7d04f9fb0d3eda9f87bb84b of utils.training.callbacks.Callback:1
+msgid "Base class for training callbacks."
+msgstr "Base class for training callbacks."
+
+#: 1dcdc106b2d94a6293752daac696228e of utils.training.callbacks.Callback:3
+msgid ""
+"Defines the callback interface for the training loop. Subclasses can "
+"implement specific callback logic for hooks at various points during "
+"training."
+msgstr ""
+"Defines the callback interface for the training loop. Subclasses can "
+"implement specific callback logic for hooks at various points during "
+"training."
+
+#: 291c730ee10946d98c4706337d631920 of
+#: utils.training.callbacks.Callback.close:1
+msgid "Release resources held by this callback."
+msgstr "Release resources held by this callback."
+
+#: b5ff3f305d21452d848c6f68efb7afab of
+#: utils.training.callbacks.Callback.close:3
+msgid ""
+"Called from the trainer's finally path — including failed runs — unlike "
+"``on_train_end`` which only fires on normal completion. Implementations "
+"must be idempotent and must not raise."
+msgstr ""
+"Called from the trainer's finally path — including failed runs — unlike "
+"``on_train_end`` which only fires on normal completion. Implementations "
+"must be idempotent and must not raise."
+
+#: b3e30bcdc1de499795d21955857a8c21 of
+#: utils.training.callbacks.Callback.on_batch_begin:1
+msgid "Called when a batch begins."
+msgstr "Called when a batch begins."
+
+#: 008f904058114ceebcfd0226505b300e 013435aac9824847911ba53d3337f558
+#: 066bde6c63de4d74a65f0bddcedbe6ae 0c764aa4044f451d9087d9f4d769ddfa
+#: 0f966ab39a594be3919f431f5463034d 1d98323cd31e4ca9b6691f038a8a4aa9
+#: 2b05cc0664aa4d97af6264f1e3c27f48 2cb0921110a34229a60ae10396a21293
+#: 36a907b99ca141598042e9141d137924 3c3a0cb2c4c84558bea047a66adc5d67
+#: 4c00b702ed8448a0b00a390b8080a36f 7274247d336443c4b22b6b54c2230ccf
+#: 7776906c3084497aa724b70bdbefe9c0 79df88d2335d4aba8a398f58a602fae4
+#: 856f0212d3a14d64b60568b7a8b17382 8ec401afbebf434f9b86a5762b3f9176
+#: a5ffbd11026b4e66a8133de0c99c10ac a8961350b9aa41b2962ca6484caf4c22
+#: aace007878094d7fbd94456b49d9d206 ab817e628b694edd88f5018dfd726d24
+#: ba46c7c35ca5415abe5faa71900f01b8 bff17c5635b64d6ab46202ddcbdaa609
+#: cb9f958b4c2240bc92525088d6af03e9 cfa21d92a7e34b89a73cd557b419a26f
+#: e7f8726666bb4bc784c9a03b42d73a97 ee4739a105a84f81adc54bac96cbe601
+#: ffb12baefe2e4190a1777a8a7141fc7b of
+#: utils.training.callbacks.Callback.on_batch_begin:3
+#: utils.training.callbacks.Callback.on_batch_end:3
+#: utils.training.callbacks.Callback.on_epoch_begin:3
+#: utils.training.callbacks.Callback.on_epoch_end:3
+#: utils.training.callbacks.Callback.on_phase_begin:3
+#: utils.training.callbacks.Callback.on_phase_end:3
+#: utils.training.callbacks.CallbackManager.on_batch_begin:3
+#: utils.training.callbacks.CallbackManager.on_batch_end:3
+#: utils.training.callbacks.CallbackManager.on_epoch_begin:3
+#: utils.training.callbacks.CallbackManager.on_epoch_end:3
+#: utils.training.callbacks.CallbackManager.on_phase_begin:3
+#: utils.training.callbacks.CallbackManager.on_phase_end:3
+#: utils.training.callbacks.CheckpointCallback.on_epoch_end:3
+#: utils.training.callbacks.CheckpointCallback.on_phase_end:3
+#: utils.training.callbacks.EarlyStoppingCallback.on_phase_end:3
+#: utils.training.callbacks.EarlyStoppingCallback.step:4
+#: utils.training.callbacks.MemoryCleanupCallback.on_phase_end:3
+#: utils.training.callbacks.ProgressCallback.on_batch_end:3
+#: utils.training.callbacks.ProgressCallback.on_epoch_end:7
+#: utils.training.callbacks.ProgressCallback.on_phase_begin:3
+#: utils.training.checkpoint.CheckpointManager.save_checkpoint:3
+#: utils.training.metric_logger.LocalMetricLogger.log_batch:7
+#: utils.training.metric_logger.LocalMetricLogger.log_early_stopping:8
+#: utils.training.metric_logger.LocalMetricLogger.log_metrics:6
+#: utils.training.metric_logger.MetricLogger.log_batch:5
+#: utils.training.metric_logger.MetricLogger.log_early_stopping:8
+#: utils.training.metric_logger.MetricLogger.log_metrics:6
+msgid "Current epoch number."
+msgstr "Current epoch number."
+
+#: 1805eaf0cc194b6a89b650a35c776db1 58a0ad8b12c6475fbfe0adce4346cc9d
+#: 729d18647a4042c888195179296cd082 8ee9536e22274128bbe8ab222d2f4c80
+#: 9f6d92acdd2a497898e49fbe51103b69 dd3913b6e4d14e0b8261a6ee7eb2f3ca
+#: dd535d20379c4b45bb65cb213bdd1de2 of
+#: utils.training.callbacks.Callback.on_batch_begin:4
+#: utils.training.callbacks.Callback.on_batch_end:4
+#: utils.training.callbacks.CallbackManager.on_batch_begin:4
+#: utils.training.callbacks.CallbackManager.on_batch_end:4
+#: utils.training.callbacks.ProgressCallback.on_batch_end:4
+#: utils.training.metric_logger.LocalMetricLogger.log_batch:8
+#: utils.training.metric_logger.MetricLogger.log_batch:6
+msgid "Batch index within the epoch."
+msgstr "Batch index within the epoch."
+
+#: 126bfb55db5040a7a309bac017cb627a 157c6348a05c478bba12022527cb17f4
+#: 2a1e474bee9546dc8771ccc1d63d5211 2ac97b2a4f5a4b1483026460b574e5ec
+#: 52c51dfd99ed4cfaab962be580afc303 74612ffa1a324ee8bd1aa341f5d8e235
+#: 7f97ee8c50fd4038b57c76b99d7f3fd5 8e43804521b447699866eb0ffb2df221
+#: a07bfa4ebefb406291c9a34c91f01524 a63e9bcfec564b9885f915080a63a576
+#: b741e019835048b4a9ff41b588401ad2 c985fb8b108f4a0ea2ce31fc08faec28
+#: ce5786a54d184345b8844c5e5a0e66ca d13a3bb272224e2fb2fdf3266b52e50a
+#: d5407018d9804f4d875d7be25ce50248 dae5624dd0124d9da4e0b2e079ffa7f6
+#: e0b6a303110e4faf949add8c28f1be4c of
+#: utils.training.callbacks.Callback.on_batch_begin:6
+#: utils.training.callbacks.Callback.on_batch_end:7
+#: utils.training.callbacks.Callback.on_epoch_begin:4
+#: utils.training.callbacks.Callback.on_epoch_end:6
+#: utils.training.callbacks.Callback.on_phase_begin:5
+#: utils.training.callbacks.Callback.on_phase_end:7
+#: utils.training.callbacks.Callback.on_train_begin:4
+#: utils.training.callbacks.Callback.on_train_end:3
+#: utils.training.callbacks.Callback.should_stop:3
+#: utils.training.callbacks.CheckpointCallback.on_epoch_end:6
+#: utils.training.callbacks.CheckpointCallback.on_phase_end:7
+#: utils.training.callbacks.EarlyStoppingCallback.on_phase_end:7
+#: utils.training.callbacks.ProgressCallback.on_epoch_end:10
+#: utils.training.callbacks.ProgressCallback.on_phase_begin:5
+#: utils.training.callbacks.ProgressCallback.on_train_begin:4
+#: utils.training.callbacks.ProgressCallback.on_train_end:3
+#: utils.training.callbacks.TestEvaluationCallback.on_train_end:3
+msgid "Additional keyword arguments (e.g. trainer)."
+msgstr "Additional keyword arguments (e.g. trainer)."
+
+#: 148a780a441d47439fa0b7662502f6a8 of
+#: utils.training.callbacks.Callback.on_batch_end:1
+msgid "Called when a batch ends."
+msgstr "Called when a batch ends."
+
+#: 167440d3e6374ab181f9444da5f4b186 27b023a19f8b484c82cb7621eeef0f0f
+#: 65fcc15bfdd7455b82246319981ae637 9f9c55a9dab74ffd8b53d9ce6628d906
+#: ccac5e470750464f8ca7dc4c2772aaae of
+#: utils.training.callbacks.Callback.on_batch_end:6
+#: utils.training.callbacks.CallbackManager.on_batch_end:6
+#: utils.training.callbacks.ProgressCallback.on_batch_end:6
+#: utils.training.metric_logger.LocalMetricLogger.log_batch:9
+#: utils.training.metric_logger.MetricLogger.log_batch:7
+msgid "Loss value for this batch."
+msgstr "Loss value for this batch."
+
+#: 961d39b185f5462b950b2b9546fa12ef of
+#: utils.training.callbacks.Callback.on_epoch_begin:1
+msgid "Called when an epoch begins."
+msgstr "Called when an epoch begins."
+
+#: c51217d809fc4b8ba70597de8984ba71 of
+#: utils.training.callbacks.Callback.on_epoch_end:1
+msgid "Called when an epoch ends."
+msgstr "Called when an epoch ends."
+
+#: 0171913c375e49aab95c62c662ba850d 43e075f3122e45768d7ab0efcfd09f20
+#: aad24e602df14d8b8e7e8145fec2443e f1d7d52c5fc14c6ba5e7bc901472e8f3 of
+#: utils.training.callbacks.Callback.on_epoch_end:4
+#: utils.training.callbacks.CallbackManager.on_epoch_end:4
+#: utils.training.callbacks.CheckpointCallback.on_epoch_end:4
+#: utils.training.callbacks.ProgressCallback.on_epoch_end:8
+msgid "Training loss for this epoch."
+msgstr "Training loss for this epoch."
+
+#: 0e6e57864ebe4770bc679339b35f64ec of
+#: utils.training.callbacks.Callback.on_epoch_end:5
+msgid "Validation loss for this epoch (None if no val data)."
+msgstr "Validation loss for this epoch (None if no val data)."
+
+#: 0cdbead6836246898980bdfa91b1b943 of
+#: utils.training.callbacks.Callback.on_phase_begin:1
+msgid "Called when a training/validation phase begins."
+msgstr "Called when a training/validation phase begins."
+
+#: 3bdeb015eed4438d860825baceb15b3c of
+#: utils.training.callbacks.Callback.on_phase_end:1
+msgid "Called when a training/validation phase ends."
+msgstr "Called when a training/validation phase ends."
+
+#: 17a44631f03f41c6941d9ed7bbfeaede 2d3a164eff084302bad1cbdcb7b3cfc5
+#: 546bd2e63bff49c3b00a6387755358ee 75d5fd0fdcc2446991529e511a177520
+#: b45caf0663dd418dbba0a013690f059b of
+#: utils.training.callbacks.Callback.on_phase_end:5
+#: utils.training.callbacks.CallbackManager.on_phase_end:5
+#: utils.training.callbacks.CheckpointCallback.on_phase_end:5
+#: utils.training.callbacks.EarlyStoppingCallback.on_phase_end:5
+#: utils.training.callbacks.MemoryCleanupCallback.on_phase_end:5
+msgid "Mean loss per batch for this phase."
+msgstr "Mean loss per batch for this phase."
+
+#: 04da2930e8174f2492d04c7c82467b53 0efef433dd9e49ceb0169180434d694d
+#: 22f342dafde04c06b140de9e3ff303e2 6a085aa131fd4a4e9f33f3b74f480cfb
+#: d4dc73ff27af49f591617a4082af8693 of
+#: utils.training.callbacks.Callback.on_phase_end:6
+#: utils.training.callbacks.CallbackManager.on_phase_end:6
+#: utils.training.callbacks.CheckpointCallback.on_phase_end:6
+#: utils.training.callbacks.EarlyStoppingCallback.on_phase_end:6
+#: utils.training.callbacks.MemoryCleanupCallback.on_phase_end:6
+msgid "Metric dictionary for this phase."
+msgstr "Metric dictionary for this phase."
+
+#: f7338e2bda384fd9ab06be88a8b7ce85 of
+#: utils.training.callbacks.Callback.on_train_begin:1
+msgid "Called when training begins."
+msgstr "Called when training begins."
+
+#: 21ff20b1adf24e33b04d267cd2155853 7bec9ef081b348c7bb25dd7cb398cafe
+#: 953519e00fe3416080d3a42f835e35f5 a491a6621e694743a555822f5a79121d of
+#: utils.training.callbacks.Callback.on_train_begin:3
+#: utils.training.callbacks.CallbackManager.on_train_begin:3
+#: utils.training.callbacks.CheckpointCallback.on_train_begin:3
+#: utils.training.callbacks.ProgressCallback.on_train_begin:3
+msgid "Total number of epochs."
+msgstr "Total number of epochs."
+
+#: 707677793c4b42d2a6d831e352dc497f of
+#: utils.training.callbacks.Callback.on_train_end:1
+msgid "Called when training ends."
+msgstr "Called when training ends."
+
+#: 4ad54000c7a54c6c9e8253d23c129856 of
+#: utils.training.callbacks.Callback.should_stop:1
+msgid "Check whether training should stop."
+msgstr "Check whether training should stop."
+
+#: 09cce8d1d1484cbdb86190015d5437c8 89d84e7c18b44d098cd335c591c31177 of
+#: utils.training.callbacks.Callback.should_stop:5
+#: utils.training.callbacks.EarlyStoppingCallback.step:7
+msgid "True if training should stop, False otherwise."
+msgstr "True if training should stop, False otherwise."
+
+#: 6357cc57acd44d148bff2bcf361c88a4 of
+#: utils.training.callbacks.CallbackManager:1
+msgid "Manages a list of callback objects."
+msgstr "Manages a list of callback objects."
+
+#: ab27fe29aba44c9f8948e10804a90fdd of
+#: utils.training.callbacks.CallbackManager:3
+msgid ""
+"Provides methods to trigger lifecycle events on all registered callbacks "
+"in order and to query whether training should stop."
+msgstr ""
+"Provides methods to trigger lifecycle events on all registered callbacks "
+"in order and to query whether training should stop."
+
+#: ca2793525dc3425988ae68859d7e2ae8 of
+#: utils.training.callbacks.CallbackManager.close:1
+msgid "Call ``close`` on all callbacks in list order."
+msgstr "Call ``close`` on all callbacks in list order."
+
+#: 2da7b406dfd1455fb57ebd18e864f066 of
+#: utils.training.callbacks.CallbackManager.close:3
+msgid ""
+"Runs on the trainer's finally path (including failed runs), so a raising "
+"``close`` must not mask the original training error or skip the callbacks"
+" after it; each call is isolated here. Implementations must still be "
+"idempotent and must not raise."
+msgstr ""
+"Runs on the trainer's finally path (including failed runs), so a raising "
+"``close`` must not mask the original training error or skip the callbacks"
+" after it; each call is isolated here. Implementations must still be "
+"idempotent and must not raise."
+
+#: 00d52d3f7748411ba7cceb1895332e34 of
+#: utils.training.callbacks.CallbackManager.get_callback:1
+msgid "Get the first callback of a specified type."
+msgstr "Get the first callback of a specified type."
+
+#: f410c95dc6824c0aa6a78748595107db of
+#: utils.training.callbacks.CallbackManager.get_callback:3
+msgid "The callback class to search for."
+msgstr "The callback class to search for."
+
+#: 679d0f3aeda2432092f2cf4329ea7c75 of
+#: utils.training.callbacks.CallbackManager.get_callback:5
+msgid "The first matching callback, or None if not found."
+msgstr "The first matching callback, or None if not found."
+
+#: 8d5361edd3de45a186e77106ea05ed25 of
+#: utils.training.callbacks.CallbackManager.on_batch_begin:1
+msgid "Trigger ``on_batch_begin`` on all callbacks."
+msgstr "Trigger ``on_batch_begin`` on all callbacks."
+
+#: 1b8b9e9044b94e40aeb93c6bf63e8d8d 2cc1f5360c0241cb899e62f0ed241e7e
+#: 5c3d85b01da84137941d99999330eb4c 6b71a8ad331e404f81ee741ed0a015ed
+#: 881289ead7b4455da9627c8b9837c960 a7558a7531204fb599874154215ced0e
+#: ae3c3976650545b5a7ec136073c5833f b4ce553527174bb29f428f0409c21d5e
+#: c3a4b6f82f7345cb9462efc426eb00fb c77420ab46fa43e08b0253ab71cc41df
+#: d05a27f054e84b819bdfdb8ec9e62483 fb389e1a765c49e1a3f3d83a96d12729 of
+#: utils.training.callbacks.CallbackManager.on_batch_begin:5
+#: utils.training.callbacks.CallbackManager.on_batch_end:5
+#: utils.training.callbacks.CallbackManager.on_phase_begin:4
+#: utils.training.callbacks.CallbackManager.on_phase_end:4
+#: utils.training.callbacks.MemoryCleanupCallback.on_phase_end:4
+#: utils.training.metric_logger.LocalMetricLogger.log_batch:5
+#: utils.training.metric_logger.LocalMetricLogger.log_early_stopping:3
+#: utils.training.metric_logger.MetricLogger.log_batch:3
+#: utils.training.metric_logger.MetricLogger.log_early_stopping:3
+#: utils.training.metric_logger.SwanLabMetricLogger.log_early_stopping:3
+#: utils.training.metric_logger.SwanLabMetricLogger.log_metrics:3
+#: utils.training.metric_logger.WandbMetricLogger.log_early_stopping:3
+msgid "Phase name."
+msgstr "Phase name."
+
+#: 04acbea78e364749946484df4a678fc8 0e35158a321d4423b9187d9812af7a71
+#: 10a404f4cc504a43a78582d1cb3fb3f6 2347a99302c04db29d305162596d60d8
+#: 2695262e75e54789937e598c44d9a382 40f8ef8f70924169974ad26a752a08cd
+#: 631c1b8cf2804436bb63e62167f3be84 78d69c03c46c4844a55edb23b8062979
+#: 8ac2da13e3944dbaa9c6a9ba3e6e7e7f 98e79de62fee47a7af9cf398ec554840
+#: a2bbd4589df8494c9e7b140ea6666786 a7b1203132614d5ebc76aca49dd6d90f
+#: e6d46a7541a84b99b484d16373d0dd59 of
+#: utils.training.callbacks.CallbackManager.on_batch_begin:6
+#: utils.training.callbacks.CallbackManager.on_batch_end:7
+#: utils.training.callbacks.CallbackManager.on_epoch_begin:4
+#: utils.training.callbacks.CallbackManager.on_epoch_end:6
+#: utils.training.callbacks.CallbackManager.on_phase_begin:5
+#: utils.training.callbacks.CallbackManager.on_phase_end:7
+#: utils.training.callbacks.CallbackManager.on_train_begin:4
+#: utils.training.callbacks.CallbackManager.on_train_end:3
+#: utils.training.callbacks.CallbackManager.should_stop:3
+#: utils.training.callbacks.CheckpointCallback.on_train_begin:4
+#: utils.training.callbacks.EarlyStoppingCallback.should_stop:3
+#: utils.training.callbacks.MemoryCleanupCallback.on_phase_end:7
+#: utils.training.callbacks.ProgressCallback.on_batch_end:7
+msgid "Additional keyword arguments."
+msgstr "Additional keyword arguments."
+
+#: a0087e55d7cb4f27b0c86ca3572bf86c of
+#: utils.training.callbacks.CallbackManager.on_batch_end:1
+msgid "Trigger ``on_batch_end`` on all callbacks."
+msgstr "Trigger ``on_batch_end`` on all callbacks."
+
+#: 0034ff8f6c3345f68c7b76550784889a of
+#: utils.training.callbacks.CallbackManager.on_epoch_begin:1
+msgid "Trigger ``on_epoch_begin`` on all callbacks."
+msgstr "Trigger ``on_epoch_begin`` on all callbacks."
+
+#: 26ca445afc65491498eee1dabc7741ad of
+#: utils.training.callbacks.CallbackManager.on_epoch_end:1
+msgid "Trigger ``on_epoch_end`` on all callbacks."
+msgstr "Trigger ``on_epoch_end`` on all callbacks."
+
+#: 0988901ccd7f4371bf41dc45eb95c8f1 a89a8d448ada47078d205f30d6734b66
+#: e25c39aed1a14d05aedc379bf6cb6525 of
+#: utils.training.callbacks.CallbackManager.on_epoch_end:5
+#: utils.training.callbacks.CheckpointCallback.on_epoch_end:5
+#: utils.training.callbacks.ProgressCallback.on_epoch_end:9
+msgid "Validation loss for this epoch."
+msgstr "Validation loss for this epoch."
+
+#: e03bd4fd16e441ce9ed7f38ca0a8f4e0 of
+#: utils.training.callbacks.CallbackManager.on_phase_begin:1
+msgid "Trigger ``on_phase_begin`` on all callbacks."
+msgstr "Trigger ``on_phase_begin`` on all callbacks."
+
+#: d56c20f90fab41eebc642e53d8601edf of
+#: utils.training.callbacks.CallbackManager.on_phase_end:1
+msgid "Trigger ``on_phase_end`` on all callbacks."
+msgstr "Trigger ``on_phase_end`` on all callbacks."
+
+#: 73053238f6984969812be0ef016733b3 of
+#: utils.training.callbacks.CallbackManager.on_train_begin:1
+msgid "Trigger ``on_train_begin`` on all callbacks."
+msgstr "Trigger ``on_train_begin`` on all callbacks."
+
+#: d968beecdb5b41de92b931e6bccad001 of
+#: utils.training.callbacks.CallbackManager.on_train_end:1
+msgid "Trigger ``on_train_end`` on all callbacks."
+msgstr "Trigger ``on_train_end`` on all callbacks."
+
+#: 9a8320f15e82403897964cd3da64fc09 of
+#: utils.training.callbacks.CallbackManager.should_stop:1
+msgid "Check whether any callback requests training to stop."
+msgstr "Check whether any callback requests training to stop."
+
+#: 8a092d63b289407c98f359586b9c00b6 of
+#: utils.training.callbacks.CallbackManager.should_stop:5
+msgid "True if any callback's ``should_stop`` returns True."
+msgstr "True if any callback's ``should_stop`` returns True."
+
+#: 9c87b4da40bb4e44bf880d694039ebc0 of
+#: utils.training.callbacks.CallbackManager.trigger:1
+msgid "Invoke a method on all registered callbacks."
+msgstr "Invoke a method on all registered callbacks."
+
+#: e93baaae3ee84941a7cdd7301d8a2c86 of
+#: utils.training.callbacks.CallbackManager.trigger:3
+msgid "Name of the callback method to invoke."
+msgstr "Name of the callback method to invoke."
+
+#: 9b2ce63fb4f1461fa62ad3a9000c4909 of
+#: utils.training.callbacks.CallbackManager.trigger:4
+msgid "Positional arguments forwarded to each callback."
+msgstr "Positional arguments forwarded to each callback."
+
+#: b293afe9c3674427a2d66353741064f1 of
+#: utils.training.callbacks.CallbackManager.trigger:5
+msgid "Keyword arguments forwarded to each callback."
+msgstr "Keyword arguments forwarded to each callback."
+
+#: 17f4cdd5bcb947029948abcd14adac78 cf9927af86b04ccdb6b10e57280eb1c2
+#: d283ea40f38545d0bd0330e06c9fab36 d3cc131a54814d70bf64892bfd38429c
+#: d9829fca39ff4f6c960a4fb0e777f621 fd7875b287f74dbca4836e15e1048029 of
+#: utils.training.callbacks.CheckpointCallback:1
+#: utils.training.callbacks.EarlyStoppingCallback:1
+#: utils.training.callbacks.FunctionCallback:1
+#: utils.training.callbacks.MemoryCleanupCallback:1
+#: utils.training.callbacks.ProgressCallback:1
+#: utils.training.callbacks.TestEvaluationCallback:1
+msgid "基类：:py:class:`~utils.training.callbacks.Callback`"
+msgstr "Bases: :py:class:`~utils.training.callbacks.Callback`"
+
+#: ec6608c898e34ffd940327cbe4f2cff7 of
+#: utils.training.callbacks.CheckpointCallback:1
+msgid "Checkpoint saving callback."
+msgstr "Checkpoint saving callback."
+
+#: bc53c99f2f7649cd81562bfaa7d0e18f of
+#: utils.training.callbacks.CheckpointCallback:3
+msgid ""
+"Saves model weights at the end of each validation phase when a monitored "
+"metric improves, and saves a full checkpoint at the end of each epoch."
+msgstr ""
+"Saves model weights at the end of each validation phase when a monitored "
+"metric improves, and saves a full checkpoint at the end of each epoch."
+
+#: b09fa8a4ed2a492b9e767ea19fb29b70 of
+#: utils.training.callbacks.CheckpointCallback.on_epoch_end:1
+msgid "Save the last checkpoint at the end of each epoch."
+msgstr "Save the last checkpoint at the end of each epoch."
+
+#: 0f6268d8dd3d4c6bad3ef075f2d83d7a of
+#: utils.training.callbacks.CheckpointCallback.on_phase_end:1
+msgid "Save the best model at the end of the validation phase."
+msgstr "Save the best model at the end of the validation phase."
+
+#: 8867504611964c49a503c3105d426d00 of
+#: utils.training.callbacks.CheckpointCallback.on_phase_end:4
+msgid "Phase name (only ``\"val\"`` triggers saving)."
+msgstr "Phase name (only ``\"val\"`` triggers saving)."
+
+#: 133b159268994f14a25f6bd1c1b5007c of
+#: utils.training.callbacks.CheckpointCallback.on_train_begin:1
+msgid "Reset tracking state at the start of training."
+msgstr "Reset tracking state at the start of training."
+
+#: 6d372cf8a0834b84857460ef47e03f4a of
+#: utils.training.callbacks.EarlyStoppingCallback:1
+msgid "Early stopping callback."
+msgstr "Early stopping callback."
+
+#: 32e423d699c24ed0ad69b29c922138aa of
+#: utils.training.callbacks.EarlyStoppingCallback:3
+msgid ""
+"Monitors a validation metric and triggers early stopping when the metric "
+"stops improving."
+msgstr ""
+"Monitors a validation metric and triggers early stopping when the metric "
+"stops improving."
+
+#: d904e24e9e194d878f4b9bdd0710e337 of
+#: utils.training.callbacks.EarlyStoppingCallback.on_phase_end:1
+msgid "Run early stopping check at the end of the validation phase."
+msgstr "Run early stopping check at the end of the validation phase."
+
+#: 6d10adc2fbe94034bf87526204263c46 of
+#: utils.training.callbacks.EarlyStoppingCallback.on_phase_end:4
+msgid "Phase name (only ``\"val\"`` triggers the check)."
+msgstr "Phase name (only ``\"val\"`` triggers the check)."
+
+#: 1af8e16192c344d182cd34f0c2cd4c75 of
+#: utils.training.callbacks.EarlyStoppingCallback.should_stop:1
+msgid "Check whether early stopping has been triggered."
+msgstr "Check whether early stopping has been triggered."
+
+#: bb215bd962514de29330d4e39803b6eb of
+#: utils.training.callbacks.EarlyStoppingCallback.should_stop:5
+msgid "True if training should stop."
+msgstr "True if training should stop."
+
+#: 2368c23403754deea5eb34beb2b5eeb0 of
+#: utils.training.callbacks.EarlyStoppingCallback.step:1
+msgid "Execute the early stopping check."
+msgstr "Execute the early stopping check."
+
+#: 55ea62fdaadd49aa8719978a754232c8 of
+#: utils.training.callbacks.EarlyStoppingCallback.step:3
+msgid "Current metric value."
+msgstr "Current metric value."
+
+#: 00b7f42b361046ce9227ffe227ece86d of
+#: utils.training.callbacks.EarlyStoppingCallback.step:5
+msgid "Full metrics dictionary (optional)."
+msgstr "Full metrics dictionary (optional)."
+
+#: 981a2435f01d40499ccce979f21e6542 of
+#: utils.training.callbacks.FunctionCallback:1
+msgid "Functional callback wrapper."
+msgstr "Functional callback wrapper."
+
+#: a3da0e0f9546440d817fa28e2e05128a of
+#: utils.training.callbacks.FunctionCallback:3
+msgid ""
+"Maps event names to callable functions via a dictionary for lightweight "
+"callback registration without subclassing."
+msgstr ""
+"Maps event names to callable functions via a dictionary for lightweight "
+"callback registration without subclassing."
+
+#: e80075b708a84fe28fc2b2f4afa12d29 of
+#: utils.training.callbacks.FunctionCallback.on_batch_begin:1
+msgid "Delegate to registered ``on_batch_begin`` handlers."
+msgstr "Delegate to registered ``on_batch_begin`` handlers."
+
+#: 56d83b9869bc47a2bb514b1d8d5768b7 of
+#: utils.training.callbacks.FunctionCallback.on_batch_end:1
+msgid "Delegate to registered ``on_batch_end`` handlers."
+msgstr "Delegate to registered ``on_batch_end`` handlers."
+
+#: 8b6ec96751c047aa88cd10d6cb3cc4fd of
+#: utils.training.callbacks.FunctionCallback.on_epoch_begin:1
+msgid "Delegate to registered ``on_epoch_begin`` handlers."
+msgstr "Delegate to registered ``on_epoch_begin`` handlers."
+
+#: 7bb555af2ded4df0b02389565c58712c of
+#: utils.training.callbacks.FunctionCallback.on_epoch_end:1
+msgid "Delegate to registered ``on_epoch_end`` handlers."
+msgstr "Delegate to registered ``on_epoch_end`` handlers."
+
+#: 7792dc0cbde244f780ef1ed30ee8fcef of
+#: utils.training.callbacks.FunctionCallback.on_phase_begin:1
+msgid "Delegate to registered ``on_phase_begin`` handlers."
+msgstr "Delegate to registered ``on_phase_begin`` handlers."
+
+#: 55947529017c42e7b9b9c79328cfd2ed of
+#: utils.training.callbacks.FunctionCallback.on_phase_end:1
+msgid "Delegate to registered ``on_phase_end`` handlers."
+msgstr "Delegate to registered ``on_phase_end`` handlers."
+
+#: e86a5f8684504249b7752e696ce710a6 of
+#: utils.training.callbacks.FunctionCallback.on_train_begin:1
+msgid "Delegate to registered ``on_train_begin`` handlers."
+msgstr "Delegate to registered ``on_train_begin`` handlers."
+
+#: 4040003b9da24785aea68961cf73a145 of
+#: utils.training.callbacks.FunctionCallback.on_train_end:1
+msgid "Delegate to registered ``on_train_end`` handlers."
+msgstr "Delegate to registered ``on_train_end`` handlers."
+
+#: d5fd6f520f5e4f5dbd95132c5e171b6f of
+#: utils.training.callbacks.FunctionCallback.should_stop:1
+msgid "Check all registered ``should_stop`` handlers."
+msgstr "Check all registered ``should_stop`` handlers."
+
+#: 6d793e2d8fda47d6a001784f54bb9793 of
+#: utils.training.callbacks.FunctionCallback.should_stop:3
+msgid "True if any handler returns a truthy value."
+msgstr "True if any handler returns a truthy value."
+
+#: 4c25e72009c64bcb80e85160622744a5 of
+#: utils.training.callbacks.MemoryCleanupCallback:1
+msgid "Callback for periodic GPU memory cleanup and garbage collection."
+msgstr "Callback for periodic GPU memory cleanup and garbage collection."
+
+#: 4f1d0de75c444a918fdb946113c9db1b of
+#: utils.training.callbacks.MemoryCleanupCallback:3
+msgid ""
+"Calls ``torch.cuda.empty_cache()`` and Python ``gc.collect()`` at regular"
+" intervals during training."
+msgstr ""
+"Calls ``torch.cuda.empty_cache()`` and Python ``gc.collect()`` at regular"
+" intervals during training."
+
+#: 6954e934eea7400dbebb02b34fa88e2e of
+#: utils.training.callbacks.MemoryCleanupCallback.on_phase_end:1
+msgid "Run cleanup at the end of a phase if the interval is met."
+msgstr "Run cleanup at the end of a phase if the interval is met."
+
+#: 2c71c06d35cf4c53a65fd2819bc548d6 of
+#: utils.training.callbacks.ProgressCallback:1
+msgid "Rich progress rendering for the training loop."
+msgstr "Rich progress rendering for the training loop."
+
+#: 4c0f2872ac164b69a3e143fec40dfca1 of
+#: utils.training.callbacks.ProgressCallback:3
+msgid ""
+"Owns all live rendering (epoch bar, per-phase batch bar, best-metric "
+"header) so ``BaseTrainer._run_training_loop`` stays pure orchestration. "
+"Reads every value from the ``trainer`` kwarg at hook time. Trainers build"
+" a fresh instance per run/stage (see ``_maybe_progress_callback``); "
+"``on_train_begin`` still tears down any previous display, so an "
+"explicitly shared instance also survives re-entry across stages."
+msgstr ""
+"Owns all live rendering (epoch bar, per-phase batch bar, best-metric "
+"header) so ``BaseTrainer._run_training_loop`` stays pure orchestration. "
+"Reads every value from the ``trainer`` kwarg at hook time. Trainers build"
+" a fresh instance per run/stage (see ``_maybe_progress_callback``); "
+"``on_train_begin`` still tears down any previous display, so an "
+"explicitly shared instance also survives re-entry across stages."
+
+#: 8428aa131dce42dea0546d1a37b55a66 of
+#: utils.training.callbacks.ProgressCallback.close:1
+msgid "Stop the live display; idempotent and safe on failed runs."
+msgstr "Stop the live display; idempotent and safe on failed runs."
+
+#: 9fa753d5954a45508f0ab9a8c09bc73c of
+#: utils.training.callbacks.ProgressCallback.on_batch_end:1
+msgid "Advance the batch bar by one batch."
+msgstr "Advance the batch bar by one batch."
+
+#: 0ebfb2a35eef4dc8a9a9b113c5f556d1 895747987af04eef92ecb7f3577a4abe of
+#: utils.training.callbacks.ProgressCallback.on_batch_end:5
+#: utils.training.callbacks.ProgressCallback.on_phase_begin:4
+msgid "Phase name, ``\"train\"`` or ``\"val\"``."
+msgstr "Phase name, ``\"train\"`` or ``\"val\"``."
+
+#: 37d0423d165544b9b53d5a8214872352 of
+#: utils.training.callbacks.ProgressCallback.on_epoch_end:1
+msgid "Advance the epoch bar and refresh the best-metric header."
+msgstr "Advance the epoch bar and refresh the best-metric header."
+
+#: e9cf9d7367464e0492866240f9623d6c of
+#: utils.training.callbacks.ProgressCallback.on_epoch_end:3
+msgid ""
+"Best metric values are already updated by ``CheckpointCallback`` at "
+"``on_phase_end`` (all callbacks fire there before any ``on_epoch_end``), "
+"so they are fresh regardless of list order."
+msgstr ""
+"Best metric values are already updated by ``CheckpointCallback`` at "
+"``on_phase_end`` (all callbacks fire there before any ``on_epoch_end``), "
+"so they are fresh regardless of list order."
+
+#: e936add63f8545b4b39a4aeaee17f6bf of
+#: utils.training.callbacks.ProgressCallback.on_phase_begin:1
+msgid "Reset the batch bar for the starting phase."
+msgstr "Reset the batch bar for the starting phase."
+
+#: 2c63bd5f67dc4c87a49b68e411b11f22 of
+#: utils.training.callbacks.ProgressCallback.on_train_begin:1
+msgid "Build the live display for the upcoming (stage) run."
+msgstr "Build the live display for the upcoming (stage) run."
+
+#: 8a269fcf3b5444a0b9571d421a5b18f4 of
+#: utils.training.callbacks.ProgressCallback.on_train_end:1
+msgid "Stop the live display; later callbacks (test evaluation) render freely."
+msgstr "Stop the live display; later callbacks (test evaluation) render freely."
+
+#: 04f617245b704e72b0b13a9170777fb5 of
+#: utils.training.callbacks.TestEvaluationCallback:1
+msgid "Callback that runs test set evaluation at the end of training."
+msgstr "Callback that runs test set evaluation at the end of training."
+
+#: dba4c18ad7394a65a7979f36aa1e7b54 of
+#: utils.training.callbacks.TestEvaluationCallback.on_train_end:1
+msgid "Run test set evaluation when training ends."
+msgstr "Run test set evaluation when training ends."
+
+#: 5c55606de03f4f7ea7807e83c7b1fde5 of utils.training.checkpoint:1
+msgid "Checkpoint management module."
+msgstr "Checkpoint management module."
+
+#: a57c3308f78b45ee856fe99cfaebe2e9 of utils.training.checkpoint:3
+msgid "Provides model checkpoint save and load functionality."
+msgstr "Provides model checkpoint save and load functionality."
+
+#: cf1ea2232e21486a9dadf31939053b50 of
+#: utils.training.checkpoint.CheckpointManager:1
+msgid "Manager for model checkpoints."
+msgstr "Manager for model checkpoints."
+
+#: 720652530ef340fab62799b782d1639a of
+#: utils.training.checkpoint.CheckpointManager:3
+msgid ""
+"Responsibilities: 1. Save model checkpoints. 2. Load model checkpoints. "
+"3. Manage checkpoint files."
+msgstr ""
+"Responsibilities: 1. Save model checkpoints. 2. Load model checkpoints. "
+"3. Manage checkpoint files."
+
+#: a29c73d6f1a2428ead047dc368a56998 of
+#: utils.training.checkpoint.CheckpointManager.close:1
+msgid "Drain the save queue and shut down the executor."
+msgstr "Drain the save queue and shut down the executor."
+
+#: 1bc3ff51dceb46518f3b8e9598fd1475 of
+#: utils.training.checkpoint.CheckpointManager.close:3
+msgid "Idempotent — safe to call from both ``_finish`` and ``atexit``."
+msgstr "Idempotent — safe to call from both ``_finish`` and ``atexit``."
+
+#: 39da484cae8a459cbcae889c681200bb of
+#: utils.training.checkpoint.CheckpointManager.flush:1
+msgid "Wait for the latest save per path to finish."
+msgstr "Wait for the latest save per path to finish."
+
+#: 4ee1e156ea254413bb2f38ce5d5dc4d9 of
+#: utils.training.checkpoint.CheckpointManager.flush:3
+msgid ""
+"Exceptions are already surfaced by the done-callback, so they are "
+"swallowed here. ``close`` follows this with ``shutdown(wait=True)``, "
+"which also drains any older running save whose future was replaced."
+msgstr ""
+"Exceptions are already surfaced by the done-callback, so they are "
+"swallowed here. ``close`` follows this with ``shutdown(wait=True)``, "
+"which also drains any older running save whose future was replaced."
+
+#: 879da99da0de4902987a8963c2353d8f of
+#: utils.training.checkpoint.CheckpointManager.load_checkpoint:1
+msgid "Load a full checkpoint and restore model, optimizer, and scheduler states."
+msgstr "Load a full checkpoint and restore model, optimizer, and scheduler states."
+
+#: 3496e02dd3fa46af931d7f311370866b 83f83837a3a140e28b4de07525f68a62
+#: ee5eefeef27f43288225d1e5b06dd47a of
+#: utils.training.checkpoint.CheckpointManager.load_checkpoint:4
+#: utils.training.checkpoint.CheckpointManager.save_checkpoint:4
+#: utils.training.checkpoint.CheckpointManager.save_weights:3
+msgid "PyTorch model."
+msgstr "PyTorch model."
+
+#: eb84c179a97b4a0c9a6b6164edc53288 of
+#: utils.training.checkpoint.CheckpointManager.load_checkpoint:5
+msgid "Optimizer (optional)."
+msgstr "Optimizer (optional)."
+
+#: b5b7e6fec28745bd8830d45aa943c99f of
+#: utils.training.checkpoint.CheckpointManager.load_checkpoint:7
+msgid "Early stopping object (optional)."
+msgstr "Early stopping object (optional)."
+
+#: 02f3b4da4afd44229a541e5f1956d31f of
+#: utils.training.checkpoint.CheckpointManager.load_checkpoint:8
+msgid "Compute device for map_location (optional)."
+msgstr "Compute device for map_location (optional)."
+
+#: 02786da829a443839f3b7faab9ae3fad of
+#: utils.training.checkpoint.CheckpointManager.load_checkpoint:10
+msgid "The checkpoint dictionary."
+msgstr "The checkpoint dictionary."
+
+#: 9f89e434a29c4757b38507cde58296ae of
+#: utils.training.checkpoint.CheckpointManager.load_weights:3
+msgid ""
+"Handles both formats: - Plain state_dict (saved by ``save_weights``) - "
+"Full checkpoint dict with ``\"model_state_dict\"`` key (saved by "
+"``save_checkpoint``)"
+msgstr ""
+"Handles both formats: - Plain state_dict (saved by ``save_weights``) - "
+"Full checkpoint dict with ``\"model_state_dict\"`` key (saved by "
+"``save_checkpoint``)"
+
+#: 2e9a8088f77248c0a8f058f8b4f73298 of
+#: utils.training.checkpoint.CheckpointManager.load_weights:8
+msgid "PyTorch model to load weights into."
+msgstr "PyTorch model to load weights into."
+
+#: 8faf972bf29e443bb55041f0f2ff99e9 of
+#: utils.training.checkpoint.CheckpointManager.load_weights:9
+msgid "Target device for ``map_location`` (optional)."
+msgstr "Target device for ``map_location`` (optional)."
+
+#: 977bab3cedad4861a73739985f36234f of
+#: utils.training.checkpoint.CheckpointManager.load_weights:11
+msgid ""
+"The full checkpoint dict if the file was a full checkpoint, ``None`` if "
+"it was a plain state_dict."
+msgstr ""
+"The full checkpoint dict if the file was a full checkpoint, ``None`` if "
+"it was a plain state_dict."
+
+#: a9430f67d111403d9d884f80a29e477f of
+#: utils.training.checkpoint.CheckpointManager.load_weights:14
+msgid "If the file does not exist."
+msgstr "If the file does not exist."
+
+#: c9b77521e30540eaa02ae0a5e9887961 of
+#: utils.training.checkpoint.CheckpointManager.read_model_state_dict:1
+msgid "Read a checkpoint file and return the model state_dict."
+msgstr "Read a checkpoint file and return the model state_dict."
+
+#: 58549a66ff494fcbb465f9d365083a30 of
+#: utils.training.checkpoint.CheckpointManager.read_model_state_dict:3
+msgid ""
+"Does not load into a model. Handles both plain state_dict files and full "
+"checkpoint dicts with a ``\"model_state_dict\"`` key."
+msgstr ""
+"Does not load into a model. Handles both plain state_dict files and full "
+"checkpoint dicts with a ``\"model_state_dict\"`` key."
+
+#: c45e2e76a00849068a8afada49e5aa96 of
+#: utils.training.checkpoint.CheckpointManager.save_checkpoint:1
+msgid "Save a full checkpoint including model, optimizer, and scheduler states."
+msgstr "Save a full checkpoint including model, optimizer, and scheduler states."
+
+#: 5f10e7e73e3f477ebab311cf1af6d0cf of
+#: utils.training.checkpoint.CheckpointManager.save_checkpoint:5
+msgid "Optimizer."
+msgstr "Optimizer."
+
+#: ca6b2d265b9f48c581274070373c63f2 of
+#: utils.training.checkpoint.CheckpointManager.save_checkpoint:7
+msgid "Extra state information (optional)."
+msgstr "Extra state information (optional)."
+
+#: 9198007f519b48d1a904efb5c428e62e of
+#: utils.training.checkpoint.CheckpointManager.save_checkpoint:8
+msgid "Early stopping state (optional)."
+msgstr "Early stopping state (optional)."
+
+#: 7166bc59cb884f4d8d93c2b1dbb406f2 of
+#: utils.training.checkpoint.CheckpointManager.save_checkpoint:9
+msgid "Checkpoint file name."
+msgstr "Checkpoint file name."
+
+#: cb6c1b8806af4fffbab22de9fd3c105f of
+#: utils.training.checkpoint.CheckpointManager.save_weights:1
+msgid "Save model weights only and return a CPU snapshot."
+msgstr "Save model weights only and return a CPU snapshot."
+
+#: 0ed3e38db94f4cfb94c69ab9b1bd60da of
+#: utils.training.checkpoint.CheckpointManager.save_weights:4
+msgid "Output file name."
+msgstr "Output file name."
+
+#: 1cbf3796cc67470592da2f6549105448 of
+#: utils.training.checkpoint.CheckpointManager.save_weights:6
+msgid "CPU-cloned model state_dict (same content as the file)."
+msgstr "CPU-cloned model state_dict (same content as the file)."
+
+#: d04a6c14c95e401894d864cb63dc8007 of utils.training.metric_logger:1
+msgid "Metric logging backend module."
+msgstr "Metric logging backend module."
+
+#: ba1c7396c1f9493285b79c07f95b2e88 of utils.training.metric_logger:3
+msgid ""
+"Provides a unified metric logging abstraction (MetricLogger) consistent "
+"with the project's registry + ABC + factory pattern (see DataSource / "
+"DATA_SOURCES / get_data_source)."
+msgstr ""
+"Provides a unified metric logging abstraction (MetricLogger) consistent "
+"with the project's registry + ABC + factory pattern (see DataSource / "
+"DATA_SOURCES / get_data_source)."
+
+#: bbaa0f9a0ec54fd7bd71db39a0c78fe1 of utils.training.metric_logger:7
+msgid ""
+"Backends: - LocalMetricLogger: Local CSV logging, always enabled. - "
+"SwanLabMetricLogger: SwanLab remote logging. - WandbMetricLogger: Weights"
+" & Biases remote logging."
+msgstr ""
+"Backends: - LocalMetricLogger: Local CSV logging, always enabled. - "
+"SwanLabMetricLogger: SwanLab remote logging. - WandbMetricLogger: Weights"
+" & Biases remote logging."
+
+#: c30ec28bd9e54d87999befeca0d2bf08 of utils.training.metric_logger:12
+msgid ""
+"Cloud tracking (SwanLab or W&B) is enabled by "
+"``--general.cloud_tracking`` (default on); the two are mutually exclusive"
+" — ``KT_TRACKING_BACKEND`` selects which (``swanlab`` | ``wandb``, "
+"default ``swanlab``)."
+msgstr ""
+"Cloud tracking (SwanLab or W&B) is enabled by "
+"``--general.cloud_tracking`` (default on); the two are mutually exclusive"
+" — ``KT_TRACKING_BACKEND`` selects which (``swanlab`` | ``wandb``, "
+"default ``swanlab``)."
+
+#: 663e0962d94248738242b4f6d1b91c6e 7714fa59613a4743b251de8570745f32
+#: a093b66afecc44718d43cada1c9a628a d189fa0dfcc0430a907c508c5b6f9183
+#: fc881233772c47a8b2db3a2ad1fbdda1 of
+#: utils.training.metric_logger.AsyncMetricLoggerProxy:1
+#: utils.training.metric_logger.LocalMetricLogger:1
+#: utils.training.metric_logger.MetricLoggerComposite:1
+#: utils.training.metric_logger.SwanLabMetricLogger:1
+#: utils.training.metric_logger.WandbMetricLogger:1
+msgid "基类：:py:class:`~utils.training.metric_logger.MetricLogger`"
+msgstr "Bases: :py:class:`~utils.training.metric_logger.MetricLogger`"
+
+#: d6d7533c08f44af1a099dd97ba1ed664 of
+#: utils.training.metric_logger.AsyncMetricLoggerProxy:1
+msgid "Offload metric logging to a single background thread."
+msgstr "Offload metric logging to a single background thread."
+
+#: 5d4f94300d5e47fbb1af47d85592fade of
+#: utils.training.metric_logger.AsyncMetricLoggerProxy:3
+msgid ""
+"Wraps any backend and forwards every ``log_*`` call via a one-worker "
+"``ThreadPoolExecutor`` so network/disk I/O (SwanLab uploads, per-row CSV "
+"flushes) never blocks the training thread. Mirrors the lifecycle of "
+"``CheckpointManager``: submit-to-queue, ``flush`` drains tracked futures,"
+" idempotent ``close`` registered with ``atexit``."
+msgstr ""
+"Wraps any backend and forwards every ``log_*`` call via a one-worker "
+"``ThreadPoolExecutor`` so network/disk I/O (SwanLab uploads, per-row CSV "
+"flushes) never blocks the training thread. Mirrors the lifecycle of "
+"``CheckpointManager``: submit-to-queue, ``flush`` drains tracked futures,"
+" idempotent ``close`` registered with ``atexit``."
+
+#: 3d9af1e1e0c84ff79bd64692c851d5da of
+#: utils.training.metric_logger.AsyncMetricLoggerProxy:9
+msgid ""
+"Not registered — wired directly by ``build_default_metric_loggers``, like"
+" ``MetricLoggerComposite``."
+msgstr ""
+"Not registered — wired directly by ``build_default_metric_loggers``, like"
+" ``MetricLoggerComposite``."
+
+#: 7476cd5353004a588ba80b6b905249b9 of
+#: utils.training.metric_logger.AsyncMetricLoggerProxy.close:1
+msgid "Drain the queue and shut down the executor (atexit-only)."
+msgstr "Drain the queue and shut down the executor (atexit-only)."
+
+#: 91a8018dc7a74462a7a7adb81e5413f1 of
+#: utils.training.metric_logger.AsyncMetricLoggerProxy.close:3
+msgid ""
+"Idempotent and fork-safe: skipped in child processes (the worker thread "
+"does not survive ``fork``) and never raises."
+msgstr ""
+"Idempotent and fork-safe: skipped in child processes (the worker thread "
+"does not survive ``fork``) and never raises."
+
+#: 61933b928f6744fd970629d3f0a02101 of
+#: utils.training.metric_logger.AsyncMetricLoggerProxy.finish:1
+msgid "Drain pending logs, then finish the backend on the main thread."
+msgstr "Drain pending logs, then finish the backend on the main thread."
+
+#: 5261fabe91f84d3bbae8bc5f4694e8ec of
+#: utils.training.metric_logger.AsyncMetricLoggerProxy.finish:3
+msgid ""
+"``swanlab.finish`` restores its SIGINT handler via ``signal.signal`` "
+"(main-thread-only) and blocks on upload confirmation that is only "
+"interruptible via SIGINT — both require the main thread, so finish must "
+"run here, not on the worker."
+msgstr ""
+"``swanlab.finish`` restores its SIGINT handler via ``signal.signal`` "
+"(main-thread-only) and blocks on upload confirmation that is only "
+"interruptible via SIGINT — both require the main thread, so finish must "
+"run here, not on the worker."
+
+#: fe123cd8bf164439ab1af2c0ff53cf22 of
+#: utils.training.metric_logger.AsyncMetricLoggerProxy.flush:1
+msgid "Wait for all pending log calls to finish, logging any exceptions."
+msgstr "Wait for all pending log calls to finish, logging any exceptions."
+
+#: 83227a800f7a4880b642cc934a0ba120 of
+#: utils.training.metric_logger.AsyncMetricLoggerProxy.init_run:1
+msgid "Initialize the wrapped backend synchronously."
+msgstr "Initialize the wrapped backend synchronously."
+
+#: 833daa51c18441a892d8c65accad0f59 of
+#: utils.training.metric_logger.AsyncMetricLoggerProxy.init_run:3
+msgid ""
+"``swanlab.init`` is network I/O; a failure must surface immediately "
+"rather than after a silent run. The composite's ``_fanout`` turns a non-"
+"import failure here into a warning while other backends keep working; "
+"``ImportError`` propagates (see ``_fanout``)."
+msgstr ""
+"``swanlab.init`` is network I/O; a failure must surface immediately "
+"rather than after a silent run. The composite's ``_fanout`` turns a non-"
+"import failure here into a warning while other backends keep working; "
+"``ImportError`` propagates (see ``_fanout``)."
+
+#: d29ec755de024df4bbf54f579a094bb0 of
+#: utils.training.metric_logger.AsyncMetricLoggerProxy.log_batch:1
+msgid "Log per-batch metrics asynchronously."
+msgstr "Log per-batch metrics asynchronously."
+
+#: f1c28bdafc08490e93614f8b88e5f660 of
+#: utils.training.metric_logger.AsyncMetricLoggerProxy.log_early_stopping:1
+msgid "Log early stopping trajectory asynchronously."
+msgstr "Log early stopping trajectory asynchronously."
+
+#: fa447ec62f5b45fd96df41bbab7e96e6 of
+#: utils.training.metric_logger.AsyncMetricLoggerProxy.log_final:1
+msgid "Log final metrics asynchronously."
+msgstr "Log final metrics asynchronously."
+
+#: 7f7570a7e2f8419c84207e0c2909c9ca of
+#: utils.training.metric_logger.AsyncMetricLoggerProxy.log_metrics:1
+msgid "Log epoch metrics asynchronously."
+msgstr "Log epoch metrics asynchronously."
+
+#: dab230c1ae754a37a1ac1628758f4289 of
+#: utils.training.metric_logger.AsyncMetricLoggerProxy.log_timing:1
+msgid "Log per-epoch timing asynchronously."
+msgstr "Log per-epoch timing asynchronously."
+
+#: eae9730ea04f457b8672ab3c9f395549 of
+#: utils.training.metric_logger.LocalMetricLogger:1
+msgid "Local CSV metric logger."
+msgstr "Local CSV metric logger."
+
+#: 7b4ecfa19dde4ddf8aad4c2d340a2324 of
+#: utils.training.metric_logger.LocalMetricLogger:3
+msgid "Writes CSV files under ``log_dir`` per phase:"
+msgstr "Writes CSV files under ``log_dir`` per phase:"
+
+#: c3b380be8120475aa7213acc0237955d of
+#: utils.training.metric_logger.LocalMetricLogger:4
+#, python-brace-format
+msgid ""
+"``metrics_{phase}.csv``           Epoch-level aggregated metrics. "
+"``early_stopping[_{stage}].csv``   Early stopping trajectory. "
+"``batch_metrics_{phase}.csv``      Per-batch loss (when enabled). "
+"``metrics_final.csv``              Final summary metrics."
+msgstr ""
+"``metrics_{phase}.csv``           Epoch-level aggregated metrics. "
+"``early_stopping[_{stage}].csv``   Early stopping trajectory. "
+"``batch_metrics_{phase}.csv``      Per-batch loss (when enabled). "
+"``metrics_final.csv``              Final summary metrics."
+
+#: c44ef24d082045f4b75be7d40e92b812 of
+#: utils.training.metric_logger.LocalMetricLogger:9
+#, python-brace-format
+msgid ""
+"Multi-stage runs distinguish series via ``metrics_{stage}_{phase}.csv``. "
+"Headers are written lazily and extended in-place when new metric columns "
+"appear."
+msgstr ""
+"Multi-stage runs distinguish series via ``metrics_{stage}_{phase}.csv``. "
+"Headers are written lazily and extended in-place when new metric columns "
+"appear."
+
+#: 99216d749c4c448a9d7c453b1e75e270 of
+#: utils.training.metric_logger.LocalMetricLogger.finish:1
+msgid "Close all open CSV file handles."
+msgstr "Close all open CSV file handles."
+
+#: f4300dcbbe1049558de4dc66324a02ed of
+#: utils.training.metric_logger.LocalMetricLogger.init_run:1
+msgid "No-op: log_dir was already set at construction time."
+msgstr "No-op: log_dir was already set at construction time."
+
+#: 381d51063ffe4c23ad601ba0ff91b1e5 of
+#: utils.training.metric_logger.LocalMetricLogger.log_batch:1
+msgid "Log per-batch loss to a CSV file."
+msgstr "Log per-batch loss to a CSV file."
+
+#: 58ed1355b0064df88431dac7eaed6257 of
+#: utils.training.metric_logger.LocalMetricLogger.log_batch:3
+msgid "Only writes when ``log_batch_metrics`` was enabled at init."
+msgstr "Only writes when ``log_batch_metrics`` was enabled at init."
+
+#: 0a5cf587b5224aebbc9bdaeaadba069d 11c6023d699d44a6a0c10a521d3fead3
+#: 32d879ad362c438eacc9c97f18c03023 3e7d0bda6aa945e68bbbf02329bd3093
+#: 40903c05f0014fa5bc142f32b78b63a7 9fc7dcb314f04e39a0212ab4b72bd72a
+#: ae1abad3753d4c20ba330c62855f4c08 bc678f8447b9412caecc6a9d57c9695f
+#: e95319a12d534bd791466ff8b0c59083 of
+#: utils.training.metric_logger.LocalMetricLogger.log_batch:6
+#: utils.training.metric_logger.LocalMetricLogger.log_final:4
+#: utils.training.metric_logger.MetricLogger.log_batch:4
+#: utils.training.metric_logger.MetricLogger.log_early_stopping:7
+#: utils.training.metric_logger.MetricLogger.log_final:4
+#: utils.training.metric_logger.MetricLogger.log_metrics:5
+#: utils.training.metric_logger.SwanLabMetricLogger.log_early_stopping:7
+#: utils.training.metric_logger.SwanLabMetricLogger.log_final:4
+#: utils.training.metric_logger.SwanLabMetricLogger.log_metrics:5
+msgid "Global step number."
+msgstr "Global step number."
+
+#: 0f091e8d5e4a4b4b905ca47a7433fc65 1600f5f15aa44b24aec9b36a0e588587
+#: 1d51ef25477048f8b7a9e854529f871f 22380ce7fb6d4979a6c0481eb2baaed4
+#: 289b2d04c6af41bea1efcb5c453b47c0 33a305be1cf64324a842a173c760e05c
+#: 516db6f2d9224f5c8e9569959d9a15f3 64a4380a5879487d9f0213f3411d3808
+#: f912f9d5c450400fa28a4274cc83de7f of
+#: utils.training.metric_logger.LocalMetricLogger.log_batch:10
+#: utils.training.metric_logger.LocalMetricLogger.log_early_stopping:9
+#: utils.training.metric_logger.LocalMetricLogger.log_metrics:7
+#: utils.training.metric_logger.MetricLogger.log_batch:8
+#: utils.training.metric_logger.MetricLogger.log_early_stopping:9
+#: utils.training.metric_logger.SwanLabMetricLogger.log_early_stopping:9
+#: utils.training.metric_logger.SwanLabMetricLogger.log_metrics:7
+#: utils.training.metric_logger.WandbMetricLogger.log_early_stopping:9
+#: utils.training.metric_logger.WandbMetricLogger.log_metrics:11
+msgid "Stage name (optional)."
+msgstr "Stage name (optional)."
+
+#: b9757881891743f2bb19bea5a343c1cc of
+#: utils.training.metric_logger.LocalMetricLogger.log_early_stopping:1
+msgid "Log early stopping trajectory to a CSV file."
+msgstr "Log early stopping trajectory to a CSV file."
+
+#: 011a31cc873848ac8df5bd0dbb8630b6 c0dabd274d7046f5b2693e8172ba1f9d
+#: c8ea6bb0e7ea4a7f924cf542ae8ac900 of
+#: utils.training.metric_logger.LocalMetricLogger.log_early_stopping:4
+#: utils.training.metric_logger.SwanLabMetricLogger.log_early_stopping:4
+#: utils.training.metric_logger.WandbMetricLogger.log_early_stopping:4
+msgid "Best monitored score."
+msgstr "Best monitored score."
+
+#: 93a0575010584b14bf2baff420aa8cb6 a5e2036a66ed45d2b7bebd2184ecd4b4
+#: b3776158385e4606b531681937c6eea3 of
+#: utils.training.metric_logger.LocalMetricLogger.log_early_stopping:5
+#: utils.training.metric_logger.SwanLabMetricLogger.log_early_stopping:5
+#: utils.training.metric_logger.WandbMetricLogger.log_early_stopping:5
+msgid "Consecutive epochs without improvement."
+msgstr "Consecutive epochs without improvement."
+
+#: 2302b31993834a6ca745f3b1c4276355 3741c071b3fd432eb20235d86ae6a249
+#: 4e60cee959e341948c05c82ebbab6180 648dfff6abf74b8494fe373d3e99dcf3 of
+#: utils.training.metric_logger.LocalMetricLogger.log_early_stopping:6
+#: utils.training.metric_logger.MetricLogger.log_early_stopping:6
+#: utils.training.metric_logger.SwanLabMetricLogger.log_early_stopping:6
+#: utils.training.metric_logger.WandbMetricLogger.log_early_stopping:6
+msgid "Best metric values (optional)."
+msgstr "Best metric values (optional)."
+
+#: 8acc58887d4943e791afc62c0fa3fd3b 9d5911a67e5047ca8c1e2121a5c9fb99 of
+#: utils.training.metric_logger.LocalMetricLogger.log_early_stopping:7
+#: utils.training.metric_logger.LocalMetricLogger.log_metrics:5
+msgid "Global step (unused in CSV logging)."
+msgstr "Global step (unused in CSV logging)."
+
+#: fe703f6fcd044a1abda56d32ca04f6e7 of
+#: utils.training.metric_logger.LocalMetricLogger.log_final:1
+msgid "Log final summary metrics to a CSV file."
+msgstr "Log final summary metrics to a CSV file."
+
+#: aa846e79107d412eaf6ba8c26f726a37 b929e12439444f75b9f6a933c91bba85
+#: f90f7802e579417d92facd1d25499354 of
+#: utils.training.metric_logger.LocalMetricLogger.log_final:3
+#: utils.training.metric_logger.MetricLogger.log_final:3
+#: utils.training.metric_logger.SwanLabMetricLogger.log_final:3
+msgid "Final metric values."
+msgstr "Final metric values."
+
+#: 8428d4b682874a239f4f73c7a5b7032c of
+#: utils.training.metric_logger.LocalMetricLogger.log_metrics:1
+msgid "Log epoch-level metrics to a CSV file."
+msgstr "Log epoch-level metrics to a CSV file."
+
+#: 252e0661a80a43e38d822f643a271e2f a5d6e49f992d40359cbeb9b61a8077a0
+#: fc57e6d12aa341bba2276039fa45238d of
+#: utils.training.metric_logger.LocalMetricLogger.log_metrics:3
+#: utils.training.metric_logger.MetricLogger.log_metrics:3
+#: utils.training.metric_logger.WandbMetricLogger.log_metrics:6
+msgid "Phase name (e.g. ``\"train\"``, ``\"val\"``)."
+msgstr "Phase name (e.g. ``\"train\"``, ``\"val\"``)."
+
+#: 2919d942f375488185c8a5afcf14a2cc 3f7d54191b7648328d15f23e07c13159
+#: 5452996cc0d64dc3a49b1e4b926329d6 e42f15a88a8541738fce1c06416312f6 of
+#: utils.training.metric_logger.LocalMetricLogger.log_metrics:4
+#: utils.training.metric_logger.MetricLogger.log_metrics:4
+#: utils.training.metric_logger.SwanLabMetricLogger.log_metrics:4
+#: utils.training.metric_logger.WandbMetricLogger.log_metrics:7
+msgid "Metric name to value mapping."
+msgstr "Metric name to value mapping."
+
+#: 84754d0081804fa4beaa1eb980ad1558 84f3c3eadf9c4296828831813e404fe4 of
+#: utils.training.metric_logger.LocalMetricLogger.log_timing:1
+#: utils.training.metric_logger.MetricLogger.log_timing:1
+msgid "Log per-epoch timing breakdown (train/val/total) for a stage."
+msgstr "Log per-epoch timing breakdown (train/val/total) for a stage."
+
+#: 26d665aaf4ea4e3789506ad48a0235b4 of
+#: utils.training.metric_logger.MetricLogger:1
+msgid "Abstract base class for metric logging backends."
+msgstr "Abstract base class for metric logging backends."
+
+#: f26a33fcb7004ff2b51ad104b5e1fb9f of
+#: utils.training.metric_logger.MetricLogger:3
+msgid ""
+"All methods must be safe to call repeatedly. Backend initialization (e.g."
+" swanlab.init) is deferred to ``init_run``; ``log_*`` methods should "
+"silently skip when not initialized."
+msgstr ""
+"All methods must be safe to call repeatedly. Backend initialization (e.g."
+" swanlab.init) is deferred to ``init_run``; ``log_*`` methods should "
+"silently skip when not initialized."
+
+#: db27387d0c424d629b369dfe614fffe4 of
+#: utils.training.metric_logger.MetricLogger.finish:1
+msgid "Clean up and tear down the logging backend."
+msgstr "Clean up and tear down the logging backend."
+
+#: 4c622fa7907c454bbe04cf3976d9f450 of
+#: utils.training.metric_logger.MetricLogger.init_run:1
+msgid "Initialize the logging backend for a new run."
+msgstr "Initialize the logging backend for a new run."
+
+#: 502f8b69be914038afeb9cb83389e7c6 of
+#: utils.training.metric_logger.MetricLogger.init_run:3
+msgid "Directory for storing logs."
+msgstr "Directory for storing logs."
+
+#: 55202ffaddc5433bbb341d8083aa09fd f578738206f54cb3910a62f55b05155f of
+#: utils.training.metric_logger.MetricLogger.init_run:4
+#: utils.training.metric_logger.SwanLabMetricLogger.init_run:4
+msgid "Name of this experiment."
+msgstr "Name of this experiment."
+
+#: 7efa316da5e64479bda6ab24cea6e4a5 of
+#: utils.training.metric_logger.MetricLogger.init_run:5
+msgid "Experiment group for grouping runs."
+msgstr "Experiment group for grouping runs."
+
+#: 8c45612d21ce4a4f8e5357b75962f282 of
+#: utils.training.metric_logger.MetricLogger.init_run:6
+msgid "Tags for categorizing the run."
+msgstr "Tags for categorizing the run."
+
+#: 5c281b82742a4940b8607ba343aae9bd 7daf2bc57547469ea7ecc152d75bde8a
+#: bfdc3f5e6c874a259249cf9cd3a2de73 of
+#: utils.training.metric_logger.MetricLogger.init_run:7
+#: utils.training.metric_logger.SwanLabMetricLogger.init_run:7
+#: utils.training.metric_logger.WandbMetricLogger.init_run:11
+msgid "Experiment configuration dict."
+msgstr "Experiment configuration dict."
+
+#: 9e5004abaa8443619faa81abe32fda66 of
+#: utils.training.metric_logger.MetricLogger.log_batch:1
+msgid "Log per-batch loss."
+msgstr "Log per-batch loss."
+
+#: aba94425842e4e40adec2978db228ea7 of
+#: utils.training.metric_logger.MetricLogger.log_early_stopping:1
+msgid "Log early stopping trajectory."
+msgstr "Log early stopping trajectory."
+
+#: 382e45e1691b4d4399d55158bc97e8d8 of
+#: utils.training.metric_logger.MetricLogger.log_early_stopping:4
+msgid "Best monitored score so far."
+msgstr "Best monitored score so far."
+
+#: 4e561b926c5d475090d9609329e5c521 of
+#: utils.training.metric_logger.MetricLogger.log_early_stopping:5
+msgid "Number of epochs without improvement."
+msgstr "Number of epochs without improvement."
+
+#: 7241ebadf0334d64a163f7be99982201 of
+#: utils.training.metric_logger.MetricLogger.log_final:1
+msgid "Log final summary metrics."
+msgstr "Log final summary metrics."
+
+#: 25cfb4631a1b4270904d0568c7717226 of
+#: utils.training.metric_logger.MetricLogger.log_metrics:1
+msgid "Log epoch-level aggregated metrics."
+msgstr "Log epoch-level aggregated metrics."
+
+#: 866a84814d6948bd85d4cd2a71c62a2e of
+#: utils.training.metric_logger.MetricLogger.log_metrics:7
+msgid "Stage name for multi-stage training (optional)."
+msgstr "Stage name for multi-stage training (optional)."
+
+#: 9f13cc9a10a14c42b3c73872625ae0f3 of
+#: utils.training.metric_logger.MetricLoggerComposite:1
+msgid "Composite wrapper that fans out to multiple metric logger backends."
+msgstr "Composite wrapper that fans out to multiple metric logger backends."
+
+#: 833e4b9a66c145bebb0e26f5a7700dba of
+#: utils.training.metric_logger.MetricLoggerComposite:3
+msgid ""
+"Each method call is forwarded to every backend; exceptions from "
+"individual backends are caught and logged."
+msgstr ""
+"Each method call is forwarded to every backend; exceptions from "
+"individual backends are caught and logged."
+
+#: 0f8ca69eb3384ca0a76d67a66d537739 of
+#: utils.training.metric_logger.MetricLoggerComposite.finish:1
+msgid "Finish logging on all backends."
+msgstr "Finish logging on all backends."
+
+#: 1eae9d367bdd47f1a4e098fe1cc27249 of
+#: utils.training.metric_logger.MetricLoggerComposite.init_run:1
+msgid "Initialize all backends."
+msgstr "Initialize all backends."
+
+#: ed0efb8ce5ee465ca826658b4d6e9f65 of
+#: utils.training.metric_logger.MetricLoggerComposite.log_batch:1
+msgid "Log batch metrics to all backends."
+msgstr "Log batch metrics to all backends."
+
+#: ad65d10b07ee4398a30ba38df15dc766 of
+#: utils.training.metric_logger.MetricLoggerComposite.log_early_stopping:1
+msgid "Log early stopping to all backends."
+msgstr "Log early stopping to all backends."
+
+#: 71a1c50fb3e74c86937cbed2a8af8a96 of
+#: utils.training.metric_logger.MetricLoggerComposite.log_final:1
+msgid "Log final metrics to all backends."
+msgstr "Log final metrics to all backends."
+
+#: 4083fae9f4304108bd252d8513fc7529 of
+#: utils.training.metric_logger.MetricLoggerComposite.log_metrics:1
+msgid "Log metrics to all backends."
+msgstr "Log metrics to all backends."
+
+#: 055a79a47b0143808bf0df22cec9f63b of
+#: utils.training.metric_logger.MetricLoggerComposite.log_timing:1
+msgid "Log per-epoch timing breakdown to all backends."
+msgstr "Log per-epoch timing breakdown to all backends."
+
+#: 02b72f595895455fa36016a5b699ca5e of
+#: utils.training.metric_logger.SwanLabMetricLogger:1
+msgid "SwanLab metric logging backend."
+msgstr "SwanLab metric logging backend."
+
+#: 64914efc66ee4943baf9fd7356a8ae30 of
+#: utils.training.metric_logger.SwanLabMetricLogger:3
+msgid ""
+"``swanlab`` is lazily imported inside each method to keep it an optional "
+"dependency."
+msgstr ""
+"``swanlab`` is lazily imported inside each method to keep it an optional "
+"dependency."
+
+#: d2315ec198684ce18d5f421dcab098cb of
+#: utils.training.metric_logger.SwanLabMetricLogger.finish:1
+msgid "Finish the SwanLab run and clean up."
+msgstr "Finish the SwanLab run and clean up."
+
+#: 0cb66ee3986f44149fb314c144497706 of
+#: utils.training.metric_logger.SwanLabMetricLogger.init_run:1
+msgid "Initialize the SwanLab run."
+msgstr "Initialize the SwanLab run."
+
+#: 052956fae0ff4a85a73ad2f026219abf of
+#: utils.training.metric_logger.SwanLabMetricLogger.init_run:3
+msgid "Log directory (passed through to swanlab)."
+msgstr "Log directory (passed through to swanlab)."
+
+#: b53530cb49cd473a8787eb752cbd5405 of
+#: utils.training.metric_logger.SwanLabMetricLogger.init_run:5
+msgid "Experiment group."
+msgstr "Experiment group."
+
+#: 9220109b93904c1a9a7e8c7358d29634 f68f60f9f9b546dabec5a1202536de9c of
+#: utils.training.metric_logger.SwanLabMetricLogger.init_run:6
+#: utils.training.metric_logger.WandbMetricLogger.init_run:10
+msgid "Tags for the run."
+msgstr "Tags for the run."
+
+#: 0d9a2a7c73224c77a326c43431fc7c08 of
+#: utils.training.metric_logger.SwanLabMetricLogger.log_batch:1
+msgid "No-op: SwanLab does not log per-batch metrics to avoid noise."
+msgstr "No-op: SwanLab does not log per-batch metrics to avoid noise."
+
+#: 3a3888542e934895a24fe88457cf32ae of
+#: utils.training.metric_logger.SwanLabMetricLogger.log_early_stopping:1
+msgid "Log early stopping trajectory to SwanLab."
+msgstr "Log early stopping trajectory to SwanLab."
+
+#: 4ace498fe2e34229b4e474221f8b9b5a d30d0a95cb8b434097788985addad093 of
+#: utils.training.metric_logger.SwanLabMetricLogger.log_early_stopping:8
+#: utils.training.metric_logger.SwanLabMetricLogger.log_metrics:6
+msgid "Current epoch number (unused in SwanLab)."
+msgstr "Current epoch number (unused in SwanLab)."
+
+#: 0c908cb1107f48559513b738a852d1af of
+#: utils.training.metric_logger.SwanLabMetricLogger.log_final:1
+msgid "Log final summary metrics to SwanLab."
+msgstr "Log final summary metrics to SwanLab."
+
+#: dd8042e8b9054dc5a983810743e43fcd of
+#: utils.training.metric_logger.SwanLabMetricLogger.log_metrics:1
+msgid "Log epoch-level metrics to SwanLab."
+msgstr "Log epoch-level metrics to SwanLab."
+
+#: 1da5e6c2d840436697db4522485c4557 of
+#: utils.training.metric_logger.SwanLabMetricLogger.log_timing:1
+msgid "Log per-epoch timing breakdown to SwanLab for a stage."
+msgstr "Log per-epoch timing breakdown to SwanLab for a stage."
+
+#: 36cf8d54c863483e952ec336fddf2b69 of
+#: utils.training.metric_logger.WandbMetricLogger:1
+msgid "Weights & Biases metric logging backend."
+msgstr "Weights & Biases metric logging backend."
+
+#: 05a98f72d2704b49a067d4670e95589e of
+#: utils.training.metric_logger.WandbMetricLogger:3
+msgid ""
+"``wandb`` is lazily imported inside each method to keep it an optional "
+"dependency at import time."
+msgstr ""
+"``wandb`` is lazily imported inside each method to keep it an optional "
+"dependency at import time."
+
+#: c3d3bab40dfc4b118b3b8b29e044f525 of
+#: utils.training.metric_logger.WandbMetricLogger:6
+msgid ""
+"Step handling: W&B rejects non-monotonic ``step`` values (it drops the "
+"offending log call), but our callers pass two incompatible scales — "
+"``log_metrics``/``log_timing``/test use an epoch-based step while "
+"``log_early_stopping`` (callbacks.py) uses the batch-level "
+"``_global_step``. Interleaving them makes the step jump backward every "
+"epoch, so W&B would silently drop almost every record. We therefore "
+"ignore the external ``step`` and advance our own counter on every commit."
+" (SwanLab tolerates non-monotonic steps, so SwanLabMetricLogger forwards "
+"the raw value unchanged.)"
+msgstr ""
+"Step handling: W&B rejects non-monotonic ``step`` values (it drops the "
+"offending log call), but our callers pass two incompatible scales — "
+"``log_metrics``/``log_timing``/test use an epoch-based step while "
+"``log_early_stopping`` (callbacks.py) uses the batch-level "
+"``_global_step``. Interleaving them makes the step jump backward every "
+"epoch, so W&B would silently drop almost every record. We therefore "
+"ignore the external ``step`` and advance our own counter on every commit."
+" (SwanLab tolerates non-monotonic steps, so SwanLabMetricLogger forwards "
+"the raw value unchanged.)"
+
+#: 84e66d2db4194a2d8e3261a7d5ce937e of
+#: utils.training.metric_logger.WandbMetricLogger.finish:1
+msgid "Finish the W&B run and clean up."
+msgstr "Finish the W&B run and clean up."
+
+#: 0bdffd0a4b9c40319031d54a10566cfe of
+#: utils.training.metric_logger.WandbMetricLogger.init_run:1
+msgid "Initialize the W&B run."
+msgstr "Initialize the W&B run."
+
+#: cbd7188cc2854826839b27e1900c685a of
+#: utils.training.metric_logger.WandbMetricLogger.init_run:3
+msgid ""
+"Authentication is handled by the wandb SDK itself (``WANDB_API_KEY`` env "
+"var or previously configured credentials), so unlike SwanLab no per-run "
+"relogin is needed."
+msgstr ""
+"Authentication is handled by the wandb SDK itself (``WANDB_API_KEY`` env "
+"var or previously configured credentials), so unlike SwanLab no per-run "
+"relogin is needed."
+
+#: e3faf70f2bd64f88bc015fb09648a0d3 of
+#: utils.training.metric_logger.WandbMetricLogger.init_run:7
+msgid "Log directory (wandb local files land here)."
+msgstr "Log directory (wandb local files land here)."
+
+#: ef66505010824b7f8d239dcef425f922 of
+#: utils.training.metric_logger.WandbMetricLogger.init_run:8
+msgid "Name of this run."
+msgstr "Name of this run."
+
+#: fdf53a9943d54618b773d8739643065d of
+#: utils.training.metric_logger.WandbMetricLogger.init_run:9
+msgid "Experiment group (model class name)."
+msgstr "Experiment group (model class name)."
+
+#: 9e29d3d84b394effba9b6e19d72d4e18 of
+#: utils.training.metric_logger.WandbMetricLogger.log_batch:1
+msgid "No-op: W&B does not log per-batch metrics to avoid noise."
+msgstr "No-op: W&B does not log per-batch metrics to avoid noise."
+
+#: d4ee2d218a154fbe8f88222e2bc25176 of
+#: utils.training.metric_logger.WandbMetricLogger.log_early_stopping:1
+msgid "Log early stopping trajectory to W&B."
+msgstr "Log early stopping trajectory to W&B."
+
+#: 2b74c30759364a4c91c461f00516f9be b14c0d326ad649778502a8275a428481 of
+#: utils.training.metric_logger.WandbMetricLogger.log_early_stopping:7
+#: utils.training.metric_logger.WandbMetricLogger.log_final:5
+msgid "Ignored — see class docstring."
+msgstr "Ignored — see class docstring."
+
+#: 9f7f7ed38acc472dbed73953b20c419f b30a159ecdbb4bfa86a54221406d08ae of
+#: utils.training.metric_logger.WandbMetricLogger.log_early_stopping:8
+#: utils.training.metric_logger.WandbMetricLogger.log_metrics:10
+msgid "Current epoch number (unused in W&B)."
+msgstr "Current epoch number (unused in W&B)."
+
+#: ab5691fd06e44307836bf0cf308fa32e of
+#: utils.training.metric_logger.WandbMetricLogger.log_final:1
+msgid "Log final summary metrics to W&B."
+msgstr "Log final summary metrics to W&B."
+
+#: 1ae254936fcb48ceba4bfb2aaa14aca3 of
+#: utils.training.metric_logger.WandbMetricLogger.log_final:3
+msgid ""
+"Final metric values (keys already carry a ``Final/`` prefix from the "
+"caller)."
+msgstr ""
+"Final metric values (keys already carry a ``Final/`` prefix from the "
+"caller)."
+
+#: 07e551c239a64cf999b4629f25a84ea9 of
+#: utils.training.metric_logger.WandbMetricLogger.log_metrics:1
+msgid "Log epoch-level metrics to W&B."
+msgstr "Log epoch-level metrics to W&B."
+
+#: 90b586a8d11740cc960e8f30cc096411 of
+#: utils.training.metric_logger.WandbMetricLogger.log_metrics:3
+#, python-brace-format
+msgid ""
+"Metric names are grouped as ``{stage/}{phase}/{name}`` (e.g. "
+"``train/acc``, ``km/val/auc``) so wandb auto-groups panels by slash."
+msgstr ""
+"Metric names are grouped as ``{stage/}{phase}/{name}`` (e.g. "
+"``train/acc``, ``km/val/auc``) so wandb auto-groups panels by slash."
+
+#: f6272f6bd7c5428ebee53556538cf166 of
+#: utils.training.metric_logger.WandbMetricLogger.log_metrics:8
+msgid ""
+"Ignored — see class docstring (callers pass a non-monotonic mix of epoch-"
+" and batch-based steps)."
+msgstr ""
+"Ignored — see class docstring (callers pass a non-monotonic mix of epoch-"
+" and batch-based steps)."
+
+#: a98b32d295ed41acb78019a548056d67 of
+#: utils.training.metric_logger.WandbMetricLogger.log_timing:1
+msgid "Log per-epoch timing breakdown to W&B for a stage."
+msgstr "Log per-epoch timing breakdown to W&B for a stage."
+
+#: f63dbb76c99c4274ac13d47c1f7d9bf8 of
+#: utils.training.metric_logger.build_default_metric_loggers:1
+msgid "Build the default metric logger composite."
+msgstr "Build the default metric logger composite."
+
+#: 5c1dbd743122410e86522435e9741d0d of
+#: utils.training.metric_logger.build_default_metric_loggers:3
+msgid ""
+"Local CSV logging is always enabled. When ``cloud_tracking`` is ``True``,"
+" exactly one remote backend is added, selected by ``KT_TRACKING_BACKEND``"
+" (``swanlab`` | ``wandb``, default ``swanlab``) — the two are mutually "
+"exclusive, and an unimportable backend raises ``RuntimeError`` here "
+"rather than degrading to a warning once training has started. Each "
+"backend is wrapped in :class:`AsyncMetricLoggerProxy` when async I/O is "
+"enabled (default), so a slow remote upload cannot serialize the local CSV"
+" write."
+msgstr ""
+"Local CSV logging is always enabled. When ``cloud_tracking`` is ``True``,"
+" exactly one remote backend is added, selected by ``KT_TRACKING_BACKEND``"
+" (``swanlab`` | ``wandb``, default ``swanlab``) — the two are mutually "
+"exclusive, and an unimportable backend raises ``RuntimeError`` here "
+"rather than degrading to a warning once training has started. Each "
+"backend is wrapped in :class:`AsyncMetricLoggerProxy` when async I/O is "
+"enabled (default), so a slow remote upload cannot serialize the local CSV"
+" write."
+
+#: afe4107add1648c0b015d04c3e879f62 of
+#: utils.training.metric_logger.build_default_metric_loggers:12
+msgid "Directory for local CSV logs."
+msgstr "Directory for local CSV logs."
+
+#: 0d0e1d03850f4416b3d895a8c6dcb7ab of
+#: utils.training.metric_logger.build_default_metric_loggers:13
+msgid "Whether to log per-batch loss."
+msgstr "Whether to log per-batch loss."
+
+#: 87119983344943e781680566c34fce02 of
+#: utils.training.metric_logger.build_default_metric_loggers:14
+msgid "If False, skip the remote backend entirely."
+msgstr "If False, skip the remote backend entirely."
+
+#: defb53108a8149af92fca71d7508ce83 of
+#: utils.training.metric_logger.build_default_metric_loggers:15
+msgid ""
+"Override async I/O. ``None`` reads ``METRIC_LOGGING_ASYNC`` (default "
+"enabled)."
+msgstr ""
+"Override async I/O. ``None`` reads ``METRIC_LOGGING_ASYNC`` (default "
+"enabled)."
+
+#: 88adb5c8123049eb99b3b7b85e05108a of
+#: utils.training.metric_logger.build_default_metric_loggers:18
+msgid "A MetricLoggerComposite instance."
+msgstr "A MetricLoggerComposite instance."
+
+#: b15e945704a64cbabef66d6c993124eb of
+#: utils.training.metric_logger.get_metric_logger:1
+msgid "Instantiate a registered metric logger backend by name."
+msgstr "Instantiate a registered metric logger backend by name."
+
+#: df549ab246d34d3e8c99b0639aacfb57 of
+#: utils.training.metric_logger.get_metric_logger:3
+msgid "Backend registration name (e.g. ``\"local\"``, ``\"swanlab\"``)."
+msgstr "Backend registration name (e.g. ``\"local\"``, ``\"swanlab\"``)."
+
+#: b00bad78bede4674a160b361c8616b56 of
+#: utils.training.metric_logger.get_metric_logger:4
+msgid "Arguments forwarded to the backend constructor."
+msgstr "Arguments forwarded to the backend constructor."
+
+#: 7d346f2a2c8541c98b9f16bd70fae37d of
+#: utils.training.metric_logger.get_metric_logger:6
+msgid "An instance of the requested MetricLogger subclass."
+msgstr "An instance of the requested MetricLogger subclass."

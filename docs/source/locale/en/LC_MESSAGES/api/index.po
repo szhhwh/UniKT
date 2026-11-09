@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: UniKT \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-12 15:25+0800\n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -19,6 +19,46 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.18.0\n"
 
-#: ../../source/api/index.md:1 ad03915c89754cef815ab0c78328bd69
+#: ../../source/api/index.md:5 5be37990c22d43e79e904c4dc5b44eed
 msgid "API 参考"
 msgstr "API Reference"
+
+#: ../../source/api/index.md:7 94be286f73bb4fdca66738a21479bb80
+msgid "查找命令参数与 Python 接口。"
+msgstr "Find command arguments and Python interfaces."
+
+#: ../../source/api/index.md:9 8e3c539b748f4b63a103bcbc2517e6bc
+msgid "[CLI 命令参考](cli/index.md)：训练、数据处理、搜索、案例分析与能效评测命令。"
+msgstr ""
+"[CLI Command Reference](cli/index.md): Commands for training, data "
+"processing, search, case analysis, and efficiency evaluation."
+
+#: ../../source/api/index.md:10 b2baaf38964b42bebd1ff6fe7b825b26
+msgid "[核心 API](reference/core.md)：注册表、静态发现与通用组件。"
+msgstr ""
+"[Core API](reference/core.md): Registries, static discovery, and general "
+"components."
+
+#: ../../source/api/index.md:11 e7277bc040f64a6e995e2a387bb3a680
+msgid "[训练 API](reference/training.md)：训练器、阶段组件与生命周期回调。"
+msgstr ""
+"[Training API](reference/training.md): Trainers, stage components, and "
+"lifecycle callbacks."
+
+#: ../../source/api/index.md:12 9c27ee9869b14be4bd402f030e89c765
+msgid "[配置 API](reference/config.md)：RunConfig、命令行解析与数据加载配置。"
+msgstr ""
+"[Config API](reference/config.md): RunConfig, command line parsing, and "
+"data loading configuration."
+
+#: ../../source/api/index.md:13 5e8d2d2a3d6a4feaac5464fe97a0c92b
+msgid "[数据 API](reference/data.md)：数据源、清洗管线与模型数据接口。"
+msgstr ""
+"[Data API](reference/data.md): Data sources, cleaning pipelines, and "
+"model data interfaces."
+
+#: ../../source/api/index.md:14 e2c51a42e1fa46b081feb4ad29c26374
+msgid "[实验管理 API](reference/experiment.md)：实验目录、指标记录与超参数搜索。"
+msgstr ""
+"[Experiment Management API](reference/experiment.md): Experiment "
+"directories, metric logging, and hyperparameter search."

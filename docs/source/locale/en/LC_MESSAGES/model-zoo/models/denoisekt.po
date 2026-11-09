@@ -1,0 +1,134 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/denoisekt.md:1
+#: fb6538cadb6b49e3ab68facb400c071e
+msgid "DenoiseKT"
+msgstr "DenoiseKT"
+
+#: ../../source/model-zoo/models/denoisekt.md:3
+#: 88877e54536b42bdad21929dc30a50ef
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/denoisekt.md b97e6d610e424d1596eef346d26de986
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/denoisekt.md fb0ca31e433d425296726b5eb1d8c353
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/denoisekt.md 18c37716d507466a88d47d95f2bdf192
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/denoisekt.md a3df517938e14b908e789a5010f40ad9
+msgid ""
+"[Denoised Attention and Question-Augmented Representations for Knowledge "
+"Tracing](https://doi.org/10.24963/ijcai.2025/1069)"
+msgstr ""
+"[Denoised Attention and Question-Augmented Representations for Knowledge "
+"Tracing](https://doi.org/10.24963/ijcai.2025/1069)"
+
+#: ../../source/model-zoo/models/denoisekt.md 2e34cf0f980f47239f169985510b5ebb
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/denoisekt.md 1e32ee91d87a4218b7a054359463ef8b
+msgid "Jiwei Deng, Youheng Bai, Mingliang Hou, Teng Guo, Zitao Liu, Weiqi Luo"
+msgstr "Jiwei Deng, Youheng Bai, Mingliang Hou, Teng Guo, Zitao Liu, Weiqi Luo"
+
+#: ../../source/model-zoo/models/denoisekt.md 6f78b11a53634ef38eb26b2f74dd0a66
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/denoisekt.md 2da61536091842c799cb31414a3c2ff2
+msgid "2025"
+msgstr "2025"
+
+#: ../../source/model-zoo/models/denoisekt.md af3a407b8bee4b56beed076d97673f42
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/denoisekt.md beb58741f46049a3a6156c6ce99f4e90
+msgid ""
+"Proceedings of the Thirty-Fourth International Joint Conference on "
+"Artificial Intelligence（IJCAI 2025）"
+msgstr ""
+"Proceedings of the Thirty-Fourth International Joint Conference on "
+"Artificial Intelligence (IJCAI 2025)"
+
+#: ../../source/model-zoo/models/denoisekt.md:12
+#: 9d520c3dd35e479783452061a26f0103
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/denoisekt.md:14
+#: 29926206ce294b038cc30e02753003ef
+msgid ""
+"Knowledge tracing (KT) is an essential task in online education systems. "
+"It aims to predict the future performance of students based on their "
+"historical learning interaction data. Despite significant advancements in"
+" attention-based KT models, they still face some limitations: inaccurate "
+"input representation and excessive student forgetting modeling. These "
+"limitations often lead to the attention noise problem: the model assigns "
+"non-negligible attention weight to some information that is cognitively "
+"irrelevant in nature, thereby generating interference signals. To address"
+" this problem, we propose a novel KT model, i.e., DenoiseKT. DenoiseKT "
+"effectively models the difficulty of the questions and utilizes graph "
+"neural network to capture the complex relationship between questions, "
+"thereby refining the representations of input features. Additionally, the"
+" denoised attention mechanism introduces a weight factor to reduce the "
+"model's attention weight distribution on irrelevant information. We "
+"extensively compare DenoiseKT with 22 state-of-the-art KT models on 4 "
+"widely-used public datasets. Experimental results show that DenoiseKT can"
+" effectively solve the attention noise problem and outperform other "
+"models. The source code of DenoiseKT is available at https://pykt.org."
+msgstr ""
+"Knowledge tracing (KT) is an essential task in online education systems. "
+"It aims to predict the future performance of students based on their "
+"historical learning interaction data. Despite significant advancements in"
+" attention-based KT models, they still face some limitations: inaccurate "
+"input representation and excessive student forgetting modeling. These "
+"limitations often lead to the attention noise problem: the model assigns "
+"non-negligible attention weight to some information that is cognitively "
+"irrelevant in nature, thereby generating interference signals. To address"
+" this problem, we propose a novel KT model, i.e., DenoiseKT. DenoiseKT "
+"effectively models the difficulty of the questions and utilizes graph "
+"neural network to capture the complex relationship between questions, "
+"thereby refining the representations of input features. Additionally, the"
+" denoised attention mechanism introduces a weight factor to reduce the "
+"model's attention weight distribution on irrelevant information. We "
+"extensively compare DenoiseKT with 22 state-of-the-art KT models on 4 "
+"widely-used public datasets. Experimental results show that DenoiseKT can"
+" effectively solve the attention noise problem and outperform other "
+"models. The source code of DenoiseKT is available at https://pykt.org."
+
+#: ../../source/model-zoo/models/denoisekt.md:17
+#: 43b353d691af40f58c97a6dc8c21407d
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/denoisekt.md:19
+#: d8c5c0fdafe34e8cb494ad5de2607b34
+msgid "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"
+msgstr "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"

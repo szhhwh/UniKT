@@ -1,0 +1,555 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:48+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/getting-started/installation.md:1
+#: 8d98dc256f804623b902fb8ff888231d
+msgid "环境安装与配置"
+msgstr "Environment Installation and Configuration"
+
+#: ../../source/getting-started/installation.md:3
+#: 17fa0bd561834823b113d68fb0e270c0
+msgid ""
+"UniKT 采用 [Pixi](https://pixi.sh/) "
+"进行依赖和多环境生命周期管理。通过严格的版本锁定（`pixi.lock`），Pixi 确保了跨不同实验机器与计算节点环境的一致性，有效避免了 "
+"PyTorch、CUDA 与 PyTorch Geometric（PyG）等底层 C++/CUDA 扩展库的版本漂移。"
+msgstr ""
+"UniKT uses [Pixi](https://pixi.sh/) for dependency and multi-environment "
+"lifecycle management. Through strict version locking (`pixi.lock`), Pixi "
+"guarantees consistency across different experiment machines and computing"
+" nodes, effectively preventing version drift in underlying C++/CUDA "
+"extension libraries such as PyTorch, CUDA, and PyTorch Geometric (PyG)."
+
+#: ../../source/getting-started/installation.md:7
+#: f290b8df2a3246a495d7d4ebf024ba0f
+msgid "前置要求"
+msgstr "Prerequisites"
+
+#: ../../source/getting-started/installation.md:9
+#: d1abf7b707b84c5e9dd463d3b7882227
+msgid "**操作系统**：Linux x86_64（推荐 Ubuntu 22.04 / 24.04 等主流发行版，需要 glibc >= 2.38）。"
+msgstr ""
+"**Operating System**: Linux x86_64 (Ubuntu 22.04 / 24.04 and other "
+"mainstream distributions recommended, glibc >= 2.38 required)."
+
+#: ../../source/getting-started/installation.md:10
+#: 2509164f79984590b89c8cc5c4e1c992
+msgid "**硬件支持**："
+msgstr "**Hardware Support**:"
+
+#: ../../source/getting-started/installation.md:11
+#: e549860d1cc94bed86fd23f7f628fea7
+msgid "GPU 环境：推荐 NVIDIA GPU（计算能力 >= 7.0），驱动版本需支持 CUDA 12.8（驱动版本 >= 525.60.13）。"
+msgstr ""
+"GPU environment: NVIDIA GPU recommended (Compute Capability >= 7.0), "
+"driver must support CUDA 12.8 (driver version >= 525.60.13)."
+
+#: ../../source/getting-started/installation.md:12
+#: 5ee0a4a61a474a59bcdcdcfb44145ad2
+msgid "CPU 环境：支持任意 x86_64 架构机器，适合轻量调试与无 GPU 服务器。"
+msgstr ""
+"CPU environment: Supports any x86_64 machine, suitable for lightweight "
+"debugging and GPU-less servers."
+
+#: ../../source/getting-started/installation.md:13
+#: 82771a974a154b34896f47def4984516
+msgid "**包管理工具**：[Pixi](https://pixi.sh/)（>= 0.79）。"
+msgstr "**Package Manager**: [Pixi](https://pixi.sh/) (>= 0.79)."
+
+#: ../../source/getting-started/installation.md:17
+#: 257402e3c3a347ea94a1f5920b4b9d22
+msgid "安装 Pixi"
+msgstr "Installing Pixi"
+
+#: ../../source/getting-started/installation.md:19
+#: 408588175de74ac9bac604097e54d107
+msgid "若尚未安装 Pixi，可通过官方单行脚本完成安装："
+msgstr ""
+"If Pixi is not yet installed, install it using the official one-liner "
+"script:"
+
+#: ../../source/getting-started/installation.md:21
+#: c5fd614f4bab465585f3deb15d8c6df0
+msgid "curl -fsSL https://pixi.sh/install.sh | bash\n"
+msgstr "curl -fsSL https://pixi.sh/install.sh | bash\n"
+
+#: ../../source/getting-started/installation.md:25
+#: 1af4d1fb63b24da3948e17ce64e2b6e8
+msgid "安装完成后，根据终端提示重新加载 Shell 配置（如 `source ~/.bashrc` 或重启终端），确保 `pixi` 命令就绪："
+msgstr ""
+"After installation, reload your shell configuration (e.g., `source "
+"~/.bashrc` or restart your terminal) as prompted to ensure the `pixi` "
+"command is available:"
+
+#: ../../source/getting-started/installation.md:27
+#: 5624f8269643417bb03966c7043f649d
+msgid "pixi --version\n"
+msgstr "pixi --version\n"
+
+#: ../../source/getting-started/installation.md:33
+#: 6c49eb8a8ff34064832874b4a96ac749
+msgid "预置环境"
+msgstr "Preset Environments"
+
+#: ../../source/getting-started/installation.md:35
+#: 91c335065a5f49b3b2a36ca6130b2275
+msgid "UniKT 在 `pixi.toml` 中定义了 6 套隔离环境："
+msgstr "UniKT defines 6 isolated environments in `pixi.toml`:"
+
+#: ../../source/getting-started/installation.md
+#: fa0f5ad2379443fb8534c6a2f3587011
+msgid "GPU"
+msgstr "GPU"
+
+#: ../../source/getting-started/installation.md:-1
+#: 0966978ae2854b33b3be0178098d6e09 0a39dd2399c84cfa8a9c539422dc69d9
+#: 19e15da6d86341518d9399c05a704eac 24793f1a2a30433abb3c7a47fd498460
+#: 38238df46ad049afa1f5e97f2f3e9e8f 738d60cfac344f539cc902d1bc467339
+msgid "配置项"
+msgstr "Configuration Item"
+
+#: ../../source/getting-started/installation.md:-1
+#: 0e7cf81558c44b0590b871bdaf8e22c6 141f37b5bf0d4d858a92fed9cde1eb33
+#: 1cbc39a282e345acb97c98ad9b549b40 76c0f5c72f8e4c6f97be89479e43e41f
+#: a74512dd69bd4eeba03fe41f9114482f cbaff6a9ef1b454da2c8b0fb96235389
+msgid "详细参数"
+msgstr "Detailed Parameters"
+
+#: ../../source/getting-started/installation.md:-1
+#: 1713c565e39741f580a7fc662f9c36a6 1e21329a43614c8eaa6a4aa5a317faa2
+#: 37f51d6504104cc9adaaa7e459cb1e03 514bed2830b844eaa0e952620c350ec1
+#: d47834094d7845248ad721d4d446374c e1ff2af8b43c42c2adc690c3f72e523d
+msgid "**环境标识**"
+msgstr "**Environment Identifier**"
+
+#: ../../source/getting-started/installation.md:-1
+#: 118f97d1538a4e43a96bab230b19c2cd
+msgid "`default`"
+msgstr "`default`"
+
+#: ../../source/getting-started/installation.md:-1
+#: 0af21945afb342d190b4af21f7287920 1a6c24e2c6a74436affba7a0ade128c9
+#: 4c748c31843a4a6cada74f86ee371d82 56202f45ec4d40288be9a7142b65ede0
+#: 74bfbc48be9647798d0b5433fdd70ffb 83ce3a8f550e4df4b3d41843e570dfeb
+msgid "**硬件后端**"
+msgstr "**Hardware Backend**"
+
+#: ../../source/getting-started/installation.md:-1
+#: 55c11115b12641a4bd4fb23ff101b31c f9e8639f11d742ac819f142769515342
+msgid "CUDA 12.8、NVIDIA GPU"
+msgstr "CUDA 12.8, NVIDIA GPU"
+
+#: ../../source/getting-started/installation.md:-1
+#: 3ab28fa525e54a55a7c2b3298611d0f7 493faab23446410e8d97fd0e3a1b3867
+#: 688824f5b93448c1a28199308af6c687 94a64cc7a408441aac7b86d104aa9f8c
+#: b64fe0578d91477aa25cceb2be96b2bb d058b3997d78488c8636f3ce0e230b1b
+msgid "**核心依赖**"
+msgstr "**Core Dependencies**"
+
+#: ../../source/getting-started/installation.md:-1
+#: d9bb7174a88f4ebb9fe620193cbed4f1
+msgid ""
+"Python 3.12、PyTorch 2.10.0+cu128、PyG 2.7.0、torch-scatter 2.1.2、pyg_lib "
+"0.6.0"
+msgstr ""
+"Python 3.12, PyTorch 2.10.0+cu128, PyG 2.7.0, torch-scatter 2.1.2, "
+"pyg_lib 0.6.0"
+
+#: ../../source/getting-started/installation.md:47
+#: ../../source/getting-started/installation.md:61
+#: ../../source/getting-started/installation.md:75
+#: ../../source/getting-started/installation.md:89
+#: ../../source/getting-started/installation.md:103
+#: ../../source/getting-started/installation.md:117
+#: 355465e353724a539308ee139c73fb0f 48729d294d614d1ab5fb56e36b24d5e2
+#: 48a8323ad9a54581ac98cc750f03ea9b 937bce3a41c04aef96b7171410e5aaec
+#: c601ee94d3d2478baff13a6167eb117b e4a2514ab0de4fdf8326abb90a824d4d
+msgid "**激活命令**"
+msgstr "**Activation Command**"
+
+#: ../../source/getting-started/installation.md:49
+#: 8d20388ebcb04f41ae1d603746046a4f
+msgid "pixi shell\n"
+msgstr "pixi shell\n"
+
+#: ../../source/getting-started/installation.md
+#: 62cf49a6e4774099b7e5f0a8143cdaea
+msgid "CPU"
+msgstr "CPU"
+
+#: ../../source/getting-started/installation.md:-1
+#: 319e9eb854cc41dda451a27d36626e29
+msgid "`cpu`"
+msgstr "`cpu`"
+
+#: ../../source/getting-started/installation.md:-1
+#: 0d94e5ed89f5470583bc74284a44b9cd d42ed40650284fb9be3ac948f7ec26bb
+msgid "x86_64 CPU"
+msgstr "x86_64 CPU"
+
+#: ../../source/getting-started/installation.md:-1
+#: fecb6d38c0c1490f96820612fa95dac9
+msgid ""
+"Python 3.12、PyTorch 2.10.0+cpu、PyG 2.7.0 CPU、torch-scatter 2.1.2、pyg_lib "
+"0.6.0"
+msgstr ""
+"Python 3.12, PyTorch 2.10.0+cpu, PyG 2.7.0 CPU, torch-scatter 2.1.2, "
+"pyg_lib 0.6.0"
+
+#: ../../source/getting-started/installation.md:63
+#: 3b7e1d537e3e460f86d6101103950572
+msgid "pixi shell -e cpu\n"
+msgstr "pixi shell -e cpu\n"
+
+#: ../../source/getting-started/installation.md
+#: 02fdb27314ea473c95d63f2bbe9b6f3f
+msgid "Mamba"
+msgstr "Mamba"
+
+#: ../../source/getting-started/installation.md:-1
+#: 68b1394c66b04508872d71810aa9a40a
+msgid "`mamba`"
+msgstr "`mamba`"
+
+#: ../../source/getting-started/installation.md:-1
+#: b9ce71ccd92640dcbdbf5ea9945d518c
+msgid "mamba-ssm 2.3.1、causal-conv1d 1.6.1、PyTorch 2.10.0+cu128"
+msgstr "mamba-ssm 2.3.1, causal-conv1d 1.6.1, PyTorch 2.10.0+cu128"
+
+#: ../../source/getting-started/installation.md:77
+#: a4d9a6cdf0b7462887e2f2e5f03b4ae5
+msgid "pixi shell -e mamba\n"
+msgstr "pixi shell -e mamba\n"
+
+#: ../../source/getting-started/installation.md
+#: 56f9b5f545ce40348e4bff1226463f7f
+msgid "xLSTM"
+msgstr "xLSTM"
+
+#: ../../source/getting-started/installation.md:-1
+#: 8b627cf8b1674fc7935c704cf3ed589d
+msgid "`xlstm`"
+msgstr "`xlstm`"
+
+#: ../../source/getting-started/installation.md:-1
+#: 2fdb033ab53e452ebb3b6ec7539da9f9
+msgid "CUDA 12.8、NVIDIA GPU、CUDA-NVCC"
+msgstr "CUDA 12.8, NVIDIA GPU, CUDA-NVCC"
+
+#: ../../source/getting-started/installation.md:-1
+#: 13a07fc3265f4aed88c0e56992f4c858
+msgid "xlstm 2.0.5、mlstm_kernels 2.0.4、cuda-nvcc 12.8"
+msgstr "xlstm 2.0.5, mlstm_kernels 2.0.4, cuda-nvcc 12.8"
+
+#: ../../source/getting-started/installation.md:91
+#: 6c396b1d1b674708a6c1109fc74396b6
+msgid "pixi shell -e xlstm\n"
+msgstr "pixi shell -e xlstm\n"
+
+#: ../../source/getting-started/installation.md
+#: 30ef572c9b9b41d3960a085380a1086a
+msgid "Web"
+msgstr "Web"
+
+#: ../../source/getting-started/installation.md:-1
+#: 4ce509dc13a04025a800013ba3267a36
+msgid "`web`"
+msgstr "`web`"
+
+#: ../../source/getting-started/installation.md:-1
+#: 7769b0e3da0b4a2da9e958907f8bedca
+msgid "x86_64 CPU、Node.js 运行时"
+msgstr "x86_64 CPU, Node.js runtime"
+
+#: ../../source/getting-started/installation.md:-1
+#: 2a546eba239b46ef88293702334ba4e7
+msgid "FastAPI 0.115、Uvicorn 0.39、SQLAlchemy 2.0、Pydantic 2.0、Vite"
+msgstr "FastAPI 0.115, Uvicorn 0.39, SQLAlchemy 2.0, Pydantic 2.0, Vite"
+
+#: ../../source/getting-started/installation.md:105
+#: c52b46f236ff4700990cc731a91c304d
+msgid "pixi shell -e web\n"
+msgstr "pixi shell -e web\n"
+
+#: ../../source/getting-started/installation.md
+#: 9290bc2512d540a8a57ca3f8ef0c5fef
+msgid "Docs"
+msgstr "Docs"
+
+#: ../../source/getting-started/installation.md:-1
+#: 4f413a792b6b473d9616be2d16a1884d
+msgid "`docs`"
+msgstr "`docs`"
+
+#: ../../source/getting-started/installation.md:-1
+#: fcc86133041e44ecbeb394b8c70da1cd
+msgid "Sphinx 8.0、Furo 2025、MyST-Parser 4.0、Pandoc 3.8"
+msgstr "Sphinx 8.0, Furo 2025, MyST-Parser 4.0, Pandoc 3.8"
+
+#: ../../source/getting-started/installation.md:119
+#: 189d35addc704a06ad3c66cf419290b1
+msgid "pixi shell -e docs\n"
+msgstr "pixi shell -e docs\n"
+
+#: ../../source/getting-started/installation.md:125
+#: bea12168072c46b0b29586ddd9b5dc17
+msgid "退出当前激活的环境执行 `exit`。"
+msgstr "To exit the currently active environment, run `exit`."
+
+#: ../../source/getting-started/installation.md:127
+#: 36407e2827f6483a9692af382325a16e
+msgid "单次命令执行"
+msgstr "One-off Command Execution"
+
+#: ../../source/getting-started/installation.md:129
+#: f59215ac58e44897a9060abd211fc205
+msgid "直接在目标环境中运行单次任务："
+msgstr "Run one-off tasks directly in the target environment:"
+
+#: ../../source/getting-started/installation.md:131
+#: 371d1192744543239f63171d110721c1
+msgid "pixi run -e <env> <command>\n"
+msgstr "pixi run -e <env> <command>\n"
+
+#: ../../source/getting-started/installation.md:135
+#: 45231154cfbb4be894ca060341d0b329
+msgid "示例："
+msgstr "Example:"
+
+#: ../../source/getting-started/installation.md:137
+#: e811de344c0c4ed9bf7878d6bcb2d561
+msgid "pixi run -e cpu python -m pytest tests -q\n"
+msgstr "pixi run -e cpu python -m pytest tests -q\n"
+
+#: ../../source/getting-started/installation.md:143
+#: 2359ece8bedc4ca4a1bbe779a1872cbc
+msgid "环境变量配置"
+msgstr "Environment Variables Configuration"
+
+#: ../../source/getting-started/installation.md:145
+#: 1162708e9767485fbca6859a9f5d7136
+msgid "UniKT 使用 `python-dotenv` 自动管理实验追踪、告警通知及运行参数。在项目根目录下复制模板文件并进行配置："
+msgstr ""
+"UniKT uses `python-dotenv` to manage experiment tracking, alert "
+"notifications, and runtime parameters. Copy the template in the project "
+"root and configure it:"
+
+#: ../../source/getting-started/installation.md:147
+#: bee55ca932384145bc61e7c609f48799
+msgid "cp .env.example .env\n"
+msgstr "cp .env.example .env\n"
+
+#: ../../source/getting-started/installation.md:151
+#: 6ab83e94604944229584ee55f6d72a11
+msgid "打开 `.env` 文件，根据需求填入相应的配置项："
+msgstr "Open `.env` and configure the settings according to your needs:"
+
+#: ../../source/getting-started/installation.md:153
+#: bc651588dba148aca0b18093b24379d8
+msgid ""
+"# Lark (飞书) 训练完成/异常 Webhook 通知（可选）\n"
+"LARK_WEBHOOK_URL=https://open.feishu.cn/open-apis/bot/v2/hook/xxxx\n"
+"LARK_SECRET=\n"
+"\n"
+"# 实验追踪后端类型: swanlab | wandb (默认: swanlab)\n"
+"KT_TRACKING_BACKEND=swanlab\n"
+"\n"
+"# SwanLab 实验追踪配置\n"
+"# 模式可选: cloud (云端同步) 或 local (本地离线记录)\n"
+"SWANLAB_MODE=cloud\n"
+"KT_SWANLAB_WORKSPACE=my-workspace\n"
+"KT_SWANLAB_PROJECT=UniKT-Experiments\n"
+"\n"
+"# Weights & Biases (W&B) 配置 (当 KT_TRACKING_BACKEND=wandb 时生效)\n"
+"KT_WANDB_PROJECT=UniKT\n"
+"KT_WANDB_ENTITY=my-team\n"
+"\n"
+"# 全局日志输出级别: DEBUG, INFO, WARNING, ERROR (默认: INFO)\n"
+"LOG_LEVEL=INFO\n"
+"\n"
+"# 异步指标日志落盘 (1 = 后台独立线程写入, 0 = 同步阻塞写入)\n"
+"METRIC_LOGGING_ASYNC=1\n"
+"\n"
+"# Web 前端预览服务默认端口\n"
+"KT_WEB_PORT=5173\n"
+msgstr ""
+"# Lark (Feishu) Webhook for training finish/exception notifications "
+"(optional)\n"
+"LARK_WEBHOOK_URL=https://open.feishu.cn/open-apis/bot/v2/hook/xxxx\n"
+"LARK_SECRET=\n"
+"\n"
+"# Experiment tracking backend: swanlab | wandb (default: swanlab)\n"
+"KT_TRACKING_BACKEND=swanlab\n"
+"\n"
+"# SwanLab experiment tracking configuration\n"
+"# Mode choices: cloud (sync to cloud) or local (offline local records)\n"
+"SWANLAB_MODE=cloud\n"
+"KT_SWANLAB_WORKSPACE=my-workspace\n"
+"KT_SWANLAB_PROJECT=UniKT-Experiments\n"
+"\n"
+"# Weights & Biases (W&B) configuration (effective when "
+"KT_TRACKING_BACKEND=wandb)\n"
+"KT_WANDB_PROJECT=UniKT\n"
+"KT_WANDB_ENTITY=my-team\n"
+"\n"
+"# Global logging level: DEBUG, INFO, WARNING, ERROR (default: INFO)\n"
+"LOG_LEVEL=INFO\n"
+"\n"
+"# Asynchronous metric logging (1 = background thread write, 0 = "
+"synchronous blocking write)\n"
+"METRIC_LOGGING_ASYNC=1\n"
+"\n"
+"# Web frontend preview server default port\n"
+"KT_WEB_PORT=5173\n"
+
+#: ../../source/getting-started/installation.md:182
+#: e9463bc0b85c4422948c1e3bd1f1e62a
+msgid ""
+"若使用 SwanLab 云端记录，建议在初次运行前执行 `swanlab login` 绑定个人或团队 API Key。若在离线集群上训练，可设置"
+" `SWANLAB_MODE=local`，指标将仅保存在本地的 `runs/swanlog/` 目录中。"
+msgstr ""
+"If using SwanLab cloud tracking, run `swanlab login` to bind your "
+"personal or team API key before the first run. On offline compute "
+"clusters, set `SWANLAB_MODE=local` so metrics are stored solely in the "
+"local `runs/swanlog/` directory."
+
+#: ../../source/getting-started/installation.md:187
+#: edc8d1e097d14355a6827454a7c4951e
+msgid "安装验证"
+msgstr "Verifying Installation"
+
+#: ../../source/getting-started/installation.md:189
+#: 3129772f9a5a404cbcf65d7179a10f63
+msgid "完成环境配置后，可执行以下命令验证环境是否就绪："
+msgstr ""
+"After completing configuration, run the following commands to verify "
+"environment readiness:"
+
+#: ../../source/getting-started/installation.md:191
+#: ee82013ca49244fe88cd2a35f302e6b1
+msgid "1. 验证 PyTorch 与 CUDA 状态"
+msgstr "1\\. Verify PyTorch and CUDA Status"
+
+#: ../../source/getting-started/installation.md:193
+#: 61aec6cdd7224a7c9e45c998ce2d9321
+#, python-brace-format
+msgid ""
+"pixi run python -c \"import torch; print(f'PyTorch Version: "
+"{torch.__version__}'); print(f'CUDA Available: "
+"{torch.cuda.is_available()}'); print(f'Device Count: "
+"{torch.cuda.device_count()}')\"\n"
+msgstr ""
+"pixi run python -c \"import torch; print(f'PyTorch Version: "
+"{torch.__version__}'); print(f'CUDA Available: "
+"{torch.cuda.is_available()}'); print(f'Device Count: "
+"{torch.cuda.device_count()}')\"\n"
+
+#: ../../source/getting-started/installation.md:197
+#: 349aa2f995b84077b457e78bf5696ed5
+msgid "预期输出应显示版本号（如 `2.10.0+cu128`）且 `CUDA Available: True`。"
+msgstr ""
+"Expected output should show version details (e.g. `2.10.0+cu128`) and "
+"`CUDA Available: True`."
+
+#: ../../source/getting-started/installation.md:199
+#: c74f20a44a754555b41bbbb863f8097a
+msgid "2. 运行自动化单元测试"
+msgstr "2\\. Run Automated Unit Tests"
+
+#: ../../source/getting-started/installation.md:201
+#: 75554100e660419eac07da03f8693de8
+msgid "框架自带基于 CPU 的完整单元测试套件："
+msgstr "The framework includes a comprehensive CPU-based unit test suite:"
+
+#: ../../source/getting-started/installation.md:203
+#: 157957334b624ea6b088cd288b212f9a
+msgid "pixi run test\n"
+msgstr "pixi run test\n"
+
+#: ../../source/getting-started/installation.md:207
+#: 17b8e28a92b74566a061383dde590950
+msgid "预期输出样例："
+msgstr "Expected output example:"
+
+#: ../../source/getting-started/installation.md:209
+#: 7da9da1bfb60425b95c65b5b948dcdf1
+msgid ""
+"........................................................................ "
+"[  6%]\n"
+"........................................................................ "
+"[ 13%]\n"
+"...\n"
+"........................................................................ "
+"[ 94%]\n"
+".............................................................            "
+"[100%]\n"
+"1068 passed, 1 skipped in 40.05s\n"
+msgstr ""
+"........................................................................ "
+"[  6%]\n"
+"........................................................................ "
+"[ 13%]\n"
+"...\n"
+"........................................................................ "
+"[ 94%]\n"
+".............................................................            "
+"[100%]\n"
+"1068 passed, 1 skipped in 40.05s\n"
+
+#: ../../source/getting-started/installation.md:220
+#: 05cacb4d741946f4994663620ec51145
+msgid "文档与 Web 开发任务"
+msgstr "Documentation and Web Development Tasks"
+
+#: ../../source/getting-started/installation.md:222
+#: c52e8ff8d06745188956e73aaa9c260f
+msgid "Pixi 同样封装了项目级常用脚本："
+msgstr "Pixi also packages frequently used project scripts:"
+
+#: ../../source/getting-started/installation.md:224
+#: c046da321aa54098814d04f88cf97058
+msgid ""
+"# 代码风格检查与格式化\n"
+"pixi run lint       # ruff check\n"
+"pixi run fmt        # ruff format\n"
+"pixi run ckf        # lint + fmt + mypy 类型检查\n"
+"\n"
+"# 文档构建任务\n"
+"pixi run docs-build # 编译中文官方 HTML 文档\n"
+"pixi run docs-dev   # 启动本地热重载文档预览服务\n"
+"\n"
+"# Web 平台任务\n"
+"pixi run web-backend # 启动 FastAPI 后端 (8765 端口)\n"
+"pixi run web-frontend# 启动 Vite 前端开发服务器\n"
+"pixi run web-dev     # 并发启动前后端服务\n"
+msgstr ""
+"# Code style checking and formatting\n"
+"pixi run lint       # ruff check\n"
+"pixi run fmt        # ruff format\n"
+"pixi run ckf        # lint + fmt + mypy type checking\n"
+"\n"
+"# Documentation build tasks\n"
+"pixi run docs-build # Build Chinese official HTML documentation\n"
+"pixi run docs-dev   # Start local hot-reloading documentation server\n"
+"\n"
+"# Web platform tasks\n"
+"pixi run web-backend # Start FastAPI backend (port 8765)\n"
+"pixi run web-frontend# Start Vite frontend dev server\n"
+"pixi run web-dev     # Start both backend and frontend concurrently\n"

@@ -1,0 +1,130 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/deepirt.md:1 2b2a3e4bb8254f97ae5b7decc6526783
+msgid "DeepIRT"
+msgstr "DeepIRT"
+
+#: ../../source/model-zoo/models/deepirt.md:3 e89b3174f6804f10a8c1a7e9786d812d
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/deepirt.md 0f03711989d843eda8694a5c1cc83581
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/deepirt.md 10a362a34176440b936406f52252d0b7
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/deepirt.md 3f231ebe92d64b519bf5f863d0154009
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/deepirt.md e312da34ef9d41f69b34d72b4760a95c
+msgid ""
+"[Deep-IRT: Make Deep Learning Based Knowledge Tracing Explainable Using "
+"Item Response Theory](https://doi.org/10.48550/arXiv.1904.11738)"
+msgstr ""
+"[Deep-IRT: Make Deep Learning Based Knowledge Tracing Explainable Using "
+"Item Response Theory](https://doi.org/10.48550/arXiv.1904.11738)"
+
+#: ../../source/model-zoo/models/deepirt.md 424f76f05c7a49c38cd8cc2229339403
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/deepirt.md 46a89491f8ac425da6381cfdb14043b6
+msgid "Chun-Kit Yeung"
+msgstr "Chun-Kit Yeung"
+
+#: ../../source/model-zoo/models/deepirt.md 2e4c7305a9fb497ea8ad1c09f0527c8a
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/deepirt.md e00c64301bae42b79059de8cc364fbbb
+msgid "2019"
+msgstr "2019"
+
+#: ../../source/model-zoo/models/deepirt.md 2379df58e0724843851f9884c5c6b9b8
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/deepirt.md e948d32b3d8b44dea0d7c7748a0904e2
+msgid ""
+"Proceedings of the 12th International Conference on Educational Data "
+"Mining"
+msgstr ""
+"Proceedings of the 12th International Conference on Educational Data "
+"Mining"
+
+#: ../../source/model-zoo/models/deepirt.md 1215309708984a549769fba9a0a32e82
+msgid "DOI"
+msgstr "DOI"
+
+#: ../../source/model-zoo/models/deepirt.md a37151ae84f34b9b8a6c223188006865
+msgid "[10.48550/arXiv.1904.11738](https://doi.org/10.48550/arXiv.1904.11738)"
+msgstr "[10.48550/arXiv.1904.11738](https://doi.org/10.48550/arXiv.1904.11738)"
+
+#: ../../source/model-zoo/models/deepirt.md:13 6bb8a5c9d65a452c84e8b7929fe7c91f
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/deepirt.md:15 1eda52ecb52749b7b9ba4d3451c5a3e6
+msgid ""
+"Deep learning based knowledge tracing model has been shown to outperform "
+"traditional knowledge tracing model without the need for human-engineered"
+" features, yet its parameters and representations have long been "
+"criticized for not being explainable. In this paper, we propose Deep-IRT "
+"which is a synthesis of the item response theory (IRT) model and a "
+"knowledge tracing model that is based on the deep neural network "
+"architecture called dynamic key-value memory network (DKVMN) to make deep"
+" learning based knowledge tracing explainable. Specifically, we use the "
+"DKVMN model to process the student's learning trajectory and estimate the"
+" student ability level and the item difficulty level over time. Then, we "
+"use the IRT model to estimate the probability that a student will answer "
+"an item correctly using the estimated student ability and the item "
+"difficulty. Experiments show that the Deep-IRT model retains the "
+"performance of the DKVMN model, while it provides a direct psychological "
+"interpretation of both students and items."
+msgstr ""
+"Deep learning based knowledge tracing model has been shown to outperform "
+"traditional knowledge tracing model without the need for human-engineered"
+" features, yet its parameters and representations have long been "
+"criticized for not being explainable. In this paper, we propose Deep-IRT "
+"which is a synthesis of the item response theory (IRT) model and a "
+"knowledge tracing model that is based on the deep neural network "
+"architecture called dynamic key-value memory network (DKVMN) to make deep"
+" learning based knowledge tracing explainable. Specifically, we use the "
+"DKVMN model to process the student's learning trajectory and estimate the"
+" student ability level and the item difficulty level over time. Then, we "
+"use the IRT model to estimate the probability that a student will answer "
+"an item correctly using the estimated student ability and the item "
+"difficulty. Experiments show that the Deep-IRT model retains the "
+"performance of the DKVMN model, while it provides a direct psychological "
+"interpretation of both students and items."
+
+#: ../../source/model-zoo/models/deepirt.md:18 52478942f40c4d20a2d9123adc5bd9c3
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/deepirt.md:20 d4e94edea98d44ea98a2bc6721384697
+msgid "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"
+msgstr "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"

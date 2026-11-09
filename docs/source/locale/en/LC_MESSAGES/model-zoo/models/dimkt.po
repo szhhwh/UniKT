@@ -1,0 +1,148 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/dimkt.md:1 3f17d5c7218342e5b269d0fb56b13e73
+msgid "DIMKT"
+msgstr "DIMKT"
+
+#: ../../source/model-zoo/models/dimkt.md:3 59adecf8bf884f6280b22fc2a29fb169
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/dimkt.md b9dfc7b6342d45cb8ac1625eb42e5400
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/dimkt.md 1ea1fc3ac6124301894358bab757a5ce
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/dimkt.md ff943b5366154f0b962daa4e55b3e33f
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/dimkt.md 8130794ab728422dbba8b600291f3a20
+msgid ""
+"[Assessing Student's Dynamic Knowledge State by Exploring the Question "
+"Difficulty Effect](https://doi.org/10.1145/3477495.3531939)"
+msgstr ""
+"[Assessing Student's Dynamic Knowledge State by Exploring the Question "
+"Difficulty Effect](https://doi.org/10.1145/3477495.3531939)"
+
+#: ../../source/model-zoo/models/dimkt.md 583ae9f11f234b73ab4454f4dac9b3bf
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/dimkt.md 3366d5fe44084f84b1ce73f67dded6c4
+msgid "Shuanghong Shen, Zhenya Huang, Qi Liu, Yu Su, Shijin Wang, Enhong Chen"
+msgstr "Shuanghong Shen, Zhenya Huang, Qi Liu, Yu Su, Shijin Wang, Enhong Chen"
+
+#: ../../source/model-zoo/models/dimkt.md 933670563d70485682cb99a5ad120097
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/dimkt.md cfa890736ae341e6b15b41a8a7842fa6
+msgid "2022"
+msgstr "2022"
+
+#: ../../source/model-zoo/models/dimkt.md e8395c0aa353454c80e9977468a3ec95
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/dimkt.md cb3150f475b84823922d4db4ef4c8d63
+msgid ""
+"Proceedings of the 45th International ACM SIGIR Conference on Research "
+"and Development in Information Retrieval"
+msgstr ""
+"Proceedings of the 45th International ACM SIGIR Conference on Research "
+"and Development in Information Retrieval"
+
+#: ../../source/model-zoo/models/dimkt.md ec07bc8fd02543648d4f4e917c232dc1
+msgid "DOI"
+msgstr "DOI"
+
+#: ../../source/model-zoo/models/dimkt.md 84c9cace12f9463f8765c043807a40e0
+msgid "[10.1145/3477495.3531939](https://doi.org/10.1145/3477495.3531939)"
+msgstr "[10.1145/3477495.3531939](https://doi.org/10.1145/3477495.3531939)"
+
+#: ../../source/model-zoo/models/dimkt.md:13 f5a73978aab74939922ee83c5bd5524b
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/dimkt.md:15 aa3f0a2d9e654d449176385d6e4a738a
+msgid ""
+"Knowledge Tracing (KT), which aims to assess students' dynamic knowledge "
+"states when practicing on various questions, is a fundamental research "
+"task for offering intelligent services in online learning systems. "
+"Researchers have devoted significant efforts to developing KT models with"
+" impressive performance. However, in existing KT methods, the related "
+"question difficulty level, which directly affects students' knowledge "
+"state in learning, has not been effectively explored and employed. In "
+"this paper, we focus on exploring the question difficulty effect on "
+"learning to improve student's knowledge state assessment and propose the "
+"DIfficulty Matching Knowledge Tracing (DIMKT) model. Specifically, we "
+"first explicitly incorporate the difficulty level into the question "
+"representation. Then, to establish the relation between students' "
+"knowledge state and the question difficulty level during the practice "
+"process, we accordingly design an adaptive sequential neural network in "
+"three stages: (1) measuring students' subjective feelings of the question"
+" difficulty before practice; (2) estimating students' personalized "
+"knowledge acquisition while answering questions of different difficulty "
+"levels; (3) updating students' knowledge state in varying degrees to "
+"match the question difficulty level after practice. Finally, we conduct "
+"extensive experiments on real-world datasets, and the results demonstrate"
+" that DIMKT outperforms state-of-the-art KT models. Moreover, DIMKT shows"
+" superior interpretability by exploring the question difficulty effect "
+"when making predictions. Our codes are available at https://github.com"
+"/shshen-closer/DIMKT."
+msgstr ""
+"Knowledge Tracing (KT), which aims to assess students' dynamic knowledge "
+"states when practicing on various questions, is a fundamental research "
+"task for offering intelligent services in online learning systems. "
+"Researchers have devoted significant efforts to developing KT models with"
+" impressive performance. However, in existing KT methods, the related "
+"question difficulty level, which directly affects students' knowledge "
+"state in learning, has not been effectively explored and employed. In "
+"this paper, we focus on exploring the question difficulty effect on "
+"learning to improve student's knowledge state assessment and propose the "
+"DIfficulty Matching Knowledge Tracing (DIMKT) model. Specifically, we "
+"first explicitly incorporate the difficulty level into the question "
+"representation. Then, to establish the relation between students' "
+"knowledge state and the question difficulty level during the practice "
+"process, we accordingly design an adaptive sequential neural network in "
+"three stages: (1) measuring students' subjective feelings of the question"
+" difficulty before practice; (2) estimating students' personalized "
+"knowledge acquisition while answering questions of different difficulty "
+"levels; (3) updating students' knowledge state in varying degrees to "
+"match the question difficulty level after practice. Finally, we conduct "
+"extensive experiments on real-world datasets, and the results demonstrate"
+" that DIMKT outperforms state-of-the-art KT models. Moreover, DIMKT shows"
+" superior interpretability by exploring the question difficulty effect "
+"when making predictions. Our codes are available at https://github.com"
+"/shshen-closer/DIMKT."
+
+#: ../../source/model-zoo/models/dimkt.md:18 aaf772bfc6e44ddba2e3ab8fac9340a8
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/dimkt.md:20 776b150638894a148389e259f4c26256
+msgid "[shshen-closer/DIMKT](https://github.com/shshen-closer/DIMKT)"
+msgstr "[shshen-closer/DIMKT](https://github.com/shshen-closer/DIMKT)"

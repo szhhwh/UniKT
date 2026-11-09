@@ -1,0 +1,147 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/atdkt.md:1 6d67d3a078984b1f842b0a1873c7e58c
+msgid "ATDKT"
+msgstr "ATDKT"
+
+#: ../../source/model-zoo/models/atdkt.md:3 1e3d42825d9c46e3b08e6c0be55958c2
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/atdkt.md 2bba4722c35449faa4940f77f224e9d7
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/atdkt.md f23a968204554af9a5b14d6c8ba48a7d
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/atdkt.md adad1ac28e6c4bb0acf2bb64acce0461
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/atdkt.md e360bc94da2049fabf9d05616f12bb58
+msgid ""
+"[Enhancing Deep Knowledge Tracing with Auxiliary "
+"Tasks](https://doi.org/10.1145/3543507.3583866)"
+msgstr ""
+"[Enhancing Deep Knowledge Tracing with Auxiliary "
+"Tasks](https://doi.org/10.1145/3543507.3583866)"
+
+#: ../../source/model-zoo/models/atdkt.md 0e9e3b1648284b5697b2d3cc8c827c61
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/atdkt.md 52966d9afd6844a0b4d5cf815d2513a4
+msgid ""
+"Zitao Liu, Qiongqiong Liu, Jiahao Chen, Shuyan Huang, BoYu Gao, Weiqi "
+"Luo, Jian Weng"
+msgstr ""
+"Zitao Liu, Qiongqiong Liu, Jiahao Chen, Shuyan Huang, BoYu Gao, Weiqi "
+"Luo, Jian Weng"
+
+#: ../../source/model-zoo/models/atdkt.md 9dd85b37828849acb318774d59085993
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/atdkt.md 6caf38f4b1ab47b0893f220c5a2c8dfb
+msgid "2023"
+msgstr "2023"
+
+#: ../../source/model-zoo/models/atdkt.md 73721fd0b3d745b1b14789da272477b5
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/atdkt.md a12be12f3da34813a286bf48e11d7fdb
+msgid "Proceedings of the ACM Web Conference 2023（WWW '23）"
+msgstr "Proceedings of the ACM Web Conference 2023 (WWW '23)"
+
+#: ../../source/model-zoo/models/atdkt.md:12 57847307242a45bfb95edb55fca69ee0
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/atdkt.md:14 bd8b75c3236d4f27bd4f62a5b0846f24
+#, python-format
+msgid ""
+"Knowledge tracing (KT) is the problem of predicting students' future "
+"performance based on their historical interactions with intelligent "
+"tutoring systems. Recent studies have applied multiple types of deep "
+"neural networks to solve the KT problem. However, there are two important"
+" factors in real-world educational data that are not well represented. "
+"First, most existing works augment input representations with the co-"
+"occurrence matrix of questions and knowledge components1 (KCs) but fail "
+"to explicitly integrate such intrinsic relations into the final response "
+"prediction task. Second, the individualized historical performance of "
+"students has not been well captured. In this paper, we proposed AT-DKT to"
+" improve the prediction performance of the original deep knowledge "
+"tracing model with two auxiliary learning tasks, i.e., question tagging "
+"(QT) prediction task and individualized prior knowledge (IK) prediction "
+"task. Specifically, the QT task helps learn better question "
+"representations by predicting whether questions contain specific KCs. The"
+" IK task captures students' global historical performance by "
+"progressively predicting student-level prior knowledge that is hidden in "
+"students' historical learning interactions. We conduct comprehensive "
+"experiments on three real-world educational datasets and compare the "
+"proposed approach to both deep sequential KT models and non-sequential "
+"models. Experimental results show that AT-DKT outperforms all sequential "
+"models with more than 0.9% improvements of AUC for all datasets, and is "
+"almost the second best compared to non-sequential models. Furthermore, we"
+" conduct both ablation studies and quantitative analysis to show the "
+"effectiveness of auxiliary tasks and the superior prediction outcomes of "
+"AT-DKT. To encourage reproducible research, we make our data and code "
+"publicly available at https://github.com/pykt-team/pykt-toolkit."
+msgstr ""
+"Knowledge tracing (KT) is the problem of predicting students' future "
+"performance based on their historical interactions with intelligent "
+"tutoring systems. Recent studies have applied multiple types of deep "
+"neural networks to solve the KT problem. However, there are two important"
+" factors in real-world educational data that are not well represented. "
+"First, most existing works augment input representations with the co-"
+"occurrence matrix of questions and knowledge components1 (KCs) but fail "
+"to explicitly integrate such intrinsic relations into the final response "
+"prediction task. Second, the individualized historical performance of "
+"students has not been well captured. In this paper, we proposed AT-DKT to"
+" improve the prediction performance of the original deep knowledge "
+"tracing model with two auxiliary learning tasks, i.e., question tagging "
+"(QT) prediction task and individualized prior knowledge (IK) prediction "
+"task. Specifically, the QT task helps learn better question "
+"representations by predicting whether questions contain specific KCs. The"
+" IK task captures students' global historical performance by "
+"progressively predicting student-level prior knowledge that is hidden in "
+"students' historical learning interactions. We conduct comprehensive "
+"experiments on three real-world educational datasets and compare the "
+"proposed approach to both deep sequential KT models and non-sequential "
+"models. Experimental results show that AT-DKT outperforms all sequential "
+"models with more than 0.9% improvements of AUC for all datasets, and is "
+"almost the second best compared to non-sequential models. Furthermore, we"
+" conduct both ablation studies and quantitative analysis to show the "
+"effectiveness of auxiliary tasks and the superior prediction outcomes of "
+"AT-DKT. To encourage reproducible research, we make our data and code "
+"publicly available at https://github.com/pykt-team/pykt-toolkit."
+
+#: ../../source/model-zoo/models/atdkt.md:17 c3424f11a4c443c29a04806fd1ba2bb8
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/atdkt.md:19 e27af0bda6f2462aa3d88c94cd073c89
+msgid "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"
+msgstr "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"

@@ -1,0 +1,1310 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/developer-guides/customize-model.md:1
+#: ba106ed6bb01467b926892dd72915e0c
+msgid "自定义模型"
+msgstr "Custom models"
+
+#: ../../source/developer-guides/customize-model.md:3
+#: a0bfc0e4395f49e1a9f416b694306783
+msgid ""
+"在 UniKT 中接入全新的知识追踪模型遵循“模块解耦、静态注册、强类型配置”的开发范式。每个模型以独立包的形式组织在 "
+"`model/<ModelName>/` 目录下，由三个标准代码文件构成。"
+msgstr ""
+"Integrating a new knowledge tracing model in UniKT follows the "
+"development paradigm of \"modular decoupling, static registration, and "
+"strongly typed configuration\". Each model is organized as an independent"
+" package under `model/<ModelName>/`, composed of three standard code "
+"files."
+
+#: ../../source/developer-guides/customize-model.md:5
+#: 9d9c73a9a1534d0daad90a3d7a17230e
+msgid "本指南以构建基于循环神经网络的知识追踪模型 `MyKT` 为例，展示从网络搭建、数据适配到训练器装配的实现流程。"
+msgstr ""
+"This guide walks through building `MyKT`, an RNN-based knowledge tracing "
+"model, demonstrating the full workflow from network design and data "
+"adaptation to trainer assembly."
+
+#: ../../source/developer-guides/customize-model.md:7
+#: c52618f1620f48eaa3bb945b39d31fb5
+msgid "模块结构规范"
+msgstr "Module Structure Specification"
+
+#: ../../source/developer-guides/customize-model.md:9
+#: 072d2f21cea04fac861b76284e9cad72
+msgid "在项目根目录下的 `model/` 路径中新建文件夹 `model/<ModelName>/`，包含三个标准文件："
+msgstr ""
+"Create `model/<ModelName>/` under the `model/` directory at the project "
+"root, containing three standard files:"
+
+#: ../../source/developer-guides/customize-model.md:11
+#: 76ffa27d8d7f49c4a6cd404dfc1fe96e
+msgid ""
+"model/MyKT/\n"
+"├── MyKT_model.py    # 纯净的 PyTorch 计算图，继承 nn.Module\n"
+"├── MyKT_data.py     # 序列特征准备与批切分，继承 QuestionModelData 或 SkillModelData\n"
+"└── MyKT_trainer.py  # 训练循环装配与超参数注册，继承 BaseTrainer 与 ModelConfig\n"
+msgstr ""
+"model/MyKT/\n"
+"├── MyKT_model.py    # Pure PyTorch computational graph inheriting from "
+"nn.Module\n"
+"├── MyKT_data.py     # Sequence preparation and fold slicing inheriting "
+"from QuestionModelData\n"
+"└── MyKT_trainer.py  # Model configuration and runtime builder inheriting"
+" from BaseTrainer\n"
+
+#: ../../source/developer-guides/customize-model.md:18
+#: dfcb3b34a0ae4eb5b55e09ee9a36abf8
+msgid "三个核心文件的职责划分如下："
+msgstr "The division of responsibilities among the three core files is as follows:"
+
+#: ../../source/developer-guides/customize-model.md
+#: ad11e56dd77d4502acfd7359f22eb150
+msgid "文件名"
+msgstr "Filename"
+
+#: ../../source/developer-guides/customize-model.md
+#: 1530d77f7f3e4c3d8800734a55cb9846
+msgid "职责与基类"
+msgstr "Responsibilities and Base Class"
+
+#: ../../source/developer-guides/customize-model.md
+#: 576570714ee1408cab4a482bb40b547c
+msgid "核心方法与属性"
+msgstr "Core Methods and Attributes"
+
+#: ../../source/developer-guides/customize-model.md
+#: 3870ca82ccb046968d8c83dcbb2fc992
+msgid "`<Name>_model.py`"
+msgstr "`<Name>_model.py`"
+
+#: ../../source/developer-guides/customize-model.md
+#: cdcc886d43e14b1f846d27cf4cbf55a4
+msgid "纯净的 PyTorch 计算图，继承 `torch.nn.Module`"
+msgstr "Pure PyTorch computational graph, inheriting from `torch.nn.Module`"
+
+#: ../../source/developer-guides/customize-model.md
+#: e4482cd3bcc44bfa93c1adc24d1a0a45
+msgid "`forward(...)` 接收特征张量，输出预测 logits 或预测概率"
+msgstr ""
+"`forward(...)` receives feature tensors and outputs prediction logits or "
+"probabilities"
+
+#: ../../source/developer-guides/customize-model.md
+#: 80f17253d04f45dcab91e517a6bf6427
+msgid "`<Name>_data.py`"
+msgstr "`<Name>_data.py`"
+
+#: ../../source/developer-guides/customize-model.md
+#: 8d5d6a15376b40e38ff3e17ed6f4408e
+msgid "数据准备与批处理，继承 `QuestionModelData` 或 `SkillModelData`"
+msgstr ""
+"Data preparation and batching, inheriting from `QuestionModelData` or "
+"`SkillModelData`"
+
+#: ../../source/developer-guides/customize-model.md
+#: 8dd852c3d84349429b59f222235e8afc
+msgid "`prepare_data(rc)`，使用 `self.load_sequences()` 加载打包序列并切分折"
+msgstr ""
+"`prepare_data(rc)`, using `self.load_sequences()` to load packed "
+"sequences and partition folds"
+
+#: ../../source/developer-guides/customize-model.md
+#: 80071ce9a28b440dbb2efa220aa03f5a
+msgid "`<Name>_trainer.py`"
+msgstr "`<Name>_trainer.py`"
+
+#: ../../source/developer-guides/customize-model.md
+#: cb6ba637b013467da6b3fd9b1cedd436
+msgid "模型配置与运行时组件装配，继承 `BaseTrainer` 与 `ModelConfig`"
+msgstr ""
+"Model configuration and runtime component assembly, inheriting from "
+"`BaseTrainer` and `ModelConfig`"
+
+#: ../../source/developer-guides/customize-model.md
+#: 2878a7daac674879b8c93da43e8dfe22
+msgid ""
+"注册 `@register_model_config` 与 `@register_trainer`，实现 `build_components` 与"
+" `forward_pass`"
+msgstr ""
+"Register with `@register_model_config` and `@register_trainer`, "
+"implementing `build_components` and `forward_pass`"
+
+#: ../../source/developer-guides/customize-model.md:27
+#: b47dd5edc4724506b9c7fc9ff2993d92
+msgid ""
+"UniKT 采用 **AST 静态发现系统**。创建上述文件并标注对应装饰器后，系统在扫描代码时仅通过解析语法树完成按需索引，无需在 "
+"`model/__init__.py` 或其他位置手动引入新模块，即可直接在 `train.py` 与 `optuna_search.py` 等 "
+"CLI 中生效。"
+msgstr ""
+"UniKT employs an **AST-based static discovery system**. After creating "
+"the files above with corresponding decorators, the framework indexes them"
+" on demand via AST parsing without requiring manual imports in "
+"`model/__init__.py` or elsewhere, instantly exposing them to CLIs such as"
+" `train.py` and `optuna_search.py`."
+
+#: ../../source/developer-guides/customize-model.md:32
+#: ffbffb15240e48a7a9e46339f87b63f3
+msgid "第一步：编写网络结构 (`<Name>_model.py`)"
+msgstr "Step 1: Implement Network Architecture (`<Name>_model.py`)"
+
+#: ../../source/developer-guides/customize-model.md:34
+#: ed3277b0efe44e0a8922f355b935b758
+msgid "网络文件是标准的 PyTorch `nn.Module`，专注于模型结构的前向计算，与训练基础设施解耦。"
+msgstr ""
+"The network file is a standard PyTorch `nn.Module`, focused strictly on "
+"forward computational graph modeling decoupled from training "
+"infrastructure."
+
+#: ../../source/developer-guides/customize-model.md:36
+#: d5a3415a65b74a9497a0fb65dcba4d05
+msgid "预测语义与对齐约定"
+msgstr "Prediction Semantics and Alignment Conventions"
+
+#: ../../source/developer-guides/customize-model.md:38
+#: 248611b3309d4e4ba77f889dd17045aa
+msgid "知识追踪模型通常有两种经典的序列预测语义："
+msgstr ""
+"Knowledge tracing models generally adopt two classic sequence prediction "
+"semantics:"
+
+#: ../../source/developer-guides/customize-model.md:39
+#: f7093656dff34ac4ba99d937a3466770
+msgid ""
+"**Next-item 预测**：主流默认范式。在 $t$ 时刻根据历史答题特征预测 $t+1$ 时刻的作答正确率，模型输出张量长度通常为 "
+"$S-1$ 或 $S$。"
+msgstr ""
+"**Next-item Prediction**: Mainstream default paradigm. Predicts question "
+"correctness at step $t+1$ using historical response features up to step "
+"$t$; the output tensor length is typically $S-1$ or $S$."
+
+#: ../../source/developer-guides/customize-model.md:40
+#: 0bfe451026444bd88f981d08e48712b2
+msgid ""
+"**Same-position 预测**：适用于 DKT 或 DKVMN 等结构。模型在前向过程中利用全部 $S$ 个时刻的表征输出 $S$ "
+"维预测；此时输入需保证因果掩码，第 $t$ 步的输出对应第 $t$ 步的目标标签。"
+msgstr ""
+"**Same-position Prediction**: Suitable for architectures like DKT or "
+"DKVMN. The model produces $S$-dimensional predictions using "
+"representations across all $S$ timesteps; inputs must enforce causal "
+"masking, where output at step $t$ aligns with target label at step $t$."
+
+#: ../../source/developer-guides/customize-model.md:42
+#: a848ac38487a48e0acfc0fcac060480f
+msgid "在 `MyKT_model.py` 中，我们以标准的 Next-item 循环神经网络为例："
+msgstr ""
+"In `MyKT_model.py`, we take a standard Next-item recurrent neural network"
+" as an example:"
+
+#: ../../source/developer-guides/customize-model.md:44
+#: 068352d5322c445c9399214273507bd9
+msgid ""
+"\"\"\"MyKT: 自定义轻量循环知识追踪网络模型。\"\"\"\n"
+"\n"
+"import torch\n"
+"import torch.nn as nn\n"
+"\n"
+"\n"
+"class MyKTNet(nn.Module):\n"
+"    \"\"\"MyKT 神经网络模型。\n"
+"\n"
+"    Args:\n"
+"        num_questions: 数据集中题目总数。\n"
+"        num_skills: 数据集中知识点总数。\n"
+"        embedding_dim: 嵌入向量维度。\n"
+"        hidden_dim: LSTM 隐藏层神经元数。\n"
+"        dropout: 随机失活概率。\n"
+"    \"\"\"\n"
+"\n"
+"    def __init__(\n"
+"        self,\n"
+"        num_questions: int,\n"
+"        num_skills: int,\n"
+"        embedding_dim: int = 128,\n"
+"        hidden_dim: int = 128,\n"
+"        dropout: float = 0.2,\n"
+"    ):\n"
+"        super().__init__()\n"
+"        self.embedding_dim = embedding_dim\n"
+"        self.hidden_dim = hidden_dim\n"
+"\n"
+"        # 题目与作答的嵌入层 (0 为 padding，真实题目从 1 开始)\n"
+"        self.question_embed = nn.Embedding(\n"
+"            num_questions + 1, embedding_dim, padding_idx=0\n"
+"        )\n"
+"        self.skill_embed = nn.Embedding(num_skills + 1, embedding_dim, "
+"padding_idx=0)\n"
+"        # 答题标签 (0 或 1) 嵌入\n"
+"        self.response_embed = nn.Embedding(2, embedding_dim)\n"
+"\n"
+"        self.dropout = nn.Dropout(dropout)\n"
+"        # 输入维度: 题目嵌入 + 作答嵌入\n"
+"        self.lstm = nn.LSTM(\n"
+"            input_size=embedding_dim * 2,\n"
+"            hidden_size=hidden_dim,\n"
+"            batch_first=True,\n"
+"        )\n"
+"        # 预测头：预测下一次答题对错概率的 logit\n"
+"        self.fc = nn.Sequential(\n"
+"            nn.Linear(hidden_dim, hidden_dim // 2),\n"
+"            nn.ReLU(),\n"
+"            nn.Dropout(dropout),\n"
+"            nn.Linear(hidden_dim // 2, 1),\n"
+"        )\n"
+"\n"
+"    def forward(\n"
+"        self,\n"
+"        question: torch.Tensor,\n"
+"        response: torch.Tensor,\n"
+"        mask: torch.Tensor,\n"
+"        skill: torch.Tensor | None = None,\n"
+"    ) -> torch.Tensor:\n"
+"        \"\"\"前向传播计算。\n"
+"\n"
+"        Args:\n"
+"            question: 题目 ID 序列 [batch_size, seq_len]\n"
+"            response: 作答结果序列 (0/1) [batch_size, seq_len]\n"
+"            mask: 有效位置布尔掩码 [batch_size, seq_len]\n"
+"            skill: 知识点 ID 序列（可选）[batch_size, seq_len]\n"
+"\n"
+"        Returns:\n"
+"            预测概率或 logits，形状为 [batch_size, seq_len] 或 [batch_size, seq_len"
+" - 1]\n"
+"        \"\"\"\n"
+"        # 1. 编码交互特征：当前题目嵌入 + 当前作答嵌入\n"
+"        q_emb = self.question_embed(question)  # [B, S, D]\n"
+"        r_emb = self.response_embed(response)  # [B, S, D]\n"
+"        interaction_emb = torch.cat([q_emb, r_emb], dim=-1)  # [B, S, 2D]"
+"\n"
+"        interaction_emb = self.dropout(interaction_emb)\n"
+"\n"
+"        # 2. 序列建模\n"
+"        h, _ = self.lstm(interaction_emb)  # [B, S, H]\n"
+"\n"
+"        # 3. 预测概率（经过 Sigmoid 激活输出 0~1 的预测值）\n"
+"        logits = self.fc(h).squeeze(-1)  # [B, S]\n"
+"        y_hat = torch.sigmoid(logits)\n"
+"\n"
+"        return y_hat\n"
+msgstr ""
+"\"\"\"MyKT: Custom lightweight recurrent knowledge tracing network.\"\"\""
+"\n"
+"\n"
+"import torch\n"
+"import torch.nn as nn\n"
+"\n"
+"\n"
+"class MyKTNet(nn.Module):\n"
+"    \"\"\"MyKT neural network model.\n"
+"\n"
+"    Args:\n"
+"        num_questions: Total number of questions in dataset.\n"
+"        num_skills: Total number of skills in dataset.\n"
+"        embedding_dim: Embedding dimension.\n"
+"        hidden_dim: LSTM hidden dimension.\n"
+"        dropout: Dropout probability.\n"
+"    \"\"\"\n"
+"\n"
+"    def __init__(\n"
+"        self,\n"
+"        num_questions: int,\n"
+"        num_skills: int,\n"
+"        embedding_dim: int = 128,\n"
+"        hidden_dim: int = 128,\n"
+"        dropout: float = 0.2,\n"
+"    ):\n"
+"        super().__init__()\n"
+"        self.embedding_dim = embedding_dim\n"
+"        self.hidden_dim = hidden_dim\n"
+"\n"
+"        # Question and response embeddings (0 is padding, valid questions"
+" start from 1)\n"
+"        self.question_embed = nn.Embedding(\n"
+"            num_questions + 1, embedding_dim, padding_idx=0\n"
+"        )\n"
+"        self.skill_embed = nn.Embedding(num_skills + 1, embedding_dim, "
+"padding_idx=0)\n"
+"        # Response outcome (0 or 1) embedding\n"
+"        self.response_embed = nn.Embedding(2, embedding_dim)\n"
+"\n"
+"        self.dropout = nn.Dropout(dropout)\n"
+"        # Input: question embedding + response embedding\n"
+"        self.lstm = nn.LSTM(\n"
+"            input_size=embedding_dim * 2,\n"
+"            hidden_size=hidden_dim,\n"
+"            batch_first=True,\n"
+"        )\n"
+"        # Prediction head: predicts next question correctness logit\n"
+"        self.fc = nn.Sequential(\n"
+"            nn.Linear(hidden_dim, hidden_dim // 2),\n"
+"            nn.ReLU(),\n"
+"            nn.Dropout(dropout),\n"
+"            nn.Linear(hidden_dim // 2, 1),\n"
+"        )\n"
+"\n"
+"    def forward(\n"
+"        self,\n"
+"        question: torch.Tensor,\n"
+"        response: torch.Tensor,\n"
+"        mask: torch.Tensor,\n"
+"        skill: torch.Tensor | None = None,\n"
+"    ) -> torch.Tensor:\n"
+"        \"\"\"Forward propagation.\n"
+"\n"
+"        Args:\n"
+"            question: Question ID sequence [batch_size, seq_len]\n"
+"            response: Response sequence (0/1) [batch_size, seq_len]\n"
+"            mask: Valid position boolean mask [batch_size, seq_len]\n"
+"            skill: Skill ID sequence (optional) [batch_size, seq_len]\n"
+"\n"
+"        Returns:\n"
+"            Predicted probabilities or logits [batch_size, seq_len]\n"
+"        \"\"\"\n"
+"        # 1. Encode interaction features: current question + current "
+"response\n"
+"        q_emb = self.question_embed(question)  # [B, S, D]\n"
+"        r_emb = self.response_embed(response)  # [B, S, D]\n"
+"        interaction_emb = torch.cat([q_emb, r_emb], dim=-1)  # [B, S, 2D]"
+"\n"
+"        interaction_emb = self.dropout(interaction_emb)\n"
+"\n"
+"        # 2. Sequence modeling\n"
+"        h, _ = self.lstm(interaction_emb)  # [B, S, H]\n"
+"\n"
+"        # 3. Prediction probabilities (sigmoid activation produces 0~1 "
+"range)\n"
+"        logits = self.fc(h).squeeze(-1)  # [B, S]\n"
+"        y_hat = torch.sigmoid(logits)\n"
+"\n"
+"        return y_hat\n"
+
+#: ../../source/developer-guides/customize-model.md:133
+#: 101c79f1942b463cab791d98bdd3e179
+msgid "第二步：编写数据适配器 (`<Name>_data.py`)"
+msgstr "Step 2: Implement Data Adapter (`<Name>_data.py`)"
+
+#: ../../source/developer-guides/customize-model.md:135
+#: 71eb77d682a84fa7b7e15250bc697a1c
+msgid "知识追踪数据加载器负责将数据集转换为 PyTorch `Dataset`，并通过 K 折交叉验证划分出训练集、验证集和测试集。"
+msgstr ""
+"The knowledge tracing data loader transforms datasets into PyTorch "
+"`Dataset` instances and partitions them into train, validation, and test "
+"sets via K-fold cross-validation."
+
+#: ../../source/developer-guides/customize-model.md:137
+#: 79f5270b3ab34dd9aa56d249743573b9
+msgid "基类选择：QuestionModelData vs SkillModelData"
+msgstr "Base Class Selection: QuestionModelData vs SkillModelData"
+
+#: ../../source/developer-guides/customize-model.md:139
+#: b97d7b4016e24738adaf093f356ab02e
+msgid "UniKT 提供了两个高级数据基类："
+msgstr "UniKT provides two high-level data base classes:"
+
+#: ../../source/developer-guides/customize-model.md:140
+#: 423b7e673b32445a895122faf747f68b
+msgid ""
+"**`QuestionModelData`**：以“题目”为序列主键粒度（每道题目可能关联多个或一个 KC）。适合需要题目建模的模型（如 AKT,"
+" GIKT, SimpleKT）。"
+msgstr ""
+"**`QuestionModelData`**: Uses questions as primary sequence keys (each "
+"question may associate with one or multiple KCs). Best suited for item-"
+"centric models (e.g., AKT, GIKT, SimpleKT)."
+
+#: ../../source/developer-guides/customize-model.md:141
+#: bf43a09c81f04f7d9cf30b34b1454c86
+msgid ""
+"**`SkillModelData`**：以“知识概念”为序列主键粒度（在多技能交互时会自动展开）。适合经典的技能级模型（如 DKT, "
+"DKVMN）。"
+msgstr ""
+"**`SkillModelData`**: Uses knowledge concepts as primary sequence keys "
+"(multi-skill interactions are automatically expanded). Best suited for "
+"classic skill-level models (e.g., DKT, DKVMN)."
+
+#: ../../source/developer-guides/customize-model.md:143
+#: beade37bfb684b37a2ad84abd4f0ba5b
+msgid "数据加载与折切分契约"
+msgstr "Data Loading and Fold Partitioning Contract"
+
+#: ../../source/developer-guides/customize-model.md:145
+#: 64a408559ac84f61a394a3ca33c7c544
+msgid "框架严格保证模型层**不直接操作原始文件路径或全局缓存**，而是统一调用基类内置方法："
+msgstr ""
+"The framework strictly guarantees that model code **never directly "
+"touches raw file paths or global caches**, relying uniformly on base "
+"class methods:"
+
+#: ../../source/developer-guides/customize-model.md:147
+#: 4754151176b644238612d4cfb56e7264
+msgid ""
+"`self.load_sequences(required=..., optional=...)`：加载当前数据集打包序列，返回 "
+"`PackedSequences` 对象。"
+msgstr ""
+"`self.load_sequences(required=..., optional=...)`: Loads packed sequences"
+" for the dataset and returns a `PackedSequences` object."
+
+#: ../../source/developer-guides/customize-model.md:148
+#: 66ad74ab1d284abab72f597df16439d0
+msgid "`required`: 模型必需的交互列（缺失会立即抛出异常并提示缺少字段）。"
+msgstr ""
+"`required`: Mandatory interaction columns for the model (missing columns "
+"trigger an immediate failure with informative errors)."
+
+#: ../../source/developer-guides/customize-model.md:149
+#: d3eaa8a849924be08c197cb023224048
+msgid "`optional`: 可选特征列（存在时加载，不存在则优雅降级）。"
+msgstr ""
+"`optional`: Optional feature columns (loaded if present, gracefully "
+"fallback if absent)."
+
+#: ../../source/developer-guides/customize-model.md:150
+#: 75c9cad56ca24067859fe98f8b2aa8fa
+msgid "`PackedSequences` 属性："
+msgstr "`PackedSequences` Attributes:"
+
+#: ../../source/developer-guides/customize-model.md:151
+#: c693e9144aae4764bcab3a84446e9a58
+msgid "`question`: 题目 ID 二维数组 `[N, S]`。"
+msgstr "`question`: 2D array of question IDs `[N, S]`."
+
+#: ../../source/developer-guides/customize-model.md:152
+#: 01bcf1d956364a4f813bb6bd21db31d5
+msgid "`response`: 作答结果二维数组 `[N, S]`。"
+msgstr "`response`: 2D array of response outcomes `[N, S]`."
+
+#: ../../source/developer-guides/customize-model.md:153
+#: d8a39b98c5c84b7dbe705ffc5a4eda7e
+msgid "`mask`: 有效位置布尔掩码 `[N, S]`。"
+msgstr "`mask`: 2D boolean mask of valid positions `[N, S]`."
+
+#: ../../source/developer-guides/customize-model.md:154
+#: 1e1c18377ec84659bbb89245b9610c82
+msgid "`skills`: 题目关联的知识点数组。"
+msgstr "`skills`: Array of skills associated with questions."
+
+#: ../../source/developer-guides/customize-model.md:155
+#: 738a615f1246470f8e4c8f79b98360cb
+msgid ""
+"`partition(fold_idx)`：根据指定折索引自动生成划分索引，并可通过 `partition.apply(dataset)` "
+"对样本集进行零拷贝切分。"
+msgstr ""
+"`partition(fold_idx)`: Generates split indices for a specified fold "
+"index, enabling zero-copy slicing via `partition.apply(dataset)`."
+
+#: ../../source/developer-guides/customize-model.md:156
+#: 869f312e139f4abf8af5f5ee501f76e8
+msgid "`to_first_skill_ids(skills)`：针对一个题目包含多个技能的情况，提供快速提取主知识点 ID 的辅助函数。"
+msgstr ""
+"`to_first_skill_ids(skills)`: Utility helper to extract the primary skill"
+" ID when questions map to multiple skills."
+
+#: ../../source/developer-guides/customize-model.md:158
+#: 783cee8e9e294334863c5ffaf3a65411
+msgid "在 `MyKT_data.py` 中编写数据集类与数据预处理逻辑："
+msgstr "Implement dataset classes and preprocessing logic in `MyKT_data.py`:"
+
+#: ../../source/developer-guides/customize-model.md:160
+#: fbbc92ef96074658956ce4e4332ff080
+#, python-brace-format
+msgid ""
+"\"\"\"MyKT 模型数据加载与准备。\"\"\"\n"
+"\n"
+"from typing import Any\n"
+"\n"
+"import torch\n"
+"from torch.utils.data import Dataset\n"
+"from typing_extensions import override\n"
+"\n"
+"from utils.core import get_logger\n"
+"from utils.data_process import DataSource\n"
+"from utils.model_data import QuestionModelData\n"
+"from utils.model_data.packed_sequences import to_first_skill_ids\n"
+"\n"
+"logger = get_logger(__name__)\n"
+"\n"
+"\n"
+"class MyKTDataset(Dataset):\n"
+"    \"\"\"MyKT 训练与验证样本集。\"\"\"\n"
+"\n"
+"    def __init__(\n"
+"        self,\n"
+"        questions: torch.Tensor,\n"
+"        responses: torch.Tensor,\n"
+"        masks: torch.Tensor,\n"
+"        skills: torch.Tensor | None = None,\n"
+"    ):\n"
+"        self.questions = questions\n"
+"        self.responses = responses\n"
+"        self.masks = masks\n"
+"        self.skills = skills\n"
+"\n"
+"    def __len__(self) -> int:\n"
+"        return len(self.questions)\n"
+"\n"
+"    def __getitem__(self, idx: int) -> tuple[torch.Tensor, ...]:\n"
+"        q = torch.tensor(self.questions[idx], dtype=torch.long)\n"
+"        r = torch.tensor(self.responses[idx], dtype=torch.long)\n"
+"        m = torch.tensor(self.masks[idx], dtype=torch.bool)\n"
+"        if self.skills is not None:\n"
+"            s = torch.tensor(self.skills[idx], dtype=torch.long)\n"
+"            return q, r, m, s\n"
+"        return q, r, m\n"
+"\n"
+"\n"
+"class MyKTModelData(QuestionModelData):\n"
+"    \"\"\"MyKT 数据准备处理器。\"\"\"\n"
+"\n"
+"    def __init__(self, data_src: DataSource):\n"
+"        super().__init__(data_src)\n"
+"\n"
+"    @override\n"
+"    def prepare_data(self, rc: Any) -> tuple[Dataset, Dataset, Any]:\n"
+"        \"\"\"按照 RunConfig 规范切分并组装数据集。\n"
+"\n"
+"        Args:\n"
+"            rc: RunConfig 强类型配置对象\n"
+"\n"
+"        Returns:\n"
+"            (train_dataset, val_dataset, test_dataset)\n"
+"        \"\"\"\n"
+"        fold_idx = rc.data.fold\n"
+"        logger.info(f\"Loading packed sequences for fold {fold_idx}...\")"
+"\n"
+"\n"
+"        # 1. 统一加载对齐后的序列数据（零拷贝）\n"
+"        sequences = self.load_sequences()\n"
+"        partition = sequences.partition(fold_idx)\n"
+"\n"
+"        # 2. 提取核心张量\n"
+"        questions = sequences.question\n"
+"        responses = sequences.response\n"
+"        masks = sequences.mask\n"
+"        # 若需要提取主知识点：\n"
+"        skills = to_first_skill_ids(sequences.skills)\n"
+"\n"
+"        # 3. 包装为 Dataset 并基于折划分应用切分\n"
+"        full_dataset = MyKTDataset(questions, responses, masks, skills)\n"
+"        train_dataset, val_dataset, _ = partition.apply(full_dataset)\n"
+"\n"
+"        # 4. 构建标准 Windowlate 窗口测试评估集（统一评估协议）\n"
+"        test_dataset = self.create_windowlate_dataloader(\n"
+"            batch_size=rc.model.batch_size,\n"
+"            shuffle=False,\n"
+"            num_workers=4,\n"
+"            pin_memory=True,\n"
+"        )\n"
+"\n"
+"        logger.info(\n"
+"            f\"Data prepared: train={len(train_dataset)}, "
+"val={len(val_dataset)}, \"\n"
+"            f\"test(window)={len(test_dataset)}\"\n"
+"        )\n"
+"        return train_dataset, val_dataset, test_dataset\n"
+msgstr ""
+"\"\"\"MyKT model data loading and preparation.\"\"\"\n"
+"\n"
+"from typing import Any\n"
+"\n"
+"import torch\n"
+"from torch.utils.data import Dataset\n"
+"from typing_extensions import override\n"
+"\n"
+"from utils.core import get_logger\n"
+"from utils.data_process import DataSource\n"
+"from utils.model_data import QuestionModelData\n"
+"from utils.model_data.packed_sequences import to_first_skill_ids\n"
+"\n"
+"logger = get_logger(__name__)\n"
+"\n"
+"\n"
+"class MyKTDataset(Dataset):\n"
+"    \"\"\"MyKT training and validation dataset.\"\"\"\n"
+"\n"
+"    def __init__(\n"
+"        self,\n"
+"        questions: torch.Tensor,\n"
+"        responses: torch.Tensor,\n"
+"        masks: torch.Tensor,\n"
+"        skills: torch.Tensor | None = None,\n"
+"    ):\n"
+"        self.questions = questions\n"
+"        self.responses = responses\n"
+"        self.masks = masks\n"
+"        self.skills = skills\n"
+"\n"
+"    def __len__(self) -> int:\n"
+"        return len(self.questions)\n"
+"\n"
+"    def __getitem__(self, idx: int) -> tuple[torch.Tensor, ...]:\n"
+"        q = torch.tensor(self.questions[idx], dtype=torch.long)\n"
+"        r = torch.tensor(self.responses[idx], dtype=torch.long)\n"
+"        m = torch.tensor(self.masks[idx], dtype=torch.bool)\n"
+"        if self.skills is not None:\n"
+"            s = torch.tensor(self.skills[idx], dtype=torch.long)\n"
+"            return q, r, m, s\n"
+"        return q, r, m\n"
+"\n"
+"\n"
+"class MyKTModelData(QuestionModelData):\n"
+"    \"\"\"MyKT data preparation processor.\"\"\"\n"
+"\n"
+"    def __init__(self, data_src: DataSource):\n"
+"        super().__init__(data_src)\n"
+"\n"
+"    @override\n"
+"    def prepare_data(self, rc: Any) -> tuple[Dataset, Dataset, Any]:\n"
+"        \"\"\"Partition and assemble datasets according to RunConfig "
+"specification.\n"
+"\n"
+"        Args:\n"
+"            rc: RunConfig typed configuration object\n"
+"\n"
+"        Returns:\n"
+"            (train_dataset, val_dataset, test_dataset)\n"
+"        \"\"\"\n"
+"        fold_idx = rc.data.fold\n"
+"        logger.info(f\"Loading packed sequences for fold {fold_idx}...\")"
+"\n"
+"\n"
+"        # 1. Load packed sequences (zero copy)\n"
+"        sequences = self.load_sequences()\n"
+"        partition = sequences.partition(fold_idx)\n"
+"\n"
+"        # 2. Extract core tensors\n"
+"        questions = sequences.question\n"
+"        responses = sequences.response\n"
+"        masks = sequences.mask\n"
+"        # Extract primary skill IDs if needed:\n"
+"        skills = to_first_skill_ids(sequences.skills)\n"
+"\n"
+"        # 3. Wrap into Dataset and partition based on fold\n"
+"        full_dataset = MyKTDataset(questions, responses, masks, skills)\n"
+"        train_dataset, val_dataset, _ = partition.apply(full_dataset)\n"
+"\n"
+"        # 4. Construct standardized windowlate test evaluation loader\n"
+"        test_dataset = self.create_windowlate_dataloader(\n"
+"            batch_size=rc.model.batch_size,\n"
+"            shuffle=False,\n"
+"            num_workers=4,\n"
+"            pin_memory=True,\n"
+"        )\n"
+"\n"
+"        logger.info(\n"
+"            f\"Data prepared: train={len(train_dataset)}, "
+"val={len(val_dataset)}, \"\n"
+"            f\"test(window)={len(test_dataset)}\"\n"
+"        )\n"
+"        return train_dataset, val_dataset, test_dataset\n"
+
+#: ../../source/developer-guides/customize-model.md:256
+#: a3fc7169ccd2414d9c1ebc83735590f5
+msgid "第三步：实现模型配置与训练器 (`<Name>_trainer.py`)"
+msgstr "Step 3: Implement Model Config and Trainer (`<Name>_trainer.py`)"
+
+#: ../../source/developer-guides/customize-model.md:258
+#: 57f6af673e014aed88b0d28cd4ae97c5
+msgid "在 UniKT 中，模型超参数与训练器装配通过强类型类进行约束。"
+msgstr ""
+"In UniKT, model hyperparameters and trainer assembly are constrained by "
+"strongly typed classes."
+
+#: ../../source/developer-guides/customize-model.md:260
+#: 5cc9140badb24ce7a0cbb1726feddc10
+msgid "1. 注册模型超参数 (`ModelConfig`)"
+msgstr "1\\. Register Model Hyperparameters (`ModelConfig`)"
+
+#: ../../source/developer-guides/customize-model.md:262
+#: c571ced86b49427086c47ef15550ea3e
+msgid ""
+"模型参数必须继承 `utils.config.ModelConfig`，并通过 "
+"`@register_model_config(\"<ModelName>\")` 注册。"
+msgstr ""
+"Model parameters must inherit from `utils.config.ModelConfig` and be "
+"registered via `@register_model_config(\"<ModelName>\")`."
+
+#: ../../source/developer-guides/customize-model.md:263
+#: 25dada39d84142f5b98039c18007858c
+msgid ""
+"基类 `ModelConfig` 已经内置了标准参数契约：`epochs`, `batch_size`, `learning_rate`, "
+"`weight_decay`。"
+msgstr ""
+"The base class `ModelConfig` predefines standard configuration contracts:"
+" `epochs`, `batch_size`, `learning_rate`, `weight_decay`."
+
+#: ../../source/developer-guides/customize-model.md:264
+#: a22ad303e13d4ebc9f7a6f8faeb8035b
+msgid "子类只需声明特定超参数，并为其赋予默认值与类型注解。"
+msgstr ""
+"Subclasses only declare model-specific hyperparameters with default "
+"values and type annotations."
+
+#: ../../source/developer-guides/customize-model.md:265
+#: 882425af003a4a94b8b63aff9d7d6d9d
+#, python-brace-format
+msgid ""
+"若需支持自动化超参数搜索，可以在字段元数据中声明 `metadata={\"optuna\": {...}}`，Optuna "
+"寻参时会自动据此推断搜索空间。"
+msgstr ""
+"To support automated hyperparameter search, declare "
+"`metadata={\"optuna\": {...}}` on fields; Optuna automatically infers the"
+" search space accordingly."
+
+#: ../../source/developer-guides/customize-model.md:267
+#: e0f696063ca94b78a04e472622ee8939
+msgid "2. 注册训练器 (`BaseTrainer`)"
+msgstr "2\\. Register Trainer (`BaseTrainer`)"
+
+#: ../../source/developer-guides/customize-model.md:269
+#: 691f89fc57a7431b8d17d41df06eeae6
+msgid ""
+"训练器必须继承 `utils.training.BaseTrainer`，并通过 "
+"`@register_trainer(\"<ModelName>\")` 注册。核心需要实现两个方法："
+msgstr ""
+"Trainers must inherit from `utils.training.BaseTrainer` and be registered"
+" via `@register_trainer(\"<ModelName>\")`. Two core methods must be "
+"implemented:"
+
+#: ../../source/developer-guides/customize-model.md:271
+#: fc9bbfafaba94b1388ae675f732a849a
+msgid "**`build_components(self, rc, data_src) -> RuntimeComponents`**："
+msgstr "**`build_components(self, rc, data_src) -> RuntimeComponents`**: "
+
+#: ../../source/developer-guides/customize-model.md:272
+#: 0929dea9379d4dfd9908f660a91d3891
+msgid "组装模型、优化器、损失函数、学习率衰减器和数据集。"
+msgstr ""
+"Assemble model, optimizer, loss function, learning rate scheduler, and "
+"datasets."
+
+#: ../../source/developer-guides/customize-model.md:273
+#: 35851d12f7e849c6953a74ff07923499
+msgid "返回 `RuntimeComponents` 容器。"
+msgstr "Return the `RuntimeComponents` container."
+
+#: ../../source/developer-guides/customize-model.md:274
+#: 336dc15402224319b136a4f10469e94f
+msgid ""
+"所有运行时对象（Model、Optimizer、Loss）存入 `RuntimeComponents`；所有标量配置严格通过 `rc` "
+"访问，避免在 `self` 上悬挂多余属性。"
+msgstr ""
+"All runtime objects (Model, Optimizer, Loss) are stored in "
+"`RuntimeComponents`; all scalar configurations are accessed strictly "
+"through `rc`, avoiding dangling attributes on `self`."
+
+#: ../../source/developer-guides/customize-model.md:275
+#: acecd9ce4d9e489c8b5bfab975160e3c
+msgid "**`forward_pass(self, batch_data) -> dict`**："
+msgstr "**`forward_pass(self, batch_data) -> dict`**: "
+
+#: ../../source/developer-guides/customize-model.md:276
+#: 29c48169a5614728a210266997b974ff
+msgid "将批次数据送入 GPU 设备：`self._move_tensor_to_device(...)`。"
+msgstr "Transfer batch data to GPU device: `self._move_tensor_to_device(...)`."
+
+#: ../../source/developer-guides/customize-model.md:277
+#: 8131ba6e30dc41948854e221195cb6e1
+msgid "执行前向计算获得预测值。"
+msgstr "Execute forward computation to obtain predictions."
+
+#: ../../source/developer-guides/customize-model.md:278
+#: 4967232a8f9e44dbbaae4a7c8f2f2d7f
+msgid ""
+"使用辅助方法 `self._extract_valid_predictions(...)` 将预测值与真实标签按掩码对齐（针对 Next-item"
+" 自动处理偏移与打平）。"
+msgstr ""
+"Use helper method `self._extract_valid_predictions(...)` to align "
+"predictions with ground-truth labels by mask (automatically handling "
+"shifts and flattening for next-item prediction)."
+
+#: ../../source/developer-guides/customize-model.md:279
+#: 636253160140403cbefd7a22ec8f401a
+msgid "处理空批次安全防护：`self._handle_empty_batch(...)`。"
+msgstr "Handle empty batch safety guard: `self._handle_empty_batch(...)`."
+
+#: ../../source/developer-guides/customize-model.md:280
+#: 34638c222d534dc2b4c8e04c5bdcf209
+msgid "生成 0/1 二值化预测：`self._generate_binary_predictions(...)`。"
+msgstr ""
+"Generate 0/1 binarized predictions: "
+"`self._generate_binary_predictions(...)`."
+
+#: ../../source/developer-guides/customize-model.md:281
+#: 3bd75bf8f98d4ec684be4f58f1f2851b
+msgid "返回标准指标字典："
+msgstr "Return standard metrics dictionary:"
+
+#: ../../source/developer-guides/customize-model.md:282
+#: c61b2852b97b4e3899edc7ebf759183c
+#, python-brace-format
+msgid ""
+"{\n"
+"    \"y_hat\": y_hat,  # 预测概率 [N_valid]\n"
+"    \"y_label\": y_label,  # 真实标签 [N_valid]\n"
+"    \"y_predict\": y_predict,  # 离散二值预测 0/1 [N_valid]\n"
+"    \"y_score\": y_hat,  # AUC 连续分数 [N_valid]\n"
+"    \"y_prob\": y_hat,  # 校准概率 [N_valid]\n"
+"}\n"
+msgstr ""
+"{\n"
+"    \"y_hat\": y_hat,  # Predicted probabilities [N_valid]\n"
+"    \"y_label\": y_label,  # Ground truth labels [N_valid]\n"
+"    \"y_predict\": y_predict,  # Discrete binary predictions 0/1 "
+"[N_valid]\n"
+"    \"y_score\": y_hat,  # Continuous scores for AUC [N_valid]\n"
+"    \"y_prob\": y_hat,  # Calibrated probabilities [N_valid]\n"
+"}\n"
+
+#: ../../source/developer-guides/customize-model.md:292
+#: c3b0d178f25f4a22b4875f86bdbe5453
+msgid "在 `MyKT_trainer.py` 中的完整实现如下："
+msgstr "The complete implementation in `MyKT_trainer.py` is as follows:"
+
+#: ../../source/developer-guides/customize-model.md:294
+#: cdfc620d2f784e8490072cd7dc275ab1
+#, python-brace-format
+msgid ""
+"\"\"\"MyKT 训练器与模型配置。\"\"\"\n"
+"\n"
+"from dataclasses import field\n"
+"\n"
+"import torch\n"
+"import torch.nn as nn\n"
+"\n"
+"from utils.config import ModelConfig\n"
+"from utils.core import get_logger, register_model_config, "
+"register_trainer\n"
+"from utils.training import BaseTrainer, RuntimeComponents\n"
+"\n"
+"logger = get_logger(__name__)\n"
+"\n"
+"__all__ = [\"MyKTConfig\", \"MyKTTrainer\"]\n"
+"\n"
+"\n"
+"@register_model_config(\"MyKT\")\n"
+"class MyKTConfig(ModelConfig):\n"
+"    \"\"\"MyKT 超参数配置树。\n"
+"\n"
+"    Args:\n"
+"        embedding_dim: 题目与知识点的嵌入维度。\n"
+"        hidden_dim: LSTM 隐状态特征维度。\n"
+"        dropout: 失活概率。\n"
+"        epochs: 训练轮数。\n"
+"        batch_size: 批大小。\n"
+"        learning_rate: 优化器初始学习率。\n"
+"        weight_decay: L2 正则化系数。\n"
+"    \"\"\"\n"
+"\n"
+"    embedding_dim: int = field(\n"
+"        default=128,\n"
+"        metadata={\"optuna\": {\"type\": \"categorical\", \"choices\": "
+"[64, 128, 256]}},\n"
+"    )\n"
+"    hidden_dim: int = field(\n"
+"        default=128,\n"
+"        metadata={\"optuna\": {\"type\": \"categorical\", \"choices\": "
+"[64, 128, 256]}},\n"
+"    )\n"
+"    dropout: float = field(\n"
+"        default=0.2,\n"
+"        metadata={\"optuna\": {\"type\": \"float\", \"low\": 0.0, "
+"\"high\": 0.5}},\n"
+"    )\n"
+"    epochs: int = 150\n"
+"    batch_size: int = field(\n"
+"        default=128,\n"
+"        metadata={\"optuna\": {\"type\": \"categorical\", \"choices\": "
+"[64, 128, 256]}},\n"
+"    )\n"
+"    learning_rate: float = field(\n"
+"        default=1e-3,\n"
+"        metadata={\"optuna\": {\"type\": \"float\", \"low\": 1e-4, "
+"\"high\": 1e-2, \"log\": True}},\n"
+"    )\n"
+"    weight_decay: float = 1e-5\n"
+"\n"
+"\n"
+"@register_trainer(\"MyKT\")\n"
+"class MyKTTrainer(BaseTrainer):\n"
+"    \"\"\"MyKT 模型训练器。\"\"\"\n"
+"\n"
+"    def build_components(self, rc, data_src) -> RuntimeComponents:\n"
+"        \"\"\"延迟装配模型、数据与优化器运行时实例。\"\"\"\n"
+"        # 延迟局部导入，避免未使用的模型拖慢系统发现与 CLI 启动\n"
+"        from model.MyKT.MyKT_data import MyKTModelData\n"
+"        from model.MyKT.MyKT_model import MyKTNet\n"
+"\n"
+"        # 1. 准备数据\n"
+"        train_data, val_data, test_data = "
+"MyKTModelData(data_src).prepare_data(rc)\n"
+"\n"
+"        # 2. 从数据集获取元信息\n"
+"        metadata = data_src.get_metadata()\n"
+"        m = rc.model\n"
+"\n"
+"        # 3. 实例化模型并迁移到预定设备\n"
+"        logger.info(f\"Initializing MyKT model with "
+"dim={m.embedding_dim}...\")\n"
+"        model = MyKTNet(\n"
+"            num_questions=metadata[\"num_questions\"],\n"
+"            num_skills=metadata[\"num_skills\"],\n"
+"            embedding_dim=m.embedding_dim,\n"
+"            hidden_dim=m.hidden_dim,\n"
+"            dropout=m.dropout,\n"
+"        )\n"
+"\n"
+"        # 4. 优化器与损失函数\n"
+"        optimizer = torch.optim.Adam(\n"
+"            model.parameters(),\n"
+"            lr=m.learning_rate,\n"
+"            weight_decay=m.weight_decay,\n"
+"        )\n"
+"        loss_fn = nn.BCELoss()\n"
+"\n"
+"        return RuntimeComponents(\n"
+"            model=model,\n"
+"            optimizer=optimizer,\n"
+"            loss_fn=loss_fn,\n"
+"            train_data=train_data,\n"
+"            val_data=val_data,\n"
+"            test_data=test_data,\n"
+"            max_clip_grad_norm=5.0,  # 梯度裁剪阈值\n"
+"        )\n"
+"\n"
+"    def forward_pass(self, batch_data: tuple) -> dict[str, torch.Tensor]:"
+"\n"
+"        \"\"\"执行单批次前向传播并严格对齐标签。\n"
+"\n"
+"        Args:\n"
+"            batch_data: MyKTDataset 返回的数据元组 (q, r, m, [s])\n"
+"\n"
+"        Returns:\n"
+"            标准化指标计算字典\n"
+"        \"\"\"\n"
+"        if len(batch_data) == 4:\n"
+"            question, response, mask, skill = batch_data\n"
+"            skill = self._move_tensor_to_device(skill)\n"
+"        else:\n"
+"            question, response, mask = batch_data\n"
+"            skill = None\n"
+"\n"
+"        question = self._move_tensor_to_device(question)\n"
+"        response = self._move_tensor_to_device(response)\n"
+"        mask = self._move_tensor_to_device(mask)\n"
+"\n"
+"        # 1. 模型前向计算 [B, S]\n"
+"        y_hat_full = self.model(question, response, mask, skill=skill)\n"
+"\n"
+"        # 2. 预测截断对齐（Next-item: same_position=False 默认，对齐 t 时刻预测与 t+1 标签）\n"
+"        y_hat, y_label, _ = self._extract_valid_predictions(\n"
+"            y_hat_full, response, mask, same_position=False\n"
+"        )\n"
+"\n"
+"        # 3. 空批次防护\n"
+"        y_hat, y_label = self._handle_empty_batch(y_hat, y_label)\n"
+"\n"
+"        # 4. 生成 0/1 离散预测\n"
+"        y_predict = self._generate_binary_predictions(y_hat, "
+"threshold=0.5)\n"
+"\n"
+"        return {\n"
+"            \"y_hat\": y_hat,\n"
+"            \"y_label\": y_label,\n"
+"            \"y_predict\": y_predict,\n"
+"            \"y_score\": y_hat,\n"
+"            \"y_prob\": y_hat,\n"
+"        }\n"
+msgstr ""
+"\"\"\"MyKT model configuration and trainer implementation.\"\"\"\n"
+"\n"
+"from dataclasses import field\n"
+"import torch\n"
+"import torch.nn as nn\n"
+"from utils.config import ModelConfig\n"
+"from utils.core import get_logger, register_model_config, "
+"register_trainer\n"
+"from utils.training import BaseTrainer, RuntimeComponents\n"
+"\n"
+"logger = get_logger(__name__)\n"
+"\n"
+"__all__ = [\"MyKTConfig\", \"MyKTTrainer\"]\n"
+"\n"
+"\n"
+"@register_model_config(\"MyKT\")\n"
+"class MyKTConfig(ModelConfig):\n"
+"    \"\"\"MyKT hyperparameter configuration tree.\n"
+"\n"
+"    Args:\n"
+"        embedding_dim: Embedding dimension for questions and skills.\n"
+"        hidden_dim: LSTM hidden feature dimension.\n"
+"        dropout: Dropout rate.\n"
+"        epochs: Number of training epochs.\n"
+"        batch_size: Batch size.\n"
+"        learning_rate: Initial learning rate.\n"
+"        weight_decay: L2 regularization coefficient.\n"
+"    \"\"\"\n"
+"\n"
+"    embedding_dim: int = field(\n"
+"        default=128,\n"
+"        metadata={\"optuna\": {\"type\": \"categorical\", \"choices\": "
+"[64, 128, 256]}},\n"
+"    )\n"
+"    hidden_dim: int = field(\n"
+"        default=128,\n"
+"        metadata={\"optuna\": {\"type\": \"categorical\", \"choices\": "
+"[64, 128, 256]}},\n"
+"    )\n"
+"    dropout: float = field(\n"
+"        default=0.2,\n"
+"        metadata={\"optuna\": {\"type\": \"float\", \"low\": 0.0, "
+"\"high\": 0.5}},\n"
+"    )\n"
+"    epochs: int = 150\n"
+"    batch_size: int = field(\n"
+"        default=128,\n"
+"        metadata={\"optuna\": {\"type\": \"categorical\", \"choices\": "
+"[64, 128, 256]}},\n"
+"    )\n"
+"    learning_rate: float = field(\n"
+"        default=1e-3,\n"
+"        metadata={\"optuna\": {\"type\": \"float\", \"low\": 1e-4, "
+"\"high\": 1e-2, \"log\": True}},\n"
+"    )\n"
+"    weight_decay: float = 1e-5\n"
+"\n"
+"\n"
+"@register_trainer(\"MyKT\")\n"
+"class MyKTTrainer(BaseTrainer):\n"
+"    \"\"\"MyKT model trainer.\"\"\"\n"
+"\n"
+"    def build_components(self, rc, data_src) -> RuntimeComponents:\n"
+"        \"\"\"Lazily assemble runtime instances for model, data, and "
+"optimizer.\"\"\"\n"
+"        # Lazy local imports prevent unused models from slowing CLI "
+"startup\n"
+"        from model.MyKT.MyKT_data import MyKTModelData\n"
+"        from model.MyKT.MyKT_model import MyKTNet\n"
+"\n"
+"        # 1. Prepare datasets\n"
+"        train_data, val_data, test_data = "
+"MyKTModelData(data_src).prepare_data(rc)\n"
+"\n"
+"        # 2. Retrieve metadata\n"
+"        metadata = data_src.get_metadata()\n"
+"        m = rc.model\n"
+"\n"
+"        # 3. Instantiate model\n"
+"        logger.info(f\"Initializing MyKT model with "
+"dim={m.embedding_dim}...\")\n"
+"        model = MyKTNet(\n"
+"            num_questions=metadata[\"num_questions\"],\n"
+"            num_skills=metadata[\"num_skills\"],\n"
+"            embedding_dim=m.embedding_dim,\n"
+"            hidden_dim=m.hidden_dim,\n"
+"            dropout=m.dropout,\n"
+"        )\n"
+"\n"
+"        # 4. Optimizer and loss function\n"
+"        optimizer = torch.optim.Adam(\n"
+"            model.parameters(),\n"
+"            lr=m.learning_rate,\n"
+"            weight_decay=m.weight_decay,\n"
+"        )\n"
+"        loss_fn = nn.BCELoss()\n"
+"\n"
+"        return RuntimeComponents(\n"
+"            model=model,\n"
+"            optimizer=optimizer,\n"
+"            loss_fn=loss_fn,\n"
+"            train_data=train_data,\n"
+"            val_data=val_data,\n"
+"            test_data=test_data,\n"
+"            max_clip_grad_norm=5.0,\n"
+"        )\n"
+"\n"
+"    def forward_pass(self, batch_data: tuple) -> dict[str, torch.Tensor]:"
+"\n"
+"        \"\"\"Execute single-batch forward pass and align prediction "
+"targets.\n"
+"\n"
+"        Args:\n"
+"            batch_data: Data tuple from MyKTDataset (q, r, m, [s])\n"
+"\n"
+"        Returns:\n"
+"            Standardized prediction metrics dictionary\n"
+"        \"\"\"\n"
+"        if len(batch_data) == 4:\n"
+"            question, response, mask, skill = batch_data\n"
+"            skill = self._move_tensor_to_device(skill)\n"
+"        else:\n"
+"            question, response, mask = batch_data\n"
+"            skill = None\n"
+"\n"
+"        question = self._move_tensor_to_device(question)\n"
+"        response = self._move_tensor_to_device(response)\n"
+"        mask = self._move_tensor_to_device(mask)\n"
+"\n"
+"        # 1. Model forward computation [B, S]\n"
+"        y_hat_full = self.model(question, response, mask, skill=skill)\n"
+"\n"
+"        # 2. Align predictions (Next-item: same_position=False aligns t "
+"prediction with t+1 label)\n"
+"        y_hat, y_label, _ = self._extract_valid_predictions(\n"
+"            y_hat_full, response, mask, same_position=False\n"
+"        )\n"
+"\n"
+"        # 3. Protect against empty batch\n"
+"        y_hat, y_label = self._handle_empty_batch(y_hat, y_label)\n"
+"\n"
+"        # 4. Generate binary predictions\n"
+"        y_predict = self._generate_binary_predictions(y_hat, "
+"threshold=0.5)\n"
+"\n"
+"        return {\n"
+"            \"y_hat\": y_hat,\n"
+"            \"y_label\": y_label,\n"
+"            \"y_predict\": y_predict,\n"
+"            \"y_score\": y_hat,\n"
+"            \"y_prob\": y_hat,\n"
+"        }\n"
+
+#: ../../source/developer-guides/customize-model.md:439
+#: d6471b8776f545e3913ec38574aba775
+msgid "第四步：测试与验证"
+msgstr "Step 4: Testing and Verification"
+
+#: ../../source/developer-guides/customize-model.md:441
+#: e92fbf3d4d9040af8cc7fe317596c760
+msgid "开发完成后，无需任何繁复的手动注册步骤，直接运行以下命令验证集成状态："
+msgstr ""
+"After development, verify integration directly without manual "
+"registration steps:"
+
+#: ../../source/developer-guides/customize-model.md:443
+#: 86bd4168d9b946e6950675971b46aa12
+msgid "1. 验证静态扫描注册"
+msgstr "1\\. Verify Static Registry Discovery"
+
+#: ../../source/developer-guides/customize-model.md:444
+#: 74951d12034b480abb26e79ffd88122a
+msgid "通过运行 K 折脚本的 `--list` 选项，检查模型是否被 UniversalRegistry 正确索引："
+msgstr ""
+"Run the K-fold script with `--list` to verify that the model is properly "
+"indexed by UniversalRegistry:"
+
+#: ../../source/developer-guides/customize-model.md:446
+#: 91a3df2180374d889d30aceb69d888a0
+msgid "bash scripts/run_kfold.sh --list | grep MyKT\n"
+msgstr "bash scripts/run_kfold.sh --list | grep MyKT\n"
+
+#: ../../source/developer-guides/customize-model.md:450
+#: fbd3d47cc7cd4e8e967f6d8a57866c10
+msgid "如果输出 `MyKT`，表示模型配置与训练器已自动注册成功。"
+msgstr ""
+"If `MyKT` appears in the output, model configuration and trainer have "
+"been successfully registered."
+
+#: ../../source/developer-guides/customize-model.md:452
+#: b69fcdaece674a9799444f3a593503d2
+msgid "2. 启动单折训练"
+msgstr "2\\. Run Single-Fold Training"
+
+#: ../../source/developer-guides/customize-model.md:453
+#: 76e31b3f5acc43f4a47bff790489ce88
+msgid "运行单折训练，确保数据加载与前向计算无异常："
+msgstr ""
+"Launch single-fold training to ensure data loading and forward "
+"computations execute without errors:"
+
+#: ../../source/developer-guides/customize-model.md:455
+#: 734ae47bec1c46f5bb9ca3878c04c24c
+msgid ""
+"python train.py -m MyKT -d assistments09 --data.fold 0 --model.epochs 5 "
+"--model.batch_size 64\n"
+msgstr ""
+"python train.py -m MyKT -d assistments09 --data.fold 0 --model.epochs 5 "
+"--model.batch_size 64\n"
+
+#: ../../source/developer-guides/customize-model.md:459
+#: 55539f4f63a8401c88168dfff7c6407d
+msgid "3. 运行超参数自动化搜索"
+msgstr "3\\. Run Automated Hyperparameter Search"
+
+#: ../../source/developer-guides/customize-model.md:460
+#: d39fc40c7a7b45ea9f718c753fec6993
+msgid "利用定义的 `optuna` 元数据，一键测试超参数搜索流程："
+msgstr ""
+"Test the hyperparameter search workflow using the defined `optuna` "
+"metadata:"
+
+#: ../../source/developer-guides/customize-model.md:462
+#: d18b6c3dec314b51bbf6785e58fec1d5
+msgid ""
+"python optuna_search.py -m MyKT -d assistments09 --optuna_search.metric "
+"auc\n"
+msgstr ""
+"python optuna_search.py -m MyKT -d assistments09 --optuna_search.metric "
+"auc\n"
+
+#: ../../source/developer-guides/customize-model.md:468
+#: d9562e29d4f34bacb447b6db181df755
+msgid "常见问题与避坑指南"
+msgstr "Common Pitfalls and Best Practices"
+
+#: ../../source/developer-guides/customize-model.md:471
+#: 2f98ff57f8e74c859c73f0eebb6377f6
+msgid ""
+"**张量未放置到对应设备**：在 `build_components` 中构建图矩阵、先验知识矩阵时，不要使用 "
+"`self.device_`（此时模型尚未 `build()`）。应统一读取 `rc.general.device`，或使用 "
+"`self.model.register_buffer(...)` 交由 PyTorch 托管设备迁移。"
+msgstr ""
+"**Tensors Not on Correct Device**: When constructing graph matrices or "
+"prior knowledge tables in `build_components`, do not use `self.device_` "
+"(since `build()` has not run yet). Read `rc.general.device` instead, or "
+"call `self.model.register_buffer(...)` so PyTorch handles device "
+"transfers automatically."
+
+#: ../../source/developer-guides/customize-model.md:472
+#: 9fbd694c73f446208a6635b6e2de2206
+msgid ""
+"**预测与标签对齐错位**：绝不要在模型内部手写 `y[:, :-1]` 与 `mask[:, 1:]` 的展平截断逻辑！必须统一调用 "
+"`self._extract_valid_predictions(y_hat_full, response, mask, "
+"same_position=...)`。如果是 DKT 这种在相同位置预测当前题目的模型，传入 "
+"`same_position=True`；如果是预测下一题的模型，传入 `same_position=False`。"
+msgstr ""
+"**Misaligned Predictions and Labels**: Never manually write flattening "
+"and slicing logic like `y[:, :-1]` and `mask[:, 1:]` inside models! "
+"Always call `self._extract_valid_predictions(y_hat_full, response, mask, "
+"same_position=...)`. Pass `same_position=True` for same-position models "
+"like DKT, and `same_position=False` for next-item models."
+
+#: ../../source/developer-guides/customize-model.md:473
+#: af27745130fc4793a7fbbfb17ff4654a
+msgid ""
+"**空批次崩溃**：在极端过滤或填充序列的末尾，偶尔会出现该 batch 内完全没有有效掩码点的情况。务必在 "
+"`_extract_valid_predictions` 后调用 `self._handle_empty_batch(y_hat, "
+"y_label)`，避免 BCELoss 遇到零维张量触发 CUDA 异常。"
+msgstr ""
+"**Empty Batch Crashes**: Under extreme filtering or at sequence tails, a "
+"batch might occasionally contain zero valid masked positions. Always "
+"invoke `self._handle_empty_batch(y_hat, y_label)` after "
+"`_extract_valid_predictions` to prevent BCELoss from triggering CUDA "
+"runtime errors on zero-sized tensors."

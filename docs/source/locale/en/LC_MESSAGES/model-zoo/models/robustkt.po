@@ -1,0 +1,130 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/robustkt.md:1 90a087329384460ba2478db8a122ab2e
+msgid "RobustKT"
+msgstr "RobustKT"
+
+#: ../../source/model-zoo/models/robustkt.md:3 73240f1f89984ad98b87fae266a6ebf7
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/robustkt.md ff540ad36c02417e9aebfcbb1c2f0352
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/robustkt.md 1f9cf01598fb4facb06853b33116f473
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/robustkt.md 5b1784a977174ee68a2ecfb7f0a3b216
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/robustkt.md c943b33d1f0244cbb2d4d07ba8e02f0d
+msgid ""
+"[Enhancing Knowledge Tracing through Decoupling Cognitive Pattern from "
+"Error-Prone Data](https://doi.org/10.1145/3696410.3714486)"
+msgstr ""
+"[Enhancing Knowledge Tracing through Decoupling Cognitive Pattern from "
+"Error-Prone Data](https://doi.org/10.1145/3696410.3714486)"
+
+#: ../../source/model-zoo/models/robustkt.md 9db78a1bca7040378e8237de8c8d93fe
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/robustkt.md 27d8089b095f45e983e3c852bead022e
+msgid "Teng Guo, Yu Qin, Yubin Xia, Mingliang Hou, Zitao Liu, Feng Xia, Weiqi Luo"
+msgstr "Teng Guo, Yu Qin, Yubin Xia, Mingliang Hou, Zitao Liu, Feng Xia, Weiqi Luo"
+
+#: ../../source/model-zoo/models/robustkt.md aed3fa496a4241739be4430828f6eb4e
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/robustkt.md bbd12547d96e4c489812f573c1d67bcb
+msgid "2025"
+msgstr "2025"
+
+#: ../../source/model-zoo/models/robustkt.md 2b9bf725bf184ba18227babb09b572da
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/robustkt.md 7f1fa927eb184dfdbb7faa2ae6dd9901
+msgid "Proceedings of the ACM on Web Conference 2025"
+msgstr "Proceedings of the ACM on Web Conference 2025"
+
+#: ../../source/model-zoo/models/robustkt.md:12
+#: 89346bfbb9cf4ae598a5d84811484971
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/robustkt.md:14
+#: e9a027156a7940358faf7b63d6add263
+msgid ""
+"Knowledge tracing (KT) aims to predict students' future performance based"
+" on their past learning activities. However, no one is perfect. Factors "
+"such as carelessness, fatigue, and stress often cause students to make "
+"mistakes on problems they have already mastered, leading to anomalies in "
+"their historical learning data. These anomalies disrupt inherent patterns"
+" in the data, misleading the KT model. Extracting cognitive patterns that"
+" accurately reflect students' knowledge mastery from such error-prone "
+"data remains a significant challenge. Against this background, this paper"
+" proposes a novel KT method named RoubstKT, inspired by educational "
+"measurement theory and frequency-based decomposition. A cognitive "
+"decoupling analyzer is proposed to decouple the student's cognitive "
+"pattern and random factors from the data through smoothing and "
+"subtraction operations, then recombine them using a gating mechanism or "
+"adaptive parameter fusion strategy. To more effectively diagnose "
+"students' knowledge mastery, we employ a decay-based attention mechanism "
+"that focuses on random behaviors at adjacent time steps. We conducted "
+"comprehensive experiments based on real-world datasets and targeted "
+"datasets with added random noise. The experimental results demonstrated "
+"the effectiveness of the proposed method."
+msgstr ""
+"Knowledge tracing (KT) aims to predict students' future performance based"
+" on their past learning activities. However, no one is perfect. Factors "
+"such as carelessness, fatigue, and stress often cause students to make "
+"mistakes on problems they have already mastered, leading to anomalies in "
+"their historical learning data. These anomalies disrupt inherent patterns"
+" in the data, misleading the KT model. Extracting cognitive patterns that"
+" accurately reflect students' knowledge mastery from such error-prone "
+"data remains a significant challenge. Against this background, this paper"
+" proposes a novel KT method named RoubstKT, inspired by educational "
+"measurement theory and frequency-based decomposition. A cognitive "
+"decoupling analyzer is proposed to decouple the student's cognitive "
+"pattern and random factors from the data through smoothing and "
+"subtraction operations, then recombine them using a gating mechanism or "
+"adaptive parameter fusion strategy. To more effectively diagnose "
+"students' knowledge mastery, we employ a decay-based attention mechanism "
+"that focuses on random behaviors at adjacent time steps. We conducted "
+"comprehensive experiments based on real-world datasets and targeted "
+"datasets with added random noise. The experimental results demonstrated "
+"the effectiveness of the proposed method."
+
+#: ../../source/model-zoo/models/robustkt.md:17
+#: 42d39fc0a067444982bbd5087c92e2f8
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/robustkt.md:19
+#: 59dfa2fa534a41efb6109fd0c641c076
+msgid "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"
+msgstr "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"

@@ -1,0 +1,157 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/evaluation/test-evaluation.md:1
+#: baeb273b646545e1a012fd6a6e9d8835
+msgid "独立测试集评估"
+msgstr "Standalone Test Set Evaluation"
+
+#: ../../source/evaluation/test-evaluation.md:3
+#: 18afbca7b9a842fe8eee764e64cb7941
+msgid "在模型训练完成后，框架会在测试集上自动执行最终评测。但在以下研究场景中，独立评估工具 `evaluate.py` 非常有用："
+msgstr ""
+"After model training completes, the framework automatically performs "
+"final evaluation on the test set. However, the standalone evaluation tool"
+" `evaluate.py` is invaluable in the following research scenarios:"
+
+#: ../../source/evaluation/test-evaluation.md:4
+#: ed8ee5b71f924e2e986912a5bc007280
+msgid "训练时使用了 `--general.skip_test true` 跳过了测试集评测。"
+msgstr ""
+"Training was run with `--general.skip_test true` to bypass test set "
+"evaluation."
+
+#: ../../source/evaluation/test-evaluation.md:5
+#: 1421ecb09aaf432e9453cd376e98ca91
+msgid "需要切换计算设备（例如在无 GPU 的机器上使用 `--general.device cpu` 验证）。"
+msgstr ""
+"Switching compute devices is required (e.g., verifying on a machine "
+"without GPUs using `--general.device cpu`)."
+
+#: ../../source/evaluation/test-evaluation.md:6
+#: ff6dfbc6ba6c4666a9c73d8a5a46444b
+msgid "需测试 `last_checkpoint.pth` 与 `best_model.pth` 的性能差异。"
+msgstr ""
+"Testing the performance difference between `last_checkpoint.pth` and "
+"`best_model.pth` is needed."
+
+#: ../../source/evaluation/test-evaluation.md:8
+#: 6bf6bee3286b4f2f8ee193206e833846
+msgid "运行独立评估"
+msgstr "Running Standalone Evaluation"
+
+#: ../../source/evaluation/test-evaluation.md:10
+#: 3a6b8d3a9b4044ba8882b6a7569e925a
+msgid "`evaluate.py` 会自动读取训练目录下归档的 `run_config.yaml`，完全恢复原模型的超参数与网络结构："
+msgstr ""
+"`evaluate.py` automatically reads the archived `run_config.yaml` in the "
+"training directory, fully reconstructing the original model's "
+"hyperparameters and architecture:"
+
+#: ../../source/evaluation/test-evaluation.md:12
+#: b0d5197d493a40c0bbaa672092bf8bd2
+msgid ""
+"python evaluate.py --evaluate.run_dir "
+"runs/normal/GIKT_assistments09_20261109-120000_fold0_bs128\n"
+msgstr ""
+"python evaluate.py --evaluate.run_dir "
+"runs/normal/GIKT_assistments09_20261109-120000_fold0_bs128\n"
+
+#: ../../source/evaluation/test-evaluation.md:16
+#: 3cd1dfcaa26c46f4b435c551c3ace692
+msgid "常用评估选项"
+msgstr "Common Evaluation Options"
+
+#: ../../source/evaluation/test-evaluation.md:18
+#: a0569ebc72864ea3b83b560ce3f38c75
+msgid ""
+"# 评估最后轮次的检查点（而非默认的 best_model.pth）\n"
+"python evaluate.py \\\n"
+"  --evaluate.run_dir "
+"runs/normal/GIKT_assistments09_20261109-120000_fold0_bs128 \\\n"
+"  --evaluate.checkpoint last_checkpoint.pth\n"
+"\n"
+"# 临时覆盖评估设备与批大小\n"
+"python evaluate.py \\\n"
+"  --evaluate.run_dir "
+"runs/normal/GIKT_assistments09_20261109-120000_fold0_bs128 \\\n"
+"  --general.device cpu \\\n"
+"  --model.batch_size 256\n"
+msgstr ""
+"# Evaluate final epoch checkpoint (instead of default best_model.pth)\n"
+"python evaluate.py \\\n"
+"  --evaluate.run_dir "
+"runs/normal/GIKT_assistments09_20261109-120000_fold0_bs128 \\\n"
+"  --evaluate.checkpoint last_checkpoint.pth\n"
+"\n"
+"# Temporarily override evaluation device and batch size\n"
+"python evaluate.py \\\n"
+"  --evaluate.run_dir "
+"runs/normal/GIKT_assistments09_20261109-120000_fold0_bs128 \\\n"
+"  --general.device cpu \\\n"
+"  --model.batch_size 256\n"
+
+#: ../../source/evaluation/test-evaluation.md c75e9ed414654883a9b2f74bcc180815
+msgid "参数项"
+msgstr "Parameter Option"
+
+#: ../../source/evaluation/test-evaluation.md 84f18b6910ee4080b6db4cb4f230c487
+msgid "类型"
+msgstr "Type"
+
+#: ../../source/evaluation/test-evaluation.md 2bbeb35a0843428cbc81cc9bbf7fb7c9
+msgid "默认值"
+msgstr "Default"
+
+#: ../../source/evaluation/test-evaluation.md 776e1aa114d0497e9f855926830d3538
+msgid "说明"
+msgstr "Description"
+
+#: ../../source/evaluation/test-evaluation.md 3c81e4e108e04700be5d45634565c7e9
+msgid "`--evaluate.run_dir`"
+msgstr "`--evaluate.run_dir`"
+
+#: ../../source/evaluation/test-evaluation.md 032a6976f1584050930a8f5b8d6541a8
+#: 9620becb670f43129dad1254f6d5a4db
+msgid "`str`"
+msgstr "`str`"
+
+#: ../../source/evaluation/test-evaluation.md 483d9101681642baac75601e5b941fe6
+msgid "必填"
+msgstr "Required"
+
+#: ../../source/evaluation/test-evaluation.md 9b209253e9ea4aca8e5eb7412d91f05b
+msgid "训练运行的输出目录（必须包含 `run_config.yaml` 和权重文件）"
+msgstr ""
+"Output directory of training run (must contain `run_config.yaml` and "
+"weight files)"
+
+#: ../../source/evaluation/test-evaluation.md 61cdb15412464b3190eeee62a4f3c8ec
+msgid "`--evaluate.checkpoint`"
+msgstr "`--evaluate.checkpoint`"
+
+#: ../../source/evaluation/test-evaluation.md 1a1a7847665641888b0a5d7df2854125
+msgid "`best_model.pth`"
+msgstr "`best_model.pth`"
+
+#: ../../source/evaluation/test-evaluation.md bbedb39e480144e5a23eb57f120b48ec
+msgid "运行目录下待评估的权重文件名"
+msgstr "Filename of model checkpoint to evaluate under run directory"

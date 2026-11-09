@@ -1,0 +1,151 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/kqn.md:1 f77362acf5bd4fbcaca0a72c7840cc13
+msgid "KQN"
+msgstr "KQN"
+
+#: ../../source/model-zoo/models/kqn.md:3 65702e3139dd43488dd99489df7c50b5
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/kqn.md bc12b837d6474da1a36a373b06ebf336
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/kqn.md 0424ba1e3ad5482f9d0a860432c13c16
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/kqn.md b61d04add5be44d29f40d542837bea4e
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/kqn.md 4a60587831ef4ecb96b907d26618f690
+msgid ""
+"[Knowledge Query Network for Knowledge "
+"Tracing](https://doi.org/10.1145/3303772.3303786)"
+msgstr ""
+"[Knowledge Query Network for Knowledge "
+"Tracing](https://doi.org/10.1145/3303772.3303786)"
+
+#: ../../source/model-zoo/models/kqn.md 8949e0b77202409e837e81b32f7235ae
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/kqn.md cc0e9b2b32d8460da84a53ac37fa33b7
+msgid "Jinseok Lee, Dit-Yan Yeung"
+msgstr "Jinseok Lee, Dit-Yan Yeung"
+
+#: ../../source/model-zoo/models/kqn.md 44f71cbbef074ba9a651f90b3b587e20
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/kqn.md e1a0abcdc4d14bbaa2c79e40e8a54444
+msgid "2019"
+msgstr "2019"
+
+#: ../../source/model-zoo/models/kqn.md 3159d17ca03d4017b2eb7bcb17c49bc8
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/kqn.md 965ef87dbdaa423b9a87eac905f2e56f
+msgid ""
+"Proceedings of the 9th International Conference on Learning Analytics "
+"&amp; Knowledge"
+msgstr ""
+"Proceedings of the 9th International Conference on Learning Analytics "
+"&amp; Knowledge"
+
+#: ../../source/model-zoo/models/kqn.md:12 f6b6945537d7401bad22b7f5b8b2e467
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/kqn.md:14 8168199f16d4401fa229eaecb7b12520
+#, python-brace-format
+msgid ""
+"Knowledge Tracing (KT) is to trace the knowledge of students as they "
+"solve a sequence of problems represented by their related skills. This "
+"involves abstract concepts of students' states of knowledge and the "
+"interactions between those states and skills. Therefore, a KT model is "
+"designed to predict whether students will give correct answers and to "
+"describe such abstract concepts. However, existing methods either give "
+"relatively low prediction accuracy or fail to explain those concepts "
+"intuitively. In this paper, we propose a new model called Knowledge Query"
+" Network (KQN) to solve these problems. KQN uses neural networks to "
+"encode student learning activities into knowledge state and skill "
+"vectors, and models the interactions between the two types of vectors "
+"with the dot product. Through this, we introduce a novel concept called "
+"\\textit{probabilistic skill similarity} that relates the pairwise cosine"
+" and Euclidean distances between skill vectors to the odds ratios of the "
+"corresponding skills, which makes KQN interpretable and intuitive. On "
+"four public datasets, we have carried out experiments to show the "
+"following: 1. KQN outperforms all the existing KT models based on "
+"prediction accuracy. 2. The interaction between the knowledge state and "
+"skills can be visualized for interpretation. 3. Based on probabilistic "
+"skill similarity, a skill domain can be analyzed with clustering using "
+"the distances between the skill vectors of KQN. 4. For different values "
+"of the vector space dimensionality, KQN consistently exhibits high "
+"prediction accuracy and a strong positive correlation between the "
+"distance matrices of the skill vectors."
+msgstr ""
+"Knowledge Tracing (KT) is to trace the knowledge of students as they "
+"solve a sequence of problems represented by their related skills. This "
+"involves abstract concepts of students' states of knowledge and the "
+"interactions between those states and skills. Therefore, a KT model is "
+"designed to predict whether students will give correct answers and to "
+"describe such abstract concepts. However, existing methods either give "
+"relatively low prediction accuracy or fail to explain those concepts "
+"intuitively. In this paper, we propose a new model called Knowledge Query"
+" Network (KQN) to solve these problems. KQN uses neural networks to "
+"encode student learning activities into knowledge state and skill "
+"vectors, and models the interactions between the two types of vectors "
+"with the dot product. Through this, we introduce a novel concept called "
+"\\textit{probabilistic skill similarity} that relates the pairwise cosine"
+" and Euclidean distances between skill vectors to the odds ratios of the "
+"corresponding skills, which makes KQN interpretable and intuitive. On "
+"four public datasets, we have carried out experiments to show the "
+"following: 1. KQN outperforms all the existing KT models based on "
+"prediction accuracy. 2. The interaction between the knowledge state and "
+"skills can be visualized for interpretation. 3. Based on probabilistic "
+"skill similarity, a skill domain can be analyzed with clustering using "
+"the distances between the skill vectors of KQN. 4. For different values "
+"of the vector space dimensionality, KQN consistently exhibits high "
+"prediction accuracy and a strong positive correlation between the "
+"distance matrices of the skill vectors."
+
+#: ../../source/model-zoo/models/kqn.md:17 b44303c85bc3464fa3bd5767cc24e92f
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/kqn.md:19 897089350e4144adb49c735cc6579e11
+msgid ""
+"[JSLBen/Knowledge-Query-Network-for-Knowledge-"
+"Tracing](https://github.com/JSLBen/Knowledge-Query-Network-for-Knowledge-"
+"Tracing)"
+msgstr ""
+"[JSLBen/Knowledge-Query-Network-for-Knowledge-"
+"Tracing](https://github.com/JSLBen/Knowledge-Query-Network-for-Knowledge-"
+"Tracing)"
+
+#: ../../source/model-zoo/models/kqn.md:20 ffbb9fbe558047d183801ec4e90ef148
+msgid "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"
+msgstr "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"

@@ -1,0 +1,156 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/bdgkt.md:1 372b0a1d57414b58b4cb283504e0baf0
+msgid "BDGKT"
+msgstr "BDGKT"
+
+#: ../../source/model-zoo/models/bdgkt.md:3 3c86d1fd5e0246b6855fbf27289eed92
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/bdgkt.md d9736cac59d3494388a6b6d38b9506ca
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/bdgkt.md 3619a1ce0cb7458da5ec8dad4634b8b5
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/bdgkt.md 87b53b37ee094373b30c100504be71fd
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/bdgkt.md 87c7a2229b484b038f02ec5589ba0376
+msgid ""
+"[BDGKT: Bidirectional Dynamic Graph Knowledge "
+"Tracing](https://doi.org/10.1016/j.knosys.2026.115532)"
+msgstr ""
+"[BDGKT: Bidirectional Dynamic Graph Knowledge "
+"Tracing](https://doi.org/10.1016/j.knosys.2026.115532)"
+
+#: ../../source/model-zoo/models/bdgkt.md bc223c08e3cf497a99d327403b73fcb0
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/bdgkt.md 34788640dd5444ae9d4118d237c1d699
+msgid ""
+"Xinjia Ou, Tao Huang, Shengze Hu, Huali Yang, Zhuoran Xu, Junjie Hu, Jing"
+" Geng"
+msgstr ""
+"Xinjia Ou, Tao Huang, Shengze Hu, Huali Yang, Zhuoran Xu, Junjie Hu, Jing"
+" Geng"
+
+#: ../../source/model-zoo/models/bdgkt.md 23db99590a9d415c852ff2ae4812bea8
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/bdgkt.md fe022fb166de447387925355b58aaba7
+msgid "2026"
+msgstr "2026"
+
+#: ../../source/model-zoo/models/bdgkt.md d27d6281c0cb456081a6be446ab27287
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/bdgkt.md 77c083097e23431c87d164d2bcd99896
+msgid "Knowledge-Based Systems"
+msgstr "Knowledge-Based Systems"
+
+#: ../../source/model-zoo/models/bdgkt.md 59c9382117774da1a32c0315445e5197
+msgid "DOI"
+msgstr "DOI"
+
+#: ../../source/model-zoo/models/bdgkt.md a2a015deafc7416798044a7134928e3f
+msgid "[10.1016/j.knosys.2026.115532](https://doi.org/10.1016/j.knosys.2026.115532)"
+msgstr "[10.1016/j.knosys.2026.115532](https://doi.org/10.1016/j.knosys.2026.115532)"
+
+#: ../../source/model-zoo/models/bdgkt.md:13 e62f4dac8155478c9525dcc1b6369e9b
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/bdgkt.md:15 75a3ee1841b7434e935242c5b561830b
+msgid ""
+"Knowledge tracing (KT) aims to model the evolution of students' knowledge"
+" states by analyzing their historical learning trajectories and "
+"predicting future performance. However, current KT methods primarily "
+"focus on unidirectional relationship modeling, overlooking the "
+"bidirectional dynamic interaction mechanisms between learners and "
+"questions. Student knowledge states shape question adaptability through "
+"group patterns (e.g., difficulty calibration), whereas dynamic "
+"transformation of question features provides progressive guidance signals"
+" for knowledge advancement across learning stages. In this study, we "
+"propose a novel bidirectional dynamic graph KT (BDGKT) method for "
+"modeling the information flow between students and questions while "
+"capturing knowledge state evolution and question characteristic "
+"transformation. Specifically, we first introduce a dynamic graph "
+"construction based on homogeneous student groups that uses a "
+"spatiotemporal constraint strategy to reduce computational costs while "
+"improving information propagation quality. Subsequently, we design a "
+"bidirectional message propagation mechanism to capture time-evolving "
+"bidirectional dynamic signals. To update question nodes (from students to"
+" questions), we introduce a state-aware attention mechanism that "
+"aggregates student nodes and responses, revealing group-level question "
+"commonalities. By contrast, to update student nodes (from questions to "
+"students), we propose an evolution mechanism that aggregates question "
+"nodes and responses based on timestamps, allowing us to track the "
+"evolution of student knowledge states. Extensive experiments on four "
+"real-world datasets validate the effectiveness and compatibility of our "
+"method. Furthermore, BDGKT improves interpretability by exploring "
+"question absolute information (group-agnostic) and relative information "
+"(group-dependent)."
+msgstr ""
+"Knowledge tracing (KT) aims to model the evolution of students' knowledge"
+" states by analyzing their historical learning trajectories and "
+"predicting future performance. However, current KT methods primarily "
+"focus on unidirectional relationship modeling, overlooking the "
+"bidirectional dynamic interaction mechanisms between learners and "
+"questions. Student knowledge states shape question adaptability through "
+"group patterns (e.g., difficulty calibration), whereas dynamic "
+"transformation of question features provides progressive guidance signals"
+" for knowledge advancement across learning stages. In this study, we "
+"propose a novel bidirectional dynamic graph KT (BDGKT) method for "
+"modeling the information flow between students and questions while "
+"capturing knowledge state evolution and question characteristic "
+"transformation. Specifically, we first introduce a dynamic graph "
+"construction based on homogeneous student groups that uses a "
+"spatiotemporal constraint strategy to reduce computational costs while "
+"improving information propagation quality. Subsequently, we design a "
+"bidirectional message propagation mechanism to capture time-evolving "
+"bidirectional dynamic signals. To update question nodes (from students to"
+" questions), we introduce a state-aware attention mechanism that "
+"aggregates student nodes and responses, revealing group-level question "
+"commonalities. By contrast, to update student nodes (from questions to "
+"students), we propose an evolution mechanism that aggregates question "
+"nodes and responses based on timestamps, allowing us to track the "
+"evolution of student knowledge states. Extensive experiments on four "
+"real-world datasets validate the effectiveness and compatibility of our "
+"method. Furthermore, BDGKT improves interpretability by exploring "
+"question absolute information (group-agnostic) and relative information "
+"(group-dependent)."
+
+#: ../../source/model-zoo/models/bdgkt.md:17 bc17680292ac402c9e34966e1f9bffc0
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/bdgkt.md:19 9cfff76c23fd4143a16203abd8b6ca5a
+msgid "[Oia-10/BDGKT](https://github.com/Oia-10/BDGKT)"
+msgstr "[Oia-10/BDGKT](https://github.com/Oia-10/BDGKT)"

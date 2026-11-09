@@ -1,0 +1,126 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/tckt.md:1 095a8e88838e4ea58ae96f986e2bf92d
+msgid "TCKT"
+msgstr "TCKT"
+
+#: ../../source/model-zoo/models/tckt.md:3 51b2b177d9294c80bbece591789daf32
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/tckt.md 1f5ded46c4ef4bf495c2407ad5cadeaa
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/tckt.md 69d1075e13174081a0d5fba51fb6d623
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/tckt.md 87ac550e184a4fdc9a8f05fe4b7f6929
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/tckt.md 445b5fb80ede4ecc9534dd2cec52f34c
+msgid ""
+"[Learning consistent representations with temporal and causal enhancement"
+" for knowledge tracing](https://doi.org/10.1016/j.eswa.2023.123128)"
+msgstr ""
+"[Learning consistent representations with temporal and causal enhancement"
+" for knowledge tracing](https://doi.org/10.1016/j.eswa.2023.123128)"
+
+#: ../../source/model-zoo/models/tckt.md f51e2ec5d0484bc99c53406a62f6e466
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/tckt.md 3eab1f1fd1a947468070e16b7ae75c74
+msgid ""
+"Changqin Huang, Hangjie Wei, Qionghao Huang, Fan Jiang, Zhongmei Han, "
+"Xiaodi Huang"
+msgstr ""
+"Changqin Huang, Hangjie Wei, Qionghao Huang, Fan Jiang, Zhongmei Han, "
+"Xiaodi Huang"
+
+#: ../../source/model-zoo/models/tckt.md 0f0b358397c54f92a8a017197c69de06
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/tckt.md 618ed044f59f46bba385950306095868
+msgid "2024"
+msgstr "2024"
+
+#: ../../source/model-zoo/models/tckt.md ef6a1887c84547acb9a801a95e754598
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/tckt.md b4fca7c316c7429fb469077e509c7942
+msgid "Expert Systems with Applications"
+msgstr "Expert Systems with Applications"
+
+#: ../../source/model-zoo/models/tckt.md:12 4f5214f542c44c4db24c4a2cd43d600a
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/tckt.md:14 09610130ae354653a136f15a6f717ff7
+msgid ""
+"Knowledge tracing is a crucial component of intelligent educational "
+"systems and deep learning technologies have significantly propelled its "
+"advancement. However, most existing models suffer from the incomplete "
+"data modeling problem of knowledge tracing, leading to inconsistent "
+"representations of students' actual knowledge states. This paper proposes"
+" a new approach called Temporal- and Causal-enhanced Knowledge Tracing to"
+" improve the consistency of students' knowledge state representations in "
+"intelligent educational systems. In particular, our method introduces a "
+"causal self-attention mechanism based on front-door adjustment theory, "
+"which improves interaction representation and reduces prediction errors "
+"caused by dataset bias. To effectively integrate the features of interval"
+" and response times into our model, we further use forget and input gates"
+" to simulate knowledge forgetting and acquisition, respectively. This "
+"maintains consistent learning behavior representations and improves model"
+" predictions. The results of our extensive experiments on the three "
+"datasets demonstrate that our method outperforms previous knowledge-"
+"tracing methods in predicting student scores."
+msgstr ""
+"Knowledge tracing is a crucial component of intelligent educational "
+"systems and deep learning technologies have significantly propelled its "
+"advancement. However, most existing models suffer from the incomplete "
+"data modeling problem of knowledge tracing, leading to inconsistent "
+"representations of students' actual knowledge states. This paper proposes"
+" a new approach called Temporal- and Causal-enhanced Knowledge Tracing to"
+" improve the consistency of students' knowledge state representations in "
+"intelligent educational systems. In particular, our method introduces a "
+"causal self-attention mechanism based on front-door adjustment theory, "
+"which improves interaction representation and reduces prediction errors "
+"caused by dataset bias. To effectively integrate the features of interval"
+" and response times into our model, we further use forget and input gates"
+" to simulate knowledge forgetting and acquisition, respectively. This "
+"maintains consistent learning behavior representations and improves model"
+" predictions. The results of our extensive experiments on the three "
+"datasets demonstrate that our method outperforms previous knowledge-"
+"tracing methods in predicting student scores."
+
+#: ../../source/model-zoo/models/tckt.md:16 ef910aacc7bf4f19b63b040acab13db9
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/tckt.md:18 1cee4be8ce3a40faa276497ddbdd017c
+msgid "[SavageWEI/kt_tckt](https://github.com/SavageWEI/kt_tckt)"
+msgstr "[SavageWEI/kt_tckt](https://github.com/SavageWEI/kt_tckt)"

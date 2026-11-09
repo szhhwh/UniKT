@@ -1,0 +1,224 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/api/cli/run-kfold.md:1 9624effa704a472cb2e5a8d88c92158f
+msgid "run_kfold.sh 脚本参考"
+msgstr "run_kfold.sh Script Reference"
+
+#: ../../source/api/cli/run-kfold.md:3 e94aba745d7d4ecbaebcebd48bbcfc33
+msgid ""
+"`scripts/run_kfold.sh` 是 UniKT 提供的轻量级 Shell 驱动脚本，用于自动化执行单模型或全模型库在指定 K "
+"折上的连续训练与评测。"
+msgstr ""
+"`scripts/run_kfold.sh` is a lightweight Shell driver script provided by "
+"UniKT for automating continuous training and evaluation across specified "
+"K folds for a single model or the entire model zoo."
+
+#: ../../source/api/cli/run-kfold.md:5 dff0667dbe6b49169260bc0797445474
+msgid "基本语法"
+msgstr "Basic Syntax"
+
+#: ../../source/api/cli/run-kfold.md:7 0290facc52b9409394eea89b31ef9dca
+msgid ""
+"bash scripts/run_kfold.sh <model_name|ALL> <folds_list> [ARGS...]\n"
+"bash scripts/run_kfold.sh -l | --list\n"
+msgstr ""
+"bash scripts/run_kfold.sh <model_name|ALL> <folds_list> [ARGS...]\n"
+"bash scripts/run_kfold.sh -l | --list\n"
+
+#: ../../source/api/cli/run-kfold.md:12 fd26e7c623694db1ba92031c8636f2ba
+msgid "参数与选项"
+msgstr "Parameters and Options"
+
+#: ../../source/api/cli/run-kfold.md cc1a0774da564f78887df4f255a8f289
+msgid "参数 / 选项"
+msgstr "Parameter / Option"
+
+#: ../../source/api/cli/run-kfold.md 501538acb38e434fa51b00f80cb462dc
+msgid "说明"
+msgstr "Description"
+
+#: ../../source/api/cli/run-kfold.md f568c37832a4491d9022bd864d94f03d
+msgid "示例"
+msgstr "Example"
+
+#: ../../source/api/cli/run-kfold.md 932e83225d384ea0b91cae16f5074a12
+msgid "`model_name`"
+msgstr "`model_name`"
+
+#: ../../source/api/cli/run-kfold.md 0bdfc22dd79e48ed85de22cfc8530283
+msgid "指定单一已注册模型名称，或传入 `ALL` 针对框架中所有已发现的模型执行跑批"
+msgstr ""
+"Specify a single registered model name, or pass `ALL` to run batch "
+"execution across all discovered models in the framework"
+
+#: ../../source/api/cli/run-kfold.md 28555d05874a460fa94092a12be76ff8
+msgid "`GIKT`, `AKT`, `ALL`"
+msgstr "`GIKT`, `AKT`, `ALL`"
+
+#: ../../source/api/cli/run-kfold.md 14b62d2d1eac44e38e3d785047b7cf98
+msgid "`folds_list`"
+msgstr "`folds_list`"
+
+#: ../../source/api/cli/run-kfold.md 7adc5ad6a6b74ecea93224141aa4ea2c
+msgid "待运行的折索引序列，支持空格分隔（加引号）或逗号分隔"
+msgstr ""
+"Sequence of fold indices to run, supporting space-separated (enclosed in "
+"quotes) or comma-separated formats"
+
+#: ../../source/api/cli/run-kfold.md 88286c665e1749c29c223deec622ddc4
+msgid "`\"0 1 2 3 4\"` 或 `\"0,1,2,3,4\"`"
+msgstr "`\"0 1 2 3 4\"` or `\"0,1,2,3,4\"`"
+
+#: ../../source/api/cli/run-kfold.md b909f1d5e0a64044865e1680e7b6fcd9
+msgid "`ARGS...`"
+msgstr "`ARGS...`"
+
+#: ../../source/api/cli/run-kfold.md 15080453854f48c78c8680cd2dcb201f
+msgid "透传给底层 `train.py` 的额外参数（例如数据集 `-d`、轮数 `--model.epochs` 等）"
+msgstr ""
+"Extra parameters passed through to the underlying `train.py` (e.g., "
+"dataset `-d`, epochs `--model.epochs`, etc.)"
+
+#: ../../source/api/cli/run-kfold.md edc9ac3b47884e4696d68514bd591d47
+msgid "`-d assistments09 --model.epochs 100`"
+msgstr "`-d assistments09 --model.epochs 100`"
+
+#: ../../source/api/cli/run-kfold.md 1847f104583f473284e58e0324c1f6ee
+msgid "`-l, --list`"
+msgstr "`-l, --list`"
+
+#: ../../source/api/cli/run-kfold.md 08d0c74c0cb24f98b915bb695b0e07f3
+msgid "打印当前框架中所有通过 AST 静态扫描发现的模型列表并退出"
+msgstr ""
+"Print the list of all models discovered via AST static scanning in the "
+"current framework and exit"
+
+#: ../../source/api/cli/run-kfold.md f7e1f500cd77440db18dbc2aa9454859
+msgid "`bash scripts/run_kfold.sh --list`"
+msgstr "`bash scripts/run_kfold.sh --list`"
+
+#: ../../source/api/cli/run-kfold.md:23 5961fe8a5c4d4512beec01b9a04514af
+msgid "核心机制"
+msgstr "Core Mechanisms"
+
+#: ../../source/api/cli/run-kfold.md:25 13a3664fb7b24eb2bd6e783806eb39d0
+msgid "**AST 零开销静态模型发现**： 脚本通过调用 Python 内部的静态 AST 扫描程序列出所有模型："
+msgstr ""
+"**Zero-Overhead AST Static Model Discovery**: The script calls Python's "
+"internal static AST scanner to list all models:"
+
+#: ../../source/api/cli/run-kfold.md:27 aacf2bfb5b67496995f528e4968b88f0
+msgid ""
+"python -c \"import model; from utils.core.registry import TRAINERS; "
+"print(' '.join(sorted(TRAINERS.keys())))\"\n"
+msgstr ""
+"python -c \"import model; from utils.core.registry import TRAINERS; "
+"print(' '.join(sorted(TRAINERS.keys())))\"\n"
+
+#: ../../source/api/cli/run-kfold.md:30 8aae26490bca49dfaf77277c06ac5e61
+msgid "该过程无需实际导入庞大的 PyTorch 权重或依赖库，可在任何环境中毫秒级响应。"
+msgstr ""
+"This process does not require importing large PyTorch weights or "
+"dependency libraries, responding in milliseconds in any environment."
+
+#: ../../source/api/cli/run-kfold.md:31 84292f72edcb42caa7251d79847386c6
+msgid ""
+"**错误阻断机制**： 在循环执行各折时，若某一折因异常退出（退出码非 "
+"0），脚本将立即中断退出，并向终端返回该折的错误码，防止静默失败或在错误的配置下空跑算力。"
+msgstr ""
+"**Error Interruption Mechanism**: When executing folds in a loop, if any "
+"fold exits abnormally (non-zero exit code), the script immediately "
+"aborts, returning the fold's error code to the terminal to prevent silent"
+" failures or wasted compute on erroneous configurations."
+
+#: ../../source/api/cli/run-kfold.md:33 c646da4ecffe4b36b2756316816b8d1e
+msgid ""
+"**解释器环境注入**： 脚本默认使用当前环境的 `python` 命令。若需使用特定环境管理器（如 Pixi），可通过环境变量 `PYTHON`"
+" 进行覆盖："
+msgstr ""
+"**Interpreter Environment Injection**: The script defaults to the "
+"`python` command in the current environment. If a specific environment "
+"manager (such as Pixi) is required, it can be overridden via the `PYTHON`"
+" environment variable:"
+
+#: ../../source/api/cli/run-kfold.md:35 87f6f7d76599460bb6f877927c92689c
+msgid ""
+"PYTHON=\"pixi run python\" bash scripts/run_kfold.sh GIKT \"0 1\" -d "
+"assistments09\n"
+msgstr ""
+"PYTHON=\"pixi run python\" bash scripts/run_kfold.sh GIKT \"0 1\" -d "
+"assistments09\n"
+
+#: ../../source/api/cli/run-kfold.md:41 0a67007dbabc4e72bdfd91350ee6f78b
+msgid "常用命令示例"
+msgstr "Common Command Examples"
+
+#: ../../source/api/cli/run-kfold.md:43 2b083edbb66d439081b385b3a687c5d1
+msgid "1. 查阅所有支持的模型"
+msgstr "1\\. Check All Supported Models"
+
+#: ../../source/api/cli/run-kfold.md:44 dd0209e61593416f853032ac4b6fe4e4
+msgid "bash scripts/run_kfold.sh --list\n"
+msgstr "bash scripts/run_kfold.sh --list\n"
+
+#: ../../source/api/cli/run-kfold.md:48 b229415920e24674bbe5c2a61583d7fe
+msgid "2. 对单一模型执行标准 5 折交叉验证"
+msgstr "2\\. Run Standard 5-Fold Cross-Validation on a Single Model"
+
+#: ../../source/api/cli/run-kfold.md:49 2cba9660c72248d1b289132d8d4597d6
+msgid ""
+"bash scripts/run_kfold.sh GIKT \"0 1 2 3 4\" \\\n"
+"    -d assistments09 \\\n"
+"    --model.epochs 150 \\\n"
+"    --model.batch_size 128\n"
+msgstr ""
+"bash scripts/run_kfold.sh GIKT \"0 1 2 3 4\" \\\n"
+"    -d assistments09 \\\n"
+"    --model.epochs 150 \\\n"
+"    --model.batch_size 128\n"
+
+#: ../../source/api/cli/run-kfold.md:56 1e86fba2bf174cd29f55dc7b209e52ea
+msgid "3. 执行特定两折的快速验证"
+msgstr "3\\. Run Quick Validation on Specific Two Folds"
+
+#: ../../source/api/cli/run-kfold.md:57 fc771dad4ba84e94b5ce3f12f9f321df
+msgid ""
+"bash scripts/run_kfold.sh AKT \"0,1\" -d ednet_kt1 --model.learning_rate "
+"0.0005\n"
+msgstr ""
+"bash scripts/run_kfold.sh AKT \"0,1\" -d ednet_kt1 --model.learning_rate "
+"0.0005\n"
+
+#: ../../source/api/cli/run-kfold.md:61 0b3b474a1e1d4534bd7176bf6383fd97
+msgid "4. 批量运行全量模型基准评测"
+msgstr "4\\. Batch Run Full Model Zoo Benchmark Evaluation"
+
+#: ../../source/api/cli/run-kfold.md:62 545a8a7677914e9fb56cd757d4f166b2
+msgid "bash scripts/run_kfold.sh ALL \"0 1 2 3 4\" -d assistments09\n"
+msgstr "bash scripts/run_kfold.sh ALL \"0 1 2 3 4\" -d assistments09\n"
+
+#: ../../source/api/cli/run-kfold.md:65 f56d278ee5304683a9acf7d172e8e58a
+msgid "此时脚本将依次遍历框架内置的所有知识追踪模型，为每个模型连续完成 5 折训练。"
+msgstr ""
+"The script will sequentially iterate over all built-in knowledge tracing "
+"models in the framework, completing 5-fold training consecutively for "
+"each model."

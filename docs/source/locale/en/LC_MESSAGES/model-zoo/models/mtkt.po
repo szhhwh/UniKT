@@ -1,0 +1,136 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/mtkt.md:1 01b00dcb59ba4870ade38cc34d6f8679
+msgid "MTKT"
+msgstr "MTKT"
+
+#: ../../source/model-zoo/models/mtkt.md:3 e0a3d1bf93d34e39b3f16f241e6be42b
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/mtkt.md c9da1669cf2e467caf3c1b6ef30fb9e8
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/mtkt.md 16d3b2637ed24f3f88c6d8c71f6fca6c
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/mtkt.md d4dcaac1e9b34520b7c284b92ec0a2a7
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/mtkt.md 08c2caf7f10a4d71a7dd665c32eff9d7
+msgid ""
+"[Learning multi-granularity temporal characteristics for attention based "
+"knowledge tracing](https://doi.org/10.1016/j.neucom.2025.131338)"
+msgstr ""
+"[Learning multi-granularity temporal characteristics for attention based "
+"knowledge tracing](https://doi.org/10.1016/j.neucom.2025.131338)"
+
+#: ../../source/model-zoo/models/mtkt.md dcca29a5b78d42f7a901a3a011b5bbd3
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/mtkt.md 0d958670e6eb465183083867c3eb7fe1
+msgid ""
+"Youheng Bai, Xueyi Li, Zitao Liu, Yaying Huang, Teng Guo, Mingliang Hou, "
+"Weiqi Luo"
+msgstr ""
+"Youheng Bai, Xueyi Li, Zitao Liu, Yaying Huang, Teng Guo, Mingliang Hou, "
+"Weiqi Luo"
+
+#: ../../source/model-zoo/models/mtkt.md a6d2aae82be7492a81d620e26a21dc89
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/mtkt.md 9ea99670fc484bc9af8d657433022fb5
+msgid "2025"
+msgstr "2025"
+
+#: ../../source/model-zoo/models/mtkt.md c3e1625fe4e843138bbe953fa443367d
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/mtkt.md 5df0fb769bd247ac9e09f125b9292e01
+msgid "Neurocomputing"
+msgstr "Neurocomputing"
+
+#: ../../source/model-zoo/models/mtkt.md:12 c57cbf17927e4cdab82360818165a0f6
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/mtkt.md:14 42676ac153824ac6a96d7020e7c59833
+msgid ""
+"Knowledge tracing (KT) plays a crucial role in personalized learning by "
+"predicting students' future performance based on their historical "
+"interaction data. Despite advancements in KT models, they often struggle "
+"to effectively model the intricate temporal dynamics inherent in student "
+"learning processes, particularly in capturing multi-granular temporal "
+"information, accommodating irregular time intervals, and handling varying"
+" sequence lengths within student interaction data. To address these "
+"challenges, we propose MTKT to model multi-scale time patterns and long-"
+"term behaviors in student interaction data. Specifically, MTKT introduces"
+" three key components. First, a multi-aspect embedding layer captures "
+"both temporal information and interaction behaviors from student learning"
+" data. Second, a dual attention module with linear decaying bias applies "
+"negative bias to attention scores, effectively modeling long-term "
+"forgetting in students' knowledge states across varying sequence lengths."
+" Finally, a causal interaction convolution module captures fine-grained "
+"representations in both short-term and long-term interactions. We "
+"evaluate MTKT on three public educational datasets and compare it with "
+"state-of-the-art KT models. Our experiments show that MTKT consistently "
+"outperforms existing models in student performance prediction and length-"
+"adaptive prediction. To facilitate reproducibility and future research, "
+"we make our code and processed datasets publicly available at "
+"https://pykt.org."
+msgstr ""
+"Knowledge tracing (KT) plays a crucial role in personalized learning by "
+"predicting students' future performance based on their historical "
+"interaction data. Despite advancements in KT models, they often struggle "
+"to effectively model the intricate temporal dynamics inherent in student "
+"learning processes, particularly in capturing multi-granular temporal "
+"information, accommodating irregular time intervals, and handling varying"
+" sequence lengths within student interaction data. To address these "
+"challenges, we propose MTKT to model multi-scale time patterns and long-"
+"term behaviors in student interaction data. Specifically, MTKT introduces"
+" three key components. First, a multi-aspect embedding layer captures "
+"both temporal information and interaction behaviors from student learning"
+" data. Second, a dual attention module with linear decaying bias applies "
+"negative bias to attention scores, effectively modeling long-term "
+"forgetting in students' knowledge states across varying sequence lengths."
+" Finally, a causal interaction convolution module captures fine-grained "
+"representations in both short-term and long-term interactions. We "
+"evaluate MTKT on three public educational datasets and compare it with "
+"state-of-the-art KT models. Our experiments show that MTKT consistently "
+"outperforms existing models in student performance prediction and length-"
+"adaptive prediction. To facilitate reproducibility and future research, "
+"we make our code and processed datasets publicly available at "
+"https://pykt.org."
+
+#: ../../source/model-zoo/models/mtkt.md:17 cdbef003d22f4b8789444750033922e3
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/mtkt.md:19 1e2c949e500c40c2bc1bbc8ce3bb91b9
+msgid "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"
+msgstr "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"

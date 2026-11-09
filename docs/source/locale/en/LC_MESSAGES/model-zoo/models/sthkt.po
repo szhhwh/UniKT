@@ -1,0 +1,140 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/sthkt.md:1 53e05e37f60a4032bcf08f11cae53db7
+msgid "STHKT"
+msgstr "STHKT"
+
+#: ../../source/model-zoo/models/sthkt.md:3 8fc5917da0ce478caeb424286c820238
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/sthkt.md cd5e180eb3d74957b5bdbc1453c9ab63
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/sthkt.md bc954783475045ca9d4f5bf2cfe36beb
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/sthkt.md ce75179f653e43148a253441e8ce3ff2
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/sthkt.md da2eef9eefa34e7c9a64eab27031eaed
+msgid ""
+"[STHKT: Spatiotemporal Knowledge Tracing with Topological Hawkes "
+"Process](https://doi.org/10.1016/j.eswa.2024.125248)"
+msgstr ""
+"[STHKT: Spatiotemporal Knowledge Tracing with Topological Hawkes "
+"Process](https://doi.org/10.1016/j.eswa.2024.125248)"
+
+#: ../../source/model-zoo/models/sthkt.md c3f89c2a8a9e44388848beb7cf9c6d8d
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/sthkt.md b09156728cb240ff84ad6084670d1936
+msgid ""
+"Shuting Li, Shuanghong Shen, Yu Su, Xinjie Sun, Junyu Lu, Qi Mo, Zhenyi "
+"Wu, Qi Liu"
+msgstr ""
+"Shuting Li, Shuanghong Shen, Yu Su, Xinjie Sun, Junyu Lu, Qi Mo, Zhenyi "
+"Wu, Qi Liu"
+
+#: ../../source/model-zoo/models/sthkt.md e6c4bb305a334e56b729d3e1c085117c
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/sthkt.md c7a9d0b33c344e5dbe7fa73ff516001a
+msgid "2025"
+msgstr "2025"
+
+#: ../../source/model-zoo/models/sthkt.md 9de2ddc8e85143519107eb908b9c33f6
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/sthkt.md 57a41df222d645ddba7788aeac47fee4
+msgid "Expert Systems with Applications, 259, 125248"
+msgstr "Expert Systems with Applications, 259, 125248"
+
+#: ../../source/model-zoo/models/sthkt.md:12 da5cc61e00c6447580301d3e678af70b
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/sthkt.md:14 bf9c91538a15488a96d68f8d6719fc18
+msgid ""
+"Knowledge Tracing (KT) is a method that seeks to forecast students’ "
+"future performance based on their historical interactions with "
+"intelligent tutoring systems. Various KT techniques have been developed "
+"from distinct perspectives, such as probability, logic, and deep "
+"learning, to scrutinize interaction sequences. However, most current "
+"methods predominantly concentrate on temporal or structural information, "
+"considering simple question sequences or interaction sequences, but fail "
+"to describe the topological dependencies between sequences, which can "
+"lead to changes in causal structures,as referred to as dynamic structural"
+" information in the paper. The dynamic information includes the "
+"clustering effect among concepts and questions, as well as the group "
+"effect among students and questions: Questions with the same knowledge "
+"concepts tend to present increasingly similar response patterns in the "
+"sequence, and concurrently, students who answer similar questions often "
+"exhibit closer knowledge states. We introduce the STHKT method, which "
+"employs a tripartite heterogeneous graph to capture relationships among "
+"concepts, questions, and students. By incorporating temporal information "
+"through a topological graph, we employ two Graph Convolution Networks "
+"(GCNs) to model the two effects separately. Following this, we apply the "
+"Hawkes Process to introduce a spatiotemporal attention mechanism that "
+"combines both effects. Through comparative experiments, ablation studies "
+"and case studies, we validate the efficacy of key components in the "
+"model. Experiment results indicate that the STHKT model can effectively "
+"model the two major effects, integrate dynamic structural information, "
+"and to some extent improve the accuracy of predicting students’ response "
+"probabilities. It is the first time that these two effects have been "
+"considered in the process of knowledge tracing, and it is adaptable to "
+"large-scale online education platforms."
+msgstr ""
+"Knowledge Tracing (KT) is a method that seeks to forecast students’ "
+"future performance based on their historical interactions with "
+"intelligent tutoring systems. Various KT techniques have been developed "
+"from distinct perspectives, such as probability, logic, and deep "
+"learning, to scrutinize interaction sequences. However, most current "
+"methods predominantly concentrate on temporal or structural information, "
+"considering simple question sequences or interaction sequences, but fail "
+"to describe the topological dependencies between sequences, which can "
+"lead to changes in causal structures,as referred to as dynamic structural"
+" information in the paper. The dynamic information includes the "
+"clustering effect among concepts and questions, as well as the group "
+"effect among students and questions: Questions with the same knowledge "
+"concepts tend to present increasingly similar response patterns in the "
+"sequence, and concurrently, students who answer similar questions often "
+"exhibit closer knowledge states. We introduce the STHKT method, which "
+"employs a tripartite heterogeneous graph to capture relationships among "
+"concepts, questions, and students. By incorporating temporal information "
+"through a topological graph, we employ two Graph Convolution Networks "
+"(GCNs) to model the two effects separately. Following this, we apply the "
+"Hawkes Process to introduce a spatiotemporal attention mechanism that "
+"combines both effects. Through comparative experiments, ablation studies "
+"and case studies, we validate the efficacy of key components in the "
+"model. Experiment results indicate that the STHKT model can effectively "
+"model the two major effects, integrate dynamic structural information, "
+"and to some extent improve the accuracy of predicting students’ response "
+"probabilities. It is the first time that these two effects have been "
+"considered in the process of knowledge tracing, and it is adaptable to "
+"large-scale online education platforms."

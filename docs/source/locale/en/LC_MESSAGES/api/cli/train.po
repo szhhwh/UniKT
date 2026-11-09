@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: UniKT \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-12 15:25+0800\n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -19,82 +19,792 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.18.0\n"
 
-#: ../../source/api/cli/train.md:1 4d017c7870d145759bbc68d5ae2a31c0
-msgid "Train CLI"
-msgstr "Train CLI"
+#: ../../source/api/cli/train.md:1 905e4e9f4f4b4b3eafcbb3011645adfe
+msgid "train.py 命令行参考"
+msgstr "train.py Command Line Reference"
 
-#: ../../source/api/cli/train.md:5 758dfef556a54a05adbfe091cbec5ede
-msgid "train.py"
-msgstr "train.py"
+#: ../../source/api/cli/train.md:3 f80cd2437f9646daa8f2257658916ca7
+msgid "`train.py` 是 UniKT 的核心训练入口，基于 `jsonargparse` 实现双遍反射解析，支持完整强类型分层参数配置。"
+msgstr ""
+"`train.py` is the core training entry point of UniKT, implementing two-"
+"pass reflection parsing based on `jsonargparse` and supporting complete "
+"strongly typed hierarchical parameter configurations."
 
-#: ../../source/api/cli/train.md 88fcecd4ff8f49f2a46d62c9f8952db5
+#: ../../source/api/cli/train.md:5 cc23cfb8a0624df38c84049112301028
+msgid "基本语法"
+msgstr "Basic Syntax"
+
+#: ../../source/api/cli/train.md:7 55410892d131498cab510ac76afd903d
+msgid "python train.py -m <ModelName> -d <DatasetName> [OPTIONS]\n"
+msgstr "python train.py -m <ModelName> -d <DatasetName> [OPTIONS]\n"
+
+#: ../../source/api/cli/train.md:11 89cbabe5a1694ff3bd979485b359ac57
+msgid "也可以通过 `--config` 引入 YAML 配置文件，并用命令行参数覆盖特定配置项："
+msgstr ""
+"You can also introduce a YAML configuration file via `--config`, and "
+"override specific configuration items with command line arguments:"
+
+#: ../../source/api/cli/train.md:13 c38a817893ae41a9a05cad80d121c3dc
+msgid ""
+"python train.py --config configs/my_experiment.yaml --model.learning_rate"
+" 0.0005\n"
+msgstr ""
+"python train.py --config configs/my_experiment.yaml --model.learning_rate"
+" 0.0005\n"
+
+#: ../../source/api/cli/train.md:19 f6186986f4fb4b6490e270957d1fc790
+msgid "核心参数与分层命名空间"
+msgstr "Core Parameters and Hierarchical Namespaces"
+
+#: ../../source/api/cli/train.md:21 3bc57107e7854d2f98725457be9b8230
+msgid "1. 核心标识参数"
+msgstr "1\\. Core Identification Parameters"
+
+#: ../../source/api/cli/train.md 5385dd99073340d19937057d71f9418d
+#: 709d3f744a7e42f399659ce0ecd74387 72cca5143ed14f74a1e0305402ea9e79
+#: 7a621c6ff4d047b8b42e0305628dd781 85d96db8e99a4e438f0854749c6f58d9
+#: cf364cee94594a84956c78d2fc1dfc6a
 msgid "参数"
 msgstr "Parameter"
 
-#: ../../source/api/cli/train.md d4247123c92c4bf7a3f245e25e55e77b
+#: ../../source/api/cli/train.md 65f70c6d1be04a658155af1244e6631f
+msgid "短标识"
+msgstr "Short Flag"
+
+#: ../../source/api/cli/train.md 1c25f02898b44e489671a5d1ccefd572
+#: 318bc7a1013345aeafe6688240d66bf7 61ee5d6787244be3addf96d407929d28
+#: 696794e8a1654a8b98263436492abf4e 7cde2cbd99c34c5eb41e9e7d3a0d6d9a
+#: f9d3ef82d2944c69b09f8b2e118da759
+msgid "类型"
+msgstr "Type"
+
+#: ../../source/api/cli/train.md 25db7afc1cb348329c338c7c0ef8fcc0
+#: 4606cc55da244fc9b22297a09ab253c7 5261f7495e284a89ae35133d34ad7f00
+#: 6b4e237af5c64891b90fa316d71b6214 aa2a04817ab640db839b30153997ceec
+#: ff462e2a96194459b6faa3beeed7aed2
+msgid "默认值"
+msgstr "Default"
+
+#: ../../source/api/cli/train.md 03b8d74d814246508a0e4327a3cf8977
+#: 84ac57273899446690bd96d6b6eb2c62
 msgid "描述"
 msgstr "Description"
 
-#: ../../source/api/cli/train.md a0d65f5caa3d452ea09a78a2d6d9ecf3
-msgid "``-m, --model``"
-msgstr "``-m, --model``"
+#: ../../source/api/cli/train.md f6f3535c21b8452f898c55bdc9232f50
+msgid "`--experiment.model_name`"
+msgstr "`--experiment.model_name`"
 
-#: ../../source/api/cli/train.md 89af2a6fed2b46489f6c784454071a7e
-msgid "模型名称（如 GIKT、AKT、DKT）"
-msgstr "Model name (e.g. GIKT, AKT, DKT)"
+#: ../../source/api/cli/train.md 8dd34fed341e411aa758a277ec01174b
+msgid "`-m`"
+msgstr "`-m`"
 
-#: ../../source/api/cli/train.md a78af00e07dc44b182b7e452f9c039b1
-msgid "``-d, --dataset``"
-msgstr "``-d, --dataset``"
+#: ../../source/api/cli/train.md 0ee8f77f293d4906814f9fbbef680336
+#: 39fa6937eb7044c6986ce9c6e6fa0691 8be7fc9f80f141aead9fc4c36429271a
+#: b3e0fff036ec43ddaa83dd44227458b5 c371a28d53644261997e6819832f3e2b
+#: c68ef075d15e4588844c34a546be78a1
+msgid "`str`"
+msgstr "`str`"
 
-#: ../../source/api/cli/train.md 73987596dd134ec4acb6899d1957a4ac
-msgid "数据集名称（如 assistments09）"
-msgstr "Dataset name (e.g. assistments09)"
+#: ../../source/api/cli/train.md 4e3194d218e944de974fb495ded0bebe
+#: 59dbf4802b3c4da688a8c3b425aff0b2
+msgid "**必需**"
+msgstr "**Required**"
 
-#: ../../source/api/cli/train.md 5137080d597643568d1088a8b67f011c
-msgid "``--fold``"
-msgstr "``--fold``"
+#: ../../source/api/cli/train.md 49f1a1de75bb4696b5cc8fb6298e1eea
+msgid "已注册的模型名称（如 `DKT`, `AKT`, `GIKT`, `Mamba4KT`, `ABKT` 等）"
+msgstr ""
+"Registered model name (e.g., `DKT`, `AKT`, `GIKT`, `Mamba4KT`, `ABKT`, "
+"etc.)"
 
-#: ../../source/api/cli/train.md bedc02319a2f43389f9d99f810555217
-msgid "K 折索引（默认：0）"
-msgstr "K-fold index (default: 0)"
+#: ../../source/api/cli/train.md e4220089ed6e41c9a60407eccfa9985f
+msgid "`--data.dataset`"
+msgstr "`--data.dataset`"
 
-#: ../../source/api/cli/train.md b8cb59f6c4314ed798c7e0adf2ec497d
-msgid "``--seed``"
-msgstr "``--seed``"
+#: ../../source/api/cli/train.md a1c1869a343d42dc85176a9f7394fc79
+msgid "`-d`"
+msgstr "`-d`"
 
-#: ../../source/api/cli/train.md 9d7962749b9f4e0d815d45e5d7603fc6
-msgid "随机种子（默认：42）"
-msgstr "Random seed (default: 42)"
+#: ../../source/api/cli/train.md c1448aad14604e41847165cad365c259
+msgid "已处理的数据集名称（如 `assistments09`, `ednet_kt1`, `algebra2005` 等）"
+msgstr ""
+"Processed dataset name (e.g., `assistments09`, `ednet_kt1`, "
+"`algebra2005`, etc.)"
 
-#: ../../source/api/cli/train.md 4d3e503551f5431ab64bd693e313f581
-msgid "``--device``"
-msgstr "``--device``"
+#: ../../source/api/cli/train.md 85ed27d95d714d738e636f8069d28953
+msgid "`--config`"
+msgstr "`--config`"
 
-#: ../../source/api/cli/train.md 540732f436b74a4892130be24a2c96cc
-msgid "设备（cuda/cpu，自动检测）"
-msgstr "Device (cuda/cpu, auto-detected)"
+#: ../../source/api/cli/train.md 0c398155ad7246b09e2b217a596ace56
+#: 4cd1ae339998483a831ab0cff18064ac 85f1ad939a6048ed9fe0f430bb8c0e4d
+#: 89cf92bf93914f469e113d2e26915c7f 99daacee88404e0c9003a9d29954eb46
+#: b90aa9e7ef7741b7adfb233cf05baf6a ca4ef9ecaf454706b2a67ec8629bfe58
+#: f941cc0da3bf4a0d9b3210ae9caa14b8
+msgid "`None`"
+msgstr "`None`"
 
-#: ../../source/api/cli/train.md 729ebbee02484804b260afcbe4969b8d
-msgid "``--es_patience``"
-msgstr "``--es_patience``"
+#: ../../source/api/cli/train.md 587549fadd0f4ef1a0e325c36da55ca6
+msgid "指定 YAML 配置文件路径，自动注入到 RunConfig 配置树中"
+msgstr ""
+"Specify the YAML configuration file path, automatically injected into the"
+" RunConfig configuration tree"
 
-#: ../../source/api/cli/train.md 3f57f9f77ab64ebeb7c44b2b4a66ec19
-msgid "早停耐心轮数（默认：10）"
-msgstr "Early stopping patience in epochs (default: 10)"
+#: ../../source/api/cli/train.md:31 1947313c19d3402d804b66b1a65cc367
+msgid "2. `--general.*`：框架通用配置"
+msgstr "2\\. `--general.*`: Framework General Configuration"
 
-#: ../../source/api/cli/train.md 8539538a7f59495994da756c06ff4db6
-msgid "``--max_grad_norm``"
-msgstr "``--max_grad_norm``"
+#: ../../source/api/cli/train.md:33 5064ee74a016413ebeddd8975edc7f96
+msgid "控制日志、设备、随机种子、实验追踪与检查点保存等框架级行为："
+msgstr ""
+"Control framework-level behaviors such as logging, device, random seed, "
+"experiment tracking, and checkpoint saving:"
 
-#: ../../source/api/cli/train.md 610aa12467634b70a3da53b416662650
-msgid "梯度裁剪阈值"
-msgstr "Gradient clipping threshold"
+#: ../../source/api/cli/train.md 68942dda873e4478a17cf719eaa5ad72
+#: 9658a91ab98947db95162c504adf5db9 b2926f98b79b408ebce6169fe7f77c6b
+#: fd8fbaa0d2a947c8b2bbb095ffa570f0
+msgid "描述与取值说明"
+msgstr "Description and Value Specification"
 
-#: ../../source/api/cli/train.md ee7c11383fcd4b31a7d7c24e3341a365
-msgid "``--skip_test``"
-msgstr "``--skip_test``"
+#: ../../source/api/cli/train.md 88913daad94a422fb44595870c5e4743
+msgid "`--general.seed`"
+msgstr "`--general.seed`"
 
-#: ../../source/api/cli/train.md d44950c086dd4965ad84e644c929a9c8
-msgid "跳过测试评估"
-msgstr "Skip test evaluation"
+#: ../../source/api/cli/train.md 480dcd97cde94a6886e629a457656510
+#: 6e05289218d54e5b99b77039fee5011d 7c603df8b8984608967be377ef861e9d
+#: 7ff0b7e05d6548549a11d07fc2877eab 805a623911864363b75780d866a067dc
+#: 8860ef5e5a7f43e8abd5f012c51416bc 8ab353d2210a44a78c40dad4b0dd8865
+#: bef0d48aefaf4e9e87f6fd7daf9f596c
+msgid "`int`"
+msgstr "`int`"
+
+#: ../../source/api/cli/train.md 2a7dba40fa924a17a9260f1ab1165bdd
+msgid "`42`"
+msgstr "`42`"
+
+#: ../../source/api/cli/train.md 04d5b1581b2a44708c848ae3682bd0e7
+msgid "全局随机种子，控制 PyTorch, NumPy, Python 随机源"
+msgstr "Global random seed, controlling PyTorch, NumPy, and Python random sources"
+
+#: ../../source/api/cli/train.md 554e7c945fb048689f531fc1d1806ac7
+msgid "`--general.device`"
+msgstr "`--general.device`"
+
+#: ../../source/api/cli/train.md 2fbaed63ec9a4b919791c7c4f082f9d5
+#: a8220d435cbf43449b959e96645fe4ff eddf4bf8a9744017972432e76b7af70c
+msgid "`str | null`"
+msgstr "`str | null`"
+
+#: ../../source/api/cli/train.md 5c6e3c0df81d4968bbacb20c22be001c
+msgid "计算设备，如 `cuda`, `cuda:0`, `cpu`。为 `None` 时自动检测 GPU"
+msgstr ""
+"Computation device, such as `cuda`, `cuda:0`, `cpu`. When `None`, GPU is "
+"automatically detected"
+
+#: ../../source/api/cli/train.md 0413c0f5ee3c4a0fbabb07a80946ce2a
+msgid "`--general.deterministic`"
+msgstr "`--general.deterministic`"
+
+#: ../../source/api/cli/train.md 1269db6db8e94247ba4bfb59e25bc9f4
+#: 1b02555368d249ec977c22b6737353d2 328a192770d64cd6a59d75ec87e9085f
+#: 32c2dec0a0e14c989ca2f9cc75e8d417 566c5eaeae9b48aa9bc9629ceaccebb6
+#: 75f64ac85cd5456199a6a188a2a0a963 930152481ab145ec8384d7ef8d7c52f2
+#: 96d3f5d1359b4d0bb74531a513c57231
+msgid "`bool`"
+msgstr "`bool`"
+
+#: ../../source/api/cli/train.md 125ffecfb82e4e3e8204d8edb59f6dc6
+#: a7565a666e954c8dad98e5a4fb1fa6fc f8844e70950343719229e82638bcabfe
+msgid "`True`"
+msgstr "`True`"
+
+#: ../../source/api/cli/train.md e9900838ebc544a6b28d607f01cccb49
+msgid "是否启用 PyTorch 确定性算法（确保完全复现，可能会微弱降低 GPU 吞吐）"
+msgstr ""
+"Whether to enable PyTorch deterministic algorithms (ensures exact "
+"reproducibility, may slightly reduce GPU throughput)"
+
+#: ../../source/api/cli/train.md 7986e514afaf4ec49aeec7a13dfae033
+msgid "`--general.log_dir`"
+msgstr "`--general.log_dir`"
+
+#: ../../source/api/cli/train.md 8d0824fa788e40e5a9074086ec442cbe
+msgid "运行日志与模型检查点输出目录；为 `None` 时自动保存至 `runs/normal/<timestamp>`"
+msgstr ""
+"Run logs and model checkpoint output directory; when `None`, "
+"automatically saved to `runs/normal/<timestamp>`"
+
+#: ../../source/api/cli/train.md f4b3008fd44e4e3ba0b04a6d9914ae4b
+msgid "`--general.checkpoint_path`"
+msgstr "`--general.checkpoint_path`"
+
+#: ../../source/api/cli/train.md db04cb5ca2864026bbfee0d9b53a4e2a
+msgid "断点续训权重路径（若指定，模型将从此检查点恢复权重与优化器状态）"
+msgstr ""
+"Checkpoint weights path for resuming training (if specified, the model "
+"will restore weights and optimizer state from this checkpoint)"
+
+#: ../../source/api/cli/train.md 42946fe3f60b4a498dc448c855547404
+msgid "`--general.cloud_tracking`"
+msgstr "`--general.cloud_tracking`"
+
+#: ../../source/api/cli/train.md c3e9f8f0c45a407ab4b03f251fff15e6
+msgid "是否启用云端/本地实验追踪（SwanLab 或 W&B，由环境变量 `KT_TRACKING_BACKEND` 控制）"
+msgstr ""
+"Whether to enable cloud/local experiment tracking (SwanLab or W&B, "
+"controlled by environment variable `KT_TRACKING_BACKEND`)"
+
+#: ../../source/api/cli/train.md 5d318173e9ea4bd99155c66f213808be
+msgid "`--general.save_last_checkpoint`"
+msgstr "`--general.save_last_checkpoint`"
+
+#: ../../source/api/cli/train.md 0548522fc4024786b98e639b81650223
+msgid "是否在每个 Epoch 结束时保存最新权重检查点 `last_checkpoint.pth`"
+msgstr ""
+"Whether to save the latest weights checkpoint `last_checkpoint.pth` at "
+"the end of each epoch"
+
+#: ../../source/api/cli/train.md c4734e562daf4db989bfea4916759306
+msgid "`--general.log_batch_metrics`"
+msgstr "`--general.log_batch_metrics`"
+
+#: ../../source/api/cli/train.md 2796e01178c942aab07da70ab740d07a
+#: 95bc54806b0a4bc192aba3d70403baff bcdc0458820f4b1aa91d76ce32f6e9fd
+#: df4f6b04fdb449cf91c8c55a899ba85f f07d0195499044599b047ababaccaf58
+msgid "`False`"
+msgstr "`False`"
+
+#: ../../source/api/cli/train.md 66b5abe0301a4f91a09550f5a5ea18a4
+msgid "是否记录每批次的详细 loss 到 `batch_metrics_<phase>.csv`"
+msgstr "Whether to log detailed per-batch loss to `batch_metrics_<phase>.csv`"
+
+#: ../../source/api/cli/train.md a48f6430dfae438c8c596174e279cd96
+msgid "`--general.skip_test`"
+msgstr "`--general.skip_test`"
+
+#: ../../source/api/cli/train.md b1a8e8f8576d48a8ac949285a07016f4
+msgid "训练完成后是否跳过最终测试集的推断评估"
+msgstr ""
+"Whether to skip final test set inference evaluation after training "
+"completes"
+
+#: ../../source/api/cli/train.md 8e12e58e84424d9ba710b802fdf9e0ba
+msgid "`--general.cache`"
+msgstr "`--general.cache`"
+
+#: ../../source/api/cli/train.md 0f92fd8a8cea4ec89106f797c9a2a0e6
+msgid "是否启用模型数据预处理的磁盘缓存（缓存至 `.cache/`）"
+msgstr ""
+"Whether to enable disk caching for model data preprocessing (cached to "
+"`.cache/`)"
+
+#: ../../source/api/cli/train.md e6d340304a8849a2ad2de145f69189ab
+msgid "`--general.pin_memory`"
+msgstr "`--general.pin_memory`"
+
+#: ../../source/api/cli/train.md 64180d2374934fb9ac4ea471348555fd
+#: 995a6f41cb4243db84bf8539eb89c83b
+msgid "`bool | null`"
+msgstr "`bool | null`"
+
+#: ../../source/api/cli/train.md e906056c037944ef854a8f54c1c99424
+msgid "DataLoader 的锁页内存开关。为 `None` 时根据 CUDA 自动启用"
+msgstr ""
+"DataLoader pinned memory toggle. When `None`, automatically enabled based"
+" on CUDA availability"
+
+#: ../../source/api/cli/train.md 6759e89cf0804baa90df5fdeef2b5011
+msgid "`--general.progress`"
+msgstr "`--general.progress`"
+
+#: ../../source/api/cli/train.md 11960400576b4ff094c340e6611e572f
+#: 43ac494d740d4ac09e8ac803611fae48 695d1f3b9f914c35b3ceab661da2aeee
+#: 763a1dd4d3734fb3849bf7dd28cd9a84 c1af38e7c5a24411bd79da8ce0384f08
+msgid "`Literal`"
+msgstr "`Literal`"
+
+#: ../../source/api/cli/train.md 91bc125fe89f44ef9693da50cfb56a49
+msgid "`auto`"
+msgstr "`auto`"
+
+#: ../../source/api/cli/train.md 22a2de76fb9b4d5f980afb98094e8c45
+msgid "终端进度条渲染模式：`auto`（TTY 时自动显示）、`rich`（强制显示）、`none`（关闭）"
+msgstr ""
+"Terminal progress bar rendering mode: `auto` (automatically displayed on "
+"TTY), `rich` (force display), `none` (disabled)"
+
+#: ../../source/api/cli/train.md:52 ce97e87a9e02432eb80d1e4b6dce9010
+msgid "3. `--data.*`：数据集与切分参数"
+msgstr "3\\. `--data.*`: Dataset and Splitting Parameters"
+
+#: ../../source/api/cli/train.md:54 3a5c06a954764de085d7cee6c93da5e9
+msgid "控制数据集加载、K 折划分、序列截断预算与抽样："
+msgstr ""
+"Control dataset loading, K-fold splitting, sequence truncation budget, "
+"and sampling:"
+
+#: ../../source/api/cli/train.md 404a95423ec14764b81379df95b388fd
+msgid "`--data.fold`"
+msgstr "`--data.fold`"
+
+#: ../../source/api/cli/train.md 77ee532cfafc46b3b0a1085709ac46e4
+msgid "`0`"
+msgstr "`0`"
+
+#: ../../source/api/cli/train.md 9ba2e607080b4f06ae87d77896622d4b
+msgid "当前训练与评估的折索引，取值范围 `[0, kfold - 1]`"
+msgstr "Fold index for current training and evaluation, range `[0, kfold - 1]`"
+
+#: ../../source/api/cli/train.md c11a7a0a94564066a477020c0b440513
+msgid "`--data.kfold`"
+msgstr "`--data.kfold`"
+
+#: ../../source/api/cli/train.md 1bcf0439581f41759219977dd9a9e046
+msgid "`5`"
+msgstr "`5`"
+
+#: ../../source/api/cli/train.md 86766c562a6c4071b19e38f9e71a4fa4
+msgid "K 折交叉验证总折数（需 $\\ge 2$）"
+msgstr "Total number of folds for K-fold cross-validation (requires $\\ge 2$)"
+
+#: ../../source/api/cli/train.md 24ccd8d545db45e9b398b95a7a460794
+msgid "`--data.test_ratio`"
+msgstr "`--data.test_ratio`"
+
+#: ../../source/api/cli/train.md 02843e6bcded46dcaefdbac8ed6f9a40
+#: 74ae9cfab33c476b9f2237b8662df160 85c3448e2557499a96ab6b210884cc9d
+#: a3f76a181b5d4c7e90850e3795b7082f
+msgid "`float`"
+msgstr "`float`"
+
+#: ../../source/api/cli/train.md 52d8c54c5ce94040a342deec5999ff9a
+msgid "`0.2`"
+msgstr "`0.2`"
+
+#: ../../source/api/cli/train.md 458030d3f7d841e3813e7bd512fc1ca9
+msgid "独立留出测试集的学生比例"
+msgstr "Proportion of students held out as an independent test set"
+
+#: ../../source/api/cli/train.md db6ebd57736c472db15037a4bc3bf85f
+msgid "`--data.data_base_path`"
+msgstr "`--data.data_base_path`"
+
+#: ../../source/api/cli/train.md b3e1b7b6042f4f1786273ed5b926d8e9
+msgid "`./data`"
+msgstr "`./data`"
+
+#: ../../source/api/cli/train.md 7f0db03996e34bd8aa030897b153b1fa
+msgid "数据集根目录路径"
+msgstr "Dataset root directory path"
+
+#: ../../source/api/cli/train.md 008950c643844a889cf700004041c2c9
+msgid "`--data.min_seq_len`"
+msgstr "`--data.min_seq_len`"
+
+#: ../../source/api/cli/train.md 0332ba39d6fd4fb89e79f07b7c846b08
+msgid "`3`"
+msgstr "`3`"
+
+#: ../../source/api/cli/train.md 9d3bc9145a56410e97c4533ea82e418b
+msgid "序列最小有效交互长度，少于该长度的学生序列将被丢弃"
+msgstr ""
+"Minimum valid interaction length for sequences; student sequences shorter"
+" than this length will be discarded"
+
+#: ../../source/api/cli/train.md b373bc883f704494884c03514c17fcc5
+msgid "`--data.max_seq_len`"
+msgstr "`--data.max_seq_len`"
+
+#: ../../source/api/cli/train.md bdfb2642314a48049d7b29ed71c3db0a
+msgid "`200`"
+msgstr "`200`"
+
+#: ../../source/api/cli/train.md dd4b298ec6c4428f9d94baf7bae1d8aa
+msgid "序列切分的最大截断长度预算"
+msgstr "Maximum truncation length budget for sequence splitting"
+
+#: ../../source/api/cli/train.md d9baff9f149b4a819e6eaa356d8f44ac
+msgid "`--data.truncation_stage`"
+msgstr "`--data.truncation_stage`"
+
+#: ../../source/api/cli/train.md 3b071a1916ee4631bbbcd2b34283b1a0
+msgid "`post_expansion`"
+msgstr "`post_expansion`"
+
+#: ../../source/api/cli/train.md a9bb8c13955440eaa694d6686007f9ac
+msgid "知识点展开截断时机：`post_expansion`（展开后截断）或 `pre_expansion`（展开前截断）"
+msgstr ""
+"Knowledge point expansion truncation timing: `post_expansion` (truncate "
+"after expansion) or `pre_expansion` (truncate before expansion)"
+
+#: ../../source/api/cli/train.md a2822c26039a4234859d05cc3cdb3835
+msgid "`--data.sample_size`"
+msgstr "`--data.sample_size`"
+
+#: ../../source/api/cli/train.md f930bc4d51fb4d7da5ff3e412b54490c
+msgid "`int | null`"
+msgstr "`int | null`"
+
+#: ../../source/api/cli/train.md 2d52f22410be4a0d984fa3242f899727
+msgid "绝对抽样学生数量（为 `None` 时使用全量数据）"
+msgstr "Absolute number of sampled students (uses full data when `None`)"
+
+#: ../../source/api/cli/train.md 47762e2ac6444111b58e42d5c651f038
+msgid "`--data.sample_ratio`"
+msgstr "`--data.sample_ratio`"
+
+#: ../../source/api/cli/train.md b454324498a14f9cb7fcb94b303dac57
+msgid "`float | null`"
+msgstr "`float | null`"
+
+#: ../../source/api/cli/train.md 3d64534f77874738a6e698014132e3a5
+msgid "抽样学生比例 `0.0 ~ 1.0`（优先级高于 `sample_size`）"
+msgstr "Sampling student ratio `0.0 ~ 1.0` (higher priority than `sample_size`)"
+
+#: ../../source/api/cli/train.md ed412654ba02463494c9fd3f9a03e091
+msgid "`--data.sample_strategy`"
+msgstr "`--data.sample_strategy`"
+
+#: ../../source/api/cli/train.md f1f4ab812f564be496697c0883936c21
+msgid "`random`"
+msgstr "`random`"
+
+#: ../../source/api/cli/train.md 86acab6946ab43f2a4990588e32a4da5
+msgid "抽样策略：`random`（纯随机）、`stratified`（按作答数与正确率分层）、`time`（按时间）"
+msgstr ""
+"Sampling strategy: `random` (pure random), `stratified` (stratified by "
+"interaction count and accuracy), `time` (chronological)"
+
+#: ../../source/api/cli/train.md:71 0692c34e1df64e34b8a5afadda691e2c
+msgid "4. `--early_stopping.*`：早停机制配置"
+msgstr "4\\. `--early_stopping.*`: Early Stopping Configuration"
+
+#: ../../source/api/cli/train.md 2fbff29a72ca4f6398d05dc7da22605d
+msgid "`--early_stopping.monitor`"
+msgstr "`--early_stopping.monitor`"
+
+#: ../../source/api/cli/train.md afe506aee6454a299301f9bd09f2fb3f
+msgid "`auc`"
+msgstr "`auc`"
+
+#: ../../source/api/cli/train.md 0e3347bb93664c00871497f78017ee2a
+msgid "早停监控的验证集指标：`auc`, `acc`, `rmse`, `loss`, `auprc`"
+msgstr ""
+"Validation set metric monitored for early stopping: `auc`, `acc`, `rmse`,"
+" `loss`, `auprc`"
+
+#: ../../source/api/cli/train.md beb698cf3d7041438fe429b2c453a077
+msgid "`--early_stopping.mode`"
+msgstr "`--early_stopping.mode`"
+
+#: ../../source/api/cli/train.md ccebee1f62604b47a4b2d8a9d211f31e
+msgid "`max`"
+msgstr "`max`"
+
+#: ../../source/api/cli/train.md 03fdb99defbc4d608600261ac96d83e0
+msgid "优化目标方向：`max`（指标越大越好，如 auc/acc）或 `min`（指标越小越好，如 loss/rmse）"
+msgstr ""
+"Optimization goal direction: `max` (higher is better, e.g., auc/acc) or "
+"`min` (lower is better, e.g., loss/rmse)"
+
+#: ../../source/api/cli/train.md 2eb1f032c2304872ad8d692259b1fb41
+msgid "`--early_stopping.patience`"
+msgstr "`--early_stopping.patience`"
+
+#: ../../source/api/cli/train.md d43c3bf95bf0436fbaab804890450aed
+msgid "`10`"
+msgstr "`10`"
+
+#: ../../source/api/cli/train.md 5e03ff020a124bf3bd916b911cecf9d5
+msgid "容忍无改善的最大 Epoch 轮数，超过后触发早停退出"
+msgstr ""
+"Maximum number of epochs tolerated without improvement before triggering "
+"early stopping"
+
+#: ../../source/api/cli/train.md ebe99561135f433cbe97e937803c7332
+msgid "`--early_stopping.min_delta`"
+msgstr "`--early_stopping.min_delta`"
+
+#: ../../source/api/cli/train.md 5e99a5389fee40d5838633b3f32eda1c
+#: 9e96483aa6fc483e8afbd2cf2d406384
+msgid "`0.0`"
+msgstr "`0.0`"
+
+#: ../../source/api/cli/train.md 92ff2b972a09494f9f7714aeeaf57e0c
+msgid "判定为有效提升的最小变化阈值"
+msgstr "Minimum change threshold to qualify as an improvement"
+
+#: ../../source/api/cli/train.md:82 0d7add214e224c3f93b61b486c7a97bc
+msgid "5. `--compile.*`：PyTorch 2.x 图编译加速"
+msgstr "5\\. `--compile.*`: PyTorch 2.x Graph Compilation Acceleration"
+
+#: ../../source/api/cli/train.md:84 67010f60a7184ceebad0f6cc3d0d78cb
+msgid "控制 `torch.compile` 对模型的 JIT 图编译优化："
+msgstr ""
+"Control JIT graph compilation optimization of the model via "
+"`torch.compile`:"
+
+#: ../../source/api/cli/train.md 397bcef7610140ddaeeb88f6bb4225da
+msgid "`--compile.compile`"
+msgstr "`--compile.compile`"
+
+#: ../../source/api/cli/train.md cda9009b507a4d98b88363753d68954c
+msgid "是否启用 `torch.compile` 模型编译"
+msgstr "Whether to enable `torch.compile` model compilation"
+
+#: ../../source/api/cli/train.md 4730144d10714f93bd59d677185c8d64
+msgid "`--compile.compile_mode`"
+msgstr "`--compile.compile_mode`"
+
+#: ../../source/api/cli/train.md 7f54379b11a6460cabf6e289f344555b
+msgid "`default`"
+msgstr "`default`"
+
+#: ../../source/api/cli/train.md 72017cfb34164d06968ec1bda10fcb90
+msgid ""
+"编译优化模式：`default`, `reduce-overhead`, `max-autotune`, `max-autotune-no-"
+"cudagraphs`"
+msgstr ""
+"Compilation optimization mode: `default`, `reduce-overhead`, `max-"
+"autotune`, `max-autotune-no-cudagraphs`"
+
+#: ../../source/api/cli/train.md 8e66146c882e4f9a82fba8a9256ff023
+msgid "`--compile.compile_fullgraph`"
+msgstr "`--compile.compile_fullgraph`"
+
+#: ../../source/api/cli/train.md 42b1230ac10c48adad14b7b48a1d617b
+msgid "是否要求整个前向计算图完整捕获（无 Python 解释器回退）"
+msgstr ""
+"Whether to require the entire forward computation graph to be captured "
+"completely without Python interpreter fallbacks"
+
+#: ../../source/api/cli/train.md 1319705449c146b3919f93990bda3f1d
+msgid "`--compile.compile_dynamic`"
+msgstr "`--compile.compile_dynamic`"
+
+#: ../../source/api/cli/train.md dce368efa7bf475f98ea7b42e6d0fa82
+msgid "是否启用动态尺寸跟踪（为 `None` 时由 PyTorch 自动判定）"
+msgstr ""
+"Whether to enable dynamic shape tracing (when `None`, automatically "
+"determined by PyTorch)"
+
+#: ../../source/api/cli/train.md 474b5c61cf2145ef80f8cb5a79d97e85
+msgid "`--compile.compile_backend`"
+msgstr "`--compile.compile_backend`"
+
+#: ../../source/api/cli/train.md db730ebc0a1e4cbd9cf8aba15938be09
+msgid "`inductor`"
+msgstr "`inductor`"
+
+#: ../../source/api/cli/train.md 314549e6838a463d98a3500368072020
+msgid "编译后端引擎（默认 `inductor`）"
+msgstr "Compilation backend engine (default `inductor`)"
+
+#: ../../source/api/cli/train.md:96 74d244747f5c4d0e88905faa1f654755
+msgid "6. `--model.*`：模型超参数"
+msgstr "6\\. `--model.*`: Model Hyperparameters"
+
+#: ../../source/api/cli/train.md:98 426077dda5a14ed899429982d16c852a
+msgid ""
+"`--model.*` 为多态命名空间，根据 `-m <ModelName>` "
+"自动绑定对应模型的强类型配置类。所有模型均继承并包含以下基础训练参数："
+msgstr ""
+"`--model.*` is a polymorphic namespace that automatically binds the "
+"strongly typed configuration class of the corresponding model based on "
+"`-m <ModelName>`. All models inherit and contain the following base "
+"training parameters:"
+
+#: ../../source/api/cli/train.md afa116de085a4202bb14c7d00d3ec362
+msgid "`--model.epochs`"
+msgstr "`--model.epochs`"
+
+#: ../../source/api/cli/train.md 735ec8920ad644b3bc3065d26051a03e
+msgid "`150`"
+msgstr "`150`"
+
+#: ../../source/api/cli/train.md fc448603a1d94a86bcae29171e334aa8
+msgid "最大训练轮数（基类默认 150，具体模型可覆盖）"
+msgstr ""
+"Maximum training epochs (base class default 150, can be overridden by "
+"specific models)"
+
+#: ../../source/api/cli/train.md b4a0b96c259a462397dc2d1a524b171e
+msgid "`--model.batch_size`"
+msgstr "`--model.batch_size`"
+
+#: ../../source/api/cli/train.md 05d23aa7d2d24cd5a9ada050f565b509
+msgid "`32`"
+msgstr "`32`"
+
+#: ../../source/api/cli/train.md fb976455cb6247389448823fe5b4879d
+msgid "训练批大小（基类默认 32，具体模型可覆盖，如 GIKT 默认 128）"
+msgstr ""
+"Training batch size (base class default 32, can be overridden by specific"
+" models, e.g., GIKT defaults to 128)"
+
+#: ../../source/api/cli/train.md 1aacbca837a847dea30a206e66721963
+msgid "`--model.learning_rate`"
+msgstr "`--model.learning_rate`"
+
+#: ../../source/api/cli/train.md e0c29d6d53914890a76fc43d2ba7fad6
+msgid "`1e-3`"
+msgstr "`1e-3`"
+
+#: ../../source/api/cli/train.md a2eecc504a3145f58bcafa087fe23f58
+msgid "初始学习率（默认 0.001）"
+msgstr "Initial learning rate (default 0.001)"
+
+#: ../../source/api/cli/train.md b7f76d86aae742fc8cfc745bc6476db5
+msgid "`--model.weight_decay`"
+msgstr "`--model.weight_decay`"
+
+#: ../../source/api/cli/train.md 5e1cedf594234edda946f9f8148de52d
+msgid "优化器 L2 权重衰减系数"
+msgstr "Optimizer L2 weight decay coefficient"
+
+#: ../../source/api/cli/train.md:107 3ead974733ce45659be1962f9391ce7e
+msgid "此外，各个模型特有的私有超参数也挂载在 `--model.*` 下。例如："
+msgstr ""
+"In addition, model-specific private hyperparameters are also mounted "
+"under `--model.*`. For example:"
+
+#: ../../source/api/cli/train.md:108 f6765de0f3aa430a9be6b22753378d81
+msgid ""
+"对于 **GIKT**：`--model.n_hop`, `--model.skill_neighbor_num`, "
+"`--model.embedding_dim`, `--model.hidden_neurons` 等。"
+msgstr ""
+"For **GIKT**: `--model.n_hop`, `--model.skill_neighbor_num`, "
+"`--model.embedding_dim`, `--model.hidden_neurons`, etc."
+
+#: ../../source/api/cli/train.md:109 7e132aee91704a84a97715f760ecca0c
+msgid ""
+"对于 **AKT**：`--model.d_model`, `--model.n_blocks`, `--model.dropout`, "
+"`--model.kq_same` 等。"
+msgstr ""
+"For **AKT**: `--model.d_model`, `--model.n_blocks`, `--model.dropout`, "
+"`--model.kq_same`, etc."
+
+#: ../../source/api/cli/train.md:110 20d1b0e172b048f4b23412472a0cb5ab
+msgid "对于 **Mamba4KT**：`--model.d_state`, `--model.d_conv`, `--model.expand` 等。"
+msgstr ""
+"For **Mamba4KT**: `--model.d_state`, `--model.d_conv`, `--model.expand`, "
+"etc."
+
+#: ../../source/api/cli/train.md:112 23c61744aef24901b8b4c16dd8df7011
+msgid ""
+"可以通过 `python train.py -m <ModelName> -d <DatasetName> --help` "
+"查阅特定模型的所有专有参数。"
+msgstr ""
+"You can check all proprietary parameters of a specific model via `python "
+"train.py -m <ModelName> -d <DatasetName> --help`."
+
+#: ../../source/api/cli/train.md:116 4937978ee9da4e59a5b6c99aa74bd2a1
+msgid "配置合并优先级"
+msgstr "Configuration Merging Precedence"
+
+#: ../../source/api/cli/train.md:118 07c497ef34d945a3a8d2f25d3c30f60a
+msgid "参数合并遵循以下严格优先级（自高向低覆盖）："
+msgstr ""
+"Parameter merging follows strict precedence (from highest to lowest "
+"priority):"
+
+#: ../../source/api/cli/train.md:120 1a06c7d4931a4158999aadaa7c8f0a18
+msgid "**命令行参数**（如 `--model.learning_rate 0.002`）"
+msgstr "**Command line arguments** (e.g., `--model.learning_rate 0.002`)"
+
+#: ../../source/api/cli/train.md:121 57425d1fc33648da8bd421a69646b257
+msgid "**`--config <path>` 指定的 YAML 文件**"
+msgstr "**YAML file specified by `--config <path>`**"
+
+#: ../../source/api/cli/train.md:122 b8269c64e69e400cba0af5a31432d795
+msgid "**模型与框架的默认 Dataclass 默认值**"
+msgstr "**Default dataclass values of the model and framework**"
+
+#: ../../source/api/cli/train.md:126 de2685de08aa461fbcf20551e6aa5079
+msgid "产出目录与无损复现"
+msgstr "Output Directory and Lossless Reproduction"
+
+#: ../../source/api/cli/train.md:128 19f066bedb634ec99e73a41da8348ed2
+msgid "每次训练将在 `runs/normal/` 目录下生成一个带时间戳与实验签名的独立目录："
+msgstr ""
+"Each training run generates a standalone directory with a timestamp and "
+"experiment signature under `runs/normal/`:"
+
+#: ../../source/api/cli/train.md:130 5a161ad2981341f4839e89f8561ffb68
+msgid ""
+"runs/normal/GIKT_assistments09_20260520-232131_fold0_bs128/\n"
+"├── run_config.yaml         # 本次运行的全量强类型配置归档（用于无损复现与评估）\n"
+"├── run_metadata.yaml       # 运行元数据（包含模型参数量、优化器类型、GPU型号等）\n"
+"├── run.log                 # 完整终端运行日志\n"
+"├── best_model.pth          # 验证集最优检查点权重\n"
+"├── last_checkpoint.pth     # 最后一轮完整状态检查点（含优化器，用于断点续训）\n"
+"├── metrics_train.csv       # 训练阶段各轮次损失与指标记录\n"
+"├── metrics_val.csv         # 验证阶段各轮次指标记录\n"
+"├── metrics_test.csv        # 测试集最终评估指标\n"
+"└── timing.csv              # 各阶段耗时分析\n"
+msgstr ""
+"runs/normal/GIKT_assistments09_20260520-232131_fold0_bs128/\n"
+"├── run_config.yaml         # Full strongly typed configuration archive "
+"for this run (for lossless reproduction and evaluation)\n"
+"├── run_metadata.yaml       # Run metadata (includes model parameter "
+"count, optimizer type, GPU model, etc.)\n"
+"├── run.log                 # Complete terminal execution log\n"
+"├── best_model.pth          # Best checkpoint weights on validation set\n"
+"├── last_checkpoint.pth     # Final epoch complete state checkpoint (with"
+" optimizer, for resuming training)\n"
+"├── metrics_train.csv       # Loss and metric records across training "
+"epochs\n"
+"├── metrics_val.csv         # Metric records across validation epochs\n"
+"├── metrics_test.csv        # Final evaluation metrics on test set\n"
+"└── timing.csv              # Time consumption analysis across stages\n"
+
+#: ../../source/api/cli/train.md:143 2ee0bd749fab4f3384410a0918f11ad8
+msgid "使用归档配置快速复现训练"
+msgstr "Quickly Reproduce Training Using Archived Configuration"
+
+#: ../../source/api/cli/train.md:145 e836f8284548453fb032078c8302fdf0
+msgid "任何一次训练生成的 `run_config.yaml` 均可通过 `--config` 直接加载复现："
+msgstr ""
+"The `run_config.yaml` generated by any training run can be directly "
+"loaded via `--config` to reproduce the run:"
+
+#: ../../source/api/cli/train.md:147 816eef7c1a3a4e6096cc95957ee9b61b
+msgid ""
+"python train.py --config "
+"runs/normal/GIKT_assistments09_20260520-232131_fold0_bs128/run_config.yaml"
+"\n"
+msgstr ""
+"python train.py --config "
+"runs/normal/GIKT_assistments09_20260520-232131_fold0_bs128/run_config.yaml"
+"\n"
+
+#~ msgid "Train CLI"
+#~ msgstr "Train CLI"
+
+#~ msgid "``-m, --model``"
+#~ msgstr "``-m, --model``"
+
+#~ msgid "模型名称（如 GIKT、AKT、DKT）"
+#~ msgstr "Model name (e.g. GIKT, AKT, DKT)"
+
+#~ msgid "数据集名称（如 assistments09）"
+#~ msgstr "Dataset name (e.g. assistments09)"
+
+#~ msgid "K 折索引（默认：0）"
+#~ msgstr "K-fold index (default: 0)"
+
+#~ msgid "随机种子（默认：42）"
+#~ msgstr "Random seed (default: 42)"
+
+#~ msgid "设备（cuda/cpu，自动检测）"
+#~ msgstr "Device (cuda/cpu, auto-detected)"
+
+#~ msgid "早停耐心轮数（默认：10）"
+#~ msgstr "Early stopping patience in epochs (default: 10)"
+
+#~ msgid "``--max_grad_norm``"
+#~ msgstr "``--max_grad_norm``"
+
+#~ msgid "梯度裁剪阈值"
+#~ msgstr "Gradient clipping threshold"
+
+#~ msgid "跳过测试评估"
+#~ msgstr "Skip test evaluation"

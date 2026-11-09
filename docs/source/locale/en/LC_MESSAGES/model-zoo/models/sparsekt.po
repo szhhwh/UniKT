@@ -1,0 +1,134 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/sparsekt.md:1 e29fd0dfe87e4b81a52c0417e2f6fb79
+msgid "SparseKT"
+msgstr "SparseKT"
+
+#: ../../source/model-zoo/models/sparsekt.md:3 9ae11e337f114dfaae721c0a80ef5b3f
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/sparsekt.md bc3f9877742f497ba5f2052a9b3cf674
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/sparsekt.md 197b135bbffb4ab798932f57e880d3aa
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/sparsekt.md 2dfcc8279bac48419cc51539d1d9ac27
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/sparsekt.md 0265387cf91747488630468925e4d866
+msgid ""
+"[Towards Robust Knowledge Tracing Models via k-Sparse "
+"Attention](https://doi.org/10.1145/3539618.3592073)"
+msgstr ""
+"[Towards Robust Knowledge Tracing Models via k-Sparse "
+"Attention](https://doi.org/10.1145/3539618.3592073)"
+
+#: ../../source/model-zoo/models/sparsekt.md ea52bf24b8fd4110a71031a3b2e21241
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/sparsekt.md 6a42d25f10e1476a9b56ad92a133aca8
+msgid "Shuyan Huang, Zitao Liu, Xiangyu Zhao, Weiqi Luo, Jian Weng"
+msgstr "Shuyan Huang, Zitao Liu, Xiangyu Zhao, Weiqi Luo, Jian Weng"
+
+#: ../../source/model-zoo/models/sparsekt.md ea3c9a552af94359960a6c563632cf7b
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/sparsekt.md 9972f81e53824d96a274fa1b5d4e24e8
+msgid "2023"
+msgstr "2023"
+
+#: ../../source/model-zoo/models/sparsekt.md f890fba4e45e494ca19706be7784825e
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/sparsekt.md 2f8c761bc9dc4a92a966a7736153f971
+msgid ""
+"Proceedings of the 46th International ACM SIGIR Conference on Research "
+"and Development in Information Retrieval"
+msgstr ""
+"Proceedings of the 46th International ACM SIGIR Conference on Research "
+"and Development in Information Retrieval"
+
+#: ../../source/model-zoo/models/sparsekt.md:12
+#: 210c5f5a03d64e6b9fb5563a4e2d88a1
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/sparsekt.md:14
+#: 2de19aa838d647789d494e2987a56bd0
+msgid ""
+"Knowledge tracing (KT) is the problem of predicting students' future "
+"performance based on their historical interaction sequences. With the "
+"advanced capability of capturing contextual long-term dependency, "
+"attention mechanism becomes one of the essential components in many deep "
+"learning based KT (DLKT) models. In spite of the impressive performance "
+"achieved by these attentional DLKT models, many of them are often "
+"vulnerable to run the risk of overfitting, especially on small-scale "
+"educational datasets. Therefore, in this paper, we propose sparseKT, a "
+"simple yet effective framework to improve the robustness and "
+"generalization of the attention based DLKT approaches. Specifically, we "
+"incorporate a k-selection module to only pick items with the highest "
+"attention scores. We propose two sparsification heuristics: (1) soft-"
+"thresholding sparse attention and (2) top-K sparse attention. We show "
+"that our sparseKT is able to help attentional KT models get rid of "
+"irrelevant student interactions and improve the predictive performance "
+"when compared to 11 state-of-the-art KT models on three publicly "
+"available real-world educational datasets. To encourage reproducible "
+"research, we make our data and code publicly available at "
+"https://github.com/pykt-team/pykt-toolkit1.."
+msgstr ""
+"Knowledge tracing (KT) is the problem of predicting students' future "
+"performance based on their historical interaction sequences. With the "
+"advanced capability of capturing contextual long-term dependency, "
+"attention mechanism becomes one of the essential components in many deep "
+"learning based KT (DLKT) models. In spite of the impressive performance "
+"achieved by these attentional DLKT models, many of them are often "
+"vulnerable to run the risk of overfitting, especially on small-scale "
+"educational datasets. Therefore, in this paper, we propose sparseKT, a "
+"simple yet effective framework to improve the robustness and "
+"generalization of the attention based DLKT approaches. Specifically, we "
+"incorporate a k-selection module to only pick items with the highest "
+"attention scores. We propose two sparsification heuristics: (1) soft-"
+"thresholding sparse attention and (2) top-K sparse attention. We show "
+"that our sparseKT is able to help attentional KT models get rid of "
+"irrelevant student interactions and improve the predictive performance "
+"when compared to 11 state-of-the-art KT models on three publicly "
+"available real-world educational datasets. To encourage reproducible "
+"research, we make our data and code publicly available at "
+"https://github.com/pykt-team/pykt-toolkit1.."
+
+#: ../../source/model-zoo/models/sparsekt.md:17
+#: cb58ad43cf5a4d4782dd05d9ef1ef837
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/sparsekt.md:19
+#: f3ce110ccff343b7b7940dfd0b48102e
+msgid "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"
+msgstr "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"
