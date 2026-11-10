@@ -5,7 +5,10 @@ import sys
 
 from docutils import nodes
 from sphinx.ext.autodoc.mock import _MockObject
+from sphinx.locale import init as init_locale
 from sphinx.transforms import SphinxTransform
+from sphinx.util.i18n import docname_to_domain
+from sphinx.util.nodes import extract_messages
 
 
 # Mock the __or__ and __ror__ methods of _MockObject to
@@ -170,11 +173,12 @@ def _config_inited(app, config):
 
 
 def setup(app):
-    """Register the docs build hooks and the table-cell i18n transform."""
+    """Register documentation build hooks and i18n transforms."""
     app.connect("config-inited", _config_inited)
     app.connect("html-page-context", _page_context)
     app.connect("doctree-read", _mark_table_cell_sources)
     app.add_transform(_TableCellSourceTransform)
+    app.add_transform(_LiteralBlockTranslationTransform)
 
 
 def _mark_table_cell_sources(_app, doctree):
@@ -203,3 +207,35 @@ class _TableCellSourceTransform(SphinxTransform):
             for paragraph in entry.findall(nodes.paragraph):
                 if paragraph.source is None:
                     paragraph.source = source
+
+
+class _LiteralBlockTranslationTransform(SphinxTransform):
+    """Apply literal translations without parsing code as Markdown."""
+
+    default_priority = 19
+
+    def apply(self, **_kwargs):
+        from sphinx.builders.gettext import MessageCatalogBuilder
+
+        if isinstance(self.app.builder, MessageCatalogBuilder):
+            return
+
+        domain = docname_to_domain(self.env.docname, self.config.gettext_compact)
+        directories = [
+            self.env.srcdir / directory for directory in self.config.locale_dirs
+        ]
+        catalog, has_catalog = init_locale(directories, self.config.language, domain)
+        if not has_catalog:
+            return
+
+        for node, message in extract_messages(self.document):
+            if not isinstance(node, nodes.literal_block):
+                continue
+            translation = catalog.gettext(message)
+            if not translation.strip() or translation == message:
+                continue
+            # Sphinx reparses translated literals as reStructuredText, but MyST
+            # interprets its ``::`` wrapper as code. Preserve the original node.
+            node[:] = [nodes.Text(translation)]
+            node["translatable"] = False
+            node["translated"] = True

@@ -23,6 +23,15 @@ msgstr ""
 msgid "更新日志"
 msgstr "Changelog"
 
+msgid "2026-11-10"
+msgstr "2026-11-10"
+
+msgid "修复英文文档翻译后的代码块显示多余 `::` 的问题，保留代码格式及注释翻译。"
+msgstr "Fixed extra `::` appearing in translated code blocks in the English documentation while preserving code formatting and translated comments."
+
+msgid "统一本地与 Read the Docs 的文档构建依赖版本。"
+msgstr "Aligned documentation build dependency versions between local environments and Read the Docs."
+
 #: ../../source/changelog.md:3 807cabc12d5241ad8b7f6c6c03d17f1d
 msgid "2026-11-09"
 msgstr "2026-11-09"
