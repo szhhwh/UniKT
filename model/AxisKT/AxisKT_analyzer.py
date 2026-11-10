@@ -108,7 +108,10 @@ class AxisKTAnalyzer(BaseCaseAnalyzer):
             skills,
             skill_mask,
         ) = batch_data
-        compact_global = use_compact_global(mask)
+        compact_global = (
+            self.run_config.model.efficiency_mode == "optimized"
+            and use_compact_global(mask)
+        )
         questions = self._move_tensor_to_device(questions)
         responses = self._move_tensor_to_device(responses)
         times = self._move_tensor_to_device(times)

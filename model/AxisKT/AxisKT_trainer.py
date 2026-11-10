@@ -1,6 +1,7 @@
 """Trainer and configuration for AxisKT."""
 
 from dataclasses import field
+from typing import Literal
 
 import torch
 
@@ -35,14 +36,17 @@ class AxisKTConfig(ModelConfig):
         use_forgetting: Enable the learned gap-conditioned temporal decay in
             the local branch. ``False`` keeps local writes and KC isolation but
             uses an identity transition for a forgetting ablation.
+        efficiency_mode: ``optimized`` uses the specialized execution paths;
+            ``baseline`` uses sequential PyTorch KC updates, unfused readout,
+            and dense global convolutions.
         dropout: Dropout probability.
         epochs: Maximum training epochs.
         learning_rate: Adam learning rate.
         weight_decay: Adam weight decay.
         batch_size: Training batch size.
         max_clip_grad_norm: Maximum gradient clipping norm.
-        amp: Enable bf16 autocast for the forward pass; the Triton scan
-            keeps fp32 internally. Off by default.
+        amp: Enable bf16 autocast for the forward pass; local state updates
+            accumulate in fp32. Off by default.
     """
 
     hidden_dim: int = field(
@@ -73,6 +77,7 @@ class AxisKTConfig(ModelConfig):
     use_global: bool = True
     use_local: bool = True
     use_forgetting: bool = True
+    efficiency_mode: Literal["optimized", "baseline"] = "optimized"
     epochs: int = 100
     learning_rate: float = field(
         default=2.7e-3,
@@ -140,8 +145,10 @@ class AxisKTTrainer(BaseTrainer):
             skills,
             skill_mask,
         ) = batch_data
-        compact_global = not self.run_config.compile.compile and use_compact_global(
-            mask
+        compact_global = (
+            self.run_config.model.efficiency_mode == "optimized"
+            and not self.run_config.compile.compile
+            and use_compact_global(mask)
         )
         questions = self._move_tensor_to_device(questions)
         responses = self._move_tensor_to_device(responses)

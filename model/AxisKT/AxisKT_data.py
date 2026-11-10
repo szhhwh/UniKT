@@ -133,7 +133,8 @@ def build_axiskt_model(rc, data_src: DataSource, extra: dict):
         question_embed_dim=None if m.question_embed_dim < 0 else m.question_embed_dim,
         use_global=m.use_global,
         use_local=m.use_local,
-        use_forgetting=getattr(m, "use_forgetting", True),
+        use_forgetting=m.use_forgetting,
+        efficiency_mode=m.efficiency_mode,
     )
 
 

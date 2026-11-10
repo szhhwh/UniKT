@@ -1,12 +1,11 @@
 """AxisKT: private KC scans with a stacked causal-conv global encoder."""
 
 from collections import namedtuple
+from typing import Literal
 
 import torch
 import torch.nn.functional as F
 from torch import nn
-
-from model.AxisKT.triton_scan import segmented_scalar_affine_exclusive_scan
 
 _EventFeatures = namedtuple(
     "_EventFeatures",
@@ -74,6 +73,7 @@ class AxisKT(nn.Module):
         use_global: bool = True,
         use_local: bool = True,
         use_forgetting: bool = True,
+        efficiency_mode: Literal["optimized", "baseline"] = "optimized",
     ):
         super().__init__()
         if max_gap_bins < 1:
@@ -85,6 +85,7 @@ class AxisKT(nn.Module):
         self.use_global = bool(use_global)
         self.use_local = bool(use_local)
         self.use_forgetting = bool(use_forgetting)
+        self.efficiency_mode = efficiency_mode
 
         # Cap the intrinsic question-embedding width at ``hidden_dim``.
         if question_embed_dim is None:
@@ -395,21 +396,39 @@ class AxisKT(nn.Module):
             )
             decay_codes = torch.zeros_like(gap_bucket)
         init_table = torch.tanh(self.local_init(self.skill_embed.weight))
-        bias = torch.tanh(self.local_write(local_input)).unsqueeze(-1)
+        bias = torch.tanh(self.local_write(local_input))
 
-        packed_state_blocks = segmented_scalar_affine_exclusive_scan(
-            None,
-            bias,
-            packed_skill,
-            packed_valid,
-            None,
-            matrix_table=decay_table,
-            matrix_codes=decay_codes,
-            init_table=init_table,
-            init_codes=packed_skill,
-            post_multiply=False,
-        )
-        packed_state = packed_state_blocks.squeeze(-1)
+        if self.efficiency_mode == "baseline":
+            state = bias.new_zeros(bias.size(0), self.hidden_dim, dtype=torch.float32)
+            states = []
+            # Packed order visits KCs and their events serially; emit before update.
+            for index in range(packed_skill.size(1)):
+                state = torch.where(
+                    same_segment[:, index, None],
+                    state,
+                    init_table[packed_skill[:, index]].float(),
+                )
+                states.append(state.masked_fill(~packed_valid[:, index, None], 0.0))
+                state = (
+                    decay_table[decay_codes[:, index]] * state + bias[:, index].float()
+                )
+            packed_state = torch.stack(states, dim=1).to(bias.dtype) if states else bias
+        else:
+            from model.AxisKT.triton_scan import segmented_scalar_affine_exclusive_scan
+
+            packed_state_blocks = segmented_scalar_affine_exclusive_scan(
+                None,
+                bias.unsqueeze(-1),
+                packed_skill,
+                packed_valid,
+                None,
+                matrix_table=decay_table,
+                matrix_codes=decay_codes,
+                init_table=init_table,
+                init_codes=packed_skill,
+                post_multiply=False,
+            )
+            packed_state = packed_state_blocks.squeeze(-1)
         return (
             packed_state,
             skill_embedding,
@@ -621,7 +640,12 @@ class AxisKT(nn.Module):
             return torch.zeros_like(event_embedding)
         # The CPU batch mask makes the density decision, avoiding a GPU-to-CPU
         # synchronization on every forward. Small inputs keep cuDNN's dense path.
-        if compact and event_embedding.is_cuda and event_embedding.numel() >= 250_000:
+        if (
+            self.efficiency_mode == "optimized"
+            and compact
+            and event_embedding.is_cuda
+            and event_embedding.numel() >= 250_000
+        ):
             seq_len = mask.size(1)
             positions = torch.arange(1, seq_len + 1, device=mask.device)
             lengths = torch.where(mask, positions, 0).amax(dim=1)
@@ -699,7 +723,12 @@ class AxisKT(nn.Module):
         times = times - first_time
         times = times.masked_fill(~mask, 0.0)
         event_features = self._resolve_event_features(questions, skill_ids, skill_mask)
-        if not torch.is_grad_enabled() and self.use_local and questions.is_cuda:
+        if (
+            self.efficiency_mode == "optimized"
+            and not torch.is_grad_enabled()
+            and self.use_local
+            and questions.is_cuda
+        ):
             # Fused inference path: one Triton kernel produces both the local
             # readout and the event-embedding pooling; training keeps the aten
             # scatter chain so gradient semantics stay untouched.

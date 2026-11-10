@@ -40,6 +40,26 @@ python efficiency.py \
   --efficiency.run_dir runs/normal/GIKT_assistments09_20261109-120000_fold0_bs128
 ```
 
+## AxisKT 基础效率消融
+
+AxisKT 通过 `model.efficiency_mode` 选择执行方式，默认值为 `optimized`，保持现有执行路径。设为 `baseline` 后，CIAM 沿概念优先的 packed 序列逐位置执行普通 PyTorch 递推，取消概念间和单条概念轨迹内部的并行状态求值，仅保留 batch 和隐藏维度的张量运算。每条概念轨迹从原有学习初态开始，先输出更新前状态，再执行原有仿射更新与遗忘，反向传播由 PyTorch 自动求导完成。
+
+`baseline` 推理分别执行普通 PyTorch 打分、softmax、聚合和事件表示计算，不调用专用扫描或融合 kernel；全局分支固定使用 dense 因果卷积，不启用 compact 尾部 padding 跳过。MTCE 保留原有整段卷积计算，KC 索引预计算、packed 布局、有效长度裁剪、查表和公共计算复用也保持一致。两种模式使用相同参数化、维度、预测公式、损失、有效目标筛选和已有模块消融设置。
+
+训练和效率评测使用同一个配置项。基础效率消融采用普通未编译执行，评测时将编译模式固定为 `off`：
+
+```bash
+python train.py -m AxisKT -d assistments09 --model.efficiency_mode baseline
+
+python efficiency.py -m AxisKT -d assistments09 \
+  --model.efficiency_mode baseline \
+  --compile.compile false \
+  --efficiency.general.compile_modes off
+```
+
+改为 `--model.efficiency_mode optimized` 即可测量优化模式。该配置随实验写入 `run_config.yaml`，评估、案例分析推理及基于实验目录的效率评测会从存档恢复所选模式。
+
+
 ## 进阶能效扫描
 
 `efficiency.py` 原生支持笛卡尔积交叉扫描，只需一条命令即可完成不同批大小与不同编译模式的系统化评测对比。
