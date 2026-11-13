@@ -10,6 +10,8 @@ import torch.nn.functional as F
 from torch import nn
 from torch.nn.init import constant_, xavier_uniform_
 
+from model.layers.attention import attention_tail_mass
+
 
 def attention(
     q, k, v, d_k, mask, dropout, zero_pad, gamma=None, pdiff=None, position_effect=None
@@ -35,14 +37,11 @@ def attention(
     masked_positions = mask == 0
 
     with torch.no_grad():
-        scores_ = scores.masked_fill(masked_positions, -1e32)
-        scores_ = F.softmax(scores_, dim=-1)
-        scores_.masked_fill_(masked_positions, 0.0)
-        dist_scores = torch.cumsum(scores_, dim=-1)
-        disttotal_scores = torch.sum(scores_, dim=-1, keepdim=True)
-        del scores_
-        torch.sub(disttotal_scores, dist_scores, out=dist_scores)
-        del disttotal_scores
+        dist_scores = attention_tail_mass(
+            F.softmax(scores.masked_fill(masked_positions, -1e32), dim=-1).masked_fill_(
+                masked_positions, 0.0
+            )
+        )
         dist_scores.mul_(position_effect).clamp_min_(0.0).sqrt_()
 
     gamma = -1.0 * F.softplus(gamma).unsqueeze(0)
@@ -57,9 +56,7 @@ def attention(
         total_effect = torch.clamp(
             (dist_scores * gamma * diff).exp(), min=1e-5, max=1e5
         )
-    del dist_scores
     scores = scores * total_effect
-    del total_effect
 
     scores.masked_fill_(masked_positions, -1e32)
     scores = F.softmax(scores, dim=-1)

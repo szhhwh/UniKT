@@ -5,7 +5,7 @@ import pytest
 import torch
 from torch import nn
 
-from utils.attention import multihead_attention
+from model.layers.attention import multihead_attention
 
 
 @pytest.mark.parametrize("dropout", [0.0, 0.2])

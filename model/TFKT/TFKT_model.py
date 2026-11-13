@@ -6,6 +6,8 @@ import torch.nn.functional as F
 from torch import nn
 from torch.nn.init import constant_, xavier_uniform_
 
+from model.layers.attention import attention_tail_mass
+
 from .behavior import KTBehaviorExtractor
 from .causal_conv import CausalConv1d
 from .kan import ChebyKANLinear
@@ -296,14 +298,9 @@ def attention(q, k, v, d_k, mask, dropout, zero_pad, gamma):
     scores = torch.matmul(q, k.transpose(-2, -1)) / math.sqrt(d_k)
 
     with torch.no_grad():
-        masked_scores = scores.masked_fill(~mask, -1e32)
-        masked_scores = F.softmax(masked_scores, dim=-1)
-        masked_scores.masked_fill_(~mask, 0.0)
-        cumulative = torch.cumsum(masked_scores, dim=-1)
-        total = masked_scores.sum(dim=-1, keepdim=True)
-        del masked_scores
-        torch.sub(total, cumulative, out=cumulative)
-        del total
+        cumulative = attention_tail_mass(
+            F.softmax(scores.masked_fill(~mask, -1e32), dim=-1).masked_fill_(~mask, 0.0)
+        )
         distance = _position_effect(q.size(-2), scores.device, scores.dtype)
         distance = cumulative.mul_(distance).clamp_min_(0.0).sqrt_()
 

@@ -1,7 +1,19 @@
-"""Multihead attention without unused attention weight averaging."""
+"""Shared probability reductions and multihead attention execution."""
 
 import torch
 from torch import nn
+
+
+def attention_tail_mass(probabilities: torch.Tensor) -> torch.Tensor:
+    """Sum probability mass after each key, reusing the cumulative buffer.
+
+    Call under ``no_grad`` with temporary probabilities so their storage is
+    released on return, before computing distance decay.
+    """
+    cumulative = torch.cumsum(probabilities, dim=-1)
+    return torch.sub(
+        probabilities.sum(dim=-1, keepdim=True), cumulative, out=cumulative
+    )
 
 
 def multihead_attention(

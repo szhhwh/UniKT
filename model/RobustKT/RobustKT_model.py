@@ -5,6 +5,8 @@ import torch.nn.functional as F
 from torch import nn
 from torch.nn.init import constant_, xavier_uniform_
 
+from model.layers.attention import attention_tail_mass
+
 
 class CausalTemporalConv(nn.Module):
     """One-dimensional temporal convolution that never looks ahead."""
@@ -85,14 +87,11 @@ def attention(
     heads = scores.size(1)
 
     with torch.no_grad():
-        masked_scores = scores.masked_fill(mask == 0, -1e32)
-        masked_scores = F.softmax(masked_scores, dim=-1)
-        masked_scores.masked_fill_(mask == 0, 0.0)
-        dist_scores = torch.cumsum(masked_scores, dim=-1)
-        disttotal_scores = torch.sum(masked_scores, dim=-1, keepdim=True)
-        del masked_scores
-        torch.sub(disttotal_scores, dist_scores, out=dist_scores)
-        del disttotal_scores
+        dist_scores = attention_tail_mass(
+            F.softmax(scores.masked_fill(mask == 0, -1e32), dim=-1).masked_fill_(
+                mask == 0, 0.0
+            )
+        )
         dist_scores.mul_(pos_effect).clamp_min_(0.0).sqrt_()
 
     if gamma is None:
@@ -114,9 +113,7 @@ def attention(
             min=1e-5,
             max=1e5,
         )
-    del dist_scores
     scores = scores * total_effect
-    del total_effect
 
     scores.masked_fill_(mask == 0, -1e32)
     scores = F.softmax(scores, dim=-1)

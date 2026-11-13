@@ -7,6 +7,8 @@ import torch.nn.functional as F
 from torch import nn
 from torch.nn.init import constant_, xavier_uniform_
 
+from model.layers.attention import attention_tail_mass
+
 
 class Similarity(nn.Module):
     """Cosine similarity scaled by a temperature, serving as SimCSE logits."""
@@ -17,6 +19,21 @@ class Similarity(nn.Module):
 
     def forward(self, x: torch.Tensor, y: torch.Tensor) -> torch.Tensor:
         return F.cosine_similarity(x, y, dim=-1) / self.temp
+
+
+def _apply_distance_decay(scores, mask, gamma, position_effect):
+    """Release decay temporaries before the final softmax at inference."""
+    with torch.no_grad():
+        dist_scores = attention_tail_mass(
+            F.softmax(scores.masked_fill(mask == 0, -1e32), dim=-1).masked_fill_(
+                mask == 0, 0.0
+            )
+        )
+        dist_scores.mul_(position_effect).clamp_min_(0.0).sqrt_()
+
+    gamma_decay = (-F.softplus(gamma)).unsqueeze(0)  # [1, h, 1, 1]
+    total_effect = torch.clamp((dist_scores * gamma_decay).exp(), min=1e-5, max=1e5)
+    return scores * total_effect
 
 
 def individual_attention(q, k, v, d_k, mask, dropout, gamma, position_effect):
@@ -33,23 +50,7 @@ def individual_attention(q, k, v, d_k, mask, dropout, gamma, position_effect):
     """
     scores = torch.matmul(q, k.transpose(-2, -1)) / math.sqrt(d_k)
 
-    with torch.no_grad():
-        scores_ = scores.masked_fill(mask == 0, -1e32)
-        scores_ = F.softmax(scores_, dim=-1)
-        scores_.masked_fill_(mask == 0, 0.0)
-        dist_scores = torch.cumsum(scores_, dim=-1)
-        total = scores_.sum(dim=-1, keepdim=True)
-        del scores_
-        torch.sub(total, dist_scores, out=dist_scores)
-        del total
-        dist_scores.mul_(position_effect).clamp_min_(0.0).sqrt_()
-
-    gamma_decay = (-F.softplus(gamma)).unsqueeze(0)  # [1, h, 1, 1]
-    total_effect = torch.clamp((dist_scores * gamma_decay).exp(), min=1e-5, max=1e5)
-
-    del dist_scores
-    scores = scores * total_effect
-    del total_effect
+    scores = _apply_distance_decay(scores, mask, gamma, position_effect)
     scores = scores.masked_fill(mask == 0, -1e32)
     attn_scores = F.softmax(scores, dim=-1)
     output = torch.matmul(dropout(attn_scores), v)

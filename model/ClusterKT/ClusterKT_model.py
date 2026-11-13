@@ -6,7 +6,7 @@ import torch.nn.functional as F
 from torch.nn import Parameter
 from torch.nn.init import constant_, kaiming_normal_, xavier_uniform_
 
-from utils.attention import multihead_attention
+from model.layers.attention import attention_tail_mass, multihead_attention
 
 
 class ClusterKT(nn.Module):
@@ -433,14 +433,11 @@ def forgetting_attention(q, k, v, d_k, mask, dropout, zero_pad, state_sim, diffi
     bs, head, seqlen = scores.size(0), scores.size(1), scores.size(2)
 
     with torch.no_grad():
-        scores_ = scores.masked_fill(mask == 0, -1e32)
-        scores_ = F.softmax(scores_, dim=-1)
-        scores_.masked_fill_(mask == 0, 0.0)
-        dist_scores = torch.cumsum(scores_, dim=-1)
-        disttotal_scores = torch.sum(scores_, dim=-1, keepdim=True)
-        del scores_
-        torch.sub(disttotal_scores, dist_scores, out=dist_scores)
-        del disttotal_scores
+        dist_scores = attention_tail_mass(
+            F.softmax(scores.masked_fill(mask == 0, -1e32), dim=-1).masked_fill_(
+                mask == 0, 0.0
+            )
+        )
         dist_scores.mul_(torch.unsqueeze(state_sim, 1)).clamp_min_(0.0).sqrt_()
         gamma = -1.0 * F.softplus(difficulty.unsqueeze(1))
 

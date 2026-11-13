@@ -9,7 +9,7 @@ import copy
 import torch
 from torch import nn
 
-from utils.attention import multihead_attention
+from model.layers.attention import multihead_attention
 
 
 class TransformerFFN(nn.Module):

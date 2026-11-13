@@ -6,6 +6,8 @@ import torch
 import torch.nn.functional as F
 from torch import nn
 
+from model.layers.attention import attention_tail_mass
+
 MIN_SEQ_LEN = 5
 
 
@@ -34,33 +36,29 @@ def attention(q, k, v, mask, gamma=None, maxout=False, need_weights=True):
     return torch.cat(outputs, dim=0), None
 
 
+def _apply_distance_decay(scores, mask, gamma):
+    """Release decay temporaries before the final softmax at inference."""
+    seqlen = scores.size(-1)
+    x1 = torch.arange(seqlen, dtype=torch.float, device=gamma.device).expand(seqlen, -1)
+    x2 = x1.T.contiguous()
+    with torch.no_grad():
+        dist_scores = attention_tail_mass(
+            F.softmax(scores.masked_fill(mask == 0, -1e32), dim=-1)
+        )
+        position_effect = torch.abs(x1 - x2)[None, None, :, :]
+        dist_scores.mul_(position_effect).clamp_min_(0.0).sqrt_()
+
+    gamma_val = -1.0 * gamma.abs().unsqueeze(0)
+    total_effect = torch.clamp((dist_scores * gamma_val).exp(), min=1e-5, max=1e5)
+    return scores * total_effect
+
+
 def _attention(q, k, v, mask, gamma, maxout, need_weights):
     d_k = k.size(-1)
     scores = torch.matmul(q, k.transpose(-2, -1)) / math.sqrt(d_k)
-    bs, head, seqlen, _ = scores.size()
 
     if gamma is not None:
-        x1 = torch.arange(seqlen, dtype=torch.float, device=gamma.device).expand(
-            seqlen, -1
-        )
-        x2 = x1.T.contiguous()
-
-        with torch.no_grad():
-            scores_ = scores.masked_fill(mask == 0, -1e32)
-            scores_ = F.softmax(scores_, dim=-1)
-            dist_scores = torch.cumsum(scores_, dim=-1)
-            disttotal_scores = torch.sum(scores_, dim=-1, keepdim=True)
-            del scores_
-            position_effect = torch.abs(x1 - x2)[None, None, :, :]
-            torch.sub(disttotal_scores, dist_scores, out=dist_scores)
-            del disttotal_scores
-            dist_scores.mul_(position_effect).clamp_min_(0.0).sqrt_()
-
-        gamma_val = -1.0 * gamma.abs().unsqueeze(0)
-        total_effect = torch.clamp((dist_scores * gamma_val).exp(), min=1e-5, max=1e5)
-        del dist_scores
-        scores = scores * total_effect
-        del total_effect
+        scores = _apply_distance_decay(scores, mask, gamma)
 
     scores.masked_fill_(mask == 0, -1e32)
     scores = F.softmax(scores, dim=-1)

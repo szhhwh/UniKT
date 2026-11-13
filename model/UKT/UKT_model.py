@@ -10,6 +10,8 @@ import torch.nn.functional as F
 from torch import nn
 from torch.nn.init import constant_, xavier_uniform_
 
+from model.layers.attention import attention_tail_mass
+
 
 def wasserstein_distance(mean1, cov1, mean2, cov2):
     """计算两个分布之间的 Wasserstein 距离"""
@@ -77,13 +79,11 @@ def _compute_dist_scores(scores, mask, position_effect):
         dist_scores: 距离衰减分数 [B, H, S, S]（已 detach）
     """
     with torch.no_grad():
-        probabilities = F.softmax(scores.masked_fill(mask == 0, -1e32), dim=-1)
-        probabilities.masked_fill_(mask == 0, 0.0)
-        distance = torch.cumsum(probabilities, dim=-1)
-        total = probabilities.sum(dim=-1, keepdim=True)
-        del probabilities
-        torch.sub(total, distance, out=distance)
-        del total
+        distance = attention_tail_mass(
+            F.softmax(scores.masked_fill(mask == 0, -1e32), dim=-1).masked_fill_(
+                mask == 0, 0.0
+            )
+        )
         length = scores.size(-1)
         position = position_effect[:length, :length].to(scores.device)
         return distance.mul_(position).clamp_min_(0.0).sqrt_()
