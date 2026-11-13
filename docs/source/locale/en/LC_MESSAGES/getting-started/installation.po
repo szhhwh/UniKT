@@ -70,8 +70,8 @@ msgstr ""
 
 #: ../../source/getting-started/installation.md:13
 #: 82771a974a154b34896f47def4984516
-msgid "**包管理工具**：[Pixi](https://pixi.sh/)（>= 0.79）。"
-msgstr "**Package Manager**: [Pixi](https://pixi.sh/) (>= 0.79)."
+msgid "**包管理工具**：[Pixi](https://pixi.sh/)（>= 0.84）。"
+msgstr "**Package Manager**: [Pixi](https://pixi.sh/) (>= 0.84)."
 
 #: ../../source/getting-started/installation.md:17
 #: 257402e3c3a347ea94a1f5920b4b9d22
