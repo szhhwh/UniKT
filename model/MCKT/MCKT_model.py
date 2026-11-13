@@ -10,6 +10,8 @@ import torch
 import torch.nn.functional as F
 from torch import nn
 
+from model.layers.attention import attention_tail_mass
+
 
 def attention_score(
     query: torch.Tensor,
@@ -25,16 +27,10 @@ def attention_score(
     x2 = x1.transpose(0, 1).contiguous()
 
     with torch.no_grad():
-        scores_ = scores.masked_fill(mask, -1e9)
-        scores_ = torch.softmax(scores_, dim=-1)
-
-        distcum_scores = torch.cumsum(scores_, dim=-1)
-        disttotal_scores = torch.sum(scores_, dim=-1, keepdim=True)
-        position_effect = torch.abs(x1 - x2)[None, None, :, :]
-        dist_scores = torch.clamp(
-            (disttotal_scores - distcum_scores) * position_effect, min=0.0
+        dist_scores = attention_tail_mass(
+            F.softmax(scores.masked_fill(mask, -1e9), dim=-1)
         )
-        dist_scores = dist_scores.sqrt().detach()
+        dist_scores.mul_(torch.abs(x1 - x2)[None, None, :, :]).clamp_min_(0.0).sqrt_()
 
     gamma = -1.0 * gamma.abs().unsqueeze(0)
     total_effect = torch.clamp((dist_scores * gamma).exp(), min=1e-5, max=1e5)

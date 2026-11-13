@@ -140,7 +140,7 @@ def attention(
 ) -> torch.Tensor:
     """带 ALiBi 偏置的缩放点积注意力"""
     scores = torch.matmul(q, k.transpose(-2, -1)) / math.sqrt(d_k)
-    bs, head, seqlen = scores.size(0), scores.size(1), scores.size(2)
+    seqlen = scores.size(2)
 
     # ALiBi: 基于相对距离的线性偏置
     scores = scores + alibi_bias[:, :, :seqlen, :seqlen]
@@ -148,12 +148,12 @@ def attention(
     scores = F.softmax(scores, dim=-1)
 
     # 零填充第一行: 位置 t 不应 attend to 自身的 response
-    if zero_pad:
-        pad_zero = torch.zeros(bs, head, 1, seqlen, device=scores.device)
-        scores = torch.cat([pad_zero, scores[:, :, 1:, :]], dim=2)
 
     scores = dropout(scores)
-    return torch.matmul(scores, v)
+    output = torch.matmul(scores, v)
+    if zero_pad:
+        output[:, :, 0, :].zero_()
+    return output
 
 
 class MultiHeadAttention(nn.Module):

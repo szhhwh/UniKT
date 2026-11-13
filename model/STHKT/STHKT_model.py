@@ -11,6 +11,8 @@ import torch.nn.functional as F
 from torch import nn
 from torch.nn.init import constant_, xavier_uniform_
 
+from model.layers.attention import attention_tail_mass
+
 # Ablation variants of the Hawkes attention term (paper Table 4):
 #   full            - both similarity terms modulated by the time-decay kernel
 #   without_hawkes  - similarity terms added directly, no decay (-nh)
@@ -63,6 +65,17 @@ def _masked_softmax(scores: torch.Tensor, mask: torch.Tensor) -> torch.Tensor:
     return scores * mask.float()
 
 
+def _apply_distance_decay(scores, mask, gamma, position_effect):
+    """Release decay temporaries before the final softmax at inference."""
+    with torch.no_grad():
+        dist_scores = attention_tail_mass(_masked_softmax(scores, mask))
+        dist_scores.mul_(position_effect).clamp_min_(0.0).sqrt_()
+
+    gamma = -1.0 * F.softplus(gamma).unsqueeze(0)
+    total_effect = torch.clamp((dist_scores * gamma).exp(), min=1e-5, max=1e5)
+    return scores * total_effect
+
+
 def attention(q, k, v, d_k, mask, dropout, zero_pad, gamma, position_effect):
     """Monotonic attention with a monotonicity-inducing distance penalty.
 
@@ -85,23 +98,7 @@ def attention(q, k, v, d_k, mask, dropout, zero_pad, gamma, position_effect):
 
     scores = torch.matmul(q, k.transpose(-2, -1)) / math.sqrt(d_k)
 
-    # Monotonic decay: expected attention mass still ahead of each position,
-    # scaled by positional distance and a learnable per-head rate. Detached:
-    # the penalty shapes the distribution but receives no gradient itself.
-    with torch.no_grad():
-        scores_ = _masked_softmax(scores, mask)
-        distcum_scores = torch.cumsum(scores_, dim=-1)
-        disttotal_scores = torch.sum(scores_, dim=-1, keepdim=True)
-        dist_scores = torch.clamp(
-            (disttotal_scores - distcum_scores) * position_effect, min=0.0
-        )
-        dist_scores = dist_scores.sqrt().detach()
-
-    gamma = -1.0 * F.softplus(gamma).unsqueeze(0)
-    total_effect = torch.clamp(
-        torch.clamp((dist_scores * gamma).exp(), min=1e-5), max=1e5
-    )
-    scores = scores * total_effect
+    scores = _apply_distance_decay(scores, mask, gamma, position_effect)
 
     scores = _masked_softmax(scores, mask)
 

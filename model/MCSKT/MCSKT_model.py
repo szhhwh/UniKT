@@ -97,6 +97,14 @@ class ForgettingFeatureEmbed(nn.Module):
         return self.proj(torch.cat([r, s, p], dim=-1))
 
 
+def _topk_mask(
+    scores: torch.Tensor, k_max: int, head_keep: torch.Tensor
+) -> torch.Tensor:
+    topk_idx = scores.topk(k_max, dim=-1).indices
+    keep = torch.zeros_like(scores, dtype=torch.bool)
+    return keep.scatter_(-1, topk_idx, head_keep[None, :, None, :].expand_as(topk_idx))
+
+
 class DynamicKSparseAttention(nn.Module):
     """动态 k-sparse 多头注意力（论文 Algorithm 1 + Eq.4-6）。
 
@@ -175,10 +183,9 @@ class DynamicKSparseAttention(nn.Module):
             torch.arange(k_max, device=x_hat.device)[None, :] < k_per_head[:, None]
         )
 
-        topk_vals, topk_idx = scores.topk(k_max, dim=-1)
-        topk_vals = topk_vals.masked_fill(~head_keep[None, :, None, :], float("-inf"))
-        sparse_scores = torch.full_like(scores, float("-inf"))
-        sparse_scores.scatter_(-1, topk_idx, topk_vals)
+        sparse_scores = scores.masked_fill(
+            ~_topk_mask(scores, k_max, head_keep), float("-inf")
+        )
 
         # 重归一化；全 -∞ 行（如 t=0 无历史）置 0
         attn = torch.nan_to_num(torch.softmax(sparse_scores, dim=-1), nan=0.0)
