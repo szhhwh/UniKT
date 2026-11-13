@@ -1,0 +1,61 @@
+name: Documentation
+
+on:
+    pull_request:
+    schedule:
+        - cron: '0 2 * * 1'
+    workflow_dispatch:
+
+permissions:
+    contents: read
+
+jobs:
+    build:
+        if: github.event_name == 'pull_request'
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                language: [zh_CN, en]
+        steps:
+            - uses: actions/checkout@v4
+            - uses: prefix-dev/setup-pixi@v0.10.1
+              with:
+                  pixi-version: v0.84.2
+                  environments: docs
+                  activate-environment: true
+                  locked: true
+            - name: Compile English translations
+              if: matrix.language == 'en'
+              run: pixi run -e docs docs-mo
+            - name: Build documentation
+              run: pixi run -e docs sphinx-build -b html -W -D language=${{ matrix.language }} docs/source docs/_build/html-${{ matrix.language }}
+
+    linkcheck:
+        if: github.event_name != 'pull_request'
+        runs-on: ubuntu-latest
+        timeout-minutes: 30
+        strategy:
+            fail-fast: false
+            matrix:
+                language: [zh_CN, en]
+        steps:
+            - uses: actions/checkout@v4
+            - uses: prefix-dev/setup-pixi@v0.10.1
+              with:
+                  pixi-version: v0.84.2
+                  environments: docs
+                  activate-environment: true
+                  locked: true
+            - name: Compile English translations
+              if: matrix.language == 'en'
+              run: pixi run -e docs docs-mo
+            - name: Check external links
+              run: pixi run -e docs sphinx-build -b linkcheck -D language=${{ matrix.language }} docs/source docs/_linkcheck
+            - name: Upload link check report
+              if: always()
+              uses: actions/upload-artifact@v4
+              with:
+                  name: documentation-linkcheck-${{ matrix.language }}
+                  path: docs/_linkcheck/output.*
+                  if-no-files-found: ignore

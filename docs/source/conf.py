@@ -93,6 +93,7 @@ intersphinx_mapping = {
 
 # linkcheck
 linkcheck_ignore = [
+    r"https?://(?:localhost|127\.0\.0\.1)(?::\d+)?(?:/|$)",
     r"https://github\.com/.*#L\d+",
     r"https://www\.sciencedirect\.com/.*",
     r"https://dl\.acm\.org/.*",
