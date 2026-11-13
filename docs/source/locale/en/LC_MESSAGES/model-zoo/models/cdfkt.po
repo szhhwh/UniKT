@@ -1,0 +1,128 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025-2026, UniKT Team
+# This file is distributed under the same license as the UniKT package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: UniKT \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-13 19:59+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: ../../source/model-zoo/models/cdfkt.md:1 a13dbba1b34a4812b2c04cf4ea2ccd68
+msgid "CDFKT"
+msgstr "CDFKT"
+
+#: ../../source/model-zoo/models/cdfkt.md:3 8f2a06572a4d49f28fb0349c49de170a
+msgid "论文信息"
+msgstr "Paper Information"
+
+#: ../../source/model-zoo/models/cdfkt.md 67a3fdb47b5547d9a34146f347c09673
+msgid "字段"
+msgstr "Field"
+
+#: ../../source/model-zoo/models/cdfkt.md 8a4bf61ab93f43db9e5da3455ff5de21
+msgid "内容"
+msgstr "Content"
+
+#: ../../source/model-zoo/models/cdfkt.md ded81368302c4ac69d012fc3a54c540b
+msgid "题目"
+msgstr "Title"
+
+#: ../../source/model-zoo/models/cdfkt.md 7e594a3bb54048ea96a0f8bc3639de24
+msgid ""
+"[Reducing causal attribution ambiguity in knowledge tracing via cognitive"
+" decoupling and adaptive "
+"fusion](https://doi.org/10.1016/j.inffus.2026.104648)"
+msgstr ""
+"[Reducing causal attribution ambiguity in knowledge tracing via cognitive"
+" decoupling and adaptive "
+"fusion](https://doi.org/10.1016/j.inffus.2026.104648)"
+
+#: ../../source/model-zoo/models/cdfkt.md 36dac2b431d5485f8616f3b96caf02ea
+msgid "作者"
+msgstr "Authors"
+
+#: ../../source/model-zoo/models/cdfkt.md 4e09d0ba7b024f5fbfe2e5579f5dc7d3
+msgid "Yanqiang Wu, Youheng Bai, Zhiwei Huang, Yibo Lv, Mingliang Hou, Zitao Liu"
+msgstr "Yanqiang Wu, Youheng Bai, Zhiwei Huang, Yibo Lv, Mingliang Hou, Zitao Liu"
+
+#: ../../source/model-zoo/models/cdfkt.md 845ece7f1633483cb308586e9ed7cc56
+msgid "发表年份"
+msgstr "Year"
+
+#: ../../source/model-zoo/models/cdfkt.md 55cca2552c9d4616b117edf610a17d83
+msgid "2027"
+msgstr "2027"
+
+#: ../../source/model-zoo/models/cdfkt.md f82321fd4cb0412291e7f6ea0132b81a
+msgid "发表刊物或会议"
+msgstr "Publication / Venue"
+
+#: ../../source/model-zoo/models/cdfkt.md f3b05e294d9d467f9ef32ce088bb3229
+msgid "Information Fusion, 137, 104648"
+msgstr "Information Fusion, 137, 104648"
+
+#: ../../source/model-zoo/models/cdfkt.md:12 d1d051d873744010b9eeb87706d17051
+msgid "原文摘要"
+msgstr "Abstract"
+
+#: ../../source/model-zoo/models/cdfkt.md:14 41824191534b4d6e9b52d855273a7d3d
+msgid ""
+"Knowledge tracing is a fundamental task in intelligent tutoring systems, "
+"aimed at modeling students' learning trajectories. Although deep learning"
+" based knowledge tracing methods have achieved remarkable success, they "
+"typically encode knowledge mastery and performance fluctuations into a "
+"unified feature space. This conflation leads to ambiguity in causal "
+"attribution and thereby hinders precise state tracking. To address this "
+"issue, inspired by cognitive science, we propose a novel model named "
+"Cognitive Decouple-then-Fuse Knowledge Tracing (CDFKT). CDFKT explicitly "
+"decouples the student knowledge state into knowledge accumulation and "
+"situational adaptability. Specifically, we employ a Mamba-based "
+"architecture to capture stable knowledge accumulation and design a novel "
+"sequence-step decay temporal encoder to model situational adaptability "
+"under discrete interaction steps. Although these two cognitive components"
+" are modeled separately, they interact throughout the learning process. "
+"To capture this interplay, we further introduce a feature-wise adaptive "
+"fusion mechanism to integrate these heterogeneous signals. Extensive "
+"experiments on three real-world educational datasets demonstrate that "
+"CDFKT achieves state-of-the-art performance. Our code is publicly "
+"available at: https://pykt.org."
+msgstr ""
+"Knowledge tracing is a fundamental task in intelligent tutoring systems, "
+"aimed at modeling students' learning trajectories. Although deep learning"
+" based knowledge tracing methods have achieved remarkable success, they "
+"typically encode knowledge mastery and performance fluctuations into a "
+"unified feature space. This conflation leads to ambiguity in causal "
+"attribution and thereby hinders precise state tracking. To address this "
+"issue, inspired by cognitive science, we propose a novel model named "
+"Cognitive Decouple-then-Fuse Knowledge Tracing (CDFKT). CDFKT explicitly "
+"decouples the student knowledge state into knowledge accumulation and "
+"situational adaptability. Specifically, we employ a Mamba-based "
+"architecture to capture stable knowledge accumulation and design a novel "
+"sequence-step decay temporal encoder to model situational adaptability "
+"under discrete interaction steps. Although these two cognitive components"
+" are modeled separately, they interact throughout the learning process. "
+"To capture this interplay, we further introduce a feature-wise adaptive "
+"fusion mechanism to integrate these heterogeneous signals. Extensive "
+"experiments on three real-world educational datasets demonstrate that "
+"CDFKT achieves state-of-the-art performance. Our code is publicly "
+"available at: https://pykt.org."
+
+#: ../../source/model-zoo/models/cdfkt.md:16 a2fc0cbed4c94eabaa215b546716af9b
+msgid "代码仓库"
+msgstr "Repository"
+
+#: ../../source/model-zoo/models/cdfkt.md:18 7381cf12801542d2a5b7a43cadf6c566
+msgid "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"
+msgstr "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"
