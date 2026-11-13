@@ -20,6 +20,7 @@ models/asikt
 models/atdkt
 models/atkt
 models/bdgkt
+models/cdfkt
 models/cikt
 models/cl4kt
 models/clusterkt
@@ -90,6 +91,7 @@ models/ukt
 | [ATDKT](models/atdkt.md) | [Enhancing Deep Knowledge Tracing with Auxiliary Tasks](https://doi.org/10.1145/3543507.3583866) | [pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit) |
 | [ATKT](models/atkt.md) | [Enhancing Knowledge Tracing via Adversarial Training](https://doi.org/10.1145/3474085.3475554) | [xiaopengguo/ATKT](https://github.com/xiaopengguo/ATKT) |
 | [BDGKT](models/bdgkt.md) | [BDGKT: Bidirectional Dynamic Graph Knowledge Tracing](https://doi.org/10.1016/j.knosys.2026.115532) | [Oia-10/BDGKT](https://github.com/Oia-10/BDGKT) |
+| [CDFKT](models/cdfkt.md) | [Reducing causal attribution ambiguity in knowledge tracing via cognitive decoupling and adaptive fusion](https://doi.org/10.1016/j.inffus.2026.104648) | [pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit) |
 | [CIKT](models/cikt.md) | [Disentangling Response Sequences with Causal Invariance for Knowledge Tracing](https://doi.org/10.1016/j.engappai.2025.113380) | — |
 | [CL4KT](models/cl4kt.md) | [Contrastive Learning for Knowledge Tracing](https://doi.org/10.1145/3485447.3512105) | [UpstageAI/cl4kt](https://github.com/UpstageAI/cl4kt) |
 | [ClusterKT](models/clusterkt.md) | [Cluster-Driven Knowledge Tracing: Joint Learning-Forgetting Effects Modeling via State Dependency](https://doi.org/10.1016/j.eswa.2025.128619) | [Lzhenghua/ClusterKT](https://github.com/Lzhenghua/ClusterKT) |

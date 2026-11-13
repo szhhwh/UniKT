@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: UniKT \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-09 23:48+0800\n"
+"POT-Creation-Date: 2026-11-13 19:59+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -19,11 +19,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.18.0\n"
 
-#: ../../source/model-zoo/index.md:5 094fa2621d2646d099a92c7f52f2abc3
+#: ../../source/model-zoo/index.md:5 7fa566e8dc1447e3be13adf6fb4715dc
 msgid "模型库"
 msgstr "Model Zoo"
 
-#: ../../source/model-zoo/index.md:9 1769f423064244a98d81247a918a77ab
+#: ../../source/model-zoo/index.md:9 cf242dac078e4b9dbc8ac53785277b21
 msgid ""
 "从模型论文出发，查阅摘要与作者公开的实现。如需横向对比各模型在主流公开数据集上的 5 "
 "折基准表现，请查阅[基准排行榜](../evaluation/leaderboard.md)。选择模型后，可前往[训练指南](../user-"
@@ -38,23 +38,23 @@ msgstr ""
 "experiments, or read the [Developer Guides](../developer-guides"
 "/customize-model.md) to learn how to integrate new models."
 
-#: ../../source/model-zoo/index.md:-1 cea31a227ddf4802adbc694ff53817c9
+#: ../../source/model-zoo/index.md:-1 68f151624dcd4c56a1972be5af292eb7
 msgid "模型"
 msgstr "Model"
 
-#: ../../source/model-zoo/index.md:-1 805ee5451bde4629a6ba215743c5ef71
+#: ../../source/model-zoo/index.md:-1 4b34645ff5544bb391570bc9de621882
 msgid "论文标题"
 msgstr "Paper Title"
 
-#: ../../source/model-zoo/index.md:-1 baf42235e5e84e31b00b4c7722148706
+#: ../../source/model-zoo/index.md:-1 227cdc4e029b477abada66aa163f6a22
 msgid "代码仓库"
 msgstr "Code Repository"
 
-#: ../../source/model-zoo/index.md:-1 3896041cadfe49d6917fe193eb472082
+#: ../../source/model-zoo/index.md:-1 3bc51b8030bc44aeb6bbfc1e87b71457
 msgid "[ABKT](models/abkt.md)"
 msgstr "[ABKT](models/abkt.md)"
 
-#: ../../source/model-zoo/index.md:-1 f6225ec896e74e83bd92c6dc71a3af69
+#: ../../source/model-zoo/index.md:-1 59d0ff5d0b8c4c1aa9f676cf7d406bf3
 msgid ""
 "[Ability Boosted Knowledge "
 "Tracing](https://doi.org/10.1016/j.ins.2022.02.044)"
@@ -62,15 +62,15 @@ msgstr ""
 "[Ability Boosted Knowledge "
 "Tracing](https://doi.org/10.1016/j.ins.2022.02.044)"
 
-#: ../../source/model-zoo/index.md:-1 b9ab81dbcc014096af5181ec55116e05
+#: ../../source/model-zoo/index.md:-1 b0aed972f1b2409bbd1d00819adbbbcb
 msgid "[ccnu-mathits/ABKT](https://github.com/ccnu-mathits/ABKT)"
 msgstr "[ccnu-mathits/ABKT](https://github.com/ccnu-mathits/ABKT)"
 
-#: ../../source/model-zoo/index.md:-1 8b573ffdb2074650b36641a177fe16f3
+#: ../../source/model-zoo/index.md:-1 665f8d24dd9e47bf86b914e24539c464
 msgid "[AKT](models/akt.md)"
 msgstr "[AKT](models/akt.md)"
 
-#: ../../source/model-zoo/index.md:-1 e0387d6f21a5449cb328859516cc7688
+#: ../../source/model-zoo/index.md:-1 fc47430ecbc546f4a71b20e1c4c7b665
 msgid ""
 "[Context-Aware Attentive Knowledge "
 "Tracing](https://doi.org/10.1145/3394486.3403282)"
@@ -78,15 +78,15 @@ msgstr ""
 "[Context-Aware Attentive Knowledge "
 "Tracing](https://doi.org/10.1145/3394486.3403282)"
 
-#: ../../source/model-zoo/index.md:-1 8c7bd5d28f104ed88f93b1fcef7f4eeb
+#: ../../source/model-zoo/index.md:-1 7e522527d13e477eb3dca2bbdf690f9e
 msgid "[arghosh/AKT](https://github.com/arghosh/AKT)"
 msgstr "[arghosh/AKT](https://github.com/arghosh/AKT)"
 
-#: ../../source/model-zoo/index.md:-1 ddd71f6cbeef48e48013462699de7640
+#: ../../source/model-zoo/index.md:-1 8c96566ccbab4db1aaf8d3ee5b0f299e
 msgid "[ASIKT](models/asikt.md)"
 msgstr "[ASIKT](models/asikt.md)"
 
-#: ../../source/model-zoo/index.md:-1 726d8c730ce54ee9946b85c9f56358ad
+#: ../../source/model-zoo/index.md:-1 a2767bb893af445a9fd3b487c8efdc2b
 msgid ""
 "[Interpretable Knowledge Tracing with Difficulty-Aware Attention and "
 "Selective State Space Model](https://doi.org/10.1145/3726302.3730012)"
@@ -94,15 +94,15 @@ msgstr ""
 "[Interpretable Knowledge Tracing with Difficulty-Aware Attention and "
 "Selective State Space Model](https://doi.org/10.1145/3726302.3730012)"
 
-#: ../../source/model-zoo/index.md:-1 e8a865e4dc1f458db5961fc2b3db06bb
+#: ../../source/model-zoo/index.md:-1 7423a53bd76d4025b4d89b9a68575605
 msgid "[mrsser/ASIKT](https://github.com/mrsser/ASIKT)"
 msgstr "[mrsser/ASIKT](https://github.com/mrsser/ASIKT)"
 
-#: ../../source/model-zoo/index.md:-1 9b54b2cf219641789518beab8f406e70
+#: ../../source/model-zoo/index.md:-1 4994ca427dde4a319e848c892aa32c25
 msgid "[ATDKT](models/atdkt.md)"
 msgstr "[ATDKT](models/atdkt.md)"
 
-#: ../../source/model-zoo/index.md:-1 f9310110a08c4485a3ce3e904caad545
+#: ../../source/model-zoo/index.md:-1 a1e983a863484a01a505a74a0ec55cb2
 msgid ""
 "[Enhancing Deep Knowledge Tracing with Auxiliary "
 "Tasks](https://doi.org/10.1145/3543507.3583866)"
@@ -110,25 +110,26 @@ msgstr ""
 "[Enhancing Deep Knowledge Tracing with Auxiliary "
 "Tasks](https://doi.org/10.1145/3543507.3583866)"
 
-#: ../../source/model-zoo/index.md:-1 197787670f054d7e86c8e85fb8606bdd
-#: 2cb09a342ce842ca9add426ca7ab973f 3b6cf66557134af4b00f207cc1873433
-#: 43f39f59da934cb3b3d79c02352df20d 4fafb65971084818acb00e8f408f30ad
-#: 557c31988cf84b2c9a9c65e441d6bcdb 638394de1d0e44f58fa65013df804881
-#: 683ea1c703e34c059d33315ff49f3a97 6aa17f082fab4494bb842c024c9b5e57
-#: 8338084bb735462b8d544d8e9c86be4e 8a23406acf614edca935c1b223373705
-#: a80d9bbdb4b5448b8e307d9883bf8f06 b4a04efa39e54f8d8c7a0efcc2c427fd
-#: b4d86d03531e497da1edb9048100c1c8 bad69ef443b24858bcb6b2ae6caa6a2f
-#: c1734959ad33413dab929e5972ad2c45 d84da619b73944cfb0fccee8ea829a0c
-#: dc587c20ea764fdab8d97b6c5044678f dd64658c93d64db988f63ea60ce71e39
-#: e00d70a0b64e4afe99da543615c1d1a9 f84c7b67806f420daaf6b56b092541fb
+#: ../../source/model-zoo/index.md:-1 11b38c790bcb4d9d9a04f3f85ad3c48e
+#: 3cd4dd380d2b4276b103446d3570f8da 427a735c783248c1bb6439e21a843cd3
+#: 4bae3843c4424fb2a32f936d8ea6f870 53a68513f89b47fd9d7ac6143e2b04bc
+#: 54f47eaaa66c46e3bd82d0ce3c6fdc40 6781030bbe9d49fb9d3423b6f871def2
+#: 6c79ec500c824a80b32654a0db8250aa 6f9b70bfba16437ab2337cf0279c24e9
+#: 75e54e9ba4674b53b7013814ee80a2a4 9499eb5a045c45799e13a05e092095ca
+#: 983d3a12ce004c02a8c02dd1636a3eb4 aab3ef5531ab42caa11d03b62ec9e110
+#: aebb1df477444c728ccc3a272df6d6ed b24c598e213f47af8c6ab82afd3ab7e0
+#: b28a7106aa054d8fa4e01de77fbe1a0a c214aa7b8f0f44faa6088be7b416e7e0
+#: d6b07900b756411bb8957c34d3cceeb9 dbb894a33a6646e6afbc90f716625240
+#: dbcf59b10f6446b3bd73e4dca2f0a1d8 dcd70fd142c04a9e9b93cbf867c54f56
+#: f5a62e27f3334880aabeeef051ab261e
 msgid "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"
 msgstr "[pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-toolkit)"
 
-#: ../../source/model-zoo/index.md:-1 75da4bd20f8a47f88943acd712e73082
+#: ../../source/model-zoo/index.md:-1 895ef68ec8254670bcd9a811ad9cfd06
 msgid "[ATKT](models/atkt.md)"
 msgstr "[ATKT](models/atkt.md)"
 
-#: ../../source/model-zoo/index.md:-1 0082715686d248e98c60f7f33fc1a09e
+#: ../../source/model-zoo/index.md:-1 9fa086be6ea543bba709ebfd53d0286e
 msgid ""
 "[Enhancing Knowledge Tracing via Adversarial "
 "Training](https://doi.org/10.1145/3474085.3475554)"
@@ -136,15 +137,15 @@ msgstr ""
 "[Enhancing Knowledge Tracing via Adversarial "
 "Training](https://doi.org/10.1145/3474085.3475554)"
 
-#: ../../source/model-zoo/index.md:-1 52eb8dc178c445afac5576bb68ad1577
+#: ../../source/model-zoo/index.md:-1 b12a0085cb5e497baea58444b56a7529
 msgid "[xiaopengguo/ATKT](https://github.com/xiaopengguo/ATKT)"
 msgstr "[xiaopengguo/ATKT](https://github.com/xiaopengguo/ATKT)"
 
-#: ../../source/model-zoo/index.md:-1 8a4252399c0342c495ddcc7eca01458c
+#: ../../source/model-zoo/index.md:-1 d1709183b587465394c3e217c2656cb4
 msgid "[BDGKT](models/bdgkt.md)"
 msgstr "[BDGKT](models/bdgkt.md)"
 
-#: ../../source/model-zoo/index.md:-1 3feb57960cac4f9dbea2c978d7f08934
+#: ../../source/model-zoo/index.md:-1 7997ac68b26b403e913b65e48c737f47
 msgid ""
 "[BDGKT: Bidirectional Dynamic Graph Knowledge "
 "Tracing](https://doi.org/10.1016/j.knosys.2026.115532)"
@@ -152,15 +153,29 @@ msgstr ""
 "[BDGKT: Bidirectional Dynamic Graph Knowledge "
 "Tracing](https://doi.org/10.1016/j.knosys.2026.115532)"
 
-#: ../../source/model-zoo/index.md:-1 c16f244db55b43859b56c26400c15b82
+#: ../../source/model-zoo/index.md:-1 e722c0abb5b54ba485497e62928906f9
 msgid "[Oia-10/BDGKT](https://github.com/Oia-10/BDGKT)"
 msgstr "[Oia-10/BDGKT](https://github.com/Oia-10/BDGKT)"
 
-#: ../../source/model-zoo/index.md:-1 9b0e85c1733c4ba98ae8bd9fe7f37848
+#: ../../source/model-zoo/index.md:-1 0b53065a64794569afeba5829920f5db
+msgid "[CDFKT](models/cdfkt.md)"
+msgstr "[CDFKT](models/cdfkt.md)"
+
+#: ../../source/model-zoo/index.md:-1 3837eefbeb984a4dad3a8d9fc365f891
+msgid ""
+"[Reducing causal attribution ambiguity in knowledge tracing via cognitive"
+" decoupling and adaptive "
+"fusion](https://doi.org/10.1016/j.inffus.2026.104648)"
+msgstr ""
+"[Reducing causal attribution ambiguity in knowledge tracing via cognitive"
+" decoupling and adaptive "
+"fusion](https://doi.org/10.1016/j.inffus.2026.104648)"
+
+#: ../../source/model-zoo/index.md:-1 53ac82f5ecfc4ffd9fa6599e3cc0b5a4
 msgid "[CIKT](models/cikt.md)"
 msgstr "[CIKT](models/cikt.md)"
 
-#: ../../source/model-zoo/index.md:-1 ead359e9a7304faabbe1adab9a394dc8
+#: ../../source/model-zoo/index.md:-1 f3f7cd44dd3c459088368b207f2b3c9f
 msgid ""
 "[Disentangling Response Sequences with Causal Invariance for Knowledge "
 "Tracing](https://doi.org/10.1016/j.engappai.2025.113380)"
@@ -168,19 +183,19 @@ msgstr ""
 "[Disentangling Response Sequences with Causal Invariance for Knowledge "
 "Tracing](https://doi.org/10.1016/j.engappai.2025.113380)"
 
-#: ../../source/model-zoo/index.md:-1 03427df1929549649ed318b089671dc9
-#: 06b899d0d3c142959a56bba487c26c7c 0b1d8ad509074bec848bf3398ca53414
-#: 23ea007a9f73442e84bbbb78c5dbe6a5 9ec35eef3c344374885e872821baab59
-#: a81846680e6644b5aac20d345cfe1c49 b3572554e0964ddc8cde67b36c62d9ab
-#: de9d72915db04bfc833be3fd0591b960
+#: ../../source/model-zoo/index.md:-1 0c94224f214943fe9c80e7ddf2dbe9c8
+#: 1c4441cbe88c4fe19dc9aea80f5cc9c7 3188521b415c4631a698065566fd0fb1
+#: 7092e2e0c8e040548a0f2e6172c505e2 75605e80bc9e4bbd8e15c6d5bfc9b002
+#: a13a580135a14a28bd8ba785105e2d1c d57c5d8b3b2e4b198d463e1b3b1107f0
+#: f1504f503f7f42c983db851e0ef21071
 msgid "—"
 msgstr "—"
 
-#: ../../source/model-zoo/index.md:-1 0ac41edc6a864b68bdfc542e89ee7ec4
+#: ../../source/model-zoo/index.md:-1 11007b93ea5f4555b9f0ec1bde0b85f4
 msgid "[CL4KT](models/cl4kt.md)"
 msgstr "[CL4KT](models/cl4kt.md)"
 
-#: ../../source/model-zoo/index.md:-1 32bbca1abd9b476397c47944e3d5921d
+#: ../../source/model-zoo/index.md:-1 c515f44289684154a646bd96982b573f
 msgid ""
 "[Contrastive Learning for Knowledge "
 "Tracing](https://doi.org/10.1145/3485447.3512105)"
@@ -188,15 +203,15 @@ msgstr ""
 "[Contrastive Learning for Knowledge "
 "Tracing](https://doi.org/10.1145/3485447.3512105)"
 
-#: ../../source/model-zoo/index.md:-1 f465437b4e5d48478f9c8ede2b550056
+#: ../../source/model-zoo/index.md:-1 87a4b8c3d5ae46bb90a4184fb4589976
 msgid "[UpstageAI/cl4kt](https://github.com/UpstageAI/cl4kt)"
 msgstr "[UpstageAI/cl4kt](https://github.com/UpstageAI/cl4kt)"
 
-#: ../../source/model-zoo/index.md:-1 3cfe8022b79e440891cdf682ca75cfc8
+#: ../../source/model-zoo/index.md:-1 49429fe38a77409abf7d0c618a79277d
 msgid "[ClusterKT](models/clusterkt.md)"
 msgstr "[ClusterKT](models/clusterkt.md)"
 
-#: ../../source/model-zoo/index.md:-1 1806cde97db94498a481ab9eeae15775
+#: ../../source/model-zoo/index.md:-1 80012ab0d7fd40fe8e03114339baba9b
 msgid ""
 "[Cluster-Driven Knowledge Tracing: Joint Learning-Forgetting Effects "
 "Modeling via State "
@@ -206,15 +221,15 @@ msgstr ""
 "Modeling via State "
 "Dependency](https://doi.org/10.1016/j.eswa.2025.128619)"
 
-#: ../../source/model-zoo/index.md:-1 f97d1e6ad904470b9bddcaa04f8dc29a
+#: ../../source/model-zoo/index.md:-1 25475ec4d134454298c8910d8b0443fd
 msgid "[Lzhenghua/ClusterKT](https://github.com/Lzhenghua/ClusterKT)"
 msgstr "[Lzhenghua/ClusterKT](https://github.com/Lzhenghua/ClusterKT)"
 
-#: ../../source/model-zoo/index.md:-1 48dc18d4e8c045d4a916e03189b4d21b
+#: ../../source/model-zoo/index.md:-1 f0dc5e8feeb341448af006e71f7a00e0
 msgid "[CSKT](models/cskt.md)"
 msgstr "[CSKT](models/cskt.md)"
 
-#: ../../source/model-zoo/index.md:-1 8e7e009e7dee457997c4eaebc5a00013
+#: ../../source/model-zoo/index.md:-1 b93a247546ec4e6bacc4f73c07d7a3cc
 msgid ""
 "[csKT: Addressing cold-start problem in knowledge tracing via kernel bias"
 " and cone attention](https://doi.org/10.1016/j.eswa.2024.125988)"
@@ -222,11 +237,11 @@ msgstr ""
 "[csKT: Addressing cold-start problem in knowledge tracing via kernel bias"
 " and cone attention](https://doi.org/10.1016/j.eswa.2024.125988)"
 
-#: ../../source/model-zoo/index.md:-1 6ae8886599f140a5a3750b630251ab61
+#: ../../source/model-zoo/index.md:-1 6540cb0810fc412fb97e6132be8e7d67
 msgid "[DAGKT](models/dagkt.md)"
 msgstr "[DAGKT](models/dagkt.md)"
 
-#: ../../source/model-zoo/index.md:-1 1ad9e4ff2aa44c4288466c3e06e2887b
+#: ../../source/model-zoo/index.md:-1 8cd5f55883b44a8badd1e198a8a9cef4
 msgid ""
 "[DAGKT: Difficulty and Attempts Boosted Graph-Based Knowledge "
 "Tracing](https://doi.org/10.1007/978-3-031-30108-7_22)"
@@ -234,15 +249,15 @@ msgstr ""
 "[DAGKT: Difficulty and Attempts Boosted Graph-Based Knowledge "
 "Tracing](https://doi.org/10.1007/978-3-031-30108-7_22)"
 
-#: ../../source/model-zoo/index.md:-1 7376e9a53fc54ea882085368d480506b
+#: ../../source/model-zoo/index.md:-1 b18efcbbbb69410ba82f157835e53f3a
 msgid "[DMiC-Lab-HFUT/DAGKT](https://github.com/DMiC-Lab-HFUT/DAGKT)"
 msgstr "[DMiC-Lab-HFUT/DAGKT](https://github.com/DMiC-Lab-HFUT/DAGKT)"
 
-#: ../../source/model-zoo/index.md:-1 e7b1b0af563845129199dffe148921b0
+#: ../../source/model-zoo/index.md:-1 9d935eaa13a54d369a3ead9fc4c405fc
 msgid "[DeepIRT](models/deepirt.md)"
 msgstr "[DeepIRT](models/deepirt.md)"
 
-#: ../../source/model-zoo/index.md:-1 941e1692462e4cc897dd7a5847bd66c4
+#: ../../source/model-zoo/index.md:-1 5679a1268d03457b8ad99252e1386074
 msgid ""
 "[Deep-IRT: Make Deep Learning Based Knowledge Tracing Explainable Using "
 "Item Response Theory](https://doi.org/10.48550/arXiv.1904.11738)"
@@ -250,11 +265,11 @@ msgstr ""
 "[Deep-IRT: Make Deep Learning Based Knowledge Tracing Explainable Using "
 "Item Response Theory](https://doi.org/10.48550/arXiv.1904.11738)"
 
-#: ../../source/model-zoo/index.md:-1 623870ae7c144b78a5e14f22bc77a13f
+#: ../../source/model-zoo/index.md:-1 51db416ea040465586204397ac33b13b
 msgid "[DenoiseKT](models/denoisekt.md)"
 msgstr "[DenoiseKT](models/denoisekt.md)"
 
-#: ../../source/model-zoo/index.md:-1 6fdbf333a9a747f19226fac8f4e0a196
+#: ../../source/model-zoo/index.md:-1 25f38b1986e7440988350d09d20c5671
 msgid ""
 "[Denoised Attention and Question-Augmented Representations for Knowledge "
 "Tracing](https://doi.org/10.24963/ijcai.2025/1069)"
@@ -262,11 +277,11 @@ msgstr ""
 "[Denoised Attention and Question-Augmented Representations for Knowledge "
 "Tracing](https://doi.org/10.24963/ijcai.2025/1069)"
 
-#: ../../source/model-zoo/index.md:-1 5a344705babb40f2bf48f28d9696f9c6
+#: ../../source/model-zoo/index.md:-1 2a192f0cb12b4d1297606ddfe8b60306
 msgid "[DGEKT](models/dgekt.md)"
 msgstr "[DGEKT](models/dgekt.md)"
 
-#: ../../source/model-zoo/index.md:-1 97e1a26dc1df4e41852565ddb7f10562
+#: ../../source/model-zoo/index.md:-1 fe3ee88517bb46b8af0df4dac59c3efd
 msgid ""
 "[DGEKT: A Dual Graph Ensemble Learning Method for Knowledge "
 "Tracing](https://doi.org/10.1145/3638350)"
@@ -274,15 +289,15 @@ msgstr ""
 "[DGEKT: A Dual Graph Ensemble Learning Method for Knowledge "
 "Tracing](https://doi.org/10.1145/3638350)"
 
-#: ../../source/model-zoo/index.md:-1 79e6d1fa24b647b1bfa8ff496a570508
+#: ../../source/model-zoo/index.md:-1 6afaa8c9436c49fda7466b644c9c5b28
 msgid "[Yumo216/DGEKT](https://github.com/Yumo216/DGEKT)"
 msgstr "[Yumo216/DGEKT](https://github.com/Yumo216/DGEKT)"
 
-#: ../../source/model-zoo/index.md:-1 e7334abd53454698b6877100f4be54ea
+#: ../../source/model-zoo/index.md:-1 c4b3f0b7c0c8458bb33ce0ed05fcfc45
 msgid "[DGMKT](models/dgmkt.md)"
 msgstr "[DGMKT](models/dgmkt.md)"
 
-#: ../../source/model-zoo/index.md:-1 7f7e3213435a445d8b5828d1ad2651de
+#: ../../source/model-zoo/index.md:-1 9f2b819b5aab416eaabb8c849dbd1a6c
 msgid ""
 "[Leveraging Student Profiles and the Mamba Framework to Enhance Knowledge"
 " Tracing](https://doi.org/10.1007/978-3-032-06109-6_12)"
@@ -290,11 +305,11 @@ msgstr ""
 "[Leveraging Student Profiles and the Mamba Framework to Enhance Knowledge"
 " Tracing](https://doi.org/10.1007/978-3-032-06109-6_12)"
 
-#: ../../source/model-zoo/index.md:-1 b65b21fba4f443438489da2ef5edca3d
+#: ../../source/model-zoo/index.md:-1 de47857e009f4aa4b3e36ff30b419167
 msgid "[DIMKT](models/dimkt.md)"
 msgstr "[DIMKT](models/dimkt.md)"
 
-#: ../../source/model-zoo/index.md:-1 585d5a71314f49b89dce013e97e5e16f
+#: ../../source/model-zoo/index.md:-1 f6ae2d58dfa64a5e9ff21314c74de4a5
 msgid ""
 "[Assessing Student's Dynamic Knowledge State by Exploring the Question "
 "Difficulty Effect](https://doi.org/10.1145/3477495.3531939)"
@@ -302,15 +317,15 @@ msgstr ""
 "[Assessing Student's Dynamic Knowledge State by Exploring the Question "
 "Difficulty Effect](https://doi.org/10.1145/3477495.3531939)"
 
-#: ../../source/model-zoo/index.md:-1 fb09e927a2274641a5d4b94ae183f0b7
+#: ../../source/model-zoo/index.md:-1 5227b74777554351ba7a00017ca062d8
 msgid "[shshen-closer/DIMKT](https://github.com/shshen-closer/DIMKT)"
 msgstr "[shshen-closer/DIMKT](https://github.com/shshen-closer/DIMKT)"
 
-#: ../../source/model-zoo/index.md:-1 2bd05e4775f644299f3f31fe1f4ba738
+#: ../../source/model-zoo/index.md:-1 a6d984b1df2547289c63b1db5f78b3c2
 msgid "[DisKT](models/diskt.md)"
 msgstr "[DisKT](models/diskt.md)"
 
-#: ../../source/model-zoo/index.md:-1 33fda7fb9fde4cb79057a34cdd8ec1b9
+#: ../../source/model-zoo/index.md:-1 29a1460febbd48eda28d9e5cea2e9361
 msgid ""
 "[Disentangled Knowledge Tracing for Alleviating Cognitive "
 "Bias](https://doi.org/10.1145/3696410.3714607)"
@@ -318,27 +333,27 @@ msgstr ""
 "[Disentangled Knowledge Tracing for Alleviating Cognitive "
 "Bias](https://doi.org/10.1145/3696410.3714607)"
 
-#: ../../source/model-zoo/index.md:-1 50c624704b964599b4aa879d381f9454
+#: ../../source/model-zoo/index.md:-1 356190987bc24c0a9c732c90930dadae
 msgid "[zyy-2001/DisKT](https://github.com/zyy-2001/DisKT)"
 msgstr "[zyy-2001/DisKT](https://github.com/zyy-2001/DisKT)"
 
-#: ../../source/model-zoo/index.md:-1 a6b4855e605046c7a387baad2c35f80e
+#: ../../source/model-zoo/index.md:-1 709abbb726a640339c3e58a8fc8990b8
 msgid "[DKT](models/dkt.md)"
 msgstr "[DKT](models/dkt.md)"
 
-#: ../../source/model-zoo/index.md:-1 46e1a079ec514404911a0ab2c73843e4
+#: ../../source/model-zoo/index.md:-1 3cba45293e3d4e16806f7c5ef048444c
 msgid "[Deep Knowledge Tracing](https://doi.org/10.48550/arxiv.1506.05908)"
 msgstr "[Deep Knowledge Tracing](https://doi.org/10.48550/arxiv.1506.05908)"
 
-#: ../../source/model-zoo/index.md:-1 d9f41bb46e7341699a5180aaf933cfda
+#: ../../source/model-zoo/index.md:-1 038390f773a3426abd65575b9e827245
 msgid "[chrispiech/DeepKnowledgeTracing](https://github.com/chrispiech/DeepKnowledgeTracing)"
 msgstr "[chrispiech/DeepKnowledgeTracing](https://github.com/chrispiech/DeepKnowledgeTracing)"
 
-#: ../../source/model-zoo/index.md:-1 4f51b010a5c84d029e8ee735e0dad534
+#: ../../source/model-zoo/index.md:-1 a412067e9aa4439f9c83d4a63863d16c
 msgid "[DKT2](models/dkt2.md)"
 msgstr "[DKT2](models/dkt2.md)"
 
-#: ../../source/model-zoo/index.md:-1 69739599883d4f399ef6762b577e3832
+#: ../../source/model-zoo/index.md:-1 b35215e53edb4660a01c1141a7780974
 msgid ""
 "[Revisiting Applicable and Comprehensive Knowledge Tracing in Large-Scale"
 " Data](https://doi.org/10.1007/978-3-032-06109-6_14)"
@@ -346,15 +361,15 @@ msgstr ""
 "[Revisiting Applicable and Comprehensive Knowledge Tracing in Large-Scale"
 " Data](https://doi.org/10.1007/978-3-032-06109-6_14)"
 
-#: ../../source/model-zoo/index.md:-1 6c62b69edb4844ca899ace5e965c2947
+#: ../../source/model-zoo/index.md:-1 56da1cd3b8ff4a1bbdec3c548def61eb
 msgid "[zyy-2001/DKT2](https://github.com/zyy-2001/DKT2)"
 msgstr "[zyy-2001/DKT2](https://github.com/zyy-2001/DKT2)"
 
-#: ../../source/model-zoo/index.md:-1 26e2a2454cce42c2a2584fed93c6d6b4
+#: ../../source/model-zoo/index.md:-1 9ba37d054cd04e26b1892fb7d4a9a65f
 msgid "[DKTForget](models/dktforget.md)"
 msgstr "[DKTForget](models/dktforget.md)"
 
-#: ../../source/model-zoo/index.md:-1 e8a2bf4602bf415cac21605b2e5b5434
+#: ../../source/model-zoo/index.md:-1 9017f601d646419aad11dca4974de5ba
 msgid ""
 "[Augmenting Knowledge Tracing by Considering Forgetting "
 "Behavior](https://doi.org/10.1145/3308558.3313565)"
@@ -362,11 +377,11 @@ msgstr ""
 "[Augmenting Knowledge Tracing by Considering Forgetting "
 "Behavior](https://doi.org/10.1145/3308558.3313565)"
 
-#: ../../source/model-zoo/index.md:-1 ee6f950dee704af09e1dfe6485856e5e
+#: ../../source/model-zoo/index.md:-1 b5f51a88ef0a4ba29a93dea889426ee6
 msgid "[DKTPlus](models/dktplus.md)"
 msgstr "[DKTPlus](models/dktplus.md)"
 
-#: ../../source/model-zoo/index.md:-1 f9901111bfa04019a8be3005fe19ce14
+#: ../../source/model-zoo/index.md:-1 20ae3bbbb1ec4d21974b86557501b4bb
 msgid ""
 "[Addressing Two Problems in Deep Knowledge Tracing via Prediction-"
 "Consistent Regularization](https://doi.org/10.1145/3231644.3231647)"
@@ -374,11 +389,11 @@ msgstr ""
 "[Addressing Two Problems in Deep Knowledge Tracing via Prediction-"
 "Consistent Regularization](https://doi.org/10.1145/3231644.3231647)"
 
-#: ../../source/model-zoo/index.md:-1 e471d77a5d504a758702faf1ff31f2a3
+#: ../../source/model-zoo/index.md:-1 d3b3566258ac494cb868fa0f3c6c91a3
 msgid "[DKVMN](models/dkvmn.md)"
 msgstr "[DKVMN](models/dkvmn.md)"
 
-#: ../../source/model-zoo/index.md:-1 5f753d6c731d4b2f88213cc2989eb7d4
+#: ../../source/model-zoo/index.md:-1 251da8fc0ed743d9a61705b24b3fe83b
 msgid ""
 "[Dynamic Key-Value Memory Networks for Knowledge "
 "Tracing](https://doi.org/10.1145/3038912.3052580)"
@@ -386,15 +401,15 @@ msgstr ""
 "[Dynamic Key-Value Memory Networks for Knowledge "
 "Tracing](https://doi.org/10.1145/3038912.3052580)"
 
-#: ../../source/model-zoo/index.md:-1 34e5a848ffbb4a92b8f0d9e57a52f58e
+#: ../../source/model-zoo/index.md:-1 43d82a24314440bab5fd7f95449c4d6c
 msgid "[jennyzhang0215/DKVMN](https://github.com/jennyzhang0215/DKVMN)"
 msgstr "[jennyzhang0215/DKVMN](https://github.com/jennyzhang0215/DKVMN)"
 
-#: ../../source/model-zoo/index.md:-1 f154d1922cf4425ea890f64eaa583d4c
+#: ../../source/model-zoo/index.md:-1 d1780884155047a884bcda8fab66d141
 msgid "[DTransformer](models/dtransformer.md)"
 msgstr "[DTransformer](models/dtransformer.md)"
 
-#: ../../source/model-zoo/index.md:-1 129d815cb8a14fe7b40bebb780c20621
+#: ../../source/model-zoo/index.md:-1 2013ac9656fb466ca6cf3d2a0ef0631b
 msgid ""
 "[Tracing Knowledge Instead of Patterns: Stable Knowledge Tracing with "
 "Diagnostic Transformer](https://doi.org/10.1145/3543507.3583255)"
@@ -402,15 +417,15 @@ msgstr ""
 "[Tracing Knowledge Instead of Patterns: Stable Knowledge Tracing with "
 "Diagnostic Transformer](https://doi.org/10.1145/3543507.3583255)"
 
-#: ../../source/model-zoo/index.md:-1 c958292531a448dc810d1f68a4cebe8c
+#: ../../source/model-zoo/index.md:-1 8ebc214438074d3ea5812dbe1186f068
 msgid "[yxonic/DTransformer](https://github.com/yxonic/DTransformer)"
 msgstr "[yxonic/DTransformer](https://github.com/yxonic/DTransformer)"
 
-#: ../../source/model-zoo/index.md:-1 ed9bd598b64e4d479364889546bb5f7c
+#: ../../source/model-zoo/index.md:-1 0887be11870a4877bf21918ac65a3f5a
 msgid "[DyGKT](models/dygkt.md)"
 msgstr "[DyGKT](models/dygkt.md)"
 
-#: ../../source/model-zoo/index.md:-1 2e6733267a7f4a99b5749c9c37024aee
+#: ../../source/model-zoo/index.md:-1 5f7da3115574419dbc111dd53400b94e
 msgid ""
 "[DyGKT: Dynamic Graph Learning for Knowledge "
 "Tracing](https://doi.org/10.1145/3637528.3671773)"
@@ -418,15 +433,15 @@ msgstr ""
 "[DyGKT: Dynamic Graph Learning for Knowledge "
 "Tracing](https://doi.org/10.1145/3637528.3671773)"
 
-#: ../../source/model-zoo/index.md:-1 7fa5ac1853444a32a4cd32d7f613d021
+#: ../../source/model-zoo/index.md:-1 583d17b21eb942279659cef1297d7e3e
 msgid "[PengLinzhi/DyGKT](https://github.com/PengLinzhi/DyGKT)"
 msgstr "[PengLinzhi/DyGKT](https://github.com/PengLinzhi/DyGKT)"
 
-#: ../../source/model-zoo/index.md:-1 f2be6b100375468d83b3636281fe2515
+#: ../../source/model-zoo/index.md:-1 feb32ed3fa9d473184717207dfedc72b
 msgid "[extraKT](models/extrakt.md)"
 msgstr "[extraKT](models/extrakt.md)"
 
-#: ../../source/model-zoo/index.md:-1 71bc9127de8640da97102e18a5a564b3
+#: ../../source/model-zoo/index.md:-1 bbd8cde6dc504dc19be424da5b976fbe
 msgid ""
 "[Extending Context Window of Attention Based Knowledge Tracing Models via"
 " Length Extrapolation](https://doi.org/10.3233/faia240651)"
@@ -434,11 +449,11 @@ msgstr ""
 "[Extending Context Window of Attention Based Knowledge Tracing Models via"
 " Length Extrapolation](https://doi.org/10.3233/faia240651)"
 
-#: ../../source/model-zoo/index.md:-1 ce88c888dc07454c89f66719ceb7ffc6
+#: ../../source/model-zoo/index.md:-1 7ae3af1f21f24b1abea2659f00fd5171
 msgid "[FAKT](models/fakt.md)"
 msgstr "[FAKT](models/fakt.md)"
 
-#: ../../source/model-zoo/index.md:-1 edce7e5c332c420dabe9f361d5457953
+#: ../../source/model-zoo/index.md:-1 ec2b53611bbb4c68900cc90f79dc9cc2
 msgid ""
 "[A Frequency-Aware Mixture of Heterogeneous Experts Framework for "
 "Knowledge Tracing](https://doi.org/10.1145/3774904.3792272)"
@@ -446,11 +461,11 @@ msgstr ""
 "[A Frequency-Aware Mixture of Heterogeneous Experts Framework for "
 "Knowledge Tracing](https://doi.org/10.1145/3774904.3792272)"
 
-#: ../../source/model-zoo/index.md:-1 25b5131bb93b49bf82474c3713e0baf2
+#: ../../source/model-zoo/index.md:-1 fac4380e91c5491b958c30b4a00dd768
 msgid "[FlucKT](models/fluckt.md)"
 msgstr "[FlucKT](models/fluckt.md)"
 
-#: ../../source/model-zoo/index.md:-1 278dfd1c45fa4c00b5c751cc64dff1ee
+#: ../../source/model-zoo/index.md:-1 7a293b2700d9476dbc69ffe92fc622bd
 msgid ""
 "[Cognitive Fluctuations Enhanced Attention Network for Knowledge "
 "Tracing](https://doi.org/10.1609/aaai.v39i13.33562)"
@@ -458,11 +473,11 @@ msgstr ""
 "[Cognitive Fluctuations Enhanced Attention Network for Knowledge "
 "Tracing](https://doi.org/10.1609/aaai.v39i13.33562)"
 
-#: ../../source/model-zoo/index.md:-1 2c9a71c54ec745b3a58d9645e5d8af73
+#: ../../source/model-zoo/index.md:-1 22fdf859d0ce4ca8b7ebc483b33c3552
 msgid "[FoLibiKT](models/folibikt.md)"
 msgstr "[FoLibiKT](models/folibikt.md)"
 
-#: ../../source/model-zoo/index.md:-1 1b429cd842bc4a9b8484cc502702d64e
+#: ../../source/model-zoo/index.md:-1 6c0565a480a64e2996d11f8da1cd56e6
 msgid ""
 "[Forgetting-aware Linear Bias for Attentive Knowledge "
 "Tracing](https://doi.org/10.1145/3583780.3615191)"
@@ -470,7 +485,7 @@ msgstr ""
 "[Forgetting-aware Linear Bias for Attentive Knowledge "
 "Tracing](https://doi.org/10.1145/3583780.3615191)"
 
-#: ../../source/model-zoo/index.md:-1 3ef5b337379e46198cfc941eb5513f8b
+#: ../../source/model-zoo/index.md:-1 38daa727aeb84cafa3d76e73d40c6968
 msgid ""
 "[skewondr/FoLiBi](https://github.com/skewondr/FoLiBi)、[pykt-team/pykt-"
 "toolkit](https://github.com/pykt-team/pykt-toolkit)"
@@ -478,11 +493,11 @@ msgstr ""
 "[skewondr/FoLiBi](https://github.com/skewondr/FoLiBi), [pykt-team/pykt-"
 "toolkit](https://github.com/pykt-team/pykt-toolkit)"
 
-#: ../../source/model-zoo/index.md:-1 7178047a0c424e43b1f278f35051ecdd
+#: ../../source/model-zoo/index.md:-1 a0d526c024574944bf5a70dff1c0215b
 msgid "[GIKT](models/gikt.md)"
 msgstr "[GIKT](models/gikt.md)"
 
-#: ../../source/model-zoo/index.md:-1 c6f45c796c1c45f3afd1520c24dbb88a
+#: ../../source/model-zoo/index.md:-1 d3000f5b46184fe892fb57b330f025bd
 msgid ""
 "[GIKT: A Graph-Based Interaction Model for Knowledge "
 "Tracing](https://doi.org/10.1007/978-3-030-67658-2_18)"
@@ -490,15 +505,15 @@ msgstr ""
 "[GIKT: A Graph-Based Interaction Model for Knowledge "
 "Tracing](https://doi.org/10.1007/978-3-030-67658-2_18)"
 
-#: ../../source/model-zoo/index.md:-1 5f43cbd324914d0b836eb6db3052c6be
+#: ../../source/model-zoo/index.md:-1 ecc7524906584e63a60fd436661378ad
 msgid "[ApexEDM/GIKT](https://github.com/ApexEDM/GIKT)"
 msgstr "[ApexEDM/GIKT](https://github.com/ApexEDM/GIKT)"
 
-#: ../../source/model-zoo/index.md:-1 3268f766d2fc4f0a8a275b2317644ff4
+#: ../../source/model-zoo/index.md:-1 ed71d5e6ff2c4381bc0082630a2d5680
 msgid "[GKT](models/gkt.md)"
 msgstr "[GKT](models/gkt.md)"
 
-#: ../../source/model-zoo/index.md:-1 43b20d58585e452297d0835a0bca80c5
+#: ../../source/model-zoo/index.md:-1 0f1d9cff74404a668055a76e8c71b399
 msgid ""
 "[Graph-Based Knowledge Tracing: Modeling Student Proficiency Using Graph "
 "Neural Network](https://doi.org/10.1145/3350546.3352513)"
@@ -506,11 +521,11 @@ msgstr ""
 "[Graph-Based Knowledge Tracing: Modeling Student Proficiency Using Graph "
 "Neural Network](https://doi.org/10.1145/3350546.3352513)"
 
-#: ../../source/model-zoo/index.md:-1 e5d4527872d542a3929899f4fbf39e37
+#: ../../source/model-zoo/index.md:-1 a3ad3d22c4ca46dd9e2508d9d418bd31
 msgid "[GRKT](models/grkt.md)"
 msgstr "[GRKT](models/grkt.md)"
 
-#: ../../source/model-zoo/index.md:-1 acc696ccc6594b84a34eb08ac02f9233
+#: ../../source/model-zoo/index.md:-1 d7ee39012a0e46f7bb70d67bf7f8f141
 msgid ""
 "[Leveraging Pedagogical Theories to Understand Student Learning Process "
 "with Graph-Based Reasonable Knowledge "
@@ -520,15 +535,15 @@ msgstr ""
 "with Graph-Based Reasonable Knowledge "
 "Tracing](https://doi.org/10.1145/3637528.3671853)"
 
-#: ../../source/model-zoo/index.md:-1 7ec35595dc634fa6ac5a9b8a808e4aee
+#: ../../source/model-zoo/index.md:-1 906d46838e9e4239b295f1a1d311b862
 msgid "[JJCui96/GRKT](https://github.com/JJCui96/GRKT)"
 msgstr "[JJCui96/GRKT](https://github.com/JJCui96/GRKT)"
 
-#: ../../source/model-zoo/index.md:-1 b1603400c64249c892a88c4025bb0e19
+#: ../../source/model-zoo/index.md:-1 ccd317c2ed264d8eb55cffc9418258e3
 msgid "[HawkesKT](models/hawkeskt.md)"
 msgstr "[HawkesKT](models/hawkeskt.md)"
 
-#: ../../source/model-zoo/index.md:-1 82c1576fe74540a1a7934080de12bc2c
+#: ../../source/model-zoo/index.md:-1 a19475f5c24d4c36a1e531467a3786b6
 msgid ""
 "[Temporal Cross-Effects in Knowledge "
 "Tracing](https://doi.org/10.1145/3437963.3441802)"
@@ -536,15 +551,15 @@ msgstr ""
 "[Temporal Cross-Effects in Knowledge "
 "Tracing](https://doi.org/10.1145/3437963.3441802)"
 
-#: ../../source/model-zoo/index.md:-1 a6a8c61437f9441faae3b5e4c52ca042
+#: ../../source/model-zoo/index.md:-1 6954a3ab026f45b583ced1292b8ab0ac
 msgid "[THUwangcy/HawkesKT](https://github.com/THUwangcy/HawkesKT)"
 msgstr "[THUwangcy/HawkesKT](https://github.com/THUwangcy/HawkesKT)"
 
-#: ../../source/model-zoo/index.md:-1 840963cf3d4645a49738a5e78018b80c
+#: ../../source/model-zoo/index.md:-1 40c9aa6f831b441e87c02af355de30a8
 msgid "[HDHKT](models/hdhkt.md)"
 msgstr "[HDHKT](models/hdhkt.md)"
 
-#: ../../source/model-zoo/index.md:-1 acdcef4d1c9d4de5b3db0e0df6cec564
+#: ../../source/model-zoo/index.md:-1 ead64f0b20b9463f8b557cc8ea4331c6
 msgid ""
 "[HDHKT: Heterogeneous graph and difficulty-aware hypergraph fusion for "
 "knowledge tracing](https://doi.org/10.1016/j.patcog.2026.115226)"
@@ -552,15 +567,15 @@ msgstr ""
 "[HDHKT: Heterogeneous graph and difficulty-aware hypergraph fusion for "
 "knowledge tracing](https://doi.org/10.1016/j.patcog.2026.115226)"
 
-#: ../../source/model-zoo/index.md:-1 960c29f611e24d5dafcd43f3861eb43d
+#: ../../source/model-zoo/index.md:-1 f6e919a5dc3645de973428d7bb7de9ea
 msgid "[szhhwh/HDHKT](https://github.com/szhhwh/HDHKT)"
 msgstr "[szhhwh/HDHKT](https://github.com/szhhwh/HDHKT)"
 
-#: ../../source/model-zoo/index.md:-1 2834daa6f8054d72978548f59e265865
+#: ../../source/model-zoo/index.md:-1 44c898ac258f4901964d77284da35902
 msgid "[HDKT](models/hdkt.md)"
 msgstr "[HDKT](models/hdkt.md)"
 
-#: ../../source/model-zoo/index.md:-1 3331a1ec7a2a4e2980c9363e10470c3e
+#: ../../source/model-zoo/index.md:-1 22dca3dc0b6f44649f732ff51cc84c34
 msgid ""
 "[HD-KT: Advancing Robust Knowledge Tracing via Anomalous Learning "
 "Interaction Detection](https://doi.org/10.1145/3589334.3645718)"
@@ -568,7 +583,7 @@ msgstr ""
 "[HD-KT: Advancing Robust Knowledge Tracing via Anomalous Learning "
 "Interaction Detection](https://doi.org/10.1145/3589334.3645718)"
 
-#: ../../source/model-zoo/index.md:-1 d2b97aa174a045da92a0b992422dc834
+#: ../../source/model-zoo/index.md:-1 4f8d5f6e8e164920b74ff1a9481c2621
 msgid ""
 "[BIMK/Intelligent-Education/tree/main/HD-KT](https://github.com/BIMK"
 "/Intelligent-Education/tree/main/HD-KT)"
@@ -576,11 +591,11 @@ msgstr ""
 "[BIMK/Intelligent-Education/tree/main/HD-KT](https://github.com/BIMK"
 "/Intelligent-Education/tree/main/HD-KT)"
 
-#: ../../source/model-zoo/index.md:-1 1bb31dfef0364194ab4457e99c36676b
+#: ../../source/model-zoo/index.md:-1 4bbf70b87ce64f068c1737ed8ea610d0
 msgid "[HGKT](models/hgkt.md)"
 msgstr "[HGKT](models/hgkt.md)"
 
-#: ../../source/model-zoo/index.md:-1 cdc9f59c63924706be0c4ebeea7d7d1f
+#: ../../source/model-zoo/index.md:-1 31c52bcf2cf7468eaef70ef14da26200
 msgid ""
 "[Hypergraph-Driven High-Order Knowledge Tracing with a Dual-Gated Dynamic"
 " Mechanism](https://doi.org/10.3390/app15158617)"
@@ -588,11 +603,11 @@ msgstr ""
 "[Hypergraph-Driven High-Order Knowledge Tracing with a Dual-Gated Dynamic"
 " Mechanism](https://doi.org/10.3390/app15158617)"
 
-#: ../../source/model-zoo/index.md:-1 e00648d56f634464b08896ea7c4f3394
+#: ../../source/model-zoo/index.md:-1 ab2597cf917f44288283808c0909249a
 msgid "[HiTSKT](models/hitskt.md)"
 msgstr "[HiTSKT](models/hitskt.md)"
 
-#: ../../source/model-zoo/index.md:-1 32bf7620915940d4934360cb9efafc3c
+#: ../../source/model-zoo/index.md:-1 d1f020dd50074c8f8379c70e0fe28416
 msgid ""
 "[HiTSKT: A Hierarchical Transformer Model for Session-Aware Knowledge "
 "Tracing](https://doi.org/10.1016/j.knosys.2023.111300)"
@@ -600,11 +615,11 @@ msgstr ""
 "[HiTSKT: A Hierarchical Transformer Model for Session-Aware Knowledge "
 "Tracing](https://doi.org/10.1016/j.knosys.2023.111300)"
 
-#: ../../source/model-zoo/index.md:-1 c9a23e9f13e94cb7a1d26c7bd485b60f
+#: ../../source/model-zoo/index.md:-1 fc5487691e284bc39e749b18282fc32a
 msgid "[IEKT](models/iekt.md)"
 msgstr "[IEKT](models/iekt.md)"
 
-#: ../../source/model-zoo/index.md:-1 36eb25f3b69a49d893478c0afe64d212
+#: ../../source/model-zoo/index.md:-1 f289ad814aff433c89428cd587ab5fea
 msgid ""
 "[Tracing Knowledge State with Individual Cognition and Acquisition "
 "Estimation](https://doi.org/10.1145/3404835.3462827)"
@@ -612,7 +627,7 @@ msgstr ""
 "[Tracing Knowledge State with Individual Cognition and Acquisition "
 "Estimation](https://doi.org/10.1145/3404835.3462827)"
 
-#: ../../source/model-zoo/index.md:-1 aea49ab6f4af4781a8d8c8eddd39bbee
+#: ../../source/model-zoo/index.md:-1 004289a83caa433fafe6d1938528232f
 msgid ""
 "[ApexEDM/iekt](https://github.com/ApexEDM/iekt)、[pykt-team/pykt-"
 "toolkit](https://github.com/pykt-team/pykt-toolkit)"
@@ -620,11 +635,11 @@ msgstr ""
 "[ApexEDM/iekt](https://github.com/ApexEDM/iekt), [pykt-team/pykt-"
 "toolkit](https://github.com/pykt-team/pykt-toolkit)"
 
-#: ../../source/model-zoo/index.md:-1 9479ef7e8b12494180dec0d50c72af88
+#: ../../source/model-zoo/index.md:-1 56cadccb712b4a17b76b25d24e794793
 msgid "[KeenKT](models/keenkt.md)"
 msgstr "[KeenKT](models/keenkt.md)"
 
-#: ../../source/model-zoo/index.md:-1 fe89ab0898974f4c9b5d9d075d0dd611
+#: ../../source/model-zoo/index.md:-1 f291f676f753467cae7559a354f3451c
 msgid ""
 "[KeenKT: Knowledge Mastery-State Disambiguation for Knowledge "
 "Tracing](https://doi.org/10.1609/aaai.v40i23.39004)"
@@ -632,15 +647,15 @@ msgstr ""
 "[KeenKT: Knowledge Mastery-State Disambiguation for Knowledge "
 "Tracing](https://doi.org/10.1609/aaai.v40i23.39004)"
 
-#: ../../source/model-zoo/index.md:-1 6f7bc74dac1b421591e73b9671308532
+#: ../../source/model-zoo/index.md:-1 28d60dc2d17d4ccbb5c20920a33c373d
 msgid "[HubuKG/KeenKT](https://github.com/HubuKG/KeenKT)"
 msgstr "[HubuKG/KeenKT](https://github.com/HubuKG/KeenKT)"
 
-#: ../../source/model-zoo/index.md:-1 319dca0479154ca6b1c33a7cee8adc9d
+#: ../../source/model-zoo/index.md:-1 4077df6ee9ea4572bc5427f30d4d032e
 msgid "[KQN](models/kqn.md)"
 msgstr "[KQN](models/kqn.md)"
 
-#: ../../source/model-zoo/index.md:-1 1b4a0066da584e87aa173b4234b90241
+#: ../../source/model-zoo/index.md:-1 cb014ce7463d454fb2c526873b82aa9d
 msgid ""
 "[Knowledge Query Network for Knowledge "
 "Tracing](https://doi.org/10.1145/3303772.3303786)"
@@ -648,7 +663,7 @@ msgstr ""
 "[Knowledge Query Network for Knowledge "
 "Tracing](https://doi.org/10.1145/3303772.3303786)"
 
-#: ../../source/model-zoo/index.md:-1 570c27218bd34b7f93e34215b8446fff
+#: ../../source/model-zoo/index.md:-1 2f701aecc1084f379a2994e576f873a4
 msgid ""
 "[JSLBen/Knowledge-Query-Network-for-Knowledge-"
 "Tracing](https://github.com/JSLBen/Knowledge-Query-Network-for-Knowledge-"
@@ -660,11 +675,11 @@ msgstr ""
 "Tracing), [pykt-team/pykt-toolkit](https://github.com/pykt-team/pykt-"
 "toolkit)"
 
-#: ../../source/model-zoo/index.md:-1 3027208b7f324207bad21ca2b9ed42af
+#: ../../source/model-zoo/index.md:-1 aa18388793014f5ca2ef247ad2422021
 msgid "[LBKT](models/lbkt.md)"
 msgstr "[LBKT](models/lbkt.md)"
 
-#: ../../source/model-zoo/index.md:-1 5dd50af74580468c95db2359ef0a41c5
+#: ../../source/model-zoo/index.md:-1 66ce618fbce4414bb4fc3f3cda9b57c0
 msgid ""
 "[Learning Behavior-oriented Knowledge "
 "Tracing](https://doi.org/10.1145/3580305.3599407)"
@@ -672,15 +687,15 @@ msgstr ""
 "[Learning Behavior-oriented Knowledge "
 "Tracing](https://doi.org/10.1145/3580305.3599407)"
 
-#: ../../source/model-zoo/index.md:-1 763ac0f337e04e55b7fbf2d9ed6b9d5b
+#: ../../source/model-zoo/index.md:-1 d171baa42c794a54a5afb08f618d4fa4
 msgid "[xbh0720/LBKT](https://github.com/xbh0720/LBKT)"
 msgstr "[xbh0720/LBKT](https://github.com/xbh0720/LBKT)"
 
-#: ../../source/model-zoo/index.md:-1 27e5fc4ca00b48a481a7a4c57a6e1f6d
+#: ../../source/model-zoo/index.md:-1 35a3115b27e14bb98e4f44710866f36e
 msgid "[LPKT](models/lpkt.md)"
 msgstr "[LPKT](models/lpkt.md)"
 
-#: ../../source/model-zoo/index.md:-1 1dc9cb2a66ed4ca391d3b825585f5c80
+#: ../../source/model-zoo/index.md:-1 7b3d8537c81142f39544067c7811a6d0
 msgid ""
 "[Learning Process-consistent Knowledge "
 "Tracing](https://doi.org/10.1145/3447548.3467237)、[Monitoring Student "
@@ -692,11 +707,11 @@ msgstr ""
 "Progress for Learning Process-Consistent Knowledge "
 "Tracing](https://doi.org/10.1109/TKDE.2022.3221985)"
 
-#: ../../source/model-zoo/index.md:-1 dc9afdd49f3c407cbd67aa859ee8109a
+#: ../../source/model-zoo/index.md:-1 4dee65b2f8b94e109acfd0e83cf323a4
 msgid "[Mamba4KT](models/mamba4kt.md)"
 msgstr "[Mamba4KT](models/mamba4kt.md)"
 
-#: ../../source/model-zoo/index.md:-1 5c3b1817cdeb43d68993c6cb59120fc8
+#: ../../source/model-zoo/index.md:-1 19fe8929ed3b461da5519512f0f421c1
 msgid ""
 "[Mamba4KT: An Efficient and Effective Mamba-based Knowledge Tracing "
 "Model](https://doi.org/10.48550/arXiv.2405.16542)"
@@ -704,11 +719,11 @@ msgstr ""
 "[Mamba4KT: An Efficient and Effective Mamba-based Knowledge Tracing "
 "Model](https://doi.org/10.48550/arXiv.2405.16542)"
 
-#: ../../source/model-zoo/index.md:-1 4e273986966941afbb5215d3150533f5
+#: ../../source/model-zoo/index.md:-1 5e5db2bfa05f421dbe60d471992515b5
 msgid "[MCKT](models/mckt.md)"
 msgstr "[MCKT](models/mckt.md)"
 
-#: ../../source/model-zoo/index.md:-1 1c68682e997547d090b1ddb28f4a8711
+#: ../../source/model-zoo/index.md:-1 6cde25cf9f074d74b0d644e8cb0bdb7c
 msgid ""
 "[Multi-level Contrastive Learning for Knowledge "
 "Tracing](https://doi.org/10.1145/3759920)"
@@ -716,11 +731,11 @@ msgstr ""
 "[Multi-level Contrastive Learning for Knowledge "
 "Tracing](https://doi.org/10.1145/3759920)"
 
-#: ../../source/model-zoo/index.md:-1 c3cb96c165024d42b847a794cd8c2d26
+#: ../../source/model-zoo/index.md:-1 a41f98e169b94fc98f63f752cb25f89f
 msgid "[MCSKT](models/mcskt.md)"
 msgstr "[MCSKT](models/mcskt.md)"
 
-#: ../../source/model-zoo/index.md:-1 7302eecb4ff64964b8c00caf1f053678
+#: ../../source/model-zoo/index.md:-1 1ad303ea58304cc88eeeabafbf4e4d35
 msgid ""
 "[An efficient knowledge tracing model via Mamba Contextual Encoding and "
 "Dynamic Sparse Attention "
@@ -730,11 +745,11 @@ msgstr ""
 "Dynamic Sparse Attention "
 "mechanism](https://doi.org/10.1016/j.engappai.2026.114312)"
 
-#: ../../source/model-zoo/index.md:-1 80f17f9d7e994851b27ea6fe48dc9708
+#: ../../source/model-zoo/index.md:-1 b28c2fc581ee4544b1ddfde163d51680
 msgid "[MIKT](models/mikt.md)"
 msgstr "[MIKT](models/mikt.md)"
 
-#: ../../source/model-zoo/index.md:-1 98d2896831a84e62b3cb5943b2a3e85f
+#: ../../source/model-zoo/index.md:-1 54426e98b21d4282b57fe4005fa2603b
 msgid ""
 "[Interpretable Knowledge Tracing with Multiscale State "
 "Representation](https://doi.org/10.1145/3589334.3645373)"
@@ -742,15 +757,15 @@ msgstr ""
 "[Interpretable Knowledge Tracing with Multiscale State "
 "Representation](https://doi.org/10.1145/3589334.3645373)"
 
-#: ../../source/model-zoo/index.md:-1 419f3ad4dca54e4f988378b774b8cb96
+#: ../../source/model-zoo/index.md:-1 6d40b7f930c7452ba6d3747e9ac27a7d
 msgid "[lilstrawberry/MIKT](https://github.com/lilstrawberry/MIKT)"
 msgstr "[lilstrawberry/MIKT](https://github.com/lilstrawberry/MIKT)"
 
-#: ../../source/model-zoo/index.md:-1 828ac5d78abd47b7a9a59bbc3bb675b4
+#: ../../source/model-zoo/index.md:-1 9dc8622cfb674d3ca35b4d19ed93d99f
 msgid "[MocKT](models/mockt.md)"
 msgstr "[MocKT](models/mockt.md)"
 
-#: ../../source/model-zoo/index.md:-1 4584f80a2d7c404da332c78d78875a92
+#: ../../source/model-zoo/index.md:-1 6cbf565c0b024c17b604579c8b6eb9a7
 msgid ""
 "[MoC-KT: Mixture of Convolutions for Knowledge "
 "Tracing](https://doi.org/10.1145/3847658)"
@@ -758,11 +773,11 @@ msgstr ""
 "[MoC-KT: Mixture of Convolutions for Knowledge "
 "Tracing](https://doi.org/10.1145/3847658)"
 
-#: ../../source/model-zoo/index.md:-1 4e64d87fc45b442b9d35a38eaa859e7e
+#: ../../source/model-zoo/index.md:-1 3c8f5e71ff1b4f319cad80927f3562a4
 msgid "[MTKT](models/mtkt.md)"
 msgstr "[MTKT](models/mtkt.md)"
 
-#: ../../source/model-zoo/index.md:-1 92706b7d0a024adb8dbb95eb2184a063
+#: ../../source/model-zoo/index.md:-1 66b33e92f6544efbaab7d9cc5bdbb597
 msgid ""
 "[Learning multi-granularity temporal characteristics for attention based "
 "knowledge tracing](https://doi.org/10.1016/j.neucom.2025.131338)"
@@ -770,11 +785,11 @@ msgstr ""
 "[Learning multi-granularity temporal characteristics for attention based "
 "knowledge tracing](https://doi.org/10.1016/j.neucom.2025.131338)"
 
-#: ../../source/model-zoo/index.md:-1 a74c6435c2094dce9cdd72a753fe8669
+#: ../../source/model-zoo/index.md:-1 a50e05af4a8344399223f0416fb72065
 msgid "[PSKT](models/pskt.md)"
 msgstr "[PSKT](models/pskt.md)"
 
-#: ../../source/model-zoo/index.md:-1 18a245f2fb6a4624abe171cf85983965
+#: ../../source/model-zoo/index.md:-1 08a5aa669840429cbe0fddadfde8e8b9
 msgid ""
 "[Remembering Is Not Applying: Interpretable Knowledge Tracing for "
 "Problem-solving Processes](https://doi.org/10.1145/3664647.3681049)"
@@ -782,15 +797,15 @@ msgstr ""
 "[Remembering Is Not Applying: Interpretable Knowledge Tracing for "
 "Problem-solving Processes](https://doi.org/10.1145/3664647.3681049)"
 
-#: ../../source/model-zoo/index.md:-1 42c6d8583bfa444daf6079a47d60550f
+#: ../../source/model-zoo/index.md:-1 b4d6be79e9604aff9d5c94fc1572194e
 msgid "[Oia-10/PSKT](https://github.com/Oia-10/PSKT)"
 msgstr "[Oia-10/PSKT](https://github.com/Oia-10/PSKT)"
 
-#: ../../source/model-zoo/index.md:-1 b6ecde94d8584aaa9c6067c309723d4c
+#: ../../source/model-zoo/index.md:-1 16638a599f02448cb5bddb07778e723b
 msgid "[QIKT](models/qikt.md)"
 msgstr "[QIKT](models/qikt.md)"
 
-#: ../../source/model-zoo/index.md:-1 bb0a5cb0b4d34ca7bc3534bed6747282
+#: ../../source/model-zoo/index.md:-1 f92b41f5c51c447f93e4f1c4675f2cb7
 msgid ""
 "[Improving Interpretability of Deep Sequential Knowledge Tracing Models "
 "with Question-centric Cognitive "
@@ -800,11 +815,11 @@ msgstr ""
 "with Question-centric Cognitive "
 "Representations](https://doi.org/10.1609/aaai.v37i12.26661)"
 
-#: ../../source/model-zoo/index.md:-1 3dfbe6d18ef04fbda566596f0d2a2b63
+#: ../../source/model-zoo/index.md:-1 861854f0658d4971a2bddfc4f1ac8068
 msgid "[ReKT](models/rekt.md)"
 msgstr "[ReKT](models/rekt.md)"
 
-#: ../../source/model-zoo/index.md:-1 312e6e7ded9a401b9c1f7ee8c074e10e
+#: ../../source/model-zoo/index.md:-1 3f661f486a84403ba20a37152a0ace2c
 msgid ""
 "[Revisiting Knowledge Tracing: A Simple and Powerful "
 "Model](https://doi.org/10.1145/3664647.3681205)"
@@ -812,15 +827,15 @@ msgstr ""
 "[Revisiting Knowledge Tracing: A Simple and Powerful "
 "Model](https://doi.org/10.1145/3664647.3681205)"
 
-#: ../../source/model-zoo/index.md:-1 2b4262c026164e1ebf2af1463186aaee
+#: ../../source/model-zoo/index.md:-1 14d6225d4ec842b09406bfee2635e1d8
 msgid "[lilstrawberry/ReKT](https://github.com/lilstrawberry/ReKT)"
 msgstr "[lilstrawberry/ReKT](https://github.com/lilstrawberry/ReKT)"
 
-#: ../../source/model-zoo/index.md:-1 9eec3ce0bed94c0db5dbdcbfa4018279
+#: ../../source/model-zoo/index.md:-1 85f75297dd5a4be2871a5e6785277f62
 msgid "[RobustKT](models/robustkt.md)"
 msgstr "[RobustKT](models/robustkt.md)"
 
-#: ../../source/model-zoo/index.md:-1 87a71817e69646e18ad480b61d7afdcd
+#: ../../source/model-zoo/index.md:-1 60d8378799e4486e8c89b72aaa6ecbcb
 msgid ""
 "[Enhancing Knowledge Tracing through Decoupling Cognitive Pattern from "
 "Error-Prone Data](https://doi.org/10.1145/3696410.3714486)"
@@ -828,11 +843,11 @@ msgstr ""
 "[Enhancing Knowledge Tracing through Decoupling Cognitive Pattern from "
 "Error-Prone Data](https://doi.org/10.1145/3696410.3714486)"
 
-#: ../../source/model-zoo/index.md:-1 de5b637e0554432895b956a8d71b4aee
+#: ../../source/model-zoo/index.md:-1 2430e9e9e6ca4a6faad90e5e8b44fed4
 msgid "[SAINT](models/saint.md)"
 msgstr "[SAINT](models/saint.md)"
 
-#: ../../source/model-zoo/index.md:-1 3b847ae1c7c042efa26859b6470b6de1
+#: ../../source/model-zoo/index.md:-1 208316a0f68d4e6c9660f81792ffcfed
 msgid ""
 "[Towards an Appropriate Query, Key, and Value Computation for Knowledge "
 "Tracing](https://doi.org/10.1145/3386527.3405945)"
@@ -840,11 +855,11 @@ msgstr ""
 "[Towards an Appropriate Query, Key, and Value Computation for Knowledge "
 "Tracing](https://doi.org/10.1145/3386527.3405945)"
 
-#: ../../source/model-zoo/index.md:-1 9ec0b0c63d1b4dd99de39fdd1c1cd378
+#: ../../source/model-zoo/index.md:-1 3e58a4dcd9bb4a438652b095d7d69da3
 msgid "[SAKT](models/sakt.md)"
 msgstr "[SAKT](models/sakt.md)"
 
-#: ../../source/model-zoo/index.md:-1 de172c291aef46849707b95429b168d1
+#: ../../source/model-zoo/index.md:-1 8366f8eaa6aa46fd815b36123594c2dc
 msgid ""
 "[A Self-Attentive model for Knowledge "
 "Tracing](https://doi.org/10.48550/arxiv.1907.06837)"
@@ -852,11 +867,11 @@ msgstr ""
 "[A Self-Attentive model for Knowledge "
 "Tracing](https://doi.org/10.48550/arxiv.1907.06837)"
 
-#: ../../source/model-zoo/index.md:-1 48106b174a5c48c6bce898db6d698a35
+#: ../../source/model-zoo/index.md:-1 af7abc45c38d42dd95495589eb993c09
 msgid "[SGKT](models/sgkt.md)"
 msgstr "[SGKT](models/sgkt.md)"
 
-#: ../../source/model-zoo/index.md:-1 7990222c777143a2b256821421e2ce2f
+#: ../../source/model-zoo/index.md:-1 a1735430678348388d97ba1123d72b2e
 msgid ""
 "[SGKT: Session graph-based knowledge tracing for student performance "
 "prediction](https://doi.org/10.1016/j.eswa.2022.117681)"
@@ -864,15 +879,15 @@ msgstr ""
 "[SGKT: Session graph-based knowledge tracing for student performance "
 "prediction](https://doi.org/10.1016/j.eswa.2022.117681)"
 
-#: ../../source/model-zoo/index.md:-1 c78d946b3d804fe2a8dad515f52657ff
+#: ../../source/model-zoo/index.md:-1 2258dfeb507943288df4d072d496aee2
 msgid "[CCNUZFW/SGKT](https://github.com/CCNUZFW/SGKT)"
 msgstr "[CCNUZFW/SGKT](https://github.com/CCNUZFW/SGKT)"
 
-#: ../../source/model-zoo/index.md:-1 32a2f7463d75486592058ab8a1978bf4
+#: ../../source/model-zoo/index.md:-1 30aad171615b488c8b4dff412be089b5
 msgid "[SimpleKT](models/simplekt.md)"
 msgstr "[SimpleKT](models/simplekt.md)"
 
-#: ../../source/model-zoo/index.md:-1 acb0967d533a4d1ca4f29dbda20350af
+#: ../../source/model-zoo/index.md:-1 153012aa888f4a62a21b311de692ae08
 msgid ""
 "[simpleKT: A Simple But Tough-to-Beat Baseline for Knowledge "
 "Tracing](https://doi.org/10.48550/arxiv.2302.06881)"
@@ -880,11 +895,11 @@ msgstr ""
 "[simpleKT: A Simple But Tough-to-Beat Baseline for Knowledge "
 "Tracing](https://doi.org/10.48550/arxiv.2302.06881)"
 
-#: ../../source/model-zoo/index.md:-1 4cf52401c069485bb19c5bdd25565890
+#: ../../source/model-zoo/index.md:-1 cda9808b247349a38f425d67ccac0c65
 msgid "[SKT](models/skt.md)"
 msgstr "[SKT](models/skt.md)"
 
-#: ../../source/model-zoo/index.md:-1 cfb80744f5e1434a846211525543ebbd
+#: ../../source/model-zoo/index.md:-1 b94b3adba24a4db68ad17206180cc217
 msgid ""
 "[Structure-Based Knowledge Tracing: An Influence Propagation "
 "View](https://doi.org/10.1109/icdm50108.2020.00063)"
@@ -892,7 +907,7 @@ msgstr ""
 "[Structure-Based Knowledge Tracing: An Influence Propagation "
 "View](https://doi.org/10.1109/icdm50108.2020.00063)"
 
-#: ../../source/model-zoo/index.md:-1 2d3bf7a3566e466d84c9166fed0a3cb4
+#: ../../source/model-zoo/index.md:-1 88c4227e638f4cd685c2ba8a48af0d7e
 msgid ""
 "[bigdata-ustc/XKT/tree/master/XKT/SKT](https://github.com/bigdata-"
 "ustc/XKT/tree/master/XKT/SKT)"
@@ -900,11 +915,11 @@ msgstr ""
 "[bigdata-ustc/XKT/tree/master/XKT/SKT](https://github.com/bigdata-"
 "ustc/XKT/tree/master/XKT/SKT)"
 
-#: ../../source/model-zoo/index.md:-1 aab88eb3820045f492140199e61eb07e
+#: ../../source/model-zoo/index.md:-1 93dbb553baa34bef9f4f1f8721e36865
 msgid "[SKVMN](models/skvmn.md)"
 msgstr "[SKVMN](models/skvmn.md)"
 
-#: ../../source/model-zoo/index.md:-1 9c3cfedc4b4441658c3b363204004efd
+#: ../../source/model-zoo/index.md:-1 f667e691c9254861baf9afe136ea1bae
 msgid ""
 "[Knowledge Tracing with Sequential Key-Value Memory "
 "Networks](https://doi.org/10.1145/3331184.3331195)"
@@ -912,11 +927,11 @@ msgstr ""
 "[Knowledge Tracing with Sequential Key-Value Memory "
 "Networks](https://doi.org/10.1145/3331184.3331195)"
 
-#: ../../source/model-zoo/index.md:-1 45ad2d30713140d19600c1281dc04eb3
+#: ../../source/model-zoo/index.md:-1 221b7c0bfccd40e494efed99b277443b
 msgid "[SparseKT](models/sparsekt.md)"
 msgstr "[SparseKT](models/sparsekt.md)"
 
-#: ../../source/model-zoo/index.md:-1 9e40fa27b2834201b1f473975be4f322
+#: ../../source/model-zoo/index.md:-1 1ff12fef73d64ad7a85413f4d1efaee8
 msgid ""
 "[Towards Robust Knowledge Tracing Models via k-Sparse "
 "Attention](https://doi.org/10.1145/3539618.3592073)"
@@ -924,11 +939,11 @@ msgstr ""
 "[Towards Robust Knowledge Tracing Models via k-Sparse "
 "Attention](https://doi.org/10.1145/3539618.3592073)"
 
-#: ../../source/model-zoo/index.md:-1 b1a3957f1c344492bcf95be797a11e07
+#: ../../source/model-zoo/index.md:-1 eb62692636ad4e378ed2303e94a0eee8
 msgid "[SQGKT](models/sqgkt.md)"
 msgstr "[SQGKT](models/sqgkt.md)"
 
-#: ../../source/model-zoo/index.md:-1 de8e3b221bdc45839cd2d8561c9ea1bc
+#: ../../source/model-zoo/index.md:-1 d09e96cec8004bc2b931aa1ed1c438e9
 msgid ""
 "[SQGKT: Student-question interaction graph-based knowledge "
 "tracing](https://doi.org/10.1016/j.eswa.2025.129175)"
@@ -936,15 +951,15 @@ msgstr ""
 "[SQGKT: Student-question interaction graph-based knowledge "
 "tracing](https://doi.org/10.1016/j.eswa.2025.129175)"
 
-#: ../../source/model-zoo/index.md:-1 e5f4e0520fc44db68978ada723f5b254
+#: ../../source/model-zoo/index.md:-1 e67dbc6139e447e19c20cdc34d002150
 msgid "[Yingying933/SQGKT](https://github.com/Yingying933/SQGKT)"
 msgstr "[Yingying933/SQGKT](https://github.com/Yingying933/SQGKT)"
 
-#: ../../source/model-zoo/index.md:-1 b0bb2775cdc9484997ece46b74dfa650
+#: ../../source/model-zoo/index.md:-1 36f7632a52ea405a9a2ee5a97c966d4c
 msgid "[StableKT](models/stablekt.md)"
 msgstr "[StableKT](models/stablekt.md)"
 
-#: ../../source/model-zoo/index.md:-1 ec04b1d62e6449a09734155b976df9d1
+#: ../../source/model-zoo/index.md:-1 8d13c5d263cd417f9a2987274fcc68fd
 msgid ""
 "[Enhancing Length Generalization for Attention Based Knowledge Tracing "
 "Models with Linear Biases](https://doi.org/10.24963/ijcai.2024/654)"
@@ -952,11 +967,11 @@ msgstr ""
 "[Enhancing Length Generalization for Attention Based Knowledge Tracing "
 "Models with Linear Biases](https://doi.org/10.24963/ijcai.2024/654)"
 
-#: ../../source/model-zoo/index.md:-1 6ad16d0b045e461eab9b031a814df02e
+#: ../../source/model-zoo/index.md:-1 784dfd930175456ab1bf35043d5ba28a
 msgid "[STHKT](models/sthkt.md)"
 msgstr "[STHKT](models/sthkt.md)"
 
-#: ../../source/model-zoo/index.md:-1 b43ea68ddc034cb8ad1f0334fe0bb798
+#: ../../source/model-zoo/index.md:-1 2892ca4c05a44dd29c0925bd18293109
 msgid ""
 "[STHKT: Spatiotemporal Knowledge Tracing with Topological Hawkes "
 "Process](https://doi.org/10.1016/j.eswa.2024.125248)"
@@ -964,11 +979,11 @@ msgstr ""
 "[STHKT: Spatiotemporal Knowledge Tracing with Topological Hawkes "
 "Process](https://doi.org/10.1016/j.eswa.2024.125248)"
 
-#: ../../source/model-zoo/index.md:-1 f8e8c3f835954c3391b62abac80c18b4
+#: ../../source/model-zoo/index.md:-1 91005cf70deb486da5772624634276e3
 msgid "[TCKT](models/tckt.md)"
 msgstr "[TCKT](models/tckt.md)"
 
-#: ../../source/model-zoo/index.md:-1 b093ab6bc04f4f80b4b02f66d2ba4fd3
+#: ../../source/model-zoo/index.md:-1 1386416dcfc140f2a3fec60cba4b464c
 msgid ""
 "[Learning consistent representations with temporal and causal enhancement"
 " for knowledge tracing](https://doi.org/10.1016/j.eswa.2023.123128)"
@@ -976,15 +991,15 @@ msgstr ""
 "[Learning consistent representations with temporal and causal enhancement"
 " for knowledge tracing](https://doi.org/10.1016/j.eswa.2023.123128)"
 
-#: ../../source/model-zoo/index.md:-1 0478d79f7d36410abb72842d6cbdcc44
+#: ../../source/model-zoo/index.md:-1 dfe53d20aab54a338090326bc318f37a
 msgid "[SavageWEI/kt_tckt](https://github.com/SavageWEI/kt_tckt)"
 msgstr "[SavageWEI/kt_tckt](https://github.com/SavageWEI/kt_tckt)"
 
-#: ../../source/model-zoo/index.md:-1 5193dbe0e602443ca8a1d510a96d39d5
+#: ../../source/model-zoo/index.md:-1 67036ef77dd140a5b38dec677363ef4f
 msgid "[TFKT](models/tfkt.md)"
 msgstr "[TFKT](models/tfkt.md)"
 
-#: ../../source/model-zoo/index.md:-1 738aeffbbfa14be292e17f15d0325763
+#: ../../source/model-zoo/index.md:-1 fd55d491a19a4727a64493e76fab72e6
 msgid ""
 "[Time-frequency domain coupling-Oriented knowledge tracing via learning "
 "behavior decoupling](https://doi.org/10.1016/j.knosys.2025.115236)"
@@ -992,15 +1007,15 @@ msgstr ""
 "[Time-frequency domain coupling-Oriented knowledge tracing via learning "
 "behavior decoupling](https://doi.org/10.1016/j.knosys.2025.115236)"
 
-#: ../../source/model-zoo/index.md:-1 36d8665ec56f432db88ec67c84038aee
+#: ../../source/model-zoo/index.md:-1 4dc91d5fccbe4b53bc449ee7a843dd71
 msgid "[anonymous11111-create/TFKT/tree/master](https://github.com/anonymous11111-create/TFKT/tree/master)"
 msgstr "[anonymous11111-create/TFKT/tree/master](https://github.com/anonymous11111-create/TFKT/tree/master)"
 
-#: ../../source/model-zoo/index.md:-1 efa0eb13f16648c681995a196a4538b5
+#: ../../source/model-zoo/index.md:-1 9a6759236b184991b484eacb6032373b
 msgid "[UKT](models/ukt.md)"
 msgstr "[UKT](models/ukt.md)"
 
-#: ../../source/model-zoo/index.md:-1 bd07382fcbf84356a3d06c174780fab6
+#: ../../source/model-zoo/index.md:-1 0f8cff96a1524a89b5bce0ea704bf05b
 msgid ""
 "[Uncertainty-aware Knowledge "
 "Tracing](https://doi.org/10.1609/aaai.v39i27.35007)"
@@ -1008,6 +1023,7 @@ msgstr ""
 "[Uncertainty-aware Knowledge "
 "Tracing](https://doi.org/10.1609/aaai.v39i27.35007)"
 
-#: ../../source/model-zoo/index.md:-1 2713863002064255afa93979270fe60f
+#: ../../source/model-zoo/index.md:-1 198d062d2cf14179955ae299ce7286c2
 msgid "[UncertaintyForKnowledgeTracing/UKT](https://github.com/UncertaintyForKnowledgeTracing/UKT)"
 msgstr "[UncertaintyForKnowledgeTracing/UKT](https://github.com/UncertaintyForKnowledgeTracing/UKT)"
+
