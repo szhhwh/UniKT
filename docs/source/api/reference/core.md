@@ -1,6 +1,6 @@
 # 核心设施
 
-注册表、静态发现、日志、随机种子与实验管理器等框架基础设施。
+注册表、静态发现、日志、随机种子、进度展示、实验目录与数据落盘状态等框架基础设施。
 
 ```{eval-rst}
 .. automodule:: utils.core.registry
@@ -24,11 +24,16 @@
 ```
 
 ```{eval-rst}
-.. automodule:: utils.experiment_manager
+.. automodule:: utils.core.experiment_manager
    :members:
 ```
 
 ```{eval-rst}
-.. automodule:: utils.progress
+.. automodule:: utils.core.progress
+   :members:
+```
+
+```{eval-rst}
+.. automodule:: utils.core.dataset_status
    :members:
 ```

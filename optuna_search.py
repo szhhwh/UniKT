@@ -17,8 +17,8 @@ import yaml
 import model  # noqa: F401
 from utils.config import ConfigParser, RunConfig, build_node, config_to_dict
 from utils.core import TRAINERS, add_file_handler, get_logger
+from utils.core.experiment_manager import ExperimentManager, ExperimentType
 from utils.data_process import DataSource, get_data_source
-from utils.experiment_manager import ExperimentManager, ExperimentType
 from utils.optuna_utils import (
     OptunaTuner,
     TrainerObjectiveWrapper,

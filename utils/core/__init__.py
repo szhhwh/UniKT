@@ -1,8 +1,9 @@
-"""Core infrastructure: unified registry, logger, and random seed utilities.
+"""Core infrastructure: registration, logging, progress, and run/data directories.
 
 This module re-exports the primary components of the utils.core package,
 including registries (trainers, model params, data sources, analyzers,
-metric loggers), logging utilities, and seed setting.
+metric loggers), logging utilities, and seed setting. Progress rendering,
+experiment directories, and dataset status are available in their submodules.
 """
 
 # isort: off

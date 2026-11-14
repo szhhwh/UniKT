@@ -24,7 +24,7 @@ import tqdm
 from sklearn.model_selection import KFold
 
 from utils.core import get_logger
-from utils.dataset_status import has_raw, is_processed, raw_folder_path
+from utils.core.dataset_status import has_raw, is_processed, raw_folder_path
 
 from .windowlate_processor import WindowlateProcessor
 

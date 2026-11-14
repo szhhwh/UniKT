@@ -5,7 +5,7 @@ import sys
 import pytest
 from rich.progress import Progress
 
-from utils.progress import create_progress, resolve_progress
+from utils.core.progress import create_progress, resolve_progress
 
 
 class TestCreateProgress:

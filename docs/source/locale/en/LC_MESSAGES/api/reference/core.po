@@ -24,10 +24,9 @@ msgid "核心设施"
 msgstr "Core infrastructure"
 
 #: ../../source/api/reference/core.md:3 d4724eb369cf4add966ee6fa1a2dfd31
-msgid "注册表、静态发现、日志、随机种子与实验管理器等框架基础设施。"
+msgid "注册表、静态发现、日志、随机种子、进度展示、实验目录与数据落盘状态等框架基础设施。"
 msgstr ""
-"Framework infrastructure including registries, static discovery, logging,"
-" random seeds, and the experiment manager."
+"Framework infrastructure for registries, static discovery, logging, random seeds, progress display, experiment directories, and on-disk dataset status."
 
 #: feb6dd011b9f46b0b42c90e7532016ad of utils.core.registry:1
 msgid ""
@@ -59,7 +58,7 @@ msgstr ""
 
 #: 1c0174854b584c04b27d0bd96109a897 cfaa9e5a28bd4640bf30417b808f4a69 of
 #: utils.core.registry.UniversalRegistry:1
-#: utils.experiment_manager.ExperimentManager:1
+#: utils.core.experiment_manager.ExperimentManager:1
 msgid "基类：:py:class:`object`"
 msgstr "Bases: :py:class:`object`"
 
@@ -78,9 +77,9 @@ msgstr ""
 #: utils.core.logger.get_logger:12 utils.core.logger.reset_loggers:7
 #: utils.core.logger.set_log_level:11 utils.core.random.seed_everything:14
 #: utils.core.registry.UniversalRegistry:4
-#: utils.experiment_manager.ExperimentManager:10
-#: utils.experiment_manager.ExperimentManager.create_sub_experiment:11
-#: utils.experiment_manager.ExperimentManager.create_subdir:8
+#: utils.core.experiment_manager.ExperimentManager:10
+#: utils.core.experiment_manager.ExperimentManager.create_sub_experiment:11
+#: utils.core.experiment_manager.ExperimentManager.create_subdir:8
 msgid "示例"
 msgstr "Example"
 
@@ -99,9 +98,9 @@ msgstr "Example"
 #: d58438b0b23f4c8cbac66a833a0f2747 db85f95066054d54aefd72d07af04ddd
 #: fb14d1598f3049248cb4aaf4b9a17937 of utils.core.logger.get_logger
 #: utils.core.logger.set_log_level utils.core.random.seed_everything
-#: utils.experiment_manager.ExperimentManager.create_sub_experiment
-#: utils.experiment_manager.ExperimentManager.create_subdir
-#: utils.experiment_manager.ExperimentManager.from_run_config
+#: utils.core.experiment_manager.ExperimentManager.create_sub_experiment
+#: utils.core.experiment_manager.ExperimentManager.create_subdir
+#: utils.core.experiment_manager.ExperimentManager.from_run_config
 msgid "参数"
 msgstr "Parameter"
 
@@ -155,9 +154,9 @@ msgstr ""
 #: utils.core.logger.reset_loggers utils.core.logger.set_log_level
 #: utils.core.random.seed_everything
 #: utils.core.registry.UniversalRegistry.clear
-#: utils.experiment_manager.ExperimentManager.create_sub_experiment
-#: utils.experiment_manager.ExperimentManager.create_subdir
-#: utils.experiment_manager.ExperimentManager.from_run_config
+#: utils.core.experiment_manager.ExperimentManager.create_sub_experiment
+#: utils.core.experiment_manager.ExperimentManager.create_subdir
+#: utils.core.experiment_manager.ExperimentManager.from_run_config
 msgid "返回类型"
 msgstr "Return type"
 
@@ -197,8 +196,8 @@ msgstr "The name is not registered."
 #: e90823d020d24cbfb0c824e85bd12fdb f3f56c36101a45309b9f6151fad5b3c9
 #: f7e0c73dbb4447dcb968b5f9b10fd564 of utils.core.logger.get_logger
 #: utils.core.random.seed_everything
-#: utils.experiment_manager.ExperimentManager.create_sub_experiment
-#: utils.experiment_manager.ExperimentManager.create_subdir
+#: utils.core.experiment_manager.ExperimentManager.create_sub_experiment
+#: utils.core.experiment_manager.ExperimentManager.create_subdir
 msgid "返回"
 msgstr "Returns"
 
@@ -681,11 +680,11 @@ msgstr ""
 msgid "The seed value that was set, or ``None`` if ``seed`` was ``None``."
 msgstr "The seed value that was set, or ``None`` if ``seed`` was ``None``."
 
-#: 15d0b7b745d646d8a926c0a30478764e of utils.experiment_manager:1
+#: 15d0b7b745d646d8a926c0a30478764e of utils.core.experiment_manager:1
 msgid "Unified experiment management module."
 msgstr "Unified experiment management module."
 
-#: dfe0581c9e3a4a9ba956f8fa8c236572 of utils.experiment_manager:3
+#: dfe0581c9e3a4a9ba956f8fa8c236572 of utils.core.experiment_manager:3
 msgid ""
 "Provides consistent experiment log directory management supporting "
 "standard training and hyperparameter search workflows."
@@ -694,12 +693,12 @@ msgstr ""
 "standard training and hyperparameter search workflows."
 
 #: 4faa0f8ca69246f7a2c511ee6aa78317 of
-#: utils.experiment_manager.ExperimentManager:1
+#: utils.core.experiment_manager.ExperimentManager:1
 msgid "Unified experiment manager."
 msgstr "Unified experiment manager."
 
 #: 008babc1dbc94a109e0fd91dd3c18727 of
-#: utils.experiment_manager.ExperimentManager:3
+#: utils.core.experiment_manager.ExperimentManager:3
 msgid ""
 "Responsibilities: 1. Create standardised experiment directory structures "
 "2. Generate consistent naming conventions 3. Manage experiment "
@@ -712,12 +711,12 @@ msgstr ""
 "creation"
 
 #: 730f2831ceb9482db08c454c2f27e817 of
-#: utils.experiment_manager.ExperimentManager.create_sub_experiment:1
+#: utils.core.experiment_manager.ExperimentManager.create_sub_experiment:1
 msgid "Create a sub-experiment manager sharing the same timestamp."
 msgstr "Create a sub-experiment manager sharing the same timestamp."
 
 #: 77892e9866454394b69b75fc1c1d3fba of
-#: utils.experiment_manager.ExperimentManager.create_sub_experiment:3
+#: utils.core.experiment_manager.ExperimentManager.create_sub_experiment:3
 msgid ""
 "Used for scenarios requiring multiple sub-experiments (e.g. "
 "hyperparameter search). All sub-experiments share the same parent "
@@ -728,37 +727,37 @@ msgstr ""
 "timestamp."
 
 #: 4d34fc858f6243b9b76e014c616a9ba8 of
-#: utils.experiment_manager.ExperimentManager.create_sub_experiment:6
+#: utils.core.experiment_manager.ExperimentManager.create_sub_experiment:6
 msgid "Sub-experiment name (e.g. \"trial_0\", \"full_model\", \"no_gnn\")."
 msgstr "Sub-experiment name (e.g. \"trial_0\", \"full_model\", \"no_gnn\")."
 
 #: 53e7f93594cf46118d9e0cd4b61621c4 of
-#: utils.experiment_manager.ExperimentManager.create_sub_experiment:8
+#: utils.core.experiment_manager.ExperimentManager.create_sub_experiment:8
 msgid "A new ExperimentManager instance pointing to the subdirectory."
 msgstr "A new ExperimentManager instance pointing to the subdirectory."
 
 #: c8e8c08a8f9a4bb484c78ba9ec5e1fb4 of
-#: utils.experiment_manager.ExperimentManager.create_subdir:1
+#: utils.core.experiment_manager.ExperimentManager.create_subdir:1
 msgid "Create a subdirectory within the experiment directory."
 msgstr "Create a subdirectory within the experiment directory."
 
 #: e0b68bf8c589400393c7b44b265e72ac of
-#: utils.experiment_manager.ExperimentManager.create_subdir:3
+#: utils.core.experiment_manager.ExperimentManager.create_subdir:3
 msgid "Subdirectory name."
 msgstr "Subdirectory name."
 
 #: a98e48326472420588c9d267f0d6db7f of
-#: utils.experiment_manager.ExperimentManager.create_subdir:5
+#: utils.core.experiment_manager.ExperimentManager.create_subdir:5
 msgid "Path object for the subdirectory."
 msgstr "Path object for the subdirectory."
 
 #: 1a52a12c7346401fa3e33c5118744653 of
-#: utils.experiment_manager.ExperimentManager.from_args:1
+#: utils.core.experiment_manager.ExperimentManager.from_args:1
 msgid "Create a manager from command-line arguments."
 msgstr "Create a manager from command-line arguments."
 
 #: abd90bd6786d448ea0bc747dfa4105dd of
-#: utils.experiment_manager.ExperimentManager.from_args:3
+#: utils.core.experiment_manager.ExperimentManager.from_args:3
 msgid ""
 "Automatically extracts model name, dataset name, and common tags from the"
 " args namespace."
@@ -767,27 +766,27 @@ msgstr ""
 " args namespace."
 
 #: 495ec582986947af9838513d9afffff8 of
-#: utils.experiment_manager.ExperimentManager.from_args:6
+#: utils.core.experiment_manager.ExperimentManager.from_args:6
 msgid "Command-line argument object (argparse.Namespace)."
 msgstr "Command-line argument object (argparse.Namespace)."
 
 #: 6328c3540dcb428193618233a1d1f1e9 of
-#: utils.experiment_manager.ExperimentManager.from_args:7
+#: utils.core.experiment_manager.ExperimentManager.from_args:7
 msgid "Experiment type."
 msgstr "Experiment type."
 
 #: a9077a42174e4623a37845c2f6ecc82e of
-#: utils.experiment_manager.ExperimentManager.from_args:9
+#: utils.core.experiment_manager.ExperimentManager.from_args:9
 msgid "An ExperimentManager instance."
 msgstr "An ExperimentManager instance."
 
 #: a1fe28b1f11a4e51a5b5aee672935f87 of
-#: utils.experiment_manager.ExperimentManager.from_run_config:1
+#: utils.core.experiment_manager.ExperimentManager.from_run_config:1
 msgid "Create a manager from a RunConfig instance."
 msgstr "Create a manager from a RunConfig instance."
 
 #: 82b73e68cc044560bda30b468646ef8b of
-#: utils.experiment_manager.ExperimentManager.from_run_config:3
+#: utils.core.experiment_manager.ExperimentManager.from_run_config:3
 msgid ""
 "Reads model/dataset identity, fold, and batch_size tags from the typed "
 "config tree."
@@ -796,12 +795,12 @@ msgstr ""
 "config tree."
 
 #: d741a1fb7a7a4a9fa7a6b29e0fdf74cd of
-#: utils.experiment_manager.ExperimentManager.from_run_dir:1
+#: utils.core.experiment_manager.ExperimentManager.from_run_dir:1
 msgid "Create an ExperimentManager wrapping an existing run directory."
 msgstr "Create an ExperimentManager wrapping an existing run directory."
 
 #: 3eb14074ec894557ba4f93324e392ea6 of
-#: utils.experiment_manager.ExperimentManager.from_run_dir:3
+#: utils.core.experiment_manager.ExperimentManager.from_run_dir:3
 msgid ""
 "Unlike the normal constructor, this does NOT create a new timestamped "
 "directory. Used for evaluation/inference on already-trained models."
@@ -810,27 +809,27 @@ msgstr ""
 "directory. Used for evaluation/inference on already-trained models."
 
 #: 70cc2a861eae4e5f8122475f97603b04 of
-#: utils.experiment_manager.ExperimentManager.from_run_dir:6
+#: utils.core.experiment_manager.ExperimentManager.from_run_dir:6
 msgid "Path to an existing run directory."
 msgstr "Path to an existing run directory."
 
 #: dbce945d5a2e4fac98c55ebac14bade7 of
-#: utils.experiment_manager.ExperimentManager.from_run_dir:8
+#: utils.core.experiment_manager.ExperimentManager.from_run_dir:8
 msgid "ExperimentManager pointing to the existing directory."
 msgstr "ExperimentManager pointing to the existing directory."
 
 #: 4de47f9dedea485eaec0a932b146b82c of
-#: utils.experiment_manager.ExperimentManager.from_run_dir:10
+#: utils.core.experiment_manager.ExperimentManager.from_run_dir:10
 msgid "If the directory does not exist."
 msgstr "If the directory does not exist."
 
 #: b680dab34d5a4626b81c76dfa6ecee42 of
-#: utils.experiment_manager.ExperimentManager.get_experiment_info:1
+#: utils.core.experiment_manager.ExperimentManager.get_experiment_info:1
 msgid "Return a dictionary of experiment metadata."
 msgstr "Return a dictionary of experiment metadata."
 
 #: e7ab1bb9489f40edb55d6734b9e27399 of
-#: utils.experiment_manager.ExperimentManager.get_experiment_info:3
+#: utils.core.experiment_manager.ExperimentManager.get_experiment_info:3
 msgid ""
 "Dictionary containing experiment type, model name, dataset name, base "
 "directory, experiment directory, and tags."
@@ -839,49 +838,93 @@ msgstr ""
 "directory, experiment directory, and tags."
 
 #: e9becfced3524d0da8337ab912c6217d of
-#: utils.experiment_manager.ExperimentManager.get_log_dir:1
+#: utils.core.experiment_manager.ExperimentManager.get_log_dir:1
 msgid "Return the absolute path to the experiment log directory."
 msgstr "Return the absolute path to the experiment log directory."
 
 #: 36bc0ea1853f4fe58c91932419067412 of
-#: utils.experiment_manager.ExperimentManager.get_log_dir:3
+#: utils.core.experiment_manager.ExperimentManager.get_log_dir:3
 msgid "Absolute path string of the log directory."
 msgstr "Absolute path string of the log directory."
 
 #: fa249eddd39f4d769b6c00de3ecc979a of
-#: utils.experiment_manager.ExperimentType:1
+#: utils.core.experiment_manager.ExperimentType:1
 msgid "基类：:py:class:`~enum.Enum`"
 msgstr "Bases: :py:class:`~enum.Enum`"
 
 #: ee7632d5f1b141209914424cf6d633b1 of
-#: utils.experiment_manager.ExperimentType:1
+#: utils.core.experiment_manager.ExperimentType:1
 msgid "Enumeration of supported experiment types."
 msgstr "Enumeration of supported experiment types."
 
-#: cda87fffe5b740bbb3f5758a75673cfa of utils.progress:1
+#: cda87fffe5b740bbb3f5758a75673cfa of utils.core.progress:1
 msgid "Shared Rich progress bar factory."
 msgstr "Shared Rich progress bar factory."
 
-#: b6580f23c1874d4e80d63d3654f9b7dd of utils.progress.create_progress:1
+#: b6580f23c1874d4e80d63d3654f9b7dd of utils.core.progress.create_progress:1
 msgid "Create a Rich Progress bar with the project-standard style."
 msgstr "Create a Rich Progress bar with the project-standard style."
 
-#: 6a7e672d3043431d9a6fc4dc462c8523 of utils.progress.create_progress:3
+#: 6a7e672d3043431d9a6fc4dc462c8523 of utils.core.progress.create_progress:3
 msgid "A configured ``Progress`` instance ready for ``add_task()``."
 msgstr "A configured ``Progress`` instance ready for ``add_task()``."
 
-#: 92b88862c74a4c6297f2ea69147acf2d of utils.progress.resolve_progress:1
+#: 92b88862c74a4c6297f2ea69147acf2d of utils.core.progress.resolve_progress:1
 msgid "Return whether Rich progress rendering is enabled for ``mode``."
 msgstr "Return whether Rich progress rendering is enabled for ``mode``."
 
-#: 1acd44d9037e4bf2ba6ab064de8ce1c3 of utils.progress.resolve_progress:3
+#: 1acd44d9037e4bf2ba6ab064de8ce1c3 of utils.core.progress.resolve_progress:3
 msgid "Progress mode — ``\"auto\"``, ``\"rich\"``, or ``\"none\"``."
 msgstr "Progress mode — ``\"auto\"``, ``\"rich\"``, or ``\"none\"``."
 
-#: 8b795d7455cb44759bd2923b509c4592 of utils.progress.resolve_progress:5
+#: 8b795d7455cb44759bd2923b509c4592 of utils.core.progress.resolve_progress:5
 msgid "True if progress should be rendered."
 msgstr "True if progress should be rendered."
 
-#: db1a9b7c9faf4df288e6281364a5978f of utils.progress.resolve_progress:7
+#: db1a9b7c9faf4df288e6281364a5978f of utils.core.progress.resolve_progress:7
 msgid "The mode is not one of the supported values."
 msgstr "The mode is not one of the supported values."
+
+#: ../../source/api/reference/core.md
+msgid "Polars-free dataset on-disk state inspection."
+msgstr "Polars-free dataset on-disk state inspection."
+
+#: ../../source/api/reference/core.md
+msgid ""
+"Encodes the data-layout convention (``<base>/<dataset>/raw/`` and ``metadata.json``) once so that both the web backend — which runs in a polars-less environment and therefore cannot import :mod:`utils.data_process` — and :class:`utils.data_process.DataSource` share a single source of truth."
+msgstr ""
+"Encodes the data-layout convention (``<base>/<dataset>/raw/`` and ``metadata.json``) once so that both the web backend — which runs in a polars-less environment and therefore cannot import :mod:`utils.data_process` — and :class:`utils.data_process.DataSource` share a single source of truth."
+
+#: ../../source/api/reference/core.md
+msgid "Resolve ``<base>/<dataset>/`` (lowercased name, matching DataSource)."
+msgstr "Resolve ``<base>/<dataset>/`` (lowercased name, matching DataSource)."
+
+#: ../../source/api/reference/core.md
+msgid "Classify a dataset as ``ready`` > ``downloaded`` > ``empty``."
+msgstr "Classify a dataset as ``ready`` > ``downloaded`` > ``empty``."
+
+#: ../../source/api/reference/core.md
+msgid ""
+"``ready`` short-circuits before the raw check: a processed dataset may have had its raw files removed to save space, yet remains usable for training."
+msgstr ""
+"``ready`` short-circuits before the raw check: a processed dataset may have had its raw files removed to save space, yet remains usable for training."
+
+#: ../../source/api/reference/core.md
+msgid "True if the raw-data directory exists and is non-empty."
+msgstr "True if the raw-data directory exists and is non-empty."
+
+#: ../../source/api/reference/core.md
+msgid "True if metadata.json carries the processed marker."
+msgstr "True if metadata.json carries the processed marker."
+
+#: ../../source/api/reference/core.md
+msgid "Status of every registered dataset, keyed by name."
+msgstr "Status of every registered dataset, keyed by name."
+
+#: ../../source/api/reference/core.md
+msgid "Resolve the dataset metadata.json path."
+msgstr "Resolve the dataset metadata.json path."
+
+#: ../../source/api/reference/core.md
+msgid "Resolve the extracted raw-data directory."
+msgstr "Resolve the extracted raw-data directory."

@@ -27,7 +27,7 @@ from rich.console import Console
 
 from utils.config import CompileConfig, RunConfig, config_to_dict
 from utils.core import add_file_handler, get_logger
-from utils.experiment_manager import ExperimentManager, ExperimentType
+from utils.core.experiment_manager import ExperimentManager, ExperimentType
 
 if TYPE_CHECKING:
     from utils.data_process import DataSource

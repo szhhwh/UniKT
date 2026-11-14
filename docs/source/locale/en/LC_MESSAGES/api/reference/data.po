@@ -25,13 +25,9 @@ msgstr "Data processing"
 
 #: ../../source/api/reference/data.md:3 372f2a0c33a34fc5819877533f74f14b
 msgid ""
-"模型级数据基类与数据源基类。各数据集处理器（`utils/data_process/<dataset>.py`）均继承 "
-"`DataSource`，按需实现 `load_src_data` / `clean_raw_data` / `transform_data`。"
+"模型级数据基类、DataLoader 工厂、windowlate 数据集与数据源基类。各数据集处理器（`utils/data_process/<dataset>.py`）均继承 `DataSource`，按需实现 `load_src_data` / `clean_raw_data` / `transform_data`。"
 msgstr ""
-"Model-level data base classes and data source base class. Each dataset "
-"handler (`utils/data_process/<dataset>.py`) inherits `DataSource` and "
-"implements `load_src_data` / `clean_raw_data` / `transform_data` as "
-"needed."
+"Model-level data base classes, DataLoader factories, windowlate datasets, and the data source base class. Each dataset handler (`utils/data_process/<dataset>.py`) inherits `DataSource` and implements `load_src_data` / `clean_raw_data` / `transform_data` as needed."
 
 #: a9bda0d09b1d48ffae779e3147e5557c of utils.model_data.base_model_data:1
 msgid "Base model data class for knowledge tracing datasets."
@@ -84,7 +80,7 @@ msgstr "Abstract base class for model data preparation."
 #: utils.model_data.base_model_data.BaseModelData.load_sequences
 #: utils.model_data.base_model_data.BaseModelData.pack_sequences
 #: utils.model_data.question_model_data.QuestionModelData.build_hetero_graph
-#: utils.model_data.skill_model_data.WindowlateIterableDataset
+#: utils.model_data.windowlate.WindowlateIterableDataset
 msgid "参数"
 msgstr "Parameter"
 
@@ -433,18 +429,8 @@ msgid "PyTorch Geometric heterogeneous graph object."
 msgstr "PyTorch Geometric heterogeneous graph object."
 
 #: be511fd7374e429b9fff8720e194f1f4 of utils.model_data.skill_model_data:1
-msgid "Skill-level model data module."
-msgstr "Skill-level model data module."
-
-#: e4ee8d9901424029b36f38b595c361cc of utils.model_data.skill_model_data:3
-msgid ""
-"Provides the SkillModelData class for skill-based knowledge tracing model"
-" data preparation, including sequence building, windowlate evaluation "
-"data loading, and iterable dataset streaming from parquet files."
-msgstr ""
-"Provides the SkillModelData class for skill-based knowledge tracing model"
-" data preparation, including sequence building, windowlate evaluation "
-"data loading, and iterable dataset streaming from parquet files."
+msgid "Skill-level model data preparation and windowlate loader entry point."
+msgstr "Skill-level model data preparation and windowlate loader entry point."
 
 #: b4a245f2a4ee42b580271790a7117311 of
 #: utils.model_data.skill_model_data.SkillModelData:1
@@ -477,12 +463,12 @@ msgid "A loader using the model's windowlate dataset and batch collator."
 msgstr "A loader using the model's windowlate dataset and batch collator."
 
 #: eeeb07cf70db460aae63896ce0e8f6d7 of
-#: utils.model_data.skill_model_data.WindowlateIterableDataset:1
+#: utils.model_data.windowlate.WindowlateIterableDataset:1
 msgid "基类：:py:class:`~torch.utils.data.IterableDataset`"
 msgstr "Bases: :py:class:`~torch.utils.data.IterableDataset`"
 
 #: 6f130e37bfbb40308472dce562321a84 of
-#: utils.model_data.skill_model_data.WindowlateIterableDataset:1
+#: utils.model_data.windowlate.WindowlateIterableDataset:1
 msgid "Stream windowlate samples from a parquet file."
 msgstr "Stream windowlate samples from a parquet file."
 
@@ -867,3 +853,66 @@ msgstr "Minimum sequence length."
 #: utils.data_process.data_source.exclude_short_sequences:6
 msgid "DataFrame or LazyFrame of same type as input."
 msgstr "DataFrame or LazyFrame of same type as input."
+
+#: feb96bc94cf04f3ebaa55e9065ac824d of
+#: utils.model_data.loading.create_optimized_dataloader:1
+msgid "Create an optimized DataLoader."
+msgstr "Create an optimized DataLoader."
+
+#: e800bf4412b34d198d9d606e289b9c3c of
+#: utils.model_data.loading.create_optimized_dataloader:3
+msgid "Dataset to load"
+msgstr "Dataset to load"
+
+#: 849e6e6df4734558a89c20df6ffe4943 of
+#: utils.model_data.loading.create_optimized_dataloader:4
+msgid "Batch size"
+msgstr "Batch size"
+
+#: 343ddcd317814a2599726844b1557520 of
+#: utils.model_data.loading.create_optimized_dataloader:5
+msgid "Whether to shuffle the data"
+msgstr "Whether to shuffle the data"
+
+#: 37a47557f15e46d0a97f35030b572462 of
+#: utils.model_data.loading.create_optimized_dataloader:6
+msgid "DataLoader configuration (defaults to DataLoaderConfig())"
+msgstr "DataLoader configuration (defaults to DataLoaderConfig())"
+
+#: 16a75907207946eab7086f3af26f0495 of
+#: utils.model_data.loading.create_optimized_dataloader:7
+msgid "Compute device (used to determine pin_memory)"
+msgstr "Compute device (used to determine pin_memory)"
+
+#: 5e0da01756004136b3e26506eb5952b8 of
+#: utils.model_data.loading.create_optimized_dataloader:8
+msgid ""
+"Host-memory pinning override (None = auto from config and device; never "
+"true on non-CUDA devices)"
+msgstr ""
+"Host-memory pinning override (None = auto from config and device; never "
+"true on non-CUDA devices)"
+
+#: a9706bbd1faf4dd896d549ef83ad459b of
+#: utils.model_data.loading.create_optimized_dataloader:10
+msgid "Additional arguments passed to DataLoader (overrides config)"
+msgstr "Additional arguments passed to DataLoader (overrides config)"
+
+#: 70a29ad3e4664a3ab9467792de05005a of
+#: utils.model_data.loading.create_optimized_dataloader:12
+msgid "An optimized DataLoader"
+msgstr "An optimized DataLoader"
+
+#: ../../source/api/reference/data.md
+msgid ""
+"`utils.config.DataLoaderConfig` 定义加载参数，`utils.model_data.create_optimized_dataloader()` 负责构建 DataLoader。技能级模型通过 `SkillModelData.create_windowlate_dataloader()` 创建 windowlate 加载器，并可通过 `_create_windowlate_dataset()` 扩展模型特有的窗口特征。"
+msgstr ""
+"`utils.config.DataLoaderConfig` defines loading options, while `utils.model_data.create_optimized_dataloader()` constructs DataLoaders. Skill-level models create windowlate loaders through `SkillModelData.create_windowlate_dataloader()` and can extend model-specific window features through `_create_windowlate_dataset()`."
+
+#: ../../source/api/reference/data.md
+msgid "DataLoader factories shared by training and windowlate evaluation."
+msgstr "DataLoader factories shared by training and windowlate evaluation."
+
+#: ../../source/api/reference/data.md
+msgid "Windowlate parquet streaming and batch tensor construction."
+msgstr "Windowlate parquet streaming and batch tensor construction."

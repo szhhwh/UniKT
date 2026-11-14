@@ -20,10 +20,7 @@ from .config_parser import (
     reject_model_flags,
     require_dataset,
 )
-from .data_config import (
-    DataLoaderConfig,
-    create_optimized_dataloader,
-)
+from .data_config import DataLoaderConfig
 from .run_config import (
     CompileConfig,
     DownloadConfig,
@@ -51,7 +48,6 @@ __all__ = [
     "RunDataConfig",
     "build_node",
     "config_to_dict",
-    "create_optimized_dataloader",
     "expand_short_flags",
     "load_run_config_archive",
     "load_run_metadata",

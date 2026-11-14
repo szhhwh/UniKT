@@ -19,8 +19,8 @@ from typing import Any
 import model  # noqa: F401  — triggers trainer/model-config discovery
 from utils.config import RunConfig, parse_run_archive
 from utils.core import TRAINERS, add_file_handler, get_logger, seed_everything
+from utils.core.experiment_manager import ExperimentManager
 from utils.data_process import get_data_source
-from utils.experiment_manager import ExperimentManager
 
 logger = get_logger(__name__)
 

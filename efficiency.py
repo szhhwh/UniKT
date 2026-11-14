@@ -28,11 +28,11 @@ from utils.config import (
     reject_model_flags,
 )
 from utils.core import add_file_handler, get_logger
+from utils.core.experiment_manager import ExperimentManager, ExperimentType
 from utils.data_process import get_data_source
 from utils.efficiency import EfficiencySession, EfficiencySweep
 from utils.efficiency.config import get_efficiency_config_cls
 from utils.efficiency.session import build_target
-from utils.experiment_manager import ExperimentManager, ExperimentType
 
 logger = get_logger(__name__)
 

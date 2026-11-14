@@ -24,7 +24,7 @@ from rich.table import Table
 from torch.utils.data import DataLoader
 
 from utils.core import get_logger, register_efficiency_stage
-from utils.model_data.skill_model_data import WindowlateIterableDataset
+from utils.model_data.windowlate import WindowlateIterableDataset
 
 from ..measures.batch import batch_size_of, count_test_predictions, to_device
 from ..measures.timing import (

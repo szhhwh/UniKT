@@ -14,7 +14,7 @@ from rich.progress import Progress, TaskID
 from rich.text import Text
 
 from ..core import get_logger
-from ..progress import create_progress
+from ..core.progress import create_progress
 from .checkpoint import CheckpointManager
 from .early_stopping import EarlyStopping
 

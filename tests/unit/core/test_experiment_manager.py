@@ -12,7 +12,7 @@ import pytest
 if TYPE_CHECKING:
     from utils.config.run_config import RunConfig
 
-from utils.experiment_manager import ExperimentManager, ExperimentType
+from utils.core.experiment_manager import ExperimentManager, ExperimentType
 
 
 def _make(base_dir: Path, **kwargs: Any) -> ExperimentManager:

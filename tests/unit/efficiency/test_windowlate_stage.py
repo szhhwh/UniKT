@@ -20,7 +20,7 @@ from utils.efficiency.stages.windowlate import (
     WindowlateStage,
     WindowlateStageConfig,
 )
-from utils.model_data.skill_model_data import WindowlateIterableDataset
+from utils.model_data.windowlate import WindowlateIterableDataset
 
 # Matches the exact 7-tuple sample shape declared by
 # WindowlateIterableDataset.__iter__ so the stubs below stay override-safe.
