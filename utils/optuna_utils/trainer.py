@@ -14,7 +14,7 @@ import optuna
 from utils.core import add_file_handler, get_logger, seed_everything
 
 if TYPE_CHECKING:
-    from utils.experiment_manager import ExperimentManager
+    from utils.core.experiment_manager import ExperimentManager
 
 from .callback import MultiMetricTracker, OptunaTrialCallback
 from .config import direction_for_metric

@@ -16,9 +16,9 @@ from typing import Any
 
 import torch
 
-from ..config import create_optimized_dataloader
 from ..core import get_logger
-from ..progress import create_progress, resolve_progress
+from ..core.progress import create_progress, resolve_progress
+from ..model_data import create_optimized_dataloader
 from .callbacks import (
     Callback,
     CallbackManager,

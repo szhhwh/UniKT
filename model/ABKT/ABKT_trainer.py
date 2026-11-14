@@ -11,9 +11,9 @@ from tqdm import tqdm
 from utils.config import (
     EarlyStoppingConfig,
     ModelConfig,
-    create_optimized_dataloader,
 )
 from utils.core import get_logger, register_model_config, register_trainer
+from utils.model_data import create_optimized_dataloader
 from utils.training import MultiTrainer, StageComponents, StageConfig
 
 from .ABKT_data import ABKTModelData

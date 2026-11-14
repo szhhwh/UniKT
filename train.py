@@ -5,8 +5,8 @@ from pathlib import Path
 import model  # noqa: F401
 from utils.config import ConfigParser
 from utils.core import TRAINERS, add_file_handler, get_logger, seed_everything
+from utils.core.experiment_manager import ExperimentManager, ExperimentType
 from utils.data_process import get_data_source
-from utils.experiment_manager import ExperimentManager, ExperimentType
 
 logger = get_logger(__name__)
 

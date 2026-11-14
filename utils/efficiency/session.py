@@ -23,8 +23,8 @@ from utils.core import (
 
 if TYPE_CHECKING:
     from utils.config import RunConfig
+    from utils.core.experiment_manager import ExperimentManager
     from utils.data_process import DataSource
-    from utils.experiment_manager import ExperimentManager
 
 from .device import reclaim_memory
 from .environment import ResourceSampler, collect_environment

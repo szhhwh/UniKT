@@ -13,7 +13,7 @@ from fastapi import APIRouter
 from services.registry_sync import registry_lock
 
 from utils.core import get_supported_datasets
-from utils.dataset_status import dataset_status
+from utils.core.dataset_status import dataset_status
 
 router = APIRouter(prefix="/api/datasets", tags=["datasets"])
 

@@ -4,13 +4,18 @@ Provides consistent experiment log directory management supporting
 standard training and hyperparameter search workflows.
 """
 
+from __future__ import annotations
+
 import argparse
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
+from typing import TYPE_CHECKING
 
-from utils.config import RunConfig
 from utils.core import get_logger
+
+if TYPE_CHECKING:
+    from utils.config import RunConfig
 
 logger = get_logger(__name__)
 
@@ -118,7 +123,7 @@ class ExperimentManager:
         """
         return str(self.exp_dir)
 
-    def create_sub_experiment(self, sub_name: str) -> "ExperimentManager":
+    def create_sub_experiment(self, sub_name: str) -> ExperimentManager:
         """Create a sub-experiment manager sharing the same timestamp.
 
         Used for scenarios requiring multiple sub-experiments (e.g. hyperparameter
@@ -175,7 +180,7 @@ class ExperimentManager:
     @staticmethod
     def from_args(
         args: argparse.Namespace, exp_type: ExperimentType
-    ) -> "ExperimentManager":
+    ) -> ExperimentManager:
         """Create a manager from command-line arguments.
 
         Automatically extracts model name, dataset name, and common tags
@@ -208,7 +213,7 @@ class ExperimentManager:
         )
 
     @staticmethod
-    def from_run_config(rc: RunConfig, exp_type: ExperimentType) -> "ExperimentManager":
+    def from_run_config(rc: RunConfig, exp_type: ExperimentType) -> ExperimentManager:
         """Create a manager from a RunConfig instance.
 
         Reads model/dataset identity, fold, and batch_size tags from the
@@ -228,7 +233,7 @@ class ExperimentManager:
         )
 
     @staticmethod
-    def from_run_dir(run_dir: str | Path) -> "ExperimentManager":
+    def from_run_dir(run_dir: str | Path) -> ExperimentManager:
         """Create an ExperimentManager wrapping an existing run directory.
 
         Unlike the normal constructor, this does NOT create a new timestamped

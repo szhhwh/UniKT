@@ -10,7 +10,7 @@ from utils.core import get_logger
 from utils.data_process import DataSource
 from utils.model_data import SkillModelData
 from utils.model_data.packed_sequences import to_first_skill_ids
-from utils.model_data.skill_model_data import WindowlateIterableDataset
+from utils.model_data.windowlate import WindowlateIterableDataset
 
 logger = get_logger(__name__)
 

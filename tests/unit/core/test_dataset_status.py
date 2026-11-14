@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from utils.dataset_status import (
+from utils.core.dataset_status import (
     dataset_status,
     has_raw,
     is_processed,
@@ -37,7 +37,7 @@ def _make_processed(base: Path, dataset: str = "ds") -> Path:
 def _fixed_supported_datasets(monkeypatch: pytest.MonkeyPatch) -> None:
     # Keep the test hermetic: no lazy discovery scan of utils/data_process.
     monkeypatch.setattr(
-        "utils.dataset_status.get_supported_datasets",
+        "utils.core.dataset_status.get_supported_datasets",
         lambda: ["ds", "other"],
     )
 

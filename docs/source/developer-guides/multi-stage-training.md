@@ -182,6 +182,8 @@ class ABKTTrainer(MultiTrainer):
         )
 
         # 基于 KM 残差创建 AM 数据加载器
+        from utils.model_data import create_optimized_dataloader
+
         train_loader = create_optimized_dataloader(
             self.am_train_triplets,
             batch_size=m.batch_size,

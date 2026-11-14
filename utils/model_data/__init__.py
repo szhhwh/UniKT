@@ -5,6 +5,7 @@ that handle data loading, sequence building, and graph construction.
 """
 
 from .base_model_data import BaseModelData
+from .loading import create_optimized_dataloader
 from .packed_sequences import PackedSequences, SequencePartition
 from .question_model_data import QuestionModelData
 from .skill_model_data import SkillModelData
@@ -15,4 +16,5 @@ __all__ = [
     "QuestionModelData",
     "SequencePartition",
     "SkillModelData",
+    "create_optimized_dataloader",
 ]

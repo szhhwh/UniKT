@@ -110,7 +110,6 @@ msgstr "``torch.compile`` execution knobs (framework-level, model-agnostic)."
 #: utils.config.config_parser.peek_flag_value
 #: utils.config.config_parser.reject_model_flags
 #: utils.config.config_parser.require_dataset
-#: utils.config.data_config.create_optimized_dataloader
 #: utils.config.run_config.config_to_dict
 msgid "参数"
 msgstr "Parameter"
@@ -466,7 +465,6 @@ msgstr ""
 #: utils.config.config_parser.peek_flag_value
 #: utils.config.config_parser.reject_model_flags
 #: utils.config.config_parser.require_dataset
-#: utils.config.data_config.create_optimized_dataloader
 #: utils.config.run_config.config_to_dict
 msgid "返回类型"
 msgstr "Return type"
@@ -640,7 +638,6 @@ msgstr ""
 #: ../../source/api/reference/config.md 1ca055e3166e4ad0bc00dc2dfbf969d2
 #: aa4fd2749e4e4cb097e052d0b6f71472 ca2c1b8949f74c51ab1cb801a182fb99
 #: cd4d12614659424294692efef9b4aefa of
-#: utils.config.data_config.create_optimized_dataloader
 msgid "返回"
 msgstr "Returns"
 
@@ -713,8 +710,8 @@ msgstr ""
 "dataset:\" error."
 
 #: d007b91be22d45ff89db70deb0fa098f of utils.config.data_config:1
-msgid "DataLoader configuration and the optimized DataLoader factory."
-msgstr "DataLoader configuration and the optimized DataLoader factory."
+msgid "DataLoader worker and host-memory configuration."
+msgstr "DataLoader worker and host-memory configuration."
 
 #: 3e63239c3b2c406e9453c27dde4627eb of
 #: utils.config.data_config.DataLoaderConfig:1
@@ -785,60 +782,6 @@ msgstr "Maximum number of worker processes"
 #: utils.config.data_config.DataLoaderConfig.get_num_workers:5
 msgid "The actual num_workers value"
 msgstr "The actual num_workers value"
-
-#: feb96bc94cf04f3ebaa55e9065ac824d of
-#: utils.config.data_config.create_optimized_dataloader:1
-msgid "Create an optimized DataLoader."
-msgstr "Create an optimized DataLoader."
-
-#: e800bf4412b34d198d9d606e289b9c3c of
-#: utils.config.data_config.create_optimized_dataloader:3
-msgid "Dataset to load"
-msgstr "Dataset to load"
-
-#: 849e6e6df4734558a89c20df6ffe4943 of
-#: utils.config.data_config.create_optimized_dataloader:4
-msgid "Batch size"
-msgstr "Batch size"
-
-#: 343ddcd317814a2599726844b1557520 of
-#: utils.config.data_config.create_optimized_dataloader:5
-msgid "Whether to shuffle the data"
-msgstr "Whether to shuffle the data"
-
-#: 37a47557f15e46d0a97f35030b572462 of
-#: utils.config.data_config.create_optimized_dataloader:6
-msgid "DataLoader configuration (defaults to DataLoaderConfig())"
-msgstr "DataLoader configuration (defaults to DataLoaderConfig())"
-
-#: 16a75907207946eab7086f3af26f0495 of
-#: utils.config.data_config.create_optimized_dataloader:7
-msgid "Compute device (used to determine pin_memory)"
-msgstr "Compute device (used to determine pin_memory)"
-
-#: 5e0da01756004136b3e26506eb5952b8 of
-#: utils.config.data_config.create_optimized_dataloader:8
-msgid ""
-"Host-memory pinning override (None = auto from config and device; never "
-"true on non-CUDA devices)"
-msgstr ""
-"Host-memory pinning override (None = auto from config and device; never "
-"true on non-CUDA devices)"
-
-#: a9706bbd1faf4dd896d549ef83ad459b of
-#: utils.config.data_config.create_optimized_dataloader:10
-msgid "Additional arguments passed to DataLoader (overrides config)"
-msgstr "Additional arguments passed to DataLoader (overrides config)"
-
-#: 70a29ad3e4664a3ab9467792de05005a of
-#: utils.config.data_config.create_optimized_dataloader:12
-msgid "An optimized DataLoader"
-msgstr "An optimized DataLoader"
-
-#: 9962a4ded6f54577810282aaf3c643bc of
-#: utils.config.data_config.create_optimized_dataloader:15
-msgid "示例"
-msgstr "Example"
 
 #: 754af64357d7405290c65c240f4765e5 of utils.config.archive:1
 msgid "RunConfig yaml archive: lossless save/load for reproducibility."
