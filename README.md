@@ -16,7 +16,7 @@
 </p>
 
 <p>
-  <a href="https://unikt.lionhao.top/"><img src="https://img.shields.io/badge/Read_the_documentation-2563EB?style=for-the-badge&logo=readthedocs&logoColor=white" alt="Read the documentation"></a>
+  <a href="https://unikt.readthedocs.io/"><img src="https://img.shields.io/badge/Read_the_documentation-2563EB?style=for-the-badge&logo=readthedocs&logoColor=white" alt="Read the documentation"></a>
 </p>
 
 <p>
