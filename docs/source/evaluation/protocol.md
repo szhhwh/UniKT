@@ -1,32 +1,58 @@
 # 评测协议与指标
 
-为了消除单次随机划分的数据集偏差，为学术论文与基准评测提供统计显著的评估结果，知识追踪研究普遍执行 5 折交叉验证并报告各折平均指标。各模型在该协议下的具体评测成绩可查阅[基准排行榜](leaderboard.md)。
+为了降低单次随机划分带来的方差与偏差，提供可复现的基准评估结果，UniKT 采用固定留出测试集结合训练池 5 折交叉验证，并汇报 5 折均值与标准差。具体模型成绩可查阅[最新排行榜](live-leaderboard.md)与[论文基准排行榜（KDD 2027）](leaderboard.md)。
 
 ## 标准 5 折交叉验证
 
-### 知识追踪中的学生分层切分协议
+### 学生级无泄露切分协议
 
-在知识追踪任务中，若直接对全部答题记录进行随机打乱切分，会导致严重的数据泄露：同一学生不同时段的答题记录被同时割裂在训练集与测试集中，使评估虚高。
+在知识追踪任务中，若直接对全部答题记录随机打乱切分，同一学生不同时段的记录会同时落入训练集与测试集，导致评估虚高。
 
-UniKT 严格遵守教育数据挖掘的标准评估协议。系统按学生总答题量与正答率进行分层，将所有学生均匀划分为 5 折，划分标记保存在标准化 Parquet 文件的 `fold` 列中。
+UniKT 在固定随机种子下按学生随机切分（长序列切分均在划分后执行）：先按学生人数近似留出 **20%** 作为固定测试集（`fold = -1`），再将剩余 **80%** 学生均匀划分为 5 折（`fold = 0..4`）。
+
+:::::{container} unikt-split-diagram
+
+::::{container} unikt-split-bar
+
+:::{container} unikt-seg-train
+**训练集 64%**
+
+训练池其余 4 折
+:::
+
+:::{container} unikt-seg-val
+**验证集 16%**
+
+训练池第 `k` 折
+:::
+
+:::{container} unikt-seg-test
+**固定测试集 20%**
+
+`fold = -1`
+:::
+
+::::
+
+:::::
 
 当指定 `--data.fold k` 运行时，各数据集切分对照如下：
 
-| 折参数 `--data.fold` | 训练集 Train | 验证集 Val（早停监控） | 测试集 Test（最终评估） |
+| 折参数 `--data.fold` | 训练集 Train (64%) | 验证集 Val (16%，早停监控) | 测试集 Test (20%，最终评估) |
 | :---: | :---: | :---: | :---: |
-| **0** | 折 1, 2, 3 | 折 4 | **折 0** |
-| **1** | 折 2, 3, 4 | 折 0 | **折 1** |
-| **2** | 折 3, 4, 0 | 折 1 | **折 2** |
-| **3** | 折 4, 0, 1 | 折 2 | **折 3** |
-| **4** | 折 0, 1, 2 | 折 3 | **折 4** |
+| **0** | 折 1, 2, 3, 4 | **折 0** | 固定测试集 (`fold = -1`) |
+| **1** | 折 0, 2, 3, 4 | **折 1** | 固定测试集 (`fold = -1`) |
+| **2** | 折 0, 1, 3, 4 | **折 2** | 固定测试集 (`fold = -1`) |
+| **3** | 折 0, 1, 2, 4 | **折 3** | 固定测试集 (`fold = -1`) |
+| **4** | 折 0, 1, 2, 3 | **折 4** | 固定测试集 (`fold = -1`) |
 
-- **Test 集**：第 `k` 折学生序列，完全不参与训练与早停决策。
-- **Val 集**：第 `(k - 1) % 5` 折学生序列，用于早停决策与最佳权重保存。
-- **Train 集**：剩余 3 折学生序列，用于参数学习。
+- **Test 集（20%）**：`fold = -1` 固定学生序列，5 折全程一致，不参与训练与早停。
+- **Val 集（16%）**：第 `k` 折学生序列，用于早停监控（`patience = 10`）与最佳权重保存。
+- **Train 集（64%）**：训练池其余 4 折学生序列，用于参数学习。
 
 ### 使用辅助脚本 `run_kfold.sh`
 
-UniKT 在 `scripts/run_kfold.sh` 中提供了多折连续执行脚本，支持参数安全透传与多进程自动化串联。
+UniKT 在 `scripts/run_kfold.sh` 中提供了多折连续执行脚本，支持训练参数透传与多折自动化串联。
 
 #### A. 查看所有支持的模型列表
 
@@ -41,7 +67,7 @@ bash scripts/run_kfold.sh -l
 向脚本传入模型名称、折索引列表及待透传的训练参数：
 
 ```bash
-bash scripts/run_kfold.sh GIKT "0 1 2 3 4" -d assistments09 --model.epochs 150
+bash scripts/run_kfold.sh GIKT "0 1 2 3 4" -d assistments09 --model.epochs 150 --model.batch_size 128
 ```
 
 支持空格分隔（`"0 1 2 3 4"`）或逗号分隔（`"0,1,2,3,4"`）。脚本将依次启动第 0 至第 4 折的训练任务。若某折执行失败（Exit code $\neq$ 0），脚本将立即中断并保留错误现场，避免无意义的算力消耗。
@@ -61,7 +87,7 @@ bash scripts/run_kfold.sh GIKT "0 2" -d assistments09 --model.epochs 100
 
 ```bash
 for fold in 0 1 2 3 4; do
-  python train.py -m GIKT -d assistments09 --data.fold $fold --model.epochs 150
+  python train.py -m GIKT -d assistments09 --data.fold $fold --model.epochs 150 --model.batch_size 128
 done
 ```
 
@@ -78,19 +104,25 @@ runs/normal/
 └── GIKT_assistments09_20261109-114000_fold4_bs128/
 ```
 
-每个运行目录下的 `metrics_test.csv` 均记录了该折在测试集上的最终评测指标。可以使用如下代码快速计算 5 折均值与标准差：
+每个运行目录下的 `metrics_test.csv` 均记录了该折在测试集上的最终评测指标。可以使用如下代码按折去重取最新结果并计算 5 折均值与标准差：
 
 ```python
 import glob
 import pandas as pd
 
-# 匹配特定实验的所有折测试指标文件
-metrics_files = sorted(
-    glob.glob("runs/normal/GIKT_assistments09_*_fold*_bs128/metrics_test.csv")
-)
+# 0..4 每折选取最新的测试指标文件，避免重跑同一折时重复计入
+metrics_files = []
+for fold in range(5):
+    candidates = sorted(
+        glob.glob(f"runs/normal/GIKT_assistments09_*_fold{fold}_bs128/metrics_test.csv")
+    )
+    if not candidates:
+        raise FileNotFoundError(f"Missing metrics_test.csv for fold {fold}")
+    metrics_files.append(candidates[-1])
 
 dfs = [pd.read_csv(f) for f in metrics_files]
 summary = pd.concat(dfs, ignore_index=True)
+assert len(summary) == 5, f"Expected 5 folds, got {len(summary)}"
 
 print("=== 5 折交叉验证测试集统计 ===")
 print(f"有效折数: {len(summary)}")

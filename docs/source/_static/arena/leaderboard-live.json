@@ -1,0 +1,6892 @@
+[
+  {
+    "model": "PSKT",
+    "dataset": "XES3G5M",
+    "protocol": "unified",
+    "auc": 0.92672,
+    "auc_std": 0.00176,
+    "acc": 0.88034,
+    "acc_std": 0.001593,
+    "notes": "随机采样2500个学生"
+  },
+  {
+    "model": "ReKT",
+    "dataset": "XES3G5M",
+    "protocol": "unified",
+    "auc": 0.92048,
+    "auc_std": 8.4e-05,
+    "acc": 0.8799,
+    "acc_std": 0.0002,
+    "notes": "随机采样2500个学生"
+  },
+  {
+    "model": "FA-KT",
+    "dataset": "XES3G5M",
+    "protocol": "unified",
+    "auc": 0.9096,
+    "auc_std": 0.000682,
+    "acc": 0.86304,
+    "acc_std": 0.00127,
+    "notes": "随机采样2500个学生"
+  },
+  {
+    "model": "MCKT",
+    "dataset": "XES3G5M",
+    "protocol": "unified",
+    "auc": 0.90796,
+    "auc_std": 0.000422,
+    "acc": 0.87314,
+    "acc_std": 0.000404,
+    "notes": "随机采样2500个学生"
+  },
+  {
+    "model": "MTKT",
+    "dataset": "XES3G5M",
+    "protocol": "unified",
+    "auc": 0.90784,
+    "auc_std": 0.000207,
+    "acc": 0.85858,
+    "acc_std": 0.001293,
+    "notes": "随机采样2500个学生"
+  },
+  {
+    "model": "DAGKT",
+    "dataset": "XES3G5M",
+    "protocol": "unified",
+    "auc": 0.90772,
+    "auc_std": 0.000311,
+    "acc": 0.87228,
+    "acc_std": 0.000973,
+    "notes": "随机采样2500个学生"
+  },
+  {
+    "model": "DGEKT",
+    "dataset": "XES3G5M",
+    "protocol": "unified",
+    "auc": 0.90318,
+    "auc_std": 0.000356,
+    "acc": 0.8639,
+    "acc_std": 0.000903,
+    "notes": "随机采样2500个学生"
+  },
+  {
+    "model": "ClusterKT",
+    "dataset": "MOOC-Radar",
+    "protocol": "unified",
+    "auc": 0.9018,
+    "auc_std": 0.001446,
+    "acc": 0.86778,
+    "acc_std": 0.000471,
+    "notes": null
+  },
+  {
+    "model": "IEKT",
+    "dataset": "XES3G5M",
+    "protocol": "unified",
+    "auc": 0.9017,
+    "auc_std": 0.000752,
+    "acc": 0.8675,
+    "acc_std": 0.00103,
+    "notes": "随机采样2500个学生"
+  },
+  {
+    "model": "QIKT",
+    "dataset": "XES3G5M",
+    "protocol": "unified",
+    "auc": 0.90128,
+    "auc_std": 0.000396,
+    "acc": 0.86662,
+    "acc_std": 0.000507,
+    "notes": "随机采样2500个学生"
+  },
+  {
+    "model": "GIKT",
+    "dataset": "XES3G5M",
+    "protocol": "unified",
+    "auc": 0.89718,
+    "auc_std": 0.001201,
+    "acc": 0.8628,
+    "acc_std": 0.000977,
+    "notes": "随机采样2500个学生"
+  },
+  {
+    "model": "ReKT",
+    "dataset": "MOOC-Radar",
+    "protocol": "unified",
+    "auc": 0.89266,
+    "auc_std": 0.000195,
+    "acc": 0.86618,
+    "acc_std": 0.00063,
+    "notes": null
+  },
+  {
+    "model": "IEKT",
+    "dataset": "MOOC-Radar",
+    "protocol": "unified",
+    "auc": 0.89254,
+    "auc_std": 0.000358,
+    "acc": 0.86562,
+    "acc_std": 0.000402,
+    "notes": null
+  },
+  {
+    "model": "QIKT",
+    "dataset": "MOOC-Radar",
+    "protocol": "unified",
+    "auc": 0.89194,
+    "auc_std": 0.000114,
+    "acc": 0.86556,
+    "acc_std": 0.000358,
+    "notes": null
+  },
+  {
+    "model": "DAGKT",
+    "dataset": "MOOC-Radar",
+    "protocol": "unified",
+    "auc": 0.89106,
+    "auc_std": 0.00127,
+    "acc": 0.8654,
+    "acc_std": 0.000941,
+    "notes": null
+  },
+  {
+    "model": "MCKT",
+    "dataset": "MOOC-Radar",
+    "protocol": "unified",
+    "auc": 0.89012,
+    "auc_std": 0.00054,
+    "acc": 0.86372,
+    "acc_std": 0.000531,
+    "notes": null
+  },
+  {
+    "model": "DKT2",
+    "dataset": "MOOC-Radar",
+    "protocol": "unified",
+    "auc": 0.8901,
+    "auc_std": 0.000212,
+    "acc": 0.8646,
+    "acc_std": 0.000245,
+    "notes": null
+  },
+  {
+    "model": "DyGKT",
+    "dataset": "MOOC-Radar",
+    "protocol": "unified",
+    "auc": 0.88832,
+    "auc_std": 0.000691,
+    "acc": 0.86224,
+    "acc_std": 0.000577,
+    "notes": null
+  },
+  {
+    "model": "GIKT",
+    "dataset": "MOOC-Radar",
+    "protocol": "unified",
+    "auc": 0.88828,
+    "auc_std": 0.000421,
+    "acc": 0.86332,
+    "acc_std": 0.000377,
+    "notes": null
+  },
+  {
+    "model": "DisKT",
+    "dataset": "MOOC-Radar",
+    "protocol": "unified",
+    "auc": 0.8881,
+    "auc_std": 0.000458,
+    "acc": 0.86364,
+    "acc_std": 0.000981,
+    "notes": null
+  },
+  {
+    "model": "BDGKT",
+    "dataset": "XES3G5M",
+    "protocol": "unified",
+    "auc": 0.88778,
+    "auc_std": 0.000915,
+    "acc": 0.86322,
+    "acc_std": 0.001119,
+    "notes": "随机采样2500个学生"
+  },
+  {
+    "model": "SGKT",
+    "dataset": "MOOC-Radar",
+    "protocol": "unified",
+    "auc": 0.88742,
+    "auc_std": 0.000327,
+    "acc": 0.86272,
+    "acc_std": 0.000311,
+    "notes": null
+  },
+  {
+    "model": "FoLibiKT",
+    "dataset": "XES3G5M",
+    "protocol": "unified",
+    "auc": 0.88702,
+    "auc_std": 0.000567,
+    "acc": 0.84834,
+    "acc_std": 0.001155,
+    "notes": "随机采样2500个学生"
+  },
+  {
+    "model": "ClusterKT",
+    "dataset": "XES3G5M",
+    "protocol": "unified",
+    "auc": 0.8864,
+    "auc_std": 0.000474,
+    "acc": 0.85958,
+    "acc_std": 0.00119,
+    "notes": "随机采样2500个学生"
+  },
+  {
+    "model": "DenoiseKT",
+    "dataset": "XES3G5M",
+    "protocol": "unified",
+    "auc": 0.88564,
+    "auc_std": 0.001762,
+    "acc": 0.86142,
+    "acc_std": 0.001915,
+    "notes": "随机采样2500个学生"
+  },
+  {
+    "model": "AKT",
+    "dataset": "XES3G5M",
+    "protocol": "unified",
+    "auc": 0.88496,
+    "auc_std": 0.000757,
+    "acc": 0.84902,
+    "acc_std": 0.000377,
+    "notes": "随机采样2500个学生"
+  },
+  {
+    "model": "DGEKT",
+    "dataset": "MOOC-Radar",
+    "protocol": "unified",
+    "auc": 0.88446,
+    "auc_std": 0.000288,
+    "acc": 0.86566,
+    "acc_std": 0.000321,
+    "notes": null
+  },
+  {
+    "model": "RobustKT",
+    "dataset": "XES3G5M",
+    "protocol": "unified",
+    "auc": 0.8843,
+    "auc_std": 0.000539,
+    "acc": 0.84954,
+    "acc_std": 0.000979,
+    "notes": "随机采样2500个学生"
+  },
+  {
+    "model": "SGKT",
+    "dataset": "XES3G5M",
+    "protocol": "unified",
+    "auc": 0.88252,
+    "auc_std": 0.001722,
+    "acc": 0.85156,
+    "acc_std": 0.000918,
+    "notes": "随机采样2500个学生"
+  },
+  {
+    "model": "CIKT",
+    "dataset": "MOOC-Radar",
+    "protocol": "unified",
+    "auc": 0.8809,
+    "auc_std": 0.001342,
+    "acc": 0.8585,
+    "acc_std": 0.001275,
+    "notes": null
+  },
+  {
+    "model": "DKT2",
+    "dataset": "XES3G5M",
+    "protocol": "unified",
+    "auc": 0.8799,
+    "auc_std": 0.000678,
+    "acc": 0.84978,
+    "acc_std": 0.00054,
+    "notes": "随机采样2500个学生"
+  },
+  {
+    "model": "CIKT",
+    "dataset": "XES3G5M",
+    "protocol": "unified",
+    "auc": 0.87934,
+    "auc_std": 0.005108,
+    "acc": 0.8551,
+    "acc_std": 0.002146,
+    "notes": "随机采样2500个学生"
+  },
+  {
+    "model": "csKT",
+    "dataset": "XES3G5M",
+    "protocol": "unified",
+    "auc": 0.87888,
+    "auc_std": 0.000471,
+    "acc": 0.854,
+    "acc_std": 0.0004,
+    "notes": "随机采样2500个学生"
+  },
+  {
+    "model": "HiTSKT",
+    "dataset": "MOOC-Radar",
+    "protocol": "unified",
+    "auc": 0.8783,
+    "auc_std": 0.000453,
+    "acc": 0.84846,
+    "acc_std": 0.000899,
+    "notes": null
+  },
+  {
+    "model": "DTransformer",
+    "dataset": "XES3G5M",
+    "protocol": "unified",
+    "auc": 0.87818,
+    "auc_std": 0.000798,
+    "acc": 0.85056,
+    "acc_std": 0.001155,
+    "notes": "随机采样2500个学生"
+  },
+  {
+    "model": "DyGKT",
+    "dataset": "XES3G5M",
+    "protocol": "unified",
+    "auc": 0.87776,
+    "auc_std": 0.001467,
+    "acc": 0.84614,
+    "acc_std": 0.00144,
+    "notes": "随机采样2500个学生"
+  },
+  {
+    "model": "Mamba4KT",
+    "dataset": "MOOC-Radar",
+    "protocol": "unified",
+    "auc": 0.87762,
+    "auc_std": 0.000807,
+    "acc": 0.86188,
+    "acc_std": 0.000602,
+    "notes": null
+  },
+  {
+    "model": "UKT",
+    "dataset": "XES3G5M",
+    "protocol": "unified",
+    "auc": 0.8753,
+    "auc_std": 0.000579,
+    "acc": 0.84892,
+    "acc_std": 0.001329,
+    "notes": "随机采样2500个学生"
+  },
+  {
+    "model": "stableKT",
+    "dataset": "XES3G5M",
+    "protocol": "unified",
+    "auc": 0.87446,
+    "auc_std": 0.000702,
+    "acc": 0.85188,
+    "acc_std": 0.000585,
+    "notes": "随机采样2500个学生"
+  },
+  {
+    "model": "HiTSKT",
+    "dataset": "XES3G5M",
+    "protocol": "unified",
+    "auc": 0.87404,
+    "auc_std": 0.000522,
+    "acc": 0.86468,
+    "acc_std": 0.002024,
+    "notes": "随机采样2500个学生"
+  },
+  {
+    "model": "MCSKT",
+    "dataset": "XES3G5M",
+    "protocol": "unified",
+    "auc": 0.87166,
+    "auc_std": 0.001214,
+    "acc": 0.84704,
+    "acc_std": 0.002085,
+    "notes": "随机采样2500个学生"
+  },
+  {
+    "model": "extraKT",
+    "dataset": "XES3G5M",
+    "protocol": "unified",
+    "auc": 0.87118,
+    "auc_std": 0.003694,
+    "acc": 0.8475,
+    "acc_std": 0.001913,
+    "notes": "随机采样2500个学生"
+  },
+  {
+    "model": "KQN",
+    "dataset": "MOOC-Radar",
+    "protocol": "unified",
+    "auc": 0.86816,
+    "auc_std": 0.000747,
+    "acc": 0.8468,
+    "acc_std": 0.001025,
+    "notes": null
+  },
+  {
+    "model": "ATDKT",
+    "dataset": "XES3G5M",
+    "protocol": "unified",
+    "auc": 0.86762,
+    "auc_std": 0.000581,
+    "acc": 0.83662,
+    "acc_std": 0.001671,
+    "notes": "随机采样2500个学生"
+  },
+  {
+    "model": "RobustKT",
+    "dataset": "MOOC-Radar",
+    "protocol": "unified",
+    "auc": 0.8675,
+    "auc_std": 0.000917,
+    "acc": 0.84436,
+    "acc_std": 0.001504,
+    "notes": null
+  },
+  {
+    "model": "FlucKT",
+    "dataset": "XES3G5M",
+    "protocol": "unified",
+    "auc": 0.86648,
+    "auc_std": 0.022096,
+    "acc": 0.84386,
+    "acc_std": 0.008048,
+    "notes": "随机采样2500个学生"
+  },
+  {
+    "model": "DGMKT",
+    "dataset": "MOOC-Radar",
+    "protocol": "unified",
+    "auc": 0.86432,
+    "auc_std": 0.001134,
+    "acc": 0.8413,
+    "acc_std": 0.001235,
+    "notes": null
+  },
+  {
+    "model": "ATDKT",
+    "dataset": "MOOC-Radar",
+    "protocol": "unified",
+    "auc": 0.86192,
+    "auc_std": 0.000996,
+    "acc": 0.84372,
+    "acc_std": 0.002469,
+    "notes": null
+  },
+  {
+    "model": "stableKT",
+    "dataset": "MOOC-Radar",
+    "protocol": "unified",
+    "auc": 0.8615,
+    "auc_std": 0.000158,
+    "acc": 0.8246,
+    "acc_std": 0.000678,
+    "notes": null
+  },
+  {
+    "model": "DKT+",
+    "dataset": "MOOC-Radar",
+    "protocol": "unified",
+    "auc": 0.8608,
+    "auc_std": 0.000951,
+    "acc": 0.83712,
+    "acc_std": 0.000973,
+    "notes": null
+  },
+  {
+    "model": "Deep-IRT",
+    "dataset": "MOOC-Radar",
+    "protocol": "unified",
+    "auc": 0.85982,
+    "auc_std": 0.000779,
+    "acc": 0.84152,
+    "acc_std": 0.001154,
+    "notes": null
+  },
+  {
+    "model": "MTKT",
+    "dataset": "MOOC-Radar",
+    "protocol": "unified",
+    "auc": 0.85902,
+    "auc_std": 0.000782,
+    "acc": 0.82782,
+    "acc_std": 0.001377,
+    "notes": null
+  },
+  {
+    "model": "FA-KT",
+    "dataset": "MOOC-Radar",
+    "protocol": "unified",
+    "auc": 0.859,
+    "auc_std": 0.000791,
+    "acc": 0.82724,
+    "acc_std": 0.001557,
+    "notes": null
+  },
+  {
+    "model": "FoLibiKT",
+    "dataset": "MOOC-Radar",
+    "protocol": "unified",
+    "auc": 0.8581,
+    "auc_std": 0.000941,
+    "acc": 0.82824,
+    "acc_std": 0.002444,
+    "notes": null
+  },
+  {
+    "model": "DGMKT",
+    "dataset": "XES3G5M",
+    "protocol": "unified",
+    "auc": 0.8576,
+    "auc_std": 0.001049,
+    "acc": 0.83592,
+    "acc_std": 0.001452,
+    "notes": "随机采样2500个学生"
+  },
+  {
+    "model": "DKT",
+    "dataset": "MOOC-Radar",
+    "protocol": "unified",
+    "auc": 0.85688,
+    "auc_std": 0.000896,
+    "acc": 0.84058,
+    "acc_std": 0.000581,
+    "notes": null
+  },
+  {
+    "model": "SKVMN",
+    "dataset": "MOOC-Radar",
+    "protocol": "unified",
+    "auc": 0.85654,
+    "auc_std": 0.001144,
+    "acc": 0.83882,
+    "acc_std": 0.001047,
+    "notes": null
+  },
+  {
+    "model": "AKT",
+    "dataset": "MOOC-Radar",
+    "protocol": "unified",
+    "auc": 0.85634,
+    "auc_std": 0.001053,
+    "acc": 0.82236,
+    "acc_std": 0.001984,
+    "notes": null
+  },
+  {
+    "model": "Mamba4KT",
+    "dataset": "XES3G5M",
+    "protocol": "unified",
+    "auc": 0.85588,
+    "auc_std": 0.00037,
+    "acc": 0.83338,
+    "acc_std": 0.000471,
+    "notes": "随机采样2500个学生"
+  },
+  {
+    "model": "DKVMN",
+    "dataset": "MOOC-Radar",
+    "protocol": "unified",
+    "auc": 0.8556,
+    "auc_std": 0.001288,
+    "acc": 0.83876,
+    "acc_std": 0.001011,
+    "notes": null
+  },
+  {
+    "model": "simpleKT",
+    "dataset": "XES3G5M",
+    "protocol": "unified",
+    "auc": 0.85486,
+    "auc_std": 0.000862,
+    "acc": 0.83888,
+    "acc_std": 0.001718,
+    "notes": "随机采样2500个学生"
+  },
+  {
+    "model": "simpleKT",
+    "dataset": "MOOC-Radar",
+    "protocol": "unified",
+    "auc": 0.85462,
+    "auc_std": 0.000335,
+    "acc": 0.82166,
+    "acc_std": 0.001011,
+    "notes": null
+  },
+  {
+    "model": "csKT",
+    "dataset": "MOOC-Radar",
+    "protocol": "unified",
+    "auc": 0.85372,
+    "auc_std": 0.000512,
+    "acc": 0.80896,
+    "acc_std": 0.001053,
+    "notes": null
+  },
+  {
+    "model": "MCSKT",
+    "dataset": "MOOC-Radar",
+    "protocol": "unified",
+    "auc": 0.85308,
+    "auc_std": 0.000691,
+    "acc": 0.82178,
+    "acc_std": 0.001625,
+    "notes": null
+  },
+  {
+    "model": "sparseKT",
+    "dataset": "MOOC-Radar",
+    "protocol": "unified",
+    "auc": 0.85306,
+    "auc_std": 0.00074,
+    "acc": 0.82196,
+    "acc_std": 0.000961,
+    "notes": null
+  },
+  {
+    "model": "DTransformer",
+    "dataset": "MOOC-Radar",
+    "protocol": "unified",
+    "auc": 0.85268,
+    "auc_std": 0.001499,
+    "acc": 0.81554,
+    "acc_std": 0.003635,
+    "notes": null
+  },
+  {
+    "model": "DKT",
+    "dataset": "XES3G5M",
+    "protocol": "unified",
+    "auc": 0.85124,
+    "auc_std": 0.000351,
+    "acc": 0.83648,
+    "acc_std": 0.000311,
+    "notes": "随机采样2500个学生"
+  },
+  {
+    "model": "extraKT",
+    "dataset": "MOOC-Radar",
+    "protocol": "unified",
+    "auc": 0.8482,
+    "auc_std": 0.001025,
+    "acc": 0.7975,
+    "acc_std": 0.003367,
+    "notes": null
+  },
+  {
+    "model": "UKT",
+    "dataset": "MOOC-Radar",
+    "protocol": "unified",
+    "auc": 0.84506,
+    "auc_std": 0.000981,
+    "acc": 0.80818,
+    "acc_std": 0.00286,
+    "notes": null
+  },
+  {
+    "model": "DIMKT",
+    "dataset": "MOOC-Radar",
+    "protocol": "unified",
+    "auc": 0.84466,
+    "auc_std": 0.004275,
+    "acc": 0.8248,
+    "acc_std": 0.008537,
+    "notes": null
+  },
+  {
+    "model": "ReKT",
+    "dataset": "Algebra05",
+    "protocol": "unified",
+    "auc": 0.84286,
+    "auc_std": 0.000777,
+    "acc": 0.81896,
+    "acc_std": 0.000764,
+    "notes": null
+  },
+  {
+    "model": "FlucKT",
+    "dataset": "MOOC-Radar",
+    "protocol": "unified",
+    "auc": 0.84212,
+    "auc_std": 0.003271,
+    "acc": 0.7997,
+    "acc_std": 0.00259,
+    "notes": null
+  },
+  {
+    "model": "ATKT",
+    "dataset": "MOOC-Radar",
+    "protocol": "unified",
+    "auc": 0.83984,
+    "auc_std": 0.001041,
+    "acc": 0.8187,
+    "acc_std": 0.000495,
+    "notes": null
+  },
+  {
+    "model": "ATKT",
+    "dataset": "XES3G5M",
+    "protocol": "unified",
+    "auc": 0.8382,
+    "auc_std": 0.001755,
+    "acc": 0.8303,
+    "acc_std": 0.000464,
+    "notes": "随机采样2500个学生"
+  },
+  {
+    "model": "MIKT",
+    "dataset": "Algebra05",
+    "protocol": "unified",
+    "auc": 0.83818,
+    "auc_std": 0.002284,
+    "acc": 0.81758,
+    "acc_std": 0.001496,
+    "notes": null
+  },
+  {
+    "model": "DKT+",
+    "dataset": "XES3G5M",
+    "protocol": "unified",
+    "auc": 0.83734,
+    "auc_std": 0.000472,
+    "acc": 0.82824,
+    "acc_std": 0.000537,
+    "notes": "随机采样2500个学生"
+  },
+  {
+    "model": "SAKT",
+    "dataset": "MOOC-Radar",
+    "protocol": "unified",
+    "auc": 0.83594,
+    "auc_std": 0.001553,
+    "acc": 0.82926,
+    "acc_std": 0.001354,
+    "notes": null
+  },
+  {
+    "model": "DisKT",
+    "dataset": "XES3G5M",
+    "protocol": "unified",
+    "auc": 0.83488,
+    "auc_std": 0.001624,
+    "acc": 0.83178,
+    "acc_std": 0.002445,
+    "notes": "随机采样2500个学生"
+  },
+  {
+    "model": "ReKT",
+    "dataset": "Algebra06",
+    "protocol": "unified",
+    "auc": 0.8325,
+    "auc_std": 0.000524,
+    "acc": 0.83056,
+    "acc_std": 0.000422,
+    "notes": null
+  },
+  {
+    "model": "GIKT",
+    "dataset": "Algebra05",
+    "protocol": "unified",
+    "auc": 0.83088,
+    "auc_std": 0.00142,
+    "acc": 0.81198,
+    "acc_std": 0.001799,
+    "notes": null
+  },
+  {
+    "model": "sparseKT",
+    "dataset": "XES3G5M",
+    "protocol": "unified",
+    "auc": 0.8308,
+    "auc_std": 0.000819,
+    "acc": 0.83366,
+    "acc_std": 0.000647,
+    "notes": "随机采样2500个学生"
+  },
+  {
+    "model": "MTKT",
+    "dataset": "Algebra06",
+    "protocol": "unified",
+    "auc": 0.82912,
+    "auc_std": 0.001105,
+    "acc": 0.82668,
+    "acc_std": 0.001101,
+    "notes": null
+  },
+  {
+    "model": "FoLibiKT",
+    "dataset": "Algebra05",
+    "protocol": "unified",
+    "auc": 0.82778,
+    "auc_std": 0.001771,
+    "acc": 0.80422,
+    "acc_std": 0.000856,
+    "notes": null
+  },
+  {
+    "model": "MTKT",
+    "dataset": "Bridge06",
+    "protocol": "unified",
+    "auc": 0.82716,
+    "auc_std": 0.00023,
+    "acc": 0.85024,
+    "acc_std": 0.001205,
+    "notes": null
+  },
+  {
+    "model": "BDGKT",
+    "dataset": "Algebra05",
+    "protocol": "unified",
+    "auc": 0.8259872,
+    "auc_std": 0.001773,
+    "acc": 0.8104778,
+    "acc_std": 0.000446,
+    "notes": null
+  },
+  {
+    "model": "MIKT",
+    "dataset": "Algebra06",
+    "protocol": "unified",
+    "auc": 0.82538,
+    "auc_std": 0.000973,
+    "acc": 0.82886,
+    "acc_std": 0.000518,
+    "notes": null
+  },
+  {
+    "model": "UKT",
+    "dataset": "Algebra06",
+    "protocol": "unified",
+    "auc": 0.82426,
+    "auc_std": 0.000888,
+    "acc": 0.82496,
+    "acc_std": 0.001984,
+    "notes": null
+  },
+  {
+    "model": "MTKT",
+    "dataset": "Algebra05",
+    "protocol": "unified",
+    "auc": 0.8242,
+    "auc_std": 0.004964,
+    "acc": 0.79458,
+    "acc_std": 0.005749,
+    "notes": null
+  },
+  {
+    "model": "stableKT",
+    "dataset": "Algebra06",
+    "protocol": "unified",
+    "auc": 0.82342,
+    "auc_std": 0.000396,
+    "acc": 0.82646,
+    "acc_std": 0.00027,
+    "notes": null
+  },
+  {
+    "model": "DisKT",
+    "dataset": "Algebra05",
+    "protocol": "unified",
+    "auc": 0.8232,
+    "auc_std": 0.00138,
+    "acc": 0.8018,
+    "acc_std": 0.007919,
+    "notes": null
+  },
+  {
+    "model": "GRKT",
+    "dataset": "Algebra05",
+    "protocol": "unified",
+    "auc": 0.8231,
+    "auc_std": 0.000957,
+    "acc": 0.8096,
+    "acc_std": 0.000689,
+    "notes": null
+  },
+  {
+    "model": "DenoiseKT",
+    "dataset": "Algebra05",
+    "protocol": "unified",
+    "auc": 0.82222,
+    "auc_std": 0.00137,
+    "acc": 0.8064,
+    "acc_std": 0.000982,
+    "notes": null
+  },
+  {
+    "model": "KQN",
+    "dataset": "XES3G5M",
+    "protocol": "unified",
+    "auc": 0.82154,
+    "auc_std": 0.001408,
+    "acc": 0.8237,
+    "acc_std": 0.001002,
+    "notes": "随机采样2500个学生"
+  },
+  {
+    "model": "csKT",
+    "dataset": "Algebra06",
+    "protocol": "unified",
+    "auc": 0.82138,
+    "auc_std": 0.002008,
+    "acc": 0.82564,
+    "acc_std": 0.000378,
+    "notes": null
+  },
+  {
+    "model": "IEKT",
+    "dataset": "Algebra05",
+    "protocol": "unified",
+    "auc": 0.8211,
+    "auc_std": 0.001206,
+    "acc": 0.80936,
+    "acc_std": 0.001354,
+    "notes": null
+  },
+  {
+    "model": "ReKT",
+    "dataset": "Bridge06",
+    "protocol": "unified",
+    "auc": 0.82074,
+    "auc_std": 0.000483,
+    "acc": 0.85168,
+    "acc_std": 0.000449,
+    "notes": null
+  },
+  {
+    "model": "RobustKT",
+    "dataset": "Algebra05",
+    "protocol": "unified",
+    "auc": 0.82072,
+    "auc_std": 0.003725,
+    "acc": 0.79488,
+    "acc_std": 0.002496,
+    "notes": null
+  },
+  {
+    "model": "FA-KT",
+    "dataset": "Algebra06",
+    "protocol": "unified",
+    "auc": 0.82064,
+    "auc_std": 0.001665,
+    "acc": 0.82364,
+    "acc_std": 0.001161,
+    "notes": null
+  },
+  {
+    "model": "RobustKT",
+    "dataset": "Algebra06",
+    "protocol": "unified",
+    "auc": 0.82046,
+    "auc_std": 0.002235,
+    "acc": 0.82388,
+    "acc_std": 0.000719,
+    "notes": null
+  },
+  {
+    "model": "MCSKT",
+    "dataset": "Algebra06",
+    "protocol": "unified",
+    "auc": 0.82046,
+    "auc_std": 0.001167,
+    "acc": 0.82308,
+    "acc_std": 0.000804,
+    "notes": null
+  },
+  {
+    "model": "stableKT",
+    "dataset": "Algebra05",
+    "protocol": "unified",
+    "auc": 0.81986,
+    "auc_std": 0.001346,
+    "acc": 0.79818,
+    "acc_std": 0.00113,
+    "notes": null
+  },
+  {
+    "model": "HiTSKT",
+    "dataset": "Algebra05",
+    "protocol": "unified",
+    "auc": 0.81962,
+    "auc_std": 0.000976,
+    "acc": 0.80988,
+    "acc_std": 0.000669,
+    "notes": null
+  },
+  {
+    "model": "csKT",
+    "dataset": "Algebra05",
+    "protocol": "unified",
+    "auc": 0.81942,
+    "auc_std": 0.003237,
+    "acc": 0.79748,
+    "acc_std": 0.002153,
+    "notes": null
+  },
+  {
+    "model": "GIKT",
+    "dataset": "Algebra06",
+    "protocol": "unified",
+    "auc": 0.8194,
+    "auc_std": 0.000917,
+    "acc": 0.82414,
+    "acc_std": 0.000559,
+    "notes": null
+  },
+  {
+    "model": "csKT",
+    "dataset": "Bridge06",
+    "protocol": "unified",
+    "auc": 0.81918,
+    "auc_std": 0.000993,
+    "acc": 0.85084,
+    "acc_std": 0.000313,
+    "notes": null
+  },
+  {
+    "model": "RobustKT",
+    "dataset": "Bridge06",
+    "protocol": "unified",
+    "auc": 0.819,
+    "auc_std": 0.002694,
+    "acc": 0.8495,
+    "acc_std": 0.001366,
+    "notes": null
+  },
+  {
+    "model": "stableKT",
+    "dataset": "Bridge06",
+    "protocol": "unified",
+    "auc": 0.81896,
+    "auc_std": 0.000814,
+    "acc": 0.85084,
+    "acc_std": 0.000527,
+    "notes": null
+  },
+  {
+    "model": "ATDKT",
+    "dataset": "Algebra05",
+    "protocol": "unified",
+    "auc": 0.81844,
+    "auc_std": 0.00077,
+    "acc": 0.80906,
+    "acc_std": 0.001477,
+    "notes": null
+  },
+  {
+    "model": "QIKT",
+    "dataset": "Algebra05",
+    "protocol": "unified",
+    "auc": 0.81798,
+    "auc_std": 0.00089,
+    "acc": 0.8123,
+    "acc_std": 0.000941,
+    "notes": null
+  },
+  {
+    "model": "UKT",
+    "dataset": "Bridge06",
+    "protocol": "unified",
+    "auc": 0.81794,
+    "auc_std": 0.00117,
+    "acc": 0.84678,
+    "acc_std": 0.00082,
+    "notes": null
+  },
+  {
+    "model": "MIKT",
+    "dataset": "Bridge06",
+    "protocol": "unified",
+    "auc": 0.81764,
+    "auc_std": 0.000456,
+    "acc": 0.8514,
+    "acc_std": 0.000265,
+    "notes": null
+  },
+  {
+    "model": "extraKT",
+    "dataset": "Bridge06",
+    "protocol": "unified",
+    "auc": 0.81696,
+    "auc_std": 0.000888,
+    "acc": 0.84916,
+    "acc_std": 0.000847,
+    "notes": null
+  },
+  {
+    "model": "UKT",
+    "dataset": "Algebra05",
+    "protocol": "unified",
+    "auc": 0.81642,
+    "auc_std": 0.001001,
+    "acc": 0.7893,
+    "acc_std": 0.002861,
+    "notes": null
+  },
+  {
+    "model": "AKT",
+    "dataset": "Bridge06",
+    "protocol": "unified",
+    "auc": 0.81626,
+    "auc_std": 0.002315,
+    "acc": 0.84838,
+    "acc_std": 0.002066,
+    "notes": null
+  },
+  {
+    "model": "simpleKT",
+    "dataset": "Algebra06",
+    "protocol": "unified",
+    "auc": 0.8158,
+    "auc_std": 0.001575,
+    "acc": 0.8216,
+    "acc_std": 0.000943,
+    "notes": null
+  },
+  {
+    "model": "ClusterKT",
+    "dataset": "Algebra05",
+    "protocol": "unified",
+    "auc": 0.81568,
+    "auc_std": 0.003189,
+    "acc": 0.80132,
+    "acc_std": 0.002653,
+    "notes": null
+  },
+  {
+    "model": "FlucKT",
+    "dataset": "Algebra06",
+    "protocol": "unified",
+    "auc": 0.81556,
+    "auc_std": 0.002307,
+    "acc": 0.81804,
+    "acc_std": 0.003297,
+    "notes": null
+  },
+  {
+    "model": "simpleKT",
+    "dataset": "Bridge06",
+    "protocol": "unified",
+    "auc": 0.81492,
+    "auc_std": 0.000968,
+    "acc": 0.84902,
+    "acc_std": 0.000497,
+    "notes": null
+  },
+  {
+    "model": "FoLibiKT",
+    "dataset": "Algebra06",
+    "protocol": "unified",
+    "auc": 0.8147,
+    "auc_std": 0.000778,
+    "acc": 0.82014,
+    "acc_std": 0.000885,
+    "notes": null
+  },
+  {
+    "model": "FlucKT",
+    "dataset": "Algebra05",
+    "protocol": "unified",
+    "auc": 0.8146,
+    "auc_std": 0.006963,
+    "acc": 0.79844,
+    "acc_std": 0.005299,
+    "notes": null
+  },
+  {
+    "model": "FA-KT",
+    "dataset": "Algebra05",
+    "protocol": "unified",
+    "auc": 0.8146,
+    "auc_std": 0.003373,
+    "acc": 0.7914,
+    "acc_std": 0.002695,
+    "notes": null
+  },
+  {
+    "model": "FA-KT",
+    "dataset": "Bridge06",
+    "protocol": "unified",
+    "auc": 0.81448,
+    "auc_std": 0.000823,
+    "acc": 0.84726,
+    "acc_std": 0.001133,
+    "notes": null
+  },
+  {
+    "model": "extraKT",
+    "dataset": "Algebra06",
+    "protocol": "unified",
+    "auc": 0.81408,
+    "auc_std": 0.002089,
+    "acc": 0.82138,
+    "acc_std": 0.002963,
+    "notes": null
+  },
+  {
+    "model": "CIKT",
+    "dataset": "Algebra05",
+    "protocol": "unified",
+    "auc": 0.8140028,
+    "auc_std": 0.001129,
+    "acc": 0.805334,
+    "acc_std": 0.000921,
+    "notes": null
+  },
+  {
+    "model": "AKT",
+    "dataset": "Algebra06",
+    "protocol": "unified",
+    "auc": 0.81356,
+    "auc_std": 0.004826,
+    "acc": 0.82182,
+    "acc_std": 0.00203,
+    "notes": null
+  },
+  {
+    "model": "MCSKT",
+    "dataset": "Bridge06",
+    "protocol": "unified",
+    "auc": 0.8134,
+    "auc_std": 0.000837,
+    "acc": 0.84736,
+    "acc_std": 0.000643,
+    "notes": null
+  },
+  {
+    "model": "ATDKT",
+    "dataset": "Algebra06",
+    "protocol": "unified",
+    "auc": 0.81252,
+    "auc_std": 0.001003,
+    "acc": 0.81862,
+    "acc_std": 0.001215,
+    "notes": null
+  },
+  {
+    "model": "GIKT",
+    "dataset": "Bridge06",
+    "protocol": "unified",
+    "auc": 0.81244,
+    "auc_std": 0.000971,
+    "acc": 0.8475,
+    "acc_std": 0.000762,
+    "notes": null
+  },
+  {
+    "model": "MCSKT",
+    "dataset": "Algebra05",
+    "protocol": "unified",
+    "auc": 0.81234,
+    "auc_std": 0.000904,
+    "acc": 0.78778,
+    "acc_std": 0.002822,
+    "notes": null
+  },
+  {
+    "model": "DTransformer",
+    "dataset": "Bridge06",
+    "protocol": "unified",
+    "auc": 0.81212,
+    "auc_std": 0.00219,
+    "acc": 0.84658,
+    "acc_std": 0.003364,
+    "notes": null
+  },
+  {
+    "model": "sparseKT",
+    "dataset": "Algebra06",
+    "protocol": "unified",
+    "auc": 0.81158,
+    "auc_std": 0.000576,
+    "acc": 0.82112,
+    "acc_std": 0.000295,
+    "notes": null
+  },
+  {
+    "model": "FlucKT",
+    "dataset": "Bridge06",
+    "protocol": "unified",
+    "auc": 0.81154,
+    "auc_std": 0.001701,
+    "acc": 0.85214,
+    "acc_std": 0.000796,
+    "notes": null
+  },
+  {
+    "model": "DenoiseKT",
+    "dataset": "Algebra06",
+    "protocol": "unified",
+    "auc": 0.81116,
+    "auc_std": 0.000513,
+    "acc": 0.81964,
+    "acc_std": 0.001218,
+    "notes": null
+  },
+  {
+    "model": "DisKT",
+    "dataset": "Algebra06",
+    "protocol": "unified",
+    "auc": 0.81078,
+    "auc_std": 0.000455,
+    "acc": 0.82126,
+    "acc_std": 0.001254,
+    "notes": null
+  },
+  {
+    "model": "extraKT",
+    "dataset": "Algebra05",
+    "protocol": "unified",
+    "auc": 0.8106,
+    "auc_std": 0.004469,
+    "acc": 0.78862,
+    "acc_std": 0.001778,
+    "notes": null
+  },
+  {
+    "model": "DKT2",
+    "dataset": "Algebra05",
+    "protocol": "unified",
+    "auc": 0.81024,
+    "auc_std": 0.001367,
+    "acc": 0.80224,
+    "acc_std": 0.000365,
+    "notes": null
+  },
+  {
+    "model": "BDGKT",
+    "dataset": "Algebra06",
+    "protocol": "unified",
+    "auc": 0.8093574,
+    "auc_std": 0.001268,
+    "acc": 0.8204622,
+    "acc_std": 0.00061,
+    "notes": null
+  },
+  {
+    "model": "DTransformer",
+    "dataset": "Algebra06",
+    "protocol": "unified",
+    "auc": 0.80932,
+    "auc_std": 0.001668,
+    "acc": 0.82032,
+    "acc_std": 0.001268,
+    "notes": null
+  },
+  {
+    "model": "ATDKT",
+    "dataset": "Bridge06",
+    "protocol": "unified",
+    "auc": 0.8092,
+    "auc_std": 0.000339,
+    "acc": 0.8522,
+    "acc_std": 0.000339,
+    "notes": null
+  },
+  {
+    "model": "IEKT",
+    "dataset": "Algebra06",
+    "protocol": "unified",
+    "auc": 0.80886,
+    "auc_std": 0.00076,
+    "acc": 0.82146,
+    "acc_std": 0.001226,
+    "notes": null
+  },
+  {
+    "model": "FoLibiKT",
+    "dataset": "Bridge06",
+    "protocol": "unified",
+    "auc": 0.80852,
+    "auc_std": 0.000983,
+    "acc": 0.8497,
+    "acc_std": 0.00086,
+    "notes": null
+  },
+  {
+    "model": "sparseKT",
+    "dataset": "Bridge06",
+    "protocol": "unified",
+    "auc": 0.8085,
+    "auc_std": 0.000962,
+    "acc": 0.847,
+    "acc_std": 0.000453,
+    "notes": null
+  },
+  {
+    "model": "SKVMN",
+    "dataset": "Algebra05",
+    "protocol": "unified",
+    "auc": 0.80848,
+    "auc_std": 0.002239,
+    "acc": 0.79942,
+    "acc_std": 0.002568,
+    "notes": null
+  },
+  {
+    "model": "AKT",
+    "dataset": "Algebra05",
+    "protocol": "unified",
+    "auc": 0.80846,
+    "auc_std": 0.005527,
+    "acc": 0.79092,
+    "acc_std": 0.003366,
+    "notes": null
+  },
+  {
+    "model": "simpleKT",
+    "dataset": "Algebra05",
+    "protocol": "unified",
+    "auc": 0.80842,
+    "auc_std": 0.001395,
+    "acc": 0.78936,
+    "acc_std": 0.002314,
+    "notes": null
+  },
+  {
+    "model": "DKVMN",
+    "dataset": "XES3G5M",
+    "protocol": "unified",
+    "auc": 0.80814,
+    "auc_std": 0.000658,
+    "acc": 0.81862,
+    "acc_std": 0.000672,
+    "notes": "随机采样2500个学生"
+  },
+  {
+    "model": "DisKT",
+    "dataset": "Bridge06",
+    "protocol": "unified",
+    "auc": 0.808,
+    "auc_std": 0.00049,
+    "acc": 0.84586,
+    "acc_std": 0.001238,
+    "notes": null
+  },
+  {
+    "model": "DGMKT",
+    "dataset": "Algebra06",
+    "protocol": "unified",
+    "auc": 0.80686,
+    "auc_std": 0.000876,
+    "acc": 0.81778,
+    "acc_std": 0.000965,
+    "notes": null
+  },
+  {
+    "model": "DKT",
+    "dataset": "Algebra06",
+    "protocol": "unified",
+    "auc": 0.80562,
+    "auc_std": 0.000614,
+    "acc": 0.81712,
+    "acc_std": 0.000268,
+    "notes": null
+  },
+  {
+    "model": "DGMKT",
+    "dataset": "Bridge06",
+    "protocol": "unified",
+    "auc": 0.80544,
+    "auc_std": 0.000876,
+    "acc": 0.84732,
+    "acc_std": 0.000268,
+    "notes": null
+  },
+  {
+    "model": "SKVMN",
+    "dataset": "XES3G5M",
+    "protocol": "unified",
+    "auc": 0.80496,
+    "auc_std": 0.00077,
+    "acc": 0.81626,
+    "acc_std": 0.000713,
+    "notes": "随机采样2500个学生"
+  },
+  {
+    "model": "DenoiseKT",
+    "dataset": "Bridge06",
+    "protocol": "unified",
+    "auc": 0.80328,
+    "auc_std": 0.000789,
+    "acc": 0.84408,
+    "acc_std": 0.000709,
+    "notes": null
+  },
+  {
+    "model": "ClusterKT",
+    "dataset": "Algebra06",
+    "protocol": "unified",
+    "auc": 0.80324,
+    "auc_std": 0.002911,
+    "acc": 0.81558,
+    "acc_std": 0.001276,
+    "notes": null
+  },
+  {
+    "model": "DKVMN",
+    "dataset": "Algebra06",
+    "protocol": "unified",
+    "auc": 0.80318,
+    "auc_std": 0.000955,
+    "acc": 0.81692,
+    "acc_std": 0.001117,
+    "notes": null
+  },
+  {
+    "model": "ClusterKT",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.80252,
+    "auc_std": 0.00074,
+    "acc": 0.73292,
+    "acc_std": 0.001148,
+    "notes": null
+  },
+  {
+    "model": "DKT",
+    "dataset": "Bridge06",
+    "protocol": "unified",
+    "auc": 0.8024,
+    "auc_std": 0.000604,
+    "acc": 0.84638,
+    "acc_std": 0.000164,
+    "notes": null
+  },
+  {
+    "model": "Deep-IRT",
+    "dataset": "Algebra06",
+    "protocol": "unified",
+    "auc": 0.8023,
+    "auc_std": 0.001177,
+    "acc": 0.81628,
+    "acc_std": 0.000497,
+    "notes": null
+  },
+  {
+    "model": "DKT+",
+    "dataset": "Algebra05",
+    "protocol": "unified",
+    "auc": 0.8021456,
+    "auc_std": 0.000499,
+    "acc": 0.7938952,
+    "acc_std": 0.000605,
+    "notes": null
+  },
+  {
+    "model": "CIKT",
+    "dataset": "Algebra06",
+    "protocol": "unified",
+    "auc": 0.8018808,
+    "auc_std": 0.000865,
+    "acc": 0.8168616,
+    "acc_std": 0.001118,
+    "notes": null
+  },
+  {
+    "model": "DGMKT",
+    "dataset": "Algebra05",
+    "protocol": "unified",
+    "auc": 0.80178,
+    "auc_std": 0.002137,
+    "acc": 0.78898,
+    "acc_std": 0.003114,
+    "notes": null
+  },
+  {
+    "model": "DKT+",
+    "dataset": "Algebra06",
+    "protocol": "unified",
+    "auc": 0.8011958,
+    "auc_std": 0.000316,
+    "acc": 0.8145032,
+    "acc_std": 0.000235,
+    "notes": null
+  },
+  {
+    "model": "DKVMN",
+    "dataset": "Bridge06",
+    "protocol": "unified",
+    "auc": 0.80092,
+    "auc_std": 0.000653,
+    "acc": 0.84634,
+    "acc_std": 0.000288,
+    "notes": null
+  },
+  {
+    "model": "ATKT",
+    "dataset": "Algebra05",
+    "protocol": "unified",
+    "auc": 0.80068,
+    "auc_std": 0.00108,
+    "acc": 0.79604,
+    "acc_std": 0.001074,
+    "notes": null
+  },
+  {
+    "model": "Deep-IRT",
+    "dataset": "Bridge06",
+    "protocol": "unified",
+    "auc": 0.80054,
+    "auc_std": 0.000416,
+    "acc": 0.84618,
+    "acc_std": 0.000148,
+    "notes": null
+  },
+  {
+    "model": "SKVMN",
+    "dataset": "Algebra06",
+    "protocol": "unified",
+    "auc": 0.80018,
+    "auc_std": 0.00092,
+    "acc": 0.81252,
+    "acc_std": 0.000926,
+    "notes": null
+  },
+  {
+    "model": "IEKT",
+    "dataset": "Bridge06",
+    "protocol": "unified",
+    "auc": 0.79992,
+    "auc_std": 0.000217,
+    "acc": 0.84476,
+    "acc_std": 0.000971,
+    "notes": null
+  },
+  {
+    "model": "PSKT",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.79946,
+    "auc_std": 0.002012,
+    "acc": 0.72986,
+    "acc_std": 0.001692,
+    "notes": null
+  },
+  {
+    "model": "DTransformer",
+    "dataset": "Algebra05",
+    "protocol": "unified",
+    "auc": 0.7987,
+    "auc_std": 0.004529,
+    "acc": 0.7786,
+    "acc_std": 0.006652,
+    "notes": null
+  },
+  {
+    "model": "PSKT",
+    "dataset": "Algebra05",
+    "protocol": "unified",
+    "auc": 0.79838,
+    "auc_std": 0.007758,
+    "acc": 0.79716,
+    "acc_std": 0.005439,
+    "notes": null
+  },
+  {
+    "model": "DKT+",
+    "dataset": "Bridge06",
+    "protocol": "unified",
+    "auc": 0.7981514,
+    "auc_std": 0.000421,
+    "acc": 0.8442798,
+    "acc_std": 0.000482,
+    "notes": null
+  },
+  {
+    "model": "LPKT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.79808,
+    "auc_std": 0.000449,
+    "acc": 0.7417,
+    "acc_std": 0.001093,
+    "notes": null
+  },
+  {
+    "model": "ABKT",
+    "dataset": "ASSIST09",
+    "protocol": "model_specific",
+    "auc": 0.798,
+    "auc_std": 0.004736,
+    "acc": 0.73708,
+    "acc_std": 0.039175,
+    "notes": null
+  },
+  {
+    "model": "DKT2",
+    "dataset": "Algebra06",
+    "protocol": "unified",
+    "auc": 0.79792,
+    "auc_std": 0.00127,
+    "acc": 0.81562,
+    "acc_std": 0.000606,
+    "notes": null
+  },
+  {
+    "model": "PSKT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.7978,
+    "auc_std": 0.000561,
+    "acc": 0.74096,
+    "acc_std": 0.000321,
+    "notes": null
+  },
+  {
+    "model": "ReKT",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.79762,
+    "auc_std": 0.001293,
+    "acc": 0.72804,
+    "acc_std": 0.001462,
+    "notes": null
+  },
+  {
+    "model": "ReKT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.79754,
+    "auc_std": 0.000555,
+    "acc": 0.85894,
+    "acc_std": 0.000336,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "PSKT",
+    "dataset": "MOOC-Radar",
+    "protocol": "unified",
+    "auc": 0.79752,
+    "auc_std": 0.041245,
+    "acc": 0.82486,
+    "acc_std": 0.018688,
+    "notes": null
+  },
+  {
+    "model": "csKT",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.79744,
+    "auc_std": 0.000321,
+    "acc": 0.72842,
+    "acc_std": 0.00037,
+    "notes": null
+  },
+  {
+    "model": "DKT",
+    "dataset": "Algebra05",
+    "protocol": "unified",
+    "auc": 0.79742,
+    "auc_std": 0.003422,
+    "acc": 0.79624,
+    "acc_std": 0.002864,
+    "notes": null
+  },
+  {
+    "model": "stableKT",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.79742,
+    "auc_std": 0.000192,
+    "acc": 0.72822,
+    "acc_std": 0.000319,
+    "notes": null
+  },
+  {
+    "model": "DKVMN",
+    "dataset": "Algebra05",
+    "protocol": "unified",
+    "auc": 0.79706,
+    "auc_std": 0.00295,
+    "acc": 0.78906,
+    "acc_std": 0.004191,
+    "notes": null
+  },
+  {
+    "model": "SKVMN",
+    "dataset": "Bridge06",
+    "protocol": "unified",
+    "auc": 0.79696,
+    "auc_std": 0.001585,
+    "acc": 0.85012,
+    "acc_std": 0.000192,
+    "notes": null
+  },
+  {
+    "model": "Deep-IRT",
+    "dataset": "Algebra05",
+    "protocol": "unified",
+    "auc": 0.79694,
+    "auc_std": 0.002226,
+    "acc": 0.79048,
+    "acc_std": 0.002815,
+    "notes": null
+  },
+  {
+    "model": "GKT",
+    "dataset": "Algebra05",
+    "protocol": "unified",
+    "auc": 0.79658,
+    "auc_std": 0.00379,
+    "acc": 0.78996,
+    "acc_std": 0.004497,
+    "notes": null
+  },
+  {
+    "model": "DAGKT",
+    "dataset": "Algebra05",
+    "protocol": "unified",
+    "auc": 0.79624,
+    "auc_std": 0.004158,
+    "acc": 0.7916,
+    "acc_std": 0.006076,
+    "notes": null
+  },
+  {
+    "model": "extraKT",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.79582,
+    "auc_std": 0.00039,
+    "acc": 0.72736,
+    "acc_std": 0.000451,
+    "notes": null
+  },
+  {
+    "model": "BDGKT",
+    "dataset": "Bridge06",
+    "protocol": "unified",
+    "auc": 0.7954326,
+    "auc_std": 0.001893,
+    "acc": 0.8420226,
+    "acc_std": 0.000912,
+    "notes": null
+  },
+  {
+    "model": "KQN",
+    "dataset": "Bridge06",
+    "protocol": "unified",
+    "auc": 0.7952,
+    "auc_std": 0.000771,
+    "acc": 0.84464,
+    "acc_std": 0.000456,
+    "notes": null
+  },
+  {
+    "model": "QIKT",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.79506,
+    "auc_std": 0.00023,
+    "acc": 0.72674,
+    "acc_std": 0.000251,
+    "notes": null
+  },
+  {
+    "model": "RobustKT",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.79502,
+    "auc_std": 0.000466,
+    "acc": 0.7267,
+    "acc_std": 0.000212,
+    "notes": null
+  },
+  {
+    "model": "KQN",
+    "dataset": "Algebra06",
+    "protocol": "unified",
+    "auc": 0.79498,
+    "auc_std": 0.00076,
+    "acc": 0.81338,
+    "acc_std": 0.00061,
+    "notes": null
+  },
+  {
+    "model": "MCSKT",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.79442,
+    "auc_std": 0.000239,
+    "acc": 0.72624,
+    "acc_std": 0.000336,
+    "notes": null
+  },
+  {
+    "model": "KQN",
+    "dataset": "Algebra05",
+    "protocol": "unified",
+    "auc": 0.79434,
+    "auc_std": 0.000611,
+    "acc": 0.78948,
+    "acc_std": 0.001156,
+    "notes": null
+  },
+  {
+    "model": "AKT",
+    "dataset": "Slepemapy",
+    "protocol": "unified",
+    "auc": 0.79426,
+    "auc_std": 0.000498,
+    "acc": 0.8161,
+    "acc_std": 0.000339,
+    "notes": null
+  },
+  {
+    "model": "AKT",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.7942,
+    "auc_std": 0.000274,
+    "acc": 0.72564,
+    "acc_std": 0.000635,
+    "notes": null
+  },
+  {
+    "model": "HGKT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.79416,
+    "auc_std": 0.000513,
+    "acc": 0.74964,
+    "acc_std": 0.000699,
+    "notes": null
+  },
+  {
+    "model": "ReKT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.794,
+    "auc_std": 0.000768,
+    "acc": 0.73744,
+    "acc_std": 0.001024,
+    "notes": null
+  },
+  {
+    "model": "FA-KT",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.79376,
+    "auc_std": 0.000573,
+    "acc": 0.72562,
+    "acc_std": 0.000614,
+    "notes": null
+  },
+  {
+    "model": "ClusterKT",
+    "dataset": "Bridge06",
+    "protocol": "unified",
+    "auc": 0.79338,
+    "auc_std": 0.003274,
+    "acc": 0.84316,
+    "acc_std": 0.001472,
+    "notes": null
+  },
+  {
+    "model": "ReKT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.79334,
+    "auc_std": 0.001539,
+    "acc": 0.76118,
+    "acc_std": 0.003235,
+    "notes": null
+  },
+  {
+    "model": "IEKT",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.79334,
+    "auc_std": 0.002647,
+    "acc": 0.72412,
+    "acc_std": 0.002385,
+    "notes": null
+  },
+  {
+    "model": "DAGKT",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.79328,
+    "auc_std": 0.001539,
+    "acc": 0.72162,
+    "acc_std": 0.000466,
+    "notes": null
+  },
+  {
+    "model": "FoLibiKT",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.79306,
+    "auc_std": 0.000336,
+    "acc": 0.7256,
+    "acc_std": 0.000689,
+    "notes": null
+  },
+  {
+    "model": "MTKT",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.79304,
+    "auc_std": 0.000385,
+    "acc": 0.72588,
+    "acc_std": 0.000779,
+    "notes": null
+  },
+  {
+    "model": "SGKT",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.7929,
+    "auc_std": 0.000212,
+    "acc": 0.725,
+    "acc_std": 0.000292,
+    "notes": null
+  },
+  {
+    "model": "simpleKT",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.79282,
+    "auc_std": 0.000396,
+    "acc": 0.72604,
+    "acc_std": 0.003802,
+    "notes": null
+  },
+  {
+    "model": "FoLibiKT",
+    "dataset": "Slepemapy",
+    "protocol": "unified",
+    "auc": 0.79268,
+    "auc_std": 0.000327,
+    "acc": 0.81358,
+    "acc_std": 0.000268,
+    "notes": null
+  },
+  {
+    "model": "DGEKT",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.79262,
+    "auc_std": 0.000268,
+    "acc": 0.72372,
+    "acc_std": 0.000743,
+    "notes": null
+  },
+  {
+    "model": "MIKT",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.79258,
+    "auc_std": 0.00061,
+    "acc": 0.725,
+    "acc_std": 0.000711,
+    "notes": null
+  },
+  {
+    "model": "HiTSKT",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.7925,
+    "auc_std": 0.000255,
+    "acc": 0.72264,
+    "acc_std": 0.000654,
+    "notes": null
+  },
+  {
+    "model": "DKT2",
+    "dataset": "Bridge06",
+    "protocol": "unified",
+    "auc": 0.7924,
+    "auc_std": 0.002706,
+    "acc": 0.84186,
+    "acc_std": 0.00059,
+    "notes": null
+  },
+  {
+    "model": "ATKT",
+    "dataset": "Algebra06",
+    "protocol": "unified",
+    "auc": 0.7921,
+    "auc_std": 0.000485,
+    "acc": 0.81144,
+    "acc_std": 0.000378,
+    "notes": null
+  },
+  {
+    "model": "HiTSKT",
+    "dataset": "Algebra06",
+    "protocol": "unified",
+    "auc": 0.79196,
+    "auc_std": 0.000723,
+    "acc": 0.80688,
+    "acc_std": 0.001519,
+    "notes": null
+  },
+  {
+    "model": "UKT",
+    "dataset": "Slepemapy",
+    "protocol": "unified",
+    "auc": 0.79192,
+    "auc_std": 0.000853,
+    "acc": 0.81512,
+    "acc_std": 0.00074,
+    "notes": null
+  },
+  {
+    "model": "DTransformer",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.79188,
+    "auc_std": 0.000719,
+    "acc": 0.72406,
+    "acc_std": 0.000581,
+    "notes": null
+  },
+  {
+    "model": "DisKT",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.79186,
+    "auc_std": 0.000305,
+    "acc": 0.72346,
+    "acc_std": 0.000532,
+    "notes": null
+  },
+  {
+    "model": "MCKT",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.7917,
+    "auc_std": 0.00097,
+    "acc": 0.72358,
+    "acc_std": 0.001165,
+    "notes": null
+  },
+  {
+    "model": "FlucKT",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.79166,
+    "auc_std": 0.002788,
+    "acc": 0.72434,
+    "acc_std": 0.002964,
+    "notes": null
+  },
+  {
+    "model": "stableKT",
+    "dataset": "Slepemapy",
+    "protocol": "unified",
+    "auc": 0.7915,
+    "auc_std": 0.0001,
+    "acc": 0.8151,
+    "acc_std": 0.000122,
+    "notes": null
+  },
+  {
+    "model": "GIKT",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.79138,
+    "auc_std": 0.000342,
+    "acc": 0.72374,
+    "acc_std": 0.000695,
+    "notes": null
+  },
+  {
+    "model": "MIKT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.79136,
+    "auc_std": 0.001527,
+    "acc": 0.76076,
+    "acc_std": 0.001889,
+    "notes": null
+  },
+  {
+    "model": "LPKT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.7913,
+    "auc_std": 0.000367,
+    "acc": 0.85162,
+    "acc_std": 0.000409,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "csKT",
+    "dataset": "Slepemapy",
+    "protocol": "unified",
+    "auc": 0.79124,
+    "auc_std": 0.000134,
+    "acc": 0.81504,
+    "acc_std": 8.9e-05,
+    "notes": null
+  },
+  {
+    "model": "DenoiseKT",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.79122,
+    "auc_std": 0.000164,
+    "acc": 0.72228,
+    "acc_std": 0.000164,
+    "notes": null
+  },
+  {
+    "model": "ATKT",
+    "dataset": "Bridge06",
+    "protocol": "unified",
+    "auc": 0.7908,
+    "auc_std": 0.000967,
+    "acc": 0.84922,
+    "acc_std": 0.000164,
+    "notes": null
+  },
+  {
+    "model": "TCKT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.7907,
+    "auc_std": 0.001234,
+    "acc": 0.7354618,
+    "acc_std": 0.00071,
+    "notes": null
+  },
+  {
+    "model": "Mamba4KT",
+    "dataset": "Bridge06",
+    "protocol": "unified",
+    "auc": 0.79052,
+    "auc_std": 0.001475,
+    "acc": 0.84518,
+    "acc_std": 0.001178,
+    "notes": null
+  },
+  {
+    "model": "RobustKT",
+    "dataset": "Slepemapy",
+    "protocol": "unified",
+    "auc": 0.79052,
+    "auc_std": 0.000409,
+    "acc": 0.81492,
+    "acc_std": 0.000192,
+    "notes": null
+  },
+  {
+    "model": "ClusterKT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.7898,
+    "auc_std": 0.00064,
+    "acc": 0.8554,
+    "acc_std": 0.000339,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "FoLibiKT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.78978,
+    "auc_std": 0.00046,
+    "acc": 0.85126,
+    "acc_std": 0.000321,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "FA-KT",
+    "dataset": "Slepemapy",
+    "protocol": "unified",
+    "auc": 0.78974,
+    "auc_std": 0.000321,
+    "acc": 0.8149,
+    "acc_std": 0.000187,
+    "notes": null
+  },
+  {
+    "model": "LBKT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.78968,
+    "auc_std": 0.002046,
+    "acc": 0.73712,
+    "acc_std": 0.001475,
+    "notes": null
+  },
+  {
+    "model": "SGKT",
+    "dataset": "Algebra05",
+    "protocol": "unified",
+    "auc": 0.78954,
+    "auc_std": 0.002476,
+    "acc": 0.79368,
+    "acc_std": 0.003009,
+    "notes": null
+  },
+  {
+    "model": "UKT",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.78916,
+    "auc_std": 0.000518,
+    "acc": 0.72178,
+    "acc_std": 0.000492,
+    "notes": null
+  },
+  {
+    "model": "MTKT",
+    "dataset": "Slepemapy",
+    "protocol": "unified",
+    "auc": 0.78908,
+    "auc_std": 0.000356,
+    "acc": 0.81408,
+    "acc_std": 0.000286,
+    "notes": null
+  },
+  {
+    "model": "sparseKT",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.78794,
+    "auc_std": 0.000799,
+    "acc": 0.72024,
+    "acc_std": 0.000934,
+    "notes": null
+  },
+  {
+    "model": "simpleKT",
+    "dataset": "Slepemapy",
+    "protocol": "unified",
+    "auc": 0.7879,
+    "auc_std": 0.000235,
+    "acc": 0.81378,
+    "acc_std": 0.000228,
+    "notes": null
+  },
+  {
+    "model": "DyGKT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.78726,
+    "auc_std": 0.000462,
+    "acc": 0.86262,
+    "acc_std": 0.000581,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "GRKT",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.78644,
+    "auc_std": 0.000483,
+    "acc": 0.71898,
+    "acc_std": 0.000912,
+    "notes": null
+  },
+  {
+    "model": "MCKT",
+    "dataset": "Slepemapy",
+    "protocol": "unified",
+    "auc": 0.7864,
+    "auc_std": 0.000308,
+    "acc": 0.81478,
+    "acc_std": 0.000148,
+    "notes": null
+  },
+  {
+    "model": "CIKT",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.786317,
+    "auc_std": 0.000712,
+    "acc": 0.7195254,
+    "acc_std": 0.000904,
+    "notes": null
+  },
+  {
+    "model": "LPKT-S",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.78568,
+    "auc_std": 0.001059,
+    "acc": 0.7308,
+    "acc_std": 0.000943,
+    "notes": null
+  },
+  {
+    "model": "extraKT",
+    "dataset": "Slepemapy",
+    "protocol": "unified",
+    "auc": 0.78554,
+    "auc_std": 0.005484,
+    "acc": 0.81414,
+    "acc_std": 0.001417,
+    "notes": null
+  },
+  {
+    "model": "HiTSKT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.78544,
+    "auc_std": 0.000702,
+    "acc": 0.841,
+    "acc_std": 0.001782,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "LPKT-S",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.78536,
+    "auc_std": 0.00135,
+    "acc": 0.84908,
+    "acc_std": 0.00063,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "QIKT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.78524,
+    "auc_std": 0.002194,
+    "acc": 0.75598,
+    "acc_std": 0.001252,
+    "notes": null
+  },
+  {
+    "model": "DisKT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.78482,
+    "auc_std": 0.001717,
+    "acc": 0.75368,
+    "acc_std": 0.002334,
+    "notes": null
+  },
+  {
+    "model": "MCKT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.78462,
+    "auc_std": 0.002882,
+    "acc": 0.7567,
+    "acc_std": 0.002695,
+    "notes": null
+  },
+  {
+    "model": "AKT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.78446,
+    "auc_std": 0.000416,
+    "acc": 0.76272,
+    "acc_std": 0.000239,
+    "notes": null
+  },
+  {
+    "model": "DenoiseKT",
+    "dataset": "Slepemapy",
+    "protocol": "unified",
+    "auc": 0.78442,
+    "auc_std": 0.000192,
+    "acc": 0.81388,
+    "acc_std": 0.000164,
+    "notes": null
+  },
+  {
+    "model": "Mamba4KT",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.78414,
+    "auc_std": 0.000385,
+    "acc": 0.7168,
+    "acc_std": 0.001565,
+    "notes": null
+  },
+  {
+    "model": "SKVMN",
+    "dataset": "Slepemapy",
+    "protocol": "unified",
+    "auc": 0.7841,
+    "auc_std": 0.000292,
+    "acc": 0.8114,
+    "acc_std": 0.000187,
+    "notes": null
+  },
+  {
+    "model": "Mamba4KT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.78388,
+    "auc_std": 0.000455,
+    "acc": 0.85108,
+    "acc_std": 0.000303,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "sparseKT",
+    "dataset": "Algebra05",
+    "protocol": "unified",
+    "auc": 0.7837,
+    "auc_std": 0.002173,
+    "acc": 0.7784,
+    "acc_std": 0.004077,
+    "notes": null
+  },
+  {
+    "model": "MIKT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.78348,
+    "auc_std": 0.00011,
+    "acc": 0.76216,
+    "acc_std": 0.00077,
+    "notes": null
+  },
+  {
+    "model": "SQGKT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.78344,
+    "auc_std": 0.00073,
+    "acc": 0.72784,
+    "acc_std": 0.00171,
+    "notes": null
+  },
+  {
+    "model": "HiTSKT",
+    "dataset": "Bridge06",
+    "protocol": "unified",
+    "auc": 0.78324,
+    "auc_std": 0.000404,
+    "acc": 0.83452,
+    "acc_std": 0.001441,
+    "notes": null
+  },
+  {
+    "model": "Mamba4KT",
+    "dataset": "Algebra05",
+    "protocol": "unified",
+    "auc": 0.78318,
+    "auc_std": 0.002791,
+    "acc": 0.79192,
+    "acc_std": 0.002566,
+    "notes": null
+  },
+  {
+    "model": "ReKT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.78316,
+    "auc_std": 0.000241,
+    "acc": 0.76126,
+    "acc_std": 8.9e-05,
+    "notes": null
+  },
+  {
+    "model": "DenoiseKT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.78314,
+    "auc_std": 0.001588,
+    "acc": 0.75608,
+    "acc_std": 0.001943,
+    "notes": null
+  },
+  {
+    "model": "RobustKT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.7829,
+    "auc_std": 0.000324,
+    "acc": 0.76164,
+    "acc_std": 0.000518,
+    "notes": null
+  },
+  {
+    "model": "DTransformer",
+    "dataset": "Slepemapy",
+    "protocol": "unified",
+    "auc": 0.78286,
+    "auc_std": 0.000598,
+    "acc": 0.81304,
+    "acc_std": 0.000305,
+    "notes": null
+  },
+  {
+    "model": "MCSKT",
+    "dataset": "Slepemapy",
+    "protocol": "unified",
+    "auc": 0.78256,
+    "auc_std": 0.000462,
+    "acc": 0.81306,
+    "acc_std": 0.000219,
+    "notes": null
+  },
+  {
+    "model": "DKVMN",
+    "dataset": "Slepemapy",
+    "protocol": "unified",
+    "auc": 0.78158,
+    "auc_std": 0.000148,
+    "acc": 0.81164,
+    "acc_std": 0.000297,
+    "notes": null
+  },
+  {
+    "model": "DTransformer",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.78132,
+    "auc_std": 0.000497,
+    "acc": 0.76052,
+    "acc_std": 0.000409,
+    "notes": null
+  },
+  {
+    "model": "FoLibiKT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.78114,
+    "auc_std": 0.000358,
+    "acc": 0.75876,
+    "acc_std": 0.000378,
+    "notes": null
+  },
+  {
+    "model": "AKT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.78112,
+    "auc_std": 0.003047,
+    "acc": 0.75446,
+    "acc_std": 0.002221,
+    "notes": null
+  },
+  {
+    "model": "Deep-IRT",
+    "dataset": "Slepemapy",
+    "protocol": "unified",
+    "auc": 0.78102,
+    "auc_std": 0.000239,
+    "acc": 0.81134,
+    "acc_std": 5.5e-05,
+    "notes": null
+  },
+  {
+    "model": "DIMKT",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.78096,
+    "auc_std": 0.004851,
+    "acc": 0.71264,
+    "acc_std": 0.005247,
+    "notes": null
+  },
+  {
+    "model": "ReKT",
+    "dataset": "Slepemapy",
+    "protocol": "unified",
+    "auc": 0.78088,
+    "auc_std": 0.000526,
+    "acc": 0.8128,
+    "acc_std": 0.0003,
+    "notes": null
+  },
+  {
+    "model": "Mamba4KT",
+    "dataset": "Algebra06",
+    "protocol": "unified",
+    "auc": 0.78086,
+    "auc_std": 0.001869,
+    "acc": 0.80706,
+    "acc_std": 0.002049,
+    "notes": null
+  },
+  {
+    "model": "stableKT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.78066,
+    "auc_std": 0.001978,
+    "acc": 0.75148,
+    "acc_std": 0.002029,
+    "notes": null
+  },
+  {
+    "model": "GRKT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.7805,
+    "auc_std": 0.000815,
+    "acc": 0.84608,
+    "acc_std": 0.00095,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "UKT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.7804,
+    "auc_std": 0.001861,
+    "acc": 0.74814,
+    "acc_std": 0.003925,
+    "notes": null
+  },
+  {
+    "model": "MIKT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.78028,
+    "auc_std": 0.000409,
+    "acc": 0.84844,
+    "acc_std": 0.000152,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "FlucKT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.78024,
+    "auc_std": 0.008035,
+    "acc": 0.84852,
+    "acc_std": 0.002617,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "DGEKT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.78014,
+    "auc_std": 0.000666,
+    "acc": 0.7219,
+    "acc_std": 0.000778,
+    "notes": null
+  },
+  {
+    "model": "sparseKT",
+    "dataset": "Slepemapy",
+    "protocol": "unified",
+    "auc": 0.7801,
+    "auc_std": 0.000387,
+    "acc": 0.81198,
+    "acc_std": 0.000179,
+    "notes": null
+  },
+  {
+    "model": "MTKT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.7801,
+    "auc_std": 0.000235,
+    "acc": 0.75902,
+    "acc_std": 0.001281,
+    "notes": null
+  },
+  {
+    "model": "FoLibiKT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.77984,
+    "auc_std": 0.001163,
+    "acc": 0.74178,
+    "acc_std": 0.001165,
+    "notes": null
+  },
+  {
+    "model": "RobustKT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.77978,
+    "auc_std": 0.002787,
+    "acc": 0.75536,
+    "acc_std": 0.001428,
+    "notes": null
+  },
+  {
+    "model": "TCKT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.7795832,
+    "auc_std": 0.001775,
+    "acc": 0.8474712,
+    "acc_std": 0.000465,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "GIKT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.77942,
+    "auc_std": 0.002158,
+    "acc": 0.753,
+    "acc_std": 0.001715,
+    "notes": null
+  },
+  {
+    "model": "csKT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.7794,
+    "auc_std": 0.000524,
+    "acc": 0.84678,
+    "acc_std": 0.000311,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "DisKT",
+    "dataset": "Slepemapy",
+    "protocol": "unified",
+    "auc": 0.77902,
+    "auc_std": 0.000179,
+    "acc": 0.81194,
+    "acc_std": 0.000462,
+    "notes": null
+  },
+  {
+    "model": "BDGKT",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.7788488,
+    "auc_std": 0.000919,
+    "acc": 0.7087778,
+    "acc_std": 0.004518,
+    "notes": null
+  },
+  {
+    "model": "extraKT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.77884,
+    "auc_std": 0.004221,
+    "acc": 0.7601,
+    "acc_std": 0.00281,
+    "notes": null
+  },
+  {
+    "model": "MCSKT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.77878,
+    "auc_std": 0.001644,
+    "acc": 0.75828,
+    "acc_std": 0.001402,
+    "notes": null
+  },
+  {
+    "model": "UKT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.7787,
+    "auc_std": 0.000374,
+    "acc": 0.75624,
+    "acc_std": 0.001218,
+    "notes": null
+  },
+  {
+    "model": "IEKT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.77858,
+    "auc_std": 0.000993,
+    "acc": 0.84638,
+    "acc_std": 0.000766,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "csKT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.77854,
+    "auc_std": 0.000344,
+    "acc": 0.75892,
+    "acc_std": 0.000363,
+    "notes": null
+  },
+  {
+    "model": "DAGKT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.77846,
+    "auc_std": 0.001457,
+    "acc": 0.84782,
+    "acc_std": 0.000295,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "GIKT",
+    "dataset": "Slepemapy",
+    "protocol": "unified",
+    "auc": 0.77844,
+    "auc_std": 0.00023,
+    "acc": 0.81292,
+    "acc_std": 0.000192,
+    "notes": null
+  },
+  {
+    "model": "MCKT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.77842,
+    "auc_std": 0.000904,
+    "acc": 0.7604,
+    "acc_std": 0.000731,
+    "notes": null
+  },
+  {
+    "model": "SGKT",
+    "dataset": "Bridge06",
+    "protocol": "unified",
+    "auc": 0.77828,
+    "auc_std": 0.002809,
+    "acc": 0.8413,
+    "acc_std": 0.000539,
+    "notes": null
+  },
+  {
+    "model": "stableKT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.77818,
+    "auc_std": 0.000432,
+    "acc": 0.75824,
+    "acc_std": 0.000865,
+    "notes": null
+  },
+  {
+    "model": "RobustKT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.77812,
+    "auc_std": 0.000807,
+    "acc": 0.84598,
+    "acc_std": 0.000971,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "LPKT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.77804,
+    "auc_std": 0.000134,
+    "acc": 0.7596,
+    "acc_std": 0.0004,
+    "notes": null
+  },
+  {
+    "model": "GIKT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.77804,
+    "auc_std": 0.000462,
+    "acc": 0.75892,
+    "acc_std": 0.000432,
+    "notes": null
+  },
+  {
+    "model": "DAGKT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.77802,
+    "auc_std": 0.000952,
+    "acc": 0.73632,
+    "acc_std": 0.021288,
+    "notes": null
+  },
+  {
+    "model": "IEKT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.7779,
+    "auc_std": 0.001565,
+    "acc": 0.72306,
+    "acc_std": 0.002779,
+    "notes": null
+  },
+  {
+    "model": "SGKT",
+    "dataset": "Slepemapy",
+    "protocol": "unified",
+    "auc": 0.77786,
+    "auc_std": 0.000114,
+    "acc": 0.81208,
+    "acc_std": 8.4e-05,
+    "notes": null
+  },
+  {
+    "model": "TCKT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.77786,
+    "auc_std": 0.000513,
+    "acc": 0.75982,
+    "acc_std": 0.000581,
+    "notes": null
+  },
+  {
+    "model": "FlucKT",
+    "dataset": "Slepemapy",
+    "protocol": "unified",
+    "auc": 0.77784,
+    "auc_std": 0.005097,
+    "acc": 0.81,
+    "acc_std": 0.001336,
+    "notes": null
+  },
+  {
+    "model": "FA-KT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.77782,
+    "auc_std": 0.000277,
+    "acc": 0.75728,
+    "acc_std": 0.000349,
+    "notes": null
+  },
+  {
+    "model": "ATDKT",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.77776,
+    "auc_std": 0.00027,
+    "acc": 0.7125,
+    "acc_std": 0.000158,
+    "notes": null
+  },
+  {
+    "model": "PSKT",
+    "dataset": "Bridge06",
+    "protocol": "unified",
+    "auc": 0.77774,
+    "auc_std": 0.003601,
+    "acc": 0.83904,
+    "acc_std": 0.002378,
+    "notes": null
+  },
+  {
+    "model": "LBKT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.77774,
+    "auc_std": 0.000467,
+    "acc": 0.75916,
+    "acc_std": 0.000635,
+    "notes": null
+  },
+  {
+    "model": "AKT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.77768,
+    "auc_std": 0.000327,
+    "acc": 0.84524,
+    "acc_std": 0.000607,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "simpleKT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.77756,
+    "auc_std": 0.000365,
+    "acc": 0.75718,
+    "acc_std": 0.000947,
+    "notes": null
+  },
+  {
+    "model": "QIKT",
+    "dataset": "Slepemapy",
+    "protocol": "unified",
+    "auc": 0.77734,
+    "auc_std": 0.000195,
+    "acc": 0.81216,
+    "acc_std": 5.5e-05,
+    "notes": null
+  },
+  {
+    "model": "DKT",
+    "dataset": "Slepemapy",
+    "protocol": "unified",
+    "auc": 0.77734,
+    "auc_std": 0.000114,
+    "acc": 0.81096,
+    "acc_std": 0.000114,
+    "notes": null
+  },
+  {
+    "model": "csKT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.77732,
+    "auc_std": 0.001625,
+    "acc": 0.7497,
+    "acc_std": 0.002719,
+    "notes": null
+  },
+  {
+    "model": "simpleKT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.77704,
+    "auc_std": 0.002692,
+    "acc": 0.74936,
+    "acc_std": 0.002519,
+    "notes": null
+  },
+  {
+    "model": "SAKT",
+    "dataset": "Algebra06",
+    "protocol": "unified",
+    "auc": 0.77694,
+    "auc_std": 0.00123,
+    "acc": 0.8079,
+    "acc_std": 0.001277,
+    "notes": null
+  },
+  {
+    "model": "QIKT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.77682,
+    "auc_std": 0.000536,
+    "acc": 0.84566,
+    "acc_std": 0.000195,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "PSKT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.7767,
+    "auc_std": 0.000566,
+    "acc": 0.75922,
+    "acc_std": 8.4e-05,
+    "notes": null
+  },
+  {
+    "model": "MCKT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.77656,
+    "auc_std": 0.001234,
+    "acc": 0.72388,
+    "acc_std": 0.001817,
+    "notes": null
+  },
+  {
+    "model": "DTransformer",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.77622,
+    "auc_std": 0.001252,
+    "acc": 0.84612,
+    "acc_std": 0.000642,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "LBKT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.7761,
+    "auc_std": 0.002903,
+    "acc": 0.75028,
+    "acc_std": 0.004647,
+    "notes": null
+  },
+  {
+    "model": "extraKT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.77598,
+    "auc_std": 0.002252,
+    "acc": 0.74756,
+    "acc_std": 0.002384,
+    "notes": null
+  },
+  {
+    "model": "FlucKT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.77596,
+    "auc_std": 0.002614,
+    "acc": 0.75514,
+    "acc_std": 0.002269,
+    "notes": null
+  },
+  {
+    "model": "DisKT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.7759,
+    "auc_std": 0.000381,
+    "acc": 0.7572,
+    "acc_std": 0.000997,
+    "notes": null
+  },
+  {
+    "model": "BDGKT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.7758654,
+    "auc_std": 0.002204,
+    "acc": 0.7524712,
+    "acc_std": 0.001446,
+    "notes": null
+  },
+  {
+    "model": "DTransformer",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.77576,
+    "auc_std": 0.001228,
+    "acc": 0.74448,
+    "acc_std": 0.002226,
+    "notes": null
+  },
+  {
+    "model": "MCKT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.77572,
+    "auc_std": 0.000665,
+    "acc": 0.84714,
+    "acc_std": 0.00065,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "ClusterKT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.77572,
+    "auc_std": 0.000572,
+    "acc": 0.75772,
+    "acc_std": 0.000785,
+    "notes": null
+  },
+  {
+    "model": "DenoiseKT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.77542,
+    "auc_std": 0.000526,
+    "acc": 0.75684,
+    "acc_std": 0.001115,
+    "notes": null
+  },
+  {
+    "model": "SGKT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.77536,
+    "auc_std": 0.00055,
+    "acc": 0.8445,
+    "acc_std": 0.000485,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "SQGKT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.77534,
+    "auc_std": 0.000924,
+    "acc": 0.84664,
+    "acc_std": 0.000288,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "LPKT-S",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.77518,
+    "auc_std": 0.000507,
+    "acc": 0.75814,
+    "acc_std": 0.000598,
+    "notes": null
+  },
+  {
+    "model": "DGEKT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.7749,
+    "auc_std": 0.00086,
+    "acc": 0.84298,
+    "acc_std": 8.4e-05,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "DyGKT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.7749,
+    "auc_std": 0.006823,
+    "acc": 0.72728,
+    "acc_std": 0.004254,
+    "notes": null
+  },
+  {
+    "model": "HGKT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.77472,
+    "auc_std": 0.000779,
+    "acc": 0.74922,
+    "acc_std": 0.000876,
+    "notes": null
+  },
+  {
+    "model": "ATDKT",
+    "dataset": "Slepemapy",
+    "protocol": "unified",
+    "auc": 0.77468,
+    "auc_std": 0.000239,
+    "acc": 0.8093,
+    "acc_std": 0.000122,
+    "notes": null
+  },
+  {
+    "model": "GIKT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.77464,
+    "auc_std": 0.000546,
+    "acc": 0.84582,
+    "acc_std": 0.000179,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "HiTSKT",
+    "dataset": "Slepemapy",
+    "protocol": "unified",
+    "auc": 0.7746,
+    "auc_std": 0.000394,
+    "acc": 0.81902,
+    "acc_std": 0.000487,
+    "notes": null
+  },
+  {
+    "model": "PSKT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.77452,
+    "auc_std": 0.002745,
+    "acc": 0.75078,
+    "acc_std": 0.002822,
+    "notes": null
+  },
+  {
+    "model": "DKT2",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.77432,
+    "auc_std": 0.001431,
+    "acc": 0.70854,
+    "acc_std": 0.001172,
+    "notes": null
+  },
+  {
+    "model": "stableKT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.77416,
+    "auc_std": 0.001467,
+    "acc": 0.84526,
+    "acc_std": 0.00078,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "PSKT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.77394,
+    "auc_std": 0.001412,
+    "acc": 0.8445,
+    "acc_std": 0.001125,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "DAGKT",
+    "dataset": "Bridge06",
+    "protocol": "unified",
+    "auc": 0.77376,
+    "auc_std": 0.00218,
+    "acc": 0.82512,
+    "acc_std": 0.003032,
+    "notes": null
+  },
+  {
+    "model": "QIKT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.77358,
+    "auc_std": 0.00055,
+    "acc": 0.7558,
+    "acc_std": 0.000308,
+    "notes": null
+  },
+  {
+    "model": "LPKT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.77358,
+    "auc_std": 0.003227,
+    "acc": 0.7518,
+    "acc_std": 0.001095,
+    "notes": null
+  },
+  {
+    "model": "MCSKT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.77338,
+    "auc_std": 0.00147,
+    "acc": 0.84378,
+    "acc_std": 0.000409,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "TCKT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.7731612,
+    "auc_std": 0.004994,
+    "acc": 0.7513246,
+    "acc_std": 0.002964,
+    "notes": null
+  },
+  {
+    "model": "DGEKT",
+    "dataset": "Slepemapy",
+    "protocol": "unified",
+    "auc": 0.77306,
+    "auc_std": 0.000378,
+    "acc": 0.80988,
+    "acc_std": 0.000277,
+    "notes": null
+  },
+  {
+    "model": "IEKT",
+    "dataset": "Slepemapy",
+    "protocol": "unified",
+    "auc": 0.77302,
+    "auc_std": 0.002416,
+    "acc": 0.81158,
+    "acc_std": 0.00054,
+    "notes": null
+  },
+  {
+    "model": "DenoiseKT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.77296,
+    "auc_std": 0.000329,
+    "acc": 0.84556,
+    "acc_std": 0.000513,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "MCSKT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.77296,
+    "auc_std": 0.001927,
+    "acc": 0.74684,
+    "acc_std": 0.001029,
+    "notes": null
+  },
+  {
+    "model": "Mamba4KT",
+    "dataset": "Slepemapy",
+    "protocol": "unified",
+    "auc": 0.7722,
+    "auc_std": 0.00051,
+    "acc": 0.8088,
+    "acc_std": 0.001622,
+    "notes": null
+  },
+  {
+    "model": "KQN",
+    "dataset": "Slepemapy",
+    "protocol": "unified",
+    "auc": 0.77218,
+    "auc_std": 0.000259,
+    "acc": 0.81058,
+    "acc_std": 0.00039,
+    "notes": null
+  },
+  {
+    "model": "BDGKT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.7720696,
+    "auc_std": 0.001022,
+    "acc": 0.7193468,
+    "acc_std": 0.000745,
+    "notes": null
+  },
+  {
+    "model": "DisKT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.7718,
+    "auc_std": 0.001079,
+    "acc": 0.84604,
+    "acc_std": 0.000546,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "DKT2",
+    "dataset": "Slepemapy",
+    "protocol": "unified",
+    "auc": 0.77154,
+    "auc_std": 0.000358,
+    "acc": 0.81066,
+    "acc_std": 0.000114,
+    "notes": null
+  },
+  {
+    "model": "GRKT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.77114,
+    "auc_std": 0.000371,
+    "acc": 0.75436,
+    "acc_std": 0.000669,
+    "notes": null
+  },
+  {
+    "model": "CIKT",
+    "dataset": "Slepemapy",
+    "protocol": "unified",
+    "auc": 0.7709416,
+    "auc_std": 0.001037,
+    "acc": 0.8112384,
+    "acc_std": 0.00018,
+    "notes": null
+  },
+  {
+    "model": "FA-KT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.77092,
+    "auc_std": 0.001316,
+    "acc": 0.7437,
+    "acc_std": 0.001631,
+    "notes": null
+  },
+  {
+    "model": "SQGKT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.7708,
+    "auc_std": 0.000663,
+    "acc": 0.75472,
+    "acc_std": 0.000798,
+    "notes": null
+  },
+  {
+    "model": "Mamba4KT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.77072,
+    "auc_std": 0.00039,
+    "acc": 0.7526,
+    "acc_std": 0.000946,
+    "notes": null
+  },
+  {
+    "model": "MIKT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.77072,
+    "auc_std": 0.002867,
+    "acc": 0.7204,
+    "acc_std": 0.002248,
+    "notes": null
+  },
+  {
+    "model": "HawkesKT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.77058,
+    "auc_std": 0.001071,
+    "acc": 0.75224,
+    "acc_std": 0.000713,
+    "notes": null
+  },
+  {
+    "model": "GRKT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.77028,
+    "auc_std": 0.002275,
+    "acc": 0.7489,
+    "acc_std": 0.002273,
+    "notes": null
+  },
+  {
+    "model": "DKT+",
+    "dataset": "Slepemapy",
+    "protocol": "unified",
+    "auc": 0.7702764,
+    "auc_std": 0.000382,
+    "acc": 0.808969,
+    "acc_std": 0.000177,
+    "notes": null
+  },
+  {
+    "model": "DAGKT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.77014,
+    "auc_std": 0.003431,
+    "acc": 0.74716,
+    "acc_std": 0.002913,
+    "notes": null
+  },
+  {
+    "model": "FA-KT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.77006,
+    "auc_std": 0.000783,
+    "acc": 0.84358,
+    "acc_std": 0.000415,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "QIKT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.7699,
+    "auc_std": 0.000962,
+    "acc": 0.71994,
+    "acc_std": 0.000934,
+    "notes": null
+  },
+  {
+    "model": "MTKT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.76982,
+    "auc_std": 0.001778,
+    "acc": 0.7482,
+    "acc_std": 0.001347,
+    "notes": null
+  },
+  {
+    "model": "SQGKT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.76976,
+    "auc_std": 0.001812,
+    "acc": 0.74404,
+    "acc_std": 0.003247,
+    "notes": null
+  },
+  {
+    "model": "sparseKT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.76966,
+    "auc_std": 0.000666,
+    "acc": 0.75462,
+    "acc_std": 0.000952,
+    "notes": null
+  },
+  {
+    "model": "SAKT",
+    "dataset": "Algebra05",
+    "protocol": "unified",
+    "auc": 0.76954,
+    "auc_std": 0.002802,
+    "acc": 0.77176,
+    "acc_std": 0.002123,
+    "notes": null
+  },
+  {
+    "model": "GIKT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.76952,
+    "auc_std": 0.000986,
+    "acc": 0.71806,
+    "acc_std": 0.001224,
+    "notes": null
+  },
+  {
+    "model": "UKT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.76946,
+    "auc_std": 0.00077,
+    "acc": 0.8435,
+    "acc_std": 0.000587,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "ReKT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.769372,
+    "auc_std": 0.001616,
+    "acc": 0.699622,
+    "acc_std": 0.001331,
+    "notes": null
+  },
+  {
+    "model": "DAGKT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.76928,
+    "auc_std": 0.000698,
+    "acc": 0.69914,
+    "acc_std": 0.001258,
+    "notes": null
+  },
+  {
+    "model": "IEKT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.76906,
+    "auc_std": 0.001379,
+    "acc": 0.74756,
+    "acc_std": 0.002539,
+    "notes": null
+  },
+  {
+    "model": "FlucKT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.76902,
+    "auc_std": 0.002622,
+    "acc": 0.72908,
+    "acc_std": 0.002709,
+    "notes": null
+  },
+  {
+    "model": "CIKT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.7688742,
+    "auc_std": 0.00274,
+    "acc": 0.7184794,
+    "acc_std": 0.001893,
+    "notes": null
+  },
+  {
+    "model": "IEKT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.7688,
+    "auc_std": 0.001298,
+    "acc": 0.75304,
+    "acc_std": 0.001802,
+    "notes": null
+  },
+  {
+    "model": "simpleKT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.76844,
+    "auc_std": 0.001083,
+    "acc": 0.84412,
+    "acc_std": 0.000444,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "LPKT-S",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.76838,
+    "auc_std": 0.003548,
+    "acc": 0.7485,
+    "acc_std": 0.003221,
+    "notes": null
+  },
+  {
+    "model": "DKT2",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.76828,
+    "auc_std": 0.001252,
+    "acc": 0.71814,
+    "acc_std": 0.001157,
+    "notes": null
+  },
+  {
+    "model": "DAGKT",
+    "dataset": "Slepemapy",
+    "protocol": "unified",
+    "auc": 0.76822,
+    "auc_std": 0.002136,
+    "acc": 0.81044,
+    "acc_std": 0.000513,
+    "notes": null
+  },
+  {
+    "model": "CIKT",
+    "dataset": "Bridge06",
+    "protocol": "unified",
+    "auc": 0.7677378,
+    "auc_std": 0.000908,
+    "acc": 0.8389432,
+    "acc_std": 0.000907,
+    "notes": null
+  },
+  {
+    "model": "MTKT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.7675,
+    "auc_std": 0.001681,
+    "acc": 0.84284,
+    "acc_std": 0.000434,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "sparseKT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.76738,
+    "auc_std": 0.002465,
+    "acc": 0.74284,
+    "acc_std": 0.003676,
+    "notes": null
+  },
+  {
+    "model": "SAKT",
+    "dataset": "Slepemapy",
+    "protocol": "unified",
+    "auc": 0.76682,
+    "auc_std": 0.000936,
+    "acc": 0.80726,
+    "acc_std": 0.002562,
+    "notes": null
+  },
+  {
+    "model": "BDGKT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.7667584,
+    "auc_std": 0.000752,
+    "acc": 0.8426792,
+    "acc_std": 0.000821,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "DGMKT",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.76654,
+    "auc_std": 0.000786,
+    "acc": 0.70138,
+    "acc_std": 0.00046,
+    "notes": null
+  },
+  {
+    "model": "ClusterKT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.7665,
+    "auc_std": 0.000897,
+    "acc": 0.74166,
+    "acc_std": 0.002792,
+    "notes": null
+  },
+  {
+    "model": "SGKT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.76618,
+    "auc_std": 0.001274,
+    "acc": 0.71452,
+    "acc_std": 0.001211,
+    "notes": null
+  },
+  {
+    "model": "DAGKT",
+    "dataset": "Algebra06",
+    "protocol": "unified",
+    "auc": 0.76616,
+    "auc_std": 0.004227,
+    "acc": 0.79798,
+    "acc_std": 0.013396,
+    "notes": null
+  },
+  {
+    "model": "extraKT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.76606,
+    "auc_std": 0.002187,
+    "acc": 0.84258,
+    "acc_std": 0.001244,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "MCKT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.76552,
+    "auc_std": 0.002326,
+    "acc": 0.695282,
+    "acc_std": 0.002359,
+    "notes": null
+  },
+  {
+    "model": "DAGKT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.76522,
+    "auc_std": 0.00037,
+    "acc": 0.75284,
+    "acc_std": 0.000483,
+    "notes": null
+  },
+  {
+    "model": "sparseKT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.76424,
+    "auc_std": 0.000976,
+    "acc": 0.8433,
+    "acc_std": 0.000339,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "SAKT",
+    "dataset": "Bridge06",
+    "protocol": "unified",
+    "auc": 0.764,
+    "auc_std": 0.000954,
+    "acc": 0.83896,
+    "acc_std": 0.000477,
+    "notes": null
+  },
+  {
+    "model": "CIKT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.763857,
+    "auc_std": 0.001155,
+    "acc": 0.8405362,
+    "acc_std": 0.000836,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "MIKT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.763382,
+    "auc_std": 0.000594,
+    "acc": 0.692124,
+    "acc_std": 0.000843,
+    "notes": null
+  },
+  {
+    "model": "HawkesKT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.7633,
+    "auc_std": 0.000406,
+    "acc": 0.75084,
+    "acc_std": 0.000385,
+    "notes": null
+  },
+  {
+    "model": "ClusterKT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.76306,
+    "auc_std": 0.00342,
+    "acc": 0.71494,
+    "acc_std": 0.001193,
+    "notes": null
+  },
+  {
+    "model": "HiTSKT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.7629,
+    "auc_std": 0.000877,
+    "acc": 0.70122,
+    "acc_std": 0.001411,
+    "notes": null
+  },
+  {
+    "model": "PSKT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.76286,
+    "auc_std": 0.001513,
+    "acc": 0.69446,
+    "acc_std": 0.002059,
+    "notes": null
+  },
+  {
+    "model": "ABKT",
+    "dataset": "ASSIST12",
+    "protocol": "model_specific",
+    "auc": 0.7628,
+    "auc_std": 0.011613,
+    "acc": 0.7508,
+    "acc_std": 0.007855,
+    "notes": null
+  },
+  {
+    "model": "CIKT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.7626444,
+    "auc_std": 0.000628,
+    "acc": 0.750125,
+    "acc_std": 0.000405,
+    "notes": null
+  },
+  {
+    "model": "Deep-IRT",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.76238,
+    "auc_std": 0.000563,
+    "acc": 0.69762,
+    "acc_std": 0.000438,
+    "notes": null
+  },
+  {
+    "model": "KQN",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.7622,
+    "auc_std": 0.000354,
+    "acc": 0.6979,
+    "acc_std": 0.000574,
+    "notes": null
+  },
+  {
+    "model": "SKVMN",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.76214,
+    "auc_std": 0.000391,
+    "acc": 0.69806,
+    "acc_std": 0.000365,
+    "notes": null
+  },
+  {
+    "model": "DKVMN",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.76186,
+    "auc_std": 0.000305,
+    "acc": 0.69678,
+    "acc_std": 0.000444,
+    "notes": null
+  },
+  {
+    "model": "FoLibiKT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.76162,
+    "auc_std": 0.000327,
+    "acc": 0.7078,
+    "acc_std": 0.00051,
+    "notes": null
+  },
+  {
+    "model": "BDGKT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.7613004,
+    "auc_std": 0.00039,
+    "acc": 0.7502444,
+    "acc_std": 0.000409,
+    "notes": null
+  },
+  {
+    "model": "TCKT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.760432,
+    "auc_std": 0.000415,
+    "acc": 0.691042,
+    "acc_std": 0.00078,
+    "notes": null
+  },
+  {
+    "model": "DKT",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.76034,
+    "auc_std": 0.00023,
+    "acc": 0.6967,
+    "acc_std": 0.000381,
+    "notes": null
+  },
+  {
+    "model": "ATDKT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.76032,
+    "auc_std": 0.000726,
+    "acc": 0.8471,
+    "acc_std": 0.000464,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "ATKT",
+    "dataset": "Slepemapy",
+    "protocol": "unified",
+    "auc": 0.76002,
+    "auc_std": 0.001301,
+    "acc": 0.80314,
+    "acc_std": 0.001489,
+    "notes": null
+  },
+  {
+    "model": "HiTSKT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.75988,
+    "auc_std": 0.002036,
+    "acc": 0.72148,
+    "acc_std": 0.006382,
+    "notes": null
+  },
+  {
+    "model": "GKT",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.75968,
+    "auc_std": 0.003247,
+    "acc": 0.69522,
+    "acc_std": 0.002801,
+    "notes": null
+  },
+  {
+    "model": "DyGKT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.75914,
+    "auc_std": 0.000439,
+    "acc": 0.74856,
+    "acc_std": 0.000207,
+    "notes": null
+  },
+  {
+    "model": "CIKT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.7585622,
+    "auc_std": 0.004223,
+    "acc": 0.7363656,
+    "acc_std": 0.00409,
+    "notes": null
+  },
+  {
+    "model": "RobustKT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.75788,
+    "auc_std": 0.003217,
+    "acc": 0.71016,
+    "acc_std": 0.002001,
+    "notes": null
+  },
+  {
+    "model": "Mamba4KT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.75778,
+    "auc_std": 0.001217,
+    "acc": 0.70536,
+    "acc_std": 0.001547,
+    "notes": null
+  },
+  {
+    "model": "LPKT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.75758,
+    "auc_std": 0.000965,
+    "acc": 0.69112,
+    "acc_std": 0.000963,
+    "notes": null
+  },
+  {
+    "model": "AKT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.7572,
+    "auc_std": 0.001391,
+    "acc": 0.71048,
+    "acc_std": 0.00173,
+    "notes": null
+  },
+  {
+    "model": "ClusterKT",
+    "dataset": "Slepemapy",
+    "protocol": "unified",
+    "auc": 0.7566,
+    "auc_std": 0.003084,
+    "acc": 0.80864,
+    "acc_std": 0.001339,
+    "notes": null
+  },
+  {
+    "model": "ATDKT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.75596,
+    "auc_std": 0.00176,
+    "acc": 0.7296,
+    "acc_std": 0.001049,
+    "notes": null
+  },
+  {
+    "model": "HiTSKT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.75584,
+    "auc_std": 0.000764,
+    "acc": 0.7447,
+    "acc_std": 0.001867,
+    "notes": null
+  },
+  {
+    "model": "DKT+",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.7552642,
+    "auc_std": 0.000212,
+    "acc": 0.6910826,
+    "acc_std": 0.000295,
+    "notes": null
+  },
+  {
+    "model": "DGMKT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.75472,
+    "auc_std": 0.00131,
+    "acc": 0.74506,
+    "acc_std": 0.000378,
+    "notes": null
+  },
+  {
+    "model": "QIKT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.7544302,
+    "auc_std": 0.000391,
+    "acc": 0.6863458,
+    "acc_std": 0.000877,
+    "notes": null
+  },
+  {
+    "model": "ATKT",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.75442,
+    "auc_std": 0.000327,
+    "acc": 0.69158,
+    "acc_std": 0.000585,
+    "notes": null
+  },
+  {
+    "model": "SKVMN",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.7541,
+    "auc_std": 0.002296,
+    "acc": 0.7263,
+    "acc_std": 0.001395,
+    "notes": null
+  },
+  {
+    "model": "DKT2",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.75394,
+    "auc_std": 0.001088,
+    "acc": 0.74556,
+    "acc_std": 0.001085,
+    "notes": null
+  },
+  {
+    "model": "DyGKT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.753618,
+    "auc_std": 0.00251,
+    "acc": 0.685546,
+    "acc_std": 0.001501,
+    "notes": null
+  },
+  {
+    "model": "DenoiseKT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.75308,
+    "auc_std": 0.00046,
+    "acc": 0.7109,
+    "acc_std": 0.001812,
+    "notes": null
+  },
+  {
+    "model": "SGKT",
+    "dataset": "Algebra06",
+    "protocol": "unified",
+    "auc": 0.75268,
+    "auc_std": 0.00496,
+    "acc": 0.81038,
+    "acc_std": 0.001401,
+    "notes": null
+  },
+  {
+    "model": "IEKT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.7524796,
+    "auc_std": 0.000877,
+    "acc": 0.6824638,
+    "acc_std": 0.001917,
+    "notes": null
+  },
+  {
+    "model": "DKT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.75206,
+    "auc_std": 0.001503,
+    "acc": 0.74214,
+    "acc_std": 0.000702,
+    "notes": null
+  },
+  {
+    "model": "DGMKT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.75186,
+    "auc_std": 0.00075,
+    "acc": 0.84682,
+    "acc_std": 0.000444,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "ReKT",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.75166,
+    "auc_std": 0.001101,
+    "acc": 0.70868,
+    "acc_std": 0.000593,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "MCSKT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.75152,
+    "auc_std": 0.001794,
+    "acc": 0.70648,
+    "acc_std": 0.001751,
+    "notes": null
+  },
+  {
+    "model": "SQGKT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.751488,
+    "auc_std": 0.001923,
+    "acc": 0.68407,
+    "acc_std": 0.001755,
+    "notes": null
+  },
+  {
+    "model": "LBKT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.7502272,
+    "auc_std": 0.000543,
+    "acc": 0.6832476,
+    "acc_std": 0.00065,
+    "notes": null
+  },
+  {
+    "model": "SKVMN",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.74996,
+    "auc_std": 0.000838,
+    "acc": 0.8464,
+    "acc_std": 0.000308,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "Mamba4KT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.74902,
+    "auc_std": 0.002202,
+    "acc": 0.72848,
+    "acc_std": 0.001333,
+    "notes": null
+  },
+  {
+    "model": "ATKT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.74896,
+    "auc_std": 0.001744,
+    "acc": 0.72606,
+    "acc_std": 0.001727,
+    "notes": null
+  },
+  {
+    "model": "DKT2",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.74854,
+    "auc_std": 0.001971,
+    "acc": 0.8421,
+    "acc_std": 0.000339,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "DGEKT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.74824,
+    "auc_std": 0.001309,
+    "acc": 0.6805,
+    "acc_std": 0.001407,
+    "notes": null
+  },
+  {
+    "model": "SAKT",
+    "dataset": "XES3G5M",
+    "protocol": "unified",
+    "auc": 0.74818,
+    "auc_std": 0.001502,
+    "acc": 0.80664,
+    "acc_std": 0.00073,
+    "notes": "随机采样2500个学生"
+  },
+  {
+    "model": "MTKT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.74792,
+    "auc_std": 0.001602,
+    "acc": 0.7071,
+    "acc_std": 0.000324,
+    "notes": null
+  },
+  {
+    "model": "MIKT",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.7479,
+    "auc_std": 0.000809,
+    "acc": 0.70716,
+    "acc_std": 0.000391,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "DenoiseKT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.7474436,
+    "auc_std": 0.000613,
+    "acc": 0.6804458,
+    "acc_std": 0.000781,
+    "notes": null
+  },
+  {
+    "model": "ClusterKT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.7472718,
+    "auc_std": 0.002296,
+    "acc": 0.679604,
+    "acc_std": 0.00268,
+    "notes": null
+  },
+  {
+    "model": "GIKT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.7457034,
+    "auc_std": 0.001771,
+    "acc": 0.6791436,
+    "acc_std": 0.001744,
+    "notes": null
+  },
+  {
+    "model": "PSKT",
+    "dataset": "Anatomy",
+    "protocol": "unified",
+    "auc": 0.74488,
+    "auc_std": 0.033529,
+    "acc": 0.76946,
+    "acc_std": 0.005503,
+    "notes": null
+  },
+  {
+    "model": "LPKT-S",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.744,
+    "auc_std": 0.001554,
+    "acc": 0.6769,
+    "acc_std": 0.001541,
+    "notes": null
+  },
+  {
+    "model": "KQN",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.74384,
+    "auc_std": 0.000733,
+    "acc": 0.74152,
+    "acc_std": 0.000517,
+    "notes": null
+  },
+  {
+    "model": "Deep-IRT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.74316,
+    "auc_std": 0.001422,
+    "acc": 0.73922,
+    "acc_std": 0.000898,
+    "notes": null
+  },
+  {
+    "model": "GKT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.74264,
+    "auc_std": 0.003587,
+    "acc": 0.74298,
+    "acc_std": 0.001668,
+    "notes": null
+  },
+  {
+    "model": "DKT+",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.7424374,
+    "auc_std": 0.000633,
+    "acc": 0.7358576,
+    "acc_std": 0.001899,
+    "notes": null
+  },
+  {
+    "model": "DisKT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.74242,
+    "auc_std": 0.000909,
+    "acc": 0.67554,
+    "acc_std": 0.000891,
+    "notes": null
+  },
+  {
+    "model": "DKVMN",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.7423,
+    "auc_std": 0.002971,
+    "acc": 0.73852,
+    "acc_std": 0.001947,
+    "notes": null
+  },
+  {
+    "model": "DIMKT",
+    "dataset": "Slepemapy",
+    "protocol": "unified",
+    "auc": 0.74186,
+    "auc_std": 0.002662,
+    "acc": 0.80642,
+    "acc_std": 0.00013,
+    "notes": null
+  },
+  {
+    "model": "GKT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.74032,
+    "auc_std": 0.000898,
+    "acc": 0.84224,
+    "acc_std": 0.000336,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "DGEKT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.74012,
+    "auc_std": 0.000377,
+    "acc": 0.73788,
+    "acc_std": 0.000192,
+    "notes": null
+  },
+  {
+    "model": "DIMKT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.73996,
+    "auc_std": 0.003519,
+    "acc": 0.8368,
+    "acc_std": 0.001927,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "GRKT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.7396,
+    "auc_std": 0.000771,
+    "acc": 0.673974,
+    "acc_std": 0.00119,
+    "notes": null
+  },
+  {
+    "model": "BDGKT",
+    "dataset": "Slepemapy",
+    "protocol": "unified",
+    "auc": 0.73942,
+    "auc_std": 0.000934,
+    "acc": 0.8044,
+    "acc_std": 0.000671,
+    "notes": null
+  },
+  {
+    "model": "CIKT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.7392514,
+    "auc_std": 0.00151,
+    "acc": 0.6707932,
+    "acc_std": 0.004201,
+    "notes": null
+  },
+  {
+    "model": "HiTSKT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.7392,
+    "auc_std": 0.001063,
+    "acc": 0.67208,
+    "acc_std": 0.001683,
+    "notes": null
+  },
+  {
+    "model": "SGKT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.73862,
+    "auc_std": 0.000449,
+    "acc": 0.73996,
+    "acc_std": 0.000799,
+    "notes": null
+  },
+  {
+    "model": "ATDKT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.73856,
+    "auc_std": 0.000879,
+    "acc": 0.73698,
+    "acc_std": 0.000277,
+    "notes": null
+  },
+  {
+    "model": "MCKT",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.73826,
+    "auc_std": 0.000844,
+    "acc": 0.70144,
+    "acc_std": 0.000207,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "SAKT",
+    "dataset": "NIPS34",
+    "protocol": "unified",
+    "auc": 0.73806,
+    "auc_std": 0.001389,
+    "acc": 0.67628,
+    "acc_std": 0.001195,
+    "notes": null
+  },
+  {
+    "model": "UKT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.738,
+    "auc_std": 0.003854,
+    "acc": 0.69444,
+    "acc_std": 0.003214,
+    "notes": null
+  },
+  {
+    "model": "DKT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.73784,
+    "auc_std": 0.000984,
+    "acc": 0.84226,
+    "acc_std": 0.000297,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "DKVMN",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.73766,
+    "auc_std": 0.000688,
+    "acc": 0.84196,
+    "acc_std": 0.000167,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "ABKT",
+    "dataset": "EdNet-KT1",
+    "protocol": "model_specific",
+    "auc": 0.7376,
+    "auc_std": 0.021914,
+    "acc": 0.67812,
+    "acc_std": 0.011453,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "DyGKT",
+    "dataset": "Anatomy",
+    "protocol": "unified",
+    "auc": 0.73702,
+    "auc_std": 0.000646,
+    "acc": 0.76662,
+    "acc_std": 0.000614,
+    "notes": null
+  },
+  {
+    "model": "KQN",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.73674,
+    "auc_std": 0.000808,
+    "acc": 0.84228,
+    "acc_std": 0.000179,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "PSKT",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.73642,
+    "auc_std": 0.002523,
+    "acc": 0.6991,
+    "acc_std": 0.002463,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "Deep-IRT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.73636,
+    "auc_std": 0.000555,
+    "acc": 0.84282,
+    "acc_std": 8.4e-05,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "DisKT",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.7362,
+    "auc_std": 0.001811,
+    "acc": 0.69722,
+    "acc_std": 0.004397,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "DenoiseKT",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.73618,
+    "auc_std": 0.000795,
+    "acc": 0.69916,
+    "acc_std": 0.000966,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "HawkesKT",
+    "dataset": "Slepemapy",
+    "protocol": "unified",
+    "auc": 0.73604,
+    "auc_std": 0.000313,
+    "acc": 0.80788,
+    "acc_std": 0.00011,
+    "notes": null
+  },
+  {
+    "model": "DKT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.73562,
+    "auc_std": 0.000421,
+    "acc": 0.73946,
+    "acc_std": 0.000385,
+    "notes": null
+  },
+  {
+    "model": "DIMKT",
+    "dataset": "XES3G5M",
+    "protocol": "unified",
+    "auc": 0.73516,
+    "auc_std": 0.028489,
+    "acc": 0.78982,
+    "acc_std": 0.028537,
+    "notes": "随机采样2500个学生"
+  },
+  {
+    "model": "SGKT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.73462,
+    "auc_std": 0.002176,
+    "acc": 0.7386,
+    "acc_std": 0.001037,
+    "notes": null
+  },
+  {
+    "model": "DAGKT",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.7346,
+    "auc_std": 0.001122,
+    "acc": 0.70434,
+    "acc_std": 0.011184,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "Deep-IRT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.73446,
+    "auc_std": 0.000336,
+    "acc": 0.73886,
+    "acc_std": 0.000439,
+    "notes": null
+  },
+  {
+    "model": "DKVMN",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.73442,
+    "auc_std": 0.000517,
+    "acc": 0.73848,
+    "acc_std": 0.000239,
+    "notes": null
+  },
+  {
+    "model": "GIKT",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.73436,
+    "auc_std": 0.001845,
+    "acc": 0.69736,
+    "acc_std": 0.002668,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "DGMKT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.73392,
+    "auc_std": 0.004547,
+    "acc": 0.7388,
+    "acc_std": 0.001979,
+    "notes": null
+  },
+  {
+    "model": "DIMKT",
+    "dataset": "Bridge06",
+    "protocol": "unified",
+    "auc": 0.7339,
+    "auc_std": 0.006585,
+    "acc": 0.835,
+    "acc_std": 0.000583,
+    "notes": null
+  },
+  {
+    "model": "GKT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.7339,
+    "auc_std": 0.000762,
+    "acc": 0.73452,
+    "acc_std": 0.000581,
+    "notes": null
+  },
+  {
+    "model": "DKT+",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.7335984,
+    "auc_std": 0.000552,
+    "acc": 0.8406618,
+    "acc_std": 0.000725,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "SQGKT",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.73344,
+    "auc_std": 0.001117,
+    "acc": 0.69752,
+    "acc_std": 0.001023,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "SKVMN",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.73338,
+    "auc_std": 0.000349,
+    "acc": 0.73432,
+    "acc_std": 0.000363,
+    "notes": null
+  },
+  {
+    "model": "BDGKT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.732752,
+    "auc_std": 0.001493,
+    "acc": 0.667642,
+    "acc_std": 0.001338,
+    "notes": null
+  },
+  {
+    "model": "DKT2",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.73212,
+    "auc_std": 0.000698,
+    "acc": 0.73778,
+    "acc_std": 0.000526,
+    "notes": null
+  },
+  {
+    "model": "KQN",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.73208,
+    "auc_std": 0.000259,
+    "acc": 0.7379,
+    "acc_std": 0.000316,
+    "notes": null
+  },
+  {
+    "model": "DGMKT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.73186,
+    "auc_std": 0.000594,
+    "acc": 0.69784,
+    "acc_std": 0.00078,
+    "notes": null
+  },
+  {
+    "model": "QIKT",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.73184,
+    "auc_std": 0.000611,
+    "acc": 0.69574,
+    "acc_std": 0.000527,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "DIMKT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.73182,
+    "auc_std": 0.002994,
+    "acc": 0.73714,
+    "acc_std": 0.00095,
+    "notes": null
+  },
+  {
+    "model": "extraKT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.73174,
+    "auc_std": 0.004544,
+    "acc": 0.68262,
+    "acc_std": 0.003061,
+    "notes": null
+  },
+  {
+    "model": "ReKT",
+    "dataset": "Anatomy",
+    "protocol": "unified",
+    "auc": 0.73172,
+    "auc_std": 0.00118,
+    "acc": 0.77096,
+    "acc_std": 0.000439,
+    "notes": null
+  },
+  {
+    "model": "IEKT",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.7317,
+    "auc_std": 0.000964,
+    "acc": 0.69674,
+    "acc_std": 0.001379,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "ATDKT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.73138,
+    "auc_std": 0.001857,
+    "acc": 0.68662,
+    "acc_std": 0.000912,
+    "notes": null
+  },
+  {
+    "model": "MTKT",
+    "dataset": "Anatomy",
+    "protocol": "unified",
+    "auc": 0.7308,
+    "auc_std": 0.001022,
+    "acc": 0.76436,
+    "acc_std": 0.005967,
+    "notes": null
+  },
+  {
+    "model": "ATKT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.73066,
+    "auc_std": 0.002543,
+    "acc": 0.84498,
+    "acc_std": 0.000823,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "DKT+",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.7298044,
+    "auc_std": 0.000237,
+    "acc": 0.7330542,
+    "acc_std": 0.000637,
+    "notes": null
+  },
+  {
+    "model": "SAKT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.72954,
+    "auc_std": 0.00226,
+    "acc": 0.73142,
+    "acc_std": 0.001693,
+    "notes": null
+  },
+  {
+    "model": "DIMKT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.72888,
+    "auc_std": 0.005442,
+    "acc": 0.69656,
+    "acc_std": 0.003641,
+    "notes": null
+  },
+  {
+    "model": "DisKT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.72872,
+    "auc_std": 0.000536,
+    "acc": 0.6996,
+    "acc_std": 0.001587,
+    "notes": null
+  },
+  {
+    "model": "FA-KT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.72849,
+    "auc_std": 0.001068,
+    "acc": 0.663042,
+    "acc_std": 0.002974,
+    "notes": null
+  },
+  {
+    "model": "MCKT",
+    "dataset": "Anatomy",
+    "protocol": "unified",
+    "auc": 0.72848,
+    "auc_std": 0.001026,
+    "acc": 0.77022,
+    "acc_std": 0.000773,
+    "notes": null
+  },
+  {
+    "model": "csKT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.7275,
+    "auc_std": 0.001962,
+    "acc": 0.68032,
+    "acc_std": 0.003357,
+    "notes": null
+  },
+  {
+    "model": "CIKT",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.7274918,
+    "auc_std": 0.001666,
+    "acc": 0.6954202,
+    "acc_std": 0.000967,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "LBKT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.72738,
+    "auc_std": 0.116907,
+    "acc": 0.8444,
+    "acc_std": 0.008511,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "ClusterKT",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.72714,
+    "auc_std": 0.001953,
+    "acc": 0.70188,
+    "acc_std": 0.00161,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "DenoiseKT",
+    "dataset": "Anatomy",
+    "protocol": "unified",
+    "auc": 0.72676,
+    "auc_std": 0.000321,
+    "acc": 0.76962,
+    "acc_std": 0.001148,
+    "notes": null
+  },
+  {
+    "model": "csKT",
+    "dataset": "Anatomy",
+    "protocol": "unified",
+    "auc": 0.72672,
+    "auc_std": 0.00046,
+    "acc": 0.76738,
+    "acc_std": 0.001392,
+    "notes": null
+  },
+  {
+    "model": "GRKT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.72616,
+    "auc_std": 0.003246,
+    "acc": 0.69796,
+    "acc_std": 0.001305,
+    "notes": null
+  },
+  {
+    "model": "FA-KT",
+    "dataset": "Anatomy",
+    "protocol": "unified",
+    "auc": 0.7256,
+    "auc_std": 0.001235,
+    "acc": 0.7637,
+    "acc_std": 0.003165,
+    "notes": null
+  },
+  {
+    "model": "SGKT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.72421,
+    "auc_std": 0.002933,
+    "acc": 0.662924,
+    "acc_std": 0.00136,
+    "notes": null
+  },
+  {
+    "model": "DAGKT",
+    "dataset": "Anatomy",
+    "protocol": "unified",
+    "auc": 0.72412,
+    "auc_std": 0.00135,
+    "acc": 0.76854,
+    "acc_std": 0.000904,
+    "notes": null
+  },
+  {
+    "model": "DGMKT",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.72396,
+    "auc_std": 0.007228,
+    "acc": 0.7327,
+    "acc_std": 0.00209,
+    "notes": null
+  },
+  {
+    "model": "stableKT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.723762,
+    "auc_std": 0.00113,
+    "acc": 0.653702,
+    "acc_std": 0.000715,
+    "notes": null
+  },
+  {
+    "model": "DIMKT",
+    "dataset": "Algebra06",
+    "protocol": "unified",
+    "auc": 0.72372,
+    "auc_std": 0.008814,
+    "acc": 0.79446,
+    "acc_std": 0.004986,
+    "notes": null
+  },
+  {
+    "model": "csKT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.723248,
+    "auc_std": 0.000995,
+    "acc": 0.652906,
+    "acc_std": 0.001386,
+    "notes": null
+  },
+  {
+    "model": "DTransformer",
+    "dataset": "Anatomy",
+    "protocol": "unified",
+    "auc": 0.72258,
+    "auc_std": 0.001143,
+    "acc": 0.76658,
+    "acc_std": 0.000415,
+    "notes": null
+  },
+  {
+    "model": "UKT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.721746,
+    "auc_std": 0.002711,
+    "acc": 0.65338,
+    "acc_std": 0.00301,
+    "notes": null
+  },
+  {
+    "model": "stableKT",
+    "dataset": "Anatomy",
+    "protocol": "unified",
+    "auc": 0.72174,
+    "auc_std": 0.000467,
+    "acc": 0.76514,
+    "acc_std": 0.000329,
+    "notes": null
+  },
+  {
+    "model": "DisKT",
+    "dataset": "Anatomy",
+    "protocol": "unified",
+    "auc": 0.7213,
+    "auc_std": 0.000469,
+    "acc": 0.7674,
+    "acc_std": 0.001221,
+    "notes": null
+  },
+  {
+    "model": "simpleKT",
+    "dataset": "Anatomy",
+    "protocol": "unified",
+    "auc": 0.72104,
+    "auc_std": 0.000456,
+    "acc": 0.76482,
+    "acc_std": 0.000807,
+    "notes": null
+  },
+  {
+    "model": "DGEKT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.72072,
+    "auc_std": 0.005201,
+    "acc": 0.70462,
+    "acc_std": 0.00441,
+    "notes": null
+  },
+  {
+    "model": "stableKT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.7203,
+    "auc_std": 0.000846,
+    "acc": 0.68006,
+    "acc_std": 0.00154,
+    "notes": null
+  },
+  {
+    "model": "GRKT",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.71972,
+    "auc_std": 0.001725,
+    "acc": 0.69114,
+    "acc_std": 0.001159,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "AKT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.719688,
+    "auc_std": 0.00138,
+    "acc": 0.658742,
+    "acc_std": 0.001401,
+    "notes": null
+  },
+  {
+    "model": "extraKT",
+    "dataset": "Anatomy",
+    "protocol": "unified",
+    "auc": 0.71964,
+    "auc_std": 0.000527,
+    "acc": 0.76382,
+    "acc_std": 0.000606,
+    "notes": null
+  },
+  {
+    "model": "AKT",
+    "dataset": "Anatomy",
+    "protocol": "unified",
+    "auc": 0.71932,
+    "auc_std": 0.002276,
+    "acc": 0.76268,
+    "acc_std": 0.001588,
+    "notes": null
+  },
+  {
+    "model": "IEKT",
+    "dataset": "Anatomy",
+    "protocol": "unified",
+    "auc": 0.71922,
+    "auc_std": 0.00113,
+    "acc": 0.76604,
+    "acc_std": 0.00135,
+    "notes": null
+  },
+  {
+    "model": "BDGKT",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.719,
+    "auc_std": 0.002542,
+    "acc": 0.68998,
+    "acc_std": 0.002535,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "DIMKT",
+    "dataset": "ASSIST09",
+    "protocol": "unified",
+    "auc": 0.71716,
+    "auc_std": 0.005104,
+    "acc": 0.72538,
+    "acc_std": 0.002352,
+    "notes": null
+  },
+  {
+    "model": "RobustKT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.717147,
+    "auc_std": 0.002464,
+    "acc": 0.657925,
+    "acc_std": 0.001775,
+    "notes": null
+  },
+  {
+    "model": "GKT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.71634,
+    "auc_std": 0.002239,
+    "acc": 0.68616,
+    "acc_std": 0.001823,
+    "notes": null
+  },
+  {
+    "model": "FoLibiKT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.71634,
+    "auc_std": 0.001563,
+    "acc": 0.65762,
+    "acc_std": 0.00278,
+    "notes": null
+  },
+  {
+    "model": "ReKT",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.7161,
+    "auc_std": 0.000187,
+    "acc": 0.73184,
+    "acc_std": 0.000422,
+    "notes": null
+  },
+  {
+    "model": "GIKT",
+    "dataset": "Anatomy",
+    "protocol": "unified",
+    "auc": 0.71558,
+    "auc_std": 0.000286,
+    "acc": 0.76656,
+    "acc_std": 0.000498,
+    "notes": null
+  },
+  {
+    "model": "simpleKT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.71534,
+    "auc_std": 0.003252,
+    "acc": 0.6755,
+    "acc_std": 0.00395,
+    "notes": null
+  },
+  {
+    "model": "UKT",
+    "dataset": "Anatomy",
+    "protocol": "unified",
+    "auc": 0.71514,
+    "auc_std": 0.001242,
+    "acc": 0.76328,
+    "acc_std": 0.000402,
+    "notes": null
+  },
+  {
+    "model": "RobustKT",
+    "dataset": "Anatomy",
+    "protocol": "unified",
+    "auc": 0.71486,
+    "auc_std": 0.001081,
+    "acc": 0.76368,
+    "acc_std": 0.000901,
+    "notes": null
+  },
+  {
+    "model": "DIMKT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.714692,
+    "auc_std": 0.002901,
+    "acc": 0.654528,
+    "acc_std": 0.002983,
+    "notes": null
+  },
+  {
+    "model": "QIKT",
+    "dataset": "Anatomy",
+    "protocol": "unified",
+    "auc": 0.71442,
+    "auc_std": 0.000449,
+    "acc": 0.76474,
+    "acc_std": 0.000662,
+    "notes": null
+  },
+  {
+    "model": "ATKT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.7144,
+    "auc_std": 0.001538,
+    "acc": 0.72486,
+    "acc_std": 0.001753,
+    "notes": null
+  },
+  {
+    "model": "sparseKT",
+    "dataset": "Anatomy",
+    "protocol": "unified",
+    "auc": 0.7141,
+    "auc_std": 0.000485,
+    "acc": 0.76416,
+    "acc_std": 0.000623,
+    "notes": null
+  },
+  {
+    "model": "sparseKT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.714074,
+    "auc_std": 0.00218,
+    "acc": 0.650358,
+    "acc_std": 0.00381,
+    "notes": null
+  },
+  {
+    "model": "extraKT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.713954,
+    "auc_std": 0.002747,
+    "acc": 0.646218,
+    "acc_std": 0.00489,
+    "notes": null
+  },
+  {
+    "model": "DGMKT",
+    "dataset": "Anatomy",
+    "protocol": "unified",
+    "auc": 0.7139,
+    "auc_std": 0.001451,
+    "acc": 0.76536,
+    "acc_std": 0.000503,
+    "notes": null
+  },
+  {
+    "model": "FA-KT",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.7138,
+    "auc_std": 0.000464,
+    "acc": 0.7317,
+    "acc_std": 0.000495,
+    "notes": null
+  },
+  {
+    "model": "DTransformer",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.71366,
+    "auc_std": 0.003439,
+    "acc": 0.67236,
+    "acc_std": 0.006371,
+    "notes": null
+  },
+  {
+    "model": "MCKT",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.71354,
+    "auc_std": 0.000666,
+    "acc": 0.73368,
+    "acc_std": 0.000396,
+    "notes": null
+  },
+  {
+    "model": "simpleKT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.713506,
+    "auc_std": 0.001134,
+    "acc": 0.650728,
+    "acc_std": 0.001289,
+    "notes": null
+  },
+  {
+    "model": "DyGKT",
+    "dataset": "Slepemapy",
+    "protocol": "unified",
+    "auc": 0.7135,
+    "auc_std": 0.00147,
+    "acc": 0.79694,
+    "acc_std": 0.000472,
+    "notes": null
+  },
+  {
+    "model": "DTransformer",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.7134646,
+    "auc_std": 0.00147,
+    "acc": 0.6503846,
+    "acc_std": 0.001836,
+    "notes": null
+  },
+  {
+    "model": "MTKT",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.71318,
+    "auc_std": 0.000363,
+    "acc": 0.72992,
+    "acc_std": 0.000804,
+    "notes": null
+  },
+  {
+    "model": "Mamba4KT",
+    "dataset": "Anatomy",
+    "protocol": "unified",
+    "auc": 0.7131,
+    "auc_std": 0.00048,
+    "acc": 0.76404,
+    "acc_std": 0.001817,
+    "notes": null
+  },
+  {
+    "model": "MIKT",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.71306,
+    "auc_std": 0.000434,
+    "acc": 0.7338,
+    "acc_std": 0.000539,
+    "notes": null
+  },
+  {
+    "model": "DKT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.71306,
+    "auc_std": 0.001419,
+    "acc": 0.68494,
+    "acc_std": 0.001033,
+    "notes": null
+  },
+  {
+    "model": "ClusterKT",
+    "dataset": "Anatomy",
+    "protocol": "unified",
+    "auc": 0.71272,
+    "auc_std": 0.00137,
+    "acc": 0.76758,
+    "acc_std": 0.000622,
+    "notes": null
+  },
+  {
+    "model": "SAKT",
+    "dataset": "ASSIST12",
+    "protocol": "unified",
+    "auc": 0.71252,
+    "auc_std": 0.000722,
+    "acc": 0.72924,
+    "acc_std": 0.000451,
+    "notes": null
+  },
+  {
+    "model": "QIKT",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.7125,
+    "auc_std": 7.1e-05,
+    "acc": 0.73206,
+    "acc_std": 0.000207,
+    "notes": null
+  },
+  {
+    "model": "stableKT",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.7123,
+    "auc_std": 0.000381,
+    "acc": 0.73116,
+    "acc_std": 0.00065,
+    "notes": null
+  },
+  {
+    "model": "DKT2",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.71214,
+    "auc_std": 0.000385,
+    "acc": 0.73198,
+    "acc_std": 0.000421,
+    "notes": null
+  },
+  {
+    "model": "MTKT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.711974,
+    "auc_std": 0.001888,
+    "acc": 0.65351,
+    "acc_std": 0.001316,
+    "notes": null
+  },
+  {
+    "model": "SKVMN",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.71162,
+    "auc_std": 0.000476,
+    "acc": 0.72996,
+    "acc_std": 0.00055,
+    "notes": null
+  },
+  {
+    "model": "RobustKT",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.71142,
+    "auc_std": 0.000792,
+    "acc": 0.73056,
+    "acc_std": 0.000706,
+    "notes": null
+  },
+  {
+    "model": "DIMKT",
+    "dataset": "Algebra05",
+    "protocol": "unified",
+    "auc": 0.7114,
+    "auc_std": 0.013247,
+    "acc": 0.7496,
+    "acc_std": 0.006177,
+    "notes": null
+  },
+  {
+    "model": "DKT",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.71116,
+    "auc_std": 0.000666,
+    "acc": 0.73134,
+    "acc_std": 0.000631,
+    "notes": null
+  },
+  {
+    "model": "SGKT",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.7111,
+    "auc_std": 0.000752,
+    "acc": 0.73142,
+    "acc_std": 0.000931,
+    "notes": null
+  },
+  {
+    "model": "MCSKT",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.71086,
+    "auc_std": 0.000573,
+    "acc": 0.72936,
+    "acc_std": 0.001305,
+    "notes": null
+  },
+  {
+    "model": "SKVMN",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.71084,
+    "auc_std": 0.001394,
+    "acc": 0.677,
+    "acc_std": 0.001517,
+    "notes": null
+  },
+  {
+    "model": "UKT",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.71082,
+    "auc_std": 0.00087,
+    "acc": 0.72922,
+    "acc_std": 0.001169,
+    "notes": null
+  },
+  {
+    "model": "DenoiseKT",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.71076,
+    "auc_std": 0.000472,
+    "acc": 0.73242,
+    "acc_std": 0.000327,
+    "notes": null
+  },
+  {
+    "model": "CIKT",
+    "dataset": "Anatomy",
+    "protocol": "unified",
+    "auc": 0.71046,
+    "auc_std": 0.001902,
+    "acc": 0.76624,
+    "acc_std": 0.000522,
+    "notes": null
+  },
+  {
+    "model": "csKT",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.71008,
+    "auc_std": 0.000572,
+    "acc": 0.7303,
+    "acc_std": 0.001025,
+    "notes": null
+  },
+  {
+    "model": "KQN",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.71,
+    "auc_std": 0.00062,
+    "acc": 0.73184,
+    "acc_std": 0.000422,
+    "notes": null
+  },
+  {
+    "model": "FoLibiKT",
+    "dataset": "Anatomy",
+    "protocol": "unified",
+    "auc": 0.70996,
+    "auc_std": 0.000434,
+    "acc": 0.75988,
+    "acc_std": 0.000804,
+    "notes": null
+  },
+  {
+    "model": "IEKT",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.70986,
+    "auc_std": 0.001524,
+    "acc": 0.7312,
+    "acc_std": 0.000704,
+    "notes": null
+  },
+  {
+    "model": "FA-KT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.70968,
+    "auc_std": 0.003781,
+    "acc": 0.66756,
+    "acc_std": 0.003721,
+    "notes": null
+  },
+  {
+    "model": "AKT",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.70964,
+    "auc_std": 0.000577,
+    "acc": 0.73028,
+    "acc_std": 0.000349,
+    "notes": null
+  },
+  {
+    "model": "GRKT",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.70942,
+    "auc_std": 0.000782,
+    "acc": 0.7304,
+    "acc_std": 0.000245,
+    "notes": null
+  },
+  {
+    "model": "ATDKT",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.70924,
+    "auc_std": 0.000573,
+    "acc": 0.7301,
+    "acc_std": 0.000474,
+    "notes": null
+  },
+  {
+    "model": "SQGKT",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.70922,
+    "auc_std": 0.000779,
+    "acc": 0.73086,
+    "acc_std": 0.000559,
+    "notes": null
+  },
+  {
+    "model": "GKT",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.7092,
+    "auc_std": 0.003214,
+    "acc": 0.73044,
+    "acc_std": 0.002102,
+    "notes": null
+  },
+  {
+    "model": "FoLibiKT",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.7092,
+    "auc_std": 0.000604,
+    "acc": 0.72896,
+    "acc_std": 0.001734,
+    "notes": null
+  },
+  {
+    "model": "DAGKT",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.70904,
+    "auc_std": 0.000288,
+    "acc": 0.73124,
+    "acc_std": 0.00027,
+    "notes": null
+  },
+  {
+    "model": "GIKT",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.70896,
+    "auc_std": 0.000913,
+    "acc": 0.73158,
+    "acc_std": 0.00063,
+    "notes": null
+  },
+  {
+    "model": "DGEKT",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.70888,
+    "auc_std": 0.000626,
+    "acc": 0.7308,
+    "acc_std": 0.000644,
+    "notes": null
+  },
+  {
+    "model": "DKT2",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.708862,
+    "auc_std": 0.00103,
+    "acc": 0.651376,
+    "acc_std": 0.000883,
+    "notes": null
+  },
+  {
+    "model": "MCSKT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.708412,
+    "auc_std": 0.000473,
+    "acc": 0.652802,
+    "acc_std": 0.000792,
+    "notes": null
+  },
+  {
+    "model": "FlucKT",
+    "dataset": "Anatomy",
+    "protocol": "unified",
+    "auc": 0.70826,
+    "auc_std": 0.006652,
+    "acc": 0.75998,
+    "acc_std": 0.003,
+    "notes": null
+  },
+  {
+    "model": "HiTSKT",
+    "dataset": "Anatomy",
+    "protocol": "unified",
+    "auc": 0.70788,
+    "auc_std": 0.000823,
+    "acc": 0.76314,
+    "acc_std": 0.00206,
+    "notes": null
+  },
+  {
+    "model": "simpleKT",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.70702,
+    "auc_std": 0.000683,
+    "acc": 0.73004,
+    "acc_std": 0.000358,
+    "notes": null
+  },
+  {
+    "model": "DKT+",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.7069864,
+    "auc_std": 0.000504,
+    "acc": 0.7264974,
+    "acc_std": 0.000729,
+    "notes": null
+  },
+  {
+    "model": "DKVMN",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.70698,
+    "auc_std": 0.000968,
+    "acc": 0.73026,
+    "acc_std": 0.000336,
+    "notes": null
+  },
+  {
+    "model": "Deep-IRT",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.70684,
+    "auc_std": 0.000802,
+    "acc": 0.7319,
+    "acc_std": 0.000897,
+    "notes": null
+  },
+  {
+    "model": "KQN",
+    "dataset": "Anatomy",
+    "protocol": "unified",
+    "auc": 0.70678,
+    "auc_std": 0.00146,
+    "acc": 0.76544,
+    "acc_std": 0.000451,
+    "notes": null
+  },
+  {
+    "model": "Mamba4KT",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.70666,
+    "auc_std": 0.000391,
+    "acc": 0.72952,
+    "acc_std": 0.000444,
+    "notes": null
+  },
+  {
+    "model": "sparseKT",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.70608,
+    "auc_std": 0.000438,
+    "acc": 0.72966,
+    "acc_std": 0.000559,
+    "notes": null
+  },
+  {
+    "model": "ATKT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.70606,
+    "auc_std": 0.001358,
+    "acc": 0.67404,
+    "acc_std": 0.001801,
+    "notes": null
+  },
+  {
+    "model": "KQN",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.70436,
+    "auc_std": 0.001853,
+    "acc": 0.67826,
+    "acc_std": 0.001992,
+    "notes": null
+  },
+  {
+    "model": "DTransformer",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.70416,
+    "auc_std": 0.000896,
+    "acc": 0.72884,
+    "acc_std": 0.001029,
+    "notes": null
+  },
+  {
+    "model": "DisKT",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.70396,
+    "auc_std": 0.000498,
+    "acc": 0.73042,
+    "acc_std": 0.000853,
+    "notes": null
+  },
+  {
+    "model": "AKT",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.70356,
+    "auc_std": 0.005602,
+    "acc": 0.67804,
+    "acc_std": 0.006519,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "PSKT",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.70304,
+    "auc_std": 0.000498,
+    "acc": 0.72946,
+    "acc_std": 0.001504,
+    "notes": null
+  },
+  {
+    "model": "FlucKT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.70284,
+    "auc_std": 0.003798,
+    "acc": 0.63768,
+    "acc_std": 0.00541,
+    "notes": null
+  },
+  {
+    "model": "DIMKT",
+    "dataset": "Anatomy",
+    "protocol": "unified",
+    "auc": 0.7026,
+    "auc_std": 0.001947,
+    "acc": 0.7627,
+    "acc_std": 0.000453,
+    "notes": null
+  },
+  {
+    "model": "SGKT",
+    "dataset": "Anatomy",
+    "protocol": "unified",
+    "auc": 0.70252,
+    "auc_std": 0.000944,
+    "acc": 0.76284,
+    "acc_std": 0.001055,
+    "notes": null
+  },
+  {
+    "model": "HiTSKT",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.70248,
+    "auc_std": 0.001796,
+    "acc": 0.6874,
+    "acc_std": 0.003328,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "DyGKT",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.70172,
+    "auc_std": 0.002027,
+    "acc": 0.70594,
+    "acc_std": 0.002203,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "DKT+",
+    "dataset": "Anatomy",
+    "protocol": "unified",
+    "auc": 0.70144,
+    "auc_std": 0.001429,
+    "acc": 0.76126,
+    "acc_std": 0.00023,
+    "notes": null
+  },
+  {
+    "model": "BDGKT",
+    "dataset": "MOOC-Radar",
+    "protocol": "unified",
+    "auc": 0.70066,
+    "auc_std": 0.002788,
+    "acc": 0.7657,
+    "acc_std": 0.008933,
+    "notes": null
+  },
+  {
+    "model": "BDGKT",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.700459,
+    "auc_std": 0.000991,
+    "acc": 0.728033,
+    "acc_std": 0.000725,
+    "notes": null
+  },
+  {
+    "model": "SAKT",
+    "dataset": "Junyi15",
+    "protocol": "unified",
+    "auc": 0.70026,
+    "auc_std": 0.00193,
+    "acc": 0.83428,
+    "acc_std": 0.000746,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "SKVMN",
+    "dataset": "Anatomy",
+    "protocol": "unified",
+    "auc": 0.70014,
+    "auc_std": 0.000594,
+    "acc": 0.75914,
+    "acc_std": 0.00065,
+    "notes": null
+  },
+  {
+    "model": "CIKT",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.6990508,
+    "auc_std": 0.00068,
+    "acc": 0.7273448,
+    "acc_std": 0.000659,
+    "notes": null
+  },
+  {
+    "model": "Deep-IRT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.69834,
+    "auc_std": 0.003631,
+    "acc": 0.6771,
+    "acc_std": 0.001669,
+    "notes": null
+  },
+  {
+    "model": "DKVMN",
+    "dataset": "Anatomy",
+    "protocol": "unified",
+    "auc": 0.6978,
+    "auc_std": 0.001373,
+    "acc": 0.75814,
+    "acc_std": 0.001139,
+    "notes": null
+  },
+  {
+    "model": "sparseKT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.69772,
+    "auc_std": 0.001372,
+    "acc": 0.6634,
+    "acc_std": 0.000505,
+    "notes": null
+  },
+  {
+    "model": "DKT2",
+    "dataset": "Anatomy",
+    "protocol": "unified",
+    "auc": 0.6964,
+    "auc_std": 0.000265,
+    "acc": 0.76052,
+    "acc_std": 0.000482,
+    "notes": null
+  },
+  {
+    "model": "extraKT",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.69584,
+    "auc_std": 0.000963,
+    "acc": 0.7254,
+    "acc_std": 0.001493,
+    "notes": null
+  },
+  {
+    "model": "DKT",
+    "dataset": "Anatomy",
+    "protocol": "unified",
+    "auc": 0.69564,
+    "auc_std": 0.001057,
+    "acc": 0.76054,
+    "acc_std": 0.000261,
+    "notes": null
+  },
+  {
+    "model": "HiTSKT",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.69514,
+    "auc_std": 0.000577,
+    "acc": 0.72922,
+    "acc_std": 0.002541,
+    "notes": null
+  },
+  {
+    "model": "RobustKT",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.69396,
+    "auc_std": 0.002893,
+    "acc": 0.67858,
+    "acc_std": 0.002607,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "DKVMN",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.6939,
+    "auc_std": 0.002944,
+    "acc": 0.6765,
+    "acc_std": 0.001283,
+    "notes": null
+  },
+  {
+    "model": "Deep-IRT",
+    "dataset": "Anatomy",
+    "protocol": "unified",
+    "auc": 0.69344,
+    "auc_std": 0.001568,
+    "acc": 0.75816,
+    "acc_std": 0.001165,
+    "notes": null
+  },
+  {
+    "model": "FlucKT",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.69292,
+    "auc_std": 0.005124,
+    "acc": 0.72286,
+    "acc_std": 0.002521,
+    "notes": null
+  },
+  {
+    "model": "FlucKT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.69282,
+    "auc_std": 0.035852,
+    "acc": 0.65764,
+    "acc_std": 0.016241,
+    "notes": null
+  },
+  {
+    "model": "ATKT",
+    "dataset": "Anatomy",
+    "protocol": "unified",
+    "auc": 0.69152,
+    "auc_std": 0.000646,
+    "acc": 0.75958,
+    "acc_std": 0.000683,
+    "notes": null
+  },
+  {
+    "model": "SAKT",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.69148,
+    "auc_std": 0.000402,
+    "acc": 0.72756,
+    "acc_std": 0.000546,
+    "notes": null
+  },
+  {
+    "model": "ATDKT",
+    "dataset": "Anatomy",
+    "protocol": "unified",
+    "auc": 0.6903,
+    "auc_std": 0.000857,
+    "acc": 0.7588,
+    "acc_std": 0.000515,
+    "notes": null
+  },
+  {
+    "model": "DKT+",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.6879176,
+    "auc_std": 0.001009,
+    "acc": 0.6695284,
+    "acc_std": 0.001451,
+    "notes": null
+  },
+  {
+    "model": "SAKT",
+    "dataset": "Anatomy",
+    "protocol": "unified",
+    "auc": 0.68616,
+    "auc_std": 0.000541,
+    "acc": 0.7615,
+    "acc_std": 0.000718,
+    "notes": null
+  },
+  {
+    "model": "MCSKT",
+    "dataset": "Anatomy",
+    "protocol": "unified",
+    "auc": 0.68606,
+    "auc_std": 0.002001,
+    "acc": 0.7603,
+    "acc_std": 0.001075,
+    "notes": null
+  },
+  {
+    "model": "FoLibiKT",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.68604,
+    "auc_std": 0.00304,
+    "acc": 0.66848,
+    "acc_std": 0.002202,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "DGEKT",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.68558,
+    "auc_std": 0.001117,
+    "acc": 0.65894,
+    "acc_std": 0.000971,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "Mamba4KT",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.68484,
+    "auc_std": 0.001989,
+    "acc": 0.67148,
+    "acc_std": 0.001843,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "UKT",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.683,
+    "auc_std": 0.001286,
+    "acc": 0.65478,
+    "acc_std": 0.002255,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "DTransformer",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.68238,
+    "auc_std": 0.004075,
+    "acc": 0.65948,
+    "acc_std": 0.005555,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "extraKT",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.68138,
+    "auc_std": 0.004101,
+    "acc": 0.65772,
+    "acc_std": 0.001182,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "DGEKT",
+    "dataset": "Anatomy",
+    "protocol": "unified",
+    "auc": 0.67988,
+    "auc_std": 0.000672,
+    "acc": 0.7557,
+    "acc_std": 0.000815,
+    "notes": null
+  },
+  {
+    "model": "MCSKT",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.67982,
+    "auc_std": 0.003673,
+    "acc": 0.65518,
+    "acc_std": 0.002029,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "SGKT",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.6794,
+    "auc_std": 0.001129,
+    "acc": 0.67216,
+    "acc_std": 0.000913,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "BDGKT",
+    "dataset": "Anatomy",
+    "protocol": "unified",
+    "auc": 0.67776,
+    "auc_std": 0.036015,
+    "acc": 0.75878,
+    "acc_std": 0.003277,
+    "notes": null
+  },
+  {
+    "model": "Mamba4KT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.67738,
+    "auc_std": 0.001977,
+    "acc": 0.62894,
+    "acc_std": 0.001811,
+    "notes": null
+  },
+  {
+    "model": "DKT2",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.67664,
+    "auc_std": 0.000747,
+    "acc": 0.66524,
+    "acc_std": 0.000841,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "FA-KT",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.6766,
+    "auc_std": 0.001847,
+    "acc": 0.65128,
+    "acc_std": 0.002326,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "csKT",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.67646,
+    "auc_std": 0.004223,
+    "acc": 0.65344,
+    "acc_std": 0.003658,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "DGMKT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.67508,
+    "auc_std": 0.002075,
+    "acc": 0.62938,
+    "acc_std": 0.00234,
+    "notes": null
+  },
+  {
+    "model": "DIMKT",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.67454,
+    "auc_std": 0.009502,
+    "acc": 0.65716,
+    "acc_std": 0.005239,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "ATDKT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.6743,
+    "auc_std": 0.001347,
+    "acc": 0.62832,
+    "acc_std": 0.001789,
+    "notes": null
+  },
+  {
+    "model": "DKT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.673704,
+    "auc_std": 0.001041,
+    "acc": 0.626894,
+    "acc_std": 0.00064,
+    "notes": null
+  },
+  {
+    "model": "MTKT",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.67324,
+    "auc_std": 0.002212,
+    "acc": 0.66078,
+    "acc_std": 0.003252,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "stableKT",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.6732,
+    "auc_std": 0.002657,
+    "acc": 0.65148,
+    "acc_std": 0.002125,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "GKT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.67076,
+    "auc_std": 0.004435,
+    "acc": 0.62412,
+    "acc_std": 0.005571,
+    "notes": null
+  },
+  {
+    "model": "simpleKT",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.67074,
+    "auc_std": 0.003039,
+    "acc": 0.64784,
+    "acc_std": 0.00164,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "ATKT",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.66874,
+    "auc_std": 0.003876,
+    "acc": 0.70066,
+    "acc_std": 0.006549,
+    "notes": null
+  },
+  {
+    "model": "DKT+",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.6652012,
+    "auc_std": 0.000918,
+    "acc": 0.626391,
+    "acc_std": 0.001313,
+    "notes": null
+  },
+  {
+    "model": "ATKT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.66476,
+    "auc_std": 0.00192,
+    "acc": 0.61984,
+    "acc_std": 0.001088,
+    "notes": null
+  },
+  {
+    "model": "Deep-IRT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.6635188,
+    "auc_std": 0.002543,
+    "acc": 0.6186744,
+    "acc_std": 0.002562,
+    "notes": null
+  },
+  {
+    "model": "DKVMN",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.6634842,
+    "auc_std": 0.001643,
+    "acc": 0.6204874,
+    "acc_std": 0.000798,
+    "notes": null
+  },
+  {
+    "model": "SKVMN",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.65986,
+    "auc_std": 0.004426,
+    "acc": 0.61842,
+    "acc_std": 0.003238,
+    "notes": null
+  },
+  {
+    "model": "sparseKT",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.65882,
+    "auc_std": 0.00351,
+    "acc": 0.64644,
+    "acc_std": 0.002339,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "KQN",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.6580316,
+    "auc_std": 0.001991,
+    "acc": 0.616423,
+    "acc_std": 0.001832,
+    "notes": null
+  },
+  {
+    "model": "DIMKT",
+    "dataset": "ASSIST15",
+    "protocol": "unified",
+    "auc": 0.6576,
+    "auc_std": 0.001037,
+    "acc": 0.69874,
+    "acc_std": 0.00569,
+    "notes": null
+  },
+  {
+    "model": "DGMKT",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.63744,
+    "auc_std": 0.001313,
+    "acc": 0.66914,
+    "acc_std": 0.002691,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "FlucKT",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.63706,
+    "auc_std": 0.014706,
+    "acc": 0.6383,
+    "acc_std": 0.006803,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "Deep-IRT",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.63448,
+    "auc_std": 0.00241,
+    "acc": 0.64236,
+    "acc_std": 0.004746,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "DKVMN",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.63104,
+    "auc_std": 0.004738,
+    "acc": 0.63952,
+    "acc_std": 0.004108,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "SAKT",
+    "dataset": "A17",
+    "protocol": "unified",
+    "auc": 0.63068,
+    "auc_std": 0.002808,
+    "acc": 0.6495,
+    "acc_std": 0.004219,
+    "notes": null
+  },
+  {
+    "model": "KQN",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.63042,
+    "auc_std": 0.001671,
+    "acc": 0.63268,
+    "acc_std": 0.00113,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "GKT",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.6259,
+    "auc_std": 0.006361,
+    "acc": 0.63474,
+    "acc_std": 0.006029,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "DKT",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.62578,
+    "auc_std": 0.002497,
+    "acc": 0.628,
+    "acc_std": 0.003437,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "DKT+",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.625762,
+    "auc_std": 0.001014,
+    "acc": 0.6331596,
+    "acc_std": 0.000864,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "ATDKT",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.61984,
+    "auc_std": 0.001872,
+    "acc": 0.62476,
+    "acc_std": 0.003855,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "SKVMN",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.61596,
+    "auc_std": 0.002917,
+    "acc": 0.62734,
+    "acc_std": 0.003773,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "SAKT",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.61322,
+    "auc_std": 0.005665,
+    "acc": 0.62606,
+    "acc_std": 0.006461,
+    "notes": "随机采样5000个学生"
+  },
+  {
+    "model": "SAKT",
+    "dataset": "A17PQ",
+    "protocol": "unified",
+    "auc": 0.610548,
+    "auc_std": 0.003159,
+    "acc": 0.582686,
+    "acc_std": 0.002184,
+    "notes": null
+  },
+  {
+    "model": "ATKT",
+    "dataset": "EdNet-KT1",
+    "protocol": "unified",
+    "auc": 0.60868,
+    "auc_std": 0.00391,
+    "acc": 0.61502,
+    "acc_std": 0.001722,
+    "notes": "随机采样5000个学生"
+  }
+]
