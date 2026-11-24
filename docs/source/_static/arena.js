@@ -436,17 +436,17 @@
 
     var granCls = item.gran === "Q" ? "is-q" : "is-kc";
     tooltipEl.innerHTML =
-      '<div class="aa-tip-head">' +
-        '<span class="aa-tip-model"><span class="aa-gran-chip ' + granCls + '">' + esc(item.gran) + "</span>" + esc(item.model) + "</span>" +
-        '<span class="aa-tip-rank">' + esc(rankTxt) + "</span>" +
+      '<div class="arena-tooltip-head">' +
+        '<span class="arena-tooltip-model"><span class="arena-gran-chip ' + granCls + '">' + esc(item.gran) + "</span>" + esc(item.model) + "</span>" +
+        '<span class="arena-tooltip-rank">' + esc(rankTxt) + "</span>" +
       "</div>" +
-      '<div class="aa-tip-score">' + mainVal.toFixed(3) +
+      '<div class="arena-tooltip-score">' + mainVal.toFixed(3) +
         (stdVal != null ? ('<small>± ' + stdVal.toFixed(3) + " " + mLabel + "</small>") : ('<small>' + mLabel + "</small>")) +
       "</div>" +
-      '<div class="aa-tip-meta">' + esc(metaLine1) +
+      '<div class="arena-tooltip-meta">' + esc(metaLine1) +
         (metaLine2 ? ("<br>" + esc(metaLine2)) : "") +
       "</div>" +
-      '<div class="aa-tip-cta">' + (isEn ? "Click for model details →" : "点击查看模型介绍 →") + "</div>";
+      '<div class="arena-tooltip-cta">' + (isEn ? "Click for model details →" : "点击查看模型介绍 →") + "</div>";
 
     tooltipEl.classList.add("is-visible");
 
@@ -482,19 +482,19 @@
     // Check if any model_specific item is present
     var hasSpec = chartItems.some(function (x) { return x.protocol === "model_specific"; });
     var legendHtml =
-      '<span class="aa-legend-item"><span class="aa-swatch is-seq"></span>' + esc(FAMILY_LABELS.seq) + "</span>" +
-      '<span class="aa-legend-item"><span class="aa-swatch is-attn"></span>' + esc(FAMILY_LABELS.attn) + "</span>" +
-      '<span class="aa-legend-item"><span class="aa-swatch is-graph"></span>' + esc(FAMILY_LABELS.graph) + "</span>" +
-      '<span class="aa-legend-item"><span class="aa-swatch is-hybrid"></span>' + esc(FAMILY_LABELS.hybrid) + "</span>";
+      '<span class="arena-legend-item"><span class="arena-swatch is-seq"></span>' + esc(FAMILY_LABELS.seq) + "</span>" +
+      '<span class="arena-legend-item"><span class="arena-swatch is-attn"></span>' + esc(FAMILY_LABELS.attn) + "</span>" +
+      '<span class="arena-legend-item"><span class="arena-swatch is-graph"></span>' + esc(FAMILY_LABELS.graph) + "</span>" +
+      '<span class="arena-legend-item"><span class="arena-swatch is-hybrid"></span>' + esc(FAMILY_LABELS.hybrid) + "</span>";
     if (hasSpec) {
-      legendHtml += '<span class="aa-legend-item"><span class="aa-swatch is-patterned"></span>' +
+      legendHtml += '<span class="arena-legend-item"><span class="arena-swatch is-patterned"></span>' +
         (isEn ? "Model-specific protocol" : "模型专用协议") + "</span>";
     }
     legendEl.innerHTML = legendHtml;
 
     stageEl.innerHTML = "";
     if (!chartItems.length) {
-      stageEl.innerHTML = '<div class="arena-error" style="padding:28px 0;color:var(--aa-muted)">' +
+      stageEl.innerHTML = '<div class="arena-error" style="padding:28px 0;color:var(--arena-muted)">' +
         (isEn ? "No matching models." : "当前筛选条件下暂无匹配模型。") + "</div>";
       return;
     }
@@ -509,7 +509,7 @@
     if (yMax - yMin < 0.06) yMin = Math.max(0.45, yMax - 0.08);
 
     var plotWrap = document.createElement("div");
-    plotWrap.className = "aa-plot-wrap";
+    plotWrap.className = "arena-plot-wrap";
 
     // 4 horizontal gridlines + baseline
     var steps = 4;
@@ -517,19 +517,19 @@
       var frac = g / steps; // 0 = top, 1 = bottom axis
       var tickVal = yMax - frac * (yMax - yMin);
       var line = document.createElement("div");
-      line.className = g === steps ? "aa-grid-line is-axis" : "aa-grid-line";
+      line.className = g === steps ? "arena-grid-line is-axis" : "arena-grid-line";
       line.style.top = (frac * 100).toFixed(2) + "%";
       var lbl = document.createElement("span");
-      lbl.className = "aa-grid-label";
+      lbl.className = "arena-grid-label";
       lbl.textContent = tickVal.toFixed(2);
       line.appendChild(lbl);
       plotWrap.appendChild(line);
     }
 
     var barsRow = document.createElement("div");
-    barsRow.className = "aa-bars-row";
+    barsRow.className = "arena-bars-row";
     var axisRow = document.createElement("div");
-    axisRow.className = "aa-axis-row";
+    axisRow.className = "arena-axis-row";
 
     var rankCounter = 0;
     var insertedDivider = false;
@@ -538,10 +538,10 @@
       if (item.protocol === "model_specific" && !insertedDivider && rankCounter > 0) {
         insertedDivider = true;
         var divLine = document.createElement("div");
-        divLine.className = "aa-spec-divider";
+        divLine.className = "arena-spec-divider";
         barsRow.appendChild(divLine);
         var spacer = document.createElement("div");
-        spacer.className = "aa-axis-spacer";
+        spacer.className = "arena-axis-spacer";
         axisRow.appendChild(spacer);
       }
 
@@ -555,27 +555,27 @@
       var hPct = Math.max(12, Math.min(98, ((v - yMin) / (yMax - yMin)) * 100));
 
       var col = document.createElement("a");
-      col.className = "aa-col";
+      col.className = "arena-col";
       col.href = modelUrl(item.model);
       col.setAttribute("aria-label", item.model + ": " + v.toFixed(3) + " " + selectedMetric.toUpperCase());
 
       var bar = document.createElement("div");
       var famCls = "is-" + (item.family || "seq");
-      bar.className = "aa-bar " + famCls +
+      bar.className = "arena-bar " + famCls +
         (item.protocol === "model_specific" ? " is-patterned" : "");
       bar.style.height = hPct.toFixed(1) + "%";
 
       var valSpan = document.createElement("span");
-      valSpan.className = "aa-bar-val";
+      valSpan.className = "arena-bar-val";
       valSpan.textContent = v.toFixed(3);
       bar.appendChild(valSpan);
       col.appendChild(bar);
 
       var axisCell = document.createElement("div");
-      axisCell.className = "aa-axis-cell" + (thisRank && thisRank <= 3 ? " is-top" : "");
+      axisCell.className = "arena-axis-cell" + (thisRank && thisRank <= 3 ? " is-top" : "");
 
       var mLbl = document.createElement("span");
-      mLbl.className = "aa-model-label";
+      mLbl.className = "arena-model-label";
       mLbl.textContent = item.model;
       axisCell.appendChild(mLbl);
 
@@ -880,43 +880,43 @@
 
     // 1. Bar chart card
     chartCardEl = document.createElement("section");
-    chartCardEl.className = "aa-card";
+    chartCardEl.className = "arena-card";
     chartCardEl.innerHTML =
-      '<div class="aa-metric-tabs" data-role="metric">' +
+      '<div class="arena-metric-tabs" data-role="metric">' +
         '<button type="button" data-val="auc" class="active" aria-pressed="true">AUC</button>' +
         '<button type="button" data-val="acc" aria-pressed="false">ACC</button>' +
       "</div>" +
-      '<div class="aa-header">' +
-        '<div class="aa-title-block">' +
-          '<div class="aa-title-row">' +
-            '<h3 class="aa-title"></h3>' +
-            '<div class="aa-subtitle"></div>' +
+      '<div class="arena-header">' +
+        '<div class="arena-title-block">' +
+          '<div class="arena-title-row">' +
+            '<h3 class="arena-title"></h3>' +
+            '<div class="arena-subtitle"></div>' +
           "</div>" +
         "</div>" +
-        '<div class="aa-icon-group">' +
-          '<button type="button" class="aa-icon-btn" data-role="download" aria-label="' + (isEn ? "Download CSV" : "下载 CSV") + '" title="' + (isEn ? "Download CSV" : "下载 CSV") + '">' +
+        '<div class="arena-icon-group">' +
+          '<button type="button" class="arena-icon-btn" data-role="download" aria-label="' + (isEn ? "Download CSV" : "下载 CSV") + '" title="' + (isEn ? "Download CSV" : "下载 CSV") + '">' +
             '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 20h16"/></svg>' +
           "</button>" +
         "</div>" +
       "</div>" +
-      '<div class="aa-legend-row">' +
-        '<div class="aa-gran-switch" data-role="gran" role="group" aria-label="' + (isEn ? "Interaction granularity" : "交互粒度") + '">' +
+      '<div class="arena-legend-row">' +
+        '<div class="arena-gran-switch" data-role="gran" role="group" aria-label="' + (isEn ? "Interaction granularity" : "交互粒度") + '">' +
           '<button type="button" data-val="ALL" class="active" aria-pressed="true">' + (isEn ? "All" : "全部") + "</button>" +
           '<button type="button" data-val="Q" aria-pressed="false">' + (isEn ? "Q-level" : "题目级") + "</button>" +
           '<button type="button" data-val="KC" aria-pressed="false">' + (isEn ? "KC-level" : "知识组件级") + "</button>" +
         "</div>" +
       "</div>" +
-      '<div class="aa-chart-scroll"><div class="aa-chart-stage"></div></div>' +
-      '<div class="aa-legend-row is-bottom"><div class="aa-legend"></div></div>' +
-      '<div class="aa-tooltip"></div>';
+      '<div class="arena-chart-scroll"><div class="arena-chart-stage"></div></div>' +
+      '<div class="arena-legend-row is-bottom"><div class="arena-legend"></div></div>' +
+      '<div class="arena-tooltip"></div>';
 
     shell.appendChild(chartCardEl);
 
-    titleEl = chartCardEl.querySelector(".aa-title");
-    subtitleEl = chartCardEl.querySelector(".aa-subtitle");
-    legendEl = chartCardEl.querySelector(".aa-legend");
-    stageEl = chartCardEl.querySelector(".aa-chart-stage");
-    tooltipEl = chartCardEl.querySelector(".aa-tooltip");
+    titleEl = chartCardEl.querySelector(".arena-title");
+    subtitleEl = chartCardEl.querySelector(".arena-subtitle");
+    legendEl = chartCardEl.querySelector(".arena-legend");
+    stageEl = chartCardEl.querySelector(".arena-chart-stage");
+    tooltipEl = chartCardEl.querySelector(".arena-tooltip");
 
     chartCardEl.querySelector('[data-role="download"]').addEventListener("click", downloadCsv);
 
