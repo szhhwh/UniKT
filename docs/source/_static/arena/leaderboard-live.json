@@ -701,7 +701,7 @@
   },
   {
     "model": "ReKT",
-    "dataset": "Algebra05",
+    "dataset": "Algebra2005",
     "protocol": "unified",
     "auc": 0.84286,
     "auc_std": 0.000777,
@@ -741,7 +741,7 @@
   },
   {
     "model": "MIKT",
-    "dataset": "Algebra05",
+    "dataset": "Algebra2005",
     "protocol": "unified",
     "auc": 0.83818,
     "auc_std": 0.002284,
@@ -781,7 +781,7 @@
   },
   {
     "model": "ReKT",
-    "dataset": "Algebra06",
+    "dataset": "Algebra2006",
     "protocol": "unified",
     "auc": 0.8325,
     "auc_std": 0.000524,
@@ -791,7 +791,7 @@
   },
   {
     "model": "GIKT",
-    "dataset": "Algebra05",
+    "dataset": "Algebra2005",
     "protocol": "unified",
     "auc": 0.83088,
     "auc_std": 0.00142,
@@ -811,7 +811,7 @@
   },
   {
     "model": "MTKT",
-    "dataset": "Algebra06",
+    "dataset": "Algebra2006",
     "protocol": "unified",
     "auc": 0.82912,
     "auc_std": 0.001105,
@@ -821,7 +821,7 @@
   },
   {
     "model": "FoLibiKT",
-    "dataset": "Algebra05",
+    "dataset": "Algebra2005",
     "protocol": "unified",
     "auc": 0.82778,
     "auc_std": 0.001771,
@@ -831,7 +831,7 @@
   },
   {
     "model": "MTKT",
-    "dataset": "Bridge06",
+    "dataset": "Bridge2006",
     "protocol": "unified",
     "auc": 0.82716,
     "auc_std": 0.00023,
@@ -841,7 +841,7 @@
   },
   {
     "model": "BDGKT",
-    "dataset": "Algebra05",
+    "dataset": "Algebra2005",
     "protocol": "unified",
     "auc": 0.8259872,
     "auc_std": 0.001773,
@@ -851,7 +851,7 @@
   },
   {
     "model": "MIKT",
-    "dataset": "Algebra06",
+    "dataset": "Algebra2006",
     "protocol": "unified",
     "auc": 0.82538,
     "auc_std": 0.000973,
@@ -861,7 +861,7 @@
   },
   {
     "model": "UKT",
-    "dataset": "Algebra06",
+    "dataset": "Algebra2006",
     "protocol": "unified",
     "auc": 0.82426,
     "auc_std": 0.000888,
@@ -871,7 +871,7 @@
   },
   {
     "model": "MTKT",
-    "dataset": "Algebra05",
+    "dataset": "Algebra2005",
     "protocol": "unified",
     "auc": 0.8242,
     "auc_std": 0.004964,
@@ -881,7 +881,7 @@
   },
   {
     "model": "stableKT",
-    "dataset": "Algebra06",
+    "dataset": "Algebra2006",
     "protocol": "unified",
     "auc": 0.82342,
     "auc_std": 0.000396,
@@ -891,7 +891,7 @@
   },
   {
     "model": "DisKT",
-    "dataset": "Algebra05",
+    "dataset": "Algebra2005",
     "protocol": "unified",
     "auc": 0.8232,
     "auc_std": 0.00138,
@@ -901,7 +901,7 @@
   },
   {
     "model": "GRKT",
-    "dataset": "Algebra05",
+    "dataset": "Algebra2005",
     "protocol": "unified",
     "auc": 0.8231,
     "auc_std": 0.000957,
@@ -911,7 +911,7 @@
   },
   {
     "model": "DenoiseKT",
-    "dataset": "Algebra05",
+    "dataset": "Algebra2005",
     "protocol": "unified",
     "auc": 0.82222,
     "auc_std": 0.00137,
@@ -931,7 +931,7 @@
   },
   {
     "model": "csKT",
-    "dataset": "Algebra06",
+    "dataset": "Algebra2006",
     "protocol": "unified",
     "auc": 0.82138,
     "auc_std": 0.002008,
@@ -941,7 +941,7 @@
   },
   {
     "model": "IEKT",
-    "dataset": "Algebra05",
+    "dataset": "Algebra2005",
     "protocol": "unified",
     "auc": 0.8211,
     "auc_std": 0.001206,
@@ -951,7 +951,7 @@
   },
   {
     "model": "ReKT",
-    "dataset": "Bridge06",
+    "dataset": "Bridge2006",
     "protocol": "unified",
     "auc": 0.82074,
     "auc_std": 0.000483,
@@ -961,7 +961,7 @@
   },
   {
     "model": "RobustKT",
-    "dataset": "Algebra05",
+    "dataset": "Algebra2005",
     "protocol": "unified",
     "auc": 0.82072,
     "auc_std": 0.003725,
@@ -971,7 +971,7 @@
   },
   {
     "model": "FA-KT",
-    "dataset": "Algebra06",
+    "dataset": "Algebra2006",
     "protocol": "unified",
     "auc": 0.82064,
     "auc_std": 0.001665,
@@ -981,7 +981,7 @@
   },
   {
     "model": "RobustKT",
-    "dataset": "Algebra06",
+    "dataset": "Algebra2006",
     "protocol": "unified",
     "auc": 0.82046,
     "auc_std": 0.002235,
@@ -991,7 +991,7 @@
   },
   {
     "model": "MCSKT",
-    "dataset": "Algebra06",
+    "dataset": "Algebra2006",
     "protocol": "unified",
     "auc": 0.82046,
     "auc_std": 0.001167,
@@ -1001,7 +1001,7 @@
   },
   {
     "model": "stableKT",
-    "dataset": "Algebra05",
+    "dataset": "Algebra2005",
     "protocol": "unified",
     "auc": 0.81986,
     "auc_std": 0.001346,
@@ -1011,7 +1011,7 @@
   },
   {
     "model": "HiTSKT",
-    "dataset": "Algebra05",
+    "dataset": "Algebra2005",
     "protocol": "unified",
     "auc": 0.81962,
     "auc_std": 0.000976,
@@ -1021,7 +1021,7 @@
   },
   {
     "model": "csKT",
-    "dataset": "Algebra05",
+    "dataset": "Algebra2005",
     "protocol": "unified",
     "auc": 0.81942,
     "auc_std": 0.003237,
@@ -1031,7 +1031,7 @@
   },
   {
     "model": "GIKT",
-    "dataset": "Algebra06",
+    "dataset": "Algebra2006",
     "protocol": "unified",
     "auc": 0.8194,
     "auc_std": 0.000917,
@@ -1041,7 +1041,7 @@
   },
   {
     "model": "csKT",
-    "dataset": "Bridge06",
+    "dataset": "Bridge2006",
     "protocol": "unified",
     "auc": 0.81918,
     "auc_std": 0.000993,
@@ -1051,7 +1051,7 @@
   },
   {
     "model": "RobustKT",
-    "dataset": "Bridge06",
+    "dataset": "Bridge2006",
     "protocol": "unified",
     "auc": 0.819,
     "auc_std": 0.002694,
@@ -1061,7 +1061,7 @@
   },
   {
     "model": "stableKT",
-    "dataset": "Bridge06",
+    "dataset": "Bridge2006",
     "protocol": "unified",
     "auc": 0.81896,
     "auc_std": 0.000814,
@@ -1071,7 +1071,7 @@
   },
   {
     "model": "ATDKT",
-    "dataset": "Algebra05",
+    "dataset": "Algebra2005",
     "protocol": "unified",
     "auc": 0.81844,
     "auc_std": 0.00077,
@@ -1081,7 +1081,7 @@
   },
   {
     "model": "QIKT",
-    "dataset": "Algebra05",
+    "dataset": "Algebra2005",
     "protocol": "unified",
     "auc": 0.81798,
     "auc_std": 0.00089,
@@ -1091,7 +1091,7 @@
   },
   {
     "model": "UKT",
-    "dataset": "Bridge06",
+    "dataset": "Bridge2006",
     "protocol": "unified",
     "auc": 0.81794,
     "auc_std": 0.00117,
@@ -1101,7 +1101,7 @@
   },
   {
     "model": "MIKT",
-    "dataset": "Bridge06",
+    "dataset": "Bridge2006",
     "protocol": "unified",
     "auc": 0.81764,
     "auc_std": 0.000456,
@@ -1111,7 +1111,7 @@
   },
   {
     "model": "extraKT",
-    "dataset": "Bridge06",
+    "dataset": "Bridge2006",
     "protocol": "unified",
     "auc": 0.81696,
     "auc_std": 0.000888,
@@ -1121,7 +1121,7 @@
   },
   {
     "model": "UKT",
-    "dataset": "Algebra05",
+    "dataset": "Algebra2005",
     "protocol": "unified",
     "auc": 0.81642,
     "auc_std": 0.001001,
@@ -1131,7 +1131,7 @@
   },
   {
     "model": "AKT",
-    "dataset": "Bridge06",
+    "dataset": "Bridge2006",
     "protocol": "unified",
     "auc": 0.81626,
     "auc_std": 0.002315,
@@ -1141,7 +1141,7 @@
   },
   {
     "model": "simpleKT",
-    "dataset": "Algebra06",
+    "dataset": "Algebra2006",
     "protocol": "unified",
     "auc": 0.8158,
     "auc_std": 0.001575,
@@ -1151,7 +1151,7 @@
   },
   {
     "model": "ClusterKT",
-    "dataset": "Algebra05",
+    "dataset": "Algebra2005",
     "protocol": "unified",
     "auc": 0.81568,
     "auc_std": 0.003189,
@@ -1161,7 +1161,7 @@
   },
   {
     "model": "FlucKT",
-    "dataset": "Algebra06",
+    "dataset": "Algebra2006",
     "protocol": "unified",
     "auc": 0.81556,
     "auc_std": 0.002307,
@@ -1171,7 +1171,7 @@
   },
   {
     "model": "simpleKT",
-    "dataset": "Bridge06",
+    "dataset": "Bridge2006",
     "protocol": "unified",
     "auc": 0.81492,
     "auc_std": 0.000968,
@@ -1181,7 +1181,7 @@
   },
   {
     "model": "FoLibiKT",
-    "dataset": "Algebra06",
+    "dataset": "Algebra2006",
     "protocol": "unified",
     "auc": 0.8147,
     "auc_std": 0.000778,
@@ -1191,7 +1191,7 @@
   },
   {
     "model": "FlucKT",
-    "dataset": "Algebra05",
+    "dataset": "Algebra2005",
     "protocol": "unified",
     "auc": 0.8146,
     "auc_std": 0.006963,
@@ -1201,7 +1201,7 @@
   },
   {
     "model": "FA-KT",
-    "dataset": "Algebra05",
+    "dataset": "Algebra2005",
     "protocol": "unified",
     "auc": 0.8146,
     "auc_std": 0.003373,
@@ -1211,7 +1211,7 @@
   },
   {
     "model": "FA-KT",
-    "dataset": "Bridge06",
+    "dataset": "Bridge2006",
     "protocol": "unified",
     "auc": 0.81448,
     "auc_std": 0.000823,
@@ -1221,7 +1221,7 @@
   },
   {
     "model": "extraKT",
-    "dataset": "Algebra06",
+    "dataset": "Algebra2006",
     "protocol": "unified",
     "auc": 0.81408,
     "auc_std": 0.002089,
@@ -1231,7 +1231,7 @@
   },
   {
     "model": "CIKT",
-    "dataset": "Algebra05",
+    "dataset": "Algebra2005",
     "protocol": "unified",
     "auc": 0.8140028,
     "auc_std": 0.001129,
@@ -1241,7 +1241,7 @@
   },
   {
     "model": "AKT",
-    "dataset": "Algebra06",
+    "dataset": "Algebra2006",
     "protocol": "unified",
     "auc": 0.81356,
     "auc_std": 0.004826,
@@ -1251,7 +1251,7 @@
   },
   {
     "model": "MCSKT",
-    "dataset": "Bridge06",
+    "dataset": "Bridge2006",
     "protocol": "unified",
     "auc": 0.8134,
     "auc_std": 0.000837,
@@ -1261,7 +1261,7 @@
   },
   {
     "model": "ATDKT",
-    "dataset": "Algebra06",
+    "dataset": "Algebra2006",
     "protocol": "unified",
     "auc": 0.81252,
     "auc_std": 0.001003,
@@ -1271,7 +1271,7 @@
   },
   {
     "model": "GIKT",
-    "dataset": "Bridge06",
+    "dataset": "Bridge2006",
     "protocol": "unified",
     "auc": 0.81244,
     "auc_std": 0.000971,
@@ -1281,7 +1281,7 @@
   },
   {
     "model": "MCSKT",
-    "dataset": "Algebra05",
+    "dataset": "Algebra2005",
     "protocol": "unified",
     "auc": 0.81234,
     "auc_std": 0.000904,
@@ -1291,7 +1291,7 @@
   },
   {
     "model": "DTransformer",
-    "dataset": "Bridge06",
+    "dataset": "Bridge2006",
     "protocol": "unified",
     "auc": 0.81212,
     "auc_std": 0.00219,
@@ -1301,7 +1301,7 @@
   },
   {
     "model": "sparseKT",
-    "dataset": "Algebra06",
+    "dataset": "Algebra2006",
     "protocol": "unified",
     "auc": 0.81158,
     "auc_std": 0.000576,
@@ -1311,7 +1311,7 @@
   },
   {
     "model": "FlucKT",
-    "dataset": "Bridge06",
+    "dataset": "Bridge2006",
     "protocol": "unified",
     "auc": 0.81154,
     "auc_std": 0.001701,
@@ -1321,7 +1321,7 @@
   },
   {
     "model": "DenoiseKT",
-    "dataset": "Algebra06",
+    "dataset": "Algebra2006",
     "protocol": "unified",
     "auc": 0.81116,
     "auc_std": 0.000513,
@@ -1331,7 +1331,7 @@
   },
   {
     "model": "DisKT",
-    "dataset": "Algebra06",
+    "dataset": "Algebra2006",
     "protocol": "unified",
     "auc": 0.81078,
     "auc_std": 0.000455,
@@ -1341,7 +1341,7 @@
   },
   {
     "model": "extraKT",
-    "dataset": "Algebra05",
+    "dataset": "Algebra2005",
     "protocol": "unified",
     "auc": 0.8106,
     "auc_std": 0.004469,
@@ -1351,7 +1351,7 @@
   },
   {
     "model": "DKT2",
-    "dataset": "Algebra05",
+    "dataset": "Algebra2005",
     "protocol": "unified",
     "auc": 0.81024,
     "auc_std": 0.001367,
@@ -1361,7 +1361,7 @@
   },
   {
     "model": "BDGKT",
-    "dataset": "Algebra06",
+    "dataset": "Algebra2006",
     "protocol": "unified",
     "auc": 0.8093574,
     "auc_std": 0.001268,
@@ -1371,7 +1371,7 @@
   },
   {
     "model": "DTransformer",
-    "dataset": "Algebra06",
+    "dataset": "Algebra2006",
     "protocol": "unified",
     "auc": 0.80932,
     "auc_std": 0.001668,
@@ -1381,7 +1381,7 @@
   },
   {
     "model": "ATDKT",
-    "dataset": "Bridge06",
+    "dataset": "Bridge2006",
     "protocol": "unified",
     "auc": 0.8092,
     "auc_std": 0.000339,
@@ -1391,7 +1391,7 @@
   },
   {
     "model": "IEKT",
-    "dataset": "Algebra06",
+    "dataset": "Algebra2006",
     "protocol": "unified",
     "auc": 0.80886,
     "auc_std": 0.00076,
@@ -1401,7 +1401,7 @@
   },
   {
     "model": "FoLibiKT",
-    "dataset": "Bridge06",
+    "dataset": "Bridge2006",
     "protocol": "unified",
     "auc": 0.80852,
     "auc_std": 0.000983,
@@ -1411,7 +1411,7 @@
   },
   {
     "model": "sparseKT",
-    "dataset": "Bridge06",
+    "dataset": "Bridge2006",
     "protocol": "unified",
     "auc": 0.8085,
     "auc_std": 0.000962,
@@ -1421,7 +1421,7 @@
   },
   {
     "model": "SKVMN",
-    "dataset": "Algebra05",
+    "dataset": "Algebra2005",
     "protocol": "unified",
     "auc": 0.80848,
     "auc_std": 0.002239,
@@ -1431,7 +1431,7 @@
   },
   {
     "model": "AKT",
-    "dataset": "Algebra05",
+    "dataset": "Algebra2005",
     "protocol": "unified",
     "auc": 0.80846,
     "auc_std": 0.005527,
@@ -1441,7 +1441,7 @@
   },
   {
     "model": "simpleKT",
-    "dataset": "Algebra05",
+    "dataset": "Algebra2005",
     "protocol": "unified",
     "auc": 0.80842,
     "auc_std": 0.001395,
@@ -1461,7 +1461,7 @@
   },
   {
     "model": "DisKT",
-    "dataset": "Bridge06",
+    "dataset": "Bridge2006",
     "protocol": "unified",
     "auc": 0.808,
     "auc_std": 0.00049,
@@ -1471,7 +1471,7 @@
   },
   {
     "model": "DGMKT",
-    "dataset": "Algebra06",
+    "dataset": "Algebra2006",
     "protocol": "unified",
     "auc": 0.80686,
     "auc_std": 0.000876,
@@ -1481,7 +1481,7 @@
   },
   {
     "model": "DKT",
-    "dataset": "Algebra06",
+    "dataset": "Algebra2006",
     "protocol": "unified",
     "auc": 0.80562,
     "auc_std": 0.000614,
@@ -1491,7 +1491,7 @@
   },
   {
     "model": "DGMKT",
-    "dataset": "Bridge06",
+    "dataset": "Bridge2006",
     "protocol": "unified",
     "auc": 0.80544,
     "auc_std": 0.000876,
@@ -1511,7 +1511,7 @@
   },
   {
     "model": "DenoiseKT",
-    "dataset": "Bridge06",
+    "dataset": "Bridge2006",
     "protocol": "unified",
     "auc": 0.80328,
     "auc_std": 0.000789,
@@ -1521,7 +1521,7 @@
   },
   {
     "model": "ClusterKT",
-    "dataset": "Algebra06",
+    "dataset": "Algebra2006",
     "protocol": "unified",
     "auc": 0.80324,
     "auc_std": 0.002911,
@@ -1531,7 +1531,7 @@
   },
   {
     "model": "DKVMN",
-    "dataset": "Algebra06",
+    "dataset": "Algebra2006",
     "protocol": "unified",
     "auc": 0.80318,
     "auc_std": 0.000955,
@@ -1541,7 +1541,7 @@
   },
   {
     "model": "ClusterKT",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.80252,
     "auc_std": 0.00074,
@@ -1551,7 +1551,7 @@
   },
   {
     "model": "DKT",
-    "dataset": "Bridge06",
+    "dataset": "Bridge2006",
     "protocol": "unified",
     "auc": 0.8024,
     "auc_std": 0.000604,
@@ -1561,7 +1561,7 @@
   },
   {
     "model": "Deep-IRT",
-    "dataset": "Algebra06",
+    "dataset": "Algebra2006",
     "protocol": "unified",
     "auc": 0.8023,
     "auc_std": 0.001177,
@@ -1571,7 +1571,7 @@
   },
   {
     "model": "DKT+",
-    "dataset": "Algebra05",
+    "dataset": "Algebra2005",
     "protocol": "unified",
     "auc": 0.8021456,
     "auc_std": 0.000499,
@@ -1581,7 +1581,7 @@
   },
   {
     "model": "CIKT",
-    "dataset": "Algebra06",
+    "dataset": "Algebra2006",
     "protocol": "unified",
     "auc": 0.8018808,
     "auc_std": 0.000865,
@@ -1591,7 +1591,7 @@
   },
   {
     "model": "DGMKT",
-    "dataset": "Algebra05",
+    "dataset": "Algebra2005",
     "protocol": "unified",
     "auc": 0.80178,
     "auc_std": 0.002137,
@@ -1601,7 +1601,7 @@
   },
   {
     "model": "DKT+",
-    "dataset": "Algebra06",
+    "dataset": "Algebra2006",
     "protocol": "unified",
     "auc": 0.8011958,
     "auc_std": 0.000316,
@@ -1611,7 +1611,7 @@
   },
   {
     "model": "DKVMN",
-    "dataset": "Bridge06",
+    "dataset": "Bridge2006",
     "protocol": "unified",
     "auc": 0.80092,
     "auc_std": 0.000653,
@@ -1621,7 +1621,7 @@
   },
   {
     "model": "ATKT",
-    "dataset": "Algebra05",
+    "dataset": "Algebra2005",
     "protocol": "unified",
     "auc": 0.80068,
     "auc_std": 0.00108,
@@ -1631,7 +1631,7 @@
   },
   {
     "model": "Deep-IRT",
-    "dataset": "Bridge06",
+    "dataset": "Bridge2006",
     "protocol": "unified",
     "auc": 0.80054,
     "auc_std": 0.000416,
@@ -1641,7 +1641,7 @@
   },
   {
     "model": "SKVMN",
-    "dataset": "Algebra06",
+    "dataset": "Algebra2006",
     "protocol": "unified",
     "auc": 0.80018,
     "auc_std": 0.00092,
@@ -1651,7 +1651,7 @@
   },
   {
     "model": "IEKT",
-    "dataset": "Bridge06",
+    "dataset": "Bridge2006",
     "protocol": "unified",
     "auc": 0.79992,
     "auc_std": 0.000217,
@@ -1661,7 +1661,7 @@
   },
   {
     "model": "PSKT",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.79946,
     "auc_std": 0.002012,
@@ -1671,7 +1671,7 @@
   },
   {
     "model": "DTransformer",
-    "dataset": "Algebra05",
+    "dataset": "Algebra2005",
     "protocol": "unified",
     "auc": 0.7987,
     "auc_std": 0.004529,
@@ -1681,7 +1681,7 @@
   },
   {
     "model": "PSKT",
-    "dataset": "Algebra05",
+    "dataset": "Algebra2005",
     "protocol": "unified",
     "auc": 0.79838,
     "auc_std": 0.007758,
@@ -1691,7 +1691,7 @@
   },
   {
     "model": "DKT+",
-    "dataset": "Bridge06",
+    "dataset": "Bridge2006",
     "protocol": "unified",
     "auc": 0.7981514,
     "auc_std": 0.000421,
@@ -1701,7 +1701,7 @@
   },
   {
     "model": "LPKT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.79808,
     "auc_std": 0.000449,
@@ -1711,7 +1711,7 @@
   },
   {
     "model": "ABKT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "model_specific",
     "auc": 0.798,
     "auc_std": 0.004736,
@@ -1721,7 +1721,7 @@
   },
   {
     "model": "DKT2",
-    "dataset": "Algebra06",
+    "dataset": "Algebra2006",
     "protocol": "unified",
     "auc": 0.79792,
     "auc_std": 0.00127,
@@ -1731,7 +1731,7 @@
   },
   {
     "model": "PSKT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.7978,
     "auc_std": 0.000561,
@@ -1741,7 +1741,7 @@
   },
   {
     "model": "ReKT",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.79762,
     "auc_std": 0.001293,
@@ -1751,7 +1751,7 @@
   },
   {
     "model": "ReKT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.79754,
     "auc_std": 0.000555,
@@ -1771,7 +1771,7 @@
   },
   {
     "model": "csKT",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.79744,
     "auc_std": 0.000321,
@@ -1781,7 +1781,7 @@
   },
   {
     "model": "DKT",
-    "dataset": "Algebra05",
+    "dataset": "Algebra2005",
     "protocol": "unified",
     "auc": 0.79742,
     "auc_std": 0.003422,
@@ -1791,7 +1791,7 @@
   },
   {
     "model": "stableKT",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.79742,
     "auc_std": 0.000192,
@@ -1801,7 +1801,7 @@
   },
   {
     "model": "DKVMN",
-    "dataset": "Algebra05",
+    "dataset": "Algebra2005",
     "protocol": "unified",
     "auc": 0.79706,
     "auc_std": 0.00295,
@@ -1811,7 +1811,7 @@
   },
   {
     "model": "SKVMN",
-    "dataset": "Bridge06",
+    "dataset": "Bridge2006",
     "protocol": "unified",
     "auc": 0.79696,
     "auc_std": 0.001585,
@@ -1821,7 +1821,7 @@
   },
   {
     "model": "Deep-IRT",
-    "dataset": "Algebra05",
+    "dataset": "Algebra2005",
     "protocol": "unified",
     "auc": 0.79694,
     "auc_std": 0.002226,
@@ -1831,7 +1831,7 @@
   },
   {
     "model": "GKT",
-    "dataset": "Algebra05",
+    "dataset": "Algebra2005",
     "protocol": "unified",
     "auc": 0.79658,
     "auc_std": 0.00379,
@@ -1841,7 +1841,7 @@
   },
   {
     "model": "DAGKT",
-    "dataset": "Algebra05",
+    "dataset": "Algebra2005",
     "protocol": "unified",
     "auc": 0.79624,
     "auc_std": 0.004158,
@@ -1851,7 +1851,7 @@
   },
   {
     "model": "extraKT",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.79582,
     "auc_std": 0.00039,
@@ -1861,7 +1861,7 @@
   },
   {
     "model": "BDGKT",
-    "dataset": "Bridge06",
+    "dataset": "Bridge2006",
     "protocol": "unified",
     "auc": 0.7954326,
     "auc_std": 0.001893,
@@ -1871,7 +1871,7 @@
   },
   {
     "model": "KQN",
-    "dataset": "Bridge06",
+    "dataset": "Bridge2006",
     "protocol": "unified",
     "auc": 0.7952,
     "auc_std": 0.000771,
@@ -1881,7 +1881,7 @@
   },
   {
     "model": "QIKT",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.79506,
     "auc_std": 0.00023,
@@ -1891,7 +1891,7 @@
   },
   {
     "model": "RobustKT",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.79502,
     "auc_std": 0.000466,
@@ -1901,7 +1901,7 @@
   },
   {
     "model": "KQN",
-    "dataset": "Algebra06",
+    "dataset": "Algebra2006",
     "protocol": "unified",
     "auc": 0.79498,
     "auc_std": 0.00076,
@@ -1911,7 +1911,7 @@
   },
   {
     "model": "MCSKT",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.79442,
     "auc_std": 0.000239,
@@ -1921,7 +1921,7 @@
   },
   {
     "model": "KQN",
-    "dataset": "Algebra05",
+    "dataset": "Algebra2005",
     "protocol": "unified",
     "auc": 0.79434,
     "auc_std": 0.000611,
@@ -1941,7 +1941,7 @@
   },
   {
     "model": "AKT",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.7942,
     "auc_std": 0.000274,
@@ -1951,7 +1951,7 @@
   },
   {
     "model": "HGKT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.79416,
     "auc_std": 0.000513,
@@ -1961,7 +1961,7 @@
   },
   {
     "model": "ReKT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.794,
     "auc_std": 0.000768,
@@ -1971,7 +1971,7 @@
   },
   {
     "model": "FA-KT",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.79376,
     "auc_std": 0.000573,
@@ -1981,7 +1981,7 @@
   },
   {
     "model": "ClusterKT",
-    "dataset": "Bridge06",
+    "dataset": "Bridge2006",
     "protocol": "unified",
     "auc": 0.79338,
     "auc_std": 0.003274,
@@ -1991,7 +1991,7 @@
   },
   {
     "model": "ReKT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.79334,
     "auc_std": 0.001539,
@@ -2001,7 +2001,7 @@
   },
   {
     "model": "IEKT",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.79334,
     "auc_std": 0.002647,
@@ -2011,7 +2011,7 @@
   },
   {
     "model": "DAGKT",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.79328,
     "auc_std": 0.001539,
@@ -2021,7 +2021,7 @@
   },
   {
     "model": "FoLibiKT",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.79306,
     "auc_std": 0.000336,
@@ -2031,7 +2031,7 @@
   },
   {
     "model": "MTKT",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.79304,
     "auc_std": 0.000385,
@@ -2041,7 +2041,7 @@
   },
   {
     "model": "SGKT",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.7929,
     "auc_std": 0.000212,
@@ -2051,7 +2051,7 @@
   },
   {
     "model": "simpleKT",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.79282,
     "auc_std": 0.000396,
@@ -2071,7 +2071,7 @@
   },
   {
     "model": "DGEKT",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.79262,
     "auc_std": 0.000268,
@@ -2081,7 +2081,7 @@
   },
   {
     "model": "MIKT",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.79258,
     "auc_std": 0.00061,
@@ -2091,7 +2091,7 @@
   },
   {
     "model": "HiTSKT",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.7925,
     "auc_std": 0.000255,
@@ -2101,7 +2101,7 @@
   },
   {
     "model": "DKT2",
-    "dataset": "Bridge06",
+    "dataset": "Bridge2006",
     "protocol": "unified",
     "auc": 0.7924,
     "auc_std": 0.002706,
@@ -2111,7 +2111,7 @@
   },
   {
     "model": "ATKT",
-    "dataset": "Algebra06",
+    "dataset": "Algebra2006",
     "protocol": "unified",
     "auc": 0.7921,
     "auc_std": 0.000485,
@@ -2121,7 +2121,7 @@
   },
   {
     "model": "HiTSKT",
-    "dataset": "Algebra06",
+    "dataset": "Algebra2006",
     "protocol": "unified",
     "auc": 0.79196,
     "auc_std": 0.000723,
@@ -2141,7 +2141,7 @@
   },
   {
     "model": "DTransformer",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.79188,
     "auc_std": 0.000719,
@@ -2151,7 +2151,7 @@
   },
   {
     "model": "DisKT",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.79186,
     "auc_std": 0.000305,
@@ -2161,7 +2161,7 @@
   },
   {
     "model": "MCKT",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.7917,
     "auc_std": 0.00097,
@@ -2171,7 +2171,7 @@
   },
   {
     "model": "FlucKT",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.79166,
     "auc_std": 0.002788,
@@ -2191,7 +2191,7 @@
   },
   {
     "model": "GIKT",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.79138,
     "auc_std": 0.000342,
@@ -2201,7 +2201,7 @@
   },
   {
     "model": "MIKT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.79136,
     "auc_std": 0.001527,
@@ -2211,7 +2211,7 @@
   },
   {
     "model": "LPKT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.7913,
     "auc_std": 0.000367,
@@ -2231,7 +2231,7 @@
   },
   {
     "model": "DenoiseKT",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.79122,
     "auc_std": 0.000164,
@@ -2241,7 +2241,7 @@
   },
   {
     "model": "ATKT",
-    "dataset": "Bridge06",
+    "dataset": "Bridge2006",
     "protocol": "unified",
     "auc": 0.7908,
     "auc_std": 0.000967,
@@ -2251,7 +2251,7 @@
   },
   {
     "model": "TCKT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.7907,
     "auc_std": 0.001234,
@@ -2261,7 +2261,7 @@
   },
   {
     "model": "Mamba4KT",
-    "dataset": "Bridge06",
+    "dataset": "Bridge2006",
     "protocol": "unified",
     "auc": 0.79052,
     "auc_std": 0.001475,
@@ -2281,7 +2281,7 @@
   },
   {
     "model": "ClusterKT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.7898,
     "auc_std": 0.00064,
@@ -2291,7 +2291,7 @@
   },
   {
     "model": "FoLibiKT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.78978,
     "auc_std": 0.00046,
@@ -2311,7 +2311,7 @@
   },
   {
     "model": "LBKT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.78968,
     "auc_std": 0.002046,
@@ -2321,7 +2321,7 @@
   },
   {
     "model": "SGKT",
-    "dataset": "Algebra05",
+    "dataset": "Algebra2005",
     "protocol": "unified",
     "auc": 0.78954,
     "auc_std": 0.002476,
@@ -2331,7 +2331,7 @@
   },
   {
     "model": "UKT",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.78916,
     "auc_std": 0.000518,
@@ -2351,7 +2351,7 @@
   },
   {
     "model": "sparseKT",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.78794,
     "auc_std": 0.000799,
@@ -2371,7 +2371,7 @@
   },
   {
     "model": "DyGKT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.78726,
     "auc_std": 0.000462,
@@ -2381,7 +2381,7 @@
   },
   {
     "model": "GRKT",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.78644,
     "auc_std": 0.000483,
@@ -2401,7 +2401,7 @@
   },
   {
     "model": "CIKT",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.786317,
     "auc_std": 0.000712,
@@ -2411,7 +2411,7 @@
   },
   {
     "model": "LPKT-S",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.78568,
     "auc_std": 0.001059,
@@ -2431,7 +2431,7 @@
   },
   {
     "model": "HiTSKT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.78544,
     "auc_std": 0.000702,
@@ -2441,7 +2441,7 @@
   },
   {
     "model": "LPKT-S",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.78536,
     "auc_std": 0.00135,
@@ -2451,7 +2451,7 @@
   },
   {
     "model": "QIKT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.78524,
     "auc_std": 0.002194,
@@ -2461,7 +2461,7 @@
   },
   {
     "model": "DisKT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.78482,
     "auc_std": 0.001717,
@@ -2471,7 +2471,7 @@
   },
   {
     "model": "MCKT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.78462,
     "auc_std": 0.002882,
@@ -2481,7 +2481,7 @@
   },
   {
     "model": "AKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.78446,
     "auc_std": 0.000416,
@@ -2501,7 +2501,7 @@
   },
   {
     "model": "Mamba4KT",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.78414,
     "auc_std": 0.000385,
@@ -2521,7 +2521,7 @@
   },
   {
     "model": "Mamba4KT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.78388,
     "auc_std": 0.000455,
@@ -2531,7 +2531,7 @@
   },
   {
     "model": "sparseKT",
-    "dataset": "Algebra05",
+    "dataset": "Algebra2005",
     "protocol": "unified",
     "auc": 0.7837,
     "auc_std": 0.002173,
@@ -2541,7 +2541,7 @@
   },
   {
     "model": "MIKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.78348,
     "auc_std": 0.00011,
@@ -2551,7 +2551,7 @@
   },
   {
     "model": "SQGKT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.78344,
     "auc_std": 0.00073,
@@ -2561,7 +2561,7 @@
   },
   {
     "model": "HiTSKT",
-    "dataset": "Bridge06",
+    "dataset": "Bridge2006",
     "protocol": "unified",
     "auc": 0.78324,
     "auc_std": 0.000404,
@@ -2571,7 +2571,7 @@
   },
   {
     "model": "Mamba4KT",
-    "dataset": "Algebra05",
+    "dataset": "Algebra2005",
     "protocol": "unified",
     "auc": 0.78318,
     "auc_std": 0.002791,
@@ -2581,7 +2581,7 @@
   },
   {
     "model": "ReKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.78316,
     "auc_std": 0.000241,
@@ -2591,7 +2591,7 @@
   },
   {
     "model": "DenoiseKT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.78314,
     "auc_std": 0.001588,
@@ -2601,7 +2601,7 @@
   },
   {
     "model": "RobustKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.7829,
     "auc_std": 0.000324,
@@ -2641,7 +2641,7 @@
   },
   {
     "model": "DTransformer",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.78132,
     "auc_std": 0.000497,
@@ -2651,7 +2651,7 @@
   },
   {
     "model": "FoLibiKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.78114,
     "auc_std": 0.000358,
@@ -2661,7 +2661,7 @@
   },
   {
     "model": "AKT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.78112,
     "auc_std": 0.003047,
@@ -2681,7 +2681,7 @@
   },
   {
     "model": "DIMKT",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.78096,
     "auc_std": 0.004851,
@@ -2701,7 +2701,7 @@
   },
   {
     "model": "Mamba4KT",
-    "dataset": "Algebra06",
+    "dataset": "Algebra2006",
     "protocol": "unified",
     "auc": 0.78086,
     "auc_std": 0.001869,
@@ -2711,7 +2711,7 @@
   },
   {
     "model": "stableKT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.78066,
     "auc_std": 0.001978,
@@ -2721,7 +2721,7 @@
   },
   {
     "model": "GRKT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.7805,
     "auc_std": 0.000815,
@@ -2731,7 +2731,7 @@
   },
   {
     "model": "UKT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.7804,
     "auc_std": 0.001861,
@@ -2741,7 +2741,7 @@
   },
   {
     "model": "MIKT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.78028,
     "auc_std": 0.000409,
@@ -2751,7 +2751,7 @@
   },
   {
     "model": "FlucKT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.78024,
     "auc_std": 0.008035,
@@ -2761,7 +2761,7 @@
   },
   {
     "model": "DGEKT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.78014,
     "auc_std": 0.000666,
@@ -2781,7 +2781,7 @@
   },
   {
     "model": "MTKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.7801,
     "auc_std": 0.000235,
@@ -2791,7 +2791,7 @@
   },
   {
     "model": "FoLibiKT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.77984,
     "auc_std": 0.001163,
@@ -2801,7 +2801,7 @@
   },
   {
     "model": "RobustKT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.77978,
     "auc_std": 0.002787,
@@ -2811,7 +2811,7 @@
   },
   {
     "model": "TCKT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.7795832,
     "auc_std": 0.001775,
@@ -2821,7 +2821,7 @@
   },
   {
     "model": "GIKT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.77942,
     "auc_std": 0.002158,
@@ -2831,7 +2831,7 @@
   },
   {
     "model": "csKT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.7794,
     "auc_std": 0.000524,
@@ -2851,7 +2851,7 @@
   },
   {
     "model": "BDGKT",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.7788488,
     "auc_std": 0.000919,
@@ -2861,7 +2861,7 @@
   },
   {
     "model": "extraKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.77884,
     "auc_std": 0.004221,
@@ -2871,7 +2871,7 @@
   },
   {
     "model": "MCSKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.77878,
     "auc_std": 0.001644,
@@ -2881,7 +2881,7 @@
   },
   {
     "model": "UKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.7787,
     "auc_std": 0.000374,
@@ -2891,7 +2891,7 @@
   },
   {
     "model": "IEKT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.77858,
     "auc_std": 0.000993,
@@ -2901,7 +2901,7 @@
   },
   {
     "model": "csKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.77854,
     "auc_std": 0.000344,
@@ -2911,7 +2911,7 @@
   },
   {
     "model": "DAGKT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.77846,
     "auc_std": 0.001457,
@@ -2931,7 +2931,7 @@
   },
   {
     "model": "MCKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.77842,
     "auc_std": 0.000904,
@@ -2941,7 +2941,7 @@
   },
   {
     "model": "SGKT",
-    "dataset": "Bridge06",
+    "dataset": "Bridge2006",
     "protocol": "unified",
     "auc": 0.77828,
     "auc_std": 0.002809,
@@ -2951,7 +2951,7 @@
   },
   {
     "model": "stableKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.77818,
     "auc_std": 0.000432,
@@ -2961,7 +2961,7 @@
   },
   {
     "model": "RobustKT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.77812,
     "auc_std": 0.000807,
@@ -2971,7 +2971,7 @@
   },
   {
     "model": "LPKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.77804,
     "auc_std": 0.000134,
@@ -2981,7 +2981,7 @@
   },
   {
     "model": "GIKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.77804,
     "auc_std": 0.000462,
@@ -2991,7 +2991,7 @@
   },
   {
     "model": "DAGKT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.77802,
     "auc_std": 0.000952,
@@ -3001,7 +3001,7 @@
   },
   {
     "model": "IEKT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.7779,
     "auc_std": 0.001565,
@@ -3021,7 +3021,7 @@
   },
   {
     "model": "TCKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.77786,
     "auc_std": 0.000513,
@@ -3041,7 +3041,7 @@
   },
   {
     "model": "FA-KT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.77782,
     "auc_std": 0.000277,
@@ -3051,7 +3051,7 @@
   },
   {
     "model": "ATDKT",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.77776,
     "auc_std": 0.00027,
@@ -3061,7 +3061,7 @@
   },
   {
     "model": "PSKT",
-    "dataset": "Bridge06",
+    "dataset": "Bridge2006",
     "protocol": "unified",
     "auc": 0.77774,
     "auc_std": 0.003601,
@@ -3071,7 +3071,7 @@
   },
   {
     "model": "LBKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.77774,
     "auc_std": 0.000467,
@@ -3081,7 +3081,7 @@
   },
   {
     "model": "AKT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.77768,
     "auc_std": 0.000327,
@@ -3091,7 +3091,7 @@
   },
   {
     "model": "simpleKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.77756,
     "auc_std": 0.000365,
@@ -3121,7 +3121,7 @@
   },
   {
     "model": "csKT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.77732,
     "auc_std": 0.001625,
@@ -3131,7 +3131,7 @@
   },
   {
     "model": "simpleKT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.77704,
     "auc_std": 0.002692,
@@ -3141,7 +3141,7 @@
   },
   {
     "model": "SAKT",
-    "dataset": "Algebra06",
+    "dataset": "Algebra2006",
     "protocol": "unified",
     "auc": 0.77694,
     "auc_std": 0.00123,
@@ -3151,7 +3151,7 @@
   },
   {
     "model": "QIKT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.77682,
     "auc_std": 0.000536,
@@ -3161,7 +3161,7 @@
   },
   {
     "model": "PSKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.7767,
     "auc_std": 0.000566,
@@ -3171,7 +3171,7 @@
   },
   {
     "model": "MCKT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.77656,
     "auc_std": 0.001234,
@@ -3181,7 +3181,7 @@
   },
   {
     "model": "DTransformer",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.77622,
     "auc_std": 0.001252,
@@ -3191,7 +3191,7 @@
   },
   {
     "model": "LBKT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.7761,
     "auc_std": 0.002903,
@@ -3201,7 +3201,7 @@
   },
   {
     "model": "extraKT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.77598,
     "auc_std": 0.002252,
@@ -3211,7 +3211,7 @@
   },
   {
     "model": "FlucKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.77596,
     "auc_std": 0.002614,
@@ -3221,7 +3221,7 @@
   },
   {
     "model": "DisKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.7759,
     "auc_std": 0.000381,
@@ -3231,7 +3231,7 @@
   },
   {
     "model": "BDGKT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.7758654,
     "auc_std": 0.002204,
@@ -3241,7 +3241,7 @@
   },
   {
     "model": "DTransformer",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.77576,
     "auc_std": 0.001228,
@@ -3251,7 +3251,7 @@
   },
   {
     "model": "MCKT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.77572,
     "auc_std": 0.000665,
@@ -3261,7 +3261,7 @@
   },
   {
     "model": "ClusterKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.77572,
     "auc_std": 0.000572,
@@ -3271,7 +3271,7 @@
   },
   {
     "model": "DenoiseKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.77542,
     "auc_std": 0.000526,
@@ -3281,7 +3281,7 @@
   },
   {
     "model": "SGKT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.77536,
     "auc_std": 0.00055,
@@ -3291,7 +3291,7 @@
   },
   {
     "model": "SQGKT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.77534,
     "auc_std": 0.000924,
@@ -3301,7 +3301,7 @@
   },
   {
     "model": "LPKT-S",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.77518,
     "auc_std": 0.000507,
@@ -3311,7 +3311,7 @@
   },
   {
     "model": "DGEKT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.7749,
     "auc_std": 0.00086,
@@ -3321,7 +3321,7 @@
   },
   {
     "model": "DyGKT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.7749,
     "auc_std": 0.006823,
@@ -3331,7 +3331,7 @@
   },
   {
     "model": "HGKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.77472,
     "auc_std": 0.000779,
@@ -3351,7 +3351,7 @@
   },
   {
     "model": "GIKT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.77464,
     "auc_std": 0.000546,
@@ -3371,7 +3371,7 @@
   },
   {
     "model": "PSKT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.77452,
     "auc_std": 0.002745,
@@ -3381,7 +3381,7 @@
   },
   {
     "model": "DKT2",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.77432,
     "auc_std": 0.001431,
@@ -3391,7 +3391,7 @@
   },
   {
     "model": "stableKT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.77416,
     "auc_std": 0.001467,
@@ -3401,7 +3401,7 @@
   },
   {
     "model": "PSKT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.77394,
     "auc_std": 0.001412,
@@ -3411,7 +3411,7 @@
   },
   {
     "model": "DAGKT",
-    "dataset": "Bridge06",
+    "dataset": "Bridge2006",
     "protocol": "unified",
     "auc": 0.77376,
     "auc_std": 0.00218,
@@ -3421,7 +3421,7 @@
   },
   {
     "model": "QIKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.77358,
     "auc_std": 0.00055,
@@ -3431,7 +3431,7 @@
   },
   {
     "model": "LPKT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.77358,
     "auc_std": 0.003227,
@@ -3441,7 +3441,7 @@
   },
   {
     "model": "MCSKT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.77338,
     "auc_std": 0.00147,
@@ -3451,7 +3451,7 @@
   },
   {
     "model": "TCKT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.7731612,
     "auc_std": 0.004994,
@@ -3481,7 +3481,7 @@
   },
   {
     "model": "DenoiseKT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.77296,
     "auc_std": 0.000329,
@@ -3491,7 +3491,7 @@
   },
   {
     "model": "MCSKT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.77296,
     "auc_std": 0.001927,
@@ -3521,7 +3521,7 @@
   },
   {
     "model": "BDGKT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.7720696,
     "auc_std": 0.001022,
@@ -3531,7 +3531,7 @@
   },
   {
     "model": "DisKT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.7718,
     "auc_std": 0.001079,
@@ -3551,7 +3551,7 @@
   },
   {
     "model": "GRKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.77114,
     "auc_std": 0.000371,
@@ -3571,7 +3571,7 @@
   },
   {
     "model": "FA-KT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.77092,
     "auc_std": 0.001316,
@@ -3581,7 +3581,7 @@
   },
   {
     "model": "SQGKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.7708,
     "auc_std": 0.000663,
@@ -3591,7 +3591,7 @@
   },
   {
     "model": "Mamba4KT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.77072,
     "auc_std": 0.00039,
@@ -3601,7 +3601,7 @@
   },
   {
     "model": "MIKT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.77072,
     "auc_std": 0.002867,
@@ -3611,7 +3611,7 @@
   },
   {
     "model": "HawkesKT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.77058,
     "auc_std": 0.001071,
@@ -3621,7 +3621,7 @@
   },
   {
     "model": "GRKT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.77028,
     "auc_std": 0.002275,
@@ -3641,7 +3641,7 @@
   },
   {
     "model": "DAGKT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.77014,
     "auc_std": 0.003431,
@@ -3651,7 +3651,7 @@
   },
   {
     "model": "FA-KT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.77006,
     "auc_std": 0.000783,
@@ -3661,7 +3661,7 @@
   },
   {
     "model": "QIKT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.7699,
     "auc_std": 0.000962,
@@ -3671,7 +3671,7 @@
   },
   {
     "model": "MTKT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.76982,
     "auc_std": 0.001778,
@@ -3681,7 +3681,7 @@
   },
   {
     "model": "SQGKT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.76976,
     "auc_std": 0.001812,
@@ -3691,7 +3691,7 @@
   },
   {
     "model": "sparseKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.76966,
     "auc_std": 0.000666,
@@ -3701,7 +3701,7 @@
   },
   {
     "model": "SAKT",
-    "dataset": "Algebra05",
+    "dataset": "Algebra2005",
     "protocol": "unified",
     "auc": 0.76954,
     "auc_std": 0.002802,
@@ -3711,7 +3711,7 @@
   },
   {
     "model": "GIKT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.76952,
     "auc_std": 0.000986,
@@ -3721,7 +3721,7 @@
   },
   {
     "model": "UKT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.76946,
     "auc_std": 0.00077,
@@ -3731,7 +3731,7 @@
   },
   {
     "model": "ReKT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.769372,
     "auc_std": 0.001616,
@@ -3741,7 +3741,7 @@
   },
   {
     "model": "DAGKT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.76928,
     "auc_std": 0.000698,
@@ -3751,7 +3751,7 @@
   },
   {
     "model": "IEKT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.76906,
     "auc_std": 0.001379,
@@ -3761,7 +3761,7 @@
   },
   {
     "model": "FlucKT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.76902,
     "auc_std": 0.002622,
@@ -3771,7 +3771,7 @@
   },
   {
     "model": "CIKT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.7688742,
     "auc_std": 0.00274,
@@ -3781,7 +3781,7 @@
   },
   {
     "model": "IEKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.7688,
     "auc_std": 0.001298,
@@ -3791,7 +3791,7 @@
   },
   {
     "model": "simpleKT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.76844,
     "auc_std": 0.001083,
@@ -3801,7 +3801,7 @@
   },
   {
     "model": "LPKT-S",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.76838,
     "auc_std": 0.003548,
@@ -3811,7 +3811,7 @@
   },
   {
     "model": "DKT2",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.76828,
     "auc_std": 0.001252,
@@ -3831,7 +3831,7 @@
   },
   {
     "model": "CIKT",
-    "dataset": "Bridge06",
+    "dataset": "Bridge2006",
     "protocol": "unified",
     "auc": 0.7677378,
     "auc_std": 0.000908,
@@ -3841,7 +3841,7 @@
   },
   {
     "model": "MTKT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.7675,
     "auc_std": 0.001681,
@@ -3851,7 +3851,7 @@
   },
   {
     "model": "sparseKT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.76738,
     "auc_std": 0.002465,
@@ -3871,7 +3871,7 @@
   },
   {
     "model": "BDGKT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.7667584,
     "auc_std": 0.000752,
@@ -3881,7 +3881,7 @@
   },
   {
     "model": "DGMKT",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.76654,
     "auc_std": 0.000786,
@@ -3891,7 +3891,7 @@
   },
   {
     "model": "ClusterKT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.7665,
     "auc_std": 0.000897,
@@ -3901,7 +3901,7 @@
   },
   {
     "model": "SGKT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.76618,
     "auc_std": 0.001274,
@@ -3911,7 +3911,7 @@
   },
   {
     "model": "DAGKT",
-    "dataset": "Algebra06",
+    "dataset": "Algebra2006",
     "protocol": "unified",
     "auc": 0.76616,
     "auc_std": 0.004227,
@@ -3921,7 +3921,7 @@
   },
   {
     "model": "extraKT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.76606,
     "auc_std": 0.002187,
@@ -3931,7 +3931,7 @@
   },
   {
     "model": "MCKT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.76552,
     "auc_std": 0.002326,
@@ -3941,7 +3941,7 @@
   },
   {
     "model": "DAGKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.76522,
     "auc_std": 0.00037,
@@ -3951,7 +3951,7 @@
   },
   {
     "model": "sparseKT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.76424,
     "auc_std": 0.000976,
@@ -3961,7 +3961,7 @@
   },
   {
     "model": "SAKT",
-    "dataset": "Bridge06",
+    "dataset": "Bridge2006",
     "protocol": "unified",
     "auc": 0.764,
     "auc_std": 0.000954,
@@ -3971,7 +3971,7 @@
   },
   {
     "model": "CIKT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.763857,
     "auc_std": 0.001155,
@@ -3981,7 +3981,7 @@
   },
   {
     "model": "MIKT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.763382,
     "auc_std": 0.000594,
@@ -3991,7 +3991,7 @@
   },
   {
     "model": "HawkesKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.7633,
     "auc_std": 0.000406,
@@ -4001,7 +4001,7 @@
   },
   {
     "model": "ClusterKT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.76306,
     "auc_std": 0.00342,
@@ -4011,7 +4011,7 @@
   },
   {
     "model": "HiTSKT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.7629,
     "auc_std": 0.000877,
@@ -4021,7 +4021,7 @@
   },
   {
     "model": "PSKT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.76286,
     "auc_std": 0.001513,
@@ -4031,7 +4031,7 @@
   },
   {
     "model": "ABKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "model_specific",
     "auc": 0.7628,
     "auc_std": 0.011613,
@@ -4041,7 +4041,7 @@
   },
   {
     "model": "CIKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.7626444,
     "auc_std": 0.000628,
@@ -4051,7 +4051,7 @@
   },
   {
     "model": "Deep-IRT",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.76238,
     "auc_std": 0.000563,
@@ -4061,7 +4061,7 @@
   },
   {
     "model": "KQN",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.7622,
     "auc_std": 0.000354,
@@ -4071,7 +4071,7 @@
   },
   {
     "model": "SKVMN",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.76214,
     "auc_std": 0.000391,
@@ -4081,7 +4081,7 @@
   },
   {
     "model": "DKVMN",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.76186,
     "auc_std": 0.000305,
@@ -4091,7 +4091,7 @@
   },
   {
     "model": "FoLibiKT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.76162,
     "auc_std": 0.000327,
@@ -4101,7 +4101,7 @@
   },
   {
     "model": "BDGKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.7613004,
     "auc_std": 0.00039,
@@ -4111,7 +4111,7 @@
   },
   {
     "model": "TCKT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.760432,
     "auc_std": 0.000415,
@@ -4121,7 +4121,7 @@
   },
   {
     "model": "DKT",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.76034,
     "auc_std": 0.00023,
@@ -4131,7 +4131,7 @@
   },
   {
     "model": "ATDKT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.76032,
     "auc_std": 0.000726,
@@ -4151,7 +4151,7 @@
   },
   {
     "model": "HiTSKT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.75988,
     "auc_std": 0.002036,
@@ -4161,7 +4161,7 @@
   },
   {
     "model": "GKT",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.75968,
     "auc_std": 0.003247,
@@ -4171,7 +4171,7 @@
   },
   {
     "model": "DyGKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.75914,
     "auc_std": 0.000439,
@@ -4181,7 +4181,7 @@
   },
   {
     "model": "CIKT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.7585622,
     "auc_std": 0.004223,
@@ -4191,7 +4191,7 @@
   },
   {
     "model": "RobustKT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.75788,
     "auc_std": 0.003217,
@@ -4201,7 +4201,7 @@
   },
   {
     "model": "Mamba4KT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.75778,
     "auc_std": 0.001217,
@@ -4211,7 +4211,7 @@
   },
   {
     "model": "LPKT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.75758,
     "auc_std": 0.000965,
@@ -4221,7 +4221,7 @@
   },
   {
     "model": "AKT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.7572,
     "auc_std": 0.001391,
@@ -4241,7 +4241,7 @@
   },
   {
     "model": "ATDKT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.75596,
     "auc_std": 0.00176,
@@ -4251,7 +4251,7 @@
   },
   {
     "model": "HiTSKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.75584,
     "auc_std": 0.000764,
@@ -4261,7 +4261,7 @@
   },
   {
     "model": "DKT+",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.7552642,
     "auc_std": 0.000212,
@@ -4271,7 +4271,7 @@
   },
   {
     "model": "DGMKT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.75472,
     "auc_std": 0.00131,
@@ -4281,7 +4281,7 @@
   },
   {
     "model": "QIKT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.7544302,
     "auc_std": 0.000391,
@@ -4291,7 +4291,7 @@
   },
   {
     "model": "ATKT",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.75442,
     "auc_std": 0.000327,
@@ -4301,7 +4301,7 @@
   },
   {
     "model": "SKVMN",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.7541,
     "auc_std": 0.002296,
@@ -4311,7 +4311,7 @@
   },
   {
     "model": "DKT2",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.75394,
     "auc_std": 0.001088,
@@ -4321,7 +4321,7 @@
   },
   {
     "model": "DyGKT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.753618,
     "auc_std": 0.00251,
@@ -4331,7 +4331,7 @@
   },
   {
     "model": "DenoiseKT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.75308,
     "auc_std": 0.00046,
@@ -4341,7 +4341,7 @@
   },
   {
     "model": "SGKT",
-    "dataset": "Algebra06",
+    "dataset": "Algebra2006",
     "protocol": "unified",
     "auc": 0.75268,
     "auc_std": 0.00496,
@@ -4351,7 +4351,7 @@
   },
   {
     "model": "IEKT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.7524796,
     "auc_std": 0.000877,
@@ -4361,7 +4361,7 @@
   },
   {
     "model": "DKT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.75206,
     "auc_std": 0.001503,
@@ -4371,7 +4371,7 @@
   },
   {
     "model": "DGMKT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.75186,
     "auc_std": 0.00075,
@@ -4391,7 +4391,7 @@
   },
   {
     "model": "MCSKT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.75152,
     "auc_std": 0.001794,
@@ -4401,7 +4401,7 @@
   },
   {
     "model": "SQGKT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.751488,
     "auc_std": 0.001923,
@@ -4411,7 +4411,7 @@
   },
   {
     "model": "LBKT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.7502272,
     "auc_std": 0.000543,
@@ -4421,7 +4421,7 @@
   },
   {
     "model": "SKVMN",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.74996,
     "auc_std": 0.000838,
@@ -4431,7 +4431,7 @@
   },
   {
     "model": "Mamba4KT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.74902,
     "auc_std": 0.002202,
@@ -4441,7 +4441,7 @@
   },
   {
     "model": "ATKT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.74896,
     "auc_std": 0.001744,
@@ -4451,7 +4451,7 @@
   },
   {
     "model": "DKT2",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.74854,
     "auc_std": 0.001971,
@@ -4461,7 +4461,7 @@
   },
   {
     "model": "DGEKT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.74824,
     "auc_std": 0.001309,
@@ -4481,7 +4481,7 @@
   },
   {
     "model": "MTKT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.74792,
     "auc_std": 0.001602,
@@ -4501,7 +4501,7 @@
   },
   {
     "model": "DenoiseKT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.7474436,
     "auc_std": 0.000613,
@@ -4511,7 +4511,7 @@
   },
   {
     "model": "ClusterKT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.7472718,
     "auc_std": 0.002296,
@@ -4521,7 +4521,7 @@
   },
   {
     "model": "GIKT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.7457034,
     "auc_std": 0.001771,
@@ -4541,7 +4541,7 @@
   },
   {
     "model": "LPKT-S",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.744,
     "auc_std": 0.001554,
@@ -4551,7 +4551,7 @@
   },
   {
     "model": "KQN",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.74384,
     "auc_std": 0.000733,
@@ -4561,7 +4561,7 @@
   },
   {
     "model": "Deep-IRT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.74316,
     "auc_std": 0.001422,
@@ -4571,7 +4571,7 @@
   },
   {
     "model": "GKT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.74264,
     "auc_std": 0.003587,
@@ -4581,7 +4581,7 @@
   },
   {
     "model": "DKT+",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.7424374,
     "auc_std": 0.000633,
@@ -4591,7 +4591,7 @@
   },
   {
     "model": "DisKT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.74242,
     "auc_std": 0.000909,
@@ -4601,7 +4601,7 @@
   },
   {
     "model": "DKVMN",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.7423,
     "auc_std": 0.002971,
@@ -4621,7 +4621,7 @@
   },
   {
     "model": "GKT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.74032,
     "auc_std": 0.000898,
@@ -4631,7 +4631,7 @@
   },
   {
     "model": "DGEKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.74012,
     "auc_std": 0.000377,
@@ -4641,7 +4641,7 @@
   },
   {
     "model": "DIMKT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.73996,
     "auc_std": 0.003519,
@@ -4651,7 +4651,7 @@
   },
   {
     "model": "GRKT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.7396,
     "auc_std": 0.000771,
@@ -4671,7 +4671,7 @@
   },
   {
     "model": "CIKT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.7392514,
     "auc_std": 0.00151,
@@ -4681,7 +4681,7 @@
   },
   {
     "model": "HiTSKT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.7392,
     "auc_std": 0.001063,
@@ -4691,7 +4691,7 @@
   },
   {
     "model": "SGKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.73862,
     "auc_std": 0.000449,
@@ -4701,7 +4701,7 @@
   },
   {
     "model": "ATDKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.73856,
     "auc_std": 0.000879,
@@ -4721,7 +4721,7 @@
   },
   {
     "model": "SAKT",
-    "dataset": "NIPS34",
+    "dataset": "NIPS2020_t34",
     "protocol": "unified",
     "auc": 0.73806,
     "auc_std": 0.001389,
@@ -4731,7 +4731,7 @@
   },
   {
     "model": "UKT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.738,
     "auc_std": 0.003854,
@@ -4741,7 +4741,7 @@
   },
   {
     "model": "DKT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.73784,
     "auc_std": 0.000984,
@@ -4751,7 +4751,7 @@
   },
   {
     "model": "DKVMN",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.73766,
     "auc_std": 0.000688,
@@ -4781,7 +4781,7 @@
   },
   {
     "model": "KQN",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.73674,
     "auc_std": 0.000808,
@@ -4801,7 +4801,7 @@
   },
   {
     "model": "Deep-IRT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.73636,
     "auc_std": 0.000555,
@@ -4841,7 +4841,7 @@
   },
   {
     "model": "DKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.73562,
     "auc_std": 0.000421,
@@ -4861,7 +4861,7 @@
   },
   {
     "model": "SGKT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.73462,
     "auc_std": 0.002176,
@@ -4881,7 +4881,7 @@
   },
   {
     "model": "Deep-IRT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.73446,
     "auc_std": 0.000336,
@@ -4891,7 +4891,7 @@
   },
   {
     "model": "DKVMN",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.73442,
     "auc_std": 0.000517,
@@ -4911,7 +4911,7 @@
   },
   {
     "model": "DGMKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.73392,
     "auc_std": 0.004547,
@@ -4921,7 +4921,7 @@
   },
   {
     "model": "DIMKT",
-    "dataset": "Bridge06",
+    "dataset": "Bridge2006",
     "protocol": "unified",
     "auc": 0.7339,
     "auc_std": 0.006585,
@@ -4931,7 +4931,7 @@
   },
   {
     "model": "GKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.7339,
     "auc_std": 0.000762,
@@ -4941,7 +4941,7 @@
   },
   {
     "model": "DKT+",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.7335984,
     "auc_std": 0.000552,
@@ -4961,7 +4961,7 @@
   },
   {
     "model": "SKVMN",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.73338,
     "auc_std": 0.000349,
@@ -4971,7 +4971,7 @@
   },
   {
     "model": "BDGKT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.732752,
     "auc_std": 0.001493,
@@ -4981,7 +4981,7 @@
   },
   {
     "model": "DKT2",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.73212,
     "auc_std": 0.000698,
@@ -4991,7 +4991,7 @@
   },
   {
     "model": "KQN",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.73208,
     "auc_std": 0.000259,
@@ -5001,7 +5001,7 @@
   },
   {
     "model": "DGMKT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.73186,
     "auc_std": 0.000594,
@@ -5021,7 +5021,7 @@
   },
   {
     "model": "DIMKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.73182,
     "auc_std": 0.002994,
@@ -5031,7 +5031,7 @@
   },
   {
     "model": "extraKT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.73174,
     "auc_std": 0.004544,
@@ -5061,7 +5061,7 @@
   },
   {
     "model": "ATDKT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.73138,
     "auc_std": 0.001857,
@@ -5081,7 +5081,7 @@
   },
   {
     "model": "ATKT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.73066,
     "auc_std": 0.002543,
@@ -5091,7 +5091,7 @@
   },
   {
     "model": "DKT+",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.7298044,
     "auc_std": 0.000237,
@@ -5101,7 +5101,7 @@
   },
   {
     "model": "SAKT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.72954,
     "auc_std": 0.00226,
@@ -5111,7 +5111,7 @@
   },
   {
     "model": "DIMKT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.72888,
     "auc_std": 0.005442,
@@ -5121,7 +5121,7 @@
   },
   {
     "model": "DisKT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.72872,
     "auc_std": 0.000536,
@@ -5131,7 +5131,7 @@
   },
   {
     "model": "FA-KT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.72849,
     "auc_std": 0.001068,
@@ -5151,7 +5151,7 @@
   },
   {
     "model": "csKT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.7275,
     "auc_std": 0.001962,
@@ -5171,7 +5171,7 @@
   },
   {
     "model": "LBKT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.72738,
     "auc_std": 0.116907,
@@ -5211,7 +5211,7 @@
   },
   {
     "model": "GRKT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.72616,
     "auc_std": 0.003246,
@@ -5231,7 +5231,7 @@
   },
   {
     "model": "SGKT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.72421,
     "auc_std": 0.002933,
@@ -5251,7 +5251,7 @@
   },
   {
     "model": "DGMKT",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.72396,
     "auc_std": 0.007228,
@@ -5261,7 +5261,7 @@
   },
   {
     "model": "stableKT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.723762,
     "auc_std": 0.00113,
@@ -5271,7 +5271,7 @@
   },
   {
     "model": "DIMKT",
-    "dataset": "Algebra06",
+    "dataset": "Algebra2006",
     "protocol": "unified",
     "auc": 0.72372,
     "auc_std": 0.008814,
@@ -5281,7 +5281,7 @@
   },
   {
     "model": "csKT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.723248,
     "auc_std": 0.000995,
@@ -5301,7 +5301,7 @@
   },
   {
     "model": "UKT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.721746,
     "auc_std": 0.002711,
@@ -5341,7 +5341,7 @@
   },
   {
     "model": "DGEKT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.72072,
     "auc_std": 0.005201,
@@ -5351,7 +5351,7 @@
   },
   {
     "model": "stableKT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.7203,
     "auc_std": 0.000846,
@@ -5371,7 +5371,7 @@
   },
   {
     "model": "AKT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.719688,
     "auc_std": 0.00138,
@@ -5421,7 +5421,7 @@
   },
   {
     "model": "DIMKT",
-    "dataset": "ASSIST09",
+    "dataset": "ASSISTments09",
     "protocol": "unified",
     "auc": 0.71716,
     "auc_std": 0.005104,
@@ -5431,7 +5431,7 @@
   },
   {
     "model": "RobustKT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.717147,
     "auc_std": 0.002464,
@@ -5441,7 +5441,7 @@
   },
   {
     "model": "GKT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.71634,
     "auc_std": 0.002239,
@@ -5451,7 +5451,7 @@
   },
   {
     "model": "FoLibiKT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.71634,
     "auc_std": 0.001563,
@@ -5461,7 +5461,7 @@
   },
   {
     "model": "ReKT",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.7161,
     "auc_std": 0.000187,
@@ -5481,7 +5481,7 @@
   },
   {
     "model": "simpleKT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.71534,
     "auc_std": 0.003252,
@@ -5511,7 +5511,7 @@
   },
   {
     "model": "DIMKT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.714692,
     "auc_std": 0.002901,
@@ -5531,7 +5531,7 @@
   },
   {
     "model": "ATKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.7144,
     "auc_std": 0.001538,
@@ -5551,7 +5551,7 @@
   },
   {
     "model": "sparseKT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.714074,
     "auc_std": 0.00218,
@@ -5561,7 +5561,7 @@
   },
   {
     "model": "extraKT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.713954,
     "auc_std": 0.002747,
@@ -5581,7 +5581,7 @@
   },
   {
     "model": "FA-KT",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.7138,
     "auc_std": 0.000464,
@@ -5591,7 +5591,7 @@
   },
   {
     "model": "DTransformer",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.71366,
     "auc_std": 0.003439,
@@ -5601,7 +5601,7 @@
   },
   {
     "model": "MCKT",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.71354,
     "auc_std": 0.000666,
@@ -5611,7 +5611,7 @@
   },
   {
     "model": "simpleKT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.713506,
     "auc_std": 0.001134,
@@ -5631,7 +5631,7 @@
   },
   {
     "model": "DTransformer",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.7134646,
     "auc_std": 0.00147,
@@ -5641,7 +5641,7 @@
   },
   {
     "model": "MTKT",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.71318,
     "auc_std": 0.000363,
@@ -5661,7 +5661,7 @@
   },
   {
     "model": "MIKT",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.71306,
     "auc_std": 0.000434,
@@ -5671,7 +5671,7 @@
   },
   {
     "model": "DKT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.71306,
     "auc_std": 0.001419,
@@ -5691,7 +5691,7 @@
   },
   {
     "model": "SAKT",
-    "dataset": "ASSIST12",
+    "dataset": "ASSISTments12",
     "protocol": "unified",
     "auc": 0.71252,
     "auc_std": 0.000722,
@@ -5701,7 +5701,7 @@
   },
   {
     "model": "QIKT",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.7125,
     "auc_std": 7.1e-05,
@@ -5711,7 +5711,7 @@
   },
   {
     "model": "stableKT",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.7123,
     "auc_std": 0.000381,
@@ -5721,7 +5721,7 @@
   },
   {
     "model": "DKT2",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.71214,
     "auc_std": 0.000385,
@@ -5731,7 +5731,7 @@
   },
   {
     "model": "MTKT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.711974,
     "auc_std": 0.001888,
@@ -5741,7 +5741,7 @@
   },
   {
     "model": "SKVMN",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.71162,
     "auc_std": 0.000476,
@@ -5751,7 +5751,7 @@
   },
   {
     "model": "RobustKT",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.71142,
     "auc_std": 0.000792,
@@ -5761,7 +5761,7 @@
   },
   {
     "model": "DIMKT",
-    "dataset": "Algebra05",
+    "dataset": "Algebra2005",
     "protocol": "unified",
     "auc": 0.7114,
     "auc_std": 0.013247,
@@ -5771,7 +5771,7 @@
   },
   {
     "model": "DKT",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.71116,
     "auc_std": 0.000666,
@@ -5781,7 +5781,7 @@
   },
   {
     "model": "SGKT",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.7111,
     "auc_std": 0.000752,
@@ -5791,7 +5791,7 @@
   },
   {
     "model": "MCSKT",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.71086,
     "auc_std": 0.000573,
@@ -5801,7 +5801,7 @@
   },
   {
     "model": "SKVMN",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.71084,
     "auc_std": 0.001394,
@@ -5811,7 +5811,7 @@
   },
   {
     "model": "UKT",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.71082,
     "auc_std": 0.00087,
@@ -5821,7 +5821,7 @@
   },
   {
     "model": "DenoiseKT",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.71076,
     "auc_std": 0.000472,
@@ -5841,7 +5841,7 @@
   },
   {
     "model": "csKT",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.71008,
     "auc_std": 0.000572,
@@ -5851,7 +5851,7 @@
   },
   {
     "model": "KQN",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.71,
     "auc_std": 0.00062,
@@ -5871,7 +5871,7 @@
   },
   {
     "model": "IEKT",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.70986,
     "auc_std": 0.001524,
@@ -5881,7 +5881,7 @@
   },
   {
     "model": "FA-KT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.70968,
     "auc_std": 0.003781,
@@ -5891,7 +5891,7 @@
   },
   {
     "model": "AKT",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.70964,
     "auc_std": 0.000577,
@@ -5901,7 +5901,7 @@
   },
   {
     "model": "GRKT",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.70942,
     "auc_std": 0.000782,
@@ -5911,7 +5911,7 @@
   },
   {
     "model": "ATDKT",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.70924,
     "auc_std": 0.000573,
@@ -5921,7 +5921,7 @@
   },
   {
     "model": "SQGKT",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.70922,
     "auc_std": 0.000779,
@@ -5931,7 +5931,7 @@
   },
   {
     "model": "GKT",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.7092,
     "auc_std": 0.003214,
@@ -5941,7 +5941,7 @@
   },
   {
     "model": "FoLibiKT",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.7092,
     "auc_std": 0.000604,
@@ -5951,7 +5951,7 @@
   },
   {
     "model": "DAGKT",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.70904,
     "auc_std": 0.000288,
@@ -5961,7 +5961,7 @@
   },
   {
     "model": "GIKT",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.70896,
     "auc_std": 0.000913,
@@ -5971,7 +5971,7 @@
   },
   {
     "model": "DGEKT",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.70888,
     "auc_std": 0.000626,
@@ -5981,7 +5981,7 @@
   },
   {
     "model": "DKT2",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.708862,
     "auc_std": 0.00103,
@@ -5991,7 +5991,7 @@
   },
   {
     "model": "MCSKT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.708412,
     "auc_std": 0.000473,
@@ -6021,7 +6021,7 @@
   },
   {
     "model": "simpleKT",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.70702,
     "auc_std": 0.000683,
@@ -6031,7 +6031,7 @@
   },
   {
     "model": "DKT+",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.7069864,
     "auc_std": 0.000504,
@@ -6041,7 +6041,7 @@
   },
   {
     "model": "DKVMN",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.70698,
     "auc_std": 0.000968,
@@ -6051,7 +6051,7 @@
   },
   {
     "model": "Deep-IRT",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.70684,
     "auc_std": 0.000802,
@@ -6071,7 +6071,7 @@
   },
   {
     "model": "Mamba4KT",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.70666,
     "auc_std": 0.000391,
@@ -6081,7 +6081,7 @@
   },
   {
     "model": "sparseKT",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.70608,
     "auc_std": 0.000438,
@@ -6091,7 +6091,7 @@
   },
   {
     "model": "ATKT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.70606,
     "auc_std": 0.001358,
@@ -6101,7 +6101,7 @@
   },
   {
     "model": "KQN",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.70436,
     "auc_std": 0.001853,
@@ -6111,7 +6111,7 @@
   },
   {
     "model": "DTransformer",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.70416,
     "auc_std": 0.000896,
@@ -6121,7 +6121,7 @@
   },
   {
     "model": "DisKT",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.70396,
     "auc_std": 0.000498,
@@ -6141,7 +6141,7 @@
   },
   {
     "model": "PSKT",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.70304,
     "auc_std": 0.000498,
@@ -6151,7 +6151,7 @@
   },
   {
     "model": "FlucKT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.70284,
     "auc_std": 0.003798,
@@ -6221,7 +6221,7 @@
   },
   {
     "model": "BDGKT",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.700459,
     "auc_std": 0.000991,
@@ -6231,7 +6231,7 @@
   },
   {
     "model": "SAKT",
-    "dataset": "Junyi15",
+    "dataset": "Junyi2015",
     "protocol": "unified",
     "auc": 0.70026,
     "auc_std": 0.00193,
@@ -6251,7 +6251,7 @@
   },
   {
     "model": "CIKT",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.6990508,
     "auc_std": 0.00068,
@@ -6261,7 +6261,7 @@
   },
   {
     "model": "Deep-IRT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.69834,
     "auc_std": 0.003631,
@@ -6281,7 +6281,7 @@
   },
   {
     "model": "sparseKT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.69772,
     "auc_std": 0.001372,
@@ -6301,7 +6301,7 @@
   },
   {
     "model": "extraKT",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.69584,
     "auc_std": 0.000963,
@@ -6321,7 +6321,7 @@
   },
   {
     "model": "HiTSKT",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.69514,
     "auc_std": 0.000577,
@@ -6341,7 +6341,7 @@
   },
   {
     "model": "DKVMN",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.6939,
     "auc_std": 0.002944,
@@ -6361,7 +6361,7 @@
   },
   {
     "model": "FlucKT",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.69292,
     "auc_std": 0.005124,
@@ -6371,7 +6371,7 @@
   },
   {
     "model": "FlucKT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.69282,
     "auc_std": 0.035852,
@@ -6391,7 +6391,7 @@
   },
   {
     "model": "SAKT",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.69148,
     "auc_std": 0.000402,
@@ -6411,7 +6411,7 @@
   },
   {
     "model": "DKT+",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.6879176,
     "auc_std": 0.001009,
@@ -6541,7 +6541,7 @@
   },
   {
     "model": "Mamba4KT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.67738,
     "auc_std": 0.001977,
@@ -6581,7 +6581,7 @@
   },
   {
     "model": "DGMKT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.67508,
     "auc_std": 0.002075,
@@ -6601,7 +6601,7 @@
   },
   {
     "model": "ATDKT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.6743,
     "auc_std": 0.001347,
@@ -6611,7 +6611,7 @@
   },
   {
     "model": "DKT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.673704,
     "auc_std": 0.001041,
@@ -6641,7 +6641,7 @@
   },
   {
     "model": "GKT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.67076,
     "auc_std": 0.004435,
@@ -6661,7 +6661,7 @@
   },
   {
     "model": "ATKT",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.66874,
     "auc_std": 0.003876,
@@ -6671,7 +6671,7 @@
   },
   {
     "model": "DKT+",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.6652012,
     "auc_std": 0.000918,
@@ -6681,7 +6681,7 @@
   },
   {
     "model": "ATKT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.66476,
     "auc_std": 0.00192,
@@ -6691,7 +6691,7 @@
   },
   {
     "model": "Deep-IRT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.6635188,
     "auc_std": 0.002543,
@@ -6701,7 +6701,7 @@
   },
   {
     "model": "DKVMN",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.6634842,
     "auc_std": 0.001643,
@@ -6711,7 +6711,7 @@
   },
   {
     "model": "SKVMN",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.65986,
     "auc_std": 0.004426,
@@ -6731,7 +6731,7 @@
   },
   {
     "model": "KQN",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.6580316,
     "auc_std": 0.001991,
@@ -6741,7 +6741,7 @@
   },
   {
     "model": "DIMKT",
-    "dataset": "ASSIST15",
+    "dataset": "ASSISTments15",
     "protocol": "unified",
     "auc": 0.6576,
     "auc_std": 0.001037,
@@ -6791,7 +6791,7 @@
   },
   {
     "model": "SAKT",
-    "dataset": "A17",
+    "dataset": "ASSISTments17",
     "protocol": "unified",
     "auc": 0.63068,
     "auc_std": 0.002808,
@@ -6871,7 +6871,7 @@
   },
   {
     "model": "SAKT",
-    "dataset": "A17PQ",
+    "dataset": "ASSISTments17-PQ",
     "protocol": "unified",
     "auc": 0.610548,
     "auc_std": 0.003159,
