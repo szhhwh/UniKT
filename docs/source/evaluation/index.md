@@ -7,7 +7,6 @@ hide-toc: true
 ```{toctree}
 :maxdepth: 1
 
-live-leaderboard
 leaderboard
 protocol
 test-evaluation
