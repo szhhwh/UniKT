@@ -63,6 +63,7 @@ a.sidebar-brand.unikt-brand { display: flex; flex-direction: row; align-items: c
 .unikt-home-actions p { margin: 0; }
 .unikt-home-actions a { display: inline-block; border-radius: 4px; padding: .45rem 1.1rem; font-weight: 500; text-decoration: none; color: var(--sd-color-primary); border: 1px solid var(--sd-color-primary); }
 .unikt-home-actions a:hover { background: var(--sd-color-primary); color: var(--sd-color-primary-text); }
+/* The first action is the primary call to action. */
 .unikt-home-actions p:first-of-type a { background: var(--sd-color-primary); color: var(--sd-color-primary-text); }
 .unikt-home-actions p:first-of-type a:hover { opacity: .9; }
 .unikt-home-figure { margin: 0 0 2rem; padding: 1.25rem 0; border-block: 1px solid var(--unikt-border); }
@@ -106,17 +107,18 @@ article table.docutils tbody tr:nth-child(even) { background: var(--unikt-surfac
 .unikt-catalog-table table { table-layout: fixed; }
 .unikt-catalog-table th:first-child { width: 40%; }
 .unikt-catalog-table th:last-child { width: 60%; }
-.unikt-catalog-table table:has(th:nth-child(3)) th:first-child { width: 16%; }
-.unikt-catalog-table table:has(th:nth-child(3)) th:nth-child(2) { width: 59%; }
-.unikt-catalog-table table:has(th:nth-child(3)) th:last-child { width: 25%; }
+.unikt-catalog-table:not(.unikt-dataset-table) table:has(th:nth-child(3)) th:first-child { width: 16%; }
+.unikt-catalog-table:not(.unikt-dataset-table) table:has(th:nth-child(3)) th:nth-child(2) { width: 59%; }
+.unikt-catalog-table:not(.unikt-dataset-table) table:has(th:nth-child(3)) th:last-child { width: 25%; }
 .unikt-catalog-table td { overflow-wrap: anywhere; }
 .unikt-catalog-table td:first-child a { font-weight: 600; color: var(--unikt-ink); }
 .unikt-catalog-table td:nth-child(2) a { color: var(--unikt-muted); }
+/* Dataset tables carry their own column split rather than inheriting the
+   three-column catalog widths above. */
 .unikt-dataset-table table:has(th:nth-child(3)) th:first-child { width: 38%; }
 .unikt-dataset-table table:has(th:nth-child(3)) th:nth-child(2) { width: 28%; }
 .unikt-dataset-table table:has(th:nth-child(3)) th:last-child { width: 34%; }
 .unikt-dataset-table td:nth-child(3) { color: var(--unikt-muted); }
-.unikt-model table.docutils td:first-child { width: 8rem; min-width: 7rem; color: var(--unikt-muted); }
 
 article div[class*="highlight-"] { margin: 1.25rem 0; }
 article .highlight { min-width: 0; border-radius: 4px; }
