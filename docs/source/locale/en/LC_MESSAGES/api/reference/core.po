@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: UniKT \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"POT-Creation-Date: 2026-11-24 17:09+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -19,16 +19,18 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.18.0\n"
 
-#: ../../source/api/reference/core.md:1 2dc951e8039f4111bfb2aa4c7d23f743
+#: ../../source/api/reference/core.md:1 c10099cc623d444ba1827fc945e5168d
 msgid "核心设施"
 msgstr "Core infrastructure"
 
-#: ../../source/api/reference/core.md:3 d4724eb369cf4add966ee6fa1a2dfd31
+#: ../../source/api/reference/core.md:3 f14c5e33a33a480fa2cbae192e9e3a1a
 msgid "注册表、静态发现、日志、随机种子、进度展示、实验目录与数据落盘状态等框架基础设施。"
 msgstr ""
-"Framework infrastructure for registries, static discovery, logging, random seeds, progress display, experiment directories, and on-disk dataset status."
+"Framework infrastructure for registries, static discovery, logging, "
+"random seeds, progress display, experiment directories, and on-disk "
+"dataset status."
 
-#: feb6dd011b9f46b0b42c90e7532016ad of utils.core.registry:1
+#: 1883f3828b954324aa67645ffca89d07 of utils.core.registry:1
 msgid ""
 "Unified registry system: decorator-based registration with lazy static "
 "discovery."
@@ -36,11 +38,11 @@ msgstr ""
 "Unified registry system: decorator-based registration with lazy static "
 "discovery."
 
-#: 6c8f061e93514d14aa35bb177e4c26ef of utils.core.registry:3
+#: d0f41034829b4a25ad84d127bd8cb5a2 of utils.core.registry:3
 msgid "Each registry maintains two tables:"
 msgstr "Each registry maintains two tables:"
 
-#: 97cf81f95f24411eac8deab2b970c9ee of utils.core.registry:5
+#: 01f662ba5a954f1494111450fe8096e5 of utils.core.registry:5
 msgid ""
 "``_registry``: name -> class, populated at module import time by the "
 "``@register_<role>(...)`` decorator."
@@ -48,7 +50,7 @@ msgstr ""
 "``_registry``: name -> class, populated at module import time by the "
 "``@register_<role>(...)`` decorator."
 
-#: 72653ae6cf0043c0a7a0875f1dcf6efc of utils.core.registry:7
+#: 1f8e6c4492b1413399bc7bb8a031532b of utils.core.registry:7
 msgid ""
 "``_index``: name -> module path, populated by :mod:`utils.core.discovery`"
 " via static source scanning **without importing** the module."
@@ -56,13 +58,7 @@ msgstr ""
 "``_index``: name -> module path, populated by :mod:`utils.core.discovery`"
 " via static source scanning **without importing** the module."
 
-#: 1c0174854b584c04b27d0bd96109a897 cfaa9e5a28bd4640bf30417b808f4a69 of
-#: utils.core.registry.UniversalRegistry:1
-#: utils.core.experiment_manager.ExperimentManager:1
-msgid "基类：:py:class:`object`"
-msgstr "Bases: :py:class:`object`"
-
-#: 56eacb99fdd241038165e66501190bd6 of utils.core.registry.UniversalRegistry:1
+#: 830ce922abde4b688202864c80e93b2e of utils.core.registry.UniversalRegistry:1
 msgid ""
 "A generic registry supporting decorator registration and lazy static "
 "discovery."
@@ -70,58 +66,68 @@ msgstr ""
 "A generic registry supporting decorator registration and lazy static "
 "discovery."
 
-#: 0c6592da2a154d9baf0828cfbe6a52de 106ddf00d83944bd86c6c7122282dec7
-#: 34086fc8b9de471489e20147f5ca27e1 4e2ef84cb4c94e34b2d09b54d4a93424
-#: 647ed40a53ea4602bcd9a0a5ab210d60 847f340ff97c499d8b1116020a085c42
-#: 93b36ed8957447ea9c3b15c03cd40d53 dc56bbc7a332471395362f244bf64b54 of
-#: utils.core.logger.get_logger:12 utils.core.logger.reset_loggers:7
-#: utils.core.logger.set_log_level:11 utils.core.random.seed_everything:14
-#: utils.core.registry.UniversalRegistry:4
+#: 0efa5ab91a664e929257f368b784b5be 1330ddb52fbd4cf1ab010c11dc86ebf5
+#: 17d15c7e9fbe41cfba0791352369dbb7 195402d73e8d4736a82d86ddb1065ab1
+#: 1a2c05c2e23f421c948cc66a05fd1ab9 717cd9af57d94078bbaae2c4c41533a2
+#: 7212ca2979fb4312b499313d4d0fd46c d0e94339a97b4259bac510ab65bce47b of
 #: utils.core.experiment_manager.ExperimentManager:10
 #: utils.core.experiment_manager.ExperimentManager.create_sub_experiment:11
 #: utils.core.experiment_manager.ExperimentManager.create_subdir:8
+#: utils.core.logger.get_logger:12 utils.core.logger.reset_loggers:7
+#: utils.core.logger.set_log_level:11 utils.core.random.seed_everything:14
+#: utils.core.registry.UniversalRegistry:4
 msgid "示例"
 msgstr "Example"
 
-#: ../../source/api/reference/core.md 0db31140f7ec4c53804cef4207c6efe4
-#: 0e92dd7fec1e461090700c92955c7782 11e634d67d7b46ae910855ad0bf20113
-#: 17514602f2d84c25907d12441055b5a1 1bd3729abb464016b1d01ec859152e54
-#: 2a928c1e79604660895a72a6a9ae16da 36091edeb83e41d98fb2914bedb56803
-#: 526350475c7b47f3a1b02ce7f175869f 62a75d92aa524809a2835f838c01a5fe
-#: 63010c4cd6d04dc8b224c62269d249e8 65f1ef75d31b4e7ebb01bf786c94c34a
-#: 72a1087ce1d0420e9673735afd98fcb7 773552a978bd4026a2a0f2f9d2349263
-#: 7c9ff30b754342f19de3fc46dd133e73 8834828bc82341e5a9654f791fd88eb9
-#: 8e69e57eedcd4b249eb892a7fdd761a5 920dcf26dda3416ba412e730ef115e14
-#: 9b7878b1c90f4511924b532e17158747 9fdfd54540084f8cb0763a02142eed08
-#: a498be63b976464282450ab8e8137fef ab047437ce8947b7973d8b7e9161f4d1
-#: cec40bf9dd0a4e89bf2816d30e468a4e d4702edf3c8c411f9195b48c3e68f270
-#: d58438b0b23f4c8cbac66a833a0f2747 db85f95066054d54aefd72d07af04ddd
-#: fb14d1598f3049248cb4aaf4b9a17937 of utils.core.logger.get_logger
-#: utils.core.logger.set_log_level utils.core.random.seed_everything
+#: ../../source/api/reference/core.md 0327a650c6624ff2857dfdb320d14fb9
+#: 10b883bd097948ea8b2cf27659453f34 137cc0f21dc947ff9664b0ad20105e4e
+#: 150b22a91c2a4a91941135f484d06065 2d6cf3dfd6b54525836ef3914bf3866f
+#: 2fc4998703e84902bd8d4d6fe9c17382 306c5865d9b243ffa33a6dcd813eb70a
+#: 47da7c68f42941f6936e301b8fea4090 4ca01332501143e8aa775c9fac950ca4
+#: 4d48c3fb46c149d9b1b5c7e4d2bf1cec 516d8a5917ca47a1900be3176a2680f7
+#: 57346872e04643ef8715b809cb5e5528 6aeaaacdcf3444d6977bcf6a516d15fa
+#: 6e23f9a5faa64752a088d982197180b1 709f8e59a6a741f5bca7b763e082dbb2
+#: 7cde74e688ca4e34a19b3a85bc3c4185 8df56d149fad4ba5b6bf9ea8670a3be5
+#: 945175edc78046998a234d15d964557e 951eec7a0ac74d1ab05c3d3de35d1f2f
+#: 9a30507ffbe248c4bd3e8a5693ec8594 a629cba790e1452f916d99ac068f3dff
+#: a9bfca3739554f5dae132c3368546712 b7ca996e46be4c1c918de00af86570f0
+#: bf4c47bd5055448fb6d03d73d7bc5a55 c068590cfda24f28b00f0fd70ea13f63
+#: c2ba0a81fd544065ae76d425b6c5355f c9247936efa94071926f238ef8520025
+#: e09c3b3e39b74f1e9e42e92491bc5fa1 e7c7f7e657904c209ff5447873b866b9
+#: ee9c55ea674c45babafbd836796ef08a ef373be844704634933304c621d9d3bb
+#: f9e41195f95e49608381cc737d34335a fe551a46b0db421784f180d11ddfabc5 of
+#: utils.core.dataset_status.data_folder_path
+#: utils.core.dataset_status.dataset_status utils.core.dataset_status.has_raw
+#: utils.core.dataset_status.is_processed
+#: utils.core.dataset_status.list_dataset_statuses
+#: utils.core.dataset_status.metadata_path_for
+#: utils.core.dataset_status.raw_folder_path
 #: utils.core.experiment_manager.ExperimentManager.create_sub_experiment
 #: utils.core.experiment_manager.ExperimentManager.create_subdir
 #: utils.core.experiment_manager.ExperimentManager.from_run_config
+#: utils.core.logger.get_logger utils.core.logger.set_log_level
+#: utils.core.random.seed_everything
 msgid "参数"
 msgstr "Parameter"
 
-#: dfbb13245ea548ab85c28c7da114d8a7 of utils.core.registry.UniversalRegistry:12
+#: ac098bd3a9d943c19383801aece1471b of utils.core.registry.UniversalRegistry:12
 msgid "Human-readable name of this registry (e.g. ``\"trainers\"``)."
 msgstr "Human-readable name of this registry (e.g. ``\"trainers\"``)."
 
-#: c54f9543844c40f791b490fc4d8afe68 of utils.core.registry.UniversalRegistry:16
+#: d12178996b3645048be1042b84c9628f of utils.core.registry.UniversalRegistry:16
 msgid "Mapping from registered name to class."
 msgstr "Mapping from registered name to class."
 
-#: b747b9118c044c1d9c97fa53f83e3dfb of utils.core.registry.UniversalRegistry:20
+#: 19de63c2739149e3a41a95a4668f9ab5 of utils.core.registry.UniversalRegistry:20
 msgid "Mapping from registered name to dotted module path for lazy loading."
 msgstr "Mapping from registered name to dotted module path for lazy loading."
 
-#: 860e375e9576402fb70314307bb310b1 of
+#: 859ebf6d19cd4669a96977a31fbbab7d of
 #: utils.core.registry.UniversalRegistry.clear:1
 msgid "Drop all loaded entries and the lazy index."
 msgstr "Drop all loaded entries and the lazy index."
 
-#: e1f0b618e34741779f20f9a7a56259a0 of
+#: 777274de16b440b6ac1d4007b4d4d1d9 of
 #: utils.core.registry.UniversalRegistry.clear:3
 msgid ""
 "Returns the registry to its empty state so the next "
@@ -134,89 +140,99 @@ msgstr ""
 " tree — used by the web backend to pick up components added or removed on"
 " disk after the process started."
 
-#: ../../source/api/reference/core.md 099d9cf308634583a4cb3cfdb8ba1022
-#: 0e6622f254e040de8465410b2aca7511 21410b61a42f4f5087587a9f85f271b5
-#: 321f08826f0d4d99a88c8af19a3edc79 3338e4763c604bf2922e2d6280a30cc7
-#: 3e6a9738e3d74dcaae14ba19938674f9 50c538f0c4344335940cbab1876fc8f5
-#: 51a1a31029fc43478dc1b921e12d391a 55a975754bd3453390e717ca24b0851a
-#: 5d988cd848c24ae191b4a424612685da 7291f0b4b89a483ab2251dc086da2123
-#: 742b4dfc206c4b9f9ba758ce33349388 784df6e4d83b43fc845e2a8e98fb89c2
-#: 7eb0b980fa31416dad513cbe8f273e07 7ee658e71fa84349a8f3483521b84631
-#: 8701230b52764a80b5adcb2196ff3a71 8cbfb9b437b14420a40f03ad6f060a35
-#: 905ce8a5f2e3461eb48e578ac729e289 922d0581bfe048dd9d249013fc197085
-#: a932176fc37847769f823dc970934191 b682eaa45320484ead0f516c4a8ba3c0
-#: b8abd94ef26d4b14b51286dd83964b5e c188c957a04e4f7682202d22c457f37b
-#: d252a5d239c2412f9adef1061d1e9db5 df43605de70a49b280b1e450147ff385
-#: e73530a1ff9844928e9d2e49527b1005 e8f89e2f478f419997484a8b8f42e18f
-#: ebb8ccaa5f9e457a8d55edda8a013a01 ee536e8bd6094e23898495ab55235ea3
-#: f7ac74263680486fba998f3a8b32b686 fe0915ffdd034b4bb81c825d6fdfbe46 of
+#: ../../source/api/reference/core.md 00caa3078a5044569df67adf58f82682
+#: 0374d51a6b1243db87e20c97f9f71d89 096d74f335014b029d6e352c443f4e46
+#: 0b6941904ff9456a860510e57190ff35 0be6efaffe4440f4bbd38b0578c749cf
+#: 0e761dc949ae4759bf57bd74201b2858 126f62545a714fe4b8d5e5d9663b5c8d
+#: 1794e5fbc06e4e47bc4c7e8681417213 450d1968cd4d48b3b523250fe615f949
+#: 4a5d145b9a6e4c7f995746822dda43fe 4be80ada6cbd4957a59d0646a5c87fe6
+#: 4e78d3f8b1e544d388eacbe9345e2e40 59f3a5bb04a24836856ef7b448bb90a7
+#: 61fa73ce058d45bb881dc4bf61285b8d 733ac693ac12436d9d4d80633828b9ac
+#: 8253dd9ca870442f8a2fe1e55e1e819f 8955ddc55ebb4458a588700f6751f783
+#: 92b2a0868d26441382e199419e6fd0bf 94a01d88c7f64e70aeedf81db9c9e1d1
+#: 951c1acd97644e1abebe3eff679e63e2 9dd44d61e9624f84b245d73bd2e3c8bb
+#: a1e5e792f18a40f38ed744acd13838f9 aa36588ba742487f896f83265854bacb
+#: ac79af5ee2a045b0a23c5a3f5ff51539 ba8a763f527243e5a79aada4749679f7
+#: c27c8eb9458a4a5db16cb55200f128b4 d4587d10596a491da409c83d4c848c7a
+#: d89b8e25a5ea4a28a3c54c62d049fcd6 d8ee766aa8954684a325a2e0858435dc
+#: d91a74a2d34c4b458f0b9e6c915608a6 e424250a709942ecaf650ca9ba783440
+#: e51137c51d5d4d6ca7957634ffdf7c67 e88c22f2ded14f7f90bfaa65f6562837
+#: f18da7fd863e4a10ad34fbdd0cbd92c6 f7c8a7ae218f4ac7b2e4fbd49a33552a
+#: fa088a13d9ea42518840a0a1153c36c4 faa26b74148b4a799042960a82a84984
+#: fc36f543fef94f6782acbc88e5896c5d of
+#: utils.core.dataset_status.data_folder_path
+#: utils.core.dataset_status.dataset_status utils.core.dataset_status.has_raw
+#: utils.core.dataset_status.is_processed
+#: utils.core.dataset_status.list_dataset_statuses
+#: utils.core.dataset_status.metadata_path_for
+#: utils.core.dataset_status.raw_folder_path
+#: utils.core.experiment_manager.ExperimentManager.create_sub_experiment
+#: utils.core.experiment_manager.ExperimentManager.create_subdir
+#: utils.core.experiment_manager.ExperimentManager.from_run_config
 #: utils.core.logger.get_logger utils.core.logger.remove_file_handler
 #: utils.core.logger.reset_loggers utils.core.logger.set_log_level
 #: utils.core.random.seed_everything
 #: utils.core.registry.UniversalRegistry.clear
-#: utils.core.experiment_manager.ExperimentManager.create_sub_experiment
-#: utils.core.experiment_manager.ExperimentManager.create_subdir
-#: utils.core.experiment_manager.ExperimentManager.from_run_config
 msgid "返回类型"
 msgstr "Return type"
 
-#: ae615cff665c48858ef8041f79d38bbc of
+#: 3812ffbf7e1c4398a37aafcf47821dc7 of
 #: utils.core.registry.UniversalRegistry.get:1
 msgid "Look up a class by name; lazy-import the module if necessary."
 msgstr "Look up a class by name; lazy-import the module if necessary."
 
-#: 35431282f928488b8bb43954c20c6ec4 e315b347a5ab4668972bae7b1eb6deda of
+#: 450320bd76e6496ebb6d0847b5d72e30 a79553d398e74af4aadab2583dc4d6c4 of
 #: utils.core.registry.UniversalRegistry.get:3
 #: utils.core.registry.UniversalRegistry.index:5
 msgid "Registration name."
 msgstr "Registration name."
 
-#: ../../source/api/reference/core.md 2e38b6cc4b5a44b0ab2cc88d50579f4f
-#: 4082d61133944483ac3020357380721b 8df0a5d752c14794bf0c91fbe263dc8a
-#: dbd61bf08b8b42e0aeaf7b61cf5e3afd ff54415ff2464f44a4e79d0753d986bd
+#: ../../source/api/reference/core.md 0a45c9170e9e4cb69f98541cce0569c7
+#: c80ee251d50f4e8b8315721a43954aa2 c907a941f591478aabc1e24177d3bfa9
+#: f0e1391077a148b2adcac5bd694a9a75 fc7aa4f6c5b24db1868ff328e25802ff
 msgid "抛出"
 msgstr "Raises"
 
-#: bb552d5cbfd146ada929b1bbd2c7ab1e of
+#: f6eee93e3d524fe8825f6b35a432e8f7 of
 #: utils.core.registry.UniversalRegistry.get:5
 msgid "The name is not registered."
 msgstr "The name is not registered."
 
-#: ../../source/api/reference/core.md 14b79598bd38426ab298da9feaf49302
-#: 1a56484601be464b821c9407da279c23 2c625e6c93ca45bda30647d54077772c
-#: 2d5c69d8814e48afbfc453fded983af9 2e08acf5e8ab481c83aebbfb3724999f
-#: 338aa4561e8d4419a8902c21ee39f47f 3a99bcaba03c4b96aa9f4577be322052
-#: 3c9b8f9fa31d46bbae02b4039efc8675 3ec09ec03ed5427ea3ca68524bbbb8b7
-#: 43ce27df4a4c4c17b33ffefb09651f01 442057b5459f47ebbcefbe84d4733fa4
-#: 4b60af6eb7f24975bd2b9c29a0ae307e 59ca22f900e54d65bf0b212524c48502
-#: 65c50d8ec1394b62baadbc73620ca3bb 6f12f7c0c2344d99b8de8f346893a47b
-#: 760ffd85c735457b8d2aa9a0bc28c30b 8efd036b985d44cca0bc91a9f73ca6b4
-#: 907951ee30c1487094c98b93f771cc80 a8c86bc47ab649c98e691ac939f70cc7
-#: bcc038811fcd4ac4934b665cfd9c1a47 e28e0d557c7b4dfd957c14629023a908
-#: e90823d020d24cbfb0c824e85bd12fdb f3f56c36101a45309b9f6151fad5b3c9
-#: f7e0c73dbb4447dcb968b5f9b10fd564 of utils.core.logger.get_logger
-#: utils.core.random.seed_everything
+#: ../../source/api/reference/core.md 060c62062bd349b8b16a3930b81300d3
+#: 1690baa9a7f54f19a50ae2d1c14375c6 18bd9c6341964fc9b49ccd08b8cc0276
+#: 2ea9517900eb4860a44870a909a712da 3438985203f94bd7be1b845ef21bcdfa
+#: 44093d7bde554759bbca1cf07788543a 588aa21c680148b09af6c5e90459e0cb
+#: 6894feaab77940a3bb6e870dd1e7d988 6d8c6e59901b4d6d9dc8a85642d945bc
+#: 6f8d0f7bce234fc88fd3c4bf80a72139 945ed9f07ca74a8495eec2994f56735a
+#: 9889c39235634f7c94f2d416c9a44393 a2d8600def024fe69331ad2fb7bc22db
+#: a43d81a857dc49318d92285003850354 ba45b2f4d31544e0bcf3493d6a40eb9f
+#: c46bb526028648c7a6894e0e4adab782 c6624fb37ff843639cd9f0cdd86467d7
+#: d03757a90a694c7eb88020bda1fa55cb dbb5b110ce134df6913f3e4720239506
+#: dfd6ba2bd9734c138903bacc37c54e34 e1a384a2962f464286a870870d4c29fe
+#: e3ef1583231f4301bde425c45ebdfb82 e63d1b120cf849ce99ce5b9a27589235
+#: ec6fd79ce4b54411aca3cec389380411 of
 #: utils.core.experiment_manager.ExperimentManager.create_sub_experiment
 #: utils.core.experiment_manager.ExperimentManager.create_subdir
+#: utils.core.logger.get_logger utils.core.random.seed_everything
 msgid "返回"
 msgstr "Returns"
 
-#: e4ec2dc4f16a42b7badce9c01e04d19c of
+#: ebdf7568966e45ce85c46b6890f89c54 of
 #: utils.core.registry.UniversalRegistry.get:7
 msgid "The registered class."
 msgstr "The registered class."
 
-#: 2ae48bdfc28540d99b75169201266be0 of
+#: 99e0de9af01c4c04b30a33075a1a48ba of
 #: utils.core.registry.UniversalRegistry.index:1
 msgid "Record the module path of an entry **without importing** the module."
 msgstr "Record the module path of an entry **without importing** the module."
 
-#: 8b773108f46c4bdfa143720e5a2f9dee of
+#: c26ebf41a3c94c9382a3eb6a71d52cf3 of
 #: utils.core.registry.UniversalRegistry.index:3
 msgid "This is the entry point for static discovery."
 msgstr "This is the entry point for static discovery."
 
-#: 6052ee52d28a4b5598005238043fad30 of
+#: 02066c71a7c54cda81386b07d76990f9 of
 #: utils.core.registry.UniversalRegistry.index:6
 msgid ""
 "Dotted module path where the name resides (e.g. "
@@ -225,50 +241,50 @@ msgstr ""
 "Dotted module path where the name resides (e.g. "
 "``model.GIKT.GIKT_trainer``)."
 
-#: f66bfe45b90649d89f5f829703059556 of
+#: 286f6819a54d468696809b493c603cc1 of
 #: utils.core.registry.UniversalRegistry.index:9
 msgid "The same name was indexed from two different modules."
 msgstr "The same name was indexed from two different modules."
 
-#: cb3bfc35d26a4eb0bfbddd4d6c520b58 of
+#: 8b790fece9f2432ab12929c1e8e614a3 of
 #: utils.core.registry.UniversalRegistry.keys:1
 msgid "Return all registered names (loaded and lazy-indexed, deduplicated)."
 msgstr "Return all registered names (loaded and lazy-indexed, deduplicated)."
 
-#: 3074ad603a4b42dfbc5302451f0c26fd of
+#: 36f462325471445ba5055cdb53338a67 of
 #: utils.core.registry.UniversalRegistry.keys:3
 msgid "A list of all known registered names."
 msgstr "A list of all known registered names."
 
-#: 06850ca6e60a42a7b01a0b1b2573196b of
+#: 53ca32992b7c4dbda3afa0cb62d17f92 of
 #: utils.core.registry.UniversalRegistry.register:1
 msgid "Return a decorator that binds a class to ``name`` at import time."
 msgstr "Return a decorator that binds a class to ``name`` at import time."
 
-#: 188232e187194246925ce46345cfc46c of
+#: ee8ee534939046a9af6e4c48ce03ecbb of
 #: utils.core.registry.UniversalRegistry.register:3
 msgid "Registration name. If ``None``, the class name is used."
 msgstr "Registration name. If ``None``, the class name is used."
 
-#: 4bf74dc4623548beb66a49f0a33b40df of
+#: c528e0b25dd2471caf1397f4ef559d55 of
 #: utils.core.registry.UniversalRegistry.register:5
 msgid "The name is already bound to a **different** class."
 msgstr "The name is already bound to a **different** class."
 
-#: b921c4c8c1f745248c2e8df77411f258 of
+#: 9ceda6f9ce394e638298cb1fd7a2ec31 of
 #: utils.core.registry.UniversalRegistry.register:7
 msgid "A decorator that registers the class."
 msgstr "A decorator that registers the class."
 
-#: dc6615badbac4153953eb90adc97094f of utils.core.registry.register_analyzer:1
+#: 9e574060eed94ddea7b9c4eaa17c5192 of utils.core.registry.register_analyzer:1
 msgid "Register an analysis case into ``ANALYZERS``."
 msgstr "Register an analysis case into ``ANALYZERS``."
 
-#: 0e42b51b79d246d799762f695a89f818 2b6675da3e3c402a92d3c9883237b4fb
-#: 2cef2a0cf9414775a3766ce2a48dded9 3393bd265c544f5d824b4470c78b279d
-#: 4fd6fe725dfa43f28a653257e982a131 5e750861ae4948769a6d09f0e060b47d
-#: 7f24e5125d0145af9afda43c9c5bf1a4 c30b72eeddad4836931ce85b0b2eee52
-#: f9f108c8bb864ac693e0f09982d6169f fd1ebcc3953c4d3788633715d2e8fcd9 of
+#: 0facdb7eabaa498e846c02f2e5b80b19 28171bbbea054a968fca4715315248c0
+#: 309b963490ad4f6abf37cfbdd1e1246e 6754f38b76904d9a85585b12676ba1fd
+#: 8cc9601c92464981a5928c6b424df708 9ddaabcdb6e3481a8c8f4099a9ee53ed
+#: af9a64391eb84021a4c375f75839d06c b3deea735b0f475b887e608e99a39723
+#: d6f55753a4a14aa3a5e178252e60795d fa231526922b472c99a8182481f6221c of
 #: utils.core.registry.register_analyzer:3
 #: utils.core.registry.register_case_selector:3
 #: utils.core.registry.register_case_sink:3
@@ -282,54 +298,54 @@ msgstr "Register an analysis case into ``ANALYZERS``."
 msgid "Optional registration name. Defaults to the class name."
 msgstr "Optional registration name. Defaults to the class name."
 
-#: f52a2a751eef4dc2a80c81efeebc4ee6 of utils.core.registry.register_analyzer:5
+#: 19b8fc501cc64771aa0bacaac2d6651e of utils.core.registry.register_analyzer:5
 msgid "A decorator that registers the class with ``ANALYZERS``."
 msgstr "A decorator that registers the class with ``ANALYZERS``."
 
-#: 7b7e62178fb544d98048d495d5d3b4ab of
+#: 82781449542f436cbcd54a00b927c84f of
 #: utils.core.registry.register_case_selector:1
 msgid "Register a case analysis user selector into ``CASE_SELECTORS``."
 msgstr "Register a case analysis user selector into ``CASE_SELECTORS``."
 
-#: 96fcd0b5b7e041b78293628e801ce541 of
+#: 65d91542ca1d42cfbd8ab612cec94dbd of
 #: utils.core.registry.register_case_selector:5
 msgid "A decorator that registers the class with ``CASE_SELECTORS``."
 msgstr "A decorator that registers the class with ``CASE_SELECTORS``."
 
-#: 57045e19498c4d538504aea796e8e7fd of utils.core.registry.register_case_sink:1
+#: f9657e7dc3724d23994867db45bb185f of utils.core.registry.register_case_sink:1
 msgid "Register a case analysis result sink into ``CASE_SINKS``."
 msgstr "Register a case analysis result sink into ``CASE_SINKS``."
 
-#: f93dbad91dde44ebb33154e18fddbafe of utils.core.registry.register_case_sink:5
+#: 11afe4ebef3841128af941d6ec9af472 of utils.core.registry.register_case_sink:5
 msgid "A decorator that registers the class with ``CASE_SINKS``."
 msgstr "A decorator that registers the class with ``CASE_SINKS``."
 
-#: 9212521e0cd44d43b7323e76dc1c715a of
+#: 4e7cd8630ca34553b069443a399e143c of
 #: utils.core.registry.register_case_visualizer:1
 msgid "Register a case analysis visualizer into ``CASE_VISUALIZERS``."
 msgstr "Register a case analysis visualizer into ``CASE_VISUALIZERS``."
 
-#: 3d8a78fe88a24612a8b85de63825d477 of
+#: e0c82cc32f554908a396c3bf3e531b6b of
 #: utils.core.registry.register_case_visualizer:5
 msgid "A decorator that registers the class with ``CASE_VISUALIZERS``."
 msgstr "A decorator that registers the class with ``CASE_VISUALIZERS``."
 
-#: d021952b200b40ceb7ccc5a7b6de0b04 of
+#: 02e01f013ee348e4bbd241f61b1a352d of
 #: utils.core.registry.register_data_source:1
 msgid "Register a data source into ``DATA_SOURCES``."
 msgstr "Register a data source into ``DATA_SOURCES``."
 
-#: 9378d7dcc40a46bf89dcaa67d0609a85 of
+#: 416c848173c04c3e92e1691b2c7034ac of
 #: utils.core.registry.register_data_source:5
 msgid "A decorator that registers the class with ``DATA_SOURCES``."
 msgstr "A decorator that registers the class with ``DATA_SOURCES``."
 
-#: c764ae1973f247d0abad2e411c56516d of
+#: 792f6110157d49ec8244759557942479 of
 #: utils.core.registry.register_efficiency_stage:1
 msgid "Register an efficiency benchmark stage into ``EFFICIENCY_STAGES``."
 msgstr "Register an efficiency benchmark stage into ``EFFICIENCY_STAGES``."
 
-#: f245e8914c234c298d7c8f53d0e76df2 of
+#: 2d626d11bcf3469ba39d27ad6153c293 of
 #: utils.core.registry.register_efficiency_stage:3
 msgid ""
 "Stages are auto-discovered from ``utils/efficiency/stages/``; drop a file"
@@ -338,16 +354,16 @@ msgstr ""
 "Stages are auto-discovered from ``utils/efficiency/stages/``; drop a file"
 " there and decorate the class — no manual registration elsewhere."
 
-#: d2c458f0ba3d4723b523b2f39352bcbe of
+#: 828b21891a6142cdaf9b254d529cb95f of
 #: utils.core.registry.register_efficiency_stage:8
 msgid "A decorator that registers the class with ``EFFICIENCY_STAGES``."
 msgstr "A decorator that registers the class with ``EFFICIENCY_STAGES``."
 
-#: f30c550f96c04479bba23ea99301e6c1 of utils.core.registry.register_metric:1
+#: 53f019dfeeb74f42895a3fb190495d05 of utils.core.registry.register_metric:1
 msgid "Register a metric into ``METRICS``."
 msgstr "Register a metric into ``METRICS``."
 
-#: effb06305cd1406298ea41bf38df0e1f of utils.core.registry.register_metric:3
+#: e7d2156d1cad4800a052d2a2b5fe05bc of utils.core.registry.register_metric:3
 msgid ""
 "Drop a ``@register_metric(\"name\")`` class under "
 ":mod:`utils.training.metrics` and it is auto-discovered — no manual "
@@ -357,26 +373,26 @@ msgstr ""
 ":mod:`utils.training.metrics` and it is auto-discovered — no manual "
 "registration elsewhere."
 
-#: 26b4ff1d5a4f4a519f1292cc7abe812b of utils.core.registry.register_metric:9
+#: 54657f33ff70409f9f0c1a66a65f89ea of utils.core.registry.register_metric:9
 msgid "A decorator that registers the class with ``METRICS``."
 msgstr "A decorator that registers the class with ``METRICS``."
 
-#: 586d4ea38d674d2fbfc9e75e87332a9e of
+#: 69860edb6888465a9ff07a15e49f4d09 of
 #: utils.core.registry.register_metric_logger:1
 msgid "Register a metric logging backend into ``METRIC_LOGGERS``."
 msgstr "Register a metric logging backend into ``METRIC_LOGGERS``."
 
-#: 46ae8c266f5943438aa8dd2a5ad74c6b of
+#: 6cbfb807068341728bf91498f2ffdbb0 of
 #: utils.core.registry.register_metric_logger:5
 msgid "A decorator that registers the class with ``METRIC_LOGGERS``."
 msgstr "A decorator that registers the class with ``METRIC_LOGGERS``."
 
-#: c012a9f22a7e49a999ad36e8189c64dd of
+#: 183f48d1a2af4c5dba06430f4e7590e0 of
 #: utils.core.registry.register_model_config:1
 msgid "Register a per-model ``ModelConfig`` dataclass into ``MODEL_CONFIGS``."
 msgstr "Register a per-model ``ModelConfig`` dataclass into ``MODEL_CONFIGS``."
 
-#: 487052f1115845088f6d8b781191ef17 of
+#: bb217e98958245088206e59510429e98 of
 #: utils.core.registry.register_model_config:3
 msgid ""
 "Combines ``@dataclass`` transformation and registry binding into one "
@@ -387,20 +403,20 @@ msgstr ""
 "decorator: apply ``@register_model_config(\"Name\")`` directly on a "
 ":class:`~utils.config.run_config.ModelConfig` subclass."
 
-#: c990848066a34ac4b0975fe9aa23556c of
+#: 30bfb02372764db9a6bcdf028a043194 of
 #: utils.core.registry.register_model_config:9
 msgid "A decorator that applies ``@dataclass`` then registers the result."
 msgstr "A decorator that applies ``@dataclass`` then registers the result."
 
-#: fa768d3f14f548369867e2a890eec979 of utils.core.registry.register_trainer:1
+#: 04e1f4a7848b47c5a4816de6b91eded6 of utils.core.registry.register_trainer:1
 msgid "Register a trainer into ``TRAINERS``."
 msgstr "Register a trainer into ``TRAINERS``."
 
-#: 029da80903c84f7eb58ca66c2bb517d9 of utils.core.registry.register_trainer:5
+#: 823fbf0f639946138ab9dbba432a3752 of utils.core.registry.register_trainer:5
 msgid "A decorator that registers the class with ``TRAINERS``."
 msgstr "A decorator that registers the class with ``TRAINERS``."
 
-#: e144432810d8495284e3ebfb9654e533 of utils.core.discovery:1
+#: 9da2fd4cdf0b40c683e861c60d0d9cef of utils.core.discovery:1
 msgid ""
 "Static registration discovery: scan source code (no imports) to build a "
 "name→module lazy index."
@@ -408,7 +424,7 @@ msgstr ""
 "Static registration discovery: scan source code (no imports) to build a "
 "name→module lazy index."
 
-#: b06148ed9e324b158bbf92c69d9e14d6 of utils.core.discovery:3
+#: 22958edec93a4768aa8a8a6c7ada3871 of utils.core.discovery:3
 msgid ""
 "Scans for ``@register_<role>(\"name\")`` decorators and populates the "
 "corresponding registry's ``index``. ``keys()`` then lists all components "
@@ -420,7 +436,7 @@ msgstr ""
 "at startup while component code is only imported on ``get()`` (lazy "
 "loading, multi-environment safe)."
 
-#: 6c5742bc1dab42eb910ce0c3ebb594aa of utils.core.discovery:7
+#: 4a1cb010964c4fdba6868b7043e80883 of utils.core.discovery:7
 msgid ""
 "The decorator→registry mapping is self-described: each "
 ":class:`UniversalRegistry` declares its own ``decorator_name``, which "
@@ -430,7 +446,7 @@ msgstr ""
 ":class:`UniversalRegistry` declares its own ``decorator_name``, which "
 "discovery reads."
 
-#: 1c149945ca964ba8b139471a53d412fc of utils.core.discovery:10
+#: 01bbde6c427d42d28581ab4e0fa3783d of utils.core.discovery:10
 msgid ""
 "Only the uniform ``@register_<role>(\"literal\")`` form is recognized; "
 "non-literal arguments (variables, expressions) are ignored."
@@ -438,7 +454,7 @@ msgstr ""
 "Only the uniform ``@register_<role>(\"literal\")`` form is recognized; "
 "non-literal arguments (variables, expressions) are ignored."
 
-#: 2ef8aa119f2c4343a88c8ee2100739d7 of
+#: ee9f1b8bb6d64c0e87721fd472bbf0cd of
 #: utils.core.discovery.discover_registrations:1
 msgid ""
 "Scan all ``.py`` files under ``root`` (excluding ``__init__``) and write "
@@ -447,7 +463,7 @@ msgstr ""
 "Scan all ``.py`` files under ``root`` (excluding ``__init__``) and write "
 "decorator registrations into the lazy index."
 
-#: 9fe45ea247c54453a1cdc5b6c9ea7645 of
+#: 044806c4fd5d45359ce0f73bba654260 of
 #: utils.core.discovery.discover_registrations:3
 msgid ""
 "Directory to scan (pass ``__file__``'s parent directory, independent of "
@@ -456,7 +472,7 @@ msgstr ""
 "Directory to scan (pass ``__file__``'s parent directory, independent of "
 "the current working directory)."
 
-#: b3950659ffcf4daca8a1477a08c1bb8a of
+#: cb5e0f4e4afc46edaa66e18f433e3201 of
 #: utils.core.discovery.discover_registrations:4
 msgid ""
 "Dotted module name for the directory (e.g. ``\"model\"``, "
@@ -465,11 +481,11 @@ msgstr ""
 "Dotted module name for the directory (e.g. ``\"model\"``, "
 "``\"utils.data_process\"``)."
 
-#: f40e6bd0cda64d398f23ce320ed332ad of utils.core.logger:1
+#: 548a5b5caebb4f88baeddb8d996a78cb of utils.core.logger:1
 msgid "Unified logging module for the KT experiment framework."
 msgstr "Unified logging module for the KT experiment framework."
 
-#: 4bb732039f474b1099da0646603f7163 of utils.core.logger:3
+#: 427484b2bf0b4342be46227c6e47f5b4 of utils.core.logger:3
 msgid ""
 "This module provides a consistent logging interface for all framework "
 "components. The log level is controlled by the ``LOG_LEVEL`` environment "
@@ -479,7 +495,7 @@ msgstr ""
 "components. The log level is controlled by the ``LOG_LEVEL`` environment "
 "variable (default: INFO)."
 
-#: 59d7daccc39f42f18dd15f3cd6af957c of utils.core.logger:7
+#: b6bb57889dfa4f81a73de065c93feeb2 of utils.core.logger:7
 msgid ""
 "A shared file sink can be registered via :func:`add_file_handler`. Entry "
 "scripts (``train.py``, ``evaluate.py``, ``case_analysis.py``, ...) call "
@@ -501,15 +517,15 @@ msgstr ""
 "inheriting a shared file sink, because a regular ``FileHandler`` cannot "
 "be rotated safely across processes."
 
-#: 5a9e0ca6c5434e5683409c6e682b7ce8 of utils.core.logger:17
+#: 36083a9d01ab473ab48ba668eeaf40ad of utils.core.logger:17
 msgid "Usage:"
 msgstr "Usage:"
 
-#: 9b83794da30948039a4a8eba7a2061d4 of utils.core.logger:18
+#: 19214c647fd346008d56e2b7b3e1b85c of utils.core.logger:18
 msgid "from utils.core import get_logger"
 msgstr "from utils.core import get_logger"
 
-#: caa36ee9cc794580837aba24f7411d49 of utils.core.logger:20
+#: a8e4755407194d45a369f7535ce49cec of utils.core.logger:20
 msgid ""
 "logger = get_logger(__name__) logger.info(\"Training started\") "
 "logger.warning(\"Missing data, using defaults\") logger.error(\"Model "
@@ -519,23 +535,23 @@ msgstr ""
 "logger.warning(\"Missing data, using defaults\") logger.error(\"Model "
 "loading failed\")"
 
-#: c6339d255c26430fa733cb80cb1344e1 of utils.core.logger:25
+#: e7a3f2b803ad4326984567618721984c of utils.core.logger:25
 msgid "Environment Variables:"
 msgstr "Environment Variables:"
 
-#: 458b2e716f2f4041851318ed99f4ce88 of utils.core.logger:26
+#: f141f338123741abac555336bbd07e18 of utils.core.logger:26
 msgid "LOG_LEVEL: Controls logging verbosity (DEBUG, INFO, WARNING, ERROR)."
 msgstr "LOG_LEVEL: Controls logging verbosity (DEBUG, INFO, WARNING, ERROR)."
 
-#: 77b9a696c77b4351a15b0d81a614c5e2 of utils.core.logger:27
+#: f84bff5710a14d2d9d1da02426f205b3 of utils.core.logger:27
 msgid "Default: INFO"
 msgstr "Default: INFO"
 
-#: 2e758a572a5f42c491b546cf95773ae1 of utils.core.logger:29
+#: 3174e5b14bbb4637b87de99c445f0614 of utils.core.logger:29
 msgid "Log Format:"
 msgstr "Log Format:"
 
-#: 9d35c248c5c54bd2baa44ba99b7c5f5e of utils.core.logger:30
+#: 047949a1ca634e5f84f4ce76bc916812 of utils.core.logger:30
 #, python-format
 msgid ""
 "Console: ``[HH:MM:SS][LEVEL][module_name] message`` (RichHandler) File:"
@@ -544,11 +560,11 @@ msgstr ""
 "Console: ``[HH:MM:SS][LEVEL][module_name] message`` (RichHandler) File:"
 "    ``%(asctime)s %(levelname)-8s %(name)s: %(message)s``"
 
-#: 1c9b1d70d84547e692018b7f95609a72 of utils.core.logger.add_file_handler:1
+#: 7baae2d6a4694a1685048fd4c57038bd of utils.core.logger.add_file_handler:1
 msgid "Attach the shared file sink, writing to ``log_path``."
 msgstr "Attach the shared file sink, writing to ``log_path``."
 
-#: d4f49fd8e8ee4b2b875b64950aaa884c of utils.core.logger.add_file_handler:3
+#: 127198f61ed04c6c933f6631824d24bf of utils.core.logger.add_file_handler:3
 msgid ""
 "Any previously attached file handler is detached and closed first, so a "
 "second call (e.g. a new run directory in a kfold loop) switches the sink."
@@ -568,19 +584,19 @@ msgstr ""
 "their inherited warning hook disabled to avoid stale or unsynchronized "
 "writes to the parent's file sink."
 
-#: 47be11a6fc334de5bfffe705e5bd55d1 of utils.core.logger.add_file_handler:12
+#: 2595c8327c704b1e829bc2f633a66793 of utils.core.logger.add_file_handler:12
 msgid "Destination file path (parent dirs created as needed)."
 msgstr "Destination file path (parent dirs created as needed)."
 
-#: 593621dfd96944978ed5d9173709dfd9 of utils.core.logger.add_file_handler:14
+#: df1a167e0c3a4321a4e06c6039cd48a9 of utils.core.logger.add_file_handler:14
 msgid "The destination path."
 msgstr "The destination path."
 
-#: a04be8f13e8c49458800c9212f88be61 of utils.core.logger.get_logger:1
+#: e54cacb4975b42da90e999e136081d98 of utils.core.logger.get_logger:1
 msgid "Get a logger instance with a unified configuration."
 msgstr "Get a logger instance with a unified configuration."
 
-#: d6d2b58631f6488e88783c44d2a75df8 of utils.core.logger.get_logger:3
+#: 008ca2dbfc4f4f36aac7cbf96ef3e6c7 of utils.core.logger.get_logger:3
 msgid ""
 "Each logger carries a :class:`rich.logging.RichHandler` for console "
 "output (``propagate=False`` avoids duplicate messages) and, when a file "
@@ -590,19 +606,19 @@ msgstr ""
 "output (``propagate=False`` avoids duplicate messages) and, when a file "
 "sink is registered via :func:`add_file_handler`, that handler too."
 
-#: ad06f215568c4c31914811a2d524efec of utils.core.logger.get_logger:7
+#: fcb6497fdcbe4240965314d0218b7c06 of utils.core.logger.get_logger:7
 msgid "Logger name, typically ``__name__`` for module-level logging."
 msgstr "Logger name, typically ``__name__`` for module-level logging."
 
-#: 60e94be3e12048a380cf70fb12edeccd of utils.core.logger.get_logger:9
+#: 44cf9f0de4314b8fbfe0e028c6783340 of utils.core.logger.get_logger:9
 msgid "A configured ``logging.Logger`` instance."
 msgstr "A configured ``logging.Logger`` instance."
 
-#: 27514fc51af94e80bdf1ae56b9351d14 of utils.core.logger.remove_file_handler:1
+#: f521e5a2deff408cb04279d87a46a492 of utils.core.logger.remove_file_handler:1
 msgid "Detach and close the shared file handler, if any."
 msgstr "Detach and close the shared file handler, if any."
 
-#: 3028d0173b5547049cb89293bbd0c1f5 of utils.core.logger.remove_file_handler:3
+#: 939f58209e694c5ab482fb1247190e67 of utils.core.logger.remove_file_handler:3
 msgid ""
 "The warning hook is restored only when it is still owned by this module; "
 "an external replacement made while the sink was active is left intact."
@@ -610,11 +626,11 @@ msgstr ""
 "The warning hook is restored only when it is still owned by this module; "
 "an external replacement made while the sink was active is left intact."
 
-#: 8b335a4dfddd48fdae4a23a10162f243 of utils.core.logger.reset_loggers:1
+#: 1aec3dec2a5a4468806b94222d6376e6 of utils.core.logger.reset_loggers:1
 msgid "Reset all cached loggers."
 msgstr "Reset all cached loggers."
 
-#: ff177213cc1a4f90ae4d3459d3c8d8ef of utils.core.logger.reset_loggers:3
+#: 58bf91636d9d4e07afb3992551495be0 of utils.core.logger.reset_loggers:3
 msgid ""
 "Detaches the shared file handler before clearing the cache, so it is "
 "removed from every logger while the cache is still populated."
@@ -622,11 +638,11 @@ msgstr ""
 "Detaches the shared file handler before clearing the cache, so it is "
 "removed from every logger while the cache is still populated."
 
-#: 8a3369115ffe4c77bab965d886c36f8c of utils.core.logger.set_log_level:1
+#: 1e4b3d25fc1748f7b4d54552535ba811 of utils.core.logger.set_log_level:1
 msgid "Set the global log level programmatically."
 msgstr "Set the global log level programmatically."
 
-#: 51f2cc76caf745a986fffb1914204824 of utils.core.logger.set_log_level:3
+#: 3fac2669d2184ebfb3bb6a9021e3a982 of utils.core.logger.set_log_level:3
 msgid ""
 "Updates every framework logger and handler. The shared file sink is "
 "updated directly so a stale ``_loggers`` cache (or orphan loggers living "
@@ -636,15 +652,15 @@ msgstr ""
 "updated directly so a stale ``_loggers`` cache (or orphan loggers living "
 "only in the global registry) cannot keep an old level."
 
-#: 5adf5d7824cc4a5d9588c9c92bfff83b of utils.core.logger.set_log_level:7
+#: 4c1f89364efc4eff8597f3a4a3d0735f of utils.core.logger.set_log_level:7
 msgid "A logging level constant (e.g. ``logging.DEBUG``, ``logging.INFO``)."
 msgstr "A logging level constant (e.g. ``logging.DEBUG``, ``logging.INFO``)."
 
-#: 697638dad7f34af29582f9eb5c7dc46f of utils.core.random:1
+#: e477d2716f3844849a5c195f5aef0632 of utils.core.random:1
 msgid "Random seed setting module."
 msgstr "Random seed setting module."
 
-#: 6e69491e1ba3469a9538b3099127792d of utils.core.random:3
+#: 29d12ba1c1514a5e9c195d39400aa476 of utils.core.random:3
 msgid ""
 "Provides a unified random seed setting function to ensure experiment "
 "reproducibility."
@@ -652,11 +668,11 @@ msgstr ""
 "Provides a unified random seed setting function to ensure experiment "
 "reproducibility."
 
-#: ac7a2475f2cf42e3849c35b7bb4caacb of utils.core.random.seed_everything:1
+#: e130a28b4cf2466c82eda7db1e0738cf of utils.core.random.seed_everything:1
 msgid "Set random seeds to ensure reproducible results."
 msgstr "Set random seeds to ensure reproducible results."
 
-#: 34719bdc2301472aa7ef2c30b83d7ba0 of utils.core.random.seed_everything:3
+#: c0c80e27a0764d85ace04e2d6ee88025 of utils.core.random.seed_everything:3
 msgid ""
 "This function seeds Python's ``random``, NumPy, and PyTorch, and "
 "optionally enables deterministic mode."
@@ -664,11 +680,11 @@ msgstr ""
 "This function seeds Python's ``random``, NumPy, and PyTorch, and "
 "optionally enables deterministic mode."
 
-#: 605a1f16b28046febdcaf2c7e592cc6e of utils.core.random.seed_everything:6
+#: 537cd403e0b34fbd8cf25c4bf55b55e6 of utils.core.random.seed_everything:6
 msgid "Random seed value. If ``None``, no seed is set."
 msgstr "Random seed value. If ``None``, no seed is set."
 
-#: c9a390a9c3ed47738cb455801568ce22 of utils.core.random.seed_everything:7
+#: fcbc8d0558cd450cb658b8ba4d14cacb of utils.core.random.seed_everything:7
 msgid ""
 "Whether to enable deterministic mode. Enabling this degrades performance "
 "but guarantees fully reproducible results. Defaults to ``True``."
@@ -676,15 +692,15 @@ msgstr ""
 "Whether to enable deterministic mode. Enabling this degrades performance "
 "but guarantees fully reproducible results. Defaults to ``True``."
 
-#: b1cab83634a74f0c8a7f7c413337ee78 of utils.core.random.seed_everything:11
+#: da9390b4e6fb4daf9cb3422c6fd14d65 of utils.core.random.seed_everything:11
 msgid "The seed value that was set, or ``None`` if ``seed`` was ``None``."
 msgstr "The seed value that was set, or ``None`` if ``seed`` was ``None``."
 
-#: 15d0b7b745d646d8a926c0a30478764e of utils.core.experiment_manager:1
+#: ad641bfdb5944b7d86e6aa0f076b68d2 of utils.core.experiment_manager:1
 msgid "Unified experiment management module."
 msgstr "Unified experiment management module."
 
-#: dfe0581c9e3a4a9ba956f8fa8c236572 of utils.core.experiment_manager:3
+#: ade4199e6ff443fa8b82878848bbc24a of utils.core.experiment_manager:3
 msgid ""
 "Provides consistent experiment log directory management supporting "
 "standard training and hyperparameter search workflows."
@@ -692,12 +708,12 @@ msgstr ""
 "Provides consistent experiment log directory management supporting "
 "standard training and hyperparameter search workflows."
 
-#: 4faa0f8ca69246f7a2c511ee6aa78317 of
+#: 10c34a89b2514e2fb30c900b01b39f5d of
 #: utils.core.experiment_manager.ExperimentManager:1
 msgid "Unified experiment manager."
 msgstr "Unified experiment manager."
 
-#: 008babc1dbc94a109e0fd91dd3c18727 of
+#: ef9ebdb9a4604dc494a41931cbe7f34c of
 #: utils.core.experiment_manager.ExperimentManager:3
 msgid ""
 "Responsibilities: 1. Create standardised experiment directory structures "
@@ -710,12 +726,12 @@ msgstr ""
 "subdirectories 4. Provide factory methods for command-line argument "
 "creation"
 
-#: 730f2831ceb9482db08c454c2f27e817 of
+#: 69631b79ea25486c9f6ec2ae5baad411 of
 #: utils.core.experiment_manager.ExperimentManager.create_sub_experiment:1
 msgid "Create a sub-experiment manager sharing the same timestamp."
 msgstr "Create a sub-experiment manager sharing the same timestamp."
 
-#: 77892e9866454394b69b75fc1c1d3fba of
+#: aa5f7439334e4b6abe5a0b227b6f1eab of
 #: utils.core.experiment_manager.ExperimentManager.create_sub_experiment:3
 msgid ""
 "Used for scenarios requiring multiple sub-experiments (e.g. "
@@ -726,37 +742,37 @@ msgstr ""
 "hyperparameter search). All sub-experiments share the same parent "
 "timestamp."
 
-#: 4d34fc858f6243b9b76e014c616a9ba8 of
+#: 4686ab108bbf4d15aa36074007dfa5f1 of
 #: utils.core.experiment_manager.ExperimentManager.create_sub_experiment:6
 msgid "Sub-experiment name (e.g. \"trial_0\", \"full_model\", \"no_gnn\")."
 msgstr "Sub-experiment name (e.g. \"trial_0\", \"full_model\", \"no_gnn\")."
 
-#: 53e7f93594cf46118d9e0cd4b61621c4 of
+#: a451c6ed0a1241c39a561fb62ae34c03 of
 #: utils.core.experiment_manager.ExperimentManager.create_sub_experiment:8
 msgid "A new ExperimentManager instance pointing to the subdirectory."
 msgstr "A new ExperimentManager instance pointing to the subdirectory."
 
-#: c8e8c08a8f9a4bb484c78ba9ec5e1fb4 of
+#: f773c23d6bc841d3bb3c81f57038578e of
 #: utils.core.experiment_manager.ExperimentManager.create_subdir:1
 msgid "Create a subdirectory within the experiment directory."
 msgstr "Create a subdirectory within the experiment directory."
 
-#: e0b68bf8c589400393c7b44b265e72ac of
+#: 21cf618233f64496a304eb817596cea9 of
 #: utils.core.experiment_manager.ExperimentManager.create_subdir:3
 msgid "Subdirectory name."
 msgstr "Subdirectory name."
 
-#: a98e48326472420588c9d267f0d6db7f of
+#: 9fbcefe1cc2741d3809e3053517bca48 of
 #: utils.core.experiment_manager.ExperimentManager.create_subdir:5
 msgid "Path object for the subdirectory."
 msgstr "Path object for the subdirectory."
 
-#: 1a52a12c7346401fa3e33c5118744653 of
+#: 86662ef846ef4d409b378ea10f5a504b of
 #: utils.core.experiment_manager.ExperimentManager.from_args:1
 msgid "Create a manager from command-line arguments."
 msgstr "Create a manager from command-line arguments."
 
-#: abd90bd6786d448ea0bc747dfa4105dd of
+#: ee46c188878048e1ba60a912b65f4290 of
 #: utils.core.experiment_manager.ExperimentManager.from_args:3
 msgid ""
 "Automatically extracts model name, dataset name, and common tags from the"
@@ -765,27 +781,27 @@ msgstr ""
 "Automatically extracts model name, dataset name, and common tags from the"
 " args namespace."
 
-#: 495ec582986947af9838513d9afffff8 of
+#: ccb7b5270ed14a2394c14c35fb40bef6 of
 #: utils.core.experiment_manager.ExperimentManager.from_args:6
 msgid "Command-line argument object (argparse.Namespace)."
 msgstr "Command-line argument object (argparse.Namespace)."
 
-#: 6328c3540dcb428193618233a1d1f1e9 of
+#: ecba92c5007148fe98bbed419f19b553 of
 #: utils.core.experiment_manager.ExperimentManager.from_args:7
 msgid "Experiment type."
 msgstr "Experiment type."
 
-#: a9077a42174e4623a37845c2f6ecc82e of
+#: adc60e043ac64ae0b21329aae9986b05 of
 #: utils.core.experiment_manager.ExperimentManager.from_args:9
 msgid "An ExperimentManager instance."
 msgstr "An ExperimentManager instance."
 
-#: a1fe28b1f11a4e51a5b5aee672935f87 of
+#: d039901011794d0e852fcfabeb3c4462 of
 #: utils.core.experiment_manager.ExperimentManager.from_run_config:1
 msgid "Create a manager from a RunConfig instance."
 msgstr "Create a manager from a RunConfig instance."
 
-#: 82b73e68cc044560bda30b468646ef8b of
+#: 638be406412742aba6b78968a52e2bde of
 #: utils.core.experiment_manager.ExperimentManager.from_run_config:3
 msgid ""
 "Reads model/dataset identity, fold, and batch_size tags from the typed "
@@ -794,12 +810,12 @@ msgstr ""
 "Reads model/dataset identity, fold, and batch_size tags from the typed "
 "config tree."
 
-#: d741a1fb7a7a4a9fa7a6b29e0fdf74cd of
+#: ee435d5a063d43a7b39a6e4deab19fa3 of
 #: utils.core.experiment_manager.ExperimentManager.from_run_dir:1
 msgid "Create an ExperimentManager wrapping an existing run directory."
 msgstr "Create an ExperimentManager wrapping an existing run directory."
 
-#: 3eb14074ec894557ba4f93324e392ea6 of
+#: e675fb932ed149a8850392e111b34894 of
 #: utils.core.experiment_manager.ExperimentManager.from_run_dir:3
 msgid ""
 "Unlike the normal constructor, this does NOT create a new timestamped "
@@ -808,27 +824,27 @@ msgstr ""
 "Unlike the normal constructor, this does NOT create a new timestamped "
 "directory. Used for evaluation/inference on already-trained models."
 
-#: 70cc2a861eae4e5f8122475f97603b04 of
+#: 28c77aaf0fa243058b7009898251f557 of
 #: utils.core.experiment_manager.ExperimentManager.from_run_dir:6
 msgid "Path to an existing run directory."
 msgstr "Path to an existing run directory."
 
-#: dbce945d5a2e4fac98c55ebac14bade7 of
+#: d7cb143d3bd7468cb1518d1213edd5d7 of
 #: utils.core.experiment_manager.ExperimentManager.from_run_dir:8
 msgid "ExperimentManager pointing to the existing directory."
 msgstr "ExperimentManager pointing to the existing directory."
 
-#: 4de47f9dedea485eaec0a932b146b82c of
+#: 96f92c6c96af41c1b81f62c09c0d994d of
 #: utils.core.experiment_manager.ExperimentManager.from_run_dir:10
 msgid "If the directory does not exist."
 msgstr "If the directory does not exist."
 
-#: b680dab34d5a4626b81c76dfa6ecee42 of
+#: ab2290de7ec446de93a18d00bc241f4c of
 #: utils.core.experiment_manager.ExperimentManager.get_experiment_info:1
 msgid "Return a dictionary of experiment metadata."
 msgstr "Return a dictionary of experiment metadata."
 
-#: e7ab1bb9489f40edb55d6734b9e27399 of
+#: 605b0a2554074e9a8e8e4d0215dea7ba of
 #: utils.core.experiment_manager.ExperimentManager.get_experiment_info:3
 msgid ""
 "Dictionary containing experiment type, model name, dataset name, base "
@@ -837,94 +853,114 @@ msgstr ""
 "Dictionary containing experiment type, model name, dataset name, base "
 "directory, experiment directory, and tags."
 
-#: e9becfced3524d0da8337ab912c6217d of
+#: dd1eaed47e3945ad8bd48eb0fc61855e of
 #: utils.core.experiment_manager.ExperimentManager.get_log_dir:1
 msgid "Return the absolute path to the experiment log directory."
 msgstr "Return the absolute path to the experiment log directory."
 
-#: 36bc0ea1853f4fe58c91932419067412 of
+#: f4850d0327194910956d641ba5354130 of
 #: utils.core.experiment_manager.ExperimentManager.get_log_dir:3
 msgid "Absolute path string of the log directory."
 msgstr "Absolute path string of the log directory."
 
-#: fa249eddd39f4d769b6c00de3ecc979a of
-#: utils.core.experiment_manager.ExperimentType:1
-msgid "基类：:py:class:`~enum.Enum`"
-msgstr "Bases: :py:class:`~enum.Enum`"
-
-#: ee7632d5f1b141209914424cf6d633b1 of
+#: 9fe9d19986384a10a65f181fb12d69b5 of
 #: utils.core.experiment_manager.ExperimentType:1
 msgid "Enumeration of supported experiment types."
 msgstr "Enumeration of supported experiment types."
 
-#: cda87fffe5b740bbb3f5758a75673cfa of utils.core.progress:1
+#: 34243a158b994af58cd4fa37e196755e of utils.core.progress:1
 msgid "Shared Rich progress bar factory."
 msgstr "Shared Rich progress bar factory."
 
-#: b6580f23c1874d4e80d63d3654f9b7dd of utils.core.progress.create_progress:1
+#: dc787d6d2c45425088c7d3546a6f4f24 of utils.core.progress.create_progress:1
 msgid "Create a Rich Progress bar with the project-standard style."
 msgstr "Create a Rich Progress bar with the project-standard style."
 
-#: 6a7e672d3043431d9a6fc4dc462c8523 of utils.core.progress.create_progress:3
+#: 3a9881e362914779a3a8bb717b755077 of utils.core.progress.create_progress:3
 msgid "A configured ``Progress`` instance ready for ``add_task()``."
 msgstr "A configured ``Progress`` instance ready for ``add_task()``."
 
-#: 92b88862c74a4c6297f2ea69147acf2d of utils.core.progress.resolve_progress:1
+#: 4601c53caa8e4358b3624110df81c3f7 of utils.core.progress.resolve_progress:1
 msgid "Return whether Rich progress rendering is enabled for ``mode``."
 msgstr "Return whether Rich progress rendering is enabled for ``mode``."
 
-#: 1acd44d9037e4bf2ba6ab064de8ce1c3 of utils.core.progress.resolve_progress:3
+#: b9ebe700b8e84bf8825494c43efcb8a2 of utils.core.progress.resolve_progress:3
 msgid "Progress mode — ``\"auto\"``, ``\"rich\"``, or ``\"none\"``."
 msgstr "Progress mode — ``\"auto\"``, ``\"rich\"``, or ``\"none\"``."
 
-#: 8b795d7455cb44759bd2923b509c4592 of utils.core.progress.resolve_progress:5
+#: b26046ad07474a35a0e41888f54abef8 of utils.core.progress.resolve_progress:5
 msgid "True if progress should be rendered."
 msgstr "True if progress should be rendered."
 
-#: db1a9b7c9faf4df288e6281364a5978f of utils.core.progress.resolve_progress:7
+#: b532f14dbecc404394f2bb9a5084a7ea of utils.core.progress.resolve_progress:7
 msgid "The mode is not one of the supported values."
 msgstr "The mode is not one of the supported values."
 
-#: ../../source/api/reference/core.md
+#: 7686e5c1b26449dbab2bdb75019ee270 of utils.core.dataset_status:1
 msgid "Polars-free dataset on-disk state inspection."
 msgstr "Polars-free dataset on-disk state inspection."
 
-#: ../../source/api/reference/core.md
+#: 6ffbe421ee174c999936bc101300366a of utils.core.dataset_status:3
 msgid ""
-"Encodes the data-layout convention (``<base>/<dataset>/raw/`` and ``metadata.json``) once so that both the web backend — which runs in a polars-less environment and therefore cannot import :mod:`utils.data_process` — and :class:`utils.data_process.DataSource` share a single source of truth."
+"Encodes the data-layout convention (``<base>/<dataset>/raw/`` and "
+"``metadata.json``) once so that both the web backend — which runs in a "
+"polars-less environment and therefore cannot import "
+":mod:`utils.data_process` — and :class:`utils.data_process.DataSource` "
+"share a single source of truth."
 msgstr ""
-"Encodes the data-layout convention (``<base>/<dataset>/raw/`` and ``metadata.json``) once so that both the web backend — which runs in a polars-less environment and therefore cannot import :mod:`utils.data_process` — and :class:`utils.data_process.DataSource` share a single source of truth."
+"Encodes the data-layout convention (``<base>/<dataset>/raw/`` and "
+"``metadata.json``) once so that both the web backend — which runs in a "
+"polars-less environment and therefore cannot import "
+":mod:`utils.data_process` — and :class:`utils.data_process.DataSource` "
+"share a single source of truth."
 
-#: ../../source/api/reference/core.md
+#: 7733a137e3694d919c1de9e5decb279e of
+#: utils.core.dataset_status.data_folder_path:1
 msgid "Resolve ``<base>/<dataset>/`` (lowercased name, matching DataSource)."
 msgstr "Resolve ``<base>/<dataset>/`` (lowercased name, matching DataSource)."
 
-#: ../../source/api/reference/core.md
+#: 1c4c5ba762954b7f97152c8512776c13 of
+#: utils.core.dataset_status.dataset_status:1
 msgid "Classify a dataset as ``ready`` > ``downloaded`` > ``empty``."
 msgstr "Classify a dataset as ``ready`` > ``downloaded`` > ``empty``."
 
-#: ../../source/api/reference/core.md
+#: cdae707916714359b3ba5c64d342eb3c of
+#: utils.core.dataset_status.dataset_status:3
 msgid ""
-"``ready`` short-circuits before the raw check: a processed dataset may have had its raw files removed to save space, yet remains usable for training."
+"``ready`` short-circuits before the raw check: a processed dataset may "
+"have had its raw files removed to save space, yet remains usable for "
+"training."
 msgstr ""
-"``ready`` short-circuits before the raw check: a processed dataset may have had its raw files removed to save space, yet remains usable for training."
+"``ready`` short-circuits before the raw check: a processed dataset may "
+"have had its raw files removed to save space, yet remains usable for "
+"training."
 
-#: ../../source/api/reference/core.md
+#: 90cf8e4ba2ff448ca76506fdc1ec9575 of utils.core.dataset_status.has_raw:1
 msgid "True if the raw-data directory exists and is non-empty."
 msgstr "True if the raw-data directory exists and is non-empty."
 
-#: ../../source/api/reference/core.md
+#: f1d17abf19dd45dcb43340d4698749f5 of utils.core.dataset_status.is_processed:1
 msgid "True if metadata.json carries the processed marker."
 msgstr "True if metadata.json carries the processed marker."
 
-#: ../../source/api/reference/core.md
+#: 8ea73d5db20a41fbbcb8b20cb9786a17 of
+#: utils.core.dataset_status.list_dataset_statuses:1
 msgid "Status of every registered dataset, keyed by name."
 msgstr "Status of every registered dataset, keyed by name."
 
-#: ../../source/api/reference/core.md
+#: 3b5bae3ce4fa44d7b1b915b9569f6f5c of
+#: utils.core.dataset_status.metadata_path_for:1
 msgid "Resolve the dataset metadata.json path."
 msgstr "Resolve the dataset metadata.json path."
 
-#: ../../source/api/reference/core.md
+#: 307dd89f61144065a84d320a756611b2 of
+#: utils.core.dataset_status.raw_folder_path:1
 msgid "Resolve the extracted raw-data directory."
 msgstr "Resolve the extracted raw-data directory."
+
+#~ msgid "基类：:py:class:`object`"
+#~ msgstr "Bases: :py:class:`object`"
+
+#~ msgid "基类：:py:class:`~enum.Enum`"
+#~ msgstr "Bases: :py:class:`~enum.Enum`"
+

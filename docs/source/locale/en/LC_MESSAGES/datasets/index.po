@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: UniKT \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-09 23:48+0800\n"
+"POT-Creation-Date: 2026-11-22 19:47+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -20,11 +20,11 @@ msgstr ""
 "Generated-By: Babel 2.18.0\n"
 
 #: ../../source/datasets/index.md:-1 ../../source/datasets/index.md:5
-#: 9770f3caa6184b789fdd33f4272a6e84 97f9155a001b41ac844dcb52f2911895
+#: 2132464da1544403a181b8db445b5783 7feb7875cbe34a978fa15cb24060a7fe
 msgid "数据集"
 msgstr "Dataset"
 
-#: ../../source/datasets/index.md:9 4d5263b5637b42b2839bbac90d684b6d
+#: ../../source/datasets/index.md:9 0ecc205b3df240bd9de008b63f662dd2
 msgid ""
 "查阅公开数据来源、规模与原始字段。准备实验数据时，结合[数据处理管线](../user-guides/data-"
 "pipeline.md)了解下载、清洗和序列切分流程。"
@@ -34,133 +34,186 @@ msgstr ""
 "pipeline.md) to understand download, cleaning, and sequence splitting "
 "workflows."
 
-#: ../../source/datasets/index.md:-1 68003bddb5ec4f58b121f69a37d1c292
+#: ../../source/datasets/index.md:-1 1c51dcf3eeb847dd92529991a98c3b5c
 msgid "官方数据入口"
 msgstr "Official Data Portal"
 
-#: ../../source/datasets/index.md:-1 665959853ddd42a5ae010c4f49ce3d0e
+#: ../../source/datasets/index.md:-1 4187736eff26465580527ff704b78c01
+msgid "许可证"
+msgstr "License"
+
+#: ../../source/datasets/index.md:-1 a9985da92478407bb838c498228230a1
 msgid "[ASSISTments 2009](catalog/assistments09.md)"
 msgstr "[ASSISTments 2009](catalog/assistments09.md)"
 
-#: ../../source/datasets/index.md:-1 4a5820f58c2a4fbdae9a3bd27b377aa0
+#: ../../source/datasets/index.md:-1 ba834b2ee92e4396b579f22cd36e4357
 msgid ""
-"[官方入口](https://sites.google.com/site/assistmentsdata/home/2009-2010"
-"-assistment-data)"
+"[ASSISTmentsData - 2009-2010 ASSISTment Data]"
+"(https://sites.google.com/site/assistmentsdata/home/2009-2010-assistment-data)"
 msgstr ""
-"[Official "
-"Portal](https://sites.google.com/site/assistmentsdata/home/2009-2010"
-"-assistment-data)"
+"[ASSISTmentsData - 2009-2010 ASSISTment Data]"
+"(https://sites.google.com/site/assistmentsdata/home/2009-2010-assistment-data)"
 
-#: ../../source/datasets/index.md:-1 36e61050479e467ba7fda9cb6615e304
+#: ../../source/datasets/index.md:-1 70f9bb1e86bc4064b56bace8a6a1771d
+#: 756e1dd384204c5e867eb9644c678891 96000b88810545c4b48569669e69f67f
+#: b0f6e8a2eec44c3294afce5727ef7965
+msgid ""
+"[None (governed by ASSISTments data-use conditions)]"
+"(https://www.etrialstestbed.org/data-sets)"
+msgstr ""
+"[None (governed by ASSISTments data-use conditions)]"
+"(https://www.etrialstestbed.org/data-sets)"
+
+#: ../../source/datasets/index.md:-1 55c8a13742264e46b00e6e9e37a6f5cf
 msgid "[ASSISTments 2012](catalog/assistments12.md)"
 msgstr "[ASSISTments 2012](catalog/assistments12.md)"
 
-#: ../../source/datasets/index.md:-1 4b7e18d1df9a42559f45b6003bbc3fe9
+#: ../../source/datasets/index.md:-1 aa3402843bce4afeb304359073bc49d8
 msgid ""
-"[官方入口](https://sites.google.com/site/assistmentsdata/datasets/2012-13"
-"-school-data-with-affect)"
+"[ASSISTmentsData - 2012-13 School Data with Affect]"
+"(https://sites.google.com/site/assistmentsdata/datasets/2012-13-school-data-with-affect)"
 msgstr ""
-"[Official "
-"Portal](https://sites.google.com/site/assistmentsdata/datasets/2012-13"
-"-school-data-with-affect)"
+"[ASSISTmentsData - 2012-13 School Data with Affect]"
+"(https://sites.google.com/site/assistmentsdata/datasets/2012-13-school-data-with-affect)"
 
-#: ../../source/datasets/index.md:-1 ef4731d857994136b31d69558870182e
+#: ../../source/datasets/index.md:-1 3278e08c6d9a4be48176858029d80170
 msgid "[ASSISTments 2015](catalog/assistments15.md)"
 msgstr "[ASSISTments 2015](catalog/assistments15.md)"
 
-#: ../../source/datasets/index.md:-1 e95b2026d00045ea970ff2ff65024b4b
+#: ../../source/datasets/index.md:-1 48e20843a7ab49fd93c81d8fa7d6cbe4
 msgid ""
-"[官方入口](https://sites.google.com/site/assistmentsdata/datasets/2015"
-"-assistments-skill-builder-data)"
+"[ASSISTmentsData - 2015 ASSISTments Skill Builder Data]"
+"(https://sites.google.com/site/assistmentsdata/datasets/2015-assistments-skill-builder-data)"
 msgstr ""
-"[Official "
-"Portal](https://sites.google.com/site/assistmentsdata/datasets/2015"
-"-assistments-skill-builder-data)"
+"[ASSISTmentsData - 2015 ASSISTments Skill Builder Data]"
+"(https://sites.google.com/site/assistmentsdata/datasets/2015-assistments-skill-builder-data)"
 
-#: ../../source/datasets/index.md:-1 46e7aa1f3190439096a023df9aa61369
+#: ../../source/datasets/index.md:-1 a65d1dcd1f3140f694533b3471635e21
 msgid "[ASSISTments 2017](catalog/assistments17.md)"
 msgstr "[ASSISTments 2017](catalog/assistments17.md)"
 
-#: ../../source/datasets/index.md:-1 2e7de969c9de440e9563bce05560a44b
-msgid "[官方入口](https://sites.google.com/view/assistmentsdatamining/dataset)"
+#: ../../source/datasets/index.md:-1 5ff5eabfe0d243bea3f61e575c9b4f88
+msgid ""
+"[The 2017 ASSISTments Datamining Competition - Dataset]"
+"(https://sites.google.com/view/assistmentsdatamining/dataset)"
 msgstr ""
-"[Official "
-"Portal](https://sites.google.com/view/assistmentsdatamining/dataset)"
+"[The 2017 ASSISTments Datamining Competition - Dataset]"
+"(https://sites.google.com/view/assistmentsdatamining/dataset)"
 
-#: ../../source/datasets/index.md:-1 d451d37fcb544345bcfd772de42a9980
+#: ../../source/datasets/index.md:-1 897c16e6035346f8a81c547b9770261d
 msgid "[Algebra I 2005–2006](catalog/algebra2005.md)"
 msgstr "[Algebra I 2005–2006](catalog/algebra2005.md)"
 
-#: ../../source/datasets/index.md:-1 8472f4db3a8847c38413edbaa55aef43
-#: d939cab471734551bb9c72f40fe426bb e9c1e712222942dc99d036904917a2d6
-msgid "[官方入口](https://pslcdatashop.web.cmu.edu/KDDCup/downloads.jsp)"
-msgstr "[Official Portal](https://pslcdatashop.web.cmu.edu/KDDCup/downloads.jsp)"
+#: ../../source/datasets/index.md:-1 604c1c7c139c41d0bb81ead346b533cf
+#: 63aad9ed0c4240389828020634c9e5ad 68bd6714a1a549959c542e5a87221ce2
+msgid ""
+"[KDD Cup 2010: Educational Data Mining Challenge > Dataset Downloads]"
+"(https://pslcdatashop.web.cmu.edu/KDDCup/downloads.jsp)"
+msgstr ""
+"[KDD Cup 2010: Educational Data Mining Challenge > Dataset Downloads]"
+"(https://pslcdatashop.web.cmu.edu/KDDCup/downloads.jsp)"
 
-#: ../../source/datasets/index.md:-1 b3633294052a4e2ab8668bd70162a1f4
+#: ../../source/datasets/index.md:-1 3462f11fe98543f786a1ff02bda6becf
+#: b4e271b3c0e5438396cba9b48b398668 be0e557c101e43dfbdf0a4d7be4c45c2
+#: c46382cbb95b461c95079d3c440c7fe8
+msgid ""
+"[None (governed by PSLC DataShop Terms of Use)]"
+"(https://pslcdatashop.web.cmu.edu/Terms)"
+msgstr ""
+"[None (governed by PSLC DataShop Terms of Use)]"
+"(https://pslcdatashop.web.cmu.edu/Terms)"
+
+#: ../../source/datasets/index.md:-1 127492ac180940579667eefa7f1b99d0
 msgid "[Algebra I 2006–2007](catalog/algebra2006.md)"
 msgstr "[Algebra I 2006–2007](catalog/algebra2006.md)"
 
-#: ../../source/datasets/index.md:-1 3fd75316043249f388212b8e35504f50
+#: ../../source/datasets/index.md:-1 9d1723305ee84a34a0f8f3c2edd1c720
 msgid "[Bridge to Algebra 2006–2007](catalog/bridge2006.md)"
 msgstr "[Bridge to Algebra 2006–2007](catalog/bridge2006.md)"
 
-#: ../../source/datasets/index.md:-1 82cb269416b844fc893c5aa3320ffc3d
+#: ../../source/datasets/index.md:-1 34b2774ef09b418d91c88b6a06db26f0
 msgid "[EdNet-KT1](catalog/ednet.md)"
 msgstr "[EdNet-KT1](catalog/ednet.md)"
 
-#: ../../source/datasets/index.md:-1 813605461b3848af88d568af8f586d63
-msgid "[官方入口](https://github.com/riiid/ednet)"
-msgstr "[Official Portal](https://github.com/riiid/ednet)"
+#: ../../source/datasets/index.md:-1 e143c8629d4447eaa941b89425395844
+msgid "[GitHub - riiid/ednet](https://github.com/riiid/ednet)"
+msgstr "[GitHub - riiid/ednet](https://github.com/riiid/ednet)"
 
-#: ../../source/datasets/index.md:-1 6697df712c644a39b8e34199006ebce6
+#: ../../source/datasets/index.md:-1 71c17ddf46ed48ffb19e041851ef7076
+msgid "CC BY-NC 4.0 License"
+msgstr "CC BY-NC 4.0 License"
+
+#: ../../source/datasets/index.md:-1 7f15189697a3439dac085f34c2899a9b
 msgid "[Junyi 2015](catalog/junyi2015.md)"
 msgstr "[Junyi 2015](catalog/junyi2015.md)"
 
-#: ../../source/datasets/index.md:-1 878576e7892b44dd8411af4a38aff3b2
-msgid "[官方入口](https://pslcdatashop.web.cmu.edu/DatasetInfo?datasetId=1198)"
+#: ../../source/datasets/index.md:-1 c2c1a3a6d4e64803bde21663c6ada6ef
+msgid ""
+"[DataShop > Dataset Info](https://pslcdatashop.web.cmu.edu/DatasetInfo?datasetId=1198)"
 msgstr ""
-"[Official "
-"Portal](https://pslcdatashop.web.cmu.edu/DatasetInfo?datasetId=1198)"
+"[DataShop > Dataset Info](https://pslcdatashop.web.cmu.edu/DatasetInfo?datasetId=1198)"
 
-#: ../../source/datasets/index.md:-1 c5393b789a3943a6b783074d6c17d264
+#: ../../source/datasets/index.md:-1 f8a8c22148ad40b39ffc66f083abcad6
 msgid "[MOOC-Radar](catalog/moocradar.md)"
 msgstr "[MOOC-Radar](catalog/moocradar.md)"
 
-#: ../../source/datasets/index.md:-1 a18d4f7710f747b88ca53e93c5e43944
-msgid "[官方入口](https://github.com/THU-KEG/MOOC-Radar)"
-msgstr "[Official Portal](https://github.com/THU-KEG/MOOC-Radar)"
+#: ../../source/datasets/index.md:-1 85b89e701bf64a4b89e7d7a7bfd7b78b
+msgid "[GitHub - THU-KEG/MOOC-Radar](https://github.com/THU-KEG/MOOC-Radar)"
+msgstr "[GitHub - THU-KEG/MOOC-Radar](https://github.com/THU-KEG/MOOC-Radar)"
 
-#: ../../source/datasets/index.md:-1 da75ef360a204cbbaa02e9b9a5d12796
+#: ../../source/datasets/index.md:-1 416c825de4304d6fa254cfb73e441c58
+#: e0152d4059f4498eafa9436c75cfd24e
+msgid "None (not specified)"
+msgstr "None (not specified)"
+
+#: ../../source/datasets/index.md:-1 bc9bb8d36eba409686bc6a0a08e0c1c7
 msgid "[NeurIPS 2020 Task 3/4](catalog/nips2020.md)"
 msgstr "[NeurIPS 2020 Task 3/4](catalog/nips2020.md)"
 
-#: ../../source/datasets/index.md:-1 b8ec11a8bb6343d398e450d1f9862a5f
-msgid "[官方入口](https://competitions.codalab.org/competitions/25449)"
-msgstr "[Official Portal](https://competitions.codalab.org/competitions/25449)"
+#: ../../source/datasets/index.md:-1 6caca94e84184dadb3b87f9a3c00299c
+msgid "[CodaLab - Competition](https://competitions.codalab.org/competitions/25449)"
+msgstr "[CodaLab - Competition](https://competitions.codalab.org/competitions/25449)"
 
-#: ../../source/datasets/index.md:-1 3c1bd8be857741e0881dc945d9dae365
+#: ../../source/datasets/index.md:-1 4e41598a80904a5bbcb6b09f07a201a8
 msgid "[Practice Anatomy](catalog/practiceanatomy.md)"
 msgstr "[Practice Anatomy](catalog/practiceanatomy.md)"
 
-#: ../../source/datasets/index.md:-1 14d1a7f2c22145b58dba0d3958f7d4f0
-msgid "[官方入口](http://data.practiceanatomy.com/)"
-msgstr "[Official Portal](http://data.practiceanatomy.com/)"
+#: ../../source/datasets/index.md:-1 b406473c3420477bb668c04f04431ff6
+msgid "[practiceanatomy.com](http://data.practiceanatomy.com/)"
+msgstr "[practiceanatomy.com](http://data.practiceanatomy.com/)"
 
-#: ../../source/datasets/index.md:-1 7dc4caba6b984a6998806217644faeab
+#: ../../source/datasets/index.md:-1 c6e58c241e6d44e1b9ff17e0cf9574c8
+#: d1f90bb49fd74c19b45b07e8fd9ed5a4
+msgid ""
+"Open Data Commons Open Database License (ODbL) & Database Contents License "
+"(DbCL)"
+msgstr ""
+"Open Data Commons Open Database License (ODbL) & Database Contents License "
+"(DbCL)"
+
+#: ../../source/datasets/index.md:-1 4f8e29374ed14bb6a3be38641de7d4ad
 msgid "[Slepemapy](catalog/slepemapy.md)"
 msgstr "[Slepemapy](catalog/slepemapy.md)"
 
-#: ../../source/datasets/index.md:-1 93c064cffaa44692b2cca6b7bc745560
-msgid "[官方入口](https://www.fi.muni.cz/adaptivelearning/data/slepemapy/)"
-msgstr "[Official Portal](https://www.fi.muni.cz/adaptivelearning/data/slepemapy/)"
+#: ../../source/datasets/index.md:-1 cb48de819ca2400cb4e281162a522968
+msgid ""
+"[Index of /adaptivelearning/data/slepemapy]"
+"(https://www.fi.muni.cz/adaptivelearning/data/slepemapy/)"
+msgstr ""
+"[Index of /adaptivelearning/data/slepemapy]"
+"(https://www.fi.muni.cz/adaptivelearning/data/slepemapy/)"
 
-#: ../../source/datasets/index.md:-1 65085feaa64148c1aea0ae1d6ef57436
+#: ../../source/datasets/index.md:-1 3a847a3a41284603ae9d9245a3b5cc89
 msgid "[XES3G5M](catalog/xes3g5m.md)"
 msgstr "[XES3G5M](catalog/xes3g5m.md)"
 
-#: ../../source/datasets/index.md:-1 dfca6fbbbc084eec917639e7f59b691e
-msgid "[官方入口](https://github.com/ai4ed/XES3G5M)"
-msgstr "[Official Portal](https://github.com/ai4ed/XES3G5M)"
+#: ../../source/datasets/index.md:-1 dca9bbf073b746b6ba4c39bd52595807
+msgid "[GitHub - ai4ed/XES3G5M](https://github.com/ai4ed/XES3G5M)"
+msgstr "[GitHub - ai4ed/XES3G5M](https://github.com/ai4ed/XES3G5M)"
+
+#: ../../source/datasets/index.md:-1 4e6d445c9dd0406fa00574843e360a1f
+msgid "MIT License"
+msgstr "MIT License"
 
 #~ msgid "支持的数据集"
 #~ msgstr "Supported datasets"
@@ -362,3 +415,4 @@ msgstr "[Official Portal](https://github.com/ai4ed/XES3G5M)"
 
 #~ msgid "查阅公开数据来源、规模与原始字段。准备实验数据时，结合[数据处理指南](data-pipeline.md)了解下载、清洗和序列切分流程。"
 #~ msgstr ""
+

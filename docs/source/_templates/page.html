@@ -1,4 +1,8 @@
 {% extends "!page.html" %}
+{% block extrahead %}
+{{ super() }}
+<meta name="unikt-commit" content="{{ unikt_commit|default('') }}">
+{% endblock %}
 {% block content %}
 <div class="unikt-document unikt-{{ unikt_page_kind|default('guide') }}">
   {% if pagename != master_doc %}

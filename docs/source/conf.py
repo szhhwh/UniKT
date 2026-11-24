@@ -1,6 +1,7 @@
 """Sphinx configuration for UniKT docs."""
 
 import os
+import subprocess
 import sys
 
 from docutils import nodes
@@ -98,6 +99,25 @@ linkcheck_ignore = [
     r"https://www\.sciencedirect\.com/.*",
     r"https://dl\.acm\.org/.*",
 ]
+
+
+def _source_commit() -> str:
+    """Commit hash the docs are built from, used to label leaderboard data."""
+    commit = os.environ.get("READTHEDOCS_GIT_COMMIT_HASH", "").strip()
+    if not commit:
+        try:
+            commit = subprocess.check_output(
+                ["git", "rev-parse", "--short=7", "HEAD"],
+                cwd=os.path.dirname(os.path.abspath(__file__)),
+                stderr=subprocess.DEVNULL,
+                text=True,
+            ).strip()
+        except (OSError, subprocess.SubprocessError):
+            commit = ""
+    return commit[:7] or "HEAD"
+
+
+html_context = {"unikt_commit": _source_commit()}
 
 html_theme = "furo"
 html_title = "UniKT 文档"

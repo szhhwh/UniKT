@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: UniKT \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"POT-Creation-Date: 2026-11-24 17:09+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -19,21 +19,39 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.18.0\n"
 
-#: ../../source/api/reference/data.md:1 00dc5fb2d13443879495437f961e2015
+#: ../../source/api/reference/data.md:1 d17e5f72574543ab83cc801439336abd
 msgid "数据处理"
 msgstr "Data processing"
 
-#: ../../source/api/reference/data.md:3 372f2a0c33a34fc5819877533f74f14b
+#: ../../source/api/reference/data.md:3 572fb585d3a14755be7fc206bc0f2c19
 msgid ""
-"模型级数据基类、DataLoader 工厂、windowlate 数据集与数据源基类。各数据集处理器（`utils/data_process/<dataset>.py`）均继承 `DataSource`，按需实现 `load_src_data` / `clean_raw_data` / `transform_data`。"
+"模型级数据基类、DataLoader 工厂、windowlate "
+"数据集与数据源基类。各数据集处理器（`utils/data_process/<dataset>.py`）均继承 `DataSource`，按需实现"
+" `load_src_data` / `clean_raw_data` / `transform_data`。"
 msgstr ""
-"Model-level data base classes, DataLoader factories, windowlate datasets, and the data source base class. Each dataset handler (`utils/data_process/<dataset>.py`) inherits `DataSource` and implements `load_src_data` / `clean_raw_data` / `transform_data` as needed."
+"Model-level data base classes, DataLoader factories, windowlate datasets,"
+" and the data source base class. Each dataset handler "
+"(`utils/data_process/<dataset>.py`) inherits `DataSource` and implements "
+"`load_src_data` / `clean_raw_data` / `transform_data` as needed."
 
-#: a9bda0d09b1d48ffae779e3147e5557c of utils.model_data.base_model_data:1
+#: ../../source/api/reference/data.md:5 b7c899cbbdf148a6a53ee492b761141c
+msgid ""
+"`utils.config.DataLoaderConfig` "
+"定义加载参数，`utils.model_data.create_optimized_dataloader()` 负责构建 "
+"DataLoader。技能级模型通过 `SkillModelData.create_windowlate_dataloader()` 创建 "
+"windowlate 加载器，并可通过 `_create_windowlate_dataset()` 扩展模型特有的窗口特征。"
+msgstr ""
+"`utils.config.DataLoaderConfig` defines loading options, while "
+"`utils.model_data.create_optimized_dataloader()` constructs DataLoaders. "
+"Skill-level models create windowlate loaders through "
+"`SkillModelData.create_windowlate_dataloader()` and can extend model-"
+"specific window features through `_create_windowlate_dataset()`."
+
+#: a978eefe3cbf444caf13a17e1e31c908 of utils.model_data.base_model_data:1
 msgid "Base model data class for knowledge tracing datasets."
 msgstr "Base model data class for knowledge tracing datasets."
 
-#: d19bd006c7714ccd88eb5275db8bbc7b of utils.model_data.base_model_data:3
+#: 17430a1699714d0ab962b459e249de85 of utils.model_data.base_model_data:3
 msgid ""
 "Provides the abstract foundation for preparing model-ready data, "
 "including K-fold splitting, difficulty calculation, and relationship "
@@ -43,31 +61,25 @@ msgstr ""
 "including K-fold splitting, difficulty calculation, and relationship "
 "matrix building."
 
-#: c5e2f105a4f445d4b9d8af6076031c7b fa2b20657ab8449698feaf2bdb223fb1 of
-#: utils.data_process.data_source.DataSource:1
-#: utils.model_data.base_model_data.BaseModelData:1
-msgid "基类：:py:class:`~abc.ABC`"
-msgstr "Bases: :py:class:`~abc.ABC`"
-
-#: 8ff0ac2804d94cdfa8766dcf806b7d81 of
+#: 0e2bce03ccfd47418d2f9cabf97866df of
 #: utils.model_data.base_model_data.BaseModelData:1
 msgid "Abstract base class for model data preparation."
 msgstr "Abstract base class for model data preparation."
 
-#: ../../source/api/reference/data.md 20d23032b2e548ceba8ad5f95e97adb4
-#: 27bd0a34007345aaa22d74aa6c046589 2ae6ac12413146acb95a86b5fdde42e1
-#: 337f8934d9334f19820c0f38df0367f3 3764abb4f47140df9a92e3d34cfc9e2c
-#: 381ca6d066f24026b14b3d66dbb5f6e4 3b96422b5b0d49dab232089dc7f3b223
-#: 3baa3e1b0efe483eb1861f1b108a3a46 7309ef1ac49f41bbb23999ce670b9bc7
-#: 77bfd506ecd14658bb6d121eb7515bd3 7b78ccc8627f463bb7c8bd47314d2510
-#: 7e531a5b8930494ea075ca5b88e1c82a 85b0a711e08b4fd591948b5355bec050
-#: 86ffd3baff6b45ec8c6e83237b996f0b 885c666c21e64570926e3c111b030a34
-#: 8f892bcd48f042d9b88ce3e43f7d1e0a 950fb809b5c942dc82e589fc342a8e56
-#: a3de65b2b78a4fc8b003df03aaa9ea08 a4d6fe3b4e80409bbd1d736ea9da94f9
-#: a57137d341234755a7288ff3e9c8ff85 a961a3acc53442d78e95759bac9d53ad
-#: bab2ccb095a441278b6a847f7a9043e4 bd82dda5bc36404aab906193b97ba626
-#: e3f8bbda387e41d89f946e923ecc4677 ecc9f2794ca34d0c95169fa59ea81738
-#: fef1e3fec4cc4058a2a23dd1402612b5 of
+#: ../../source/api/reference/data.md 16de9fca994a472392989efdf66a5c4e
+#: 2fceeb9e31d542b38436eea613d7a3d3 4648eb87355f4981aa4b5718a7f38cf2
+#: 4b7f05719a9c477381e7789debbff71c 4cf26bee71814106a2e04fec4c648ae8
+#: 4e27d14db17b4376adbda1807ecd9f17 51d9eaa732fc462a9aa7cecd0f08cddf
+#: 5d2fbb8603194cb3abbdaa015a7d47b4 5f428ea9fd30400e835e69198f45945d
+#: 6f07c888d3ac410ba2eb4e9d89c3ee24 721baac6587c4f8690397800ace5a4be
+#: 741c8616daa04deaa07a9eefeeae4f12 758ad9359fad4e1a997f3ea8976490b7
+#: 77790b1991b3478d98b6f4159e9a149b 7ecd6bd7e8d94dd896f2e1a144eca7b5
+#: 866c0b8185da496787007dc014688ce3 9aa536a295f04c9cac3bd2c5117f9226
+#: 9d37d26ec3f346219058efee976a5961 a0b8b45ea65449f38723af6e1a5f5f52
+#: a2a3984d865d4d12acf3c8f0d4694007 a9f8ad93cb5b4a39981ad2ca13aaf32f
+#: b43847da8de8447282c636a789ef02ff b6e248e3a6f841c2a8e073218c2af0d5
+#: ce09329cd7b8484c988c567943f92242 e97f9af522a4435589d9aebc8cdf0cf6
+#: faaf9ad04ff245568d7fdcc0c4783cbb fc6413e98b8944888bf189f3af605e61 of
 #: utils.data_process.data_source.DataSource.compute_md5
 #: utils.data_process.data_source.DataSource.get_metadata
 #: utils.data_process.data_source.DataSource.get_relation
@@ -79,27 +91,28 @@ msgstr "Abstract base class for model data preparation."
 #: utils.model_data.base_model_data.BaseModelData.build_relationship_matrix
 #: utils.model_data.base_model_data.BaseModelData.load_sequences
 #: utils.model_data.base_model_data.BaseModelData.pack_sequences
+#: utils.model_data.loading.create_optimized_dataloader
 #: utils.model_data.question_model_data.QuestionModelData.build_hetero_graph
 #: utils.model_data.windowlate.WindowlateIterableDataset
 msgid "参数"
 msgstr "Parameter"
 
-#: 974c1f6ef8f04481a290eb9d4f1285e4 of
+#: 0a60ff145cb2439b93e617191598285f of
 #: utils.model_data.base_model_data.BaseModelData:3
 msgid "Data source object."
 msgstr "Data source object."
 
-#: 3197efa1a60e4526859f28c5ac045814 of
+#: b8d7d3b1e52d421d9007d5eda21239ef of
 #: utils.model_data.base_model_data.BaseModelData:4
 msgid "Whether to enable disk caching for expensive operations."
 msgstr "Whether to enable disk caching for expensive operations."
 
-#: 9a27246e1dd94d1384c57ab4d24dcc20 of
+#: 2dc4073d31f04d58baf00e5d64b82d8a of
 #: utils.model_data.base_model_data.BaseModelData.build_relationship_matrix:1
 msgid "Build a relationship matrix between entity types."
 msgstr "Build a relationship matrix between entity types."
 
-#: b42482e1768246c39b6ed35fcd36a4e1 of
+#: ec3ec96e9e8143faa9151db1e5ff245e of
 #: utils.model_data.base_model_data.BaseModelData.build_relationship_matrix:3
 msgid ""
 "Edge type triplet (source_node_type, relation_name, target_node_type). "
@@ -114,7 +127,7 @@ msgstr ""
 "'answers', 'question'), ('question', 'has', 'skill'), ('question', "
 "'belongs_to', 'template'), ('skill', 'related_to', 'assignment')."
 
-#: 5101d3b9d8814c14ae9c9b9538ac6b8e of
+#: 65549a16041a43a9aad078ad0f2fcd62 of
 #: utils.model_data.base_model_data.BaseModelData.build_relationship_matrix:8
 msgid ""
 "Matrix value type. 'binary' indicates relationship existence (default); "
@@ -123,39 +136,42 @@ msgstr ""
 "Matrix value type. 'binary' indicates relationship existence (default); "
 "'count' indicates relationship frequency."
 
-#: ../../source/api/reference/data.md 0f6b7ec9efdc4aea979befe863e264a0
-#: 2a1e58ad854b481ebe7f266762c5fe88 2fbd155fff6c4b82a0bd296759dc07b2
-#: 47b30b2a06e540298ad94fefe402c24b 661ea085cf9840418492788300f0542d
-#: 99cd93c8d4524bc29df8775707402e1f aee7fabeb8704a4d849146a92b0308ef
-#: af14d4cff88b4186ac23c12151a4362f of
+#: ../../source/api/reference/data.md 000a205c520746108c247c18757a8e9d
+#: 2ebb01a34c124fce87970c322c9b45ab 334f5b36a73848a389c9b65af8f538c9
+#: 3b2f3beb659f42e0ab7126f978aaddd9 3d8af6d35e71478d827a82706d894194
+#: 794679fd4a9c47d5b466fbf8bb92e956 c4e2886780334d71856ff976fd9a3715
+#: d7e11eed6e6945a0b21d29d93deacc4d d9849576d96c4983a46d4f4fa6eccdc4 of
 #: utils.model_data.base_model_data.BaseModelData.build_relationship_matrix
+#: utils.model_data.loading.create_optimized_dataloader
 #: utils.model_data.question_model_data.QuestionModelData.build_hetero_graph
 msgid "返回"
 msgstr "Returns"
 
-#: 1180c1baabc7494292446caca7f60d71 of
+#: edd32b4d3a614725852bfed23d062949 of
 #: utils.model_data.base_model_data.BaseModelData.build_relationship_matrix:11
 msgid "numpy array of shape (num_src_nodes, num_dst_nodes)."
 msgstr "numpy array of shape (num_src_nodes, num_dst_nodes)."
 
-#: ../../source/api/reference/data.md 04457fd333fd46e48cae672b25475489
-#: 0f9f16f6aac34eaeb3d5c29fbc76eb28 11ee0d5fac154c0f90faf71a691dbc39
-#: 13d596f8051546e88d3cee378c9fe92d 15c6cb0019e44f72b78c5889de87ac06
-#: 16f00578936c49c2890cdb0010fffb18 1c47556393da4b178aca3fc716779afa
-#: 1fc8eb0cd5514ee9908126acb8499757 26d62b1a45364baf8571cc6db70a7b73
-#: 28523edb5d794e7b8fb2b156a56da37d 3b07e118ff254b72904dd3beeec22eb5
-#: 408724454d494a518e4c760d6615a110 444ecb2c5e0e4815ae9f6bf539cc920a
-#: 50196764a41d4456837872237a28c8f1 54037f39817f4efd9bf348f8f8c29698
-#: 5d7dd2c3638b43618de2985f7ff23114 5db33573810f4abeae1dde41b3fc386e
-#: 5dc44b0742aa41ea8dc1b7d5f70a2430 943390911b084588a1caa2f7fb9c5b6d
-#: 95d21a80d9e348b5bfd89aafb928bbba 97ba130dbb8a4a919bd2b2307864332b
-#: 98a362e9ee974f3c952994c5faf2b8fe 9f6529896c8d46099826c8917afc6a50
-#: b81dc6676f4a4c65a6c5a6ed831d6a72 bf16d2b0415942fbbc020f7b793dc29e
-#: c64e9d1b5d414686a2c3cba0cd0eac06 c67e5927ed234d9aae1c3078a5247a68
-#: d023dce8fc87466ea997fe13c1108439 dcf9b12829a7463d924f0cdcfcba1c4b
-#: e1f3d62ba0bc45ec88bedee4586e1936 e2daf4aca1dc4ec7a9664a83d660c5ce
-#: e2e3ac2e860647fb87291452cbe30316 f475ad70549147589ddaa5d15af0e3c5
-#: f5687f7927da4be8b00a0cb95990dcc1 fdab03b4f3ae491abc4bcc2b4e76c813 of
+#: ../../source/api/reference/data.md 013ce8568eca42fd94218a63c7583351
+#: 116cd7f3032b42c382134ed832302e28 167266e7ba664701b1e6286c5e151ebd
+#: 19d9c81e0bde4a6ca585042610c060a1 1ae9e57a92cf4a158461354e28859e3e
+#: 1eaed727e1254db4812979de13ce5e80 20d3e3b9c42d49f6bbbd083dffd2565b
+#: 23a0d9d4fa7244619478cabddccd958d 2881aca103224ed0a2cbd86fd1603a21
+#: 327b76349ac743f0867d9d11f0ad2fc6 34949e9112be45c9a59aee0226137062
+#: 3831699fa809444bbb48435468b16bf0 409f4996bc3b44edb03f646677b323b3
+#: 44c307d6d9ba476eaeb20d18eee1f9a9 63842ab45a7e49e2abb73de120830e76
+#: 654cbf38f8d24bd1b0201acb81c6f83e 675565c585dc47c28558c409d92a746f
+#: 6ca9d2a9ed744f7d96968c9b142c4dae 6fe8628f359e41ca80c9b8f5026b15bb
+#: 75213287c7654de28635794f536aaa55 7938935ad576462d9cd1a965ef8d98ff
+#: 7999cfc6872c41bc931dfd1d1af53a1a 805fff0b89fa48acb84d1661fc2ded7b
+#: 8143bb53d4a34e06ba0a079ef8c0b4df 8b27b193a5d9454a988d7d4aacb8b8db
+#: 9115860ba8234948a594cf7a4c04a3d4 99975c5f7d87402db7431ccd5b023420
+#: a4b2fa81d643418592e0cf178e138e5a a8e0414bf4a049e289ef3889c8571f82
+#: aefe6e09e1b04bf09502b1b8f0beeb42 b44ee1f385f3426798aa13cda0ca76c6
+#: b586caf105094869a71d176c5ef5d2aa cb9a67df0743408db4474e417fadbd79
+#: d60f06d1f6ea404c8baf736b1e735bba dac0a2d1c39842d1a391be46f5605301
+#: db9087f253e54e73bc98ad756df6e293 ebeb57b984714961bef087e0cb3dbdc8
+#: f95a43c5ee4a4bcb8dd473993150ca0b of
 #: utils.data_process.data_source.DataSource.build_split_question_sequence_data
 #: utils.data_process.data_source.DataSource.build_split_skill_sequence_data
 #: utils.data_process.data_source.DataSource.build_windowlate_data
@@ -181,22 +197,25 @@ msgstr "numpy array of shape (num_src_nodes, num_dst_nodes)."
 #: utils.model_data.base_model_data.BaseModelData.build_relationship_matrix
 #: utils.model_data.base_model_data.BaseModelData.load_sequences
 #: utils.model_data.base_model_data.BaseModelData.pack_sequences
+#: utils.model_data.loading.create_optimized_dataloader
 #: utils.model_data.question_model_data.QuestionModelData.build_hetero_graph
 msgid "返回类型"
 msgstr "Return type"
 
-#: 344d0637683f44a3a7a02dac81add978 f1f0e4108d884df09e3c14e54043ed29 of
+#: 6bf7a9966f8d4e05ba2dacde3ef30c02 74b16cf53cb64dcbb04180b8069d41cb
+#: cf438009fde244028bf0f281538439ea of
 #: utils.model_data.base_model_data.BaseModelData.build_relationship_matrix:15
+#: utils.model_data.loading.create_optimized_dataloader:15
 #: utils.model_data.question_model_data.QuestionModelData.build_hetero_graph:18
 msgid "示例"
 msgstr "Example"
 
-#: 96b020e839274e6e9a07097604fba0cf of
+#: 3d395324ce6c40668b9d795b4b4eabb7 of
 #: utils.model_data.base_model_data.BaseModelData.calculate_question_difficulty:1
 msgid "Calculate difficulty metrics for each question."
 msgstr "Calculate difficulty metrics for each question."
 
-#: 83bd09e3eccf4084ba699a33ebde3d46 of
+#: a480b9c8d01c441d935ba71049414eed of
 #: utils.model_data.base_model_data.BaseModelData.calculate_question_difficulty:3
 msgid ""
 "Difficulty is computed from: 1. Correct rate (correct_rate): correct "
@@ -209,7 +228,7 @@ msgstr ""
 "dataset has a time field 3. Hint rate (hint_rate): if the dataset has a "
 "hint field"
 
-#: a70c5d541ee04c89a2b878f6ec175e0f of
+#: 66e6a7df75334dfda532360fc505d633 of
 #: utils.model_data.base_model_data.BaseModelData.calculate_question_difficulty:8
 msgid ""
 "Fold index to exclude (used during cross-validation to avoid data leakage"
@@ -218,17 +237,17 @@ msgstr ""
 "Fold index to exclude (used during cross-validation to avoid data leakage"
 " from the validation fold)."
 
-#: c282881ebc674a57844da3468abf4abc of
+#: a5829fd286854c53bd8257ea0ad6ca36 of
 #: utils.model_data.base_model_data.BaseModelData.calculate_question_difficulty:11
 msgid "Question ID to difficulty score mapping (0-1, higher = harder)."
 msgstr "Question ID to difficulty score mapping (0-1, higher = harder)."
 
-#: db3928200ead46ce8fb16b9fabf1cea0 of
+#: a24e0f6d1c49425cb5260e74a9cf6186 of
 #: utils.model_data.base_model_data.BaseModelData.calculate_question_difficulty:14
 msgid "Formula:"
 msgstr "Formula:"
 
-#: 51d4435550fa49eb8a29605fb00a18cf of
+#: 111de69a1a834d38a95a6c2bfd5a8099 of
 #: utils.model_data.base_model_data.BaseModelData.calculate_question_difficulty:15
 msgid ""
 "difficulty = (1 - correct_rate) * 0.6 + normalized_time * 0.3 + hint_rate"
@@ -237,17 +256,17 @@ msgstr ""
 "difficulty = (1 - correct_rate) * 0.6 + normalized_time * 0.3 + hint_rate"
 " * 0.1"
 
-#: f9121f0c8e0b485391a4f6251308db6c of
+#: 83ce36f16b924c818108ae2926c82ac5 of
 #: utils.model_data.base_model_data.BaseModelData.disk_cache:1
 msgid "Decorator factory providing disk caching for instance methods."
 msgstr "Decorator factory providing disk caching for instance methods."
 
-#: f1dee28274784eed87da02d0585a672c of
+#: f8d116954dae44b1a880d247a00f8c02 of
 #: utils.model_data.base_model_data.BaseModelData.disk_cache:3
 msgid "Usage::"
 msgstr "Usage::"
 
-#: ee4eb43176574342ac320add827fdf11 of
+#: efdf495de7534a35ba9b680fbfaf2b44 of
 #: utils.model_data.base_model_data.BaseModelData.disk_cache:5
 msgid ""
 "@BaseModelData.disk_cache()\n"
@@ -266,37 +285,37 @@ msgstr ""
 "def prepare_data(self, args: Any) -> Any:\n"
 "    ..."
 
-#: ac482f601e3f4a03a8bdf3065d63df31 of
+#: ec79faedf94c42018c29b2f6a0e55b61 of
 #: utils.model_data.base_model_data.BaseModelData.disk_cache:13
 msgid "Cache filename prefix (optional). Defaults to the decorated function name."
 msgstr "Cache filename prefix (optional). Defaults to the decorated function name."
 
-#: 5cf2accd6e494dbebd3b803d6b9faa93 of
+#: ed3607d84a044c25b7781f64bfe7035f of
 #: utils.model_data.base_model_data.BaseModelData.disk_cache:16
 msgid "备注"
 msgstr "Note"
 
-#: ccce19d0cf324fe6ae889780f5ee2350 of
+#: 5cc572d49e6345a1ba3afc0db26a1285 of
 #: utils.model_data.base_model_data.BaseModelData.disk_cache:17
 msgid "Caching is only enabled when the instance's ``self._cache`` is True."
 msgstr "Caching is only enabled when the instance's ``self._cache`` is True."
 
-#: cbe920b409c24aca873e1e1abb05a03b of
+#: 2aeec36a539f43508e8bfc7ef9508ab4 of
 #: utils.model_data.base_model_data.BaseModelData.disk_cache:18
 msgid "Cache keys include method arguments and processed-data checksums."
 msgstr "Cache keys include method arguments and processed-data checksums."
 
-#: f5dcec181321495a89087591f6049c0b of
+#: 2d723e835920421492a0becddc8230f1 of
 #: utils.model_data.base_model_data.BaseModelData.disk_cache:19
 msgid "Cache directory: ``.cache/<ClassName>/``."
 msgstr "Cache directory: ``.cache/<ClassName>/``."
 
-#: 7c77d3aaa46a4d899252be4d1f1c17a4 of
+#: 33f30ab65b7b49d89c0481b1bc7e0852 of
 #: utils.model_data.base_model_data.BaseModelData.load_sequences:1
 msgid "Load and pack split sequences using the chain-specific metadata."
 msgstr "Load and pack split sequences using the chain-specific metadata."
 
-#: 8056fd5ee776489099688ba53a0df055 of
+#: 16516cab03a749c18ef4da1fd6bd8f6b of
 #: utils.model_data.base_model_data.BaseModelData.load_sequences:3
 msgid ""
 "Column requirements follow :meth:`load_split_frame`. Call that method "
@@ -305,12 +324,12 @@ msgstr ""
 "Column requirements follow :meth:`load_split_frame`. Call that method "
 "separately when the same rows are also needed for model statistics."
 
-#: 2f5971a4bdc143789149ce91fa0c2d4f of
+#: 283461cd5118438d848547216a164885 of
 #: utils.model_data.base_model_data.BaseModelData.load_split_frame:1
 msgid "Load split interaction rows projected to the declared columns."
 msgstr "Load split interaction rows projected to the declared columns."
 
-#: 009cd2f321f442b2921ca1067cbd0d56 of
+#: d40d99fc7b7a4f278fc2d37a6efac441 of
 #: utils.model_data.base_model_data.BaseModelData.load_split_frame:3
 msgid ""
 "Returns the structural core (sequence_id/seq_pos/label/user/question/ "
@@ -321,7 +340,7 @@ msgstr ""
 "interaction_id, plus skills or skill and fold when present) with the "
 "declared feature columns merged in."
 
-#: f52c33a9ed8b42f68592a26cf6defbd8 of
+#: a06ef36c78684e818eaa427066da4791 of
 #: utils.model_data.base_model_data.BaseModelData.load_split_frame:7
 msgid ""
 "Feature columns that must exist in the dataset; missing ones raise "
@@ -330,7 +349,7 @@ msgstr ""
 "Feature columns that must exist in the dataset; missing ones raise "
 "ValueError naming the dataset and the available columns."
 
-#: aad832437d6045839a7aa0b66c64e60e of
+#: af5383b1afac479f873d6e555d293b3a of
 #: utils.model_data.base_model_data.BaseModelData.load_split_frame:10
 msgid ""
 "Feature columns loaded only when present in the schema; absent ones are "
@@ -339,26 +358,26 @@ msgstr ""
 "Feature columns loaded only when present in the schema; absent ones are "
 "simply not in the frame -- callers handle the fallback."
 
-#: fb71b53615214de1af8f7708fd1a1f20 of
+#: 2b740485cf1542dd8067154a73874ca3 of
 #: utils.model_data.base_model_data.BaseModelData.pack_sequences:1
 msgid "Pack loaded rows with their sequence identity and fold membership."
 msgstr "Pack loaded rows with their sequence identity and fold membership."
 
-#: 61d597be99cc434ab80edd85d5b0a721 of
+#: 64a2f95b6cd84e1295bf4b5a4dd14314 of
 #: utils.model_data.base_model_data.BaseModelData.prepare_data:1
 msgid "Prepare data required by the model."
 msgstr "Prepare data required by the model."
 
-#: db0710b0e0304638b8d0d1a269a4e27f of
+#: 5fdb553e7828477ca831a54d6ff49994 of
 #: utils.model_data.base_model_data.BaseModelData.prepare_data:3
 msgid "Configuration arguments."
 msgstr "Configuration arguments."
 
-#: 7cef56525e4347f88a43b09b3eb57d6c of utils.model_data.question_model_data:1
+#: 491522e8877c40acb927c689d4ee9347 of utils.model_data.question_model_data:1
 msgid "Question-level model data module."
 msgstr "Question-level model data module."
 
-#: dbd5c442974048b799dde3e72e563ace of utils.model_data.question_model_data:3
+#: 712cecdcf8c04a49b1daf151acfb59cd of utils.model_data.question_model_data:3
 msgid ""
 "Provides the QuestionModelData class for preparing question-level "
 "knowledge tracing model data, including sequence building and "
@@ -368,18 +387,12 @@ msgstr ""
 "knowledge tracing model data, including sequence building and "
 "heterogeneous graph construction."
 
-#: 3fe44e0072014341a16e88e57901e7ea d54aa2c851b342deb8c8ca20d3b77c50 of
-#: utils.model_data.question_model_data.QuestionModelData:1
-#: utils.model_data.skill_model_data.SkillModelData:1
-msgid "基类：:py:class:`~utils.model_data.base_model_data.BaseModelData`"
-msgstr "Bases: :py:class:`~utils.model_data.base_model_data.BaseModelData`"
-
-#: a7e0d8e368694a6491be8d9006efca26 of
+#: b3d46d0f94134907ab174b86a44cff0f of
 #: utils.model_data.question_model_data.QuestionModelData:1
 msgid "Base class for question-level model data preparation."
 msgstr "Base class for question-level model data preparation."
 
-#: a3bc5141502e460483ecb51581cd5e35 of
+#: 808e2368f4284fdfbc9ecaf279474d5c of
 #: utils.model_data.question_model_data.QuestionModelData.build_hetero_graph:1
 msgid ""
 "Build a heterogeneous graph with flexible node and edge type "
@@ -388,7 +401,7 @@ msgstr ""
 "Build a heterogeneous graph with flexible node and edge type "
 "configuration."
 
-#: fdf6ecf6ecd9457dab7c61aba432c19e of
+#: 91ae005fe8204d8cadfab6a59caa0a60 of
 #: utils.model_data.question_model_data.QuestionModelData.build_hetero_graph:3
 msgid ""
 "List of edge type triplets (source_type, relation, target_type). Example:"
@@ -397,7 +410,7 @@ msgstr ""
 "List of edge type triplets (source_type, relation, target_type). Example:"
 " [('user', 'answers', 'question'), ('question', 'has', 'skill')]."
 
-#: f19bda54939f4165be0395fc9ec1b3db of
+#: 2468bd0a41cd4e1cae89044bc500b07e of
 #: utils.model_data.question_model_data.QuestionModelData.build_hetero_graph:5
 #, python-brace-format
 msgid ""
@@ -409,12 +422,12 @@ msgstr ""
 "of attribute column names. Example: {('user', 'answers', 'question'): "
 "['label', 'timestamp']}. Defaults to None (no edge attributes)."
 
-#: dba7a0c58b12411f8d2b7f39cadc6eca of
+#: aed0a45c414d469fad95ee0cf2c7fb1d of
 #: utils.model_data.question_model_data.QuestionModelData.build_hetero_graph:9
 msgid "Whether to build a directed graph. Defaults to False (undirected)."
 msgstr "Whether to build a directed graph. Defaults to False (undirected)."
 
-#: 9c124ecf14f34dc3820e599d7c8c0c1f of
+#: ffa059f1e1994b4c8c9fa9204f153720 of
 #: utils.model_data.question_model_data.QuestionModelData.build_hetero_graph:10
 msgid ""
 "Node feature dictionary. Keys are node types, values are feature tensors "
@@ -423,60 +436,112 @@ msgstr ""
 "Node feature dictionary. Keys are node types, values are feature tensors "
 "or None. Defaults to using node IDs as features."
 
-#: db0ba0bf4970454293321fb37b3e87b0 of
+#: 125b21098d1245d393007b5545cb6711 of
 #: utils.model_data.question_model_data.QuestionModelData.build_hetero_graph:14
 msgid "PyTorch Geometric heterogeneous graph object."
 msgstr "PyTorch Geometric heterogeneous graph object."
 
-#: be511fd7374e429b9fff8720e194f1f4 of utils.model_data.skill_model_data:1
+#: fb435719ce9f49ebb42946255865bed7 of utils.model_data.skill_model_data:1
 msgid "Skill-level model data preparation and windowlate loader entry point."
 msgstr "Skill-level model data preparation and windowlate loader entry point."
 
-#: b4a245f2a4ee42b580271790a7117311 of
+#: e0bb9b6ae2924a99adb0b2e12fc1fc73 of
 #: utils.model_data.skill_model_data.SkillModelData:1
 msgid "Skill sequence data base class."
 msgstr "Skill sequence data base class."
 
-#: 041d8298c2ca4de9b42ae29a73b65b42 of
+#: 312dc677c5c24ff48e5ef68b65bbf823 of
 #: utils.model_data.skill_model_data.SkillModelData:3
 msgid "Used to build skill-based (skill/concept) knowledge tracing model data."
 msgstr "Used to build skill-based (skill/concept) knowledge tracing model data."
 
-#: c52de5c483ab4d32885e9f415a7ffa71 of
+#: 70132a69a2e14d81967635e3c50cadc4 of
 #: utils.model_data.skill_model_data.SkillModelData.create_windowlate_dataloader:1
 msgid "Create the windowlate evaluation loader."
 msgstr "Create the windowlate evaluation loader."
 
-#: a02d47dcc72a4fb588d348813d44a2ac of
+#: d0e58dad0e7e420b804cfcf8294b8094 of
 #: utils.model_data.skill_model_data.SkillModelData.create_windowlate_dataloader:3
 msgid "Number of windows per batch."
 msgstr "Number of windows per batch."
 
-#: 58048887e4ae42219bfeb055154791b1 of
+#: 76815f40d3f64e8c948727e7f8b3aa4f of
 #: utils.model_data.skill_model_data.SkillModelData.create_windowlate_dataloader:4
 msgid "Worker, prefetch and other DataLoader options."
 msgstr "Worker, prefetch and other DataLoader options."
 
-#: ba70cf3100a541bd9efe68627a92af3f of
+#: 8f07a5e774e24ad5b6a7d328b8a7ae78 of
 #: utils.model_data.skill_model_data.SkillModelData.create_windowlate_dataloader:6
 msgid "A loader using the model's windowlate dataset and batch collator."
 msgstr "A loader using the model's windowlate dataset and batch collator."
 
-#: eeeb07cf70db460aae63896ce0e8f6d7 of
-#: utils.model_data.windowlate.WindowlateIterableDataset:1
-msgid "基类：:py:class:`~torch.utils.data.IterableDataset`"
-msgstr "Bases: :py:class:`~torch.utils.data.IterableDataset`"
+#: 3f2e4421bbcf40a799d613214f0b1fdc of utils.model_data.loading:1
+msgid "DataLoader factories shared by training and windowlate evaluation."
+msgstr "DataLoader factories shared by training and windowlate evaluation."
 
-#: 6f130e37bfbb40308472dce562321a84 of
+#: cf63b71dc4ef4534a6d0ddb9c273ccfb of
+#: utils.model_data.loading.create_optimized_dataloader:1
+msgid "Create an optimized DataLoader."
+msgstr "Create an optimized DataLoader."
+
+#: b2cee7236d1e467880ea3f45bfc3a5d7 of
+#: utils.model_data.loading.create_optimized_dataloader:3
+msgid "Dataset to load"
+msgstr "Dataset to load"
+
+#: 5cf2558c7c284a6f9ae6b6a492aec2f6 of
+#: utils.model_data.loading.create_optimized_dataloader:4
+msgid "Batch size"
+msgstr "Batch size"
+
+#: 19def7086f7a459ab1531617ee60fc74 of
+#: utils.model_data.loading.create_optimized_dataloader:5
+msgid "Whether to shuffle the data"
+msgstr "Whether to shuffle the data"
+
+#: ed6ccbe5ee5247bdb24ab647dec0c6a6 of
+#: utils.model_data.loading.create_optimized_dataloader:6
+msgid "DataLoader configuration (defaults to DataLoaderConfig())"
+msgstr "DataLoader configuration (defaults to DataLoaderConfig())"
+
+#: ffc14307d8ac4fc999d2d619ebd898da of
+#: utils.model_data.loading.create_optimized_dataloader:7
+msgid "Compute device (used to determine pin_memory)"
+msgstr "Compute device (used to determine pin_memory)"
+
+#: 19ca78f8d91b46ecb31c412162727b17 of
+#: utils.model_data.loading.create_optimized_dataloader:8
+msgid ""
+"Host-memory pinning override (None = auto from config and device; never "
+"true on non-CUDA devices)"
+msgstr ""
+"Host-memory pinning override (None = auto from config and device; never "
+"true on non-CUDA devices)"
+
+#: 89cc9ca424944eb7ac8610df37472617 of
+#: utils.model_data.loading.create_optimized_dataloader:10
+msgid "Additional arguments passed to DataLoader (overrides config)"
+msgstr "Additional arguments passed to DataLoader (overrides config)"
+
+#: f0159c4aea3e456e9b896393fbe8478a of
+#: utils.model_data.loading.create_optimized_dataloader:12
+msgid "An optimized DataLoader"
+msgstr "An optimized DataLoader"
+
+#: 4bfe2a917e2b4a00aa797e782615345f of utils.model_data.windowlate:1
+msgid "Windowlate parquet streaming and batch tensor construction."
+msgstr "Windowlate parquet streaming and batch tensor construction."
+
+#: d805d7c6026541eba4211b517fed96bd of
 #: utils.model_data.windowlate.WindowlateIterableDataset:1
 msgid "Stream windowlate samples from a parquet file."
 msgstr "Stream windowlate samples from a parquet file."
 
-#: f251e2b4fe234d398ae99fb51a2352b0 of utils.data_process.data_source:1
+#: 3288f56f542e451ea7726603eb890ef4 of utils.data_process.data_source:1
 msgid "Data source management for knowledge tracing datasets."
 msgstr "Data source management for knowledge tracing datasets."
 
-#: 2b9fa1d67ef745f287a1d894b156c2e9 of utils.data_process.data_source:3
+#: 24398736d0854682ae95f56c621e4ee6 of utils.data_process.data_source:3
 msgid ""
 "Provides the base DataSource class and utility functions for downloading,"
 " loading, processing, and saving dataset files with metadata tracking and"
@@ -486,12 +551,12 @@ msgstr ""
 " loading, processing, and saving dataset files with metadata tracking and"
 " integrity checks."
 
-#: 93f8a1ba46bb41cd888d2c9ff64ec006 of
+#: 01849238e1674bfe96a01a722e2debd2 of
 #: utils.data_process.data_source.DataSource:1
 msgid "Base class for data source management."
 msgstr "Base class for data source management."
 
-#: f04691ba1fbb4fa9a9f9df3f54ccbdce of
+#: d884c11176b24454bbdcc32380fdf929 of
 #: utils.data_process.data_source.DataSource:3
 msgid ""
 "Provides common functionality for downloading, loading, processing, and "
@@ -500,7 +565,7 @@ msgstr ""
 "Provides common functionality for downloading, loading, processing, and "
 "saving dataset files with metadata tracking and integrity checks."
 
-#: 13eae8f1ed2943e1b4696d425eead4e8 of
+#: 739f9c5060e64f2484ffb2b60ab29602 of
 #: utils.data_process.data_source.DataSource:6
 msgid ""
 "Each canonical interaction owns a nonempty ``skills: List(Int32)``. "
@@ -515,12 +580,12 @@ msgstr ""
 "these events for structural features; sequence expansion reads the event "
 "annotations."
 
-#: 3f7a824a27d44ba29f837110a5ad58bf of
+#: 6e1f1199db4a4057847d9ecf4f5095b0 of
 #: utils.data_process.data_source.DataSource.add_kfold_labels:1
 msgid "Add K-fold cross-validation labels with test set separation."
 msgstr "Add K-fold cross-validation labels with test set separation."
 
-#: f46c3bd7fa0d4f6b82a1b710e3d91c70 of
+#: e0e9b091e6a04e87947dab91a7660e71 of
 #: utils.data_process.data_source.DataSource.add_kfold_labels:3
 msgid ""
 "Ensures all data from the same user stays in the same fold to prevent "
@@ -529,7 +594,7 @@ msgstr ""
 "Ensures all data from the same user stays in the same fold to prevent "
 "data leakage."
 
-#: 8a8780beeedf44bbb9ee8aee351d5493 of
+#: fdf89c5ae55e4c8fb3a090907e90d494 of
 #: utils.data_process.data_source.DataSource.add_kfold_labels:6
 msgid ""
 "The process: 1. Split users into test set and non-test set 2. Test set "
@@ -540,38 +605,38 @@ msgstr ""
 "users are labeled with -1 3. Non-test set users are split into n_splits "
 "folds (0 to n_splits-1)"
 
-#: 6e775283494b4198aeaccfeebeca41f5 of
+#: e774704cbd6b405a86a5f47963ac013a of
 #: utils.data_process.data_source.DataSource.add_kfold_labels:11
 msgid "Number of folds for cross-validation (default: 5)."
 msgstr "Number of folds for cross-validation (default: 5)."
 
-#: 4a3f33cd629c4026a8274ff7217b23be of
+#: 79deb571c27e4c07a2f6b752105f379a of
 #: utils.data_process.data_source.DataSource.add_kfold_labels:12
 msgid "Ratio of users to allocate to test set (default: 0.2)."
 msgstr "Ratio of users to allocate to test set (default: 0.2)."
 
-#: 5656bfba6181430d96bf8b5afb3846f3 of
+#: 33e4a2e0d8ac4069a41cb5de1791de9f of
 #: utils.data_process.data_source.DataSource.add_kfold_labels:14
 msgid "-1 for test set, 0 to n_splits-1 for train/val)."
 msgstr "-1 for test set, 0 to n_splits-1 for train/val)."
 
-#: ../../source/api/reference/data.md 14830c595914476b92b98c471310df1c
-#: 7a3c845375524f569f6314cec655a50c ecafba354eb04f2f94da4209499bb758
+#: ../../source/api/reference/data.md 29d3b38c769741e4926c472d1f05f2de
+#: 3c0785016f24417aade4a17c31bd0a4c 88bc00dfbdd64da2973f34a88505be92
 msgid "抛出"
 msgstr "Raises"
 
-#: 5431e7dfb4354fe8a9bf07081e72c35f 65b91808286847269a407bfdd6859e78 of
+#: 3b0a8ab0f37e4ffdaf4dd3f58f86cac3 7cbf27321e124728993953d55332e32a of
 #: utils.data_process.data_source.DataSource.add_kfold_labels:17
 #: utils.data_process.data_source.DataSource.get_user_stats:6
 msgid "If sequence_data is not loaded."
 msgstr "If sequence_data is not loaded."
 
-#: 6e40baae2acc428d8e4db9dc6b4b8e52 of
+#: ce08996e87e34bedb495a589b3a16057 of
 #: utils.data_process.data_source.DataSource.build_split_question_sequence_data:1
 msgid "Build split sequence data by question."
 msgstr "Build split sequence data by question."
 
-#: 8c96bf1641a246118897681682c0efa6 of
+#: 9fda62eab3cb4ff8a7cce4010b467d20 of
 #: utils.data_process.data_source.DataSource.build_split_question_sequence_data:3
 msgid ""
 "Splits user sequences longer than ``max_seq_len`` into multiple sub-"
@@ -582,7 +647,7 @@ msgstr ""
 "sequences, drops splits shorter than ``min_seq_len``, and assigns a new "
 "dense ``sequence_id`` to each retained split."
 
-#: b4f895f65295441bbe0dc9aad995b7ae of
+#: efdbdffb930e4f5b816bf6efe3d14905 of
 #: utils.data_process.data_source.DataSource.build_split_question_sequence_data:7
 msgid ""
 "Processing is done in user-aligned batches to bound peak memory, while "
@@ -591,12 +656,12 @@ msgstr ""
 "Processing is done in user-aligned batches to bound peak memory, while "
 "producing output identical to whole-frame processing."
 
-#: 88264fd1b8f84ca3b05b2b9e8cf7163e of
+#: 148b77a4d0cb46b1abf5f172cedee0b2 of
 #: utils.data_process.data_source.DataSource.build_split_skill_sequence_data:1
 msgid "Build split skill sequence data."
 msgstr "Build split skill sequence data."
 
-#: a1bc296c1b0d45ba9ec6b85c6d0eecb2 of
+#: 5e57cf90bd38433e8ebc932f4a0686a0 of
 #: utils.data_process.data_source.DataSource.build_split_skill_sequence_data:3
 msgid ""
 "Length bounds count interactions before expansion or skill rows after "
@@ -605,77 +670,77 @@ msgstr ""
 "Length bounds count interactions before expansion or skill rows after "
 "expansion, according to ``args.truncation_stage``."
 
-#: 3c9b58074dad4570af63fc685799f3a5 of
+#: 9015d3ef6d474ad5b609ebcf94dd9d8f of
 #: utils.data_process.data_source.DataSource.build_windowlate_data:1
 msgid "Build windowlate evaluation samples for windowlate_auc_mean scoring."
 msgstr "Build windowlate evaluation samples for windowlate_auc_mean scoring."
 
-#: b81d4383e8ff4014a6f2a1274ef7bc64 of
+#: 6dcbb95cdf124c2d9547434747bc1fa1 of
 #: utils.data_process.data_source.DataSource.build_windowlate_data:3
 msgid "Data is streamed directly to file in this method."
 msgstr "Data is streamed directly to file in this method."
 
-#: 915b66586e4d42f28b3efa0d963315e9 of
+#: e8cb9b08b89b4e30997fedc2a0e580f3 of
 #: utils.data_process.data_source.DataSource.clean_raw_data:1
 msgid "Clean raw data. Must be implemented by subclasses."
 msgstr "Clean raw data. Must be implemented by subclasses."
 
-#: d4aa52858b72467bbcfa2d4b0199c9c4 of
+#: 2a09c712634145769e1bc101234580be of
 #: utils.data_process.data_source.DataSource.compute_md5:1
 msgid "Compute MD5 checksum of a file."
 msgstr "Compute MD5 checksum of a file."
 
-#: 327370711ae045bd88156e4f82dcd00b of
+#: 5717c6919a8f4a5d9a4d5d1c05c88561 of
 #: utils.data_process.data_source.DataSource.fetch_data:1
 msgid "Download and extract data archive with retry support."
 msgstr "Download and extract data archive with retry support."
 
-#: 1af95932dc544f078a325ca56643c3fb of
+#: 934065680e9348169d635b80cc75951b of
 #: utils.data_process.data_source.DataSource.fetch_data:3
 msgid "Force re-download even if file exists."
 msgstr "Force re-download even if file exists."
 
-#: 95a6eb10eefc4a53a391f76156af5c5b of
+#: 47c0ac84b5a34aebbd51ed39db54f4d9 of
 #: utils.data_process.data_source.DataSource.fetch_data:4
 msgid "Maximum number of download retry attempts."
 msgstr "Maximum number of download retry attempts."
 
-#: 180b8d0ff9714810bfdf44dcf6c5086f of
+#: 15af73775864431d9313c606044e3e6c of
 #: utils.data_process.data_source.DataSource.fetch_data:5
 msgid "Number of threads for multi-threaded download."
 msgstr "Number of threads for multi-threaded download."
 
-#: 7cde6eb5e85c49f4b8a2e1480d4ca45f of
+#: 40c4c280bacb4a768a51326594f1d381 of
 #: utils.data_process.data_source.DataSource.get_available_relations:1
 msgid "Return names of available relation tables."
 msgstr "Return names of available relation tables."
 
-#: dac9d3b595cb40c59ac6b1e395a19265 of
+#: 7ae875d55d2a48dbafe00371f5a7bbf1 of
 #: utils.data_process.data_source.DataSource.get_metadata:1
 msgid "Get metadata entry or entire metadata dict."
 msgstr "Get metadata entry or entire metadata dict."
 
-#: ca14f06588e342278dca1d32a2674d6e of
+#: 062bfde4851d48c58519e0e967a8fa77 of
 #: utils.data_process.data_source.DataSource.get_relation:1
 msgid "Get a normalized relation table by name (e.g., \"question_skill\")."
 msgstr "Get a normalized relation table by name (e.g., \"question_skill\")."
 
-#: d33ae108edf2447382f81ae56c7446d9 of
+#: e380e927d3d9401a9b98f06c4a82b4aa of
 #: utils.data_process.data_source.DataSource.get_relation:3
 msgid "Each relation is a 2-column DataFrame unique on (src, dst)."
 msgstr "Each relation is a 2-column DataFrame unique on (src, dst)."
 
-#: d7cd9ba0622048f094a724ee2b9aabf8 of
+#: 07b37d15d6a74396977e9e2a64206d32 of
 #: utils.data_process.data_source.DataSource.get_sequence_data:1
 msgid "Get user sequence data."
 msgstr "Get user sequence data."
 
-#: 831f4590378a460aa86e3a0cb1bdc538 of
+#: 76cb1d622fd347d0afb2fbbdf87c22fa of
 #: utils.data_process.data_source.DataSource.get_split_question_sequence_data:1
 msgid "Get split user sequence data, projected to the requested columns."
 msgstr "Get split user sequence data, projected to the requested columns."
 
-#: 18aab2185cdb448e91104131e0244d43 a24e3f76ce934a8784bc57dadbc188a0 of
+#: a97ce8d0b22a40649d26e1dbe50914db f672ef9df2ae480296da2dc98879daef of
 #: utils.data_process.data_source.DataSource.get_split_question_sequence_data:3
 #: utils.data_process.data_source.DataSource.get_split_skill_sequence_data:3
 msgid ""
@@ -685,12 +750,12 @@ msgstr ""
 "Column semantics (structural core, ``required``/``optional`` handling): "
 "see :meth:`_resolve_split_columns`."
 
-#: 2dc13c97b6ce42cf8c179b2415ec4ce1 of
+#: ed5c8d52047c4aefaabff36350858c57 of
 #: utils.data_process.data_source.DataSource.get_split_skill_sequence_data:1
 msgid "Get split skill sequence data, projected to the requested columns."
 msgstr "Get split skill sequence data, projected to the requested columns."
 
-#: 639a49d25768405e8fa52e05bc9d5a5e of
+#: 49fb3070d3cf449e80ecbbf63cd8c720 of
 #: utils.data_process.data_source.DataSource.get_user_stats:1
 msgid ""
 "Compute user statistics: attempts, correct count, skill count, correct "
@@ -699,17 +764,17 @@ msgstr ""
 "Compute user statistics: attempts, correct count, skill count, correct "
 "rate."
 
-#: 73ed9a882cb243129c0c69fab4d053f0 of
+#: d61e9f0c4b50469e914a862fd6e4630c of
 #: utils.data_process.data_source.DataSource.get_user_stats:3
 msgid "user, attempts, correct, skill_count, correct_rate."
 msgstr "user, attempts, correct, skill_count, correct_rate."
 
-#: 5f1e91d69dd04295bc747ce4e69978b6 of
+#: d8a813eeab7e424da52c19fbb7a61cbd of
 #: utils.data_process.data_source.DataSource.get_windowlate_data:1
 msgid "Get windowlate evaluation data."
 msgstr "Get windowlate evaluation data."
 
-#: dfe286bdd4c0405099e4286e236de7ee of
+#: 479d829be2554797ac4fe99298f0577c of
 #: utils.data_process.data_source.DataSource.get_windowlate_data:3
 msgid ""
 "Windowlate evaluation samples (long format). Columns: sample_id, "
@@ -718,27 +783,27 @@ msgstr ""
 "Windowlate evaluation samples (long format). Columns: sample_id, "
 "position, skill, response, mask, user_id, group_id, true_label, fold"
 
-#: 6a7912733463497590305d5800aef8f0 of
+#: a85dfc66ea9e4323a22508c9718048dc of
 #: utils.data_process.data_source.DataSource.load_metadata:1
 msgid "Load metadata from JSON file."
 msgstr "Load metadata from JSON file."
 
-#: 2b4bfbe1d81149318346ba3d4cb65f6c of
+#: 661dd13972a64b939220ba4f987a01fa of
 #: utils.data_process.data_source.DataSource.load_src_data:1
 msgid "Load source data. Must be implemented by subclasses."
 msgstr "Load source data. Must be implemented by subclasses."
 
-#: 7d949373691148c19f67dea627108053 of
+#: 1ce62dbe1d644df8ac2d148b7b3aba6b of
 #: utils.data_process.data_source.DataSource.metadata_exists:1
 msgid "True if ``metadata.json`` is present on disk."
 msgstr "True if ``metadata.json`` is present on disk."
 
-#: dc3b03aa2d69423d8d5b3ca8edc6b73e of
+#: 947f822ad60241d0af9964847de1c79d of
 #: utils.data_process.data_source.DataSource.processed_exists:1
 msgid "True if the dataset has been processed (metadata carries the marker)."
 msgstr "True if the dataset has been processed (metadata carries the marker)."
 
-#: 5b64ca5fbb0b4379b26117a0d4b2f3ba of
+#: 8ddd6f313c6e46f3bf3f1543e725a430 of
 #: utils.data_process.data_source.DataSource.processed_exists:3
 msgid ""
 "Distinct from :meth:`metadata_exists`: ``download`` also writes "
@@ -747,22 +812,22 @@ msgstr ""
 "Distinct from :meth:`metadata_exists`: ``download`` also writes "
 "metadata.json, but only ``process`` records the processed marker."
 
-#: 51211825b172440aaf5d9b55072c688b of
+#: 1068e856fbd14f17b43d2ade10f3093f of
 #: utils.data_process.data_source.DataSource.raw_exists:1
 msgid "True if the raw-data directory exists and is non-empty."
 msgstr "True if the raw-data directory exists and is non-empty."
 
-#: 23d55e558f084feca76b343fbc4f584c of
+#: 980221e4df9c47d1b7ecc6b4135b2a4c of
 #: utils.data_process.data_source.DataSource.raw_folder:1
 msgid "Extracted raw-data directory (``<data_folder>/raw``)."
 msgstr "Extracted raw-data directory (``<data_folder>/raw``)."
 
-#: c930a96de86245309e940b888de042cc of
+#: 21f8334d97ec4e12aa5673b0d9f8afbf of
 #: utils.data_process.data_source.DataSource.sample:1
 msgid "Sample dataset by users or interactions."
 msgstr "Sample dataset by users or interactions."
 
-#: 26391503d1f74bd281b070335978503b of
+#: c4650d9e8d594ca59134178d34181189 of
 #: utils.data_process.data_source.DataSource.sample:3
 msgid ""
 "Absolute sample count. For random/stratified: number of users. For time: "
@@ -771,27 +836,27 @@ msgstr ""
 "Absolute sample count. For random/stratified: number of users. For time: "
 "number of interactions."
 
-#: 5cc41f022f8349bab82b002861bf1d6f of
+#: 47c8944794a64753b5e8fdb26cb27d55 of
 #: utils.data_process.data_source.DataSource.sample:5
 msgid "Sample ratio (0.0-1.0). Overrides sample_size if set."
 msgstr "Sample ratio (0.0-1.0). Overrides sample_size if set."
 
-#: 5e3eb2f42b58462ca889b924c4053542 of
+#: 9b22588cf5c249608adbf0c85ff34cc3 of
 #: utils.data_process.data_source.DataSource.sample:6
 msgid "Sampling strategy (random, stratified, time)."
 msgstr "Sampling strategy (random, stratified, time)."
 
-#: 3c5408aef1aa4cad81918eabbcca6c9a of
+#: e6f78777b70246a4925f2cc047bdc5dd of
 #: utils.data_process.data_source.DataSource.sample:7
 msgid "Attempt count bin edges for stratified sampling."
 msgstr "Attempt count bin edges for stratified sampling."
 
-#: 39df3f11f6cc4785ab882f6b1e073233 of
+#: e7f93d50373144fcbfe2a724cf620cf9 of
 #: utils.data_process.data_source.DataSource.sample:8
 msgid "Correct rate bin edges for stratified sampling."
 msgstr "Correct rate bin edges for stratified sampling."
 
-#: b9c4daf2727941ad95820d605a47b6eb of
+#: d3ff1910455241738d31e83d7e620fff of
 #: utils.data_process.data_source.DataSource.sample:10
 msgid ""
 "If neither sample_size nor sample_ratio is provided,     or if the "
@@ -800,22 +865,22 @@ msgstr ""
 "If neither sample_size nor sample_ratio is provided,     or if the "
 "computed size exceeds available data."
 
-#: f24d240ca29943bea45b5e14e840d812 of
+#: 5fcc520f6ab840089279127494d46cb8 of
 #: utils.data_process.data_source.DataSource.save_data:1
 msgid "Save processed relation tables, sequence data, and metadata."
 msgstr "Save processed relation tables, sequence data, and metadata."
 
-#: 1b877382ae8a49efb2ed78d102e1fe70 of
+#: 138220bfd59a4051ba429ea5a0b21db0 of
 #: utils.data_process.data_source.DataSource.save_metadata:1
 msgid "Save metadata to JSON file."
 msgstr "Save metadata to JSON file."
 
-#: db34bf205a514acdb30adf58f1b6bc81 of
+#: b2b378e4953e4bed840afc8aca627de7 of
 #: utils.data_process.data_source.DataSource.set_sequence_data:1
 msgid "Finalize canonical events and derive their structural skill relation."
 msgstr "Finalize canonical events and derive their structural skill relation."
 
-#: 0b148dadff604c858416e37fa14f4b18 of
+#: 06e07a158c3e44898a48643a11a0d26a of
 #: utils.data_process.data_source.DataSource.transform_data:1
 msgid ""
 "Transform cleaned data into standard format. Must be implemented by "
@@ -824,95 +889,42 @@ msgstr ""
 "Transform cleaned data into standard format. Must be implemented by "
 "subclasses."
 
-#: 8aa4b0671071425fa8b30de3b83253b6 of
+#: 45fead85526f4af89a4e77a8c4bd3b4c of
 #: utils.data_process.data_source.DataSource.update_metadata:1
 msgid "Update a single metadata entry."
 msgstr "Update a single metadata entry."
 
-#: 0aef13107779461e9a6bd8c7e5622f7b of
+#: 0ca1fc49c38a46cd8b853fab0bf92c68 of
 #: utils.data_process.data_source.DataSource.update_metadatas:1
 msgid "Update multiple metadata entries."
 msgstr "Update multiple metadata entries."
 
-#: 97d3ac0ab5bc40fa91e73a36a26d6587 of
+#: 3fdf56cb5905482897d1a0f7cd081271 of
 #: utils.data_process.data_source.exclude_short_sequences:1
 msgid "Filter out users with sequence length less than min_seq_len."
 msgstr "Filter out users with sequence length less than min_seq_len."
 
-#: 31e5cb55cf324233bd955beaf39d5599 of
+#: f243bd0f8c9a4e03b47fcc46773d96a3 of
 #: utils.data_process.data_source.exclude_short_sequences:3
 msgid "Polars DataFrame or LazyFrame."
 msgstr "Polars DataFrame or LazyFrame."
 
-#: d0988ea7bba2456d94e96d7d25a3d13f of
+#: ace765e6e1cb47fdad168613856dbe28 of
 #: utils.data_process.data_source.exclude_short_sequences:4
 msgid "Minimum sequence length."
 msgstr "Minimum sequence length."
 
-#: 45bb33e2e0964f558f568031c9eb5b92 of
+#: e3c97ad0b18942ef9156584e5db5abfc of
 #: utils.data_process.data_source.exclude_short_sequences:6
 msgid "DataFrame or LazyFrame of same type as input."
 msgstr "DataFrame or LazyFrame of same type as input."
 
-#: feb96bc94cf04f3ebaa55e9065ac824d of
-#: utils.model_data.loading.create_optimized_dataloader:1
-msgid "Create an optimized DataLoader."
-msgstr "Create an optimized DataLoader."
+#~ msgid "基类：:py:class:`~abc.ABC`"
+#~ msgstr "Bases: :py:class:`~abc.ABC`"
 
-#: e800bf4412b34d198d9d606e289b9c3c of
-#: utils.model_data.loading.create_optimized_dataloader:3
-msgid "Dataset to load"
-msgstr "Dataset to load"
+#~ msgid "基类：:py:class:`~utils.model_data.base_model_data.BaseModelData`"
+#~ msgstr "Bases: :py:class:`~utils.model_data.base_model_data.BaseModelData`"
 
-#: 849e6e6df4734558a89c20df6ffe4943 of
-#: utils.model_data.loading.create_optimized_dataloader:4
-msgid "Batch size"
-msgstr "Batch size"
+#~ msgid "基类：:py:class:`~torch.utils.data.IterableDataset`"
+#~ msgstr "Bases: :py:class:`~torch.utils.data.IterableDataset`"
 
-#: 343ddcd317814a2599726844b1557520 of
-#: utils.model_data.loading.create_optimized_dataloader:5
-msgid "Whether to shuffle the data"
-msgstr "Whether to shuffle the data"
-
-#: 37a47557f15e46d0a97f35030b572462 of
-#: utils.model_data.loading.create_optimized_dataloader:6
-msgid "DataLoader configuration (defaults to DataLoaderConfig())"
-msgstr "DataLoader configuration (defaults to DataLoaderConfig())"
-
-#: 16a75907207946eab7086f3af26f0495 of
-#: utils.model_data.loading.create_optimized_dataloader:7
-msgid "Compute device (used to determine pin_memory)"
-msgstr "Compute device (used to determine pin_memory)"
-
-#: 5e0da01756004136b3e26506eb5952b8 of
-#: utils.model_data.loading.create_optimized_dataloader:8
-msgid ""
-"Host-memory pinning override (None = auto from config and device; never "
-"true on non-CUDA devices)"
-msgstr ""
-"Host-memory pinning override (None = auto from config and device; never "
-"true on non-CUDA devices)"
-
-#: a9706bbd1faf4dd896d549ef83ad459b of
-#: utils.model_data.loading.create_optimized_dataloader:10
-msgid "Additional arguments passed to DataLoader (overrides config)"
-msgstr "Additional arguments passed to DataLoader (overrides config)"
-
-#: 70a29ad3e4664a3ab9467792de05005a of
-#: utils.model_data.loading.create_optimized_dataloader:12
-msgid "An optimized DataLoader"
-msgstr "An optimized DataLoader"
-
-#: ../../source/api/reference/data.md
-msgid ""
-"`utils.config.DataLoaderConfig` 定义加载参数，`utils.model_data.create_optimized_dataloader()` 负责构建 DataLoader。技能级模型通过 `SkillModelData.create_windowlate_dataloader()` 创建 windowlate 加载器，并可通过 `_create_windowlate_dataset()` 扩展模型特有的窗口特征。"
-msgstr ""
-"`utils.config.DataLoaderConfig` defines loading options, while `utils.model_data.create_optimized_dataloader()` constructs DataLoaders. Skill-level models create windowlate loaders through `SkillModelData.create_windowlate_dataloader()` and can extend model-specific window features through `_create_windowlate_dataset()`."
-
-#: ../../source/api/reference/data.md
-msgid "DataLoader factories shared by training and windowlate evaluation."
-msgstr "DataLoader factories shared by training and windowlate evaluation."
-
-#: ../../source/api/reference/data.md
-msgid "Windowlate parquet streaming and batch tensor construction."
-msgstr "Windowlate parquet streaming and batch tensor construction."

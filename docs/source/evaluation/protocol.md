@@ -1,32 +1,55 @@
 # 评测协议与指标
 
-为了消除单次随机划分的数据集偏差，为学术论文与基准评测提供统计显著的评估结果，知识追踪研究普遍执行 5 折交叉验证并报告各折平均指标。各模型在该协议下的具体评测成绩可查阅[基准排行榜](leaderboard.md)。
+为了降低单次随机划分带来的方差与偏差，提供可复现的基准评估结果，UniKT 采用固定留出测试集结合训练池 5 折交叉验证，并汇报 5 折均值与标准差。具体模型成绩可查阅[排行榜](leaderboard.md)。
 
 ## 标准 5 折交叉验证
 
-### 知识追踪中的学生分层切分协议
+### 学生级无泄露切分协议
 
-在知识追踪任务中，若直接对全部答题记录进行随机打乱切分，会导致严重的数据泄露：同一学生不同时段的答题记录被同时割裂在训练集与测试集中，使评估虚高。
+在知识追踪任务中，若直接对全部答题记录随机打乱切分，同一学生不同时段的记录会同时落入训练集与测试集，导致评估虚高。
 
-UniKT 严格遵守教育数据挖掘的标准评估协议。系统按学生总答题量与正答率进行分层，将所有学生均匀划分为 5 折，划分标记保存在标准化 Parquet 文件的 `fold` 列中。
+UniKT 在固定随机种子下按学生随机切分（长序列切分均在划分后执行）：先按学生人数近似留出 **20%** 作为固定测试集（`fold = -1`），再将剩余 **80%** 学生均匀划分为 5 折（`fold = 0..4`）。
 
-当指定 `--data.fold k` 运行时，各数据集切分对照如下：
+:::::{container} unikt-split-diagram
 
-| 折参数 `--data.fold` | 训练集 Train | 验证集 Val（早停监控） | 测试集 Test（最终评估） |
-| :---: | :---: | :---: | :---: |
-| **0** | 折 1, 2, 3 | 折 4 | **折 0** |
-| **1** | 折 2, 3, 4 | 折 0 | **折 1** |
-| **2** | 折 3, 4, 0 | 折 1 | **折 2** |
-| **3** | 折 4, 0, 1 | 折 2 | **折 3** |
-| **4** | 折 0, 1, 2 | 折 3 | **折 4** |
+::::{container} unikt-split-bar
 
-- **Test 集**：第 `k` 折学生序列，完全不参与训练与早停决策。
-- **Val 集**：第 `(k - 1) % 5` 折学生序列，用于早停决策与最佳权重保存。
-- **Train 集**：剩余 3 折学生序列，用于参数学习。
+:::{container} unikt-seg-train
+**训练集 64%**
+
+训练池其余 4 折
+:::
+
+:::{container} unikt-seg-val
+**验证集 16%**
+
+训练池第 k 折
+:::
+
+:::{container} unikt-seg-test
+**固定测试集 20%**
+
+fold = -1
+:::
+
+::::
+
+:::::
+
+默认划分为 `--data.fold 0`：第 0 折学生序列作验证集（16%，早停监控），训练池其余 4 折作训练集（64%），另留出 20% 学生作固定测试集（`fold = -1`）用于最终评估。
+
+5 折基准评估依次指定 `--data.fold 0` 至 `--data.fold 4`。验证折随参数切换，训练集自动取其余 4 折，固定测试集在所有折上保持一致。
+
+### 学生级子采样与数据集设置
+
+- 11 个数据集在统一预处理后的全量保留学生上评测。
+- `EdNet-KT1`（5,000 名）、`Junyi2015`（5,000 名）、`XES3G5M`（2,500 名）在切分前执行学生级随机子采样，复现时在 `data_process.py process` 阶段指定 `--data.sample_size`。
+- `ASSISTments 2017` 提供两种预处理设置：题目级重构 `ASSISTments17-PQ` 与原始步级记录 `ASSISTments17`。
+- `ABKT` 需模型专用协议，榜单单独标注，不纳入共享协议直接排名。
 
 ### 使用辅助脚本 `run_kfold.sh`
 
-UniKT 在 `scripts/run_kfold.sh` 中提供了多折连续执行脚本，支持参数安全透传与多进程自动化串联。
+UniKT 在 `scripts/run_kfold.sh` 中提供了多折连续执行脚本，支持训练参数透传与多折自动化串联。
 
 #### A. 查看所有支持的模型列表
 
@@ -41,10 +64,10 @@ bash scripts/run_kfold.sh -l
 向脚本传入模型名称、折索引列表及待透传的训练参数：
 
 ```bash
-bash scripts/run_kfold.sh GIKT "0 1 2 3 4" -d assistments09 --model.epochs 150
+bash scripts/run_kfold.sh GIKT "0 1 2 3 4" -d assistments09 --model.epochs 150 --model.batch_size 128
 ```
 
-支持空格分隔（`"0 1 2 3 4"`）或逗号分隔（`"0,1,2,3,4"`）。脚本将依次启动第 0 至第 4 折的训练任务。若某折执行失败（Exit code $\neq$ 0），脚本将立即中断并保留错误现场，避免无意义的算力消耗。
+支持空格分隔（`"0 1 2 3 4"`）或逗号分隔（`"0,1,2,3,4"`）。脚本将依次启动第 0 至第 4 折的训练任务。
 
 #### C. 运行特定子集折
 
@@ -61,51 +84,7 @@ bash scripts/run_kfold.sh GIKT "0 2" -d assistments09 --model.epochs 100
 
 ```bash
 for fold in 0 1 2 3 4; do
-  python train.py -m GIKT -d assistments09 --data.fold $fold --model.epochs 150
+  python train.py -m GIKT -d assistments09 --data.fold $fold --model.epochs 150 --model.batch_size 128
 done
 ```
 
-### 5 折结果汇总与统计指标
-
-完成 5 折训练后，`runs/normal/` 目录下将产生 5 个独立的实验子目录：
-
-```text
-runs/normal/
-├── GIKT_assistments09_20261109-100000_fold0_bs128/
-├── GIKT_assistments09_20261109-102500_fold1_bs128/
-├── GIKT_assistments09_20261109-105000_fold2_bs128/
-├── GIKT_assistments09_20261109-111500_fold3_bs128/
-└── GIKT_assistments09_20261109-114000_fold4_bs128/
-```
-
-每个运行目录下的 `metrics_test.csv` 均记录了该折在测试集上的最终评测指标。可以使用如下代码快速计算 5 折均值与标准差：
-
-```python
-import glob
-import pandas as pd
-
-# 匹配特定实验的所有折测试指标文件
-metrics_files = sorted(
-    glob.glob("runs/normal/GIKT_assistments09_*_fold*_bs128/metrics_test.csv")
-)
-
-dfs = [pd.read_csv(f) for f in metrics_files]
-summary = pd.concat(dfs, ignore_index=True)
-
-print("=== 5 折交叉验证测试集统计 ===")
-print(f"有效折数: {len(summary)}")
-for metric in ["auc", "acc", "rmse"]:
-    if metric in summary.columns:
-        mean_val = summary[metric].mean()
-        std_val = summary[metric].std()
-        print(f"{metric.upper():<6}: {mean_val:.4f} ± {std_val:.4f}")
-```
-
-输出示例：
-```text
-=== 5 折交叉验证测试集统计 ===
-有效折数: 5
-AUC   : 0.7685 ± 0.0032
-ACC   : 0.7321 ± 0.0041
-RMSE  : 0.4175 ± 0.0028
-```

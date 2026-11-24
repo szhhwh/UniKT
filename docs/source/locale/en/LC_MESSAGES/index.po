@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: UniKT \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-09 23:49+0800\n"
+"POT-Creation-Date: 2026-11-24 17:09+0800\n"
 "PO-Revision-Date: 2026-07-12 15:25+0800\n"
 "Last-Translator: UniKT Team\n"
 "Language: en\n"
@@ -39,11 +39,11 @@ msgstr "User Guides"
 msgid "开发与参考"
 msgstr "Development & Reference"
 
-#: ../../source/index.md:5 e676d00a630f49a8ba606e418edbb65f
+#: ../../source/index.md:5 45b6fd8aa84a49f0b75d193e519fbb92
 msgid "UniKT"
 msgstr "UniKT"
 
-#: ../../source/index.md:8 21d876a8caf945aa83f97c21113e0c0e
+#: ../../source/index.md:8 712744f41fb34a2f8417a2600fe4ce45
 msgid ""
 "知识追踪，即 Knowledge Tracing，根据学生的历史作答序列估计其知识状态，并预测下一道题能否答对。UniKT "
 "在统一的数据管线、学生级交叉验证划分与指标口径下训练和评测知识追踪模型，使不同模型的结果可以公平对比、完整复现。"
@@ -55,82 +55,82 @@ msgstr ""
 "splits, and standardized metric definitions, enabling fair comparison and"
 " complete reproducibility across different models."
 
-#: ../../source/index.md:12 f33e38ce71f94e90a418c8093b7b304c
+#: ../../source/index.md:12 d24c94ef81ad4a1e8622e2a70db0ad42
 msgid "[快速上手](getting-started/quick-start.md)"
 msgstr "[Quick Start](getting-started/quick-start.md)"
 
-#: ../../source/index.md:14 eaf221235ea843d9927993ee8a7262c9
+#: ../../source/index.md:14 441c951f8f9d4ca68ccc2643ac52b3b9
 msgid "[模型库](model-zoo/index.md)"
 msgstr "[Model Zoo](model-zoo/index.md)"
 
-#: ../../source/index.md:16 95ad3c5b91dc467299f8386ca4e6ce1f
+#: ../../source/index.md:16 d075fca8d5a54fd9bda130b635fac75d
 msgid "[GitHub](https://github.com/szhhwh/UniKT)"
 msgstr "[GitHub](https://github.com/szhhwh/UniKT)"
 
-#: ../../source/index.md:65 45241e804bb14b13a199b2bea082d21d
-msgid "**64** 个模型实现"
-msgstr "**64** Model Implementations"
+#: ../../source/index.md:65 77c19598b747411aafa9adbf345b2dc2
+msgid "**65** 个模型实现"
+msgstr "**65** Model Implementations"
 
-#: ../../source/index.md:66 f1ebabeda2e94ca28e2863de4305a06b
+#: ../../source/index.md:66 88bd4200064d4c81afd5b350d51e147d
 msgid "**14** 个公开数据集"
 msgstr "**14** Public Datasets"
 
-#: ../../source/index.md:67 d24ab737fe214c4fb75e0f105b4d2e1e
+#: ../../source/index.md:67 f174e19e3ef4447484dfd66413888aea
 msgid "**1.5 亿+** 条学习交互"
 msgstr "**150M+** Learning Interactions"
 
-#: ../../source/index.md:68 57ddf425f57645e891c45566ed16c0a8
+#: ../../source/index.md:68 3efd6c8abffc40bfafad137db80432d1
 msgid "**120 万+** 名学生"
 msgstr "**1.2M+** Students"
 
-#: ../../source/index.md:71 0906b5e005ab43a4bce751d251ea787c
+#: ../../source/index.md:71 a221cf4cc3a04120a2583dba00c049a1
 msgid "文档导航"
 msgstr "Documentation Navigation"
 
-#: ../../source/index.md:74 a184ae5bbf674bac8d38f1ce5b610421
+#: ../../source/index.md:74 c24a65174a3141cb9ebe1374d5f1a5fc
 msgid "[快速开始](getting-started/index.md) 配置 Pixi 环境，完成第一次数据处理与训练。"
 msgstr ""
 "[Quick Start](getting-started/index.md) Configure the Pixi environment "
 "and complete your first data processing and training run."
 
-#: ../../source/index.md:76 f8cc08f4aef54133bc555f8af9139718
+#: ../../source/index.md:76 d56d079d9fb241e18139aa1d8dd84910
 msgid "[模型库](model-zoo/index.md) 按模型查阅论文、作者实现与接入说明。"
 msgstr ""
 "[Model Zoo](model-zoo/index.md) Browse papers, author implementations, "
 "and integration notes by model."
 
-#: ../../source/index.md:78 ead3630a18c04adbb48366d420ffe490
+#: ../../source/index.md:78 22344e18d8b942a7ba143eb1452e1dda
 msgid "[数据集](datasets/index.md) 查阅数据来源、规模、字段与处理流程。"
 msgstr ""
 "[Datasets](datasets/index.md) Explore data sources, scales, schemas, and "
 "processing pipelines."
 
-#: ../../source/index.md:80 df8bb6d962d94e47aedec676514e2f3b
+#: ../../source/index.md:80 2d7143712f1e47a390fc3e7d191ff39c
 msgid "[评测](evaluation/index.md) 基准排行榜、交叉验证协议、独立测试、案例分析与效率评测。"
 msgstr ""
 "[Evaluation](evaluation/index.md) Benchmark leaderboard, cross-validation"
 " protocol, standalone testing, case analysis, and efficiency "
 "benchmarking."
 
-#: ../../source/index.md:82 ccba6e3dea29426bb5cefaeb3871d2df
+#: ../../source/index.md:82 909c631e68534c7b8b042e0f5efa8c7b
 msgid "[用户指南](user-guides/index.md) 训练、超参数搜索、实验追踪与 Web 平台。"
 msgstr ""
 "[User Guides](user-guides/index.md) Training, hyperparameter search, "
 "experiment tracking, and Web platform."
 
-#: ../../source/index.md:84 216c92ea9d3e4e58a7370738a70e128d
+#: ../../source/index.md:84 8d36b1816077469c8fb2ba07f0cf9379
 msgid "[开发者指南](developer-guides/index.md) 接入新模型、新数据集、多阶段训练与回调。"
 msgstr ""
 "[Developer Guides](developer-guides/index.md) Adding new models, custom "
 "datasets, multi-stage training, and callbacks."
 
-#: ../../source/index.md:86 619cba720bc242778949a74e8b65da21
+#: ../../source/index.md:86 388d7ebc21f2416dbed290333aa880f6
 msgid "[API 参考](api/index.md) 命令行参数与 Python 接口。"
 msgstr ""
 "[API Reference](api/index.md) Command-line arguments and Python "
 "interfaces."
 
-#: ../../source/index.md:88 bdcaaf9d71ad4063894acb4ff43d1938
+#: ../../source/index.md:88 73bd2ba1c94643359c14df3cb33f206b
 msgid "[更新日志](changelog.md) 框架与文档的版本变更。"
 msgstr "[Changelog](changelog.md) Framework and documentation release notes."
 
@@ -219,3 +219,4 @@ msgstr "[Changelog](changelog.md) Framework and documentation release notes."
 
 #~ msgid "GitHub"
 #~ msgstr "GitHub"
+
