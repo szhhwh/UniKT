@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: UniKT \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-23 17:01+0800\n"
+"POT-Creation-Date: 2026-11-24 17:06+0800\n"
 "PO-Revision-Date: 2026-11-23 17:02+0800\n"
 "Last-Translator: UniKT Team\n"
 "Language: en\n"
@@ -17,210 +17,159 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.18.0\n"
 
-#: ../../source/evaluation/protocol.md:1 a03ffdc4cf064e359f8213d5ae01d873
+#: ../../source/evaluation/protocol.md:1 de6639b9c2034047b5f88c3a43ecc970
 msgid "评测协议与指标"
 msgstr "Evaluation Protocol and Metrics"
 
-#: ../../source/evaluation/protocol.md:3 fba1997a65074803bfec3f9d81c96606
+#: ../../source/evaluation/protocol.md:3 5c9bcddb5ac34111a79249db9ea10ccc
 msgid ""
 "为了降低单次随机划分带来的方差与偏差，提供可复现的基准评估结果，UniKT 采用固定留出测试集结合训练池 5 折交叉验证，并汇报 5 "
-"折均值与标准差。具体模型成绩可查阅[最新排行榜](live-leaderboard.md)与[论文基准排行榜（KDD "
-"2027）](leaderboard.md)。"
+"折均值与标准差。具体模型成绩可查阅[排行榜](leaderboard.md)。"
 msgstr ""
 "To reduce single-split variance and provide reproducible benchmark "
-"results, UniKT pairs a fixed hold-out test set with 5-fold "
-"cross-validation on the training pool and reports the 5-fold mean and "
-"standard deviation. Benchmark scores are available on the [Live "
-"Leaderboard](live-leaderboard.md) and the [Benchmark Leaderboard (KDD "
-"2027)](leaderboard.md)."
+"results, UniKT pairs a fixed hold-out test set with 5-fold cross-"
+"validation on the training pool and reports the 5-fold mean and standard "
+"deviation. Benchmark scores are available on the "
+"[Leaderboard](leaderboard.md)."
 
-#: ../../source/evaluation/protocol.md:5 fdfc81ab9c3b4edd8aef87ca9c965478
+#: ../../source/evaluation/protocol.md:5 beefe0d2058647348308b74256aad7a0
 msgid "标准 5 折交叉验证"
 msgstr "Standard 5-Fold Cross-Validation"
 
-#: ../../source/evaluation/protocol.md:7 e286407eb4c049768fc7de416ca6192b
+#: ../../source/evaluation/protocol.md:7 480fe6e61a2a4a6d90c737d78bce3cdc
 msgid "学生级无泄露切分协议"
 msgstr "Leak-Free Student-Level Splitting Protocol"
 
-#: ../../source/evaluation/protocol.md:9 715e7a603f4b4f15910bca2bc2fd1028
+#: ../../source/evaluation/protocol.md:9 f3877455e0d54b7fb4db7ed8bd22283a
 msgid "在知识追踪任务中，若直接对全部答题记录随机打乱切分，同一学生不同时段的记录会同时落入训练集与测试集，导致评估虚高。"
 msgstr ""
 "In knowledge tracing, shuffling individual interaction logs leaks "
 "information across splits when records from the same student appear in "
 "both training and test sets, artificially inflating performance."
 
-#: ../../source/evaluation/protocol.md:11 1ec624fa55454965ac1057c2b62c74f2
+#: ../../source/evaluation/protocol.md:11 3128a6ceb0ea4d7faf5745e24f214950
 msgid ""
 "UniKT 在固定随机种子下按学生随机切分（长序列切分均在划分后执行）：先按学生人数近似留出 **20%** 作为固定测试集（`fold = "
 "-1`），再将剩余 **80%** 学生均匀划分为 5 折（`fold = 0..4`）。"
 msgstr ""
-"Under a fixed random seed, UniKT randomly partitions students (with "
-"long-sequence chunking performed afterward): approximately **20%** by "
-"student count are held out as a fixed test set (`fold = -1`), and the "
-"remaining **80%** are divided evenly into 5 folds (`fold = 0..4`)."
+"Under a fixed random seed, UniKT randomly partitions students (with long-"
+"sequence chunking performed afterward): approximately **20%** by student "
+"count are held out as a fixed test set (`fold = -1`), and the remaining "
+"**80%** are divided evenly into 5 folds (`fold = 0..4`)."
 
-#: ../../source/evaluation/protocol.md:20 f6c46d34205d42b38272f250c022762f
+#: ../../source/evaluation/protocol.md:20 1da85bc229644cc58dc308ad71d55526
 msgid "**训练集 64%**"
 msgstr "**Train 64%**"
 
-#: ../../source/evaluation/protocol.md:22 d5e8625730f04542b87c9a5bd2e2f33b
+#: ../../source/evaluation/protocol.md:22 572cc6d17d584e72839c7d22ce3d0435
 msgid "训练池其余 4 折"
 msgstr "Remaining 4 pool folds"
 
-#: ../../source/evaluation/protocol.md:26 47c43a0fbde2486aaa3e169d948fa4ff
+#: ../../source/evaluation/protocol.md:26 abf7b476417b4bb4a0352380cf1c08b3
 msgid "**验证集 16%**"
 msgstr "**Val 16%**"
 
-#: ../../source/evaluation/protocol.md:28 71a47bcb08ef4885b6509f21932bcf8c
-msgid "训练池第 `k` 折"
-msgstr "Pool fold `k`"
+#: ../../source/evaluation/protocol.md:28 0a385311e0094dcda577ceeadba61603
+msgid "训练池第 k 折"
+msgstr "Pool fold k"
 
-#: ../../source/evaluation/protocol.md:32 f319143fea91449e9867366b6704c5fe
+#: ../../source/evaluation/protocol.md:32 89c0c172f40a4bd782d9f31cd1917ed2
 msgid "**固定测试集 20%**"
 msgstr "**Fixed Test 20%**"
 
-#: ../../source/evaluation/protocol.md:34 550e20f3bf6d4246b8e481c808f047cd
-msgid "`fold = -1`"
-msgstr "`fold = -1`"
+#: ../../source/evaluation/protocol.md:34 1e4edff64e2e488b838768272875fd07
+msgid "fold = -1"
+msgstr "fold = -1"
 
-#: ../../source/evaluation/protocol.md:39 45434662c81141408320a3e8678a767f
-msgid "当指定 `--data.fold k` 运行时，各数据集切分对照如下："
-msgstr "When running with `--data.fold k`, dataset splits are assigned as follows:"
-
-#: ../../source/evaluation/protocol.md:31 c8405ca78c2c47879867abd7ff8c4c0d
-msgid "折参数 `--data.fold`"
-msgstr "Fold Parameter `--data.fold`"
-
-#: ../../source/evaluation/protocol.md:31 0eefdfbc73d542e796c709565207fddb
-msgid "训练集 Train (64%)"
-msgstr "Train Set (64%)"
-
-#: ../../source/evaluation/protocol.md:31 5c4cb53e0fc74bb4b3f947a3c653420f
-msgid "验证集 Val (16%，早停监控)"
-msgstr "Validation Set (16%, Early Stopping)"
-
-#: ../../source/evaluation/protocol.md:31 4e2c5da7e6604d2da413b602244e5d78
-msgid "测试集 Test (20%，最终评估)"
-msgstr "Test Set (20%, Final Evaluation)"
-
-#: ../../source/evaluation/protocol.md:31 7d2d2dad53cf449d90483404ef75c794
-msgid "**0**"
-msgstr "**0**"
-
-#: ../../source/evaluation/protocol.md:31 34eb33093f0c4f3ab1eca99094316682
-msgid "折 1, 2, 3, 4"
-msgstr "Folds 1, 2, 3, 4"
-
-#: ../../source/evaluation/protocol.md:31 4320798874424906a4d40c5075e6ab5c
-msgid "**折 0**"
-msgstr "**Fold 0**"
-
-#: ../../source/evaluation/protocol.md:31 18d1aa7af8fe48dc99a8ee285263456b
-#: 3909bfeb3487410aa9df2a5f5af25e28 4d88a353f78f4be6a2c4987363f0cc4c
-#: 9378d359f74d48a5ae0d4cd4b6d40150 e9b6bb49f09e4249bf043802e1631448
-msgid "固定测试集 (`fold = -1`)"
-msgstr "Fixed Test Set (`fold = -1`)"
-
-#: ../../source/evaluation/protocol.md:31 cea7d9ecba3b489b9312904f608225dc
-msgid "**1**"
-msgstr "**1**"
-
-#: ../../source/evaluation/protocol.md:31 e57cefb3ab4744da953ed800141d1f7a
-msgid "折 0, 2, 3, 4"
-msgstr "Folds 0, 2, 3, 4"
-
-#: ../../source/evaluation/protocol.md:31 b789a17c4254431ba020acafb56a4318
-msgid "**折 1**"
-msgstr "**Fold 1**"
-
-#: ../../source/evaluation/protocol.md:31 3a227fb7e98146a383e505d2580767db
-msgid "**2**"
-msgstr "**2**"
-
-#: ../../source/evaluation/protocol.md:31 d38005a404524b28bb64daa2142a6d3e
-msgid "折 0, 1, 3, 4"
-msgstr "Folds 0, 1, 3, 4"
-
-#: ../../source/evaluation/protocol.md:31 54db8ea04a3441a093864b96985b3149
-msgid "**折 2**"
-msgstr "**Fold 2**"
-
-#: ../../source/evaluation/protocol.md:31 e42cf2c674cb427298e402acb989d3e3
-msgid "**3**"
-msgstr "**3**"
-
-#: ../../source/evaluation/protocol.md:31 f285432dc8fc40b0b0a546fcbb29329d
-msgid "折 0, 1, 2, 4"
-msgstr "Folds 0, 1, 2, 4"
-
-#: ../../source/evaluation/protocol.md:31 479c9e5271ae467ea28ab1de597cd601
-msgid "**折 3**"
-msgstr "**Fold 3**"
-
-#: ../../source/evaluation/protocol.md:31 424269182b55492f8c1aa2670892f7e7
-msgid "**4**"
-msgstr "**4**"
-
-#: ../../source/evaluation/protocol.md:31 ebf3013a562f4926b252d8e1a25a34ca
-msgid "折 0, 1, 2, 3"
-msgstr "Folds 0, 1, 2, 3"
-
-#: ../../source/evaluation/protocol.md:31 278b8f284a8f443aad32d9a979401f13
-msgid "**折 4**"
-msgstr "**Fold 4**"
-
-#: ../../source/evaluation/protocol.md:49 ffe88c36ae814c41acb14c138928a831
-msgid "**Test 集（20%）**：`fold = -1` 固定学生序列，5 折全程一致，不参与训练与早停。"
+#: ../../source/evaluation/protocol.md:39 399e0e92f2144606ac1a9b89c8286fc1
+msgid ""
+"默认划分为 `--data.fold 0`：第 0 折学生序列作验证集（16%，早停监控），训练池其余 4 折作训练集（64%），另留出 20% "
+"学生作固定测试集（`fold = -1`）用于最终评估。"
 msgstr ""
-"**Test Set (20%)**: Fixed student sequences with `fold = -1`, identical "
-"across all 5 folds and excluded from training and early stopping."
+"The default split is `--data.fold 0`: fold 0 student sequences form the "
+"validation set (16%, early-stopping monitor), the other 4 training-pool "
+"folds form the training set (64%), and 20% of students are held out as a "
+"fixed test set (`fold = -1`) for final evaluation."
 
-#: ../../source/evaluation/protocol.md:50 7d0de3715e554365862c40d14061e7f7
-msgid "**Val 集（16%）**：第 `k` 折学生序列，用于早停监控（`patience = 10`）与最佳权重保存。"
+#: ../../source/evaluation/protocol.md:41 0f03577672d44981b6be33a00dff3142
+msgid ""
+"5 折基准评估依次指定 `--data.fold 0` 至 `--data.fold 4`。验证折随参数切换，训练集自动取其余 4 "
+"折，固定测试集在所有折上保持一致。"
 msgstr ""
-"**Val Set (16%)**: Student sequences in fold `k`, used for early stopping "
-"(`patience = 10`) and best checkpoint selection."
+"5-fold benchmark evaluation runs `--data.fold 0` through `--data.fold 4` "
+"in turn. The validation fold follows the parameter, the training set "
+"automatically takes the other 4 folds, and the fixed test set stays the "
+"same across all folds."
 
-#: ../../source/evaluation/protocol.md:51 f6075610a2924a9c973032789715711f
-msgid "**Train 集（64%）**：训练池其余 4 折学生序列，用于参数学习。"
+#: ../../source/evaluation/protocol.md:43 c0c7cd4c20854f239ae7bbdce00e2824
+msgid "学生级子采样与数据集设置"
+msgstr "Student-level Subsampling and Dataset Settings"
+
+#: ../../source/evaluation/protocol.md:45 a84c69615ceb4cfaac61531b2d0329f6
+msgid "11 个数据集在统一预处理后的全量保留学生上评测。"
 msgstr ""
-"**Train Set (64%)**: Remaining 4 training-pool folds of student sequences, "
-"used for parameter updates."
+"11 datasets are evaluated on all students retained by the unified "
+"preprocessing pipeline."
 
-#: ../../source/evaluation/protocol.md:53 2b2189df26b847a69cfea9b10663cca2
+#: ../../source/evaluation/protocol.md:46 7e08911679b7487cb1f413b59292bd08
+msgid ""
+"`EdNet-KT1`（5,000 名）、`Junyi2015`（5,000 名）、`XES3G5M`（2,500 "
+"名）在切分前执行学生级随机子采样，复现时在 `data_process.py process` 阶段指定 "
+"`--data.sample_size`。"
+msgstr ""
+"`EdNet-KT1` (5,000 students), `Junyi2015` (5,000) and `XES3G5M` (2,500) "
+"are randomly subsampled at the student level before splitting; pass "
+"`--data.sample_size` to `data_process.py process` to reproduce."
+
+#: ../../source/evaluation/protocol.md:47 c41bf4928d6645b4bdafd24be1ba721d
+msgid ""
+"`ASSISTments 2017` 提供两种预处理设置：题目级重构 `ASSISTments17-PQ` 与原始步级记录 "
+"`ASSISTments17`。"
+msgstr ""
+"`ASSISTments 2017` ships with two preprocessing settings: question-level "
+"reconstruction (`ASSISTments17-PQ`) and the original step-level records "
+"(`ASSISTments17`)."
+
+#: ../../source/evaluation/protocol.md:48 6f1353a9b7ce45468d178da55824db48
+msgid "`ABKT` 需模型专用协议，榜单单独标注，不纳入共享协议直接排名。"
+msgstr ""
+"`ABKT` requires a model-specific protocol; it is labelled separately on "
+"the leaderboard and excluded from the shared-protocol ranking."
+
+#: ../../source/evaluation/protocol.md:50 f51488dfdf9e4c9f918ac17a8a5a78db
 msgid "使用辅助脚本 `run_kfold.sh`"
 msgstr "Using Helper Script `run_kfold.sh`"
 
-#: ../../source/evaluation/protocol.md:55 d82ec8a68825436cb671b5dc6feeca79
+#: ../../source/evaluation/protocol.md:52 8340a1facc5141f7893167db5e68fa3a
 msgid "UniKT 在 `scripts/run_kfold.sh` 中提供了多折连续执行脚本，支持训练参数透传与多折自动化串联。"
 msgstr ""
 "UniKT provides `scripts/run_kfold.sh` for consecutive multi-fold "
 "execution, supporting argument forwarding and automated multi-fold "
 "chaining."
 
-#: ../../source/evaluation/protocol.md:57 9d40fa3bb1c145c49f2bcb4331f6fc2a
+#: ../../source/evaluation/protocol.md:54 0a85d6adc0f645ba9d21019a6ec04caa
 msgid "A. 查看所有支持的模型列表"
 msgstr "A. List All Supported Models"
 
-#: ../../source/evaluation/protocol.md:59 efb5cade37354a309f2fe1a8a27ef53e
+#: ../../source/evaluation/protocol.md:56 aa6fb9c8e92a4b4aa865abeaf3d532d3
 msgid "使用 `-l` 或 `--list` 选项列出当前代码库中所有已支持的模型："
 msgstr "Use `-l` or `--list` to list all supported models in the current codebase:"
 
-#: ../../source/evaluation/protocol.md:61 1d7360f4185044ec9b93595382c10527
+#: ../../source/evaluation/protocol.md:58 8a6273f189c144a0ba644e42400a9746
 msgid "bash scripts/run_kfold.sh -l\n"
 msgstr "bash scripts/run_kfold.sh -l\n"
 
-#: ../../source/evaluation/protocol.md:65 8cb6791414c2497d93de5925784c4157
+#: ../../source/evaluation/protocol.md:62 28d52d092cb64284a4869cf722b71a93
 msgid "B. 运行单模型的 5 折交叉验证"
 msgstr "B. Run 5-Fold Cross-Validation for a Single Model"
 
-#: ../../source/evaluation/protocol.md:67 2c0b759e6f7f4043a8921a6a060bfe87
+#: ../../source/evaluation/protocol.md:64 8de794b5531649b7b853b547a815f6f2
 msgid "向脚本传入模型名称、折索引列表及待透传的训练参数："
 msgstr ""
 "Pass the model name, fold index list, and training hyperparameters to the"
 " script:"
 
-#: ../../source/evaluation/protocol.md:69 26886567e9c94fea915f7e012ed90581
+#: ../../source/evaluation/protocol.md:66 148324d0ec974459b2470c242eba25ab
 msgid ""
 "bash scripts/run_kfold.sh GIKT \"0 1 2 3 4\" -d assistments09 "
 "--model.epochs 150 --model.batch_size 128\n"
@@ -228,28 +177,26 @@ msgstr ""
 "bash scripts/run_kfold.sh GIKT \"0 1 2 3 4\" -d assistments09 "
 "--model.epochs 150 --model.batch_size 128\n"
 
-#: ../../source/evaluation/protocol.md:73 c6ed9a9ca481465fb45041816e118fa2
+#: ../../source/evaluation/protocol.md:70 b2c7aeede79d4d2eb110e91ee2afa3ae
 msgid ""
 "支持空格分隔（`\"0 1 2 3 4\"`）或逗号分隔（`\"0,1,2,3,4\"`）。脚本将依次启动第 0 至第 4 "
-"折的训练任务。若某折执行失败（Exit code $\\neq$ 0），脚本将立即中断并保留错误现场，避免无意义的算力消耗。"
+"折的训练任务。"
 msgstr ""
 "Supports space-separated (`\"0 1 2 3 4\"`) or comma-separated "
 "(`\"0,1,2,3,4\"`) strings. The script launches fold 0 through fold 4 "
-"sequentially. If any fold fails (Exit code $\\neq$ 0), execution "
-"terminates immediately to preserve error state and save compute "
-"resources."
+"sequentially."
 
-#: ../../source/evaluation/protocol.md:75 85d4cbdd409c44a9a524d1840f8922cc
+#: ../../source/evaluation/protocol.md:72 01df7e882d2740e5961fd6bce16a919c
 msgid "C. 运行特定子集折"
 msgstr "C. Run a Subset of Folds"
 
-#: ../../source/evaluation/protocol.md:77 aaa143ddf9cf435abd86e0bd11964814
+#: ../../source/evaluation/protocol.md:74 0ebaba5e22c94837b2d08f3e91f19f10
 msgid "若某次训练在某几折中断，或只需在特定折验证："
 msgstr ""
 "If training was interrupted on specific folds, or if only a subset "
 "requires validation:"
 
-#: ../../source/evaluation/protocol.md:79 e01fcd95c47b43d1bda176fa9014f55f
+#: ../../source/evaluation/protocol.md:76 a03a4d1763f2426cab3362e751e6f5a4
 msgid ""
 "# 仅执行第 0 折和第 2 折\n"
 "bash scripts/run_kfold.sh GIKT \"0 2\" -d assistments09 --model.epochs "
@@ -259,17 +206,17 @@ msgstr ""
 "bash scripts/run_kfold.sh GIKT \"0 2\" -d assistments09 --model.epochs "
 "100\n"
 
-#: ../../source/evaluation/protocol.md:84 caf6bc9cb9524ccb8b5c41a9a1cee25c
+#: ../../source/evaluation/protocol.md:81 92e6241589244362aa7d2b4d079117a4
 msgid "D. 原生命令行手动执行"
 msgstr "D. Manual Invocation via Native CLI"
 
-#: ../../source/evaluation/protocol.md:86 0582fd629ef348839117db9eba3891c5
+#: ../../source/evaluation/protocol.md:83 42d26b24e7f1444e8822d7a6901ba01a
 msgid "如果不使用 bash 脚本，也可以直接在终端通过原生循环调用 `train.py`："
 msgstr ""
 "Without the bash helper, you can directly run a native loop calling "
 "`train.py` in the terminal:"
 
-#: ../../source/evaluation/protocol.md:88 2fd2280bc2924f40a75de4096cbefec2
+#: ../../source/evaluation/protocol.md:85 42ea60c4ddb8452eb656bfb329034b22
 msgid ""
 "for fold in 0 1 2 3 4; do\n"
 "  python train.py -m GIKT -d assistments09 --data.fold $fold "
@@ -280,107 +227,3 @@ msgstr ""
 "  python train.py -m GIKT -d assistments09 --data.fold $fold "
 "--model.epochs 150 --model.batch_size 128\n"
 "done\n"
-
-#: ../../source/evaluation/protocol.md:94 e5b9c42af3394c9ebdc9575c62063897
-msgid "5 折结果汇总与统计指标"
-msgstr "5-Fold Aggregation and Summary Statistics"
-
-#: ../../source/evaluation/protocol.md:96 ead71631ac9b4fc18cc87d014e408027
-msgid "完成 5 折训练后，`runs/normal/` 目录下将产生 5 个独立的实验子目录："
-msgstr ""
-"After completing 5-fold training, 5 distinct experiment subdirectories "
-"are generated in `runs/normal/`:"
-
-#: ../../source/evaluation/protocol.md:98 b7588355fdeb433cbb31061e8be37ff7
-msgid ""
-"runs/normal/\n"
-"├── GIKT_assistments09_20261109-100000_fold0_bs128/\n"
-"├── GIKT_assistments09_20261109-102500_fold1_bs128/\n"
-"├── GIKT_assistments09_20261109-105000_fold2_bs128/\n"
-"├── GIKT_assistments09_20261109-111500_fold3_bs128/\n"
-"└── GIKT_assistments09_20261109-114000_fold4_bs128/\n"
-msgstr ""
-"runs/normal/\n"
-"├── GIKT_assistments09_20261109-100000_fold0_bs128/\n"
-"├── GIKT_assistments09_20261109-102500_fold1_bs128/\n"
-"├── GIKT_assistments09_20261109-105000_fold2_bs128/\n"
-"├── GIKT_assistments09_20261109-111500_fold3_bs128/\n"
-"└── GIKT_assistments09_20261109-114000_fold4_bs128/\n"
-
-#: ../../source/evaluation/protocol.md:107 2e8c0ed40fbd4f2ab3d8d18e389db0f7
-msgid "每个运行目录下的 `metrics_test.csv` 均记录了该折在测试集上的最终评测指标。可以使用如下代码按折去重取最新结果并计算 5 折均值与标准差："
-msgstr ""
-"Each run directory contains a `metrics_test.csv` file recording final "
-"test set evaluation metrics. Use the snippet below to pick the latest run "
-"per fold and compute 5-fold mean and standard deviation:"
-
-#: ../../source/evaluation/protocol.md:109 e71be30ee06e4973a08b5e030ee2b31a
-#, python-brace-format
-msgid ""
-"import glob\n"
-"import pandas as pd\n"
-"\n"
-"# 0..4 每折选取最新的测试指标文件，避免重跑同一折时重复计入\n"
-"metrics_files = []\n"
-"for fold in range(5):\n"
-"    candidates = sorted(\n"
-"        glob.glob(f\"runs/normal/GIKT_assistments09_*_fold{fold}_bs128/metrics_test.csv\")\n"
-"    )\n"
-"    if not candidates:\n"
-"        raise FileNotFoundError(f\"Missing metrics_test.csv for fold {fold}\")\n"
-"    metrics_files.append(candidates[-1])\n"
-"\n"
-"dfs = [pd.read_csv(f) for f in metrics_files]\n"
-"summary = pd.concat(dfs, ignore_index=True)\n"
-"assert len(summary) == 5, f\"Expected 5 folds, got {len(summary)}\"\n"
-"\n"
-"print(\"=== 5 折交叉验证测试集统计 ===\")\n"
-"print(f\"有效折数: {len(summary)}\")\n"
-"for metric in [\"auc\", \"acc\", \"rmse\"]:\n"
-"    if metric in summary.columns:\n"
-"        mean_val = summary[metric].mean()\n"
-"        std_val = summary[metric].std()\n"
-"        print(f\"{metric.upper():<6}: {mean_val:.4f} ± {std_val:.4f}\")\n"
-msgstr ""
-"import glob\n"
-"import pandas as pd\n"
-"\n"
-"# Pick the latest test metrics file per fold (0..4) to avoid duplicates on re-runs\n"
-"metrics_files = []\n"
-"for fold in range(5):\n"
-"    candidates = sorted(\n"
-"        glob.glob(f\"runs/normal/GIKT_assistments09_*_fold{fold}_bs128/metrics_test.csv\")\n"
-"    )\n"
-"    if not candidates:\n"
-"        raise FileNotFoundError(f\"Missing metrics_test.csv for fold {fold}\")\n"
-"    metrics_files.append(candidates[-1])\n"
-"\n"
-"dfs = [pd.read_csv(f) for f in metrics_files]\n"
-"summary = pd.concat(dfs, ignore_index=True)\n"
-"assert len(summary) == 5, f\"Expected 5 folds, got {len(summary)}\"\n"
-"\n"
-"print(\"=== 5-Fold Cross-Validation Test Set Statistics ===\")\n"
-"print(f\"Valid Folds: {len(summary)}\")\n"
-"for metric in [\"auc\", \"acc\", \"rmse\"]:\n"
-"    if metric in summary.columns:\n"
-"        mean_val = summary[metric].mean()\n"
-"        std_val = summary[metric].std()\n"
-"        print(f\"{metric.upper():<6}: {mean_val:.4f} ± {std_val:.4f}\")\n"
-
-#: ../../source/evaluation/protocol.md:130 c3136a2da0674645befec4ae5ceb97d6
-msgid "输出示例："
-msgstr "Example output:"
-
-#: ../../source/evaluation/protocol.md:131 4fcc8537ab714aadacb544f7dd7b6aa8
-msgid ""
-"=== 5 折交叉验证测试集统计 ===\n"
-"有效折数: 5\n"
-"AUC   : 0.7685 ± 0.0032\n"
-"ACC   : 0.7321 ± 0.0041\n"
-"RMSE  : 0.4175 ± 0.0028\n"
-msgstr ""
-"=== 5-Fold Cross-Validation Test Set Statistics ===\n"
-"Valid Folds: 5\n"
-"AUC   : 0.7685 ± 0.0032\n"
-"ACC   : 0.7321 ± 0.0041\n"
-"RMSE  : 0.4175 ± 0.0028\n"
