@@ -16,14 +16,14 @@ python data_process.py process -d <dataset> [OPTIONS]
 
 ## 1. `download` 子命令
 
-从公开源或官方镜像自动下载原始数据集文件，并在下载完成后校验并解压到 `data/<dataset>/raw/` 目录。
+从内置镜像或自定义链接下载原始数据并解压到 `data/<dataset>/raw/`。
 
 ### 参数说明
 
 | 参数 | 短标识 | 类型 | 默认值 | 说明 |
 | :--- | :--- | :--- | :--- | :--- |
 | `--data.dataset` | `-d` | `str` | **必需** | 目标数据集标识符（如 `assistments09`, `ednet_kt1`, `junyi2015`） |
-| `--data_url` | | `str \| null`| `None` | 自定义下载链接（若提供则覆盖数据集默认的内置下载链接） |
+| `--data_url` | | `str \| null`| `None` | 自定义下载直链（指定外部源或覆盖内置镜像） |
 | `--force` | | `bool` | `False` | 是否强制重新下载（即使本地已存在原始文件） |
 | `--max_retries` | | `int` | `3` | 下载失败时的最大重试次数 |
 | `--num_threads` | | `int` | `4` | 多线程并发分块下载线程数 |
@@ -32,11 +32,11 @@ python data_process.py process -d <dataset> [OPTIONS]
 ### 示例
 
 ```bash
-# 使用内置镜像下载 ASSISTments 2009 数据集
-python data_process.py download -d assistments09
+# 从内置镜像下载数据集
+python data_process.py download -d slepemapy
 
-# 强制重新下载并指定外部下载源
-python data_process.py download -d assistments09 --force --data_url "https://my-mirror.org/assist09.zip"
+# 或指定自定义下载链接
+python data_process.py download -d assistments09 --data_url "https://example.com/assist09.zip"
 ```
 
 ---

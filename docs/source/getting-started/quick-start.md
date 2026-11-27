@@ -16,13 +16,9 @@ pixi shell
 
 ## 步骤 1：下载与处理数据集
 
-UniKT 内置了自动化数据流。以最经典且轻量的 **ASSISTments 2009** 数据集为例：
+将原始数据放置于 `data/assistments09/raw/`（详见 [ASSISTments 2009](../datasets/catalog/assistments09.md)）：
 
 ```bash
-# 1. 自动从镜像源下载原始数据集压缩包并解压至 data/assistments09/raw
-python data_process.py download -d assistments09
-
-# 2. 清洗、构建题目-技能映射，并生成 5 折交叉验证划分的 Parquet 文件
 python data_process.py process -d assistments09
 ```
 

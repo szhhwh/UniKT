@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: UniKT \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"POT-Creation-Date: 2026-11-27 22:50+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -20,12 +20,12 @@ msgstr ""
 "Generated-By: Babel 2.18.0\n"
 
 #: ../../source/getting-started/quick-start.md:1
-#: e622e5d1abc24b0080f61043d5fcf449
+#: 598266d0f0854f83ac827c1115becdc2
 msgid "快速上手"
 msgstr "Quick start"
 
 #: ../../source/getting-started/quick-start.md:3
-#: 858c9934b08b44e4a64510b8342c59ed
+#: 904f5e7b214346fa946dc1edbf0f4294
 msgid "本教程将带你走完 UniKT 的完整流程：从下载公开数据集、数据预处理，到训练经典深度知识追踪模型 DKT 并进行独立测试集评估。"
 msgstr ""
 "This tutorial guides you through the complete UniKT workflow: from "
@@ -34,105 +34,95 @@ msgstr ""
 " set."
 
 #: ../../source/getting-started/quick-start.md:7
-#: 7bcb406d06ed465fa7ac3eab50c1ac93
+#: a780fbbd9b7e4f99a51308ce30e66e65
 msgid "准备工作"
 msgstr "Prerequisites"
 
 #: ../../source/getting-started/quick-start.md:9
-#: 230971c80db54558b0e54352ebde9fd9
+#: 8ac930087f7f4522a08e96e2aa58d333
 msgid "确保已按照[环境安装与配置](installation.md)安装了 Pixi 并进入环境："
 msgstr ""
 "Ensure you have installed Pixi and activated the environment following "
 "[Installation & Configuration](installation.md):"
 
 #: ../../source/getting-started/quick-start.md:11
-#: 98dd82900f0d48e89b0c0bf0fd20ef36
+#: 66f4f0fe91b94ef8a0b975426a2628cd
 msgid "pixi shell\n"
 msgstr "pixi shell\n"
 
 #: ../../source/getting-started/quick-start.md:17
-#: 74fdbc8d9c5646f1ba6a81bffd8c4f12
+#: 54a42286dde2473392cfbc8c1cfec767
 msgid "步骤 1：下载与处理数据集"
 msgstr "Step 1: Download and Process Dataset"
 
 #: ../../source/getting-started/quick-start.md:19
-#: dc88260a431b48e28a5dcd8654049bb9
-msgid "UniKT 内置了自动化数据流。以最经典且轻量的 **ASSISTments 2009** 数据集为例："
+#: 7b0791570579408692939cbd331c910a
+msgid ""
+"将原始数据放置于 `data/assistments09/raw/`（详见 [ASSISTments "
+"2009](../datasets/catalog/assistments09.md)）："
 msgstr ""
-"UniKT features built-in automated data pipelines. Taking the classic and "
-"lightweight **ASSISTments 2009** dataset as an example:"
+"Place raw data in `data/assistments09/raw/` (see [ASSISTments "
+"2009](../datasets/catalog/assistments09.md)):"
 
 #: ../../source/getting-started/quick-start.md:21
-#: 86da8765d5ff4ce09e8d20832881c070
-msgid ""
-"# 1. 自动从镜像源下载原始数据集压缩包并解压至 data/assistments09/raw\n"
-"python data_process.py download -d assistments09\n"
-"\n"
-"# 2. 清洗、构建题目-技能映射，并生成 5 折交叉验证划分的 Parquet 文件\n"
-"python data_process.py process -d assistments09\n"
-msgstr ""
-"# 1. Automatically download raw dataset archive from mirror and extract "
-"to data/assistments09/raw\n"
-"python data_process.py download -d assistments09\n"
-"\n"
-"# 2. Clean, build question-skill mapping, and generate 5-fold cross-"
-"validation Parquet files\n"
-"python data_process.py process -d assistments09\n"
+#: 1f308d55442a405d98d9971ffda09d79
+msgid "python data_process.py process -d assistments09\n"
+msgstr "python data_process.py process -d assistments09\n"
 
-#: ../../source/getting-started/quick-start.md:29
-#: dc5f5c59ffb74a56ba40ac300b7c3f87
+#: ../../source/getting-started/quick-start.md:25
+#: 14f484e1a369434e9e6d27f331508a34
 msgid "处理完成后，在 `data/assistments09/` 目录下将生成如下标准化产物："
 msgstr ""
 "Upon completion, the following standardized artifacts are generated in "
 "`data/assistments09/`:"
 
-#: ../../source/getting-started/quick-start.md:30
-#: 1aefcd3c10fa4b52a1b7f6ba675930b6
+#: ../../source/getting-started/quick-start.md:26
+#: 7da6dffc5b6b4102bfc34e50ee575423
 msgid "`assistments09_sequence.parquet`：清洗后的完整学生答题交互记录。"
 msgstr ""
 "`assistments09_sequence.parquet`: Cleaned complete student response "
 "interaction logs."
 
-#: ../../source/getting-started/quick-start.md:31
-#: 5634f8b0c780498e95b46e6bf3b4057c
+#: ../../source/getting-started/quick-start.md:27
+#: 019e4e87a65440a2a6ccbe40cb7ed43d
 msgid "`assistments09_split_skill_sequence.parquet`：按技能粒度展开并切片后的序列（标注了所属 fold）。"
 msgstr ""
 "`assistments09_split_skill_sequence.parquet`: Sliced sequences expanded "
 "at the skill granularity (labeled with fold assignments)."
 
-#: ../../source/getting-started/quick-start.md:32
-#: 72dc9245045d48e39744aa2859824c0b
+#: ../../source/getting-started/quick-start.md:28
+#: c7fdf20f89504f67a0ac9fdf13486056
 msgid "`assistments09_relation_question_skill.parquet`：题目与技能的对应关系二部图表。"
 msgstr ""
 "`assistments09_relation_question_skill.parquet`: Bipartite relation table"
 " mapping questions to skills."
 
-#: ../../source/getting-started/quick-start.md:33
-#: 6573504bd8f7492a82f82bea65acea99
+#: ../../source/getting-started/quick-start.md:29
+#: 84d678b1598b4d38bed54cda1a86fdab
 msgid "`metadata.json`：数据集全局元数据（用户数、题目数、技能数及校验 Hash）。"
 msgstr ""
 "`metadata.json`: Dataset global metadata (counts of users, questions, "
 "skills, and checksum hashes)."
 
-#: ../../source/getting-started/quick-start.md:37
-#: fc49c5f4075040b090f5c06c4590a0b2
+#: ../../source/getting-started/quick-start.md:33
+#: 41ae1604ea8c444ca982708ae6c7b673
 msgid "步骤 2：训练基准模型"
 msgstr "Step 2: Train a Baseline Model"
 
-#: ../../source/getting-started/quick-start.md:39
-#: 775e1937ae9d41be9f8970a7225bbc05
+#: ../../source/getting-started/quick-start.md:35
+#: a9240f4c532c4397972f2d4849a7460a
 msgid "使用 `train.py` 启动训练。这里以经典模型 **DKT** 为例，在第 0 折上进行训练："
 msgstr ""
 "Launch training using `train.py`. Here, we train the classic **DKT** "
 "model on fold 0:"
 
-#: ../../source/getting-started/quick-start.md:41
-#: b7ccb16d27554c4db8ead68f83648f78
+#: ../../source/getting-started/quick-start.md:37
+#: 7a14c8a614cd4478adc578d15058ba50
 msgid "python train.py -m DKT -d assistments09 --data.fold 0\n"
 msgstr "python train.py -m DKT -d assistments09 --data.fold 0\n"
 
-#: ../../source/getting-started/quick-start.md:46
-#: 1375cecaa39b414f97712dbd097d50c6
+#: ../../source/getting-started/quick-start.md:42
+#: 76c92fcf71e44952a9256d40ced35f39
 msgid ""
 "UniKT 采用简写参数：`-m` 指定模型名称，`-d` 指定数据集名称。其他参数采用分层命名空间，例如 `--data.fold 0` 指定第"
 " 0 折作为验证集。"
@@ -142,20 +132,20 @@ msgstr ""
 "namespaces, such as `--data.fold 0` to select fold 0 as the validation "
 "fold."
 
-#: ../../source/getting-started/quick-start.md:49
-#: 5386e64c17c043329477c3e8dcfc572f
+#: ../../source/getting-started/quick-start.md:45
+#: 7aa6e137985e46c38e48f5f89ceb7574
 msgid "典型终端输出"
 msgstr "Typical Terminal Output"
 
-#: ../../source/getting-started/quick-start.md:51
-#: 5c8605aaa304443094fcbc67d3c98261
+#: ../../source/getting-started/quick-start.md:47
+#: 55278a35969b4c0f808b4d24eb3b662c
 msgid "启动后，终端将输出初始化流程与 Epoch 训练动态："
 msgstr ""
 "Upon startup, the terminal displays the initialization progress and per-"
 "epoch training dynamics:"
 
-#: ../../source/getting-started/quick-start.md:53
-#: 89e07f69ecd24dd6a858e04b4ab48e09
+#: ../../source/getting-started/quick-start.md:49
+#: 223e5eb2a8c346049f6d4be753736cbf
 msgid ""
 "2026-11-09 13:30:00 INFO     __main__: Experiment directory: "
 "runs/normal/DKT_assistments09_20261109-133000_fold0_bs128\n"
@@ -235,51 +225,51 @@ msgstr ""
 "2026-11-09 13:32:16 INFO     utils.training.base_trainer: Test Set "
 "Evaluation Results: AUC=0.7482, ACC=0.7153, RMSE=0.4321\n"
 
-#: ../../source/getting-started/quick-start.md:72
-#: 5c909a135f4b41838514529717af30e8
+#: ../../source/getting-started/quick-start.md:68
+#: 05097c2ef3e946909447098e81c16089
 msgid "在训练过程中："
 msgstr "During training:"
 
-#: ../../source/getting-started/quick-start.md:73
-#: c2655b8d78bd4f62829f157734ca833b
+#: ../../source/getting-started/quick-start.md:69
+#: 3094824065d84cc0939bbfe8376eb082
 msgid "框架自动跟踪早停机制（默认 `patience=10`，监控验证集 AUC）。"
 msgstr ""
 "The framework automatically monitors early stopping (default "
 "`patience=10`, tracking validation AUC)."
 
-#: ../../source/getting-started/quick-start.md:74
-#: 63f5b1e2d2ae4aab9a5ed7bcee314604
+#: ../../source/getting-started/quick-start.md:70
+#: 709ea31882514aeb9c3d35f61f1be982
 msgid "每次验证集指标刷新历史最佳时，自动更新 `best_model.pth`。"
 msgstr ""
 "Whenever validation metrics achieve a new best, `best_model.pth` is "
 "updated automatically."
 
-#: ../../source/getting-started/quick-start.md:75
-#: 7439100e9ac64329814f0b75a526c090
+#: ../../source/getting-started/quick-start.md:71
+#: 054a091ab88b4db99d964fa85224d94b
 msgid "每个 Epoch 结束时保存 `last_checkpoint.pth`。"
 msgstr "`last_checkpoint.pth` is saved at the end of each epoch."
 
-#: ../../source/getting-started/quick-start.md:76
-#: 8da831c5ff9143dca2368db665462791
+#: ../../source/getting-started/quick-start.md:72
+#: 4596ff6ada654984a059a4f225d45f9d
 msgid "训练结束后，自动加载最佳检查点并在留出测试集上运行最终评估。"
 msgstr ""
 "Upon training completion, the best checkpoint is automatically loaded to "
 "evaluate final performance on the held-out test set."
 
-#: ../../source/getting-started/quick-start.md:80
-#: b58c0aa570c6458ead5b05f09484212e
+#: ../../source/getting-started/quick-start.md:76
+#: e2cafe4d2f794f989f291d1ac340e7cc
 msgid "步骤 3：独立测试集评估"
 msgstr "Step 3: Standalone Test Set Evaluation"
 
-#: ../../source/getting-started/quick-start.md:82
-#: 3d652a6adca34efbaa6d266fd48a69c6
+#: ../../source/getting-started/quick-start.md:78
+#: 919492887af640bca67426dcb6565636
 msgid "如果需要重新评测某个已经训练完毕的模型，或者在不同的硬件（例如无显卡的 CPU 机器）上复现测试结果，可以使用 `evaluate.py`："
 msgstr ""
 "If you need to re-evaluate a trained model or reproduce test results on "
 "different hardware (e.g., a CPU server without GPUs), use `evaluate.py`:"
 
-#: ../../source/getting-started/quick-start.md:84
-#: 154f3a9c915240a780d4324444f68e66
+#: ../../source/getting-started/quick-start.md:80
+#: 14ee4617a988468eaad3842aae06033f
 msgid ""
 "# 指定实验运行目录进行独立评估\n"
 "python evaluate.py --evaluate.run_dir "
@@ -289,8 +279,8 @@ msgstr ""
 "python evaluate.py --evaluate.run_dir "
 "runs/normal/DKT_assistments09_20261109-133000_fold0_bs128\n"
 
-#: ../../source/getting-started/quick-start.md:90
-#: 4e69ddc0ca914e1ea64e3654916056df
+#: ../../source/getting-started/quick-start.md:86
+#: d064d48505e549e1be4f46409bb088c6
 msgid ""
 "`evaluate.py` 会直接读取运行目录中的 `run_config.yaml` "
 "归档文件，自动恢复完整的超参数、模型架构与数据集配置，因此**无需重复指定 `-m` 或 `-d`**。"
@@ -300,13 +290,13 @@ msgstr ""
 "architecture, and dataset configuration—**no need to respecify `-m` or "
 "`-d`**."
 
-#: ../../source/getting-started/quick-start.md:93
-#: 175aed0155344e4baa63144e963bbcb3
+#: ../../source/getting-started/quick-start.md:89
+#: 467f8bb1af3e40779b04c1121b0b3b47
 msgid "若需要在 CPU 上执行评估："
 msgstr "To run evaluation on CPU:"
 
-#: ../../source/getting-started/quick-start.md:95
-#: f0b9ba75455a4d409d547cba948f7a5a
+#: ../../source/getting-started/quick-start.md:91
+#: ca5d02cbb29143229b619289b84c2609
 msgid ""
 "python evaluate.py --evaluate.run_dir "
 "runs/normal/DKT_assistments09_20261109-133000_fold0_bs128 "
@@ -316,13 +306,13 @@ msgstr ""
 "runs/normal/DKT_assistments09_20261109-133000_fold0_bs128 "
 "--general.device cpu\n"
 
-#: ../../source/getting-started/quick-start.md:99
-#: 22c692c61e95493e9dd99430aa3de7a9
+#: ../../source/getting-started/quick-start.md:95
+#: a67b8eed8f4c4504af491fd4fc935518
 msgid "控制台将输出测试集精确指标："
 msgstr "The console will output the exact test set metrics:"
 
-#: ../../source/getting-started/quick-start.md:101
-#: bd3cae2a84804eb2a9e4cc2bfccadd06
+#: ../../source/getting-started/quick-start.md:97
+#: 0c5794b88d974999ba3edee031ab86e0
 msgid ""
 "2026-11-09 13:35:10 INFO     evaluate.py: Loading model weights from "
 ".../best_model.pth...\n"
@@ -338,20 +328,20 @@ msgstr ""
 "2026-11-09 13:35:12 INFO     utils.training.base_trainer: Evaluation "
 "results: AUC=0.7482, ACC=0.7153, RMSE=0.4321\n"
 
-#: ../../source/getting-started/quick-start.md:109
-#: 1abffb0457bb457cb6538eefe3710893
+#: ../../source/getting-started/quick-start.md:105
+#: 0e6fca0b6bbb4b4ab400e0cdaece375e
 msgid "步骤 4：查看实验产物与追踪"
 msgstr "Step 4: Inspect Run Artifacts and Tracking"
 
-#: ../../source/getting-started/quick-start.md:111
-#: bba0346cd9484af8be577a43ed37682a
+#: ../../source/getting-started/quick-start.md:107
+#: f560ce16b06d4ac498a77c3bdd5ae2c1
 msgid "每次训练运行都会在 `runs/normal/<run_id>/` 目录下生成自包含的实验归档文件："
 msgstr ""
 "Each training run generates a self-contained experiment archive in "
 "`runs/normal/<run_id>/`:"
 
-#: ../../source/getting-started/quick-start.md:113
-#: 3e5752fa51f24d74a452ace2271c383e
+#: ../../source/getting-started/quick-start.md:109
+#: 157d10834b2b4311bdd233c56d090fa0
 msgid ""
 "runs/normal/DKT_assistments09_20261109-133000_fold0_bs128/\n"
 "├── run_config.yaml        # 实验配置完整快照（无损复现的核心依据）\n"
@@ -375,8 +365,8 @@ msgstr ""
 "├── timing.csv             # Phase timing breakdown\n"
 "└── run.log                # Full terminal console log\n"
 
-#: ../../source/getting-started/quick-start.md:125
-#: 1cbb782e6373447a98adcb2e138f1917
+#: ../../source/getting-started/quick-start.md:121
+#: 99f14833e440458695fe6115cd326723
 msgid ""
 "若在 `.env` 中启用了 SwanLab（`KT_TRACKING_BACKEND=swanlab`），可直接在 SwanLab Web "
 "控制台查看动态绘制的损失曲线、AUC/ACC 变化以及多实验横向对比看板。"
@@ -444,3 +434,12 @@ msgstr ""
 #~ msgstr ""
 #~ "[Adding a new model](../user-guide/new-"
 #~ "model.md) — integrate your own model"
+
+#~ msgid ""
+#~ "从 [ASSISTments 2009](../datasets/catalog/assistments09.md)"
+#~ " 获取 `skill_builder_data_corrected_collapsed.csv`，放入 "
+#~ "`data/assistments09/raw/`。"
+#~ msgstr ""
+#~ "Get `skill_builder_data_corrected_collapsed.csv` from "
+#~ "[ASSISTments 2009](../datasets/catalog/assistments09.md) "
+#~ "and put it in `data/assistments09/raw/`."
