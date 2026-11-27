@@ -256,13 +256,13 @@ msgstr ""
 " accelerate using CUDA Graph capture."
 
 #: ../../source/api/cli/efficiency.md:51 a0c4e23383ba4b4da2e36ffa23b32b63
-msgid "训练阶段 (`--efficiency.training.*`)"
-msgstr "Training Stage (`--efficiency.training.*`)"
+msgid "训练阶段 (`--efficiency.train.*`)"
+msgstr "Training Stage (`--efficiency.train.*`)"
 
 #: ../../source/api/cli/efficiency.md:52 7ffb76c477734668ab103aeded189371
-msgid "`--efficiency.training.iters` (`int`, 默认 `100`)：前向 + 反向 + 优化器单步更新的计时迭代次数。"
+msgid "`--efficiency.train.iters` (`int`, 默认 `50`)：前向 + 反向 + 优化器单步更新的计时迭代次数。"
 msgstr ""
-"`--efficiency.training.iters` (`int`, default `100`): Number of timing "
+"`--efficiency.train.iters` (`int`, default `50`): Number of timing "
 "iterations for forward + backward + optimizer step update."
 
 #: ../../source/api/cli/efficiency.md:54 354e3dc54225489b9a384f1c37d804a9

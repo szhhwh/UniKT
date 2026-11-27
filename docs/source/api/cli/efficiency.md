@@ -48,8 +48,8 @@
 - `--efficiency.inference.iters` (`int`, 默认 `100`)：推断计时测量的迭代次数。
 - `--efficiency.inference.cuda_graph` (`bool`, 默认 `False`)：是否使用 CUDA Graph 录制加速。
 
-#### 训练阶段 (`--efficiency.training.*`)
-- `--efficiency.training.iters` (`int`, 默认 `100`)：前向 + 反向 + 优化器单步更新的计时迭代次数。
+#### 训练阶段 (`--efficiency.train.*`)
+- `--efficiency.train.iters` (`int`, 默认 `50`)：前向 + 反向 + 优化器单步更新的计时迭代次数。
 
 #### 算子画像与剖析 (`--efficiency.trace.*`)
 - 利用 PyTorch Profiler 捕获算子执行栈，统计 GPU/CPU 核函数耗时前 10 的核心算子。
