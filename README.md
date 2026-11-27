@@ -65,8 +65,9 @@ pixi shell -e xlstm    # xLSTM-based models
 
 ### 2 · Prepare data
 
+Place raw data in `data/assistments09/raw/` (see [ASSISTments 2009](docs/source/datasets/catalog/assistments09.md)).
+
 ```bash
-pixi run python data_process.py download -d assistments09
 pixi run python data_process.py process -d assistments09
 ```
 

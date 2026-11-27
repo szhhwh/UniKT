@@ -59,7 +59,6 @@ class MoocRadarData(DataSource):
         super().__init__(
             dataset="moocradar",
             data_base_path=args.data_base_path,
-            data_url="http://cdn.lionhao.top/KTDataset/moocradar.zip",
             seed=args.seed,
         )
         self.args = args

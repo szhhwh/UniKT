@@ -8,7 +8,7 @@ UniKT 提供了一套高吞吐、强类型、抗数据泄露的数据处理管�
 
 数据预处理分为两个主要阶段：**下载阶段 `download`** 与 **处理阶段 `process`**。完整的数据处理包含五个步骤：
 
-1. **拉取原始数据**：通过 `data_process.py download` 从官方镜像或 CDN 下载原始压缩包，解压到 `data/<dataset>/raw/`。
+1. **准备原始数据**：通过内置镜像下载（`data_process.py download`）或将原始文件放至 `data/<dataset>/raw/`。
 2. **清洗与 ID 映射**：通过 `data_process.py process` 使用 Polars 过滤缺省值并为学生、题目与知识点重新分配紧凑自增编号。
 3. **零泄露划分**：按学生总体答题量与正答率分层划分为 5 折，并独立保留 Held-out 测试集。
 4. **序列截断与展开**：根据配置的序列长度限制进行滑窗切分或截断。
@@ -16,16 +16,17 @@ UniKT 提供了一套高吞吐、强类型、抗数据泄露的数据处理管�
 
 ### 1. 下载原始数据
 
+对于提供内置镜像的数据集，可直接使用 `download` 子命令自动下载并解压：
+
 ```bash
-# 下载指定数据集，自动解压至 data/<dataset>/raw/
-python data_process.py download -d assistments09
+# 从内置镜像下载数据集（如 slepemapy）
+python data_process.py download -d slepemapy
 
-# 强制重新下载，覆盖本地已有 raw 缓存
-python data_process.py download -d assistments09 --force true
-
-# 指定并发下载线程数
-python data_process.py download -d assistments09 --num_threads 8
+# 或通过 --data_url 指定自定义下载直链
+python data_process.py download -d assistments09 --data_url "https://example.com/assist09.zip"
 ```
+
+未内置镜像的数据集，可将获取的原始文件直接放入 `data/<dataset>/raw/` 目录。
 
 ### 2. 执行预处理流水线
 

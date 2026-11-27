@@ -58,8 +58,9 @@ def cmd_download(rc: _PartialRC, ns: Namespace) -> None:
         dp.data_url = sub_ns.data_url
 
     if not dp.data_url:
-        raise ValueError(
-            "No data_url available for this dataset. Provide --data_url explicitly."
+        raise SystemExit(
+            f"Dataset '{dp.dataset}' has no built-in mirror. Provide --data_url, "
+            f"or manually place raw data in '{dp.data_folder}/raw/'."
         )
 
     logger.info(f"Downloading dataset {rc.data.dataset} to {dp.data_folder}")

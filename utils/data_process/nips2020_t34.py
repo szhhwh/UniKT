@@ -26,7 +26,6 @@ class NIPS2020T34Data(DataSource):
         super().__init__(
             dataset="nips2020_t34",
             data_base_path=args.data_base_path,
-            data_url="http://cdn.lionhao.top/KTDataset/nips2020_t34.zip",
             seed=args.seed,
         )
         self.args = args

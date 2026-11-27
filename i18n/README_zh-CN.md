@@ -131,9 +131,9 @@ pip install swanlab
 
 ### 1. 数据准备
 
+将原始数据放置于 `data/assistments09/raw/`（详见 [ASSISTments 2009](../docs/source/datasets/catalog/assistments09.md)）：
+
 ```bash
-# 下载并处理 ASSISTments 2009 数据集
-python data_process.py download -d assistments09
 python data_process.py process -d assistments09
 ```
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: UniKT \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"POT-Creation-Date: 2026-11-27 22:50+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -19,11 +19,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.18.0\n"
 
-#: ../../source/api/cli/data-process.md:1 d129e734ad4d4c9c8f3a1e58bb46617e
+#: ../../source/api/cli/data-process.md:1 6636ec7e46c24d18b8c28ba8fab06c4a
 msgid "data_process.py 命令行参考"
 msgstr "data_process.py Command Line Reference"
 
-#: ../../source/api/cli/data-process.md:3 8f8640ad8bd440e48163782143771458
+#: ../../source/api/cli/data-process.md:3 49d383b147a64219a7adc65b857072c0
 msgid ""
 "`data_process.py` 是 UniKT "
 "数据管线的统一命令行工具，提供数据集下载（`download`）与清洗切分处理（`process`）两个标准子命令。"
@@ -32,11 +32,11 @@ msgstr ""
 "pipeline, providing two standard subcommands: dataset downloading "
 "(`download`) and cleaning/splitting processing (`process`)."
 
-#: ../../source/api/cli/data-process.md:5 258edbc94e8b435a866a846d29d74629
+#: ../../source/api/cli/data-process.md:5 68ecc411bdb34748a3b9473a3bcb3a66
 msgid "子命令总览"
 msgstr "Subcommand Overview"
 
-#: ../../source/api/cli/data-process.md:7 b8296661a6c64c999616dd4981ce1113
+#: ../../source/api/cli/data-process.md:7 35b2f2ca2d9a4c57b307f833f32a6aa1
 msgid ""
 "# 1. 下载原始数据集压缩包并解压至 data/<dataset>/raw/\n"
 "python data_process.py download -d <dataset> [OPTIONS]\n"
@@ -51,381 +51,378 @@ msgstr ""
 "standard Parquet slicing\n"
 "python data_process.py process -d <dataset> [OPTIONS]\n"
 
-#: ../../source/api/cli/data-process.md:17 35763c39316a4404b2138a8bf18dd703
+#: ../../source/api/cli/data-process.md:17 81fde0ea8e4f4a089d4062edef52146f
 msgid "1. `download` 子命令"
 msgstr "1\\. `download` Subcommand"
 
-#: ../../source/api/cli/data-process.md:19 51c81ebfcc4343e99464aeca9a38e6a8
-msgid "从公开源或官方镜像自动下载原始数据集文件，并在下载完成后校验并解压到 `data/<dataset>/raw/` 目录。"
+#: ../../source/api/cli/data-process.md:19 fa2eac8e93d14c54b38e0d9a04c81aa7
+msgid "从内置镜像或自定义链接下载原始数据并解压到 `data/<dataset>/raw/`。"
 msgstr ""
-"Automatically download raw dataset files from public sources or official "
-"mirrors, verifying and extracting them into the `data/<dataset>/raw/` "
-"directory upon completion."
+"Download and extract raw data from built-in mirrors or custom URLs into "
+"`data/<dataset>/raw/`."
 
-#: ../../source/api/cli/data-process.md:21 9588019e178744d4891c89f21ac31153
+#: ../../source/api/cli/data-process.md:21 606ef40a30624b1dbe2c758ef32fe2dd
 msgid "参数说明"
 msgstr "Parameter reference"
 
-#: ../../source/api/cli/data-process.md 7aa0c9834c0d4039aa89ca1c1f661218
-#: 895f2ece32b4451e99dd2908f826def3 e16116232fdd421c89cd238c53700d3b
+#: ../../source/api/cli/data-process.md 58b0425363a940b59a40be87e19fa95b
+#: 85d5aeac260a4e04a723af356fc3e017 d19e1d803e084e97877f38c27c85c9f4
 msgid "参数"
 msgstr "Parameter"
 
-#: ../../source/api/cli/data-process.md d7b1d93e92ae4de482e1f5bd5e367aaf
-#: ff3e0390321d463f846b922b23dbeaa6
+#: ../../source/api/cli/data-process.md 9ed580f4200f4cdfa8a648c832a4932b
+#: f77d1a92a5064d1b91fbc9144c4f03fa
 msgid "短标识"
 msgstr "Short Flag"
 
-#: ../../source/api/cli/data-process.md 035ac5049c9b423fa2258037817d00dd
-#: 05bb9caf7c29493aa106abbbe5d69cfa 112728687c79435b937911507659e4d0
+#: ../../source/api/cli/data-process.md 6c2c661a089c455b942d4571f3b9a034
+#: c6cb5d5b9df54e22a99f730254f1c3f4 f3793048ded4490ba9c147d4a32ad434
 msgid "类型"
 msgstr "Type"
 
-#: ../../source/api/cli/data-process.md 2fb49876dde744748f8f6788f4fd618f
-#: 5d730a6d63c148b18769edb67c977973 bad054e2e37d41f7afc78a2672b4c5c4
+#: ../../source/api/cli/data-process.md 3ebc8a7f723842d88a973733d10fa776
+#: 484433c993ac4b9caacd96651c1d9811 88303e23b8834dcd8486ba97dedeffa0
 msgid "默认值"
 msgstr "Default"
 
-#: ../../source/api/cli/data-process.md 1690de4c9d0d4819b423aaffb2ca4d48
-#: 9c991c67b15342898e3a29663a8a06eb a143d53456c34757bf3fa0685fb49b85
+#: ../../source/api/cli/data-process.md 73b73a13a2194628b9b48f58aae64151
+#: 8f9d6e0b16fb4b5ab172b3e5e26f2944 b5a9142cef23445dba06c3ef68463b5e
 msgid "说明"
 msgstr "Description"
 
-#: ../../source/api/cli/data-process.md 7d61e76de65e41f99092507d3318a462
-#: b2c381f24f6c40e1953543d92c626b6f
+#: ../../source/api/cli/data-process.md 0d385389354d40258757a9e97d19d6b1
+#: 0fec73d45c564743a5ba7214a982711d
 msgid "`--data.dataset`"
 msgstr "`--data.dataset`"
 
-#: ../../source/api/cli/data-process.md 18d982fe41f04a59b57ade4449f19db0
-#: a7036617b43e4b5eb95ae55a962406c1
+#: ../../source/api/cli/data-process.md 10c6218116b5488c85ee218ec993e913
+#: 9ecf9d264d7c49e3bfa99f5c7395a2b2
 msgid "`-d`"
 msgstr "`-d`"
 
-#: ../../source/api/cli/data-process.md 93528821192e40239fdaa7332a95a82b
-#: b9ad53d35c2440cf9a3222fa2060ba6d bef48bc8b65d4df6991ca15ad5a92f0c
-#: d30b2c348ee5496bb8f94d5c47e1cc77
+#: ../../source/api/cli/data-process.md 4565bf1bd0654147a7a55eee910badd8
+#: 62637b68152f471d9f69194c8b175a42 821bd5c9f11b4f0bbc0895c05d15be35
+#: d43f2c6393424ca79feac80fb406ed1e
 msgid "`str`"
 msgstr "`str`"
 
-#: ../../source/api/cli/data-process.md 6a6fbae0752940a89178462ccc8618ee
-#: de7d5306082042ad990236eea3dca859
+#: ../../source/api/cli/data-process.md 207d5beea5d2427ea97f323fb8e68ba4
+#: 6cf1e75eb782472aa12c4e4403bad4f0
 msgid "**必需**"
 msgstr "**Required**"
 
-#: ../../source/api/cli/data-process.md 5b9df1e92284469b8a3c6ecd53f0a194
+#: ../../source/api/cli/data-process.md bc28eec91a6f42f5b5e10fe81929f564
 msgid "目标数据集标识符（如 `assistments09`, `ednet_kt1`, `junyi2015`）"
 msgstr ""
 "Target dataset identifier (e.g., `assistments09`, `ednet_kt1`, "
 "`junyi2015`)"
 
-#: ../../source/api/cli/data-process.md a90d51dbcef944f89905f16388fc6cb1
+#: ../../source/api/cli/data-process.md 5462ab5076f942ca94136458a1483ea4
 msgid "`--data_url`"
 msgstr "`--data_url`"
 
-#: ../../source/api/cli/data-process.md d5a8d7fb5254406695c7baedcc16c953
+#: ../../source/api/cli/data-process.md f0ff6c3593d14937ac0eb30f39536a5c
 msgid "`str | null`"
 msgstr "`str | null`"
 
-#: ../../source/api/cli/data-process.md 26e5024bfde7446ba48799ae31ff8163
-#: 9f18b4c2ee0440c487ba876f8c19a1eb ccb1d5f68f524eefbef614eb8f481eb4
+#: ../../source/api/cli/data-process.md ce6b021bea25467e8b22de209f27b69a
+#: f2ed98fdcaef4b5b8576de5c0fbaffa6 fb29ec21d4b940edb9b8689b2504f697
 msgid "`None`"
 msgstr "`None`"
 
-#: ../../source/api/cli/data-process.md 5a4a2c15140f4873b2442134e8b73aeb
-msgid "自定义下载链接（若提供则覆盖数据集默认的内置下载链接）"
-msgstr ""
-"Custom download URL (if provided, overrides the dataset's default built-"
-"in download URL)"
+#: ../../source/api/cli/data-process.md 5ec9e0cafc194761905285cfd056d844
+msgid "自定义下载直链（指定外部源或覆盖内置镜像）"
+msgstr "Custom download URL (specify external source or override built-in mirror)"
 
-#: ../../source/api/cli/data-process.md d8616cfb81cd49be85b3391908874a90
+#: ../../source/api/cli/data-process.md 3a52148ad8b34b018d2e3ab1fbd20ef5
 msgid "`--force`"
 msgstr "`--force`"
 
-#: ../../source/api/cli/data-process.md 8ff28db60a1c4257980a818afde2012f
+#: ../../source/api/cli/data-process.md ace10ae8b0494896b448ce21f8e5000c
 msgid "`bool`"
 msgstr "`bool`"
 
-#: ../../source/api/cli/data-process.md 2daa5ccf15864f2793b5b0605002cd31
+#: ../../source/api/cli/data-process.md 8779f922a78545f7b346110b450afab9
 msgid "`False`"
 msgstr "`False`"
 
-#: ../../source/api/cli/data-process.md 59f65a50d5f64f03947f3ae5283c272f
+#: ../../source/api/cli/data-process.md 4ff40c9ed0aa490293b89bcb42439f24
 msgid "是否强制重新下载（即使本地已存在原始文件）"
 msgstr "Whether to force re-downloading (even if raw files already exist locally)"
 
-#: ../../source/api/cli/data-process.md d135c2e95430434f95af3f1fad4a0c48
+#: ../../source/api/cli/data-process.md 75f8f78efce74839983a705ad515214a
 msgid "`--max_retries`"
 msgstr "`--max_retries`"
 
-#: ../../source/api/cli/data-process.md 08eeeccf54724b7997a3f39b66a74fbd
-#: 15a9cb5c1c9f40bf8b98410d9eb486af 390e196888d64598938a6a2b491f0301
-#: 3b7835f253d94a56998a293d8d617ea8 6c22831cafcf47c4a2ff17f2f476891c
-#: d81ef3cbeeac43bdb091bf69c33cb277
+#: ../../source/api/cli/data-process.md 4bfd97bb90184f48bf7e0e30573c3082
+#: 4e6bd284faf947d9b6185bd88ee58648 539b39045fb74a21956fcd1f267a90a8
+#: 5efee242b41c495db645f108197a7ac0 ada84ddcce7c441384e462bc6a2667cc
+#: ca8c7ba7be6140df83cef0d016180fa1
 msgid "`int`"
 msgstr "`int`"
 
-#: ../../source/api/cli/data-process.md dcae3779c6f7476a941491e2c3e6c7cb
-#: e292ebdf39ee45b49f9f640aed4880a4
+#: ../../source/api/cli/data-process.md 36647110dc8d408d8ce6196ba371c9b0
+#: baf18aeeaaad47fc833c10e9a92d97c1
 msgid "`3`"
 msgstr "`3`"
 
-#: ../../source/api/cli/data-process.md 534df25e6fe0419e9665b1d2212d65f7
+#: ../../source/api/cli/data-process.md 6111706a524148ae8254a83411c5d799
 msgid "下载失败时的最大重试次数"
 msgstr "Maximum retry attempts upon download failure"
 
-#: ../../source/api/cli/data-process.md 38aea0821ab84d109cbe4933979f98aa
+#: ../../source/api/cli/data-process.md 56a7d9d7327047bfafbafcef27cead86
 msgid "`--num_threads`"
 msgstr "`--num_threads`"
 
-#: ../../source/api/cli/data-process.md 068ea45ffbb343e49767419dc88eb329
+#: ../../source/api/cli/data-process.md 852f9d7de77543eaa708b680889d3c7a
 msgid "`4`"
 msgstr "`4`"
 
-#: ../../source/api/cli/data-process.md 5f2ca0b6180044888d637e2560a2ac1d
+#: ../../source/api/cli/data-process.md 0806248902f14d1a905d758c77d6164b
 msgid "多线程并发分块下载线程数"
 msgstr "Number of concurrent chunk download threads"
 
-#: ../../source/api/cli/data-process.md 1e972cbf8dc84bf594177e89c68eb661
-#: 8a127457873d4b02b0dabdd174ee6ec8
+#: ../../source/api/cli/data-process.md fd0453eab88545c598f6d1bffc33df3e
+#: fff0e73cb66e423eb9d9c8da08951af2
 msgid "`--data.data_base_path`"
 msgstr "`--data.data_base_path`"
 
-#: ../../source/api/cli/data-process.md 46f05250345d42a1be0490a7b2f20151
-#: d664d03fbe1d400ba2d80d713c022ca1
+#: ../../source/api/cli/data-process.md 20721319d8c04266a594c1ce87ed180a
+#: e1c2baa28d8a4ca79f14c18567c51aae
 msgid "`./data`"
 msgstr "`./data`"
 
-#: ../../source/api/cli/data-process.md 31ed27ed92ac484e9cc571a2a095106c
+#: ../../source/api/cli/data-process.md 5633921bb42c4c94ae85ec61fb575129
 msgid "数据集根目录路径"
 msgstr "Dataset root directory path"
 
 #: ../../source/api/cli/data-process.md:32
-#: ../../source/api/cli/data-process.md:74 2517dce0589e4728b3d0cd3fd09041f6
-#: ac22449c1bf94139a5d0532f1c54f404
+#: ../../source/api/cli/data-process.md:74 05222613ebb34ba0a462bcd440e9a57a
+#: ca987b8eb7d2461c9b466a695a9b9663
 msgid "示例"
 msgstr "Example"
 
-#: ../../source/api/cli/data-process.md:34 84418b5886d2433f817e08354619d39c
+#: ../../source/api/cli/data-process.md:34 47937de0ab274aeea1d9ad68632ac81b
 msgid ""
-"# 使用内置镜像下载 ASSISTments 2009 数据集\n"
-"python data_process.py download -d assistments09\n"
+"# 从内置镜像下载数据集\n"
+"python data_process.py download -d slepemapy\n"
 "\n"
-"# 强制重新下载并指定外部下载源\n"
-"python data_process.py download -d assistments09 --force --data_url "
-"\"https://my-mirror.org/assist09.zip\"\n"
+"# 或指定自定义下载链接\n"
+"python data_process.py download -d assistments09 --data_url "
+"\"https://example.com/assist09.zip\"\n"
 msgstr ""
-"# Download ASSISTments 2009 dataset using built-in mirror\n"
-"python data_process.py download -d assistments09\n"
+"# Download dataset using built-in mirror\n"
+"python data_process.py download -d slepemapy\n"
 "\n"
-"# Force re-download and specify external download source\n"
-"python data_process.py download -d assistments09 --force --data_url "
-"\"https://my-mirror.org/assist09.zip\"\n"
+"# Or specify a custom download URL\n"
+"python data_process.py download -d assistments09 --data_url "
+"\"https://example.com/assist09.zip\"\n"
 
-#: ../../source/api/cli/data-process.md:44 e5f8b25c61d74d07b3e09ebdfc35e226
+#: ../../source/api/cli/data-process.md:44 50ef96064af249f4be0b06fc35fe25bb
 msgid "2. `process` 子命令"
 msgstr "2\\. `process` Subcommand"
 
-#: ../../source/api/cli/data-process.md:46 430ea939a7c64c38981cd0ee4e77987d
+#: ../../source/api/cli/data-process.md:46 ffcbb3a2da914883815b85e94d0d5115
 msgid "对已下载的原始数据执行清洗、实体重编号、分层抽样、K 折交叉验证划分与长序列滑动切分。"
 msgstr ""
 "Execute cleaning, entity re-indexing, stratified sampling, K-fold cross-"
 "validation splitting, and long sequence sliding window segmentation on "
 "downloaded raw data."
 
-#: ../../source/api/cli/data-process.md:48 ad1dc55a4c714f80be1ce11c4bf52aa9
+#: ../../source/api/cli/data-process.md:48 fea076c7868a4fcaa33e905593b26958
 msgid "核心参数说明"
 msgstr "Core Parameter Description"
 
-#: ../../source/api/cli/data-process.md 726a60d8e96346ecbbf93424950a35a6
+#: ../../source/api/cli/data-process.md 3379a13b0ba4462f967c2777bdbaa876
 msgid "目标数据集标识符"
 msgstr "Target dataset identifier"
 
-#: ../../source/api/cli/data-process.md d9e6a5ea493d46d3955631ac6a821727
+#: ../../source/api/cli/data-process.md a350823d379441cdba4d03ae57a91708
 msgid "`--extra`"
 msgstr "`--extra`"
 
-#: ../../source/api/cli/data-process.md 24009de1459f416aadfb3ce5da63e7c4
+#: ../../source/api/cli/data-process.md 4e6de931803f4da687d56614f4e3d7b8
 msgid "`list[str]`"
 msgstr "`list[str]`"
 
-#: ../../source/api/cli/data-process.md adfd83deca6143ce8287bf1e2dbbdd70
+#: ../../source/api/cli/data-process.md 7c46e73ba6cf4f1780b5fb3f6f6a7b8a
 msgid "`[]`"
 msgstr "`[]`"
 
-#: ../../source/api/cli/data-process.md 8d477dee758f436b824724848409a126
+#: ../../source/api/cli/data-process.md 7c92628b2ee249178776b8a982f1fcae
 msgid "额外处理步骤。例如传入 `windowlate` 以构建窗口评测评估集"
 msgstr ""
 "Extra processing steps. For example, pass `windowlate` to build a "
 "windowed late evaluation benchmark dataset"
 
-#: ../../source/api/cli/data-process.md fa911c75f50d49d8bc1bf8c355f5abe6
+#: ../../source/api/cli/data-process.md 3735fd879dae4bc2a2755dfc610e925f
 msgid "`--data.kfold`"
 msgstr "`--data.kfold`"
 
-#: ../../source/api/cli/data-process.md 59c6e5c6b9964d4c8d20950ef0f7ecac
+#: ../../source/api/cli/data-process.md 955d68bd21584b03950757ad3fab789a
 msgid "`5`"
 msgstr "`5`"
 
-#: ../../source/api/cli/data-process.md dc6edd5900904fc98f1fbcd4bb0f1ff7
+#: ../../source/api/cli/data-process.md b3ee4b05197246fda051ead64058a0b0
 msgid "K 折交叉验证划分总折数（设为 `1` 或 `0` 禁用 K 折划分）"
 msgstr ""
 "Total number of folds for K-fold cross-validation splitting (set to `1` "
 "or `0` to disable K-fold splitting)"
 
-#: ../../source/api/cli/data-process.md 6f4b16c22b05489e9ca55314cc535ce6
+#: ../../source/api/cli/data-process.md a9796baccb594732946f25258f89df67
 msgid "`--data.test_ratio`"
 msgstr "`--data.test_ratio`"
 
-#: ../../source/api/cli/data-process.md 5b25fc3bc2844448a5e176f6baa13f52
+#: ../../source/api/cli/data-process.md 19e438e78dfa42119dff2a134a36a66b
 msgid "`float`"
 msgstr "`float`"
 
-#: ../../source/api/cli/data-process.md 4d5ede697ebe4f65a791ed886e010960
+#: ../../source/api/cli/data-process.md 596ea00f01ec4533b3dd41c44a5e922b
 msgid "`0.2`"
 msgstr "`0.2`"
 
-#: ../../source/api/cli/data-process.md 48d49c3a4ee24411b9fe475e94ef0900
+#: ../../source/api/cli/data-process.md f3b1e28dc7a0403d90d8ea55b866f37e
 msgid "独立留出测试集的学生比例"
 msgstr "Proportion of students held out as an independent test set"
 
-#: ../../source/api/cli/data-process.md 1eb471aaf43a4660bfbf25754ecc5be1
+#: ../../source/api/cli/data-process.md e8a42fed4def4116bd1f4a246902b6ff
 msgid "`--data.min_seq_len`"
 msgstr "`--data.min_seq_len`"
 
-#: ../../source/api/cli/data-process.md 8da57af905f84f49b31dacffe16fe5a0
+#: ../../source/api/cli/data-process.md 5fe80861177f4db88523132e502ed545
 msgid "序列最小有效交互长度，交互数少于此值的学生将被过滤"
 msgstr ""
 "Minimum valid interaction length for sequences; students with fewer "
 "interactions than this value will be filtered out"
 
-#: ../../source/api/cli/data-process.md 417e23a0a2dd4be5901190c8158d7566
+#: ../../source/api/cli/data-process.md 0cfd856b2a4b4d0ba06c3a44008d0cd2
 msgid "`--data.max_seq_len`"
 msgstr "`--data.max_seq_len`"
 
-#: ../../source/api/cli/data-process.md 544011df48a748df95b449c52d280507
+#: ../../source/api/cli/data-process.md c70f8a1515f34cad983762601e17f69a
 msgid "`200`"
 msgstr "`200`"
 
-#: ../../source/api/cli/data-process.md fcc138e03fa44472aae1795d7e3db16c
+#: ../../source/api/cli/data-process.md 4ef9c02b335b4ab98da4019dffc5d624
 msgid "序列滑动切分的最大长度预算"
 msgstr "Maximum length budget for sequence sliding window segmentation"
 
-#: ../../source/api/cli/data-process.md fb8e1e7947104758a11477ece04f32db
+#: ../../source/api/cli/data-process.md fcf1e63b0cc94717a168f69cb98f274a
 msgid "`--data.truncation_stage`"
 msgstr "`--data.truncation_stage`"
 
-#: ../../source/api/cli/data-process.md 032aea4562444739a914d6243932384e
-#: 7dff15cf9e0d4b76bdf75f9b70cc3f95
+#: ../../source/api/cli/data-process.md 4d94b6d91f1f4b989a8436f62a471802
+#: 77cdb9d3d9b4476dba5a62a47e8e043d
 msgid "`Literal`"
 msgstr "`Literal`"
 
-#: ../../source/api/cli/data-process.md 4c96b0b50448463f96dd34d9d4e94fcb
+#: ../../source/api/cli/data-process.md dda02b48168b428bbb28d46c85ef1445
 msgid "`post_expansion`"
 msgstr "`post_expansion`"
 
-#: ../../source/api/cli/data-process.md c6bca21dfee44589a2bda35d0bc7b653
+#: ../../source/api/cli/data-process.md fe40e48282db4d99bc36a185183f4580
 msgid "KC 展开截断时机：`post_expansion`（展开后截断）或 `pre_expansion`（展开前截断）"
 msgstr ""
 "KC expansion truncation timing: `post_expansion` (truncate after "
 "expansion) or `pre_expansion` (truncate before expansion)"
 
-#: ../../source/api/cli/data-process.md f0c4b90460eb4410b223c0ecd5194d28
+#: ../../source/api/cli/data-process.md 58d643a3118f4821bed26ba8d553d781
 msgid "数据集保存根路径"
 msgstr "Dataset storage root path"
 
-#: ../../source/api/cli/data-process.md 6003590c5ee8437d931ae1d8c5c281a9
+#: ../../source/api/cli/data-process.md 32969d4767d64ea58c61853a63d36ad0
 msgid "`--general.seed`"
 msgstr "`--general.seed`"
 
-#: ../../source/api/cli/data-process.md 8ebba27c9bb942538076f9b051ec1beb
+#: ../../source/api/cli/data-process.md 9bb23311b41b419f916f09d3cef2eb72
 msgid "`42`"
 msgstr "`42`"
 
-#: ../../source/api/cli/data-process.md d36a1fd6b69744c89e1852b2bb5c6e5d
+#: ../../source/api/cli/data-process.md bbf3056084484e7ca320a592155e1572
 msgid "划分 K 折与抽样时使用的全局随机种子"
 msgstr "Global random seed used during K-fold splitting and sampling"
 
-#: ../../source/api/cli/data-process.md:62 d235ca76633e4fe9a19aa3b60d69292f
+#: ../../source/api/cli/data-process.md:62 336f7a0dd1c84d12ac39e299026de881
 msgid "数据抽样参数（可选）"
 msgstr "Data Sampling Parameters (Optional)"
 
-#: ../../source/api/cli/data-process.md:64 99e40ffb9bd74b86a6d768e79aa5f88d
+#: ../../source/api/cli/data-process.md:64 b9fd109f3228448bae0a53a18341f6b8
 msgid "用于在超大规模数据集（如 EdNet-KT1）上快速生成小型子集以便调试开发："
 msgstr ""
 "Used to rapidly generate small subsets on ultra-large datasets (such as "
 "EdNet-KT1) for debugging and development:"
 
-#: ../../source/api/cli/data-process.md 08aa0e3c54084efca46b659124a8db20
+#: ../../source/api/cli/data-process.md a625e89c26494fc2bba8183e6311faca
 msgid "`--data.sample_ratio`"
 msgstr "`--data.sample_ratio`"
 
-#: ../../source/api/cli/data-process.md 794156a13ff149f8a6e2374a01dc3023
+#: ../../source/api/cli/data-process.md 44a245bef79044f38edd81c62c933ed0
 msgid "`float | null`"
 msgstr "`float | null`"
 
-#: ../../source/api/cli/data-process.md fab51e648cc44caf811edb5823bdd526
+#: ../../source/api/cli/data-process.md b802976299b04f73bb0000bc8aff4817
 msgid "按比例抽样学生用户（`0.0 ~ 1.0`）"
 msgstr "Sample student users by proportion (`0.0 ~ 1.0`)"
 
-#: ../../source/api/cli/data-process.md fd1233ec28d9423fa192616fb4c38d98
+#: ../../source/api/cli/data-process.md bfc75dbba24548a48d4663ce7e30122f
 msgid "`--data.sample_size`"
 msgstr "`--data.sample_size`"
 
-#: ../../source/api/cli/data-process.md 8a05cae67370493faa1c82e9fd402355
+#: ../../source/api/cli/data-process.md 9d1c98085cf04b1cbb29acd2e29d2f49
 msgid "`int | null`"
 msgstr "`int | null`"
 
-#: ../../source/api/cli/data-process.md 7caffc67b6194d85a62f57f0b507d396
+#: ../../source/api/cli/data-process.md 14d56e59fa6445388d86be4fc0f2d12c
 msgid "按绝对数量抽样学生用户"
 msgstr "Sample student users by absolute count"
 
-#: ../../source/api/cli/data-process.md 7dc708797f314123aaba4c6c26b194d0
+#: ../../source/api/cli/data-process.md 698864b77c134b0a9acad49e3dc67858
 msgid "`--data.sample_strategy`"
 msgstr "`--data.sample_strategy`"
 
-#: ../../source/api/cli/data-process.md 975e7c51bd714278a9c5c17b73439651
+#: ../../source/api/cli/data-process.md 8c6193a37cfe456d8f13c34c27fcf4dc
 msgid "`random`"
 msgstr "`random`"
 
-#: ../../source/api/cli/data-process.md 0c5709cdd9cd492f9be517923e834c3e
+#: ../../source/api/cli/data-process.md 2ed7f4ece1df4c5496d5adcc80dbf713
 msgid "抽样算法：`random`（纯随机）、`stratified`（按作答数与正确率分层）、`time`（按时间排序）"
 msgstr ""
 "Sampling algorithm: `random` (pure random), `stratified` (stratified by "
 "interaction count and accuracy), `time` (chronological order)"
 
-#: ../../source/api/cli/data-process.md 3b496b92f3224b0cb33d11086588ec22
+#: ../../source/api/cli/data-process.md 18702e9520724bc492ce5123c277e7c8
 msgid "`--data.sample_attempts_bins`"
 msgstr "`--data.sample_attempts_bins`"
 
-#: ../../source/api/cli/data-process.md 0700220c99d2463fb49bcd6e9138def7
+#: ../../source/api/cli/data-process.md 1c2b1946d96f4c07babb3641e8e353dd
 msgid "`list[int]`"
 msgstr "`list[int]`"
 
-#: ../../source/api/cli/data-process.md 1a652b4083bf4b49bf1ed4fb74b80388
+#: ../../source/api/cli/data-process.md 074a9fd89ad94cb6ac38a34c689dd532
 msgid "`[20, 100]`"
 msgstr "`[20, 100]`"
 
-#: ../../source/api/cli/data-process.md 98a614811cae4af28b3f34d1829ed72b
+#: ../../source/api/cli/data-process.md 5cfebdb01a424d03b2b1b5a939babcc8
 msgid "分层抽样时的作答次数区间划分阈值"
 msgstr "Thresholds for interaction count binning in stratified sampling"
 
-#: ../../source/api/cli/data-process.md 96582a4635b94501a27f0f0bcc65eba5
+#: ../../source/api/cli/data-process.md 6fc9fc3da5f548f69686e2d1f73846da
 msgid "`--data.sample_correct_bins`"
 msgstr "`--data.sample_correct_bins`"
 
-#: ../../source/api/cli/data-process.md 1ae0ecfd3092419788659ffa659a44f9
+#: ../../source/api/cli/data-process.md 5abdfebf83ac4e9ba9b7a5dbb5071bb4
 msgid "`list[float]`"
 msgstr "`list[float]`"
 
-#: ../../source/api/cli/data-process.md 4ad0411c3f794d3c9491208cd081c815
+#: ../../source/api/cli/data-process.md 62102c8b45724aba90c5497351d13712
 msgid "`[0.4, 0.8]`"
 msgstr "`[0.4, 0.8]`"
 
-#: ../../source/api/cli/data-process.md af819bf6eee84d938fc645ddf00a7d7c
+#: ../../source/api/cli/data-process.md 526481000a8a41a197eedddb7cb3f83c
 msgid "分层抽样时的平均答对率区间划分阈值"
 msgstr "Thresholds for average accuracy rate binning in stratified sampling"
 
-#: ../../source/api/cli/data-process.md:76 a98393f2db0649e88105acd9cff0cbe8
+#: ../../source/api/cli/data-process.md:76 9d750d3d3aca483e90c03bdbb6f5f86f
 msgid ""
 "# 1. 标准全流程处理：生成 5 折切分与题目级/知识点级序列\n"
 "python data_process.py process -d assistments09\n"
@@ -448,17 +445,17 @@ msgstr ""
 "python data_process.py process -d ednet_kt1 --data.sample_ratio 0.1 "
 "--data.sample_strategy stratified\n"
 
-#: ../../source/api/cli/data-process.md:89 4c9d4453af6d40e4b95a85e5f2301cfa
+#: ../../source/api/cli/data-process.md:89 2ae4d9bd53f5453caec522ff0f9b0f80
 msgid "产出文件结构"
 msgstr "Output File Structure"
 
-#: ../../source/api/cli/data-process.md:91 0490592b7b7348c7b0fa8b4e55739eb8
+#: ../../source/api/cli/data-process.md:91 d9cb0b70e6e643cab4a7c3caad555047
 msgid "处理完成后，标准数据集目录结构如下："
 msgstr ""
 "Upon processing completion, the standard dataset directory structure is "
 "as follows:"
 
-#: ../../source/api/cli/data-process.md:93 d024da42994c420ab080c92cff771adf
+#: ../../source/api/cli/data-process.md:93 e42d92aabbe54bfbb2bae7493a5e4e42
 msgid ""
 "data/assistments09/\n"
 "├── raw/                                                    # 原始解压文件\n"
@@ -491,11 +488,11 @@ msgstr ""
 "└── assistments09_windowlate.parquet                        # Windowed "
 "late evaluation data (optional)\n"
 
-#: ../../source/api/cli/data-process.md:105 0278c8da8bc045ddb9c6930abb57f26e
+#: ../../source/api/cli/data-process.md:105 4bacb218352948afa89886201f743553
 msgid "`metadata.json` 核心字段示例"
 msgstr "`metadata.json` Core Fields Example"
 
-#: ../../source/api/cli/data-process.md:107 a5a5bb1c2a0d43ff9f836354292e17c1
+#: ../../source/api/cli/data-process.md:107 eaf363e820c7404b969262139517497f
 #, python-brace-format
 msgid ""
 "{\n"
@@ -527,3 +524,13 @@ msgstr ""
 "  \"split_skill_sequence_data_md5\": \"76d2d984a2ce84757491c868aaf203e6\""
 "\n"
 "}\n"
+
+#~ msgid "下载直链。没有默认地址时必填"
+#~ msgstr "Direct download URL. Required when no default URL is available."
+
+#~ msgid ""
+#~ "python data_process.py download -d "
+#~ "assistments09 --data_url \"$ASSISTMENTS09_URL\"\n"
+#~ msgstr ""
+#~ "python data_process.py download -d "
+#~ "assistments09 --data_url \"$ASSISTMENTS09_URL\"\n"

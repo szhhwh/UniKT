@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: UniKT \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-09 23:00+0800\n"
+"POT-Creation-Date: 2026-11-27 22:50+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -19,11 +19,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.18.0\n"
 
-#: ../../source/user-guides/web-platform.md:1 8b92b5cc594d470ea293826305235c03
+#: ../../source/user-guides/web-platform.md:1 3638f9e611364e8ab0a6db69467b6809
 msgid "Web 交互实验平台"
 msgstr "Interactive Web Platform"
 
-#: ../../source/user-guides/web-platform.md:3 faf3b363c4bb4017990fd20a4982b6a5
+#: ../../source/user-guides/web-platform.md:3 eb2a0188a6ad4a3da9f5f64e3e5eefd8
 msgid ""
 "本指南介绍如何使用 UniKT 内置的 Web 实验管理平台。该平台采用前后端分离架构（后端基于 FastAPI + Uvicorn，前端基于 "
 "Vue 3 + Vite + "
@@ -36,89 +36,89 @@ msgstr ""
 "hyperparameter search visualization, dataset preprocessing consoles, and "
 "hardware resource telemetry."
 
-#: ../../source/user-guides/web-platform.md:5 05b193c9f39f4c989022fe00ce286ca2
+#: ../../source/user-guides/web-platform.md:5 0254fe26cac64c7a87396c96e25f6753
 msgid "目标与适用场景"
 msgstr "Objectives & Use Cases"
 
-#: ../../source/user-guides/web-platform.md:7 4d728c928f204c8ca27220d432e1f18b
+#: ../../source/user-guides/web-platform.md:7 881fc9105bf04c54bcb19e3f3c6189d2
 msgid "无需手写繁琐的命令行参数，通过可视化表单快速配置并提交模型训练与评测任务。"
 msgstr ""
 "Configure and submit model training and evaluation tasks through visual "
 "forms without hand-writing verbose CLI arguments."
 
-#: ../../source/user-guides/web-platform.md:8 2142ad6605504e20a46204416b808389
+#: ../../source/user-guides/web-platform.md:8 e9701cd36748429abe97629ede259c0e
 msgid "实时通过 WebSocket 监听任务终端输出，支持随时终止或重试运行中的任务。"
 msgstr ""
 "Stream task terminal outputs in real time via WebSockets, with one-click "
 "job cancellation or re-running."
 
-#: ../../source/user-guides/web-platform.md:9 362c56c707aa44769d0ad753059fe048
+#: ../../source/user-guides/web-platform.md:9 a2dbde00a2a24f1c874de50c320fa3f1
 msgid "在线创建 Optuna 超参数搜索任务，直观查看收敛曲线与试验参数对比。"
 msgstr ""
 "Create Optuna hyperparameter searches online, visually inspecting "
 "convergence curves and comparing trial parameters."
 
-#: ../../source/user-guides/web-platform.md:10 834de88508ef4b81b4a6d58eeaf7e65d
+#: ../../source/user-guides/web-platform.md:10 ae16f14c343b44b192739f4d23533519
 msgid "图形化管理 15 个数据集处理器（涵盖 14 个公开学术数据集）的一键下载与分步预处理。"
 msgstr ""
 "Graphically manage one-click downloading and step-by-step preprocessing "
 "across 15 dataset processors (covering 14 public academic datasets)."
 
-#: ../../source/user-guides/web-platform.md:11 7db8d126561d459ba1a44bd1f5ea028b
+#: ../../source/user-guides/web-platform.md:11 0fb8223f2e2343bbbd198fbfd17fff8f
 msgid "实时监控服务器 GPU 显存利用率、计算核心负载、CPU 与内存动态。"
 msgstr ""
 "Monitor server GPU VRAM utilization, compute core loads, CPU usage, and "
 "system memory dynamics in real time."
 
-#: ../../source/user-guides/web-platform.md:13 5c280ee0664a464dbc3cdb73b192f025
+#: ../../source/user-guides/web-platform.md:13 eff98ad41b4f4123a23dfa548d0e6e81
 msgid "前置条件"
 msgstr "Prerequisites"
 
-#: ../../source/user-guides/web-platform.md:15 4642491c84d54da59311e8d31b854bf2
+#: ../../source/user-guides/web-platform.md:15 0c23c120b25d4e84b8546a4cdaf22d42
 msgid "**环境准备**：使用 Pixi 切换至支持 Web 功能的环境或通过 `-e web` 运行命令："
 msgstr ""
 "**Environment**: Activate the Web environment via Pixi or run commands "
 "with `-e web`:"
 
-#: ../../source/user-guides/web-platform.md:16 586c0f62318b47e886f8de640343302b
+#: ../../source/user-guides/web-platform.md:16 9e3d869db9ca44208274e748705e1e52
 msgid "pixi run -e web <task>\n"
 msgstr "pixi run -e web <task>\n"
 
-#: ../../source/user-guides/web-platform.md:19 a277861dd4a241699348acae138001cd
+#: ../../source/user-guides/web-platform.md:19 03c3ca8bf05c491ba658c9349c94c5c0
 msgid "**首次安装依赖**：前端依赖已由 Pixi 与 npm 共同托管。初次使用时确保环境已解析就绪。"
 msgstr ""
 "**Initial Dependency Setup**: Frontend dependencies are managed jointly "
 "by Pixi and npm. Ensure the environment is resolved before initial use."
 
-#: ../../source/user-guides/web-platform.md:21 c213cb3cf3074260ac3cde860cae2c84
+#: ../../source/user-guides/web-platform.md:21 8380e6df5d214c4b976817bd1017c78f
 msgid "启动服务"
 msgstr "Starting Services"
 
-#: ../../source/user-guides/web-platform.md:23 60dd2aecee484be89a20bc2298344292
+#: ../../source/user-guides/web-platform.md:23 3dc607c75ade4d2ab2ecebc376e7f933
 msgid "UniKT 提供了多种启动命令以适应不同的开发与生产部署需求："
 msgstr ""
 "UniKT provides several launch commands tailored for development and "
 "production deployments:"
 
-#: ../../source/user-guides/web-platform.md:25 f978b90dbdc149839cbe4361bf65b337
+#: ../../source/user-guides/web-platform.md:25 5d6133dcd86d4f299f966a4d241e7310
 msgid "1. 开发模式"
 msgstr "1\\. Development Mode"
 
-#: ../../source/user-guides/web-platform.md:27 af628d61b5f8478fbe62ca7364c7c2d8
+#: ../../source/user-guides/web-platform.md:27 b2c3ecfcb50646219d7e8e08009cc956
 msgid "启动全栈热重载开发服务器（同时运行 FastAPI 后端与 Vite 前端）："
 msgstr ""
 "Start the full-stack hot-reloading development server (running FastAPI "
 "backend and Vite frontend concurrently):"
 
-#: ../../source/user-guides/web-platform.md:29 9574b1d7c7d84881be366b9c152674f0
+#: ../../source/user-guides/web-platform.md:29 7f8fffb67e14412abd60e82d8cb047b5
 msgid "pixi run web-dev\n"
 msgstr "pixi run web-dev\n"
 
-#: ../../source/user-guides/web-platform.md:33 7eb389a68b98424aa9a92bd0d293edb0
+#: ../../source/user-guides/web-platform.md:33 568be33ccf5e41ee92b4d68a677c03b3
 msgid "**前端交互界面**：访问 [http://localhost:5173](http://localhost:5173)"
 msgstr "**Frontend UI**: Visit [http://localhost:5173](http://localhost:5173)"
 
-#: ../../source/user-guides/web-platform.md:34 7ab7e69f6b904e14b16faaa127bcba30
+#: ../../source/user-guides/web-platform.md:34 a3c861b63c9143c0869d47a7a62fc0de
 msgid ""
 "**后端 OpenAPI 接口文档**：访问 "
 "[http://localhost:8765/docs](http://localhost:8765/docs)"
@@ -126,21 +126,21 @@ msgstr ""
 "**Backend OpenAPI Docs**: Visit "
 "[http://localhost:8765/docs](http://localhost:8765/docs)"
 
-#: ../../source/user-guides/web-platform.md:37 cb6500186dee41fe8415680518459b2e
+#: ../../source/user-guides/web-platform.md:37 55f747c6ac6b49648fb107b3e7171954
 msgid "若需更改前端端口，可以在 `.env` 中设置 `KT_WEB_PORT=5173`。"
 msgstr "To change the frontend port, set `KT_WEB_PORT=5173` in `.env`."
 
-#: ../../source/user-guides/web-platform.md:40 3b1e7e02e8ae417c80c23b2c5d4fceec
+#: ../../source/user-guides/web-platform.md:40 174eb5d6252a42df95d67dd31d7e9860
 msgid "2. 独立分步启动"
 msgstr "2\\. Independent Step-by-Step Launch"
 
-#: ../../source/user-guides/web-platform.md:42 00ea25f180bf46fcb2670e9a5c814f70
+#: ../../source/user-guides/web-platform.md:42 59a788d3b5054c1f8db25e329ed17e9c
 msgid "若需对前后端进行独立调试，可以分别启动："
 msgstr ""
 "For independent debugging of backend and frontend services, start them "
 "separately:"
 
-#: ../../source/user-guides/web-platform.md:44 30bcafdbeb1d433b800806b1960885b8
+#: ../../source/user-guides/web-platform.md:44 6c26c30101414f85863fec4dd15626c4
 msgid ""
 "# 启动后端 API（端口 8765）\n"
 "pixi run web-backend\n"
@@ -154,22 +154,22 @@ msgstr ""
 "# Start frontend Vite dev server in a new terminal (port 5173)\n"
 "pixi run web-frontend\n"
 
-#: ../../source/user-guides/web-platform.md:52 dfb1fd97831d459f885f1314dc670406
+#: ../../source/user-guides/web-platform.md:52 bf569b36217d42d2b42715fde2105353
 msgid "3. 常驻服务模式"
 msgstr "3\\. Production Daemon Mode"
 
-#: ../../source/user-guides/web-platform.md:54 33a969a276d34f18a797a3bbfd0828e0
+#: ../../source/user-guides/web-platform.md:54 15c4eb881ad74018ba902658ee7b591c
 msgid "在团队共享服务器或局域网工作站长期提供访问时，先构建前端静态资源，并通过静态资源服务器启动预览服务，后端保持在本地回路安全运行："
 msgstr ""
 "For long-term hosting on team servers or LAN workstations, compile "
 "frontend static assets and launch preview serving while keeping the "
 "backend safely bound to loopback:"
 
-#: ../../source/user-guides/web-platform.md:56 53e354c6ec7a447b89c7786f004358a1
+#: ../../source/user-guides/web-platform.md:56 5a69de6151a4412ab422cf3cf346ea88
 msgid "pixi run web-serve\n"
 msgstr "pixi run web-serve\n"
 
-#: ../../source/user-guides/web-platform.md:60 7a44946939ba4fa59bfded86b39716aa
+#: ../../source/user-guides/web-platform.md:60 b7c8ee752c644c21aea7ec7785cc5103
 msgid ""
 "此命令将自动执行 `npm run build`，在后台启动后端 API，并通过 Vite Preview 绑定 "
 "`0.0.0.0`，允许局域网内其他机器通过服务器 IP 访问 Web 平台。"
@@ -178,15 +178,15 @@ msgstr ""
 "background, and binds Vite Preview to `0.0.0.0`, allowing other machines "
 "on the LAN to access the Web platform via server IP."
 
-#: ../../source/user-guides/web-platform.md:62 f7bcc5a9feea405790f33202f0916712
+#: ../../source/user-guides/web-platform.md:62 6616b43dcdb7443fb01c5e87eeb98f18
 msgid "Web 平台核心功能说明"
 msgstr "Core Features of Web Platform"
 
-#: ../../source/user-guides/web-platform.md:64 0f96714664184e96965c50fc8c863979
+#: ../../source/user-guides/web-platform.md:64 c0a61fc56f704f7dae627a5267ccc3b3
 msgid "Web 平台划分为四大核心功能模块："
 msgstr "The Web platform provides four core functional modules:"
 
-#: ../../source/user-guides/web-platform.md:69 ffc503fc73cf414f9a5da280d0ffb29d
+#: ../../source/user-guides/web-platform.md:69 bd79d74c79c64ca992aa4ae395139323
 msgid ""
 "<svg version=\"1.1\" width=\"1.2em\" height=\"1.2em\" class=\"sd-octicon "
 "sd-octicon-play sd-text-primary\" viewBox=\"0 0 16 16\" aria-"
@@ -202,19 +202,19 @@ msgstr ""
 " .428l-4.264 2.559A.25.25 0 0 1 6 10.559V5.442a.25.25 0 0 1 "
 ".379-.215Z\"></path></svg> Task Scheduling and Real-time Monitoring"
 
-#: ../../source/user-guides/web-platform.md:70 cef97a3a00f24e99a9a1fbd30c5edd23
+#: ../../source/user-guides/web-platform.md:70 8d8fb7ceb16144b3b05f46f5e81595c7
 msgid "表单根据 `ModelConfig` 动态反射生成参数"
 msgstr "Forms dynamically generated from `ModelConfig` reflections"
 
-#: ../../source/user-guides/web-platform.md:71 aadb21e0b71544f0a8876c4e4a7afb83
+#: ../../source/user-guides/web-platform.md:71 dac6e42c948d4a41ab0ef92259efb73e
 msgid "基于 WebSocket 实时查看终端日志流"
 msgstr "Real-time console log streaming via WebSocket"
 
-#: ../../source/user-guides/web-platform.md:72 ef7c302e36ea43b7ab336fad6962b053
+#: ../../source/user-guides/web-platform.md:72 23dc9cfa4b634a8cb57656c3be1edc2e
 msgid "支持在线一键终止、重试与多任务对比"
 msgstr "One-click job cancellation, retry, and multi-run comparison"
 
-#: ../../source/user-guides/web-platform.md:75 ef9bc9f3fea049ceb28d93e2186c0d1c
+#: ../../source/user-guides/web-platform.md:75 e81b872c127048b6a26a7bb577bdb44d
 msgid ""
 "<svg version=\"1.1\" width=\"1.2em\" height=\"1.2em\" class=\"sd-octicon "
 "sd-octicon-sliders sd-text-primary\" viewBox=\"0 0 16 16\" aria-"
@@ -238,19 +238,19 @@ msgstr ""
 "0a.75.75 0 0 1-.75.75h-6a.75.75 0 0 1 0-1.5h6a.75.75 0 0 1 "
 ".75.75Z\"></path></svg> Hyperparameter Search Management"
 
-#: ../../source/user-guides/web-platform.md:76 b9f7cfc464b84b6eba82810ddc517206
+#: ../../source/user-guides/web-platform.md:76 a81bc81b09754a12b032901e2824e1bd
 msgid "可视化配置 Optuna 搜索空间与采样算法"
 msgstr "Visual configuration of Optuna search spaces and sampling algorithms"
 
-#: ../../source/user-guides/web-platform.md:77 5494d25dc1f940bca16b9d209a0e8f55
+#: ../../source/user-guides/web-platform.md:77 772c0d5b6d2341eca556bdaaa25ce6b0
 msgid "Trial 优化目标收敛曲线实时呈现"
 msgstr "Real-time trial optimization objective convergence curves"
 
-#: ../../source/user-guides/web-platform.md:78 79e915d7e3704c339ab330a7920c4e41
+#: ../../source/user-guides/web-platform.md:78 a21e8100149140579684b246eaca6c05
 msgid "超参数重要度分析与一键导出最佳配置"
 msgstr "Hyperparameter importance analysis and one-click best config export"
 
-#: ../../source/user-guides/web-platform.md:81 4d76ab28b652487bb44a2e8a2d91a766
+#: ../../source/user-guides/web-platform.md:81 8085c205d109429e8f5f1cc783d6e637
 msgid ""
 "<svg version=\"1.1\" width=\"1.2em\" height=\"1.2em\" class=\"sd-octicon "
 "sd-octicon-database sd-text-primary\" viewBox=\"0 0 16 16\" aria-"
@@ -302,21 +302,21 @@ msgstr ""
 " 0-3.475-.32-4.721-.869a6.327 6.327 0 0 1-.779-.406Z\"></path></svg> Data"
 " Preprocessing Panel"
 
-#: ../../source/user-guides/web-platform.md:82 15b16eb878574d51ae5d0e25ab06c67e
+#: ../../source/user-guides/web-platform.md:82 f329b73efead4086974fd7efbe101e7b
 msgid "12+ 公开基准数据集一键下载与解压"
 msgstr "One-click downloading and extraction for 12+ public benchmark datasets"
 
-#: ../../source/user-guides/web-platform.md:83 fe51367f1f6b4821811d78779847ad3d
+#: ../../source/user-guides/web-platform.md:83 1d334de3a4fd4704888f728ca09fa96d
 msgid "自动数据清洗、特征提取与零泄露 K 折划分"
 msgstr ""
 "Automated data cleaning, feature extraction, and zero-leakage K-fold "
 "splitting"
 
-#: ../../source/user-guides/web-platform.md:84 dc594b01e0d74fc3899aa8012658b6af
+#: ../../source/user-guides/web-platform.md:84 c1e4a686689e4f01b3aacf49b6a42ee0
 msgid "步骤级进度追踪与元数据实时预览"
 msgstr "Step-by-step progress tracking and live metadata preview"
 
-#: ../../source/user-guides/web-platform.md:87 0fa8d0d3481446088e91316279005d42
+#: ../../source/user-guides/web-platform.md:87 f34c232346ac46909b029361111d05c1
 msgid ""
 "<svg version=\"1.1\" width=\"1.2em\" height=\"1.2em\" class=\"sd-octicon "
 "sd-octicon-meter sd-text-primary\" viewBox=\"0 0 16 16\" aria-"
@@ -334,90 +334,90 @@ msgstr ""
 "1-1.06-1.06L13.22 1.72a.75.75 0 0 1 1.06 0ZM7 8a1 1 0 1 0 2 0 1 1 0 0 0-2"
 " 0Z\"></path></svg> Hardware and Resource Monitoring"
 
-#: ../../source/user-guides/web-platform.md:88 1fd5bc4686e549cf91ff3112888a0030
+#: ../../source/user-guides/web-platform.md:88 0fb0ec6eb40049da9e677d1e8b56d2f5
 msgid "显卡 GPU 利用率与显存水位实时折线图"
 msgstr "Real-time charts of GPU compute utilization and VRAM allocation"
 
-#: ../../source/user-guides/web-platform.md:89 9910d0d9cd4f4070ad07a96b34012d8b
+#: ../../source/user-guides/web-platform.md:89 d4fcede9ae5d43da931f965e388070b4
 msgid "CPU 核心负载与系统内存变化趋势"
 msgstr "CPU multi-core load and system RAM utilization trends"
 
-#: ../../source/user-guides/web-platform.md:90 9b2e243515b44ee49354fad8f16db768
+#: ../../source/user-guides/web-platform.md:90 d7a6079dff8d438a839ae853763a663a
 msgid "异常任务排查与服务器健康状态看板"
 msgstr "Troubleshooting failed runs and server health dashboard"
 
-#: ../../source/user-guides/web-platform.md:94 d92f80ffad0f468d95a0222d0ec7e91d
+#: ../../source/user-guides/web-platform.md:94 8ec34d9dff134972899bff440cf947ce
 msgid "1. 训练任务提交与实时监控"
 msgstr "1\\. Job Submission and Live Monitoring"
 
-#: ../../source/user-guides/web-platform.md:96 65e654168803409c905323fba44795d9
+#: ../../source/user-guides/web-platform.md:96 75aa132072d249c58c4fe7d44c1ce563
 msgid "**任务提交**："
 msgstr "**Job Submission**:"
 
-#: ../../source/user-guides/web-platform.md:97 5be453da77744cd9828ad869bf88faba
+#: ../../source/user-guides/web-platform.md:97 5b6ee396b22b40b2aa17fcb0b6092487
 msgid "下拉框选择目标模型，系统动态同步所有支持的模型列表。"
 msgstr ""
 "Select target models from a dropdown dynamically synchronized with "
 "supported models."
 
-#: ../../source/user-guides/web-platform.md:98 6e62b6be559c49579ae8ec865116b129
+#: ../../source/user-guides/web-platform.md:98 bad22fdecc6347a0ae94f82b18e83c91
 msgid "选择预处理好的数据集与 K 折折数。"
 msgstr "Select preprocessed datasets and cross-validation fold counts."
 
-#: ../../source/user-guides/web-platform.md:99 1c0dcaf74e3f49d497dbe038d219ce12
+#: ../../source/user-guides/web-platform.md:99 3f92b8225ab74e7781404acebc0c0e68
 msgid "模型专属超参数表单会根据该模型的 `ModelConfig` 动态渲染，附带默认值与取值范围校验。"
 msgstr ""
 "Model-specific hyperparameter forms render dynamically based on "
 "`ModelConfig`, with default values and validation rules."
 
 #: ../../source/user-guides/web-platform.md:100
-#: 1f5e027226604389beb31242b5f6d990
+#: fb5e184d6e294b878d237df0d7db26bd
 msgid "支持配置早停监控指标、随机种子、确定性算法及 GPU 设备编号。"
 msgstr ""
 "Configure early stopping metrics, seeds, deterministic algorithms, and "
 "GPU device IDs."
 
 #: ../../source/user-guides/web-platform.md:101
-#: 4bb75d3e713e46fe9728e048eee962f3
+#: cd66a1b012964dc48fb18b99883d1c43
 msgid "**任务列表与状态看板**："
 msgstr "**Job Queue and Status Board**:"
 
 #: ../../source/user-guides/web-platform.md:102
-#: 6f41fbafdce64b2ab2dac2f08177c718
+#: 7bf51838298e437c8b2648dc6f78b311
 msgid "集中展示所有处于排队、运行、完成或失败状态的任务看板。"
 msgstr ""
 "Centralized dashboard displaying jobs in queued, running, completed, or "
 "failed states."
 
 #: ../../source/user-guides/web-platform.md:103
-#: 10a0758c7d7746629bd3f3093396e3fd
+#: a2432742e89f4856b1f3a417466f9fbf
 msgid "**实时日志流**："
 msgstr "**Real-Time Log Streaming**:"
 
 #: ../../source/user-guides/web-platform.md:104
-#: 133d85db574942a3874042d36e98299c
+#: dd694728409b43518782d3da5f672d4a
 msgid "点击任意任务进入详情页，通过 WebSocket 实时接收终端输出，无需登录服务器。"
 msgstr ""
 "Click any job to stream live terminal logs over WebSocket without needing"
 " SSH access."
 
 #: ../../source/user-guides/web-platform.md:105
-#: d576df3b268d4beb80373fdbc4d5e92a
+#: 9e4a1c9a6b644decbb41315eabcde721
 msgid "支持对运行中的任务执行一键终止，或对异常中断的任务重新运行。"
 msgstr "Cancel running jobs with one click or re-run failed tasks instantly."
 
 #: ../../source/user-guides/web-platform.md:107
-#: 24fab07b631f45c38908fd792f54700b
+#: 8f3ef153478c45a0a180ed9b3409ff15
 msgid "2. 超参数搜索管理"
 msgstr "2\\. Hyperparameter Search Management"
 
 #: ../../source/user-guides/web-platform.md:109
-#: 0bb9d4a6ca7b495295af604d193b8dcc
+#: 715409d83c1448a08aa4bd9a4fc26425
 msgid "**创建搜索试验**："
 msgstr "**Create Search Studies**:"
 
 #: ../../source/user-guides/web-platform.md:110
-#: 067afd8453144ee396f582d61f65b79d
+#: bcf5554b8194416e86010343fd060c18
 #, python-brace-format
 msgid "选择模型与数据集后，系统自动列出该模型 `metadata={'optuna': ...}` 声明的所有可搜索参数及其上下界。"
 msgstr ""
@@ -425,46 +425,46 @@ msgstr ""
 "and bounds declared in `metadata={'optuna': ...}`."
 
 #: ../../source/user-guides/web-platform.md:111
-#: 6571026d541b4987808e7f03495218e9
+#: a829a546d67041469db50f0ee6cd8ed9
 msgid "配置试验总数、TPE 或 NSGA-II 采样算法，以及中位数或百分位数剪枝策略。"
 msgstr ""
 "Configure trial counts, TPE or NSGA-II sampling, and median/percentile "
 "pruners."
 
 #: ../../source/user-guides/web-platform.md:112
-#: c5ffa8915eb345d997e2f0eab432fa7a
+#: 253696af138b42e29b84112d87df45a6
 msgid "**交互式试验可视化**："
 msgstr "**Interactive Study Visualizations**:"
 
 #: ../../source/user-guides/web-platform.md:113
-#: bdf234c374b04a4290fff48d4004edbd
+#: 8c5f232da3db41e4a371768f47361d1a
 msgid "动态展示各 Trial 的优化目标收敛折线图。"
 msgstr "Visualize real-time optimization convergence curves across trials."
 
 #: ../../source/user-guides/web-platform.md:114
-#: f0d3dd1b8e9642f5a2ab4a0ad26d13ae
+#: de7cc5f09d97416197944fe98b93179a
 msgid "超参数对目标指标的相关性权重分析。"
 msgstr "Parameter importance rankings and correlation weight analyses."
 
 #: ../../source/user-guides/web-platform.md:115
-#: 2f9690cb27bf43b384842f7a5273acab
+#: a0d58b41b469499380d1cb877845496e
 msgid "支持导出最优超参数字典，并直接从界面一键生成重跑任务。"
 msgstr ""
 "Export optimal hyperparameter dictionaries and launch reproduction runs "
 "directly."
 
 #: ../../source/user-guides/web-platform.md:117
-#: 84e015f50f3248a6898bd84b4838b2f6
+#: 6cc05b6d8beb45e0a019c1e51fed30a1
 msgid "3. 数据集预处理面板"
 msgstr "3\\. Dataset Preprocessing Panel"
 
 #: ../../source/user-guides/web-platform.md:119
-#: 395939ac2c9a499c9f488a6b20aba363
+#: 4316eebaaf5745558ca6a7067ba6d977
 msgid "**数据集全局清单**："
 msgstr "**Global Dataset Inventory**:"
 
 #: ../../source/user-guides/web-platform.md:120
-#: e65d531d7719412ba71c66d468ac3518
+#: cc619d637f674cf1bef7791094c50778
 msgid ""
 "查看 UniKT 支持的 15 个标准数据集处理器，涵盖 ASSISTments 系列、EdNet-KT1、Junyi2015、KDD Cup "
 "2010 与 XES3G5M 等。"
@@ -474,90 +474,90 @@ msgstr ""
 "more."
 
 #: ../../source/user-guides/web-platform.md:121
-#: 0f685dc258fb4f9bb8a4f79516c412f8
+#: 245396aad0754a4082a10bb7fd332180
 msgid "显示每个数据集的下载状态、处理状态及磁盘占用大小。"
 msgstr ""
 "Displays download status, preprocessing status, and disk footprints for "
 "each dataset."
 
 #: ../../source/user-guides/web-platform.md:122
-#: dadf95190ad04e66903b36395acbbda4
+#: 366ad5d194634ff18005718bfaa8db3d
 msgid "**一键下载与流水线处理**："
 msgstr "**One-Click Download and Pipeline Execution**:"
 
 #: ../../source/user-guides/web-platform.md:123
-#: e8f3d51c10c54120bfccd9cc37949e11
-msgid "点击“下载”按钮从官方源或镜像自动拉取原始数据。"
+#: b54cbe2f39a24a3dbe34f5064a7c5240
+msgid "支持从内置镜像一键拉取数据集，亦可对已就绪的本地数据直接执行预处理。"
 msgstr ""
-"Click \"Download\" to pull raw archives automatically from official "
-"sources or mirrors."
+"Supports one-click download for datasets with built-in mirrors, or running "
+"the preprocessing pipeline directly on prepared local data."
 
 #: ../../source/user-guides/web-platform.md:124
-#: c77a83021580443ab86971d31af68ec5
+#: 063c720e5eb943c79e45f86fb9d3566c
 msgid "点击“处理”按钮触发自动化清洗、题目与知识点映射，以及 5 折 Parquet 序列生成。"
 msgstr ""
 "Click \"Process\" to trigger automated cleaning, entity mappings, and "
 "5-fold Parquet generation."
 
 #: ../../source/user-guides/web-platform.md:125
-#: 7a1e407492a74aa28ca710bcbad07e62
+#: f6426d866a9b438a870affab3deb291d
 msgid "界面实时显示预处理流水线进度条与状态反馈。"
 msgstr "Real-time pipeline progress bars and step-by-step telemetry feedback."
 
 #: ../../source/user-guides/web-platform.md:127
-#: 45a13fdb89c0444d95f5bf8914cf6bf4
+#: 65a23ce544cf4c4c88c0de55a6991be0
 msgid "4. 硬件与系统资源监控"
 msgstr "4\\. Hardware and System Resource Telemetry"
 
 #: ../../source/user-guides/web-platform.md:129
-#: baa6d9e248e24a4387c2bf2484061420
+#: 372997eccfe64ba48767a2b769be1b12
 msgid "**实时 GPU 仪表盘**："
 msgstr "**Real-Time GPU Dashboard**:"
 
 #: ../../source/user-guides/web-platform.md:130
-#: 5f9855d833ca4945b42d72e8ada7c963
+#: ec054583b11142f3ad541c99f2ef79fc
 msgid "检测系统中所有可用的 NVIDIA GPU 设备。"
 msgstr "Detects all available NVIDIA GPU devices in the system."
 
 #: ../../source/user-guides/web-platform.md:131
-#: 61b7c97c292042ca899578f11590e675
+#: d5b7c73e32c044c688dfb1a2f19f94bc
 msgid "实时绘制各 GPU 的计算核心利用率、显存占用量及当前温度。"
 msgstr "Plots core compute utilization, VRAM usage, and temperatures in real time."
 
 #: ../../source/user-guides/web-platform.md:132
-#: b8e8d8a4be3543738766d6f09d7d29b1
+#: 06d5969124d14ad598e34b9972c64ff5
 msgid "**主机系统资源动态**："
 msgstr "**Host System Metrics**:"
 
 #: ../../source/user-guides/web-platform.md:133
-#: 9ee9111dd27240e1886352dd62a87558
+#: 6eb76f1dd048427bb2cb6a761ddd7523
 msgid "监控主机 CPU 总体占用率与每个核心的负载分布。"
 msgstr "Monitors aggregate host CPU usage and per-core load distributions."
 
 #: ../../source/user-guides/web-platform.md:134
-#: a4e4791100da47199742948841fc0b14
+#: 6ea4aa1240a54130a31a902a911d24bb
 msgid "系统 RAM 物理内存使用水位曲线。"
 msgstr "Real-time physical RAM memory usage curves."
 
 #: ../../source/user-guides/web-platform.md:135
-#: 0aa72bef052c4e1399e3a213b725d4b9
+#: 10dddda008b749f297402dee99879e23
 msgid "帮助实验人员及时排查由于 DataLoader `num_workers` 过多导致的内存泄漏或 CPU 瓶颈。"
 msgstr ""
 "Helps researchers identify memory leaks or CPU bottlenecks caused by "
 "excessive DataLoader `num_workers`."
 
 #: ../../source/user-guides/web-platform.md:137
-#: 40fb02555b384157953b3c3cb1b8f72a
+#: f25d171d3e224b4185bc914fa0f6447f
 msgid "预期验证与问题排查"
 msgstr "Verification and Troubleshooting"
 
 #: ../../source/user-guides/web-platform.md:139
-#: ea86f19c1c7440bf8b1f74dd5f1a4923
+#: 647e513292bf442ca469a7f6de868833
 msgid "启动 Web 服务后，正常终端将显示类似输出："
 msgstr "After launching Web services, the terminal displays outputs similar to:"
 
 #: ../../source/user-guides/web-platform.md:141
-#: 87969f0cea3046bc9c815c26ca0196f5
+#: 39d145c484a8416f9b3ca370a9e2b931
 msgid ""
 "INFO:     Started server process [285412]\n"
 "INFO:     Waiting for application startup.\n"
@@ -582,22 +582,31 @@ msgstr ""
 "  ➜  Network: use --host to expose\n"
 
 #: ../../source/user-guides/web-platform.md:153
-#: 27d5db92f30a49d9b45e34e1c937f389
+#: 1e84213fd2e0464397e19667ce9e4551
 msgid "常见排查提示"
 msgstr "Common Troubleshooting Tips"
 
 #: ../../source/user-guides/web-platform.md:155
-#: 5715b96b4844481fa5c97fc8f019787c
+#: f5134d1716a24c4c874487b25c4f522a
 msgid "**端口冲突**：若 `8765` 或 `5173` 被占用，可检查后台残留进程或在 `.env` 中修改 `KT_WEB_PORT`。"
 msgstr ""
 "**Port Conflicts**: If `8765` or `5173` is occupied, check for orphaned "
 "processes or change `KT_WEB_PORT` in `.env`."
 
 #: ../../source/user-guides/web-platform.md:156
-#: e0791f6e46f1477fbe897383884f03ef
+#: 8ee7e42d9ce04a52b639ee59a5d23fac
 msgid ""
 "**WebSocket 断连**：若通过 Nginx 反向代理访问 Web 平台，请确保 Nginx 配置中开启了 `Upgrade` 与 "
 "`Connection: Upgrade` 头部转发。"
 msgstr ""
 "**WebSocket Disconnections**: If accessing via an Nginx reverse proxy, "
 "ensure `Upgrade` and `Connection: Upgrade` headers are forwarded."
+
+#~ msgid ""
+#~ "有默认地址时可一键下载，也可从[官方入口](../datasets/index.md)获取文件并放入 "
+#~ "`data/<dataset>/raw/`。"
+#~ msgstr ""
+#~ "Use Download when a default URL is"
+#~ " available, or get the files from "
+#~ "the [official source](../datasets/index.md) and "
+#~ "put them in `data/<dataset>/raw/`."

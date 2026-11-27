@@ -33,7 +33,6 @@ class KDDCup2010Base(DataSource):
         super().__init__(
             dataset=dataset,
             data_base_path=args.data_base_path,
-            data_url=f"http://cdn.lionhao.top/KTDataset/{dataset}.zip",
             seed=args.seed,
         )
         self.args = args

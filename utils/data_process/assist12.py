@@ -25,7 +25,6 @@ class Assistments2012Data(DataSource):
         super().__init__(
             dataset="assistments12",
             data_base_path=args.data_base_path,
-            data_url="http://cdn.lionhao.top/KTDataset/assistments12.zip",
             seed=args.seed,
         )
         self.args = args
